@@ -18,8 +18,8 @@ This Turborepo includes the following packages/apps:
 
 - `web`: a [Vite](https://vitejs.dev/) + React app
 - `mobile`: an [Expo](https://expo.dev/) app (coming soon)
-- `@repo/eslint-config`: `eslint` configurations
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- `@azit/eslint`: `eslint` configurations
+- `@azit/typescript`: `tsconfig.json`s used throughout the monorepo
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
