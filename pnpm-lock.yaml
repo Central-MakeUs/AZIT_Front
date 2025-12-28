@@ -4,6 +4,25 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    typescript:
+      specifier: 5.9.2
+      version: 5.9.2
+  react19.1:
+    '@types/react':
+      specifier: ~19.1.0
+      version: 19.1.17
+    '@types/react-dom':
+      specifier: ~19.1.0
+      version: 19.1.11
+    react:
+      specifier: 19.1.0
+      version: 19.1.0
+    react-dom:
+      specifier: 19.1.0
+      version: 19.1.0
+
 importers:
 
   .:
@@ -69,10 +88,10 @@ importers:
         specifier: ~15.0.10
         version: 15.0.10(expo@54.0.30)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))
       react:
-        specifier: 19.1.0
+        specifier: catalog:react19.1
         version: 19.1.0
       react-dom:
-        specifier: 19.1.0
+        specifier: catalog:react19.1
         version: 19.1.0(react@19.1.0)
       react-native:
         specifier: 0.81.5
@@ -97,7 +116,7 @@ importers:
         version: 0.5.1(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
-        specifier: ~19.1.0
+        specifier: catalog:react19.1
         version: 19.1.17
       eslint:
         specifier: ^9.25.0
@@ -106,17 +125,17 @@ importers:
         specifier: ~10.0.0
         version: 10.0.0(eslint@9.39.1)(typescript@5.9.2)
       typescript:
-        specifier: ~5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
 
   apps/web:
     dependencies:
       react:
-        specifier: ^19.2.0
-        version: 19.2.3
+        specifier: catalog:react19.1
+        version: 19.1.0
       react-dom:
-        specifier: ^19.2.0
-        version: 19.2.3(react@19.2.3)
+        specifier: catalog:react19.1
+        version: 19.1.0(react@19.1.0)
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -125,11 +144,11 @@ importers:
         specifier: ^24.10.1
         version: 24.10.4
       '@types/react':
-        specifier: ^19.2.5
-        version: 19.2.7
+        specifier: catalog:react19.1
+        version: 19.1.17
       '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.7)
+        specifier: catalog:react19.1
+        version: 19.1.11(@types/react@19.1.17)
       '@vitejs/plugin-react':
         specifier: ^5.1.1
         version: 5.1.2(vite@7.3.0(@types/node@24.10.4)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
@@ -146,11 +165,11 @@ importers:
         specifier: ^16.5.0
         version: 16.5.0
       typescript:
-        specifier: ~5.9.3
-        version: 5.9.3
+        specifier: 'catalog:'
+        version: 5.9.2
       typescript-eslint:
         specifier: ^8.46.4
-        version: 8.50.0(eslint@9.39.1)(typescript@5.9.3)
+        version: 8.50.0(eslint@9.39.1)(typescript@5.9.2)
       vite:
         specifier: ^7.2.4
         version: 7.3.0(@types/node@24.10.4)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
@@ -1638,6 +1657,11 @@ packages:
   '@types/node@24.10.4':
     resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
 
+  '@types/react-dom@19.1.11':
+    resolution: {integrity: sha512-3BKc/yGdNTYQVVw4idqHtSOcFsgGuBbMveKCOgF8wQ5QtrYOc3jDIlzg3jef04zcXFIHLelyGlj0T+BJ8+KN+w==}
+    peerDependencies:
+      '@types/react': ^19.0.0
+
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
@@ -1645,9 +1669,6 @@ packages:
 
   '@types/react@19.1.17':
     resolution: {integrity: sha512-Qec1E3mhALmaspIrhWt9jkQMNdw6bReVu64mjvhbhq2NFPftLPVr+l1SZgmw/66WwBNpDh7ao5AT6gF5v41PFA==}
-
-  '@types/react@19.2.7':
-    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -3779,11 +3800,6 @@ packages:
     peerDependencies:
       react: ^19.1.0
 
-  react-dom@19.2.3:
-    resolution: {integrity: sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==}
-    peerDependencies:
-      react: ^19.2.3
-
   react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
 
@@ -3898,10 +3914,6 @@ packages:
 
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
-    engines: {node: '>=0.10.0'}
-
-  react@19.2.3:
-    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
     engines: {node: '>=0.10.0'}
 
   reflect.getprototypeof@1.0.10:
@@ -4020,9 +4032,6 @@ packages:
 
   scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
-
-  scheduler@0.27.0:
-    resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -6418,20 +6427,16 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
+  '@types/react-dom@19.1.11(@types/react@19.1.17)':
+    dependencies:
+      '@types/react': 19.1.17
+
   '@types/react-dom@19.2.3(@types/react@19.1.17)':
     dependencies:
       '@types/react': 19.1.17
     optional: true
 
-  '@types/react-dom@19.2.3(@types/react@19.2.7)':
-    dependencies:
-      '@types/react': 19.2.7
-
   '@types/react@19.1.17':
-    dependencies:
-      csstype: 3.2.3
-
-  '@types/react@19.2.7':
     dependencies:
       csstype: 3.2.3
 
@@ -9001,11 +9006,6 @@ snapshots:
       react: 19.1.0
       scheduler: 0.26.0
 
-  react-dom@19.2.3(react@19.2.3):
-    dependencies:
-      react: 19.2.3
-      scheduler: 0.27.0
-
   react-fast-compare@3.2.2: {}
 
   react-freeze@1.0.4(react@19.1.0):
@@ -9167,8 +9167,6 @@ snapshots:
 
   react@19.1.0: {}
 
-  react@19.2.3: {}
-
   reflect.getprototypeof@1.0.10:
     dependencies:
       call-bind: 1.0.8
@@ -9319,8 +9317,6 @@ snapshots:
   sax@1.4.3: {}
 
   scheduler@0.26.0: {}
-
-  scheduler@0.27.0: {}
 
   semver@6.3.1: {}
 
@@ -9723,6 +9719,17 @@ snapshots:
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.1.0
       reflect.getprototypeof: 1.0.10
+
+  typescript-eslint@8.50.0(eslint@9.39.1)(typescript@5.9.2):
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1)(typescript@5.9.2)
+      '@typescript-eslint/parser': 8.50.0(eslint@9.39.1)(typescript@5.9.2)
+      '@typescript-eslint/typescript-estree': 8.50.0(typescript@5.9.2)
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.1)(typescript@5.9.2)
+      eslint: 9.39.1
+      typescript: 5.9.2
+    transitivePeerDependencies:
+      - supports-color
 
   typescript-eslint@8.50.0(eslint@9.39.1)(typescript@5.9.3):
     dependencies:
