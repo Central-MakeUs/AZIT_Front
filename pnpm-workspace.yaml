@@ -5,6 +5,7 @@ packages:
 
 catalog:
   typescript: 5.9.2
+  eslint: ^9.39.1
 
 # 필요시 catalog key 커스텀
 catalogs:
