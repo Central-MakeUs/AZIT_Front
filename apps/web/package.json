@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@azit/eslint": "workspace:*",
+    "@azit/typescript": "workspace:*",
     "@types/node": "^24.10.1",
     "@types/react": "catalog:react19.1",
     "@types/react-dom": "catalog:react19.1",
