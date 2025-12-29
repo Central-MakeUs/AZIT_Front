@@ -15,7 +15,8 @@
   "devDependencies": {
     "prettier": "^3.7.4",
     "turbo": "^2.7.2",
-    "typescript": "5.9.2"
+    "typescript": "catalog:",
+    "eslint": "catalog:"
   },
   "packageManager": "pnpm@10.26.0",
   "engines": {
