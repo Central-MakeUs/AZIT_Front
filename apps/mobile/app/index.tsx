@@ -1,12 +1,15 @@
-import { Text } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View } from "react-native";
 
-export default function App() {
+export default function Index() {
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Text>Azit Application</Text>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text>Edit app/index.tsx to edit this screen.</Text>
+    </View>
   );
 }
