@@ -1,0 +1,26 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "catalog:react19.1",
+    "react-dom": "catalog:react19.1"
+  },
+  "devDependencies": {
+    "@azit/eslint": "workspace:*",
+    "@azit/typescript": "workspace:*",
+    "@types/node": "^24.10.1",
+    "@types/react": "catalog:react19.1",
+    "@types/react-dom": "catalog:react19.1",
+    "@vitejs/plugin-react": "^5.1.1",
+    "typescript": "catalog:",
+    "vite": "^7.2.4"
+  }
+}
