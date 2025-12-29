@@ -1,0 +1,25 @@
+{
+  "name": "AZIT_Front",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=web",
+    "dev:mobile": "pnpm --filter mobile start",
+    "build:web": "turbo run build --filter=web",
+    "build:mobile": "pnpm --filter mobile build",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.4",
+    "turbo": "^2.7.2",
+    "typescript": "catalog:",
+    "eslint": "catalog:"
+  },
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": ">=18"
+  }
+}
