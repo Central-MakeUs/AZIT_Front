@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vanilla-extract/css": "^1.18.0",
+    "@vanilla-extract/vite-plugin": "^5.1.4",
     "react": "catalog:react19.1",
     "react-dom": "catalog:react19.1"
   },
   "devDependencies": {
+    "@azit/design-system": "workspace:*",
     "@azit/eslint": "workspace:*",
     "@azit/typescript": "workspace:*",
     "@types/node": "^24.10.1",
