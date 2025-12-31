@@ -1,15 +1,11 @@
-import { Text, View } from "react-native";
+import { WebView } from 'react-native-webview';
 
-export default function Index() {
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+export default function App() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '' }}>
+      <WebView source={{ uri: '' }} style={{ flex: 1 }} />
+    </SafeAreaView>
   );
 }
