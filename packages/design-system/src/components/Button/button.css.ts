@@ -1,4 +1,4 @@
-import { vars } from '../shared/config/vars.css';
+import { vars } from '../../shared/config/vars.css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export type ButtonVariants = NonNullable<Parameters<typeof buttonVariant>[0]>;
