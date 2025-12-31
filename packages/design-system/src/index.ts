@@ -1,2 +1,2 @@
-export { default as Button } from './Button/Button';
+export { default as Button } from './button/Button';
 export { vars } from './shared/config/vars.css';
