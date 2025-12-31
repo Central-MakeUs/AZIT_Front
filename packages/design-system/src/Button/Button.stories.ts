@@ -15,7 +15,7 @@ const meta = {
       control: 'select',
       options: ['small', 'medium', 'large'],
     },
-    variant: {
+    color: {
       control: 'select',
       options: ['primary', 'secondary'],
     },
