@@ -1,8 +1,4 @@
-import {
-  buttonVariant,
-  type ButtonSize,
-  type ButtonColor,
-} from './button.css.ts';
+import { buttonVariant, type ButtonSize, type ButtonColor } from './button.css';
 
 export interface ButtonProps {
   size?: ButtonSize;
