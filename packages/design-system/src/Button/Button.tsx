@@ -1,9 +1,12 @@
-import type { Size, Variant } from '../shared/types/variant';
-import { buttonVariant } from './button.css';
+import {
+  buttonVariant,
+  type ButtonSize,
+  type ButtonColor,
+} from './button.css.ts';
 
 export interface ButtonProps {
-  size?: Size;
-  color?: Variant;
+  size?: ButtonSize;
+  color?: ButtonColor;
   label: string;
   onClick?: () => void;
 }
