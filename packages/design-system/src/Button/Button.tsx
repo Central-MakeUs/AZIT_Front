@@ -1,25 +1,21 @@
 import type { Size, Variant } from '../shared/types/variant';
-import { colorVariant, sizeVariant } from './button.css';
+import { buttonVariant } from './button.css';
 
 export interface ButtonProps {
   size?: Size;
-  variant?: Variant;
+  color?: Variant;
   label: string;
   onClick?: () => void;
 }
 
 export default function Button({
   size = 'medium',
-  variant = 'primary',
+  color = 'primary',
   label,
   ...props
 }: ButtonProps) {
   return (
-    <button
-      type="button"
-      className={sizeVariant[size] + ' ' + colorVariant[variant]}
-      {...props}
-    >
+    <button type="button" className={buttonVariant({ size, color })} {...props}>
       {label}
     </button>
   );
