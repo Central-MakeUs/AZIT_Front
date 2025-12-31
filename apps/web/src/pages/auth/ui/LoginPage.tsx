@@ -1,3 +1,5 @@
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
 export function LoginPage() {
-  return <div>LoginPage</div>;
+  return <AppScreen>LoginPage</AppScreen>;
 }
