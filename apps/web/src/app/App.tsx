@@ -3,9 +3,9 @@ import { Stack } from './routes/stackflow';
 
 function App() {
   return (
-    <>
+    <div>
       <Stack />
-    </>
+    </div>
   );
 }
 
