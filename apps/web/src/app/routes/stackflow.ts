@@ -6,7 +6,7 @@ import { historySyncPlugin } from '@stackflow/plugin-history-sync';
 import '@stackflow/plugin-basic-ui/index.css';
 
 import { routes } from './config';
-import { transformRoutes } from '@/shared/routes/utils';
+import { transformRoutes } from './utils';
 
 const { activities, routeMap } = transformRoutes(routes);
 
