@@ -77,7 +77,7 @@ importers:
         version: 8.0.11(expo@54.0.30)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       expo-router:
         specifier: ~6.0.21
-        version: 6.0.21(ldjxpcinlyblanjm422xflmnwq)
+        version: 6.0.21(e1f73c9f735da8d4cb5584d42d43440c)
       expo-splash-screen:
         specifier: ~31.0.13
         version: 31.0.13(expo@54.0.30)
@@ -139,6 +139,21 @@ importers:
 
   apps/web:
     dependencies:
+      '@stackflow/core':
+        specifier: ^1.3.0
+        version: 1.3.0
+      '@stackflow/plugin-basic-ui':
+        specifier: ^1.18.1
+        version: 1.18.1(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)
+      '@stackflow/plugin-history-sync':
+        specifier: ^1.8.1
+        version: 1.8.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)
+      '@stackflow/plugin-renderer-basic':
+        specifier: ^1.1.13
+        version: 1.1.13(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)
+      '@stackflow/react':
+        specifier: ^1.11.1
+        version: 1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0)
       '@vanilla-extract/css':
         specifier: ^1.18.0
         version: 1.18.0
@@ -1771,6 +1786,53 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
+  '@stackflow/config@1.2.2':
+    resolution: {integrity: sha512-q6d02TpLXARCV/ah8ORZixxfszTjWe82CWOP0v+s5xoFQRk0vL2FSqzH9toSF3UaX2x9Gvpgm1TdNxAoESbLuQ==}
+
+  '@stackflow/core@1.3.0':
+    resolution: {integrity: sha512-y2AXD6PKWdFnt9khXS+qfYT8yGvp0EvBM+/3doaI3v0itU6/0gII94A5lBhJpwb38gIpHfws1cvwODjTb9Ttfg==}
+
+  '@stackflow/plugin-basic-ui@1.18.1':
+    resolution: {integrity: sha512-PnR3v7OjOjXGi4No6LJJYAYFuCfWpZXg5iftH42KDozGobXrBM5tGpPwpWIUfknR9CAgukGtDxHFqFcn0UOuCg==}
+    peerDependencies:
+      '@stackflow/core': ^1.1.0-canary.0
+      '@stackflow/react': ^1.3.2-canary.0
+      '@types/react': '>=16.8.0'
+      react: '>=16.8.0'
+
+  '@stackflow/plugin-history-sync@1.8.1':
+    resolution: {integrity: sha512-hp/X5TSM5f3rWj0LQmw1yYrvID7wksjL/ml8o5U33t8p8JcUvYThcZ7DEhI0QpDI8taPasV1gWOhW2ns6as5Bg==}
+    peerDependencies:
+      '@stackflow/config': ^1.0.1-canary.0
+      '@stackflow/core': ^1.1.0-canary.0
+      '@stackflow/react': ^1.3.2-canary.0
+      '@types/react': '>=16.8.0'
+      react: '>=16.8.0'
+
+  '@stackflow/plugin-renderer-basic@1.1.13':
+    resolution: {integrity: sha512-8C5QwFagDycFuBLfQ9ynVfpDeO9qeIeGYS3GkZ1Drv3nlc7lE0q1DAGJHLXGLTdra9mzsHCirrGR6sgYa1OA0w==}
+    peerDependencies:
+      '@stackflow/core': ^1.1.0-canary.0
+      '@stackflow/react': ^1.3.2-canary.0
+      '@types/react': '>=16.8.0'
+      react: '>=16.8.0'
+
+  '@stackflow/react-ui-core@1.3.3':
+    resolution: {integrity: sha512-YXxVskDVq18EftHzGZAkawJePFhHSFwFZUqet4aq34u/BL4OG3kHTojetZWDXRPjbHDiCwUrARVT5q7azg5H4A==}
+    peerDependencies:
+      '@stackflow/core': ^1.1.0-canary.0
+      '@stackflow/react': ^1.3.2-canary.0
+      '@types/react': '>=16.8.0'
+      react: '>=16.8.0'
+
+  '@stackflow/react@1.11.1':
+    resolution: {integrity: sha512-PA9Z+gHwqR6pqdV+T0sz9wASyunQOqFCXec2HyRZlScCW+IV4YxCtgP+/j4F65GNqLFzUij8YCwpBYY78udNYQ==}
+    peerDependencies:
+      '@stackflow/config': ^1.0.1-canary.0
+      '@stackflow/core': ^1.1.0-canary.0
+      '@types/react': '>=16.8.0'
+      react: '>=16.8.0'
+
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
@@ -2145,6 +2207,9 @@ packages:
 
   '@vanilla-extract/css@1.18.0':
     resolution: {integrity: sha512-/p0dwOjr0o8gE5BRQ5O9P0u/2DjUd6Zfga2JGmE4KaY7ZITWMszTzk4x4CPlM5cKkRr2ZGzbE6XkuPNfp9shSQ==}
+
+  '@vanilla-extract/dynamic@2.1.5':
+    resolution: {integrity: sha512-QGIFGb1qyXQkbzx6X6i3+3LMc/iv/ZMBttMBL+Wm/DetQd36KsKsFg5CtH3qy+1hCA/5w93mEIIAiL4fkM8ycw==}
 
   '@vanilla-extract/integration@8.0.7':
     resolution: {integrity: sha512-ILob4F9cEHXpbWAVt3Y2iaQJpqYq/c/5TJC8Fz58C2XmX3QW2Y589krvViiyJhQfydCGK3EbwPQhVFjQaBeKfg==}
@@ -2694,6 +2759,10 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -3615,6 +3684,9 @@ packages:
 
   hermes-parser@0.32.0:
     resolution: {integrity: sha512-g4nBOWFpuiTqjR3LZdRxKUkij9iyveWeuks7INEsMX741f3r9xxrOe8TeQfUxtda0eXmiIFiMQzoeSQEno33Hw==}
+
+  history@5.3.0:
+    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
 
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
@@ -4738,6 +4810,11 @@ packages:
       '@types/react':
         optional: true
 
+  react18-use@0.4.1:
+    resolution: {integrity: sha512-NY59qMAOxmpjg3XJGfSotwmH9BVAD1kB4kZqjfB28yr6jQKaGh1F5i7X1N9OTn6dD5r8yqSH3X4SslcqxAxQCw==}
+    peerDependencies:
+      react: '>=18.0.0'
+
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
     engines: {node: '>=0.10.0'}
@@ -5429,6 +5506,10 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
+
+  url-pattern@1.0.3:
+    resolution: {integrity: sha512-uQcEj/2puA4aq1R3A2+VNVBgaWYR24FdWjl7VNW83rnWftlhyzOZ/tBjezRiC2UkIzuxC8Top3IekN3vUf1WxA==}
+    engines: {node: '>=0.12.0'}
 
   use-callback-ref@1.3.3:
     resolution: {integrity: sha512-jQL3lRnocaFtu3V00JToYz/4QkNWswxijDaCVNZRiRTO3HQDLsdu1ZtmIUvV4yPp+rvWm5j0y0TG/S61cuijTg==}
@@ -6594,7 +6675,7 @@ snapshots:
       wrap-ansi: 7.0.0
       ws: 8.18.3
     optionalDependencies:
-      expo-router: 6.0.21(ldjxpcinlyblanjm422xflmnwq)
+      expo-router: 6.0.21(e1f73c9f735da8d4cb5584d42d43440c)
       react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0)
     transitivePeerDependencies:
       - bufferutil
@@ -7463,6 +7544,61 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
+  '@stackflow/config@1.2.2': {}
+
+  '@stackflow/core@1.3.0':
+    dependencies:
+      react-fast-compare: 3.2.2
+
+  '@stackflow/plugin-basic-ui@1.18.1(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)':
+    dependencies:
+      '@stackflow/core': 1.3.0
+      '@stackflow/react': 1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0)
+      '@stackflow/react-ui-core': 1.3.3(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)
+      '@types/react': 19.1.17
+      '@vanilla-extract/css': 1.18.0
+      '@vanilla-extract/dynamic': 2.1.5
+      '@vanilla-extract/private': 1.0.9
+      '@vanilla-extract/recipes': 0.5.7(@vanilla-extract/css@1.18.0)
+      clsx: 2.1.1
+      react: 19.1.0
+    transitivePeerDependencies:
+      - babel-plugin-macros
+
+  '@stackflow/plugin-history-sync@1.8.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)':
+    dependencies:
+      '@stackflow/config': 1.2.2
+      '@stackflow/core': 1.3.0
+      '@stackflow/react': 1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0)
+      '@types/react': 19.1.17
+      flatted: 3.3.3
+      history: 5.3.0
+      react: 19.1.0
+      react18-use: 0.4.1(react@19.1.0)
+      url-pattern: 1.0.3
+
+  '@stackflow/plugin-renderer-basic@1.1.13(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)':
+    dependencies:
+      '@stackflow/core': 1.3.0
+      '@stackflow/react': 1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0)
+      '@types/react': 19.1.17
+      react: 19.1.0
+
+  '@stackflow/react-ui-core@1.3.3(@stackflow/core@1.3.0)(@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0))(@types/react@19.1.17)(react@19.1.0)':
+    dependencies:
+      '@stackflow/core': 1.3.0
+      '@stackflow/react': 1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0)
+      '@types/react': 19.1.17
+      react: 19.1.0
+
+  '@stackflow/react@1.11.1(@stackflow/config@1.2.2)(@stackflow/core@1.3.0)(@types/react@19.1.17)(react@19.1.0)':
+    dependencies:
+      '@stackflow/config': 1.2.2
+      '@stackflow/core': 1.3.0
+      '@types/react': 19.1.17
+      react: 19.1.0
+      react-fast-compare: 3.2.2
+
   '@standard-schema/spec@1.1.0': {}
 
   '@storybook/addon-a11y@10.1.11(storybook@10.1.11(@testing-library/dom@10.4.1)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
@@ -7995,6 +8131,10 @@ snapshots:
       picocolors: 1.1.1
     transitivePeerDependencies:
       - babel-plugin-macros
+
+  '@vanilla-extract/dynamic@2.1.5':
+    dependencies:
+      '@vanilla-extract/private': 1.0.9
 
   '@vanilla-extract/integration@8.0.7':
     dependencies:
@@ -8719,6 +8859,8 @@ snapshots:
 
   clone@1.0.4: {}
 
+  clsx@2.1.1: {}
+
   color-convert@1.9.3:
     dependencies:
       color-name: 1.1.3
@@ -9093,7 +9235,7 @@ snapshots:
       '@typescript-eslint/eslint-plugin': 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1)(typescript@5.9.2)
       '@typescript-eslint/parser': 8.50.0(eslint@9.39.1)(typescript@5.9.2)
       eslint: 9.39.1
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1))(eslint@9.39.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.1)
       eslint-plugin-expo: 1.0.0(eslint@9.39.1)(typescript@5.9.2)
       eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1)
       eslint-plugin-react: 7.37.5(eslint@9.39.1)
@@ -9117,7 +9259,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1))(eslint@9.39.1):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3
@@ -9132,14 +9274,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1))(eslint@9.39.1))(eslint@9.39.1):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.50.0(eslint@9.39.1)(typescript@5.9.2)
       eslint: 9.39.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1))(eslint@9.39.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -9163,7 +9305,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1))(eslint@9.39.1))(eslint@9.39.1)
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.50.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -9407,7 +9549,7 @@ snapshots:
       react: 19.1.0
       react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0)
 
-  expo-router@6.0.21(ldjxpcinlyblanjm422xflmnwq):
+  expo-router@6.0.21(e1f73c9f735da8d4cb5584d42d43440c):
     dependencies:
       '@expo/metro-runtime': 6.1.2(expo@54.0.30)(react-dom@19.1.0(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       '@expo/schema-utils': 0.1.8
@@ -9776,6 +9918,10 @@ snapshots:
   hermes-parser@0.32.0:
     dependencies:
       hermes-estree: 0.32.0
+
+  history@5.3.0:
+    dependencies:
+      '@babel/runtime': 7.28.4
 
   hoist-non-react-statics@3.3.2:
     dependencies:
@@ -11053,6 +11199,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.17
 
+  react18-use@0.4.1(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+
   react@19.1.0: {}
 
   react@19.2.3: {}
@@ -11828,6 +11978,8 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  url-pattern@1.0.3: {}
 
   use-callback-ref@1.3.3(@types/react@19.1.17)(react@19.1.0):
     dependencies:
