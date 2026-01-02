@@ -1,4 +1,4 @@
-import type { RouteConfig } from '@/shared/routes/types';
+import type { RouteConfig } from './types';
 import { LoginPage } from '@/pages/auth/ui/LoginPage';
 import { HomePage } from '@/pages/home/ui/HomePage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
