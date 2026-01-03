@@ -9,8 +9,9 @@
     "build:web": "turbo run build --filter=web",
     "build:mobile": "pnpm --filter mobile build",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
+    "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
