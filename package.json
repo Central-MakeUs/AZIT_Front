@@ -11,7 +11,7 @@
     "lint": "turbo run lint",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
     "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
-    "check-types": "turbo run check-types"
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
