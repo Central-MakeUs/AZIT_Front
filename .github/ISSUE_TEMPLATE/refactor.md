@@ -1,9 +1,9 @@
 ---
 name: 🧹 Refactor / Improvement
 about: 코드 개선, 구조 변경, 성능 개선
-title: "[Refactor] "
+title: '[Refactor] '
 labels: refactor
-assignees: ""
+assignees: ''
 ---
 
 ## 🔍 개선 대상
