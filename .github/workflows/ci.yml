@@ -33,7 +33,7 @@ jobs:
         run: pnpm prettier
 
       - name: Type Check
-        run: pnpm check-types
+        run: pnpm typecheck
 
       - name: Build
         run: pnpm build
