@@ -1,1 +1,18 @@
+# Expo
+.expo
 
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Build Output
+build
+dist
+
+# Lock file
+pnpm-lock.yaml
+
+# Storybook build output
+**/storybook-static/
