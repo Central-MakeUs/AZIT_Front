@@ -16,3 +16,5 @@ pnpm-lock.yaml
 
 # Storybook build output
 **/storybook-static/
+
+turbo/*

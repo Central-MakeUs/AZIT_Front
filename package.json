@@ -14,10 +14,11 @@
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
+    "@turbo/gen": "^2.7.2",
+    "eslint": "catalog:",
     "prettier": "^3.7.4",
     "turbo": "^2.7.2",
-    "typescript": "catalog:",
-    "eslint": "catalog:"
+    "typescript": "catalog:"
   },
   "packageManager": "pnpm@10.26.0",
   "engines": {
