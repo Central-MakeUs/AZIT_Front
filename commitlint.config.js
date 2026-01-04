@@ -1,3 +1,5 @@
+const { TYPES } = require('./.commit-types');
+
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   parserPreset: {
@@ -8,22 +10,7 @@ module.exports = {
     },
   },
   rules: {
-    'type-enum': [
-      2,
-      'always',
-      [
-        'feat',
-        'fix',
-        'chore',
-        'docs',
-        'style',
-        'refactor',
-        'test',
-        'perf',
-        'rename',
-        'remove',
-      ],
-    ],
+    'type-enum': [2, 'always', TYPES],
     'type-empty': [2, 'never'],
     'subject-empty': [2, 'never'],
     'subject-full-stop': [2, 'never', '.'],
