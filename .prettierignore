@@ -16,3 +16,6 @@ pnpm-lock.yaml
 
 # Storybook build output
 **/storybook-static/
+
+# TypeScript declaration files
+*.d.ts
