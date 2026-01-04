@@ -10,10 +10,11 @@ pre-commit:
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
           | sort -u \
-          | sed 's#^#./#' \
-          | tr '\n' ',')
+          | paste -sd "," -)
 
-        [ -z "$CHANGED" ] || turbo run lint --filter="$CHANGED"
+        if [ -n "$CHANGED" ]; then
+          turbo run lint --filter="$CHANGED"
+        fi
 
     typecheck:
       run: |
@@ -21,10 +22,11 @@ pre-commit:
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
           | sort -u \
-          | sed 's#^#./#' \
-          | tr '\n' ',')
+          | paste -sd "," -)
 
-        [ -z "$CHANGED" ] || turbo run typecheck --filter="$CHANGED"
+        if [ -n "$CHANGED" ]; then
+          turbo run typecheck --filter="$CHANGED"
+        fi
 
     format:
       run: pnpm format
