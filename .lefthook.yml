@@ -5,10 +5,10 @@ pre-commit:
       run: pnpm prettier
 
     lint:
-      run: turbo run lint --filter=...[HEAD^]
+      run: turbo run lint --filter=[HEAD^]...
 
     typecheck:
-      run: turbo run typecheck --filter=...[HEAD^]
+      run: turbo run typecheck --filter=[HEAD^]...
 
     format:
       run: pnpm format
