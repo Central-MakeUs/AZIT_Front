@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      run: pnpm prettier
+    lint:
+      run: pnpm lint
+    typecheck:
+      run: pnpm typecheck
+    format:
+      run: pnpm format
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1}
