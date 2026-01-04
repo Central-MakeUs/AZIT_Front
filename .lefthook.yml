@@ -5,10 +5,26 @@ pre-commit:
       run: pnpm prettier
 
     lint:
-      run: turbo run lint --filter=[HEAD^]
+      run: |
+        CHANGED=$(git diff --cached --name-only \
+          | grep -E '^(apps|packages|tooling)/' \
+          | cut -d/ -f1,2 \
+          | sort -u \
+          | sed 's#^#./#' \
+          | tr '\n' ',')
+
+        [ -z "$CHANGED" ] || turbo run lint --filter="$CHANGED"
 
     typecheck:
-      run: turbo run typecheck --filter=[HEAD^]
+      run: |
+        CHANGED=$(git diff --cached --name-only \
+          | grep -E '^(apps|packages|tooling)/' \
+          | cut -d/ -f1,2 \
+          | sort -u \
+          | sed 's#^#./#' \
+          | tr '\n' ',')
+
+        [ -z "$CHANGED" ] || turbo run typecheck --filter="$CHANGED"
 
     format:
       run: pnpm format
