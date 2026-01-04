@@ -10,6 +10,7 @@ pre-commit:
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
           | sort -u \
+          | sed 's#^#./#' \
           | paste -sd "," -)
 
         if [ -n "$CHANGED" ]; then
@@ -22,6 +23,7 @@ pre-commit:
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
           | sort -u \
+          | sed 's#^#./#' \
           | paste -sd "," -)
 
         if [ -n "$CHANGED" ]; then
