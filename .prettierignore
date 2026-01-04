@@ -18,3 +18,5 @@ pnpm-lock.yaml
 **/storybook-static/
 
 turbo/*
+# TypeScript declaration files
+*.d.ts
