@@ -3,10 +3,13 @@ pre-commit:
   commands:
     prettier:
       run: pnpm prettier
+
     lint:
-      run: pnpm lint
+      run: turbo run lint --filter=...[HEAD^]
+
     typecheck:
-      run: pnpm typecheck
+      run: turbo run typecheck --filter=...[HEAD^]
+
     format:
       run: pnpm format
       stage_fixed: true
