@@ -37,4 +37,22 @@ pre-commit:
 commit-msg:
   commands:
     commitlint:
-      run: pnpm commitlint --edit {1}
+      run: |
+        node - <<'NODE' {1}
+        const fs = require('fs');
+        const path = process.argv[2];
+        if (!path) process.exit(0);
+        let msg = fs.readFileSync(path, 'utf8').trim();
+        if (!msg) process.exit(0);
+        const map = { feat:'✨', fix:'🐛', docs:'📝', style:'💄', refactor:'♻️', perf:'⚡', test:'✅', chore:'🔧' };
+        let m = msg.match(/^(\w+)(\(.+\))?:\s+(.*)$/);
+        if (m) {
+          const type = m[1];
+          const body = m[3];
+          if (map[type]) msg = `${map[type]} [${type}] ${body}`;
+        } else {
+          msg = `${map.chore} [chore] ${msg.replace(/^chore\s+/i,'')}`;
+        }
+        fs.writeFileSync(path, msg);
+        NODE
+        pnpm commitlint --edit {1}
