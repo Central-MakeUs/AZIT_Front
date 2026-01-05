@@ -1,4 +1,4 @@
-import { POST_MESSAGE_EVENT } from '../../shared/constants';
+import { POST_MESSAGE_EVENT } from '../constants';
 
 /**
  * Web -> Native 브릿지 타입 정의

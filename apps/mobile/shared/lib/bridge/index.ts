@@ -3,8 +3,11 @@ import {
   createWebView,
   postMessageSchema,
 } from '@webview-bridge/react-native';
-import type { AppBridge, AppPostMessageSchema } from '@azit/bridge';
-import { POST_MESSAGE_EVENT } from '@azit/bridge';
+import {
+  type AppBridge,
+  type AppPostMessageSchema,
+  POST_MESSAGE_EVENT,
+} from '@azit/bridge';
 import { z } from 'zod';
 
 /**
