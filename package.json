@@ -11,8 +11,7 @@
     "build:web": "turbo run build --filter=web",
     "build:mobile": "pnpm --filter mobile build",
     "lint": "turbo run lint",
-    "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
-    "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
+    "prettier": "prettier --cache --check \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
     "typecheck": "turbo run typecheck",
     "commitlint": "commitlint"
   },
