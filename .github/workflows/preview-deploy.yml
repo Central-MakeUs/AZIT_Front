@@ -6,6 +6,7 @@ on:
 
 jobs:
   ci:
+    # ci 워크플로우 재사용
     uses: Central-MakeUs/AZIT_Front/.github/workflows/ci.yml@develop
     secrets: inherit
 
