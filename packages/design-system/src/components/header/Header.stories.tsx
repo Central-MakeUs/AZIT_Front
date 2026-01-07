@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import logo from '../../shared/assets/logo.svg';
-import bell from '../../shared/assets/icon/bell.svg';
-import chevronLeft from '../../shared/assets/icon/chevron-left.svg';
+import { BellIcon } from '../../shared/assets/icon/BellIcon';
+import { ChevronLeftIcon } from '../../shared/assets/icon/ChevronLeftIcon';
 
 import Header from './Header';
 
@@ -32,7 +32,7 @@ export const Home: Story = {
   args: {
     width: '375px',
     left: <img src={logo} alt="logo" />,
-    right: <img src={bell} alt="go back" />,
+    right: <BellIcon />,
   },
 };
 
@@ -46,7 +46,7 @@ export const Schedule: Story = {
 export const Detail: Story = {
   args: {
     width: '375px',
-    left: <img src={chevronLeft} alt="go back" />,
+    left: <ChevronLeftIcon />,
     center: <span>주문/결제</span>,
   },
 };
