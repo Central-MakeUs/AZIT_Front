@@ -1,5 +1,6 @@
 import { vars } from '../../shared/config/vars.css';
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 export const dropdownTrigger = style({
   display: 'flex',
@@ -36,17 +37,26 @@ export const dropdownPlaceholder = style({
   color: vars.colors.gray30,
 });
 
-export const dropdownIcon = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginLeft: '8px',
-  flexShrink: 0,
-  transition: 'transform 0.2s ease',
-});
-
-export const dropdownIconOpen = style({
-  transform: 'rotate(180deg)',
+export const dropdownIcon = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: '8px',
+    flexShrink: 0,
+    transition: 'transform 0.2s ease',
+  },
+  variants: {
+    open: {
+      true: {
+        transform: 'rotate(180deg)',
+      },
+      false: {},
+    },
+  },
+  defaultVariants: {
+    open: false,
+  },
 });
 
 export const dropdownContent = style({
