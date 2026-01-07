@@ -8,7 +8,7 @@ export const header = style({
   borderRadius: 16,
   border: 'none',
   display: 'grid',
-  minWidth: 375,
+  width: '100%',
   gridTemplateColumns: '1fr 3fr 1fr',
 });
 

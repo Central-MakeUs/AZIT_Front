@@ -28,18 +28,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Active: Story = {
   args: {
+    width: '375px',
     children: '신청하기',
   },
 };
 
 export const Disabled: Story = {
   args: {
+    width: '375px',
     color: 'disabled',
     children: '신청하기',
   },
 };
+
 export const Cancelled: Story = {
   args: {
+    width: '375px',
     color: 'cancelled',
     children: '신청하기',
   },

@@ -13,11 +13,11 @@ export const buttonVariant = recipe({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
   },
   variants: {
     size: {
       large: {
-        width: 335,
         height: 54,
         fontFamily: vars.typography.fontFamily.primary,
         ...vars.typography.body.b1,
