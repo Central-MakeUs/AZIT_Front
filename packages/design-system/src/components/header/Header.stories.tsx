@@ -3,7 +3,6 @@ import logo from '../../shared/assets/logo.svg';
 import bell from '../../shared/assets/icon/bell.svg';
 import chevronLeft from '../../shared/assets/icon/chevron-left.svg';
 
-import { fn } from 'storybook/test';
 import Header from './Header';
 
 const meta = {
@@ -24,7 +23,6 @@ const meta = {
       control: false,
     },
   },
-  args: { onBackClick: fn() },
 } satisfies Meta<typeof Header>;
 
 export default meta;
