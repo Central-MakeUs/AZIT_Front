@@ -1,6 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
-import { forwardRef } from 'react';
+import { forwardRef, useId } from 'react';
 import * as styles from './dropdown.css';
 import { ChevronDownIcon, CheckIcon } from './icon';
 import { useDropdown } from './model/useDropdown';
@@ -38,6 +38,7 @@ const Dropdown = forwardRef<
     },
     ref
   ) => {
+    const id = useId();
     const {
       open,
       selectedValue,
@@ -57,7 +58,11 @@ const Dropdown = forwardRef<
 
     return (
       <>
-        {label && <label className={styles.dropdownLabel}>{label}</label>}
+        {label && (
+          <label htmlFor={id} className={styles.dropdownLabel}>
+            {label}
+          </label>
+        )}
         <DropdownMenu.Root
           {...props}
           open={open}
@@ -65,6 +70,7 @@ const Dropdown = forwardRef<
         >
           <DropdownMenu.Trigger
             ref={ref}
+            id={id}
             className={styles.dropdownTrigger}
             style={width ? { width } : undefined}
             asChild={false}
