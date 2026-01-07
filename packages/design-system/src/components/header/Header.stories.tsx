@@ -32,6 +32,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Home: Story = {
   args: {
+    width: '375px',
     left: <img src={logo} alt="logo" />,
     right: <img src={bell} alt="go back" />,
   },
@@ -39,12 +40,14 @@ export const Home: Story = {
 
 export const Schedule: Story = {
   args: {
+    width: '375px',
     center: <span>일정</span>,
   },
 };
 
 export const Detail: Story = {
   args: {
+    width: '375px',
     left: <img src={chevronLeft} alt="go back" />,
     center: <span>주문/결제</span>,
   },
