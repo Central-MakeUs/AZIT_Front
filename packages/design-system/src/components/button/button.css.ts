@@ -9,6 +9,10 @@ export const buttonVariant = recipe({
   base: {
     borderRadius: 16,
     border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   variants: {
     size: {
