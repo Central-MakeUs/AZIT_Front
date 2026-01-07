@@ -11,7 +11,7 @@ interface UseDropdownProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export function useDropdown({
+export const useDropdown = ({
   value,
   defaultValue,
   options,
@@ -19,7 +19,7 @@ export function useDropdown({
   open: controlledOpen,
   onValueChange,
   onOpenChange,
-}: UseDropdownProps) {
+}: UseDropdownProps) => {
   const [internalValue, setInternalValue] = useState(defaultValue || '');
   const [open, setOpen] = useState(controlledOpen ?? false);
 
@@ -57,4 +57,4 @@ export function useDropdown({
     handleValueChange,
     handleOpenChange,
   };
-}
+};
