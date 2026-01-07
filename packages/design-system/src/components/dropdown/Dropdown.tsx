@@ -16,7 +16,6 @@ export interface DropdownProps extends Omit<
   width?: string;
   options?: DropdownOption[];
   placeholder?: string;
-  className?: string;
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -32,7 +31,6 @@ const Dropdown = forwardRef<
       width,
       options,
       placeholder = '지역을 선택해주세요',
-      className,
       value,
       defaultValue,
       onValueChange,
@@ -67,7 +65,7 @@ const Dropdown = forwardRef<
         >
           <DropdownMenu.Trigger
             ref={ref}
-            className={`${styles.dropdownTrigger} ${className || ''}`}
+            className={styles.dropdownTrigger}
             style={width ? { width } : undefined}
             asChild={false}
           >
@@ -80,9 +78,7 @@ const Dropdown = forwardRef<
             >
               {displayText}
             </span>
-            <span
-              className={`${styles.dropdownIcon} ${open ? styles.dropdownIconOpen : ''}`}
-            >
+            <span className={styles.dropdownIcon({ open })}>
               <ChevronDownIcon />
             </span>
           </DropdownMenu.Trigger>
