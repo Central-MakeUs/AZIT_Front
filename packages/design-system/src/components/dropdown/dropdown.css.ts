@@ -45,6 +45,7 @@ export const dropdownIcon = recipe({
     marginLeft: '8px',
     flexShrink: 0,
     transition: 'transform 0.2s ease',
+    color: vars.colors.gray40,
   },
   variants: {
     open: {
