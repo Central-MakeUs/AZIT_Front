@@ -6,7 +6,6 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   left?: ReactNode;
   center?: ReactNode;
   right?: ReactNode;
-  onBackClick?: () => void;
 }
 
 export default function Header({
