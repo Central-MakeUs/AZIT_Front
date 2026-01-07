@@ -1,21 +1,23 @@
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { buttonVariant, type ButtonSize, type ButtonColor } from './button.css';
 
-export interface ButtonProps {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   color?: ButtonColor;
-  label: string;
+  children: ReactNode;
   onClick?: () => void;
 }
 
 export default function Button({
-  size = 'medium',
-  color = 'primary',
-  label,
+  size,
+  color,
+  children,
+  type = 'button',
   ...props
 }: ButtonProps) {
   return (
-    <button type="button" className={buttonVariant({ size, color })} {...props}>
-      {label}
+    <button type={type} className={buttonVariant({ size, color })} {...props}>
+      {children}
     </button>
   );
 }
