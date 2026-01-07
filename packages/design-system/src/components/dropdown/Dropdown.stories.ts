@@ -52,16 +52,16 @@ export const WithSelectedValue: Story = {
   },
 };
 
-export const Disabled: Story = {
-  args: {
-    width: '335px',
-    placeholder: '지역을 선택해주세요',
-    options: [
-      { value: 'seoul', label: '서울' },
-      { value: 'busan', label: '부산' },
-    ],
-  },
-};
+// export const Disabled: Story = {
+//   args: {
+//     width: '335px',
+//     placeholder: '지역을 선택해주세요',
+//     options: [
+//       { value: 'seoul', label: '서울' },
+//       { value: 'busan', label: '부산' },
+//     ],
+//   },
+// };
 
 export const WithDisabledOption: Story = {
   args: {
@@ -71,6 +71,18 @@ export const WithDisabledOption: Story = {
       { value: 'seoul', label: '서울' },
       { value: 'busan', label: '부산', disabled: true },
       { value: 'daegu', label: '대구' },
+    ],
+  },
+};
+
+export const WithLabel: Story = {
+  args: {
+    width: '335px',
+    label: '지역',
+    placeholder: '지역을 선택해주세요',
+    options: [
+      { value: 'seoul', label: '서울' },
+      { value: 'busan', label: '부산' },
     ],
   },
 };
