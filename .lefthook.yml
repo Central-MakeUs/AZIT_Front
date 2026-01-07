@@ -35,24 +35,4 @@ pre-commit:
       stage_fixed: true
 
 commit-msg:
-  commands:
-    commitlint:
-      run: |
-        node - <<'NODE' {1}
-        const fs = require('fs');
-        const { TYPES, EMOJIS } = require('./.commit-types');
-        const path = process.argv[2];
-        if (!path) process.exit(0);
-        let msg = fs.readFileSync(path, 'utf8').trim();
-        if (!msg) process.exit(0);
-        let m = msg.match(/^(\w+)(\(.+\))?:\s+(.*)$/);
-        if (m) {
-          const type = m[1];
-          const body = m[3];
-          if (EMOJIS[type]) msg = `${EMOJIS[type]} [${type}] ${body}`;
-        } else {
-          msg = `${EMOJIS.chore} [chore] ${msg.replace(/^chore\s+/i,'')}`;
-        }
-        fs.writeFileSync(path, msg);
-        NODE
-        pnpm commitlint --edit {1}
+  run: pnpm commitlint --edit {1}
