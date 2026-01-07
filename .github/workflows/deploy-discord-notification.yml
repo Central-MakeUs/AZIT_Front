@@ -1,0 +1,30 @@
+name: Deploy Notification to Discord
+
+on:
+  deployment_status:
+
+jobs:
+  notify-discord:
+    name: Notify Discord on Deployment Status
+    runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success' || github.event.deployment_status.state == 'failure'
+
+    steps:
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          STATUS="${{ github.event.deployment_status.state }}"
+          ENVIRONMENT="${{ github.event.deployment.environment }}"
+          URL="${{ github.event.deployment_status.target_url }}"
+
+          if [ "$STATUS" == "success" ]; then
+            STATUS_MESSAGE="✅ 배포 성공"
+          else
+            STATUS_MESSAGE="❌ 배포 실패"
+          fi
+
+          MESSAGE="$STATUS_MESSAGE\n\nENVIRONMENT: $ENVIRONMENT\nURL: $URL\n"
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"$MESSAGE\"}" \
+               $DISCORD_WEBHOOK_URL
