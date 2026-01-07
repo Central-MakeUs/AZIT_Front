@@ -12,6 +12,7 @@ export interface DropdownProps extends Omit<
   ComponentPropsWithoutRef<typeof DropdownMenu.Root>,
   'onValueChange' | 'value'
 > {
+  label?: string;
   width?: string;
   options?: DropdownOption[];
   placeholder?: string;
@@ -27,6 +28,7 @@ const Dropdown = forwardRef<
 >(
   (
     {
+      label,
       width,
       options,
       placeholder = '지역을 선택해주세요',
@@ -56,54 +58,65 @@ const Dropdown = forwardRef<
     });
 
     return (
-      <DropdownMenu.Root {...props} open={open} onOpenChange={handleOpenChange}>
-        <DropdownMenu.Trigger
-          ref={ref}
-          className={`${styles.dropdownTrigger} ${className || ''}`}
-          style={width ? { width } : undefined}
-          asChild={false}
+      <>
+        {label && <label className={styles.dropdownLabel}>{label}</label>}
+        <DropdownMenu.Root
+          {...props}
+          open={open}
+          onOpenChange={handleOpenChange}
         >
-          <span
-            className={
-              isPlaceholder ? styles.dropdownPlaceholder : styles.dropdownValue
-            }
+          <DropdownMenu.Trigger
+            ref={ref}
+            className={`${styles.dropdownTrigger} ${className || ''}`}
+            style={width ? { width } : undefined}
+            asChild={false}
           >
-            {displayText}
-          </span>
-          <span
-            className={`${styles.dropdownIcon} ${open ? styles.dropdownIconOpen : ''}`}
-          >
-            <ChevronDownIcon />
-          </span>
-        </DropdownMenu.Trigger>
+            <span
+              className={
+                isPlaceholder
+                  ? styles.dropdownPlaceholder
+                  : styles.dropdownValue
+              }
+            >
+              {displayText}
+            </span>
+            <span
+              className={`${styles.dropdownIcon} ${open ? styles.dropdownIconOpen : ''}`}
+            >
+              <ChevronDownIcon />
+            </span>
+          </DropdownMenu.Trigger>
 
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content
-            className={styles.dropdownContent}
-            align="start"
-            sideOffset={4}
-          >
-            {options?.map((option: DropdownOption) => (
-              <DropdownMenu.Item
-                key={option.value}
-                disabled={option.disabled}
-                className={styles.dropdownItem}
-                onSelect={(e) => {
-                  e.preventDefault();
-                  handleValueChange(option.value);
-                }}
-              >
-                {selectedValue === option.value && (
-                  <span className={styles.dropdownItemIndicator}>
-                    <CheckIcon />
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content
+              className={styles.dropdownContent}
+              align="start"
+              sideOffset={4}
+            >
+              {options?.map((option: DropdownOption) => (
+                <DropdownMenu.Item
+                  key={option.value}
+                  disabled={option.disabled}
+                  className={styles.dropdownItem}
+                  onSelect={(e) => {
+                    e.preventDefault();
+                    handleValueChange(option.value);
+                  }}
+                >
+                  {selectedValue === option.value && (
+                    <span className={styles.dropdownItemIndicator}>
+                      <CheckIcon />
+                    </span>
+                  )}
+                  <span className={styles.dropdownItemText}>
+                    {option.label}
                   </span>
-                )}
-                <span className={styles.dropdownItemText}>{option.label}</span>
-              </DropdownMenu.Item>
-            ))}
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
+                </DropdownMenu.Item>
+              ))}
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu.Root>
+      </>
     );
   }
 );

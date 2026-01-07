@@ -105,3 +105,11 @@ export const dropdownItemText = style({
   color: 'inherit',
   marginLeft: '24px',
 });
+
+export const dropdownLabel = style({
+  fontFamily: vars.typography.fontFamily.primary,
+  ...vars.typography.body.b2,
+  color: vars.colors.black,
+  marginBottom: '8px',
+  display: 'block',
+});
