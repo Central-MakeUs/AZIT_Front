@@ -7,23 +7,33 @@ export type ButtonColor = ButtonVariants['color'];
 
 export const buttonVariant = recipe({
   base: {
-    borderRadius: 8,
+    borderRadius: 16,
     border: 'none',
-    backgroundColor: vars.colors.blue40,
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   variants: {
     size: {
-      small: { padding: 8 },
-      medium: { padding: 12 },
-      large: { padding: 16 },
+      large: {
+        height: 54,
+        fontFamily: vars.typography.fontFamily.primary,
+        ...vars.typography.body.b1,
+      },
     },
     color: {
-      primary: { backgroundColor: vars.colors.blue40 },
-      secondary: { backgroundColor: vars.colors.secondary },
+      active: { backgroundColor: vars.colors.blue80, color: vars.colors.white },
+      cancelled: { backgroundColor: 'transparent', color: vars.colors.gray60 },
+      disabled: {
+        backgroundColor: vars.colors.gray10,
+        color: vars.colors.gray50,
+      },
     },
   },
   defaultVariants: {
-    size: 'medium',
-    color: 'primary',
+    size: 'large',
+    color: 'active',
   },
 });

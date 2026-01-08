@@ -8,7 +8,7 @@ export function HomePage() {
 
   return (
     <AppScreen>
-      <h2>Web</h2>
+      <h2>Hello World</h2>
       <Button
         label={'로그인 페이지로 이동'}
         onClick={() => push('LoginPage', {}, { animate: false })}

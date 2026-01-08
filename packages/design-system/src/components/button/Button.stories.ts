@@ -12,12 +12,12 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: {
-      control: 'select',
-      options: ['small', 'medium', 'large'],
+      control: 'check',
+      options: ['large'],
     },
     color: {
       control: 'select',
-      options: ['primary', 'secondary'],
+      options: ['active', 'disabled', 'cancelled'],
     },
   },
   args: { onClick: fn() },
@@ -26,23 +26,25 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Small: Story = {
+export const Active: Story = {
   args: {
-    size: 'small',
-    label: 'Button',
+    width: '375px',
+    children: '신청하기',
   },
 };
 
-export const Medium: Story = {
+export const Disabled: Story = {
   args: {
-    size: 'medium',
-    label: 'Button',
+    width: '375px',
+    color: 'disabled',
+    children: '신청하기',
   },
 };
 
-export const Large: Story = {
+export const Cancelled: Story = {
   args: {
-    size: 'large',
-    label: 'Button',
+    width: '375px',
+    color: 'cancelled',
+    children: '신청하기',
   },
 };
