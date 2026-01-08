@@ -29,7 +29,6 @@ export function LoginPage() {
       <div>
         {/* Web -> Native 브릿지 통신 테스트 */}
         <Button
-          label={'브릿지 통신 테스트 (Web -> Native)'}
           onClick={async () => {
             try {
               const result = await bridge.getMessage();
@@ -38,7 +37,9 @@ export function LoginPage() {
               console.error('브릿지 통신 에러:', err);
             }
           }}
-        />
+        >
+          브릿지 통신 테스트 (Web -&gt; Native)
+        </Button>
       </div>
     </AppScreen>
   );
