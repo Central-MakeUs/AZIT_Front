@@ -9,12 +9,16 @@ pre-commit:
         CHANGED=$(git diff --cached --name-only \
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
-          | sort -u \
-          | sed 's#^#./#' \
-          | paste -sd "," -)
+          | sort -u)
 
         if [ -n "$CHANGED" ]; then
-          turbo run lint --filter="$CHANGED"
+          FILTERS=$(echo "$CHANGED" | while read dir; do
+            if [ -f "$dir/package.json" ]; then
+              NAME=$(grep -m1 '"name"' "$dir/package.json" | sed 's/.*"name": *"\([^"]*\)".*/\1/')
+              echo "--filter=$NAME"
+            fi
+          done | tr '\n' ' ')
+          turbo run lint $FILTERS
         fi
 
     typecheck:
@@ -22,12 +26,16 @@ pre-commit:
         CHANGED=$(git diff --cached --name-only \
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
-          | sort -u \
-          | sed 's#^#./#' \
-          | paste -sd "," -)
+          | sort -u)
 
         if [ -n "$CHANGED" ]; then
-          turbo run typecheck --filter="$CHANGED"
+          FILTERS=$(echo "$CHANGED" | while read dir; do
+            if [ -f "$dir/package.json" ]; then
+              NAME=$(grep -m1 '"name"' "$dir/package.json" | sed 's/.*"name": *"\([^"]*\)".*/\1/')
+              echo "--filter=$NAME"
+            fi
+          done | tr '\n' ' ')
+          turbo run typecheck $FILTERS
         fi
 
     format:
