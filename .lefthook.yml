@@ -6,29 +6,23 @@ pre-commit:
 
     lint:
       run: |
-        CHANGED=$(git diff --cached --name-only \
+        git diff --cached --name-only \
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
           | sort -u \
-          | sed 's#^#./#' \
-          | paste -sd "," -)
-
-        if [ -n "$CHANGED" ]; then
-          turbo run lint --filter="$CHANGED"
-        fi
+          | while read -r pkg; do
+              turbo run lint --filter="./$pkg"
+            done
 
     typecheck:
       run: |
-        CHANGED=$(git diff --cached --name-only \
+        git diff --cached --name-only \
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
           | sort -u \
-          | sed 's#^#./#' \
-          | paste -sd "," -)
-
-        if [ -n "$CHANGED" ]; then
-          turbo run typecheck --filter="$CHANGED"
-        fi
+          | while read -r pkg; do
+              turbo run typecheck --filter="./$pkg"
+            done
 
     format:
       run: pnpm format
