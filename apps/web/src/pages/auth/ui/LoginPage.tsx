@@ -1,8 +1,16 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button, vars } from '@azit/design-system';
 import * as styles from '../styles/loginPage.css';
+import { useFlow } from '@/app/routes/stackflow';
 
 export function LoginPage() {
+  const { replace } = useFlow();
+
+  const handleLogin = () => {
+    localStorage.setItem('accessToken', '1234567890');
+    replace('HomePage', {}, { animate: false });
+  };
+
   return (
     <AppScreen
       backgroundImage={`linear-gradient(180deg, ${vars.colors.blue90} 0%, #000b1d 100%)`}
@@ -15,17 +23,17 @@ export function LoginPage() {
           </p>
         </div>
         <div className={styles.buttonWrapper}>
-          <Button color="kakao" onClick={() => {}}>
+          <Button color="kakao" onClick={handleLogin}>
             카카오로 로그인
           </Button>
-          <AppleLogin />
+          <AppleLogin onClick={handleLogin} />
         </div>
       </section>
     </AppScreen>
   );
 }
 
-function AppleLogin() {
+function AppleLogin({ onClick }: { onClick: () => void }) {
   const ua = navigator.userAgent;
 
   if (!/iPhone|iPad|iPod/.test(ua)) {
@@ -33,7 +41,7 @@ function AppleLogin() {
   }
 
   return (
-    <Button color="apple" onClick={() => {}}>
+    <Button color="apple" onClick={onClick}>
       애플로 로그인
     </Button>
   );
