@@ -1,7 +1,10 @@
 import { recipe } from '@vanilla-extract/recipes';
 import { vars } from '../../shared/config/vars.css';
+import { createVar, style } from '@vanilla-extract/css';
 
 export type IconColor = NonNullable<Parameters<typeof iconVariant>[0]>['color'];
+
+export const iconColorVar = createVar();
 
 export const iconVariant = recipe({
   base: {
@@ -9,21 +12,34 @@ export const iconVariant = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
+    color: iconColorVar,
   },
   variants: {
     color: {
       primary: {
-        color: vars.colors.blue80,
+        vars: {
+          [iconColorVar]: vars.colors.blue80,
+        },
       },
       secondary: {
-        color: vars.colors.gray30,
+        vars: {
+          [iconColorVar]: vars.colors.gray30,
+        },
       },
       default: {
-        color: vars.colors.black,
+        vars: {
+          [iconColorVar]: vars.colors.black,
+        },
       },
     },
   },
   defaultVariants: {
     color: 'default',
+  },
+});
+
+export const iconColor = style({
+  vars: {
+    [iconColorVar]: vars.colors.gray40,
   },
 });
