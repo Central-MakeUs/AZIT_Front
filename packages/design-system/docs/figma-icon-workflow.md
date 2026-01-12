@@ -130,7 +130,7 @@ After creating icon components, add them to the Storybook `AllIcons` story for e
 ## Usage Examples
 
 ```tsx
-import HomeIcon from '@azit/design-system/shared/assets/icon/HomeIcon';
+import { HomeIcon } from '@azit/design-system/components/icon';
 
 // Basic usage
 <HomeIcon />
