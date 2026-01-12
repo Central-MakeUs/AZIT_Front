@@ -23,18 +23,24 @@ export function LoginPage() {
           </p>
         </div>
         <div className={styles.buttonWrapper}>
-          <Button color="kakao" onClick={handleLogin}>
-            <img
-              className={styles.kakaoIcon}
-              src="/icons/icon-kakao.svg"
-              alt="kakao"
-            />
-            카카오로 로그인
-          </Button>
+          <KakaoLogin onClick={handleLogin} />
           <AppleLogin onClick={handleLogin} />
         </div>
       </section>
     </AppScreen>
+  );
+}
+
+function KakaoLogin({ onClick }: { onClick: () => void }) {
+  return (
+    <Button color="kakao" onClick={onClick}>
+      <img
+        className={styles.kakaoIcon}
+        src="/icons/icon-kakao.svg"
+        alt="kakao"
+      />
+      카카오로 로그인
+    </Button>
   );
 }
 
