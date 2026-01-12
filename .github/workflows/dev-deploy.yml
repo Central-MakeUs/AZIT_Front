@@ -1,0 +1,55 @@
+name: Deploy Develop Branch With Vercel
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  preview-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy, Alias & Notify Discord
+        run: |
+          set +e
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
+            > deployment-url.txt 2> error.txt
+          code=$?
+          set -e
+
+          if [ $code -eq 0 ]; then
+            deploymentUrl=$(cat deployment-url.txt)
+
+            vercel alias $deploymentUrl ${{ secrets.DEVELOPMENT_URL }} \
+              --token=${{ secrets.VERCEL_TOKEN }} > /dev/null 2>alias-error.txt
+
+            if [ $? -eq 0 ]; then
+              echo "Deploy & Set Alias Successfully"
+            else
+              echo "Deploy & Set Alias Failed"
+              cat alias-error.txt
+              exit 1
+            fi
+
+            curl -H "Content-Type: application/json" \
+              -d '{
+                "content": "🚀 Develop 배포 완료! 아래 URL로 테스트 해주세요.\n🔗 https://${{ secrets.DEVELOPMENT_URL }}"
+              }' \
+              ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+          else
+            echo "Develop deployment failed"
+            cat error.txt
+            exit 1
+          fi
