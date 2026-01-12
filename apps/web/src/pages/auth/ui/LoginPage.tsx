@@ -24,6 +24,11 @@ export function LoginPage() {
         </div>
         <div className={styles.buttonWrapper}>
           <Button color="kakao" onClick={handleLogin}>
+            <img
+              className={styles.kakaoIcon}
+              src="/icons/icon-kakao.svg"
+              alt="kakao"
+            />
             카카오로 로그인
           </Button>
           <AppleLogin onClick={handleLogin} />
@@ -42,7 +47,7 @@ function AppleLogin({ onClick }: { onClick: () => void }) {
 
   return (
     <Button color="apple" onClick={onClick}>
-      애플로 로그인
+      <span className={styles.appleIcon}></span> 애플로 로그인
     </Button>
   );
 }

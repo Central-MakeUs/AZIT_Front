@@ -47,3 +47,14 @@ export const buttonWrapper = style({
   gap: 12,
   marginTop: 185,
 });
+
+export const appleIcon = style({
+  fontSize: 22,
+  marginRight: 8,
+});
+
+export const kakaoIcon = style({
+  width: 18,
+  height: 18,
+  marginRight: 8,
+});
