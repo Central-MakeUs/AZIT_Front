@@ -48,13 +48,18 @@ export const buttonWrapper = style({
   marginTop: 185,
 });
 
-export const appleIcon = style({
-  fontSize: 22,
-  marginRight: 8,
+export const textWrapper = style({
+  width: 'fit-content',
+  flexWrap: 'nowrap',
+  justifyContent: 'start',
+  display: 'flex',
+  alignItems: 'center',
+  marginRight: 18,
 });
 
 export const kakaoIcon = style({
   width: 18,
   height: 18,
-  marginRight: 8,
+  marginRight: 18,
+  marginLeft: 18,
 });
