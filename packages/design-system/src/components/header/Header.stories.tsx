@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import logo from '../../shared/assets/logo.svg';
-import { BellIcon } from '../../shared/assets/icon/BellIcon';
-import { ChevronLeftIcon } from '../../shared/assets/icon/ChevronLeftIcon';
+import { BellIcon, ChevronLeftIcon } from '../icon';
 
 import Header from './Header';
 
