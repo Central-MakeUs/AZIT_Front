@@ -1,5 +1,4 @@
 import { Button, vars } from '@azit/design-system';
-import '@/app/styles/App.css';
 import { useFlow } from '@/app/routes/stackflow';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 
