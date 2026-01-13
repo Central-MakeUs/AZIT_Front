@@ -11,7 +11,7 @@ pre-commit:
           | cut -d/ -f1,2 \
           | sort -u \
           | while read -r pkg; do
-              turbo run lint --filter="./$pkg"
+              pnpm exec turbo run lint --filter="./$pkg"
             done
 
     typecheck:
@@ -21,7 +21,7 @@ pre-commit:
           | cut -d/ -f1,2 \
           | sort -u \
           | while read -r pkg; do
-              turbo run typecheck --filter="./$pkg"
+              pnpm exec turbo run typecheck --filter="./$pkg"
             done
 
     format:

@@ -34,12 +34,14 @@ export function LoginPage() {
 function KakaoLogin({ onClick }: { onClick: () => void }) {
   return (
     <Button color="kakao" onClick={onClick}>
-      <img
-        className={styles.kakaoIcon}
-        src="/icons/icon-kakao.svg"
-        alt="kakao"
-      />
-      카카오로 로그인
+      <div className={styles.textWrapper}>
+        <img
+          className={styles.kakaoIcon}
+          src="/icons/icon-kakao.svg"
+          alt="kakao"
+        />
+        카카오로 로그인
+      </div>
     </Button>
   );
 }
@@ -53,7 +55,10 @@ function AppleLogin({ onClick }: { onClick: () => void }) {
 
   return (
     <Button color="apple" onClick={onClick}>
-      <span className={styles.appleIcon}></span> 애플로 로그인
+      <div className={styles.textWrapper}>
+        <img src="/icons/icon-apple.svg" alt="apple" />
+        <span>애플로 로그인</span>
+      </div>
     </Button>
   );
 }
