@@ -82,3 +82,17 @@ export const DisabledWithIcon: Story = {
     ),
   ],
 };
+
+export const Number: Story = {
+  args: {
+    placeholder: '숫자를 입력해주세요',
+    type: 'number',
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '335px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};

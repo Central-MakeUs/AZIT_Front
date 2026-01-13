@@ -13,16 +13,36 @@ export interface InputProps extends Omit<
 export default function Input({
   state = 'default',
   icon,
+  type = 'text',
   className,
   disabled,
   ...props
 }: InputProps) {
   const currentState = disabled ? 'disabled' : state;
 
+  const autoInputProps: InputHTMLAttributes<HTMLInputElement> = {
+    type,
+  };
+
+  if (type === 'number') {
+    autoInputProps.inputMode = 'numeric';
+    autoInputProps.pattern = '[0-9]*';
+    autoInputProps.onInput = (event) => {
+      const target = event.target as HTMLInputElement;
+      target.value = target.value.replace(/[^0-9]/g, '');
+    };
+  }
+
   return (
     <div className={clsx(inputContainer({ state: currentState }), className)}>
       {icon && <div className={iconSlot}>{icon}</div>}
-      <input type="text" className={input} disabled={disabled} {...props} />
+      <input
+        type={type}
+        className={input}
+        disabled={disabled}
+        {...autoInputProps}
+        {...props}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { vars } from '../../shared/config/vars.css';
 import { recipe } from '@vanilla-extract/recipes';
-import { style } from '@vanilla-extract/css';
+import { style, globalStyle } from '@vanilla-extract/css';
 
 export type InputVariants = NonNullable<Parameters<typeof inputContainer>[0]>;
 export type InputState = InputVariants['state'];
@@ -48,7 +48,20 @@ export const input = style({
       color: 'inherit',
       cursor: 'not-allowed',
     },
+    '&[type="number"]': {
+      MozAppearance: 'textfield',
+    },
   },
+});
+
+globalStyle(`${input}[type="number"]::-webkit-inner-spin-button`, {
+  WebkitAppearance: 'none',
+  margin: 0,
+});
+
+globalStyle(`${input}[type="number"]::-webkit-outer-spin-button`, {
+  WebkitAppearance: 'none',
+  margin: 0,
 });
 
 export const iconSlot = style({
