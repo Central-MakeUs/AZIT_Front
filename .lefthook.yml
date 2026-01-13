@@ -6,37 +6,23 @@ pre-commit:
 
     lint:
       run: |
-        CHANGED=$(git diff --cached --name-only \
+        git diff --cached --name-only \
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
-          | sort -u)
-
-        if [ -n "$CHANGED" ]; then
-          FILTERS=$(echo "$CHANGED" | while read dir; do
-            if [ -f "$dir/package.json" ]; then
-              NAME=$(grep -m1 '"name"' "$dir/package.json" | sed 's/.*"name": *"\([^"]*\)".*/\1/')
-              echo "--filter=$NAME"
-            fi
-          done | tr '\n' ' ')
-          turbo run lint $FILTERS
-        fi
+          | sort -u \
+          | while read -r pkg; do
+              pnpm exec turbo run lint --filter="./$pkg"
+            done
 
     typecheck:
       run: |
-        CHANGED=$(git diff --cached --name-only \
+        git diff --cached --name-only \
           | grep -E '^(apps|packages|tooling)/' \
           | cut -d/ -f1,2 \
-          | sort -u)
-
-        if [ -n "$CHANGED" ]; then
-          FILTERS=$(echo "$CHANGED" | while read dir; do
-            if [ -f "$dir/package.json" ]; then
-              NAME=$(grep -m1 '"name"' "$dir/package.json" | sed 's/.*"name": *"\([^"]*\)".*/\1/')
-              echo "--filter=$NAME"
-            fi
-          done | tr '\n' ' ')
-          turbo run typecheck $FILTERS
-        fi
+          | sort -u \
+          | while read -r pkg; do
+              pnpm exec turbo run typecheck --filter="./$pkg"
+            done
 
     format:
       run: pnpm format

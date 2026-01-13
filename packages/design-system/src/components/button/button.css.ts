@@ -24,6 +24,18 @@ export const buttonVariant = recipe({
       },
     },
     color: {
+      kakao: {
+        backgroundColor: '#FEE500',
+        color: vars.colors.black,
+        fontSize: 16,
+        borderRadius: 12,
+      },
+      apple: {
+        backgroundColor: vars.colors.white,
+        color: vars.colors.black,
+        fontSize: 16,
+        borderRadius: 12,
+      },
       active: { backgroundColor: vars.colors.blue80, color: vars.colors.white },
       cancelled: { backgroundColor: 'transparent', color: vars.colors.gray60 },
       disabled: {
