@@ -9,8 +9,16 @@ export const storeQueries = {
   productsQuery: () =>
     queryOptions({
       queryKey: [...storeQueries.list()],
-      queryFn: () => getStoreProducts(),
-      select: () => {},
+      // queryFn: () => getStoreProducts(),
+      queryFn: () => {
+        return {
+          products: [
+            { id: 1, name: 'Product 1' },
+            { id: 2, name: 'Product 2' },
+          ],
+        };
+      },
+      select: (data) => data.products,
     }),
   // productDetailQuery: (id: string) =>
   //   queryOptions({
