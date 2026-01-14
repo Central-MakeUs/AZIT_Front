@@ -1,7 +1,7 @@
 import type { components, operations } from '@/shared/api/apiTypes';
 import type { ApiResponse } from '@/shared/api/baseTypes';
 
-export type Provider =
+export type AuthProvider =
   operations['socialLogin']['parameters']['path']['provider'];
 export type SocialLoginRequest = components['schemas']['SocialLoginRequest'];
 export type SocialLoginResult = components['schemas']['SocialLoginResponse'];
