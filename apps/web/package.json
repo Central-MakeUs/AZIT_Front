@@ -21,6 +21,7 @@
     "@vanilla-extract/css": "^1.18.0",
     "@vanilla-extract/vite-plugin": "^5.1.4",
     "@webview-bridge/web": "^1.7.8",
+    "ky": "^1.14.2",
     "react": "catalog:react19.1",
     "react-dom": "catalog:react19.1"
   },
