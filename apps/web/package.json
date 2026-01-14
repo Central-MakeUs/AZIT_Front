@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "generate:api-types": "pnpx dotenv-cli -e .env.local -- sh -c 'openapi-typescript \"$API_SWAGGER_URL\" -o src/shared/api/types.ts'"
+    "generate:api-types": "pnpx dotenv-cli -e .env.local -- sh -c 'openapi-typescript \"$API_SWAGGER_URL\" -o src/shared/api/apiTypes.ts'"
   },
   "dependencies": {
     "@azit/bridge": "workspace:*",
@@ -18,6 +18,8 @@
     "@stackflow/plugin-history-sync": "^1.8.1",
     "@stackflow/plugin-renderer-basic": "^1.1.13",
     "@stackflow/react": "^1.11.1",
+    "@tanstack/react-query": "^5.90.17",
+    "@tanstack/react-query-devtools": "^5.91.2",
     "@vanilla-extract/css": "^1.18.0",
     "@vanilla-extract/vite-plugin": "^5.1.4",
     "@webview-bridge/web": "^1.7.8",
