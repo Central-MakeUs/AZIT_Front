@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 interface AuthState {
-  accessToken: string | null;
-  setAccessToken: (token: string | null) => void;
+  accessToken?: string;
+  setAccessToken: (token: string | undefined) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  accessToken: null,
+  accessToken: undefined,
   setAccessToken: (accessToken) => set({ accessToken }),
 }));
