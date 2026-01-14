@@ -8,9 +8,11 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:api-types": "pnpx dotenv-cli -e .env.local -- sh -c 'openapi-typescript \"$API_SWAGGER_URL\" -o src/shared/api/types.ts'"
   },
   "dependencies": {
+    "@azit/bridge": "workspace:*",
     "@stackflow/core": "^1.3.0",
     "@stackflow/plugin-basic-ui": "^1.18.1",
     "@stackflow/plugin-history-sync": "^1.8.1",
@@ -18,10 +20,9 @@
     "@stackflow/react": "^1.11.1",
     "@vanilla-extract/css": "^1.18.0",
     "@vanilla-extract/vite-plugin": "^5.1.4",
+    "@webview-bridge/web": "^1.7.8",
     "react": "catalog:react19.1",
-    "react-dom": "catalog:react19.1",
-    "@azit/bridge": "workspace:*",
-    "@webview-bridge/web": "^1.7.8"
+    "react-dom": "catalog:react19.1"
   },
   "devDependencies": {
     "@azit/design-system": "workspace:*",
@@ -31,6 +32,8 @@
     "@types/react": "catalog:react19.1",
     "@types/react-dom": "catalog:react19.1",
     "@vitejs/plugin-react": "^5.1.1",
+    "dotenv-cli": "catalog:",
+    "openapi-typescript": "^7.10.1",
     "typescript": "catalog:",
     "vite": "^7.2.4"
   }
