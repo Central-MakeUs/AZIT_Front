@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "generate:api-types": "pnpx dotenv-cli -e .env.local -- sh -c 'openapi-typescript \"$API_SWAGGER_URL\" -o src/shared/api/apiTypes.ts'"
+    "generate:api-types": "pnpx dotenv-cli -e .env.local -- sh -c 'openapi-typescript \"$API_SWAGGER_URL\" -o src/shared/api/apiTypes.ts'",
+    "test": "vitest"
   },
   "dependencies": {
     "@azit/bridge": "workspace:*",
@@ -32,13 +33,16 @@
     "@azit/design-system": "workspace:*",
     "@azit/eslint": "workspace:*",
     "@azit/typescript": "workspace:*",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/node": "^24.10.1",
     "@types/react": "catalog:react19.1",
     "@types/react-dom": "catalog:react19.1",
     "@vitejs/plugin-react": "^5.1.1",
     "dotenv-cli": "catalog:",
+    "jsdom": "^27.4.0",
     "openapi-typescript": "^7.10.1",
     "typescript": "catalog:",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^4.0.16"
   }
 }
