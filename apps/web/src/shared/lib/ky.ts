@@ -46,13 +46,16 @@ export const api = ky.create({
             })
             .json<ReissueTokenResponse>();
 
-          const headers = new Headers(request.headers);
-          headers.set('Authorization', `Bearer ${accessToken}`);
+          if (accessToken) {
+            useAuthStore.getState().setAccessToken(accessToken);
 
-          return ky.retry({
-            request: new Request(request, { headers }),
-            code: 'TOKEN_REFRESHED',
-          });
+            return ky.retry({
+              request: new Request(request),
+              code: 'TOKEN_REFRESHED',
+            });
+          }
+
+          return response;
         }
       },
     ],
