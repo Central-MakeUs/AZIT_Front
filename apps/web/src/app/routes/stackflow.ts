@@ -16,6 +16,7 @@ export const { Stack, useFlow } = stackflow({
     basicRendererPlugin(),
     basicUIPlugin({
       theme: 'cupertino',
+      rootClassName: 'basic-ui-layout',
     }),
     historySyncPlugin({
       routes: routeMap,
