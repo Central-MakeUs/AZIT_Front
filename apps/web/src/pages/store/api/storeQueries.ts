@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
-import { getStoreProducts } from './getStoreProducts';
+// import { getStoreProducts } from './getStoreProducts';
 
 // query factory
 export const storeQueries = {
