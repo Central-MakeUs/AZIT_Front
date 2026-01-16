@@ -1,4 +1,4 @@
-import { api } from '@/shared/lib/ky';
+import { api } from '@/shared/api/apiClient';
 
 import type {
   AuthProvider,

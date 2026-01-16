@@ -1,7 +1,7 @@
 import ky from 'ky';
-import { useAuthStore } from './zustand';
-import type { components } from '../api/apiTypes';
-import type { ApiResponse } from '../api/baseTypes';
+import { useAuthStore } from '../lib/zustand';
+import type { components } from './apiTypes';
+import type { ApiResponse } from './baseTypes';
 
 type ReissueTokenResult = components['schemas']['SocialLoginResponse'];
 type ReissueTokenResponse = ApiResponse<ReissueTokenResult>;
