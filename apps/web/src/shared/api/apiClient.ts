@@ -1,5 +1,5 @@
 import ky from 'ky';
-import { useAuthStore } from '../lib/zustand';
+import { useAuthStore } from '../store/auth';
 import type { components } from './apiTypes';
 import type { ApiResponse } from './baseTypes';
 
