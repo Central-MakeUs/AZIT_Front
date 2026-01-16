@@ -1,5 +1,5 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { storeQueries } from '../api/storeQueries';
+import { storeQueries } from '@/shared/api/queries';
 import { useQuery } from '@tanstack/react-query';
 
 export function StorePage() {
