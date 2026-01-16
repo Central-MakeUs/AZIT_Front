@@ -2,12 +2,13 @@ import ky from 'ky';
 import { useAuthStore } from '../store/auth';
 import type { components } from './apiTypes';
 import type { ApiResponse } from './baseTypes';
+import { BASE_API_URL } from '../config/url';
 
 type ReissueTokenResult = components['schemas']['SocialLoginResponse'];
 type ReissueTokenResponse = ApiResponse<ReissueTokenResult>;
 
 export const api = ky.create({
-  prefixUrl: import.meta.env.VITE_API_URL,
+  prefixUrl: BASE_API_URL,
   credentials: 'include',
   // Default Options
   headers: {
@@ -41,7 +42,7 @@ export const api = ky.create({
           const {
             result: { accessToken },
           } = await ky
-            .post(`${import.meta.env.VITE_API_URL}/auth/reissue`, {
+            .post(`${BASE_API_URL}/auth/reissue`, {
               credentials: 'include',
             })
             .json<ReissueTokenResponse>();
