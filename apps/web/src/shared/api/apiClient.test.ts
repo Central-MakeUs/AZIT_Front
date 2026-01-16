@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { api } from './ky';
-import { useAuthStore } from './zustand';
+import { api } from './apiClient';
+import { useAuthStore } from '../lib/zustand';
 
 describe('shared/lib/ky', () => {
   beforeEach(() => {
