@@ -4,11 +4,11 @@ import { queryOptions } from '@tanstack/react-query';
 // query factory
 export const storeQueries = {
   all: ['products'] as const,
-  list: () => [...storeQueries.all, 'list'] as const,
-  detail: () => [...storeQueries.all, 'detail'] as const,
+  listKey: () => [...storeQueries.all, 'list'] as const,
+  detailKey: () => [...storeQueries.all, 'detail'] as const,
   productsQuery: () =>
     queryOptions({
-      queryKey: [...storeQueries.list()],
+      queryKey: [...storeQueries.listKey()],
       // queryFn: () => getStoreProducts(),
       queryFn: () => {
         return {
@@ -22,7 +22,7 @@ export const storeQueries = {
     }),
   // productDetailQuery: (id: string) =>
   //   queryOptions({
-  //     queryKey: [...storeQueries.detail(), id],
+  //     queryKey: [...storeQueries.detailKey(), id],
   //     queryFn: () => getStoreProductDetail(id),
   //     select: () => {},
   //   }),
