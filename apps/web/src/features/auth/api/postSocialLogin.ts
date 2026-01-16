@@ -1,18 +1,19 @@
 import { api } from '@/shared/api/apiClient';
 
 import type {
-  AuthProvider,
-  SocialLoginRequest,
-  SocialLoginApiResponse,
+  AuthProviderType,
+  SocialLoginRequestType,
+  SocialLoginResponseType,
 } from './authTypes';
+import { END_POINT } from '@/shared/config/endpoint';
 
 export const postSocialLogin = async (
-  provider: AuthProvider,
-  request: SocialLoginRequest
-): Promise<SocialLoginApiResponse> => {
+  provider: AuthProviderType,
+  request: SocialLoginRequestType
+): Promise<SocialLoginResponseType> => {
   const response = await api
-    .post(`/api/v1/auth/social-login/${provider}`, { json: request })
-    .json<SocialLoginApiResponse>();
+    .post(`${END_POINT.AUTH.SOCIAL_LOGIN(provider)}`, { json: request })
+    .json<SocialLoginResponseType>();
 
   return response;
 };

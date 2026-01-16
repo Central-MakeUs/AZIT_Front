@@ -1,11 +1,11 @@
 import ky from 'ky';
 import { useAuthStore } from '../store/auth';
-import type { components } from './apiTypes';
 import type { ApiResponse } from './baseTypes';
 import { BASE_API_URL } from '../config/url';
+import type { ReissueTokenResult } from './models';
+import { END_POINT } from '../config/endpoint';
 
-type ReissueTokenResult = components['schemas']['SocialLoginResponse'];
-type ReissueTokenResponse = ApiResponse<ReissueTokenResult>;
+type ReissueTokenResponseType = ApiResponse<ReissueTokenResult>;
 
 export const api = ky.create({
   prefixUrl: BASE_API_URL,
@@ -42,10 +42,10 @@ export const api = ky.create({
           const {
             result: { accessToken },
           } = await ky
-            .post(`${BASE_API_URL}/auth/reissue`, {
+            .post(`${BASE_API_URL}${END_POINT.AUTH.REISSUE_TOKEN}`, {
               credentials: 'include',
             })
-            .json<ReissueTokenResponse>();
+            .json<ReissueTokenResponseType>();
 
           if (accessToken) {
             useAuthStore.getState().setAccessToken(accessToken);
