@@ -38,6 +38,7 @@
     "@types/react": "catalog:react19.1",
     "@types/react-dom": "catalog:react19.1",
     "@vitejs/plugin-react": "^5.1.1",
+    "clsx": "^2.1.1",
     "dotenv-cli": "catalog:",
     "jsdom": "^27.4.0",
     "openapi-typescript": "^7.10.1",
