@@ -8,13 +8,7 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   right?: ReactNode;
 }
 
-export default function Header({
-  width,
-  left,
-  center,
-  right,
-  ...props
-}: HeaderProps) {
+export function Header({ width, left, center, right, ...props }: HeaderProps) {
   return (
     <header className={header} style={width ? { width } : undefined} {...props}>
       <div className={headerLeft}>{left}</div>
