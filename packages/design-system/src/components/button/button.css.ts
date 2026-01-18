@@ -1,3 +1,4 @@
+import { typography } from '../../shared/styles';
 import { vars } from '../../shared/styles/theme.css';
 import { recipe } from '@vanilla-extract/recipes';
 
@@ -17,11 +18,12 @@ export const buttonVariant = recipe({
   },
   variants: {
     size: {
-      large: {
-        height: 54,
-        fontFamily: vars.typography.fontFamily.primary,
-        ...vars.typography.body.b1,
-      },
+      large: [
+        typography.body.b1,
+        {
+          height: 54,
+        },
+      ],
     },
     color: {
       kakao: {

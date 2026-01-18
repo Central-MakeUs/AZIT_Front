@@ -6,4 +6,4 @@ export * from './components/header/Header';
 export * from './components/input/Input';
 export * from './components/icon';
 
-export { vars } from './shared/styles/theme.css';
+export * from './shared/styles';
