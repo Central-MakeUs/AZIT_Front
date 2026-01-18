@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
 import { clsx } from 'clsx';
 import { CheckIcon } from '../icon';
-import { checkboxRoot, checkboxIndicator } from './checkbox.css';
+import { checkboxRoot, checkboxIndicator } from './Checkbox.css';
 
 export interface CheckboxProps extends ComponentPropsWithoutRef<
   typeof CheckboxPrimitive.Root
