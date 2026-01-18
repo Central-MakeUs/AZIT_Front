@@ -6,7 +6,7 @@ export interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
   children: ReactNode;
 }
 
-export default function Chip({ type, children, ...props }: ChipProps) {
+export function Chip({ type, children, ...props }: ChipProps) {
   return (
     <span className={chipVariant({ type })} {...props}>
       {children}
