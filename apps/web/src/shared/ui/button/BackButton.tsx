@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from '@azit/design-system';
-import * as styles from './backButton.css';
+import * as styles from './BackButton.css';
 import { useFlow } from '@/app/routes/stackflow';
 
 interface BackButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

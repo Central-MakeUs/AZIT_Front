@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Input } from './Input';
 import { SearchIcon } from '../icon';
-import { iconColor } from '../icon/icon.css';
+import { iconColor } from '../icon/Icon.css';
 
 const meta = {
   title: 'Components/Input',

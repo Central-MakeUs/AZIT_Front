@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import { chipVariant, type ChipType } from './chip.css';
+import { chipVariant, type ChipType } from './Chip.css';
 
 export interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
   type?: ChipType;

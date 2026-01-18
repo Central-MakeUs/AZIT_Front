@@ -1,6 +1,6 @@
 import { type HeaderProps, Header } from '@azit/design-system';
 import { clsx } from 'clsx';
-import * as styles from './topHeader.css';
+import * as styles from './TopHeader.css';
 
 interface TopHeaderProps extends HeaderProps {
   className?: string;

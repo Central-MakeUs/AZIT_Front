@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
-import { inputContainer, input, iconSlot, type InputState } from './input.css';
+import { inputContainer, input, iconSlot, type InputState } from './Input.css';
 import { clsx } from 'clsx';
 
 export interface InputProps extends Omit<

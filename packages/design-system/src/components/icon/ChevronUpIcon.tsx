@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { Ref } from 'react';
 import { clsx } from 'clsx';
-import { iconVariant } from './icon.css';
+import { iconVariant } from './Icon.css';
 import type { IconProps } from './types';
 
 function ChevronUpIcon(
