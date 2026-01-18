@@ -1,4 +1,4 @@
-import { vars } from '../../shared/config/vars.css';
+import { vars } from '../../shared/styles/theme.css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export type ChipVariants = NonNullable<Parameters<typeof chipVariant>[0]>;

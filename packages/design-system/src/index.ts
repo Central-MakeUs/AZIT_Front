@@ -6,5 +6,4 @@ export * from './components/header/Header';
 export * from './components/input/Input';
 export * from './components/icon';
 
-export { vars } from './shared/config/vars.css';
-import './shared/styles/fonts.css';
+export { vars } from './shared/styles/theme.css';
