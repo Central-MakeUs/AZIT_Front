@@ -1,4 +1,4 @@
-import { vars } from '../../shared/config/vars.css';
+import { vars } from '../../shared/styles/theme.css';
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 

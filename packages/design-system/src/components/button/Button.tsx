@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { buttonVariant, type ButtonSize, type ButtonColor } from './button.css';
+import clsx from 'clsx';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: string;
@@ -16,12 +17,13 @@ export function Button({
   children,
   type = 'button',
   onClick,
+  className,
   ...props
 }: ButtonProps) {
   return (
     <button
       type={type}
-      className={buttonVariant({ size, color })}
+      className={clsx(buttonVariant({ size, color }), className)}
       style={width ? { width } : undefined}
       onClick={onClick}
       {...props}

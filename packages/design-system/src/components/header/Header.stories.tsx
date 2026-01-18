@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import logo from '../../shared/assets/logo.svg';
 import { BellIcon, ChevronLeftIcon } from '../icon';
 
-import Header from './Header';
+import { Header } from './Header';
 
 const meta = {
   title: 'Components/Header',
