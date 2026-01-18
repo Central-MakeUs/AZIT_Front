@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '../../shared/config/vars.css';
+import { vars } from '../../shared/styles/theme.css';
 
 export const header = style({
   padding: 10,
@@ -10,6 +10,7 @@ export const header = style({
   display: 'grid',
   width: '100%',
   gridTemplateColumns: '1fr 3fr 1fr',
+  backgroundColor: vars.colors.background,
 });
 
 export const headerLeft = style({
