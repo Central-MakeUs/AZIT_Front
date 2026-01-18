@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '../../shared/styles/theme.css';
+import { typography } from '../../shared/styles';
 
 export const header = style({
   padding: 10,
@@ -20,13 +21,15 @@ export const headerLeft = style({
   flexWrap: 'nowrap',
 });
 
-export const headerCenter = style({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  ...vars.typography.body.b1,
-  flexWrap: 'nowrap',
-});
+export const headerCenter = style([
+  typography.body.b1,
+  {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'nowrap',
+  },
+]);
 
 export const headerRight = style({
   display: 'flex',
