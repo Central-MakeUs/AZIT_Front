@@ -1,0 +1,90 @@
+---
+alwaysApply: true
+---
+
+# Feature-Sliced Design (FSD) Project Rules
+
+## 1. Layer Hierarchy & Reference Rules
+- **Hierarchy Order (Top to Bottom)**: `app` > `pages` > `widgets` > `features` > `shared`
+- **Directional Constraint**: Layers can only import from **lower layers**. 
+- **Strict Prohibition**: 
+  - Never import from a higher layer (e.g., `features` cannot import from `pages` or `widgets`).
+  - **No Entities Layer**: Implementation logic should be placed in `features` to minimize boilerplate and cross-referencing risks.
+
+---
+
+## 2. Placement Decision Guide
+
+### **Shared** (Low-level Foundation)
+- **Purpose**: Pure common modules without business logic.
+- **Segments**:
+  - `ui/`: Reusable UI atoms (Design System, No business logic).
+  - `lib/`: Subject-specific utilities (e.g., `date.ts`, `colors.ts`).
+  - `api/`, `config/`, `mock/`, `routes/` (constants).
+
+### **Features** (User Actions & Business Logic)
+- **Purpose**: Concrete user functionalities and stateful logic.
+- **Criteria**: Use for **CRD (Create, Update, Delete)** operations and their associated UI.
+- **Segments**: Feature-specific UI, model (hooks), and API functions/types.
+
+### **Widgets** (Composition Blocks)
+- **Purpose**: Reusable UI blocks composed of multiple features.
+- **Rule**: **Data rendering only.**
+- **Constraint**: Must not contain API request logic; receives data via props or from the page level.
+
+### **Pages** (Screens/Activities)
+- **Purpose**: Specific route screens or activities.
+- **Criteria**: Use for **Simple Read (Fetch) APIs**.
+- **Rule**: Orchestrates data fetching and composes features/widgets. Non-reusable UI stays here.
+
+### **App** (Global Setup)
+- **Contents**: Routing config (`stackflow`), global styles, providers, and entry point (`main.tsx`).
+
+---
+
+## 3. Layer Roles
+
+| Situation | Target Layer | Logic Type |
+| :--- | :--- | :--- |
+| Simple Data Fetching (Read) | `pages/` | Data Orchestration |
+| Data Mutation (Create/Update/Delete) | `features/` | Business Logic |
+| Logic-heavy UI Components | `features/` | Functional UI |
+| Reusable Multi-feature Blocks | `widgets/` | Composition UI |
+| Logic-less Reusable UI (Atoms) | `shared/ui/` | Design System |
+| Domain-specific Utilities | `shared/lib/` | Utilities |
+
+---
+
+## 4. Directory Structure Reference
+
+```
+src/
+├── app/          # Routing (stackflow), Providers, Global Styles
+├── pages/        # Screen Components, Page Styles, Read APIs
+├── widgets/      # Composition UI (No Direct API calls)
+├── features/     # Logic, Hooks (model), CRD APIs, Feature UI
+└── shared/       # Common Utils, UI Atoms, Mock, Config
+```
+
+## 5. UI Segment Folder Structure
+
+- ui folder structure
+  ```
+  pages/
+  ├─ styles/
+  │   └─ CartPage.css.ts
+  └─ ui/
+      └─ CartPage.tsx
+        
+  features/
+  ├─ styles/
+  │   ├─ CartBrandSection.css.ts
+  │   ├─ CartSelectionBar.css.ts
+  │   ├─ CartSummary.css.ts
+  │   └─ CartItem.css.ts
+  └─ ui/
+      ├─ CartBrandSection.tsx
+      ├─ CartSelectionBar.tsx
+      ├─ CartSummary.tsx
+      └─ CartItem.tsx
+  ```
