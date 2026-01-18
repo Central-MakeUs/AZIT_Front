@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { buttonVariant, type ButtonSize, type ButtonColor } from './button.css';
+import { buttonVariant, type ButtonSize, type ButtonColor } from './Button.css';
 import clsx from 'clsx';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

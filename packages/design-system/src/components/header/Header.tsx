@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import { header, headerCenter, headerLeft, headerRight } from './header.css';
+import { header, headerCenter, headerLeft, headerRight } from './Header.css';
 
 export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   width?: string;
