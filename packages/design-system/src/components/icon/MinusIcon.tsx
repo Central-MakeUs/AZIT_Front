@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { iconVariant } from './icon.css';
 import type { IconProps } from './types';
 
-function ChevronLeftIcon(
+function MinusIcon(
   { size = 24, color, className, ...props }: IconProps,
   ref: Ref<SVGSVGElement>
 ) {
@@ -20,7 +20,7 @@ function ChevronLeftIcon(
       {...props}
     >
       <path
-        d="M15 18L9 12L15 6"
+        d="M5 12H19"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
@@ -30,5 +30,5 @@ function ChevronLeftIcon(
   );
 }
 
-const ForwardRef = forwardRef(ChevronLeftIcon);
+const ForwardRef = forwardRef(MinusIcon);
 export default ForwardRef;
