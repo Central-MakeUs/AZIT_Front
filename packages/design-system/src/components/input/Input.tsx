@@ -10,7 +10,7 @@ export interface InputProps extends Omit<
   icon?: ReactNode;
 }
 
-export default function Input({
+export function Input({
   state = 'default',
   icon,
   type = 'text',
