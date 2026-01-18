@@ -1,6 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button, vars } from '@azit/design-system';
-import * as styles from '../styles/loginPage.css';
+import * as styles from '../styles/LoginPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 
 export function LoginPage() {
