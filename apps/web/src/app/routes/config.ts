@@ -1,6 +1,7 @@
 import type { RouteConfig } from './types';
 import { LoginPage } from '@/pages/auth/ui/LoginPage';
 import { HomePage } from '@/pages/home/ui/HomePage';
+import { StorePage } from '@/pages/store/ui/StorePage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
 
 export const routes = [
@@ -14,6 +15,12 @@ export const routes = [
     name: 'HomePage',
     path: '/',
     element: HomePage,
+    withAuth: true,
+  },
+  {
+    name: 'StorePage',
+    path: '/store',
+    element: StorePage,
     withAuth: true,
   },
   {
