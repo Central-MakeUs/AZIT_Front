@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: string;
   size?: ButtonSize;
-  color?: ButtonColor;
+  state?: ButtonColor;
   children: ReactNode;
   onClick?: () => void;
 }
@@ -13,7 +13,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({
   width,
   size,
-  color,
+  state,
   children,
   type = 'button',
   onClick,
@@ -23,7 +23,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={clsx(buttonVariant({ size, color }), className)}
+      className={clsx(buttonVariant({ size, state }), className)}
       style={width ? { width } : undefined}
       onClick={onClick}
       {...props}
