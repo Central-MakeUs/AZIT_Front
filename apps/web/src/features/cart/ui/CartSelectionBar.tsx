@@ -39,7 +39,6 @@ export function CartSelectionBar({
           선택삭제
         </button>
       </div>
-      <div className={styles.divider} />
     </>
   );
 }

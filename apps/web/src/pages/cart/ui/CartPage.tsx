@@ -8,7 +8,7 @@ import {
   CartSelectionBar,
   CartBrandSection,
   CartSummary,
-  CartEmptyState,
+  CartEmpty,
 } from '@/features/cart/ui';
 import { mockCartDataWithSoldout, type CartBrand } from '@/shared/mock/cart';
 import * as styles from '../styles/CartPage.css';
@@ -145,7 +145,7 @@ export function CartPage() {
         <TopHeader left={<BackButton />} center="장바구니" />
         <div className={styles.pageContainer}>
           {isEmpty ? (
-            <CartEmptyState />
+            <CartEmpty />
           ) : (
             <>
               <div className={styles.contentWrapper}>
@@ -156,6 +156,7 @@ export function CartPage() {
                   onSelectAll={handleSelectAll}
                   onDeleteSelected={handleDeleteSelected}
                 />
+                <div className={styles.divider} />
                 <div className={styles.brandListWrapper}>
                   {cartData.map((brand, index) => (
                     <div key={brand.id}>
@@ -168,12 +169,12 @@ export function CartPage() {
                         onDeleteItem={handleDeleteItem}
                       />
                       {index < cartData.length - 1 && (
-                        <div className={styles.brandListDivider} />
+                        <div className={styles.divider} />
                       )}
                     </div>
                   ))}
                 </div>
-                <div className={styles.brandListDivider} />
+                <div className={styles.divider} />
                 <div className={styles.summaryWrapper}>
                   <CartSummary
                     totalProductPrice={totalProductPrice}
@@ -186,7 +187,7 @@ export function CartPage() {
               <div className={styles.footerWrapper}>
                 <Button
                   className={styles.ctaButton}
-                  color={hasSelectedItems ? 'active' : 'disabled'}
+                  state={hasSelectedItems ? 'active' : 'disabled'}
                   disabled={!hasSelectedItems}
                 >
                   {hasSelectedItems
