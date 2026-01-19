@@ -4,7 +4,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 export type ButtonVariants = NonNullable<Parameters<typeof buttonVariant>[0]>;
 export type ButtonSize = ButtonVariants['size'];
-export type ButtonColor = ButtonVariants['color'];
+export type ButtonColor = ButtonVariants['state'];
 
 export const buttonVariant = recipe({
   base: {
@@ -25,7 +25,7 @@ export const buttonVariant = recipe({
         },
       ],
     },
-    color: {
+    state: {
       kakao: {
         backgroundColor: '#FEE500',
         color: vars.colors.black,
@@ -39,7 +39,11 @@ export const buttonVariant = recipe({
         borderRadius: 12,
       },
       active: { backgroundColor: vars.colors.blue80, color: vars.colors.white },
-      cancelled: { backgroundColor: 'transparent', color: vars.colors.gray60 },
+      cancelled: {
+        backgroundColor: vars.colors.white,
+        color: vars.colors.blue80,
+        border: `1px solid ${vars.colors.blue80}`,
+      },
       disabled: {
         backgroundColor: vars.colors.gray10,
         color: vars.colors.gray50,
@@ -48,6 +52,6 @@ export const buttonVariant = recipe({
   },
   defaultVariants: {
     size: 'large',
-    color: 'active',
+    state: 'active',
   },
 });

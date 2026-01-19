@@ -15,7 +15,7 @@ const meta = {
       control: 'check',
       options: ['large'],
     },
-    color: {
+    state: {
       control: 'select',
       options: ['active', 'disabled', 'cancelled'],
     },
@@ -36,7 +36,7 @@ export const Active: Story = {
 export const Disabled: Story = {
   args: {
     width: '375px',
-    color: 'disabled',
+    state: 'disabled',
     children: '신청하기',
   },
 };
@@ -44,7 +44,7 @@ export const Disabled: Story = {
 export const Cancelled: Story = {
   args: {
     width: '375px',
-    color: 'cancelled',
+    state: 'cancelled',
     children: '신청하기',
   },
 };
