@@ -1,5 +1,5 @@
 import { recipe } from '@vanilla-extract/recipes';
-import { vars } from '../../shared/config/vars.css';
+import { vars } from '../../shared/styles/theme.css';
 import { createVar, style } from '@vanilla-extract/css';
 
 export type IconColor = NonNullable<Parameters<typeof iconVariant>[0]>['color'];
