@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import logo from '../../shared/assets/logo.svg';
 import { BellIcon, ChevronLeftIcon } from '../icon';
 
-import Header from './Header';
+import { Header } from './Header';
 
 const meta = {
   title: 'Components/Header',
@@ -20,6 +20,10 @@ const meta = {
     },
     right: {
       control: false,
+    },
+    sticky: {
+      control: 'boolean',
+      defaultValue: false,
     },
   },
 } satisfies Meta<typeof Header>;
@@ -47,5 +51,14 @@ export const Detail: Story = {
     width: '375px',
     left: <ChevronLeftIcon />,
     center: <span>주문/결제</span>,
+  },
+};
+
+export const Sticky: Story = {
+  args: {
+    width: '375px',
+    left: <ChevronLeftIcon />,
+    center: <span>주문/결제</span>,
+    sticky: true,
   },
 };

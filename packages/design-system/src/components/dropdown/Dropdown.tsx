@@ -1,7 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 import { forwardRef, useId } from 'react';
-import * as styles from './dropdown.css';
+import * as styles from './Dropdown.css';
 import { ChevronDownIcon, CheckIcon } from './icon';
 import { useDropdown } from './model/useDropdown';
 import type { DropdownOption } from './model/types';
@@ -125,4 +125,4 @@ const Dropdown = forwardRef<
 
 Dropdown.displayName = 'Dropdown';
 
-export default Dropdown;
+export { Dropdown };

@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { Ref } from 'react';
 import { clsx } from 'clsx';
-import { iconVariant } from './icon.css';
+import { iconVariant } from './Icon.css';
 import type { IconProps } from './types';
 
 function ChevronLeftIcon(
@@ -10,7 +10,7 @@ function ChevronLeftIcon(
 ) {
   return (
     <svg
-      viewBox="0 0 8 14"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width={size}
@@ -20,7 +20,7 @@ function ChevronLeftIcon(
       {...props}
     >
       <path
-        d="M7 13L1 7L7 1"
+        d="M15 18L9 12L15 6"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
