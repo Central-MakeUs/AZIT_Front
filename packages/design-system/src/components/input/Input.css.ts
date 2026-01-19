@@ -1,6 +1,7 @@
-import { vars } from '../../shared/config/vars.css';
+import { vars } from '../../shared/styles/theme.css';
 import { recipe } from '@vanilla-extract/recipes';
 import { style, globalStyle } from '@vanilla-extract/css';
+import { typography } from '../../shared/styles';
 
 export type InputVariants = NonNullable<Parameters<typeof inputContainer>[0]>;
 export type InputState = InputVariants['state'];
@@ -31,28 +32,30 @@ export const inputContainer = recipe({
   },
 });
 
-export const input = style({
-  flexGrow: 1,
-  width: '100%',
-  border: 'none',
-  backgroundColor: vars.colors.white,
-  ...vars.typography.body.b2,
-  color: vars.colors.black,
-  outline: 'none',
-  selectors: {
-    '&::placeholder': {
-      color: vars.colors.gray30,
-    },
-    '&:disabled': {
-      backgroundColor: 'inherit',
-      color: 'inherit',
-      cursor: 'not-allowed',
-    },
-    '&[type="number"]': {
-      MozAppearance: 'textfield',
+export const input = style([
+  typography.body.b2,
+  {
+    flexGrow: 1,
+    width: '100%',
+    border: 'none',
+    backgroundColor: vars.colors.white,
+    color: vars.colors.black,
+    outline: 'none',
+    selectors: {
+      '&::placeholder': {
+        color: vars.colors.gray30,
+      },
+      '&:disabled': {
+        backgroundColor: 'inherit',
+        color: 'inherit',
+        cursor: 'not-allowed',
+      },
+      '&[type="number"]': {
+        MozAppearance: 'textfield',
+      },
     },
   },
-});
+]);
 
 globalStyle(`${input}[type="number"]::-webkit-inner-spin-button`, {
   WebkitAppearance: 'none',

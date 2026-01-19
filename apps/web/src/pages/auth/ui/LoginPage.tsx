@@ -1,6 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button, vars } from '@azit/design-system';
-import * as styles from '../styles/loginPage.css';
+import * as styles from '../styles/LoginPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 
 export function LoginPage() {
@@ -33,7 +33,7 @@ export function LoginPage() {
 
 function KakaoLogin({ onClick }: { onClick: () => void }) {
   return (
-    <Button color="kakao" onClick={onClick}>
+    <Button state="kakao" onClick={onClick}>
       <div className={styles.textWrapper}>
         <img
           className={styles.kakaoIcon}
@@ -54,7 +54,7 @@ function AppleLogin({ onClick }: { onClick: () => void }) {
   }
 
   return (
-    <Button color="apple" onClick={onClick}>
+    <Button state="apple" onClick={onClick}>
       <div className={styles.textWrapper}>
         <img src="/icons/icon-apple.svg" alt="apple" />
         <span>애플로 로그인</span>

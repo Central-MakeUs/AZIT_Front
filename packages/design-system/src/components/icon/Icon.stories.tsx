@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import BellIconComponent from './BellIcon';
 import {
   AddImageIcon,
   BankNoteIcon,
@@ -18,6 +17,7 @@ import {
   HomeIcon,
   MarkerPin04Icon,
   MarkerPinIcon,
+  MinusIcon,
   PlusIcon,
   SearchIcon,
   ShareIcon,
@@ -32,7 +32,7 @@ import {
 
 const meta = {
   title: 'Components/Icon',
-  component: BellIconComponent,
+  component: BellIcon,
   parameters: {
     layout: 'centered',
   },
@@ -46,7 +46,7 @@ const meta = {
       control: 'number',
     },
   },
-} satisfies Meta<typeof BellIconComponent>;
+} satisfies Meta<typeof BellIcon>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -90,6 +90,7 @@ const iconComponents = [
   { name: 'HomeIcon', component: HomeIcon },
   { name: 'MarkerPin04Icon', component: MarkerPin04Icon },
   { name: 'MarkerPinIcon', component: MarkerPinIcon },
+  { name: 'MinusIcon', component: MinusIcon },
   { name: 'PlusIcon', component: PlusIcon },
   { name: 'SearchIcon', component: SearchIcon },
   { name: 'ShareIcon', component: ShareIcon },

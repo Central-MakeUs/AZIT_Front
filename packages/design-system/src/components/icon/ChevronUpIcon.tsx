@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { Ref } from 'react';
 import { clsx } from 'clsx';
-import { iconVariant } from './icon.css';
+import { iconVariant } from './Icon.css';
 import type { IconProps } from './types';
 
 function ChevronUpIcon(
@@ -10,7 +10,7 @@ function ChevronUpIcon(
 ) {
   return (
     <svg
-      viewBox="0 0 14 8"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width={size}
@@ -20,7 +20,7 @@ function ChevronUpIcon(
       {...props}
     >
       <path
-        d="M13 7L7 1L1 7"
+        d="M18 15L12 9L6 15"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"

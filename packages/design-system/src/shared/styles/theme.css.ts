@@ -22,7 +22,7 @@ export const vars = createGlobalTheme(':root', {
     blue80: '#0044AB',
     blue90: '#003483',
     blue100: '#00245A',
-    background: '#F9FAFB',
+    background: '#FFFFFF',
     secondary: '#D1F801',
     white: '#FFFFFF',
     black: '#000000',

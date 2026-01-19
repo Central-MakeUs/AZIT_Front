@@ -1,5 +1,5 @@
 import { container } from '@/shared/styles/container.css';
-import { vars } from '@azit/design-system';
+import { typography, vars } from '@azit/design-system';
 import { composeStyles, style } from '@vanilla-extract/css';
 
 export const loginContainer = composeStyles(
@@ -31,10 +31,12 @@ export const title = style({
   letterSpacing: '2.5px',
 });
 
-export const description = style({
-  ...vars.typography.body.b2,
-  color: vars.colors.white,
-});
+export const description = style([
+  typography.body.b2,
+  {
+    color: vars.colors.white,
+  },
+]);
 
 export const buttonWrapper = style({
   position: 'absolute',
