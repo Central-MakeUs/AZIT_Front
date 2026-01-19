@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { QuantitySelector } from './QuantitySelector';
 import type { CartItem as CartItemType } from '@/shared/mock/cart';
 import * as styles from '../styles/CartItem.css';
+import { formatPrice } from '@/shared/lib/formatters';
 
 interface CartItemProps {
   item: CartItemType;
@@ -10,10 +11,6 @@ interface CartItemProps {
   onSelectChange: (checked: boolean) => void;
   onQuantityChange: (quantity: number) => void;
   onDelete: () => void;
-}
-
-function formatPrice(price: number): string {
-  return `${price.toLocaleString('ko-KR')}원`;
 }
 
 export function CartItem({

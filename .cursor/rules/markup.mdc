@@ -39,7 +39,7 @@ alwaysApply: true
 - **iPhone `Home Indicator`와 `Status bar` 컴포넌트는 페이지 레이아웃에 포함하지 않는다.(필수)**
 - 하나의 페이지에는 하나의 AppLayout만 존재한다.
 - AppScreen - AppLayout 컴포넌트 계층 구조를 준수한다.
-  - 페이지에 `Header` 컴포넌트가 존재하면 단일 `<AppLayout>`+ `<TopHeader />` + PageContent 구조를 따른다.
+  - 페이지에 `Header` 컴포넌트가 존재하면 단일 `<AppLayout>`+ `<Header />` + PageContent 구조를 따른다.
   - **페이지 레이아웃 코드 (필수)**를 참고한다.
   - 페이지 레이아웃 코드
 
@@ -48,7 +48,7 @@ alwaysApply: true
     return (
       <AppScreen>
         <AppLayout>
-          <TopHeader />
+          <Header sticky />
           // Children: PageContent
         </AppLayout>
       </AppScreen>

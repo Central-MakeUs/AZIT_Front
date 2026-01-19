@@ -21,6 +21,10 @@ const meta = {
     right: {
       control: false,
     },
+    sticky: {
+      control: 'boolean',
+      defaultValue: false,
+    },
   },
 } satisfies Meta<typeof Header>;
 
@@ -47,5 +51,14 @@ export const Detail: Story = {
     width: '375px',
     left: <ChevronLeftIcon />,
     center: <span>주문/결제</span>,
+  },
+};
+
+export const Sticky: Story = {
+  args: {
+    width: '375px',
+    left: <ChevronLeftIcon />,
+    center: <span>주문/결제</span>,
+    sticky: true,
   },
 };
