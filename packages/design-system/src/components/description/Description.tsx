@@ -1,20 +1,14 @@
 import * as styles from './Description.css';
 import clsx from 'clsx';
 
-interface DescriptionProps {
+type DescriptionBaseProps = {
   children: React.ReactNode;
   className?: string;
-}
+};
 
-interface DescriptionLabelProps {
-  children: React.ReactNode;
-  className: string;
-}
-
-interface DescriptionValueProps {
-  children: React.ReactNode;
-  className: string;
-}
+type DescriptionProps = DescriptionBaseProps & {};
+type DescriptionLabelProps = DescriptionBaseProps & {};
+type DescriptionValueProps = DescriptionBaseProps & {};
 
 function Description({ children, className }: DescriptionProps) {
   return (
