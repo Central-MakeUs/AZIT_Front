@@ -3,3 +3,4 @@ export { CartItem } from './CartItem';
 export { CartSelectionBar } from './CartSelectionBar';
 export { CartSummary } from './CartSummary';
 export { QuantitySelector } from './QuantitySelector';
+export { CartEmpty } from './CartEmpty';

@@ -6,7 +6,7 @@ export const container = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  padding: '12px 20px 0',
+  padding: '12px 20px',
 });
 
 export const leftSection = style({
