@@ -1,8 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button } from '@azit/design-system';
+import { Button, Header } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
-import { TopHeader } from '@/shared/ui/header';
 import { BackButton } from '@/shared/ui/button';
 import {
   CartSelectionBar,
@@ -12,12 +11,9 @@ import {
 } from '@/features/cart/ui';
 import { mockCartDataWithSoldout, type CartBrand } from '@/shared/mock/cart';
 import * as styles from '../styles/CartPage.css';
+import { formatPrice } from '@/shared/lib/formatters';
 
 const MEMBERSHIP_DISCOUNT_RATE = 0.1;
-
-function formatPrice(price: number): string {
-  return `${price.toLocaleString('ko-KR')}원`;
-}
 
 export function CartPage() {
   const [cartData, setCartData] = useState<CartBrand[]>(
@@ -142,7 +138,7 @@ export function CartPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <TopHeader left={<BackButton />} center="장바구니" />
+        <Header sticky left={<BackButton />} center="장바구니" />
         <div className={styles.pageContainer}>
           {isEmpty ? (
             <CartEmpty />

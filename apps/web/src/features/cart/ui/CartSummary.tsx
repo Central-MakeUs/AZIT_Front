@@ -1,3 +1,4 @@
+import { formatPrice } from '@/shared/lib/formatters';
 import * as styles from '../styles/CartSummary.css';
 import { Description } from '@/shared/ui/description';
 
@@ -8,13 +9,9 @@ interface CartSummaryProps {
   totalPayment: number;
 }
 
-function formatPrice(price: number): string {
-  return `${price.toLocaleString('ko-KR')}원`;
-}
-
 function formatDiscount(price: number): string {
   if (price === 0) return '0원';
-  return `-${price.toLocaleString('ko-KR')}원`;
+  return `-${formatPrice(price)}`;
 }
 
 export function CartSummary({
