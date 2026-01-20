@@ -1,9 +1,9 @@
 import ky from 'ky';
 import { useAuthStore } from '../store/auth';
 import type { ApiResponse } from './baseTypes';
-import { BASE_API_URL } from '../config/url';
+import { BASE_API_URL } from '../constants/url';
 import type { ReissueTokenResult } from './models';
-import { END_POINT } from '../config/endpoint';
+import { END_POINT } from '../constants/endpoint';
 
 type ReissueTokenResponseType = ApiResponse<ReissueTokenResult>;
 

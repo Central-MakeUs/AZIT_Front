@@ -5,7 +5,7 @@ import type {
   SocialLoginRequestType,
   SocialLoginResponseType,
 } from './authTypes';
-import { END_POINT } from '@/shared/config/endpoint';
+import { END_POINT } from '@/shared/constants/endpoint';
 
 export const postSocialLogin = async (
   provider: AuthProviderType,
