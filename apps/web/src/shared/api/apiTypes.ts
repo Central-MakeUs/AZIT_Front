@@ -26,6 +26,27 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/members/me/withdraw': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 회원 탈퇴
+     * @description 소셜 연동 해제 및 서비스 탈퇴를 진행합니다. <br>
+     *     accessToken 파라미터는 무시하시고 기존대로 헤더에 액세스 토큰 넣어서 요청 보내시면 됩니다.
+     */
+    post: operations['withdraw'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/auth/social-login/{provider}': {
     parameters: {
       query?: never;
@@ -36,10 +57,30 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 소셜 로그인
-     * @description 인가 코드를 통해 소셜 로그인을 진행하고 JWT 토큰을 발급합니다.
+     * 소셜 로그인(애플 제외)
+     * @description 인가 코드를 통해 소셜 로그인을 진행하고 JWT 토큰과 멤버 상태를 반환합니다.
      */
     post: operations['socialLogin'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/auth/social-login/apple': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 애플 소셜 로그인 - 백엔드용
+     * @description 애플 전용 로그인 콜백 엔드포인트입니다. id_token을 검증하여 로그인을 처리합니다.
+     */
+    post: operations['appleLogin'];
     delete?: never;
     options?: never;
     head?: never;
@@ -77,9 +118,30 @@ export interface paths {
     put?: never;
     /**
      * 로그아웃
-     * @description 현재 사용자의 세션을 종료하고 리프레시 토큰 쿠키를 제거합니다.
+     * @description 현재 사용자의 세션을 종료하고 리프레시 토큰 쿠키를 제거합니다. <br>
+     *     accessToken 파라미터는 무시하시고 기존대로 헤더에 액세스 토큰 넣어서 요청 보내시면 됩니다.
      */
     post: operations['logout'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/auth/apple/notification': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 애플 서버 알림 수신 (S2S) - 백엔드용
+     * @description Apple ID 사용자가 앱 연동 해제, 계정 삭제, 이메일 공유 활성화/비활성화를 수행했을 때 Apple 서버에서 보내는 알림을 수신하여 비즈니스 로직(탈퇴 처리 등)을 동기화합니다.
+     */
+    post: operations['receiveAppleNotification'];
     delete?: never;
     options?: never;
     head?: never;
@@ -101,6 +163,8 @@ export interface components {
       thirdPartyInfoAgreed: boolean;
       /** @description 마케팅 정보 수신 동의 여부 (선택) */
       marketingTermsAgreed: boolean;
+      /** @description 알림 수신 동의 여부 (선택) */
+      notificationTermsAgreed: boolean;
     };
     CommonResponseVoid: {
       code?: string;
@@ -110,10 +174,6 @@ export interface components {
     SocialLoginRequest: {
       /** @description 소셜 서비스로부터 발급받은 인가 코드 */
       authorizationCode: string;
-      /** @description 애플 전용 ID Token */
-      idToken?: string;
-      /** @description 애플 최초 가입 시 제공되는 사용자 정보 (JSON String) */
-      user?: string;
     };
     CommonResponseSocialLoginResponse: {
       code?: string;
@@ -138,6 +198,10 @@ export interface components {
         | 'PENDING_TERMS'
         | 'PENDING_ONBOARDING'
         | 'WAITING_FOR_APPROVE';
+    };
+    AppleNotificationRequest: {
+      /** @description Apple에서 전달한 서명된 페이로드 (JWS) */
+      payload: string;
     };
   };
   responses: never;
@@ -178,6 +242,14 @@ export interface operations {
           'application/json': unknown;
         };
       };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
       403: {
         headers: {
           [name: string]: unknown;
@@ -187,6 +259,68 @@ export interface operations {
         };
       };
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  withdraw: {
+    parameters: {
+      query: {
+        accessToken: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -237,6 +371,68 @@ export interface operations {
         };
       };
       400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  appleLogin: {
+    parameters: {
+      query: {
+        code: string;
+        id_token: string;
+        user?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
         headers: {
           [name: string]: unknown;
         };
@@ -332,12 +528,78 @@ export interface operations {
   };
   logout: {
     parameters: {
-      query?: never;
+      query: {
+        accessToken: string;
+      };
       header?: never;
       path?: never;
       cookie?: never;
     };
     requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  receiveAppleNotification: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AppleNotificationRequest'];
+      };
+    };
     responses: {
       /** @description OK */
       200: {
