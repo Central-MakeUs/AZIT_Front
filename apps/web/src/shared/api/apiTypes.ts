@@ -410,6 +410,7 @@ export interface operations {
         code: string;
         id_token: string;
         user?: string;
+        state?: string;
       };
       header?: never;
       path?: never;
