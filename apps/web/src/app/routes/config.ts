@@ -4,6 +4,8 @@ import { HomePage } from '@/pages/home/ui/HomePage';
 import { StorePage } from '@/pages/store/ui/StorePage';
 import { CartPage } from '@/pages/cart/ui/CartPage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
+import { TermAgreePage } from '@/pages/auth/ui/TermAgreePage';
+import { OnboardingPage } from '@/pages/onboarding/ui/OnboardingPage';
 
 export const routes = [
   {
@@ -13,10 +15,22 @@ export const routes = [
     withAuth: false,
   },
   {
+    name: 'TermAgreePage',
+    path: '/term-agree',
+    element: TermAgreePage,
+    withAuth: false,
+  },
+  {
+    name: 'OnboardingPage',
+    path: '/onboarding',
+    element: OnboardingPage,
+    withAuth: false,
+  },
+  {
     name: 'HomePage',
     path: '/',
     element: HomePage,
-    withAuth: true,
+    withAuth: false,
   },
   {
     name: 'StorePage',
