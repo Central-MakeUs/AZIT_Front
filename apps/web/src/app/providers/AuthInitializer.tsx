@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { useFlow } from '@/app/routes/stackflow';
 import { useAuthStore } from '@/shared/store/auth';
-import { reissueToken } from '@/shared/api/auth';
+import { postReissueToken } from '@/features/auth/api/postReissueToken';
 
 interface AuthInitializerProps {
   children: ReactNode;
@@ -19,7 +19,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
       try {
         const {
           result: { accessToken, status },
-        } = await reissueToken();
+        } = await postReissueToken();
 
         switch (status) {
           case 'PENDING_TERMS':
