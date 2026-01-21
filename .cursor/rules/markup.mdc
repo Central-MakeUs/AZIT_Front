@@ -100,6 +100,73 @@ List / Grid 컴포넌트
   }
   ```
 
+---
+
+5-1. Grid 사용 규칙
+
+**Grid 구조가 명확한 UI는 반드시 CSS Grid로 구현한다.**  
+행과 열이 동시에 존재하는 레이아웃(카드 리스트, 대시보드, 테이블, 갤러리, 2열 이상 반복 UI 등)은 **Flexbox로 구현하지 않는다.**
+
+Flexbox는 아래 경우에만 허용된다:
+
+- 단일 방향 흐름 (row 또는 column)
+- 버튼 그룹, 탭, 입력 폼, 툴바 등 **1차원 정렬 UI**
+
+---
+
+5-2. Flexbox 사용 금지 조건
+
+다음 중 하나라도 해당되면 **Flexbox 사용을 금지한다**:
+
+- 카드 또는 아이템이 2열 이상 반복됨
+- 동일한 크기의 UI가 행과 열로 반복됨
+- 반응형에서 줄바꿈이 발생해야 하는 구조
+- 정렬 기준이 row와 column을 동시에 가짐
+
+이러한 구조를 `flex-wrap`으로 구현하는 것은 **레이아웃 오류로 간주한다.**
+
+---
+
+5-3. Position 규칙
+
+**`position: absolute` 사용을 원칙적으로 금지한다.**
+
+다음과 같이 디자인상 absolute layer로 명확히 정의된 경우만 허용한다:
+
+- Tooltip
+- Floating badge
+- Overlay
+- Floating button
+- Figma에서 absolute positioning이 지정된 레이어
+
+그 외 모든 정렬, 간격, 가운데 정렬, 고정 배치는  
+**Grid 또는 Flexbox로만 구현한다.**
+
+---
+
+5-4. 레이아웃 선택 우선순위
+
+Figma MCP는 레이아웃 구현 시 다음 우선순위를 따른다:
+
+1. **CSS Grid**  
+   → 2차원 레이아웃, 카드, 섹션, 리스트, 대시보드
+2. **Flexbox**  
+   → 버튼 그룹, row, stack, form, header
+3. **Position: absolute**  
+   → 오버레이, 떠 있는 요소만
+
+---
+
+5-5. 목적
+
+이 규칙의 목적은 다음과 같다:
+
+- 반응형 레이아웃 안정성 확보
+- Tailwind CSS 및 Vanilla Extract 디자인 토큰과의 일관성 유지
+- Figma Auto-layout과 코드 레이아웃 구조의 1:1 매칭
+
+---
+
 ### 6. 페이지 콘텐츠 구현
 
 - 페이지 내부 콘텐츠는 디자인 토큰을 사용해 반응형에 대응한다.
