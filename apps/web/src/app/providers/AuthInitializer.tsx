@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import { HTTPError } from 'ky';
 import { useFlow } from '@/app/routes/stackflow';
 import { useAuthStore } from '@/shared/store/auth';
-import { postReissueToken } from '@/features/auth/api/postReissueToken';
+import { postReissueToken } from '@/shared/api/postReissueToken';
 
 interface AuthInitializerProps {
   children: ReactNode;
@@ -31,6 +31,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
             replace('OnboardingPage', {}, { animate: false });
             break;
           case 'ACTIVE':
+            replace('HomePage', {}, { animate: false });
             break;
         }
       } catch (error) {
