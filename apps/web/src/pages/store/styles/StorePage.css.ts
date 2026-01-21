@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
 
 export const pageContainer = style({
   display: 'flex',
