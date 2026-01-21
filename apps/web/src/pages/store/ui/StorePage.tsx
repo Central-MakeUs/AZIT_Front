@@ -9,6 +9,7 @@ import {
 } from '@/features/store/ui';
 import { mockStoreProducts } from '@/shared/mock/store';
 import * as styles from '../styles/StorePage.css';
+import { logo } from '@/shared/styles/logo.css';
 
 export function StorePage() {
   return (
@@ -16,7 +17,7 @@ export function StorePage() {
       <AppLayout>
         <Header
           sticky
-          left={<h1 className={styles.logo}>AZIT</h1>}
+          left={<h1 className={logo}>AZIT</h1>}
           right={
             <div className={styles.cartIconWrapper}>
               <ShoppingCartIcon size={24} />
