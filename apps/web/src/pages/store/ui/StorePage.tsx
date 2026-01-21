@@ -1,11 +1,39 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { storeQueries } from '@/shared/api/queries';
-import { useQuery } from '@tanstack/react-query';
+import { Header, ShoppingCartIcon } from '@azit/design-system';
+import { AppLayout } from '@/shared/ui/layout';
+import { BottomNavigation } from '@/shared/ui/navigation';
+import {
+  StoreBanner,
+  StoreCategoryButton,
+  StoreGrid,
+} from '@/features/store/ui';
+import { mockStoreProducts } from '@/shared/mock/store';
+import * as styles from '../styles/StorePage.css';
 
 export function StorePage() {
-  const { data: products } = useQuery(storeQueries.productsQuery());
-  console.log(products);
-  // [{ id: 1, name: 'Product 1' }, { id: 2, name: 'Product 2' }];
-
-  return <AppScreen>StorePage</AppScreen>;
+  return (
+    <AppScreen>
+      <AppLayout>
+        <Header
+          sticky
+          left={<h1 className={styles.logo}>AZIT</h1>}
+          right={
+            <div className={styles.cartIconWrapper}>
+              <ShoppingCartIcon size={24} />
+            </div>
+          }
+        />
+        <div className={styles.pageContainer}>
+          <div className={styles.bannerSection}>
+            <StoreBanner />
+          </div>
+          <div className={styles.productsSection}>
+            <StoreCategoryButton label="전체" />
+            <StoreGrid products={mockStoreProducts} />
+          </div>
+        </div>
+      </AppLayout>
+      <BottomNavigation activeTab="store" />
+    </AppScreen>
+  );
 }
