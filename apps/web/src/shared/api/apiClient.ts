@@ -1,21 +1,23 @@
 import ky from 'ky';
 import { useAuthStore } from '../store/auth';
 import type { ApiResponse } from './baseTypes';
-import { BASE_API_URL } from '../constants/url';
 import type { ReissueTokenResult } from './models';
 import { END_POINT } from '../constants/endpoint';
+import { BASE_API_URL } from '../constants/url';
 
 type ReissueTokenResponseType = ApiResponse<ReissueTokenResult>;
 
-export const api = ky.create({
+export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
-  credentials: 'include',
   // Default Options
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 10000,
   retry: 2,
+});
+
+export const authApi = baseApi.extend({
   // Interceptor Hooks
   hooks: {
     beforeRequest: [
