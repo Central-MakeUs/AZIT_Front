@@ -1,6 +1,6 @@
-import { api } from '@/shared/api/apiClient';
+import { authApi } from '@/shared/api/apiClient';
 
 export const getStoreProducts = async () => {
-  const response = await api.get('/products');
+  const response = await authApi.get('/products');
   return response.json();
 };
