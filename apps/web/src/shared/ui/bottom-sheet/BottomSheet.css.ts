@@ -1,4 +1,4 @@
-import { style, keyframes, fallbackVar } from '@vanilla-extract/css';
+import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
 import { recipe } from '@vanilla-extract/recipes';
 
@@ -74,7 +74,7 @@ export const dragHandle = style({
   height: '4px',
   backgroundColor: vars.colors.gray20,
   borderRadius: '2px',
-  margin: '12px auto 8px',
+  margin: '12px auto 24px',
   flexShrink: 0,
 });
 

@@ -1,12 +1,14 @@
 import { useEffect, useState, type ReactNode, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import * as styles from './BottomSheet.css';
+import clsx from 'clsx';
 
 interface BottomSheetProps {
   isOpen: boolean;
   onClose?: () => void;
   onOutsideClick?: () => void;
   children: ReactNode;
+  contentClassName?: string;
 }
 
 type AnimationState = 'entering' | 'entered' | 'exiting' | 'exited';
@@ -16,6 +18,7 @@ export function BottomSheet({
   onClose,
   onOutsideClick,
   children,
+  contentClassName,
 }: BottomSheetProps) {
   const [animationState, setAnimationState] = useState<AnimationState>(
     isOpen ? 'entered' : 'exited'
@@ -68,7 +71,7 @@ export function BottomSheet({
         onClick={handleContainerClick}
       >
         <div className={styles.dragHandle} />
-        <div className={styles.content}>{children}</div>
+        <div className={clsx(styles.content, contentClassName)}>{children}</div>
       </div>
     </div>,
     document.body
