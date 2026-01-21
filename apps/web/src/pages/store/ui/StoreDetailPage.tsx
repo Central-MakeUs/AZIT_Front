@@ -16,6 +16,7 @@ import {
   StoreDetailDescription,
 } from '@/features/store/ui';
 import * as styles from '../styles/StoreDetailPage.css';
+import { useFlow } from '@/app/routes/stackflow';
 
 // Mock 데이터 (추후 API로 대체)
 const mockProduct = {
@@ -38,13 +39,19 @@ const mockProduct = {
 };
 
 export function StoreDetailPage() {
+  const { pop } = useFlow();
+
+  const handleClick = () => {
+    pop();
+  };
+
   return (
     <AppScreen>
       <AppLayout>
         <Header
           sticky
           left={
-            <button className={styles.iconButton}>
+            <button className={styles.iconButton} onClick={handleClick}>
               <ChevronLeftIcon size={24} />
             </button>
           }
