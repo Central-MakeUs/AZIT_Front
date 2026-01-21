@@ -27,15 +27,6 @@ export const productsSection = style({
   width: '100%',
 });
 
-export const logo = style({
-  fontFamily: 'Tilt Warp, sans-serif',
-  fontSize: '24px',
-  lineHeight: '1.4',
-  color: vars.colors.black,
-  letterSpacing: '2.5px',
-  fontVariationSettings: "'XROT' 0, 'YROT' 0",
-});
-
 export const cartIconWrapper = style({
   width: '24px',
   height: '24px',
