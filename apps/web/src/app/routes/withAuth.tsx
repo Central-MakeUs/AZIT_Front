@@ -10,7 +10,7 @@ export function withAuth<T extends object>(Component: ComponentType<T>) {
   return function AuthenticatedComponent(props: T) {
     const { replace } = useFlow();
 
-    const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = useAuthStore((state) => state.accessToken);
     if (!accessToken) {
       replace('LoginPage', {}, { animate: false });
       return <></>;
