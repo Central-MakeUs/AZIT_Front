@@ -8,7 +8,7 @@ export const itemContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: '162px',
+  width: '100%',
 });
 
 export const imageWrapper = style({
