@@ -15,31 +15,14 @@ import {
   StoreDetailRefund,
   StoreDetailDescription,
 } from '@/features/store/ui';
+import { mockStoreProducts } from '@/shared/mock/store';
 import * as styles from '../styles/StoreDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 
-// Mock 데이터 (추후 API로 대체)
-const mockProduct = {
-  id: '1',
-  brandName: 'Brand name',
-  productName: '제품 이름 제품 이름 제품 이름 제품 이름',
-  originalPrice: 20000,
-  discountRate: 20,
-  discountedPrice: 16000,
-  shipping: {
-    type: '무료 배송',
-    estimatedDate: '1.6(화) 이내 판매자 발송 예정',
-  },
-  refundPolicy: '판매자의 환불 정책에 따름',
-  details: [
-    '편안한 착용감을 위한 프리미엄 쿠션',
-    '통기성 매쉬 소재로 발을 시원하게 유지',
-    '무게 : 283g (270 사이즈 기준)',
-  ],
-};
-
 export function StoreDetailPage() {
   const { pop } = useFlow();
+
+  const product = mockStoreProducts[0];
 
   const handleClick = () => {
     pop();
@@ -69,15 +52,15 @@ export function StoreDetailPage() {
         <div className={styles.pageContainer}>
           <StoreDetailImageSlider />
           <div className={styles.contentWrapper}>
-            <StoreDetailInfo product={mockProduct} />
+            <StoreDetailInfo product={product} />
             <div className={styles.divider} />
             <div className={styles.detailsSection}>
               <StoreDetailBanner />
-              <StoreDetailShipping shipping={mockProduct.shipping} />
-              <StoreDetailRefund refundPolicy={mockProduct.refundPolicy} />
+              <StoreDetailShipping shipping={product.shipping} />
+              <StoreDetailRefund refundPolicy={product.refundPolicy} />
             </div>
             <div className={styles.divider} />
-            <StoreDetailDescription details={mockProduct.details} />
+            <StoreDetailDescription details={product.details} />
           </div>
           <div className={styles.moreInfoPlaceholder}>
             <div className={styles.moreInfoGradient}>
