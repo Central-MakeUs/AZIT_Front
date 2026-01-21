@@ -6,8 +6,9 @@ export const pageContainer = style({
   flexDirection: 'column',
   gap: '20px',
   alignItems: 'flex-start',
-  width: '335px',
-  paddingTop: '12px',
+  justifyContent: 'center',
+  width: '100%',
+  padding: '12px 20px',
   paddingBottom: '100px',
 });
 
