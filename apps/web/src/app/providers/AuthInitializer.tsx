@@ -24,7 +24,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
   const { isInitialized, setAccessToken, setIsInitialized } = useAuthStore();
 
   const currentActivity = stack.activities[stack.activities.length - 1]
-    ?.name as ActivityName | undefined;
+    ?.name as ActivityName;
 
   useEffect(() => {
     if (isInitialized) return;
@@ -51,10 +51,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
             }
             break;
           case 'ACTIVE':
-            if (
-              currentActivity &&
-              inactiveActivities.includes(currentActivity)
-            ) {
+            if (inactiveActivities.includes(currentActivity)) {
               redirectTargetRef.current = 'HomePage';
               replace('HomePage', {}, { animate: false });
             }
