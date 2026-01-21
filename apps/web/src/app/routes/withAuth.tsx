@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { useFlow } from '@/app/routes/stackflow';
+import { useAuthStore } from '@/shared/store/auth';
 
 /**
  * 회원 인증이 필요한 페이지를 보호하는 HOC입니다.
@@ -9,7 +10,7 @@ export function withAuth<T extends object>(Component: ComponentType<T>) {
   return function AuthenticatedComponent(props: T) {
     const { replace } = useFlow();
 
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = useAuthStore.getState().accessToken;
     if (!accessToken) {
       replace('LoginPage', {}, { animate: false });
       return <></>;
