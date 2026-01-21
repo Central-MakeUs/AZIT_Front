@@ -6,3 +6,5 @@ export type SocialLoginRequest = components['schemas']['SocialLoginRequest'];
 export type SocialLoginResult = components['schemas']['SocialLoginResponse'];
 export type ReissueTokenResult = components['schemas']['SocialLoginResponse'];
 export type TermAgreeRequest = components['schemas']['AgreeToTermsRequest'];
+export type CreateCrewRequest = components['schemas']['CreateCrewRequest'];
+export type CreateCrewResult = components['schemas']['CreateCrewResponse'];
