@@ -6,7 +6,14 @@ export function TermAgreePage() {
   const { replace } = useFlow();
   const handleTermAgree = async () => {
     try {
-      await postTermAgree();
+      await postTermAgree({
+        serviceTermsAgreed: true,
+        privacyPolicyAgreed: true,
+        locationServiceAgreed: true,
+        thirdPartyInfoAgreed: true,
+        marketingTermsAgreed: true,
+        notificationTermsAgreed: true,
+      });
       replace('OnboardingPage', {}, { animate: false });
     } catch (error) {
       console.error(error);

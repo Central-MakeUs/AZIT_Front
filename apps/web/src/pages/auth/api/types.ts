@@ -1,4 +1,6 @@
-import type { ApiResponse } from '@/shared/api/baseTypes';
-import type { TermAgreeRequest } from '@/shared/api/models';
+import type {
+  ApiResponse,
+  ApiResponseWithoutResult,
+} from '@/shared/api/baseTypes';
 
-export type TermAgreeRequestType = ApiResponse<TermAgreeRequest>;
+export type TermAgreeResponseType = ApiResponse<{}> | ApiResponseWithoutResult;
