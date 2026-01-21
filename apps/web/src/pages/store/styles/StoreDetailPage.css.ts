@@ -79,8 +79,7 @@ export const moreInfoPlaceholder = style({
 export const moreInfoGradient = style({
   width: '100%',
   height: '114px',
-  background:
-    'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 53.07%)',
+  background: `linear-gradient(to bottom, ${vars.colors.white}00 0%, ${vars.colors.white} 53.07%)`,
   display: 'flex',
   alignItems: 'flex-end',
   justifyContent: 'center',
