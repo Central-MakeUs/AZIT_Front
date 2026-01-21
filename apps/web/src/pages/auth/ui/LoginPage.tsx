@@ -48,11 +48,12 @@ function KakaoLogin({ onClick }: { onClick: () => void }) {
 }
 
 function AppleLogin({ onClick }: { onClick: () => void }) {
-  const ua = navigator.userAgent;
+  // TODO: 웹에서 테스트를 위한 주석 처리, 복구 필요 (Issue #29)
+  // const ua = navigator.userAgent;
 
-  if (!/iPhone|iPad|iPod/.test(ua)) {
-    return null;
-  }
+  // if (!/iPhone|iPad|iPod/.test(ua)) {
+  //   return null;
+  // }
 
   return (
     <Button state="apple" onClick={onClick}>
