@@ -64,13 +64,6 @@ export const purchaseButton = style({
   cursor: 'pointer',
 });
 
-export const purchaseButtonText = style({
-  fontSize: vars.typography.body.b1.fontSize,
-  fontWeight: vars.typography.body.b1.fontWeight,
-  lineHeight: vars.typography.body.b1.lineHeight,
-  color: vars.colors.white,
-});
-
 export const moreInfoPlaceholder = style({
   width: '100vw',
   height: '400px',
@@ -156,4 +149,6 @@ export const bottomSheetContent = style({
   flexDirection: 'column',
   gap: '12px',
   alignItems: 'center',
+  paddingBottom: '80px',
+  width: '100%',
 });
