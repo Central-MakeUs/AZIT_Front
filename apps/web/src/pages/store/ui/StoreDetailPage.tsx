@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import {
   Header,
@@ -5,6 +6,8 @@ import {
   ShareIcon,
   ShoppingCartIcon,
   ChevronDownIcon,
+  Dropdown,
+  Button,
 } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 import {
@@ -14,18 +17,33 @@ import {
   StoreDetailShipping,
   StoreDetailRefund,
   StoreDetailDescription,
+  StoreDetailItem,
 } from '@/features/store/ui';
 import { mockStoreProducts } from '@/shared/mock/store';
 import * as styles from '../styles/StoreDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
+import { BottomSheet } from '@/shared/ui/bottom-sheet';
 
 export function StoreDetailPage() {
   const { pop } = useFlow();
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    undefined
+  );
 
   const product = mockStoreProducts[0];
 
   const handleClick = () => {
     pop();
+  };
+
+  const handlePurchaseClick = () => {
+    setIsBottomSheetOpen(true);
+  };
+
+  const handleOptionSelect = (option: string) => {
+    setSelectedOption(option);
+    console.log('Selected option:', selectedOption);
   };
 
   return (
@@ -74,11 +92,50 @@ export function StoreDetailPage() {
           </div>
         </div>
         <div className={styles.purchaseButtonWrapper}>
-          <button className={styles.purchaseButton}>
+          <button
+            className={styles.purchaseButton}
+            onClick={handlePurchaseClick}
+          >
             <span className={styles.purchaseButtonText}>구매하기</span>
           </button>
         </div>
       </AppLayout>
+      <BottomSheet
+        isOpen={isBottomSheetOpen}
+        onOutsideClick={() => setIsBottomSheetOpen(false)}
+        contentClassName={styles.bottomSheetContent}
+      >
+        <Dropdown
+          placeholder="옵션을 선택해주세요"
+          options={['230', '235', '240'].map((option) => ({
+            label: option,
+            value: option,
+          }))}
+          onValueChange={handleOptionSelect}
+        />
+        <StoreDetailItem
+          option={selectedOption}
+          onCancel={() => setSelectedOption(undefined)}
+        />
+        {selectedOption && (
+          <div className={styles.buttonWrapper}>
+            <Button
+              size="large"
+              state="active"
+              onClick={() => setIsBottomSheetOpen(false)}
+            >
+              <span className={styles.purchaseButtonText}>장바구니</span>
+            </Button>
+            <Button
+              size="large"
+              state="active"
+              onClick={() => setIsBottomSheetOpen(false)}
+            >
+              <span className={styles.purchaseButtonText}>구매하기</span>
+            </Button>
+          </div>
+        )}
+      </BottomSheet>
     </AppScreen>
   );
 }
