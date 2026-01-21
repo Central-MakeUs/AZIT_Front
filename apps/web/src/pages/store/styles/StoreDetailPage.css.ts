@@ -41,9 +41,14 @@ export const purchaseButtonWrapper = style({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
+  gap: '12px',
   alignItems: 'center',
   backgroundColor: vars.colors.white,
   padding: '20px',
+});
+
+export const optionWrapper = style({
+  width: '100%',
 });
 
 export const purchaseButton = style({
@@ -123,4 +128,32 @@ export const iconButton = style({
   border: 'none',
   backgroundColor: 'transparent',
   padding: 0,
+});
+
+export const bottomSheetPurchaseButton = style([
+  purchaseButton,
+  {
+    position: 'absolute',
+    bottom: '20px',
+    left: '20px',
+    width: 'calc(100% - 40px)',
+  },
+]);
+
+export const buttonWrapper = style({
+  display: 'flex',
+  gap: '10px',
+  alignItems: 'center',
+  position: 'absolute',
+  bottom: '20px',
+  left: '20px',
+  width: 'calc(100% - 40px)',
+});
+
+export const bottomSheetContent = style({
+  height: '456px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  alignItems: 'center',
 });
