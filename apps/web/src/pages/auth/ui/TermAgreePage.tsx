@@ -1,9 +1,10 @@
 import { useFlow } from '@/app/routes/stackflow';
-import { postTermAgree } from '@/pages/auth/api/postTermAgree';
+import { postTermAgree } from '@/features/auth/api/postTermAgree';
 import { Button } from '@azit/design-system';
 
 export function TermAgreePage() {
   const { replace } = useFlow();
+
   const handleTermAgree = async () => {
     try {
       await postTermAgree({

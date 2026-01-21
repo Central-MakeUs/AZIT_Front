@@ -1,5 +1,5 @@
 import { Button } from '@azit/design-system';
-import { postCreateCrew } from '../api/postCreateCrew';
+import { postCreateCrew } from '@/features/onboarding/api/postCreateCrew';
 import { useFlow } from '@/app/routes/stackflow';
 
 export function OnboardingPage() {
