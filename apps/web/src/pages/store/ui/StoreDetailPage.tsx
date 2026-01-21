@@ -92,12 +92,9 @@ export function StoreDetailPage() {
           </div>
         </div>
         <div className={styles.purchaseButtonWrapper}>
-          <button
-            className={styles.purchaseButton}
-            onClick={handlePurchaseClick}
-          >
-            <span className={styles.purchaseButtonText}>구매하기</span>
-          </button>
+          <Button size="large" state="active" onClick={handlePurchaseClick}>
+            구매하기
+          </Button>
         </div>
       </AppLayout>
       <BottomSheet
@@ -121,17 +118,17 @@ export function StoreDetailPage() {
           <div className={styles.buttonWrapper}>
             <Button
               size="large"
-              state="active"
+              state="cancelled"
               onClick={() => setIsBottomSheetOpen(false)}
             >
-              <span className={styles.purchaseButtonText}>장바구니</span>
+              장바구니
             </Button>
             <Button
               size="large"
               state="active"
               onClick={() => setIsBottomSheetOpen(false)}
             >
-              <span className={styles.purchaseButtonText}>구매하기</span>
+              구매하기
             </Button>
           </div>
         )}
