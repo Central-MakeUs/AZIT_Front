@@ -36,13 +36,13 @@ export const routes = [
     name: 'StorePage',
     path: '/store',
     element: StorePage,
-    withAuth: true,
+    withAuth: false,
   },
   {
     name: 'CartPage',
     path: '/cart',
     element: CartPage,
-    withAuth: true,
+    withAuth: false,
   },
   {
     name: 'NotFoundPage',

@@ -1,19 +1,32 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { HTTPError } from 'ky';
 import { useFlow } from '@/app/routes/stackflow';
 import { useAuthStore } from '@/shared/store/auth';
 import { postReissueToken } from '@/shared/api/postReissueToken';
+import { useStack } from '@stackflow/react';
+import type { ActivityName } from '../routes/types';
 
 interface AuthInitializerProps {
   children: ReactNode;
 }
 
+const inactiveActivities: ActivityName[] = [
+  'LoginPage',
+  'TermAgreePage',
+  'OnboardingPage',
+];
+
 export function AuthInitializer({ children }: AuthInitializerProps) {
   const { replace } = useFlow();
+  const stack = useStack();
+  const redirectTargetRef = useRef<ActivityName | null>(null);
+
   const { isInitialized, setAccessToken, setIsInitialized } = useAuthStore();
 
+  const currentActivity = stack.activities[stack.activities.length - 1]
+    ?.name as ActivityName | undefined;
+
   useEffect(() => {
-    // 리액트 라이프사이클 중 최초 렌더링시에만 실행
     if (isInitialized) return;
 
     const initAuth = async () => {
@@ -23,23 +36,37 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
         } = await postReissueToken();
 
         setAccessToken(accessToken);
+
         switch (status) {
           case 'PENDING_TERMS':
-            replace('TermAgreePage', {}, { animate: false });
+            if (currentActivity !== 'TermAgreePage') {
+              redirectTargetRef.current = 'TermAgreePage';
+              replace('TermAgreePage', {}, { animate: false });
+            }
             break;
           case 'PENDING_ONBOARDING':
-            replace('OnboardingPage', {}, { animate: false });
+            if (currentActivity !== 'OnboardingPage') {
+              redirectTargetRef.current = 'OnboardingPage';
+              replace('OnboardingPage', {}, { animate: false });
+            }
             break;
           case 'ACTIVE':
-            replace('HomePage', {}, { animate: false });
+            if (
+              currentActivity &&
+              inactiveActivities.includes(currentActivity)
+            ) {
+              redirectTargetRef.current = 'HomePage';
+              replace('HomePage', {}, { animate: false });
+            }
             break;
         }
       } catch (error) {
         if (error instanceof HTTPError && error.response.status === 401) {
-          console.error('401 error occurred', error);
-          replace('LoginPage', {}, { animate: false });
+          if (currentActivity !== 'LoginPage') {
+            redirectTargetRef.current = 'LoginPage';
+            replace('LoginPage', {}, { animate: false });
+          }
         } else {
-          // TODO: 에러 처리
           console.error(error);
         }
       } finally {
@@ -50,7 +77,11 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
     initAuth();
   }, [isInitialized]);
 
-  if (!isInitialized) return <></>;
+  const isRedirecting =
+    redirectTargetRef.current !== null &&
+    currentActivity !== redirectTargetRef.current;
+
+  if (!isInitialized || isRedirecting) return <></>;
 
   return <>{children}</>;
 }
