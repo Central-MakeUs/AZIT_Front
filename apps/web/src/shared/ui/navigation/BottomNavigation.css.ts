@@ -7,7 +7,7 @@ export const navigationWrapper = style({
   left: '50%',
   transform: 'translateX(-50%)',
   width: '100%',
-  maxWidth: '375px',
+  maxWidth: '480px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
