@@ -15,7 +15,7 @@ export const contentWrapper = style({
   flexDirection: 'column',
   gap: '20px',
   alignItems: 'flex-start',
-  width: '100vw',
+  width: '100%',
   padding: '0 20px',
 });
 
