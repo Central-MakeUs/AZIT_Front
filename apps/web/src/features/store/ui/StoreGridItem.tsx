@@ -1,14 +1,25 @@
 import { formatPrice } from '@/shared/lib/formatters';
 import type { StoreProduct } from '@/shared/mock/store';
 import * as styles from '../styles/StoreGridItem.css';
+import { useFlow } from '@/app/routes/stackflow';
 
 interface StoreGridItemProps {
   product: StoreProduct;
 }
 
 export function StoreGridItem({ product }: StoreGridItemProps) {
+  const { push } = useFlow();
+
+  const handleClick = () => {
+    push('StoreDetailPage', { id: product.id }, { animate: true });
+  };
+
   return (
-    <button className={styles.itemContainer} type="button">
+    <button
+      className={styles.itemContainer}
+      type="button"
+      onClick={handleClick}
+    >
       <div className={styles.imageWrapper} />
       <div className={styles.infoContainer}>
         <div className={styles.textContainer}>
