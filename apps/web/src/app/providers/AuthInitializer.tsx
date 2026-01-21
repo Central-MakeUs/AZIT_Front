@@ -1,4 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
+import { HTTPError } from 'ky';
 import { useFlow } from '@/app/routes/stackflow';
 import { useAuthStore } from '@/shared/store/auth';
 import { postReissueToken } from '@/features/auth/api/postReissueToken';
@@ -21,6 +22,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
           result: { accessToken, status },
         } = await postReissueToken();
 
+        setAccessToken(accessToken);
         switch (status) {
           case 'PENDING_TERMS':
             replace('TermAgreePage', {}, { animate: false });
@@ -29,19 +31,25 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
             replace('OnboardingPage', {}, { animate: false });
             break;
           case 'ACTIVE':
-            setAccessToken(accessToken);
             break;
-          default:
         }
-
+      } catch (error) {
+        if (error instanceof HTTPError && error.response.status === 401) {
+          console.error('401 error occurred', error);
+          replace('LoginPage', {}, { animate: false });
+        } else {
+          // TODO: 에러 처리
+          console.error(error);
+        }
+      } finally {
         setIsInitialized(true);
-      } catch (_error) {
-        replace('LoginPage', {}, { animate: false });
       }
     };
 
     initAuth();
-  }, [isInitialized, setAccessToken, setIsInitialized, replace]);
+  }, [isInitialized]);
+
+  if (!isInitialized) return <></>;
 
   return <>{children}</>;
 }
