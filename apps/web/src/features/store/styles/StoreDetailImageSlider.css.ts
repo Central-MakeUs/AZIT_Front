@@ -21,7 +21,7 @@ export const imageCounter = style({
   height: '24px',
   padding: '2px 10px',
   borderRadius: '4px',
-  backgroundColor: 'rgba(129, 135, 143, 0.6)',
+  backgroundColor: vars.colors.gray50,
   fontSize: vars.typography.body.b4.fontSize,
   fontWeight: vars.typography.body.b4.fontWeight,
   lineHeight: vars.typography.body.b4.lineHeight,
