@@ -12,9 +12,6 @@ const meta = {
     placeholder: {
       control: 'text',
     },
-    defaultValue: {
-      control: 'text',
-    },
     value: {
       control: 'text',
     },
@@ -29,7 +26,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    width: '335px',
     placeholder: '지역을 선택해주세요',
     options: [
       { value: 'seoul', label: '서울' },
@@ -41,9 +37,8 @@ export const Default: Story = {
 
 export const WithSelectedValue: Story = {
   args: {
-    width: '335px',
     placeholder: '지역을 선택해주세요',
-    defaultValue: 'seoul',
+    value: 'seoul',
     options: [
       { value: 'seoul', label: '서울' },
       { value: 'busan', label: '부산' },
@@ -52,37 +47,15 @@ export const WithSelectedValue: Story = {
   },
 };
 
-// export const Disabled: Story = {
-//   args: {
-//     width: '335px',
-//     placeholder: '지역을 선택해주세요',
-//     options: [
-//       { value: 'seoul', label: '서울' },
-//       { value: 'busan', label: '부산' },
-//     ],
-//   },
-// };
-
-export const WithDisabledOption: Story = {
+export const WithManyOptions: Story = {
   args: {
-    width: '335px',
-    placeholder: '지역을 선택해주세요',
+    placeholder: '옵션을 선택해주세요',
     options: [
-      { value: 'seoul', label: '서울' },
-      { value: 'busan', label: '부산', disabled: true },
-      { value: 'daegu', label: '대구' },
-    ],
-  },
-};
-
-export const WithLabel: Story = {
-  args: {
-    width: '335px',
-    label: '지역',
-    placeholder: '지역을 선택해주세요',
-    options: [
-      { value: 'seoul', label: '서울' },
-      { value: 'busan', label: '부산' },
+      { value: '1', label: '옵션 1' },
+      { value: '2', label: '옵션 2' },
+      { value: '3', label: '옵션 3' },
+      { value: '4', label: '옵션 4' },
+      { value: '5', label: '옵션 5' },
     ],
   },
 };
