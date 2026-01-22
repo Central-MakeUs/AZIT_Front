@@ -1,12 +1,7 @@
 import ky from 'ky';
 import { useAuthStore } from '../store/auth';
-import type { ApiResponse } from './baseTypes';
-import type { ReissueTokenResult } from './models';
-import { END_POINT } from '../constants/endpoint';
 import { BASE_API_URL } from '../constants/url';
-import { postReissueToken } from '@/shared/api/postReissueToken';
-
-type ReissueTokenResponseType = ApiResponse<ReissueTokenResult>;
+import { postReissueToken } from './postReissueToken';
 
 export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
@@ -44,11 +39,7 @@ export const authApi = baseApi.extend({
         if (response.status === 401 && state.retryCount === 0) {
           const {
             result: { accessToken },
-          } = await ky
-            .post(`${BASE_API_URL}${END_POINT.AUTH.REISSUE_TOKEN}`, {
-              credentials: 'include',
-            })
-            .json<ReissueTokenResponseType>();
+          } = await postReissueToken();
 
           if (accessToken) {
             useAuthStore.getState().setAccessToken(accessToken);
@@ -60,25 +51,6 @@ export const authApi = baseApi.extend({
           }
 
           return response;
-        }
-      },
-    ],
-  },
-});
-
-// 약관동의, 온보딩시 기존 API 호출 후 액세스 토큰 재발급 로직 추가
-export const onboardingApi = authApi.extend({
-  hooks: {
-    afterResponse: [
-      async (_request, _options, response) => {
-        if (response.status === 200) {
-          const {
-            result: { accessToken },
-          } = await postReissueToken();
-
-          if (accessToken) {
-            useAuthStore.getState().setAccessToken(accessToken);
-          }
         }
       },
     ],
