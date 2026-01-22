@@ -8,12 +8,13 @@ export const header = recipe({
     padding: 10,
     paddingRight: 20,
     paddingLeft: 20,
-    borderRadius: 16,
     border: 'none',
+    height: '56px',
     display: 'grid',
     width: '100%',
     gridTemplateColumns: '1fr 3fr 1fr',
     backgroundColor: vars.colors.background,
+    flexShrink: 0,
   },
   variants: {
     sticky: {
