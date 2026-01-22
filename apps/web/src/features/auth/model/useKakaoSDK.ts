@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import { KAKAO_JS_SDK_KEY } from '@/shared/constants/url';
 import { useEffect, useState } from 'react';
 
 interface KakaoAuth {
@@ -37,7 +39,7 @@ interface KakaoSDKReturn {
 }
 
 export const useKakaoSDK = (): KakaoSDKReturn => {
-  const appKey = import.meta.env.VITE_KAKAO_JS_SDK_KEY;
+  const appKey = KAKAO_JS_SDK_KEY;
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

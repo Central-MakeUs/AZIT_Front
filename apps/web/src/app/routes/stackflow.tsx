@@ -7,6 +7,7 @@ import '@stackflow/plugin-basic-ui/index.css';
 
 import { routes } from './config';
 import { transformRoutes } from './utils';
+import { AuthInitializer } from '../providers/AuthInitializer';
 
 const { activities, routeMap } = transformRoutes(routes);
 
@@ -22,6 +23,14 @@ export const { Stack, useFlow } = stackflow({
       routes: routeMap,
       fallbackActivity: () => 'NotFoundPage',
     }),
+    () => {
+      return {
+        key: 'auth-initializer',
+        wrapStack: ({ stack }) => {
+          return <AuthInitializer>{stack.render()}</AuthInitializer>;
+        },
+      };
+    },
   ],
   activities,
   initialActivity: () => 'HomePage',

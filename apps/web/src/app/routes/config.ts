@@ -5,6 +5,8 @@ import { StorePage } from '@/pages/store/ui/StorePage';
 import { StoreDetailPage } from '@/pages/store/ui/StoreDetailPage';
 import { CartPage } from '@/pages/cart/ui/CartPage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
+import { TermAgreePage } from '@/pages/onboarding/ui/TermAgreePage';
+import { OnboardingPage } from '@/pages/onboarding/ui/OnboardingPage';
 import { RedirectPage } from '@/pages/auth/ui/RedirectPage';
 
 export const routes = [
@@ -12,6 +14,18 @@ export const routes = [
     name: 'LoginPage',
     path: '/auth',
     element: LoginPage,
+    withAuth: false,
+  },
+  {
+    name: 'TermAgreePage',
+    path: '/term-agree',
+    element: TermAgreePage,
+    withAuth: false,
+  },
+  {
+    name: 'OnboardingPage',
+    path: '/onboarding',
+    element: OnboardingPage,
     withAuth: false,
   },
   {
@@ -24,13 +38,13 @@ export const routes = [
     name: 'HomePage',
     path: '/',
     element: HomePage,
-    withAuth: true,
+    withAuth: false,
   },
   {
     name: 'StorePage',
     path: '/store',
     element: StorePage,
-    withAuth: true,
+    withAuth: false,
   },
   {
     name: 'StoreDetailPage',
@@ -42,7 +56,7 @@ export const routes = [
     name: 'CartPage',
     path: '/cart',
     element: CartPage,
-    withAuth: true,
+    withAuth: false,
   },
   {
     name: 'NotFoundPage',

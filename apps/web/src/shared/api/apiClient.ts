@@ -1,21 +1,19 @@
 import ky from 'ky';
 import { useAuthStore } from '../store/auth';
-import type { ApiResponse } from './baseTypes';
-import { BASE_API_URL } from '../config/url';
-import type { ReissueTokenResult } from './models';
-import { END_POINT } from '../config/endpoint';
+import { BASE_API_URL } from '../constants/url';
+import { postReissueToken } from './postReissueToken';
 
-type ReissueTokenResponseType = ApiResponse<ReissueTokenResult>;
-
-export const api = ky.create({
+export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
-  credentials: 'include',
   // Default Options
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 10000,
   retry: 2,
+});
+
+export const authApi = baseApi.extend({
   // Interceptor Hooks
   hooks: {
     beforeRequest: [
@@ -41,11 +39,7 @@ export const api = ky.create({
         if (response.status === 401 && state.retryCount === 0) {
           const {
             result: { accessToken },
-          } = await ky
-            .post(`${BASE_API_URL}${END_POINT.AUTH.REISSUE_TOKEN}`, {
-              credentials: 'include',
-            })
-            .json<ReissueTokenResponseType>();
+          } = await postReissueToken();
 
           if (accessToken) {
             useAuthStore.getState().setAccessToken(accessToken);
