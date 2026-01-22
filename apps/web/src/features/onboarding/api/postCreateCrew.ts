@@ -1,4 +1,4 @@
-import { onboardingApi } from '@/shared/api/apiClient';
+import { onboardingApi } from './client';
 import { END_POINT } from '@/shared/constants/endpoint';
 import type { CreateCrewResponseType } from './types';
 import type { CreateCrewRequest } from '@/shared/api/models';
