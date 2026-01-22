@@ -8,4 +8,3 @@ export type AuthProviderType = AuthProvider;
 export type SocialLoginResponseType =
   | ApiResponse<SocialLoginResult>
   | ApiResponseWithoutResult;
-export type TermAgreeResponseType = ApiResponse<{}> | ApiResponseWithoutResult;
