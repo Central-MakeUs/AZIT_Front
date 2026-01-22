@@ -68,6 +68,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
         }
       } finally {
         setIsInitialized(true);
+        redirectTargetRef.current = null;
       }
     };
 
