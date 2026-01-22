@@ -4,7 +4,7 @@ import { HomePage } from '@/pages/home/ui/HomePage';
 import { StorePage } from '@/pages/store/ui/StorePage';
 import { CartPage } from '@/pages/cart/ui/CartPage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
-import { TermAgreePage } from '@/pages/auth/ui/TermAgreePage';
+import { TermAgreePage } from '@/pages/onboarding/ui/TermAgreePage';
 import { OnboardingPage } from '@/pages/onboarding/ui/OnboardingPage';
 
 export const routes = [
