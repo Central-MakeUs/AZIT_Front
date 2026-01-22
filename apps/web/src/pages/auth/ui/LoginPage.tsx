@@ -1,27 +1,16 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button, vars } from '@azit/design-system';
 import * as styles from '../styles/LoginPage.css';
-import { useFlow } from '@/app/routes/stackflow';
-import { useKakaoLogin, useKakaoSDK } from '@/features/auth/model';
-import { useAuthStore } from '@/shared/store/auth';
+import { useSocialLogin } from '../hooks/useSocialLogin';
+import type { AuthProvider } from '@/shared/api/models';
+import { AUTH_PROVIDER } from '@/shared/constants/auth';
 
 export function LoginPage() {
-  useKakaoSDK();
-  const { replace } = useFlow();
+  const { loginWith } = useSocialLogin();
 
-  const handleLogin = () => {
-    useAuthStore.setState({ accessToken: '1234567890' });
-    replace('HomePage', {}, { animate: false });
+  const handleLogin = async (provider: AuthProvider) => {
+    await loginWith(provider);
   };
-
-  const { handleKakaoLogin } = useKakaoLogin({
-    onSuccess: () => {
-      replace('HomePage', {});
-    },
-    onError: (loginError) => {
-      console.error(`로그인 실패 ${loginError.message}`);
-    },
-  });
 
   return (
     <AppScreen
@@ -35,8 +24,8 @@ export function LoginPage() {
           </p>
         </div>
         <div className={styles.buttonWrapper}>
-          <KakaoLogin onClick={handleKakaoLogin} />
-          <AppleLogin onClick={handleLogin} />
+          <KakaoLogin onClick={() => handleLogin(AUTH_PROVIDER.KAKAO)} />
+          <AppleLogin onClick={() => handleLogin(AUTH_PROVIDER.APPLE)} />
         </div>
       </section>
     </AppScreen>
