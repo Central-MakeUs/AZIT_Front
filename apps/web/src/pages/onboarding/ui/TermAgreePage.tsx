@@ -1,5 +1,5 @@
 import { useFlow } from '@/app/routes/stackflow';
-import { postTermAgree } from '@/features/auth/api/postTermAgree';
+import { postTermAgree } from '@/features/onboarding/api/postTermAgree';
 import { Button } from '@azit/design-system';
 
 export function TermAgreePage() {
