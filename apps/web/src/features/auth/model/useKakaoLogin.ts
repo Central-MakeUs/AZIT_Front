@@ -1,3 +1,4 @@
+import { KAKAO_AUTHORIZE_URL } from '@/shared/constants/url';
 import { useCallback } from 'react';
 
 interface KakaoLoginOptions {
@@ -13,11 +14,7 @@ interface KakaoLoginReturn {
 export const useKakaoLogin = (
   options: KakaoLoginOptions = {}
 ): KakaoLoginReturn => {
-  const {
-    redirectUri = import.meta.env.VITE_REDIRECT_URL,
-    onSuccess,
-    onError,
-  } = options;
+  const { redirectUri = KAKAO_AUTHORIZE_URL, onSuccess, onError } = options;
 
   const handleKakaoLogin = useCallback(() => {
     try {
