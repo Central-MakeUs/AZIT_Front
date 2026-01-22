@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { api } from './apiClient';
+import { authApi } from './apiClient';
 import { useAuthStore } from '../store/auth';
 
 describe('shared/lib/ky', () => {
@@ -17,7 +17,7 @@ describe('shared/lib/ky', () => {
         new Response(JSON.stringify({ ok: true }), { status: 200 })
       ) as any;
 
-    await api.get('test').json();
+    await authApi.get('test').json();
 
     const request = (global.fetch as any).mock.calls[0][0] as Request;
     expect(request.headers.get('Authorization')).toBe('Bearer ACCESS_TOKEN');
@@ -45,7 +45,7 @@ describe('shared/lib/ky', () => {
 
     global.fetch = fetchMock as any;
 
-    const result = await api.get('retry-test').json();
+    const result = await authApi.get('retry-test').json();
 
     expect(result).toEqual({ ok: true });
     expect(fetchMock).toHaveBeenCalledTimes(3);
@@ -67,6 +67,8 @@ describe('shared/lib/ky', () => {
       .fn()
       .mockResolvedValue(new Response('Invalid token', { status: 400 })) as any;
 
-    await expect(api.get('error-test').json()).rejects.toThrow(/Invalid token/);
+    await expect(authApi.get('error-test').json()).rejects.toThrow(
+      /Invalid token/
+    );
   });
 });
