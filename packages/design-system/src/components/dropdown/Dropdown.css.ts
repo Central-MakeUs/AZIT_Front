@@ -1,7 +1,10 @@
-import { vars } from '../../shared/styles/theme.css';
 import { style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
-import { typography } from '../../shared/styles';
+import { vars, typography } from '../../shared/styles';
+
+export const dropdownContainer = style({
+  position: 'relative',
+  width: '100%',
+});
 
 export const dropdownTrigger = style([
   typography.body.b2,
@@ -14,60 +17,45 @@ export const dropdownTrigger = style([
     backgroundColor: vars.colors.white,
     border: `0.5px solid ${vars.colors.gray20}`,
     borderRadius: '12px',
-    color: vars.colors.gray30,
     cursor: 'pointer',
     outline: 'none',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 16px center',
-    // selectors: {
-    //   '&:disabled': {
-    //     opacity: 0.6,
-    //     cursor: 'not-allowed',
-    //   },
-    // },
-    // disabled가 디자인에 없어 일단 미구현
   },
 ]);
 
-export const dropdownValue = style({
+export const placeholder = style({
+  color: vars.colors.gray30,
+  flex: 1,
+  textAlign: 'left',
+});
+
+export const selectedValue = style({
   color: vars.colors.black,
   flex: 1,
   textAlign: 'left',
 });
 
-export const dropdownPlaceholder = style({
-  color: vars.colors.gray30,
+export const iconWrapper = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginLeft: '8px',
+  flexShrink: 0,
+  transition: 'transform 0.2s ease',
+  color: vars.colors.gray40,
 });
 
-export const dropdownIcon = recipe({
-  base: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '8px',
-    flexShrink: 0,
-    transition: 'transform 0.2s ease',
-    color: vars.colors.gray40,
-  },
-  variants: {
-    open: {
-      true: {
-        transform: 'rotate(180deg)',
-      },
-      false: {},
-    },
-  },
-  defaultVariants: {
-    open: false,
-  },
+export const iconOpen = style({
+  transform: 'rotate(180deg)',
 });
 
 export const dropdownContent = style({
-  minWidth: 'var(--radix-dropdown-menu-trigger-width)',
+  position: 'absolute',
+  top: 'calc(100% + 8px)',
+  left: 0,
+  right: 0,
   backgroundColor: vars.colors.white,
   borderRadius: '12px',
   border: `0.5px solid ${vars.colors.gray20}`,
-  boxShadow: vars.elevation.level1,
   zIndex: 1000,
   maxHeight: '300px',
   overflow: 'auto',
@@ -76,6 +64,7 @@ export const dropdownContent = style({
 export const dropdownItem = style([
   typography.body.b2,
   {
+    height: '45px',
     display: 'flex',
     alignItems: 'center',
     padding: '10px 16px',
@@ -83,14 +72,14 @@ export const dropdownItem = style([
     cursor: 'pointer',
     outline: 'none',
     position: 'relative',
+    backgroundColor: 'transparent',
+    border: 'none',
+    width: '100%',
+    textAlign: 'left',
+    ':hover': {
+      color: vars.colors.blue60,
+    },
     selectors: {
-      '&[data-highlighted]': {
-        color: vars.colors.blue60,
-      },
-      '&[data-disabled]': {
-        opacity: 0.6,
-        cursor: 'not-allowed',
-      },
       '&:not(:last-child)::after': {
         content: '""',
         position: 'absolute',
@@ -104,27 +93,6 @@ export const dropdownItem = style([
   },
 ]);
 
-export const dropdownItemIndicator = style({
-  position: 'absolute',
-  left: '16px',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '16px',
-  height: '16px',
+export const dropdownItemSelected = style({
   color: vars.colors.blue60,
 });
-
-export const dropdownItemText = style({
-  color: 'inherit',
-  marginLeft: '24px',
-});
-
-export const dropdownLabel = style([
-  typography.body.b2,
-  {
-    color: vars.colors.black,
-    marginBottom: '8px',
-    display: 'block',
-  },
-]);
