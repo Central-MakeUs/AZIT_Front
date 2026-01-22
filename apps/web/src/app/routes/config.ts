@@ -4,12 +4,19 @@ import { HomePage } from '@/pages/home/ui/HomePage';
 import { StorePage } from '@/pages/store/ui/StorePage';
 import { CartPage } from '@/pages/cart/ui/CartPage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
+import { RedirectPage } from '@/pages/auth/ui/RedirectPage';
 
 export const routes = [
   {
     name: 'LoginPage',
     path: '/auth',
     element: LoginPage,
+    withAuth: false,
+  },
+  {
+    name: 'RedirectPage',
+    path: '/auth/kakao/callback',
+    element: RedirectPage,
     withAuth: false,
   },
   {

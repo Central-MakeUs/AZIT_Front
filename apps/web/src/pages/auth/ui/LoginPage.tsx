@@ -2,14 +2,26 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button, vars } from '@azit/design-system';
 import * as styles from '../styles/LoginPage.css';
 import { useFlow } from '@/app/routes/stackflow';
+import { useKakaoLogin, useKakaoSDK } from '@/features/auth/model';
+import { useAuthStore } from '@/shared/store/auth';
 
 export function LoginPage() {
+  useKakaoSDK();
   const { replace } = useFlow();
 
   const handleLogin = () => {
-    localStorage.setItem('accessToken', '1234567890');
+    useAuthStore.setState({ accessToken: '1234567890' });
     replace('HomePage', {}, { animate: false });
   };
+
+  const { handleKakaoLogin } = useKakaoLogin({
+    onSuccess: () => {
+      replace('HomePage', {});
+    },
+    onError: (loginError) => {
+      console.error(`로그인 실패 ${loginError.message}`);
+    },
+  });
 
   return (
     <AppScreen
@@ -23,7 +35,7 @@ export function LoginPage() {
           </p>
         </div>
         <div className={styles.buttonWrapper}>
-          <KakaoLogin onClick={handleLogin} />
+          <KakaoLogin onClick={handleKakaoLogin} />
           <AppleLogin onClick={handleLogin} />
         </div>
       </section>

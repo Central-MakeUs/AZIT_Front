@@ -6,5 +6,5 @@ import type {
 } from '@/shared/api/models';
 
 export type AuthProviderType = AuthProvider;
-export type SocialLoginRequestType = ApiResponse<SocialLoginRequest>;
+export type SocialLoginRequestType = SocialLoginRequest;
 export type SocialLoginResponseType = ApiResponse<SocialLoginResult>;
