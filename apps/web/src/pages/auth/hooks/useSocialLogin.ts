@@ -1,4 +1,3 @@
-import { useFlow } from '@/app/routes/stackflow';
 import { useKakaoLogin } from '@/features/auth/model';
 import type { AuthProvider } from '@/shared/api/models';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
@@ -6,12 +5,8 @@ import { APPLE_AUTHORIZE_URL } from '@/shared/constants/url';
 import { useCallback } from 'react';
 
 export const useSocialLogin = () => {
-  const { replace } = useFlow();
-
   const { handleKakaoLogin: loginWithKakao } = useKakaoLogin({
-    onSuccess: () => {
-      replace('HomePage', {});
-    },
+    onSuccess: () => {},
     onError: (loginError) => {
       console.error(`로그인 실패 ${loginError.message}`);
     },
