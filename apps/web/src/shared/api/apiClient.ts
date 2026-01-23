@@ -5,7 +5,7 @@ import { postReissueToken } from './postReissueToken';
 
 export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
-  // Default Options
+  credentials: 'include',
   headers: {
     'Content-Type': 'application/json',
   },
