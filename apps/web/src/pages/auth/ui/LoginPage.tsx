@@ -4,8 +4,10 @@ import * as styles from '../styles/LoginPage.css';
 import { useSocialLogin } from '../hooks/useSocialLogin';
 import type { AuthProvider } from '@/shared/api/models';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
+import { useKakaoSDK } from '@/features/auth/model';
 
 export function LoginPage() {
+  useKakaoSDK();
   const { loginWith } = useSocialLogin();
 
   const handleLogin = async (provider: AuthProvider) => {
