@@ -21,7 +21,9 @@ export const useKakaoCode = () => {
     setIsLoading(true);
 
     try {
-      await postSocialLogin('KAKAO', { authorizationCode: code });
+      await postSocialLogin('KAKAO', {
+        authorizationCode: code,
+      });
     } catch (err) {
       setError(true);
       console.error('Login failed:', err);
