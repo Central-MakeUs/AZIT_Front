@@ -7,7 +7,7 @@ export interface TermAgreeItemProps {
   required: boolean;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
-  onDetailClick?: () => void;
+  onDetailClick: () => void;
 }
 
 export function TermAgreeItem({
