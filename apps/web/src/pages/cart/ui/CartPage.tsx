@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, Header } from '@azit/design-system';
+import { Button, Divider, Header } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {
@@ -152,7 +152,7 @@ export function CartPage() {
                   onSelectAll={handleSelectAll}
                   onDeleteSelected={handleDeleteSelected}
                 />
-                <div className={styles.divider} />
+                <Divider />
                 <div className={styles.brandListWrapper}>
                   {cartData.map((brand, index) => (
                     <div key={brand.id}>
@@ -164,13 +164,11 @@ export function CartPage() {
                         onQuantityChange={handleQuantityChange}
                         onDeleteItem={handleDeleteItem}
                       />
-                      {index < cartData.length - 1 && (
-                        <div className={styles.divider} />
-                      )}
+                      {index < cartData.length - 1 && <Divider />}
                     </div>
                   ))}
                 </div>
-                <div className={styles.divider} />
+                <Divider />
                 <div className={styles.summaryWrapper}>
                   <CartSummary
                     totalProductPrice={totalProductPrice}
