@@ -1,13 +1,42 @@
 import type { RouteConfig } from './types';
-import { LoginPage } from '@/pages/auth/ui/LoginPage';
+
 import { HomePage } from '@/pages/home/ui/HomePage';
-import { StorePage } from '@/pages/store/ui/StorePage';
-import { StoreDetailPage } from '@/pages/store/ui/StoreDetailPage';
-import { CartPage } from '@/pages/cart/ui/CartPage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
-import { TermAgreePage } from '@/pages/onboarding/ui/TermAgreePage';
-import { OnboardingPage } from '@/pages/onboarding/ui/OnboardingPage';
-import { RedirectPage } from '@/pages/auth/ui/RedirectPage';
+
+import { lazyImport } from './utils';
+
+const LoginPage = lazyImport(
+  () => import('@/pages/auth/ui/LoginPage'),
+  'LoginPage'
+);
+const StorePage = lazyImport(
+  () => import('@/pages/store/ui/StorePage'),
+  'StorePage'
+);
+const StoreDetailPage = lazyImport(
+  () => import('@/pages/store/ui/StoreDetailPage'),
+  'StoreDetailPage'
+);
+const CartPage = lazyImport(
+  () => import('@/pages/cart/ui/CartPage'),
+  'CartPage'
+);
+const TermAgreePage = lazyImport(
+  () => import('@/pages/onboarding/ui/TermAgreePage'),
+  'TermAgreePage'
+);
+const OnboardingPage = lazyImport(
+  () => import('@/pages/onboarding/ui/OnboardingPage'),
+  'OnboardingPage'
+);
+const RedirectPage = lazyImport(
+  () => import('@/pages/auth/ui/RedirectPage'),
+  'RedirectPage'
+);
+const OrderPage = lazyImport(
+  () => import('@/pages/order/ui/OrderPage'),
+  'OrderPage'
+);
 
 export const routes = [
   {
@@ -63,5 +92,11 @@ export const routes = [
     path: '/404',
     element: NotFoundPage,
     withAuth: false,
+  },
+  {
+    name: 'OrderPage',
+    path: '/order',
+    element: OrderPage,
+    withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];
