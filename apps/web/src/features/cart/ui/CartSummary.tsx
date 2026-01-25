@@ -1,6 +1,6 @@
 import { formatPrice } from '@/shared/lib/formatters';
 import * as styles from '../styles/CartSummary.css';
-import { Description } from '@azit/design-system';
+import { Description, Divider } from '@azit/design-system';
 
 interface CartSummaryProps {
   totalProductPrice: number;
@@ -51,7 +51,7 @@ export function CartSummary({
           </Description>
         </div>
       </div>
-      <div className={styles.divider} />
+      <Divider />
       <div className={styles.totalRow}>
         <span className={styles.totalLabel}>총 결제 금액</span>
         <span className={styles.totalValue}>{formatPrice(totalPayment)}</span>

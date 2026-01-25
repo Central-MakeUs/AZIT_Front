@@ -58,12 +58,6 @@ export const priceValueBlue = style([
   },
 ]);
 
-export const divider = style({
-  width: '100%',
-  height: 1,
-  backgroundColor: vars.colors.gray10,
-});
-
 export const totalRow = style({
   display: 'flex',
   alignItems: 'center',

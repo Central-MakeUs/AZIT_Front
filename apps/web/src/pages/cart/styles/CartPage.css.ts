@@ -24,15 +24,6 @@ export const brandListWrapper = style({
   padding: '0 20px',
 });
 
-export const divider = style({
-  display: 'block',
-  width: '100%',
-  height: 1,
-  minHeight: 1,
-  flexShrink: 0,
-  backgroundColor: vars.colors.gray10,
-});
-
 export const summaryWrapper = style({
   marginTop: 20,
   paddingBottom: 20,

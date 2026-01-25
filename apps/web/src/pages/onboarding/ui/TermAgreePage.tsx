@@ -3,7 +3,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useFlow } from '@/app/routes/stackflow';
 import { postTermAgree } from '@/features/onboarding/api/postTermAgree';
 import { TermAgreeItem } from '@/features/onboarding/ui';
-import { Button, Checkbox } from '@azit/design-system';
+import { Button, Checkbox, Divider } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from '../styles/TermAgreePage.css';
@@ -108,7 +108,6 @@ export function TermAgreePage() {
               서비스 이용을 위해 약관 동의가 필요해요
             </p>
           </div>
-
           <div className={styles.termsSection}>
             <div className={styles.allAgreeItem}>
               <Checkbox
@@ -122,9 +121,7 @@ export function TermAgreePage() {
                 전체 동의
               </label>
             </div>
-
-            <div className={styles.divider} />
-
+            <Divider />
             <div className={styles.termsList}>
               {TERM_LIST.map((term) => (
                 <TermAgreeItem
