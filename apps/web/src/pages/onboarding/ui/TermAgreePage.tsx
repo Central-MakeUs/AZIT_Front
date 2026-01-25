@@ -8,14 +8,14 @@ import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from '../styles/TermAgreePage.css';
 
-interface TermsState {
+type TermsState = {
   serviceTermsAgreed: boolean;
   privacyPolicyAgreed: boolean;
   locationServiceAgreed: boolean;
   thirdPartyInfoAgreed: boolean;
   marketingTermsAgreed: boolean;
   notificationTermsAgreed: boolean;
-}
+};
 
 const TERM_LIST = [
   {
@@ -52,14 +52,12 @@ const TERM_LIST = [
 
 export function TermAgreePage() {
   const { replace } = useFlow();
-  const [terms, setTerms] = useState<TermsState>({
-    serviceTermsAgreed: false,
-    privacyPolicyAgreed: false,
-    locationServiceAgreed: false,
-    thirdPartyInfoAgreed: false,
-    marketingTermsAgreed: false,
-    notificationTermsAgreed: false,
-  });
+  const [terms, setTerms] = useState<TermsState>(
+    () =>
+      Object.fromEntries(
+        TERM_LIST.map((term) => [term.id, false])
+      ) as TermsState
+  );
 
   const isAllChecked = useMemo(() => {
     return Object.values(terms).every((value) => value === true);
@@ -72,14 +70,11 @@ export function TermAgreePage() {
   }, [terms]);
 
   const handleAllAgreeChange = (checked: boolean) => {
-    setTerms({
-      serviceTermsAgreed: checked,
-      privacyPolicyAgreed: checked,
-      locationServiceAgreed: checked,
-      thirdPartyInfoAgreed: checked,
-      marketingTermsAgreed: checked,
-      notificationTermsAgreed: checked,
-    });
+    setTerms(
+      Object.fromEntries(
+        TERM_LIST.map((term) => [term.id, checked])
+      ) as TermsState
+    );
   };
 
   const handleTermChange = (id: keyof TermsState, checked: boolean) => {
