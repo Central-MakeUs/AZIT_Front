@@ -1,3 +1,4 @@
+import { lazy, type ComponentType } from 'react';
 import type { RouteConfig } from './types';
 import { withAuth } from './withAuth';
 import type { ActivityComponentType } from '@stackflow/react';
@@ -32,4 +33,15 @@ export function transformRoutes<const Routes extends readonly RouteConfig[]>(
   });
 
   return { activities, routeMap };
+}
+
+export function lazyImport<T extends Record<string, ComponentType<unknown>>>(
+  importFn: () => Promise<T>,
+  componentName: keyof T
+) {
+  return lazy(() =>
+    importFn().then((m) => ({
+      default: m[componentName] as ComponentType<unknown>,
+    }))
+  );
 }
