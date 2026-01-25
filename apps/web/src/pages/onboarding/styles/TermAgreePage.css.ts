@@ -8,14 +8,14 @@ export const pageContainer = style({
   height: '100%',
   paddingLeft: 20,
   paddingRight: 20,
-  paddingTop: 44,
+  paddingTop: 56,
 });
 
 export const headerSection = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 8,
-  marginBottom: 40,
+  marginBottom: 56,
 });
 
 export const title = style([
