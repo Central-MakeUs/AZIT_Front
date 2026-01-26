@@ -37,6 +37,10 @@ const OrderPage = lazyImport(
   () => import('@/pages/order/ui/OrderPage'),
   'OrderPage'
 );
+const OrderCompletePage = lazyImport(
+  () => import('@/pages/order-complete/ui/OrderCompletePage'),
+  'OrderCompletePage'
+);
 
 export const routes = [
   {
@@ -97,6 +101,12 @@ export const routes = [
     name: 'OrderPage',
     path: '/order',
     element: OrderPage,
+    withAuth: true,
+  },
+  {
+    name: 'OrderCompletePage',
+    path: '/order-complete',
+    element: OrderCompletePage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];
