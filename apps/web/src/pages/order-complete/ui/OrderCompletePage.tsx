@@ -9,6 +9,7 @@ import {
 import { mockOrderCompleteData } from '@/shared/mock/order-complete';
 import * as styles from '../styles/OrderCompletePage.css';
 import { useFlow } from '@/app/routes/stackflow';
+import { footerWrapper } from '@/shared/styles/footer.css';
 
 export function OrderCompletePage() {
   const { replace } = useFlow();
@@ -76,7 +77,7 @@ export function OrderCompletePage() {
               totalPayment={mockOrderCompleteData.payment.totalPayment}
             />
           </div>
-          <div className={styles.footerWrapper}>
+          <div className={footerWrapper}>
             <Button state="active" onClick={handleContinueShopping}>
               쇼핑 계속하기
             </Button>
