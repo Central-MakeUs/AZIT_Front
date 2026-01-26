@@ -18,6 +18,7 @@ import {
 } from '@/shared/mock/order';
 import * as styles from '../styles/OrderPage.css';
 import { useFlow } from '@/app/routes/stackflow';
+import { footerWrapper } from '@/shared/styles/footer.css';
 
 const MEMBERSHIP_DISCOUNT_RATE = 0.1;
 
@@ -86,7 +87,7 @@ export function OrderPage() {
               totalPayment={totalPayment}
             />
           </div>
-          <div className={styles.footerWrapper}>
+          <div className={footerWrapper}>
             <Button
               className={styles.ctaButton}
               state="active"
