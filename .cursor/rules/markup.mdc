@@ -214,6 +214,7 @@ styles/StorePage.css.ts
 5.  Mock 데이터 분리
 6.  스타일 파일(css.ts) 생성 및 매핑 확인
 7.  `project-architecture.mdc`의 FSD 규칙을 준수해 디렉토리/파일을 배치한다.
+8.  Chrome DevTools MCP로 스크린샷을 캡처해 적용된 스타일이 정확히 일치하는지 검증한다.
 
 ---
 

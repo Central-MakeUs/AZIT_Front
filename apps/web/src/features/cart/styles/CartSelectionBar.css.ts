@@ -35,10 +35,3 @@ export const deleteButton = style([
     cursor: 'pointer',
   },
 ]);
-
-export const divider = style({
-  width: '100%',
-  height: 1,
-  backgroundColor: vars.colors.gray10,
-  marginTop: 12,
-});
