@@ -19,13 +19,6 @@ export const contentWrapper = style({
   padding: '0 20px',
 });
 
-export const divider = style({
-  width: '100%',
-  height: '1px',
-  backgroundColor: vars.colors.gray10,
-  flexShrink: 0,
-});
-
 export const detailsSection = style({
   display: 'flex',
   flexDirection: 'column',
