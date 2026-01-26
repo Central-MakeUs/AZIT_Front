@@ -7,6 +7,8 @@ import {
 } from '@azit/design-system';
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 import * as styles from './BottomNavigation.css';
+import { useFlow } from '@/app/routes/stackflow';
+import type { ActivityName } from '@/app/routes/types';
 
 type NavigationState = 'home' | 'schedule' | 'store' | 'mypage';
 
@@ -20,16 +22,17 @@ interface MenuItemProps {
   >;
   label: string;
   isActive: boolean;
+  onClick: () => void;
 }
 
-function MenuItem({ icon: Icon, label, isActive }: MenuItemProps) {
+function MenuItem({ icon: Icon, label, isActive, onClick }: MenuItemProps) {
   const iconColor = isActive ? 'primary' : 'secondary';
   const labelClass = isActive
     ? `${styles.menuLabel} ${styles.menuLabelActive}`
     : `${styles.menuLabel} ${styles.menuLabelInactive}`;
 
   return (
-    <div className={styles.menuItem}>
+    <div className={styles.menuItem} onClick={onClick}>
       <div className={styles.menuItemContent}>
         <div className={styles.iconWrapper}>
           <Icon size={24} color={iconColor} />
@@ -41,24 +44,38 @@ function MenuItem({ icon: Icon, label, isActive }: MenuItemProps) {
 }
 
 export function BottomNavigation({ activeTab }: BottomNavigationProps) {
+  const { replace } = useFlow();
+
+  const handleClick = (tab: ActivityName) => {
+    replace(tab, {}, { animate: false });
+  };
+
   return (
     <div className={styles.navigationWrapper}>
       <nav className={styles.navigationContainer}>
-        <MenuItem icon={HomeIcon} label="홈" isActive={activeTab === 'home'} />
+        <MenuItem
+          icon={HomeIcon}
+          label="홈"
+          isActive={activeTab === 'home'}
+          onClick={() => handleClick('HomePage')}
+        />
         <MenuItem
           icon={CalendarIcon}
           label="일정"
           isActive={activeTab === 'schedule'}
+          onClick={() => {}}
         />
         <MenuItem
           icon={ShoppingBagIcon}
           label="스토어"
           isActive={activeTab === 'store'}
+          onClick={() => handleClick('StorePage')}
         />
         <MenuItem
           icon={UserIcon}
           label="마이페이지"
           isActive={activeTab === 'mypage'}
+          onClick={() => {}}
         />
       </nav>
     </div>
