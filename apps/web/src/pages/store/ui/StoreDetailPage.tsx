@@ -8,6 +8,7 @@ import {
   ChevronDownIcon,
   Dropdown,
   Button,
+  Divider,
 } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 import {
@@ -71,13 +72,13 @@ export function StoreDetailPage() {
           <StoreDetailImageSlider />
           <div className={styles.contentWrapper}>
             <StoreDetailInfo product={product} />
-            <div className={styles.divider} />
+            <Divider />
             <div className={styles.detailsSection}>
               <StoreDetailBanner />
               <StoreDetailShipping shipping={product.shipping} />
               <StoreDetailRefund refundPolicy={product.refundPolicy} />
             </div>
-            <div className={styles.divider} />
+            <Divider />
             <StoreDetailDescription details={product.details} />
           </div>
           <div className={styles.moreInfoPlaceholder}>
