@@ -38,16 +38,6 @@ export const summaryWrapper = style({
   paddingBottom: 20,
 });
 
-export const footerWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 4,
-  alignItems: 'center',
-  padding: '0 20px',
-  paddingBottom: 8,
-  backgroundColor: vars.colors.white,
-});
-
 export const ctaButton = style({
   width: '100%',
 });

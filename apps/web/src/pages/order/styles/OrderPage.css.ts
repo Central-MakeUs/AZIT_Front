@@ -25,24 +25,6 @@ export const divider = style({
   width: '100%',
 });
 
-export const footerWrapper = style({
-  position: 'fixed',
-  bottom: 0,
-  left: 0,
-  right: 0,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4px',
-  alignItems: 'center',
-  width: '100%',
-  backgroundColor: vars.colors.white,
-  paddingLeft: '20px',
-  paddingRight: '20px',
-  paddingTop: '10px',
-  paddingBottom: '10px',
-  zIndex: 100,
-});
-
 export const ctaButton = style({
   width: '100%',
   height: '54px',

@@ -10,8 +10,11 @@ import {
 import { mockStoreProducts } from '@/shared/mock/store';
 import * as styles from '../styles/StorePage.css';
 import { logo } from '@/shared/styles/logo.css';
+import { useFlow } from '@/app/routes/stackflow';
 
 export function StorePage() {
+  const { push } = useFlow();
+
   return (
     <AppScreen>
       <AppLayout>
@@ -20,7 +23,10 @@ export function StorePage() {
           left={<h1 className={logo}>AZIT</h1>}
           right={
             <div className={styles.cartIconWrapper}>
-              <ShoppingCartIcon size={24} />
+              <ShoppingCartIcon
+                size={24}
+                onClick={() => push('CartPage', {})}
+              />
             </div>
           }
         />

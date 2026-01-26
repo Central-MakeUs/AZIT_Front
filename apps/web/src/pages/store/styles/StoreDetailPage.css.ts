@@ -34,19 +34,6 @@ export const detailsSection = style({
   width: '100%',
 });
 
-export const purchaseButtonWrapper = style({
-  position: 'fixed',
-  bottom: '0',
-  left: '0',
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '12px',
-  alignItems: 'center',
-  backgroundColor: vars.colors.white,
-  padding: '20px',
-});
-
 export const optionWrapper = style({
   width: '100%',
 });
