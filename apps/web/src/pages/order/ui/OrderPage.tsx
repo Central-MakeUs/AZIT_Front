@@ -22,7 +22,7 @@ import { useFlow } from '@/app/routes/stackflow';
 const MEMBERSHIP_DISCOUNT_RATE = 0.1;
 
 export function OrderPage() {
-  const { pop } = useFlow();
+  const { pop, replace } = useFlow();
 
   const totalProductPrice = useMemo(() => {
     return mockOrderProducts.reduce(
@@ -50,6 +50,7 @@ export function OrderPage() {
 
   const handlePayment = () => {
     // TODO: 결제 로직
+    replace('OrderCompletePage', {});
   };
 
   const handleBack = () => {

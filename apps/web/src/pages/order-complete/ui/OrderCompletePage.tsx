@@ -8,8 +8,11 @@ import {
 } from '@/features/order-complete/ui';
 import { mockOrderCompleteData } from '@/shared/mock/order-complete';
 import * as styles from '../styles/OrderCompletePage.css';
+import { useFlow } from '@/app/routes/stackflow';
 
 export function OrderCompletePage() {
+  const { replace } = useFlow();
+
   const handleViewDetail = () => {
     // TODO: 주문 상세보기 네비게이션
     console.log('주문 상세보기');
@@ -28,6 +31,7 @@ export function OrderCompletePage() {
   const handleHome = () => {
     // TODO: 홈으로
     console.log('홈으로');
+    replace('HomePage', {});
   };
 
   return (
