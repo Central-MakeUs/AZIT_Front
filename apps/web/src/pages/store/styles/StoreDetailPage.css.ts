@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 
 export const pageContainer = style({
   display: 'flex',
@@ -85,12 +85,12 @@ export const moreInfoButton = style({
   cursor: 'pointer',
 });
 
-export const moreInfoButtonText = style({
-  fontSize: vars.typography.body.b1.fontSize,
-  fontWeight: vars.typography.body.b1.fontWeight,
-  lineHeight: vars.typography.body.b1.lineHeight,
-  color: vars.colors.blue80,
-});
+export const moreInfoButtonText = style([
+  typography.body.b1,
+  {
+    color: vars.colors.blue80,
+  },
+]);
 
 export const headerIconWrapper = style({
   display: 'flex',
