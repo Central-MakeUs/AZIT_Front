@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 
 export const container = style({
   display: 'flex',
@@ -7,13 +7,13 @@ export const container = style({
   alignItems: 'flex-start',
 });
 
-export const label = style({
-  fontSize: vars.typography.body.b3.fontSize,
-  fontWeight: vars.typography.body.b3.fontWeight,
-  lineHeight: vars.typography.body.b3.lineHeight,
-  color: vars.colors.gray50,
-  flexShrink: 0,
-});
+export const label = style([
+  typography.body.b3,
+  {
+    color: vars.colors.gray50,
+    flexShrink: 0,
+  },
+]);
 
 export const content = style({
   display: 'flex',
@@ -23,10 +23,10 @@ export const content = style({
   width: '162px',
 });
 
-export const text = style({
-  fontSize: vars.typography.body.b3.fontSize,
-  fontWeight: vars.typography.body.b3.fontWeight,
-  lineHeight: vars.typography.body.b3.lineHeight,
-  color: vars.colors.black,
-  width: '100%',
-});
+export const text = style([
+  typography.body.b3,
+  {
+    color: vars.colors.black,
+    width: '100%',
+  },
+]);

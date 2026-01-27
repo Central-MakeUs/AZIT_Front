@@ -24,9 +24,10 @@ import { mockStoreProducts } from '@/shared/mock/store';
 import * as styles from '../styles/StoreDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
+import { footerWrapper } from '@/shared/styles/footer.css';
 
 export function StoreDetailPage() {
-  const { pop } = useFlow();
+  const { pop, push } = useFlow();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
@@ -63,7 +64,10 @@ export function StoreDetailPage() {
                 <ShareIcon size={24} />
               </button>
               <button className={styles.iconButton}>
-                <ShoppingCartIcon size={24} />
+                <ShoppingCartIcon
+                  size={24}
+                  onClick={() => push('CartPage', {})}
+                />
               </button>
             </div>
           }
@@ -92,7 +96,7 @@ export function StoreDetailPage() {
             </div>
           </div>
         </div>
-        <div className={styles.purchaseButtonWrapper}>
+        <div className={footerWrapper}>
           <Button size="large" state="active" onClick={handlePurchaseClick}>
             구매하기
           </Button>
@@ -127,7 +131,10 @@ export function StoreDetailPage() {
             <Button
               size="large"
               state="active"
-              onClick={() => setIsBottomSheetOpen(false)}
+              onClick={() => {
+                setIsBottomSheetOpen(false);
+                push('OrderPage', {});
+              }}
             >
               구매하기
             </Button>

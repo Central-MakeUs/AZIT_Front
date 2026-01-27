@@ -5,30 +5,28 @@ export const pageContainer = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  flexGrow: 1,
-  overflowY: 'auto',
-  backgroundColor: vars.colors.white,
+  minHeight: '100vh',
+  paddingBottom: '120px',
 });
 
 export const contentWrapper = style({
-  flex: 1,
   display: 'flex',
   flexDirection: 'column',
+  gap: '32px',
+  paddingLeft: '20px',
+  paddingRight: '20px',
+  paddingTop: '20px',
+  paddingBottom: '120px',
+});
+
+export const divider = style({
+  height: '1px',
+  backgroundColor: vars.colors.gray10,
   width: '100%',
-  overflowY: 'auto',
-});
-
-export const brandListWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  padding: '0 20px',
-});
-
-export const summaryWrapper = style({
-  marginTop: 20,
-  paddingBottom: 20,
 });
 
 export const ctaButton = style({
   width: '100%',
+  height: '54px',
+  borderRadius: '16px',
 });
