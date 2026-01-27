@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 
 export const infoContainer = style({
   display: 'flex',
@@ -17,21 +17,21 @@ export const textContainer = style({
   width: '100%',
 });
 
-export const brandName = style({
-  fontSize: vars.typography.body.b3.fontSize,
-  fontWeight: vars.typography.body.b3.fontWeight,
-  lineHeight: vars.typography.body.b3.lineHeight,
-  color: vars.colors.black,
-  width: '100%',
-});
+export const brandName = style([
+  typography.body.b3,
+  {
+    color: vars.colors.black,
+    width: '100%',
+  },
+]);
 
-export const productName = style({
-  fontSize: vars.typography.body.b2.fontSize,
-  fontWeight: vars.typography.body.b2.fontWeight,
-  lineHeight: vars.typography.body.b2.lineHeight,
-  color: vars.colors.black,
-  width: '100%',
-});
+export const productName = style([
+  typography.body.b2,
+  {
+    color: vars.colors.black,
+    width: '100%',
+  },
+]);
 
 export const priceContainer = style({
   display: 'flex',
@@ -40,14 +40,14 @@ export const priceContainer = style({
   width: '130px',
 });
 
-export const originalPrice = style({
-  fontSize: vars.typography.body.b2.fontSize,
-  fontWeight: vars.typography.body.b2.fontWeight,
-  lineHeight: vars.typography.body.b2.lineHeight,
-  color: vars.colors.gray50,
-  textDecoration: 'line-through',
-  width: '100%',
-});
+export const originalPrice = style([
+  typography.body.b2,
+  {
+    color: vars.colors.gray50,
+    textDecoration: 'line-through',
+    width: '100%',
+  },
+]);
 
 export const discountContainer = style({
   display: 'flex',
@@ -56,16 +56,16 @@ export const discountContainer = style({
   width: '100%',
 });
 
-export const discountRate = style({
-  fontSize: vars.typography.heading.h3.fontSize,
-  fontWeight: vars.typography.heading.h3.fontWeight,
-  lineHeight: vars.typography.heading.h3.lineHeight,
-  color: vars.colors.blue60,
-});
+export const discountRate = style([
+  typography.heading.h3,
+  {
+    color: vars.colors.blue60,
+  },
+]);
 
-export const discountedPrice = style({
-  fontSize: vars.typography.heading.h3.fontSize,
-  fontWeight: vars.typography.heading.h3.fontWeight,
-  lineHeight: vars.typography.heading.h3.lineHeight,
-  color: vars.colors.black,
-});
+export const discountedPrice = style([
+  typography.heading.h3,
+  {
+    color: vars.colors.black,
+  },
+]);
