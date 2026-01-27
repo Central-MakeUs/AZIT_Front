@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 
 export const navigationWrapper = style({
   position: 'fixed',
@@ -54,14 +54,14 @@ export const iconWrapper = style({
   flexShrink: 0,
 });
 
-export const menuLabel = style({
-  fontSize: vars.typography.body.b4.fontSize,
-  fontWeight: vars.typography.body.b4.fontWeight,
-  lineHeight: vars.typography.body.b4.lineHeight,
-  textAlign: 'center',
-  width: '64px',
-  flexShrink: 0,
-});
+export const menuLabel = style([
+  typography.body.b4,
+  {
+    textAlign: 'center',
+    width: '64px',
+    flexShrink: 0,
+  },
+]);
 
 export const menuLabelActive = style({
   color: vars.colors.blue80,

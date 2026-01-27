@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 
 export const banner = style({
   width: '100%',
@@ -11,13 +11,13 @@ export const banner = style({
   overflow: 'hidden',
 });
 
-export const bannerText = style({
-  position: 'absolute',
-  left: '23px',
-  top: '17px',
-  fontSize: vars.typography.body.b1.fontSize,
-  fontWeight: vars.typography.body.b1.fontWeight,
-  lineHeight: vars.typography.body.b1.lineHeight,
-  color: vars.colors.white,
-  textShadow: vars.elevation.level1,
-});
+export const bannerText = style([
+  typography.body.b1,
+  {
+    position: 'absolute',
+    left: '23px',
+    top: '17px',
+    color: vars.colors.white,
+    textShadow: vars.elevation.level1,
+  },
+]);
