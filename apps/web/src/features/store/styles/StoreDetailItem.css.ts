@@ -1,4 +1,4 @@
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
 export const container = style({
@@ -21,19 +21,19 @@ export const cancelButton = style({
   color: vars.colors.gray30,
 });
 
-export const optionText = style({
-  fontSize: vars.typography.body.b2.fontSize,
-  fontWeight: vars.typography.body.b2.fontWeight,
-  lineHeight: vars.typography.body.b2.lineHeight,
-  color: vars.colors.black,
-});
+export const optionText = style([
+  typography.body.b2,
+  {
+    color: vars.colors.black,
+  },
+]);
 
-export const shippingText = style({
-  fontSize: vars.typography.body.b3.fontSize,
-  fontWeight: vars.typography.body.b3.fontWeight,
-  lineHeight: vars.typography.body.b3.lineHeight,
-  color: vars.colors.gray50,
-});
+export const shippingText = style([
+  typography.body.b3,
+  {
+    color: vars.colors.gray50,
+  },
+]);
 
 export const bottomContainer = style({
   display: 'flex',
@@ -62,19 +62,19 @@ export const quantitySelectorButton = style({
   color: vars.colors.gray50,
 });
 
-export const quantitySelectorCount = style({
-  fontSize: vars.typography.body.b3.fontSize,
-  fontWeight: vars.typography.body.b3.fontWeight,
-  lineHeight: vars.typography.body.b3.lineHeight,
-  color: vars.colors.black,
-  display: 'flex',
-  padding: '4px 12px',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
-  border: `0.5px solid ${vars.colors.gray20}`,
-  borderRadius: '8px',
-  height: '30px',
-  width: '30px',
-});
+export const quantitySelectorCount = style([
+  typography.body.b3,
+  {
+    color: vars.colors.black,
+    display: 'flex',
+    padding: '4px 12px',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '10px',
+    border: `0.5px solid ${vars.colors.gray20}`,
+    borderRadius: '8px',
+    height: '30px',
+    width: '30px',
+  },
+]);
