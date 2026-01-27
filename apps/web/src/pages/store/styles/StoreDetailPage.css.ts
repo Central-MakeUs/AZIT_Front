@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 
 export const pageContainer = style({
   display: 'flex',
@@ -25,19 +25,6 @@ export const detailsSection = style({
   gap: '16px',
   alignItems: 'flex-start',
   width: '100%',
-});
-
-export const purchaseButtonWrapper = style({
-  position: 'fixed',
-  bottom: '0',
-  left: '0',
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '12px',
-  alignItems: 'center',
-  backgroundColor: vars.colors.white,
-  padding: '20px',
 });
 
 export const optionWrapper = style({
@@ -91,12 +78,12 @@ export const moreInfoButton = style({
   cursor: 'pointer',
 });
 
-export const moreInfoButtonText = style({
-  fontSize: vars.typography.body.b1.fontSize,
-  fontWeight: vars.typography.body.b1.fontWeight,
-  lineHeight: vars.typography.body.b1.lineHeight,
-  color: vars.colors.blue80,
-});
+export const moreInfoButtonText = style([
+  typography.body.b1,
+  {
+    color: vars.colors.blue80,
+  },
+]);
 
 export const headerIconWrapper = style({
   display: 'flex',

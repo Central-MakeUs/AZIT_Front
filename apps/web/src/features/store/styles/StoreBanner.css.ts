@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@azit/design-system';
+import { vars, typography } from '@azit/design-system';
 
 export const banner = style({
   width: '100%',
@@ -12,22 +12,22 @@ export const banner = style({
   boxShadow: vars.elevation.level1,
 });
 
-export const bannerTitle = style({
-  position: 'absolute',
-  left: '24px',
-  top: '24px',
-  fontSize: vars.typography.heading.h2.fontSize,
-  fontWeight: vars.typography.heading.h2.fontWeight,
-  lineHeight: vars.typography.heading.h2.lineHeight,
-  color: vars.colors.white,
-});
+export const bannerTitle = style([
+  typography.heading.h2,
+  {
+    position: 'absolute',
+    left: '24px',
+    top: '24px',
+    color: vars.colors.white,
+  },
+]);
 
-export const bannerDescription = style({
-  position: 'absolute',
-  left: '24px',
-  top: '64px',
-  fontSize: vars.typography.body.b1.fontSize,
-  fontWeight: vars.typography.body.b1.fontWeight,
-  lineHeight: vars.typography.body.b1.lineHeight,
-  color: vars.colors.white,
-});
+export const bannerDescription = style([
+  typography.body.b1,
+  {
+    position: 'absolute',
+    left: '24px',
+    top: '64px',
+    color: vars.colors.white,
+  },
+]);

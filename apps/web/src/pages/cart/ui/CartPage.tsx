@@ -12,6 +12,7 @@ import {
 import { mockCartDataWithSoldout, type CartBrand } from '@/shared/mock/cart';
 import * as styles from '../styles/CartPage.css';
 import { formatPrice } from '@/shared/lib/formatters';
+import { footerWrapper } from '@/shared/styles/footer.css';
 
 const MEMBERSHIP_DISCOUNT_RATE = 0.1;
 
@@ -178,7 +179,7 @@ export function CartPage() {
                   />
                 </div>
               </div>
-              <div className={styles.footerWrapper}>
+              <div className={footerWrapper}>
                 <Button
                   className={styles.ctaButton}
                   state={hasSelectedItems ? 'active' : 'disabled'}
