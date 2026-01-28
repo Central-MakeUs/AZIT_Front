@@ -1,5 +1,5 @@
 import type { OrderProduct } from '@/shared/mock/order';
-import { OrderProductItem } from './OrderProductItem';
+import { OrderProductItem } from '@/widgets/order-product-list/ui';
 import * as styles from '../styles/OrderProductList.css';
 
 interface OrderProductListProps {

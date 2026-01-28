@@ -1,5 +1,5 @@
 import type { OrderProduct } from '@/shared/mock/order';
-import * as styles from '../styles/OrderProductItem.css';
+import * as styles from '../styles/OrderProductItem.css.ts';
 
 interface OrderProductItemProps {
   product: OrderProduct;
@@ -16,17 +16,19 @@ export function OrderProductItem({ product }: OrderProductItemProps) {
             <p className={styles.productName}>{product.productName}</p>
           </div>
           <div className={styles.pointsContainer}>
-            <p className={styles.points}>{product.points}</p>
-            <p className={styles.quantity}>/ {product.quantity}개</p>
+            <div>
+              <span className={styles.points}>{product.points}</span>
+              <span className={styles.quantity}>/ {product.quantity}개</span>
+            </div>
+            <div className={styles.priceContainer}>
+              <span className={styles.originalPrice}>
+                {product.originalPrice.toLocaleString()}원
+              </span>
+              <span className={styles.discountedPrice}>
+                {product.discountedPrice.toLocaleString()}원
+              </span>
+            </div>
           </div>
-        </div>
-        <div className={styles.priceContainer}>
-          <p className={styles.originalPrice}>
-            {product.originalPrice.toLocaleString()}원
-          </p>
-          <p className={styles.discountedPrice}>
-            {product.discountedPrice.toLocaleString()}원
-          </p>
         </div>
       </div>
     </div>
