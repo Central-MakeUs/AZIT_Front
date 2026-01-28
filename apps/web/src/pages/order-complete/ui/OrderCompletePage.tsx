@@ -4,8 +4,8 @@ import { AppLayout } from '@/shared/ui/layout';
 import {
   OrderCompleteHeader,
   DeliveryInfoSection,
-  PaymentInfoSection,
 } from '@/features/order-complete/ui';
+import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { mockOrderCompleteData } from '@/shared/mock/order-complete';
 import * as styles from '../styles/OrderCompletePage.css';
 import { useFlow } from '@/app/routes/stackflow';
@@ -15,7 +15,7 @@ export function OrderCompletePage() {
   const { replace } = useFlow();
 
   const handleViewDetail = () => {
-    // TODO: 주문 상세보기 네비게이션
+    replace('OrderDetailPage', { id: 1 });
     console.log('주문 상세보기');
   };
 
