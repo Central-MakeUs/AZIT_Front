@@ -3,9 +3,13 @@ import * as styles from '../styles/OrderProductItem.css.ts';
 
 interface OrderProductItemProps {
   product: OrderProduct;
+  showOriginalPrice?: boolean;
 }
 
-export function OrderProductItem({ product }: OrderProductItemProps) {
+export function OrderProductItem({
+  product,
+  showOriginalPrice = true,
+}: OrderProductItemProps) {
   return (
     <div className={styles.productItem}>
       <div className={styles.productImage} />
@@ -21,9 +25,11 @@ export function OrderProductItem({ product }: OrderProductItemProps) {
               <span className={styles.quantity}>/ {product.quantity}개</span>
             </div>
             <div className={styles.priceContainer}>
-              <span className={styles.originalPrice}>
-                {product.originalPrice.toLocaleString()}원
-              </span>
+              {showOriginalPrice && (
+                <span className={styles.originalPrice}>
+                  {product.originalPrice.toLocaleString()}원
+                </span>
+              )}
               <span className={styles.discountedPrice}>
                 {product.discountedPrice.toLocaleString()}원
               </span>

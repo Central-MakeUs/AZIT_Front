@@ -43,7 +43,10 @@ export function OrderDetailPage() {
               onCheckDelivery={handleCheckDelivery}
               onCopyTrackingNumber={handleCopyTrackingNumber}
             />
-            <OrderProductListSection products={mockOrderDetail.products} />
+            <OrderProductListSection
+              products={mockOrderDetail.products}
+              showOriginalPrice={false}
+            />
             <PaymentInfoSection
               totalProductPrice={mockOrderDetail.totalProductPrice}
               membershipDiscount={mockOrderDetail.membershipDiscount}
