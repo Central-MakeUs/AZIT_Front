@@ -55,3 +55,37 @@ export const mockPaymentMethod: PaymentMethod = {
 };
 
 export const mockAvailablePoints = 2000;
+
+export interface OrderDetail {
+  id: string;
+  orderNumber: string;
+  orderDate: string;
+  orderDayOfWeek: string;
+  deliveryAddress: OrderAddress;
+  deliveryMessage?: string;
+  deliveryCompany: string;
+  trackingNumber: string;
+  products: OrderProduct[];
+  totalProductPrice: number;
+  membershipDiscount: number;
+  pointsDiscount: number;
+  shippingFee: number;
+  totalPayment: number;
+}
+
+export const mockOrderDetail: OrderDetail = {
+  id: 'order-1',
+  orderNumber: 'AZOFCFBCU',
+  orderDate: '2026.01.07',
+  orderDayOfWeek: '수',
+  deliveryAddress: mockOrderAddress,
+  deliveryMessage: '집 앞에 놔주세요',
+  deliveryCompany: 'CJ대한통운',
+  trackingNumber: '1234567890',
+  products: mockOrderProducts,
+  totalProductPrice: 40000,
+  membershipDiscount: 4000,
+  pointsDiscount: 1000,
+  shippingFee: 0,
+  totalPayment: 35000,
+};
