@@ -1,4 +1,3 @@
-export { OrderProductList } from './OrderProductList';
 export { OrderAddressSection } from './OrderAddressSection';
 export { OrderDiscountSection } from './OrderDiscountSection';
 export { OrderPaymentMethodSection } from './OrderPaymentMethodSection';
