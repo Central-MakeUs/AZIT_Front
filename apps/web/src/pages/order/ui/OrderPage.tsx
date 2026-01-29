@@ -4,12 +4,12 @@ import { Button, Header } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {
-  OrderProductList,
   OrderAddressSection,
   OrderDiscountSection,
   OrderPaymentMethodSection,
   OrderSummarySection,
 } from '@/features/order/ui';
+import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 import {
   mockOrderProducts,
   mockOrderAddress,
@@ -73,7 +73,11 @@ export function OrderPage() {
               onChangeAddress={handleChangeAddress}
             />
             <div className={styles.divider} />
-            <OrderProductList products={mockOrderProducts} />
+            <OrderProductListSection
+              products={mockOrderProducts}
+              title={`주문 상품 총 ${mockOrderProducts.length}개`}
+              showDivider={false}
+            />
             <div className={styles.divider} />
             <OrderDiscountSection availablePoints={mockAvailablePoints} />
             <div className={styles.divider} />
