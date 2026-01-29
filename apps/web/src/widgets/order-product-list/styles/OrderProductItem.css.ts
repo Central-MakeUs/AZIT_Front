@@ -62,13 +62,6 @@ export const productName = style({
   whiteSpace: 'nowrap',
 });
 
-export const pointsContainer = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
-});
-
 export const points = style({
   fontSize: vars.typography.body.b2.fontSize,
   fontWeight: vars.typography.body.b2.fontWeight,
