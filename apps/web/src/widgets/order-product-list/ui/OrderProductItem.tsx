@@ -1,4 +1,5 @@
 import type { OrderProduct } from '@/shared/mock/order';
+import { Description } from '@azit/design-system';
 import * as styles from '../styles/OrderProductItem.css.ts';
 
 interface OrderProductItemProps {
@@ -19,12 +20,12 @@ export function OrderProductItem({
             <p className={styles.brandName}>{product.brandName}</p>
             <p className={styles.productName}>{product.productName}</p>
           </div>
-          <div className={styles.pointsContainer}>
-            <div>
+          <Description>
+            <Description.Label>
               <span className={styles.points}>{product.points}</span>
               <span className={styles.quantity}>/ {product.quantity}개</span>
-            </div>
-            <div className={styles.priceContainer}>
+            </Description.Label>
+            <Description.Value className={styles.priceContainer}>
               {showOriginalPrice && (
                 <span className={styles.originalPrice}>
                   {product.originalPrice.toLocaleString()}원
@@ -33,8 +34,8 @@ export function OrderProductItem({
               <span className={styles.discountedPrice}>
                 {product.discountedPrice.toLocaleString()}원
               </span>
-            </div>
-          </div>
+            </Description.Value>
+          </Description>
         </div>
       </div>
     </div>
