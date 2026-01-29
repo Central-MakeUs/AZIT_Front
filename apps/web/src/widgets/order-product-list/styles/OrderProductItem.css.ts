@@ -19,15 +19,18 @@ export const productInfo = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '4px',
-  width: '251px',
+  flex: 1,
   flexShrink: 0,
+  width: '100%',
 });
 
 export const productDetails = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '9px',
-  width: '191px',
+  width: '100%',
+  flex: 1,
+  minWidth: 0,
 });
 
 export const productTexts = style({
@@ -59,12 +62,6 @@ export const productName = style({
   whiteSpace: 'nowrap',
 });
 
-export const pointsContainer = style({
-  display: 'flex',
-  gap: '4px',
-  alignItems: 'center',
-});
-
 export const points = style({
   fontSize: vars.typography.body.b2.fontSize,
   fontWeight: vars.typography.body.b2.fontWeight,
@@ -83,8 +80,7 @@ export const priceContainer = style({
   display: 'flex',
   gap: '6px',
   alignItems: 'center',
-  paddingLeft: '124px',
-  width: '100%',
+  width: 'fit-content',
 });
 
 export const originalPrice = style({

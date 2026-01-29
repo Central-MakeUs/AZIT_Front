@@ -18,6 +18,7 @@ export const title = style([
   typography.body.b2,
   {
     color: vars.colors.black,
+    fontWeight: '600',
   },
 ]);
 
