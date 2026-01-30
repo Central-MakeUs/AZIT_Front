@@ -1,12 +1,12 @@
-export const REGION = {
-  SEOUL: 'SEOUL',
-  GYEONGGI_INCHEON: 'GYEONGGI_INCHEON',
-  CHUNGCHEONG_DAEJEON: 'CHUNGCHEONG_DAEJEON',
-  JEOLLA_GWANGJU: 'JEOLLA_GWANGJU',
-  GYEONGBUK_DAEGU: 'GYEONGBUK_DAEGU',
-  GYEONGNAM_BUSAN: 'GYEONGNAM_BUSAN',
-  GANGWON: 'GANGWON',
-  JEJU: 'JEJU',
-} as const;
+export const REGION_OPTIONS = [
+  { id: 'SEOUL', label: '서울' },
+  { id: 'GYEONGGI_INCHEON', label: '경기/인천' },
+  { id: 'CHUNGCHEONG_DAEJEON', label: '충청/대전' },
+  { id: 'JEOLLA_GWANGJU', label: '전라/광주' },
+  { id: 'GYEONGBUK_DAEGU', label: '경북/대구' },
+  { id: 'GYEONGNAM_BUSAN', label: '경남/부산' },
+  { id: 'GANGWON', label: '강원' },
+  { id: 'JEJU', label: '제주' },
+] as const;
 
-export type RegionType = (typeof REGION)[keyof typeof REGION];
+export type RegionIdType = (typeof REGION_OPTIONS)[number]['id'];

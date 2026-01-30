@@ -5,7 +5,7 @@ import { useFlow } from '@/app/routes/stackflow';
 
 export interface OnboardingShareInviteCodeProps {
   crewName: string;
-  crewProfileImage?: string;
+  crewProfileImage: string;
   inviteCode: string;
 }
 

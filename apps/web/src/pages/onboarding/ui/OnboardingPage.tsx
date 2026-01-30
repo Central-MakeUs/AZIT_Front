@@ -8,8 +8,6 @@ import {
   OnboardingCrewRegion,
   OnboardingShareInviteCode,
 } from '@/features/onboarding/ui';
-import { Header } from '@azit/design-system';
-import { BackButton } from '@/shared/ui/button';
 
 type StepName =
   | 'role-select'
@@ -20,73 +18,94 @@ type StepName =
   | 'enter-invite-code'
   | 'request-complete';
 
-const ONBOARDING_FLOW = {
-  'role-select': {
-    leader: 'crew-name',
-    member: 'member-join',
-  },
+const ONBOARDING_FLOW: Record<
+  StepName,
+  ((ctx: unknown) => StepName) | StepName | null
+> = {
+  'role-select': (ctx) => (ctx === 'leader' ? 'crew-name' : 'member-join'),
   'crew-name': 'crew-region',
   'crew-region': 'share-invite-code',
   'share-invite-code': null,
   'member-join': 'enter-invite-code',
   'enter-invite-code': 'request-complete',
   'request-complete': null,
-} as const;
+};
 
-const initialStep = 'role-select';
-const hideBackButton = ['role-select', 'share-invite-code'];
+type OnboardingState = {
+  role?: 'leader' | 'member';
+  crewName?: string;
+  crewRegion?: string;
+  inviteCode?: string;
+};
 
 export function OnboardingPage() {
-  const [Funnel, step, setStep] = useFunnel<StepName>(initialStep);
-
-  const [history, setHistory] = useState<StepName[]>([]);
-  const showBackButton = !hideBackButton.includes(step);
-
-  const onBack = () => {
-    if (history.length === 0) return;
-
-    setStep(history[history.length - 1]);
-    setHistory((prev) => prev.slice(0, -1));
-  };
-
-  const onNext = (action: () => void) => {
-    action();
-    setHistory((prev) => [...prev, step]);
-  };
-
+  const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
+  const [onboardingState, setOnboardingState] = useState<OnboardingState>({});
+  console.log('onboardingState', onboardingState);
   return (
     <AppScreen>
       <AppLayout>
-        {showBackButton && (
-          <Header sticky left={<BackButton onClick={onBack} />} />
-        )}
         <Funnel>
-          <Funnel.Step name="role-select">
-            <OnboardingRoleSelect
-              onNext={(role) =>
-                onNext(() =>
-                  setStep(role === 'leader' ? 'crew-name' : 'member-join')
-                )
-              }
-            />
-          </Funnel.Step>
-          <Funnel.Step name="crew-name">
-            <OnboardingCrewName
-              onNext={() => onNext(() => setStep('crew-region'))}
-            />
-          </Funnel.Step>
-          <Funnel.Step name="crew-region">
-            <OnboardingCrewRegion
-              onNext={() => onNext(() => setStep('share-invite-code'))}
-            />
-          </Funnel.Step>
-          <Funnel.Step name="share-invite-code">
-            <OnboardingShareInviteCode
-              crewName="test"
-              crewProfileImage="example.png"
-              inviteCode="123456"
-            />
-          </Funnel.Step>
+          <Funnel.Step
+            name="role-select"
+            render={(context) => (
+              <OnboardingRoleSelect
+                defaultValue={onboardingState.role}
+                onNext={(ctx) => {
+                  setOnboardingState((prev) => ({ ...prev, role: ctx }));
+                  context.onNext(ctx);
+                }}
+              />
+            )}
+          />
+          <Funnel.Step
+            name="crew-name"
+            render={(context) => (
+              <OnboardingCrewName
+                onNext={(crewName) => {
+                  setOnboardingState((prev) => ({ ...prev, crewName }));
+                  context.onNext();
+                }}
+                onPrev={() => {
+                  setOnboardingState((prev) => ({
+                    ...prev,
+                    crewName: undefined,
+                  }));
+                  context.onPrev();
+                }}
+                defaultValue={onboardingState.crewName}
+              />
+            )}
+          />
+          <Funnel.Step
+            name="crew-region"
+            render={(context) => (
+              <OnboardingCrewRegion
+                defaultValue={onboardingState.crewRegion}
+                onNext={(crewRegion) => {
+                  setOnboardingState((prev) => ({ ...prev, crewRegion }));
+                  context.onNext();
+                }}
+                onPrev={() => {
+                  setOnboardingState((prev) => ({
+                    ...prev,
+                    crewRegion: undefined,
+                  }));
+                  context.onPrev();
+                }}
+              />
+            )}
+          />
+          <Funnel.Step
+            name="share-invite-code"
+            render={() => (
+              <OnboardingShareInviteCode
+                crewName={onboardingState.crewName!}
+                crewProfileImage={'example.png'}
+                inviteCode={onboardingState.inviteCode!}
+              />
+            )}
+          />
           {/* TODO: 멤버 온보딩 UI 추가 */}
         </Funnel>
       </AppLayout>

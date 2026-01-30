@@ -26,7 +26,6 @@ export const profileSection = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: 12,
-  width: 96,
 });
 
 export const crewName = style([

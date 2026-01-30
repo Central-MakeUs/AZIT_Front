@@ -1,44 +1,30 @@
-import { useState } from 'react';
-import { Button } from '@azit/design-system';
+import { Button, Header } from '@azit/design-system';
 import clsx from 'clsx';
-import { REGION, type RegionType } from '@/shared/constants/region';
+import { REGION_OPTIONS, type RegionIdType } from '@/shared/constants/region';
 import * as styles from '../styles/OnboardingCrewRegion.css';
+import { BackButton } from '@/shared/ui/button';
+import { useState } from 'react';
 
 export interface OnboardingCrewRegionProps {
-  onNext: (region: RegionType) => void;
-  onBack?: () => void;
+  defaultValue?: string;
+  onNext: (selectedRegion: string) => void;
+  onPrev: () => void;
 }
 
-interface RegionOption {
-  id: RegionType;
-  label: string;
-}
+export function OnboardingCrewRegion({
+  defaultValue,
+  onNext,
+  onPrev,
+}: OnboardingCrewRegionProps) {
+  const [selectedRegion, setSelectedRegion] = useState(defaultValue ?? null);
 
-const REGION_OPTIONS: RegionOption[] = [
-  { id: REGION.SEOUL, label: '서울' },
-  { id: REGION.GYEONGGI_INCHEON, label: '경기/인천' },
-  { id: REGION.CHUNGCHEONG_DAEJEON, label: '충청/대전' },
-  { id: REGION.JEOLLA_GWANGJU, label: '전라/광주' },
-  { id: REGION.GYEONGBUK_DAEGU, label: '경북/대구' },
-  { id: REGION.GYEONGNAM_BUSAN, label: '경남/부산' },
-  { id: REGION.GANGWON, label: '강원' },
-  { id: REGION.JEJU, label: '제주' },
-];
-
-export function OnboardingCrewRegion({ onNext }: OnboardingCrewRegionProps) {
-  const [selectedRegion, setSelectedRegion] = useState<RegionType | null>(null);
-
-  const handleRegionSelect = (region: RegionType) => {
+  const handleRegionSelect = (region: RegionIdType) => {
     setSelectedRegion(region);
-  };
-
-  const handleNext = () => {
-    if (!selectedRegion) return;
-    onNext(selectedRegion);
   };
 
   return (
     <>
+      <Header sticky left={<BackButton onClick={onPrev} />} />
       <div className={styles.stepContainer}>
         <div className={styles.headerSection}>
           <h1 className={styles.title}>지역을 선택해요</h1>
@@ -46,17 +32,17 @@ export function OnboardingCrewRegion({ onNext }: OnboardingCrewRegionProps) {
         </div>
 
         <div className={styles.regionGrid}>
-          {REGION_OPTIONS.map((region) => (
+          {REGION_OPTIONS.map(({ id, label }) => (
             <button
-              key={region.id}
+              key={id}
               type="button"
               className={clsx(
                 styles.regionCard,
-                selectedRegion === region.id && styles.regionCardSelected
+                selectedRegion === id && styles.regionCardSelected
               )}
-              onClick={() => handleRegionSelect(region.id)}
+              onClick={() => handleRegionSelect(id)}
             >
-              {region.label}
+              {label}
             </button>
           ))}
         </div>
@@ -66,7 +52,10 @@ export function OnboardingCrewRegion({ onNext }: OnboardingCrewRegionProps) {
         <Button
           state={selectedRegion ? 'active' : 'disabled'}
           disabled={!selectedRegion}
-          onClick={handleNext}
+          onClick={() => {
+            if (!selectedRegion) return;
+            onNext(selectedRegion);
+          }}
         >
           다음
         </Button>
