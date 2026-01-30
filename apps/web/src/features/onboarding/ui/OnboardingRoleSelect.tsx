@@ -6,6 +6,7 @@ import clsx from 'clsx';
 export type OnboardingRoleType = 'leader' | 'member';
 
 export interface OnboardingRoleSelectProps {
+  defaultValue?: OnboardingRoleType;
   onNext: (role: OnboardingRoleType) => void;
 }
 
@@ -34,9 +35,12 @@ export function OnboardingRoleCardItem({
   );
 }
 
-export function OnboardingRoleSelect({ onNext }: OnboardingRoleSelectProps) {
+export function OnboardingRoleSelect({
+  defaultValue,
+  onNext,
+}: OnboardingRoleSelectProps) {
   const [selectedRole, setSelectedRole] = useState<OnboardingRoleType | null>(
-    null
+    defaultValue ?? null
   );
 
   const handleRoleSelect = (role: OnboardingRoleType) => {
