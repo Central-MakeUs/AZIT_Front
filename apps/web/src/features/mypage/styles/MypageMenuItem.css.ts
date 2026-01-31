@@ -18,6 +18,10 @@ export const item = style({
   },
 });
 
+export const itemClickable = style({
+  cursor: 'pointer',
+});
+
 export const label = style([
   typography.body.b3,
   {
