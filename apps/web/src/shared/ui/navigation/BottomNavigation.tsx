@@ -75,7 +75,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
           icon={UserIcon}
           label="마이페이지"
           isActive={activeTab === 'mypage'}
-          onClick={() => {}}
+          onClick={() => handleClick('Mypage')}
         />
       </nav>
     </div>
