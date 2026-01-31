@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { AppLayout } from '@/shared/ui/layout';
 import { useFunnel } from '@/features/onboarding/hooks/useFunnel';
@@ -8,6 +8,7 @@ import {
   OnboardingCrewRegion,
   OnboardingShareInviteCode,
 } from '@/features/onboarding/ui';
+import { useFlow } from '@/app/routes/stackflow';
 
 type StepName =
   | 'role-select'
@@ -39,9 +40,20 @@ type OnboardingState = {
 };
 
 export function OnboardingPage() {
+  const { push } = useFlow();
   const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
-  const [onboardingState, setOnboardingState] = useState<OnboardingState>({});
-  console.log('onboardingState', onboardingState);
+
+  const [onboardingState, setOnboardingState] = useState<OnboardingState>(
+    () => {
+      const saved = sessionStorage.getItem('onboarding-state');
+      return saved ? JSON.parse(saved) : {};
+    }
+  );
+
+  useEffect(() => {
+    sessionStorage.setItem('onboarding-state', JSON.stringify(onboardingState));
+  }, [onboardingState]);
+
   return (
     <AppScreen>
       <AppLayout>
@@ -98,11 +110,15 @@ export function OnboardingPage() {
           />
           <Funnel.Step
             name="share-invite-code"
-            render={() => (
+            render={(context) => (
               <OnboardingShareInviteCode
                 crewName={onboardingState.crewName!}
                 crewProfileImage={'example.png'}
-                inviteCode={onboardingState.inviteCode!}
+                inviteCode={onboardingState.inviteCode ?? 'AZT123'}
+                onNext={() => {
+                  context.onNext();
+                  push('HomePage', {}, { animate: false });
+                }}
               />
             )}
           />
