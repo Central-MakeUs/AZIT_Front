@@ -62,3 +62,29 @@ export const detailButton = style([
     height: 'fit-content',
   },
 ]);
+
+export const emptyState = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: 1,
+  width: '100%',
+  minHeight: 200,
+});
+
+export const emptyStateIconText = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: 12,
+  width: '100%',
+});
+
+export const emptyStateText = style([
+  typography.body.b2,
+  {
+    color: vars.colors.gray60,
+    textAlign: 'center',
+  },
+]);
