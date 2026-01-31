@@ -7,12 +7,13 @@ export const item = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  padding: '14px 16px',
+  padding: '20px 20px 12px 20px',
   backgroundColor: 'transparent',
   borderBottom: `1px solid ${vars.colors.gray10}`,
   selectors: {
     '&:last-child': {
       borderBottom: 'none',
+      paddingBottom: '20px',
     },
   },
 });
@@ -20,6 +21,6 @@ export const item = style({
 export const label = style([
   typography.body.b3,
   {
-    color: vars.colors.black,
+    color: vars.colors.gray70,
   },
 ]);
