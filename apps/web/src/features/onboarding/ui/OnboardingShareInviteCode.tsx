@@ -1,28 +1,27 @@
 import { Button, CopyIcon, ShareSheetIcon } from '@azit/design-system';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 import * as styles from '../styles/OnboardingShareInviteCode.css';
-import { useFlow } from '@/app/routes/stackflow';
+import { bridge } from '@/shared/lib/bridge';
 
 export interface OnboardingShareInviteCodeProps {
   crewName: string;
   crewProfileImage: string;
   inviteCode: string;
+  onNext: () => void;
 }
 
 export function OnboardingShareInviteCode({
   crewName,
   crewProfileImage,
   inviteCode,
+  onNext,
 }: OnboardingShareInviteCodeProps) {
-  const { push } = useFlow();
   const onCopyCode = () => {
     navigator.clipboard.writeText(inviteCode);
   };
 
-  const onShare = () => {};
-
-  const onGoHome = () => {
-    push('HomePage', {}, { animate: false });
+  const onShare = async () => {
+    await bridge.shareInviteCode(inviteCode);
   };
 
   return (
@@ -67,7 +66,7 @@ export function OnboardingShareInviteCode({
       </div>
 
       <div className={styles.buttonWrapper}>
-        <Button state="active" onClick={onGoHome}>
+        <Button state="active" onClick={onNext}>
           홈으로
         </Button>
       </div>
