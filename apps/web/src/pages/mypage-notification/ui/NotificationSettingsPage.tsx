@@ -3,11 +3,11 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header, vars } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
-import { NotificationSettingsList } from '@/features/notification-settings/ui';
+import { NotificationSettingsList } from '@/features/mypage-notification/ui';
 import {
   mockNotificationSettings,
   type NotificationSettingItem,
-} from '@/shared/mock/notification-settings';
+} from '@/shared/mock/mypage-notification';
 import * as styles from '../styles/NotificationSettingsPage.css';
 
 export function NotificationSettingsPage() {
