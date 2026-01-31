@@ -1,4 +1,4 @@
-import type { NotificationSettingItem as NotificationSettingItemType } from '@/shared/mock/notification-settings';
+import type { NotificationSettingItem as NotificationSettingItemType } from '@/shared/mock/mypage-notification';
 import * as styles from '../styles/NotificationSettingItem.css';
 import clsx from 'clsx';
 

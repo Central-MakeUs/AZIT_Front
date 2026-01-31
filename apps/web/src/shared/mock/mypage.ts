@@ -49,7 +49,7 @@ export const mockMypageMenuSections: MypageMenuSection[] = [
     title: '알림',
     items: [
       {
-        id: 'notification-settings',
+        id: 'mypage-notification',
         label: '알림 설정',
         path: 'NotificationSettingsPage',
       },
