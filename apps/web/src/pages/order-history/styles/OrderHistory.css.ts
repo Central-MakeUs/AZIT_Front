@@ -51,7 +51,7 @@ export const dateLabel = style([
 ]);
 
 export const detailButton = style([
-  typography.body.b3,
+  typography.body.b4,
   {
     borderRadius: 8,
     border: `1px solid ${vars.colors.blue80}`,

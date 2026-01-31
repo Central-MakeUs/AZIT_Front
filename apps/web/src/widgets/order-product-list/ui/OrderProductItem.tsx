@@ -23,7 +23,7 @@ export function OrderProductItem({
           <Description>
             <Description.Label>
               <span className={styles.points}>{product.points}</span>
-              <span className={styles.quantity}>/ {product.quantity}개</span>
+              <span className={styles.quantity}> / {product.quantity}개</span>
             </Description.Label>
             <Description.Value className={styles.priceContainer}>
               {showOriginalPrice && (
