@@ -47,3 +47,6 @@ export const mockOrderHistoryList: OrderHistoryGroup[] = [
     ],
   },
 ];
+
+/** 빈 목록 테스트 시 사용 (OrderHistoryPage에서 import 교체) */
+export const mockOrderHistoryListEmpty: OrderHistoryGroup[] = [];
