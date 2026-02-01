@@ -64,9 +64,9 @@ export function OnboardingPage() {
             render={(context) => (
               <OnboardingRoleSelect
                 defaultValue={onboardingState.role}
-                onNext={(ctx) => {
-                  setOnboardingState((prev) => ({ ...prev, role: ctx }));
-                  context.onNext(ctx);
+                onNext={(role) => {
+                  setOnboardingState((prev) => ({ ...prev, role }));
+                  context.onNext(role);
                 }}
               />
             )}
