@@ -29,6 +29,10 @@ export const chipVariant = recipe({
         backgroundColor: vars.colors.secondary,
         color: vars.colors.black,
       },
+      opacity: {
+        backgroundColor: vars.colors.blue10,
+        color: vars.colors.blue80,
+      },
     },
   },
   defaultVariants: {

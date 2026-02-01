@@ -25,7 +25,7 @@ export function OrderCompleteHeader({
       </div>
       <div className={styles.buttonWrapper}>
         <Button
-          state="cancelled"
+          state="outline"
           style={{
             height: '100%',
           }}
