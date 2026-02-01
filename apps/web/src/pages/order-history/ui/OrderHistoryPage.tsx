@@ -33,7 +33,7 @@ export function OrderHistoryPage() {
                     <span className={styles.dateLabel}>{group.dateLabel}</span>
                     <Button
                       type="button"
-                      state="cancelled"
+                      state="outline"
                       className={styles.detailButton}
                       onClick={() =>
                         push(

@@ -123,7 +123,7 @@ export function StoreDetailPage() {
           <div className={styles.buttonWrapper}>
             <Button
               size="large"
-              state="cancelled"
+              state="outline"
               onClick={() => setIsBottomSheetOpen(false)}
             >
               장바구니
