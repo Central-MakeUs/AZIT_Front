@@ -9,6 +9,7 @@ import {
   OnboardingShareInviteCode,
 } from '@/features/onboarding/ui';
 import { useFlow } from '@/app/routes/stackflow';
+import { postCreateCrew } from '@/features/onboarding/api/postCreateCrew';
 
 type StepName =
   | 'role-select'
@@ -94,8 +95,21 @@ export function OnboardingPage() {
             render={(context) => (
               <OnboardingCrewRegion
                 defaultValue={onboardingState.crewRegion}
-                onNext={(crewRegion) => {
+                onNext={async (crewRegion) => {
                   setOnboardingState((prev) => ({ ...prev, crewRegion }));
+
+                  const response = await postCreateCrew({
+                    name: onboardingState.crewName!,
+                    category: 'RUNNING',
+                    region: crewRegion,
+                  });
+
+                  if (response.result.invitationCode) {
+                    setOnboardingState((prev) => ({
+                      ...prev,
+                      inviteCode: response.result.invitationCode,
+                    }));
+                  }
                   context.onNext();
                 }}
                 onPrev={() => {
@@ -113,8 +127,8 @@ export function OnboardingPage() {
             render={(context) => (
               <OnboardingShareInviteCode
                 crewName={onboardingState.crewName!}
-                crewProfileImage={'example.png'}
-                inviteCode={onboardingState.inviteCode ?? 'AZT123'}
+                crewProfileImage="/azit.png"
+                inviteCode={onboardingState.inviteCode ?? ''}
                 onNext={() => {
                   context.onNext();
                   push('HomePage', {}, { animate: false });
