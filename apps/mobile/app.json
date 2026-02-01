@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.azit.app"
+      "bundleIdentifier": "com.azitcrew.app",
+      "associatedDomains": ["applinks:dev.azitcrew.com"]
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +21,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.azit.app",
+      "package": "com.azitcrew.app",
       "predictiveBackGestureEnabled": false
     },
     "web": {
@@ -28,7 +29,6 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
       [
         "expo-splash-screen",
         {
