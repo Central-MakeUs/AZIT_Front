@@ -17,7 +17,7 @@ export function OrderProductListSection({
 }: OrderProductListSectionProps) {
   return (
     <div className={styles.section}>
-      <h3 className={styles.title}>{title}</h3>
+      {title ? <h3 className={styles.title}>{title}</h3> : null}
       <div className={styles.productList}>
         {products.map((product) => (
           <OrderProductItem

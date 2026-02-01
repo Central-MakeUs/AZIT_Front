@@ -17,7 +17,7 @@ const meta = {
     },
     state: {
       control: 'select',
-      options: ['active', 'disabled', 'cancelled'],
+      options: ['active', 'disabled', 'outline'],
     },
   },
   args: { onClick: fn() },
@@ -41,10 +41,10 @@ export const Disabled: Story = {
   },
 };
 
-export const Cancelled: Story = {
+export const Outline: Story = {
   args: {
     width: '375px',
-    state: 'cancelled',
+    state: 'outline',
     children: '신청하기',
   },
 };
