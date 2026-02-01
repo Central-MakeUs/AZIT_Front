@@ -78,6 +78,9 @@ export default function App() {
         webviewDebuggingEnabled
         domStorageEnabled={true}
         onLoad={handleWebViewLoad}
+        sharedCookiesEnabled={true}
+        thirdPartyCookiesEnabled={true}
+        originWhitelist={['*']}
       />
     </SafeAreaView>
   );
