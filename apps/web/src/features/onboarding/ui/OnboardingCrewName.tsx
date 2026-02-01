@@ -1,7 +1,7 @@
 import { Button, Header } from '@azit/design-system';
 import * as styles from '../styles/OnboardingCrewName.css';
 import { BackButton } from '@/shared/ui/button';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 export interface OnboardingCrewNameProps {
   defaultValue?: string;
