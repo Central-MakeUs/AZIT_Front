@@ -39,7 +39,7 @@ export const buttonVariant = recipe({
         borderRadius: 12,
       },
       active: { backgroundColor: vars.colors.blue80, color: vars.colors.white },
-      cancelled: {
+      outline: {
         backgroundColor: vars.colors.white,
         color: vars.colors.blue80,
         border: `1px solid ${vars.colors.blue80}`,
