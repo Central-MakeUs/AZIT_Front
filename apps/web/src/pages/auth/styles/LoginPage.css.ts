@@ -24,7 +24,7 @@ export const titleWrapper = style({
 
 export const title = style({
   fontSize: 64,
-  fontWeight: 600,
+  fontWeight: 400,
   lineHeight: 1.4,
   color: vars.colors.white,
   fontFamily: 'Tilt Warp',
@@ -64,4 +64,14 @@ export const kakaoIcon = style({
   height: 18,
   marginRight: 18,
   marginLeft: 18,
+});
+
+export const loginImage = style({
+  minWidth: 470,
+  minHeight: 470,
+  objectFit: 'fill',
+  position: 'fixed',
+  scale: 1,
+  bottom: -150,
+  right: -100,
 });
