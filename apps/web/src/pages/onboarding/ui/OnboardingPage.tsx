@@ -4,6 +4,7 @@ import { AppLayout } from '@/shared/ui/layout';
 import { useFunnel } from '@/features/onboarding/hooks/useFunnel';
 import { OnboardingRoleSelect } from '@/features/onboarding/ui/OnboardingRoleSelect';
 import {
+  OnboardingCrewJoin,
   OnboardingCrewName,
   OnboardingCrewRegion,
   OnboardingShareInviteCode,
@@ -16,21 +17,18 @@ type StepName =
   | 'crew-name'
   | 'crew-region'
   | 'share-invite-code'
-  | 'member-join'
-  | 'enter-invite-code'
-  | 'request-complete';
+  | 'enter-invite-code';
 
 const ONBOARDING_FLOW: Record<
   StepName,
   ((ctx: unknown) => StepName) | StepName | null
 > = {
-  'role-select': (ctx) => (ctx === 'leader' ? 'crew-name' : 'member-join'),
+  'role-select': (ctx) =>
+    ctx === 'leader' ? 'crew-name' : 'enter-invite-code',
   'crew-name': 'crew-region',
   'crew-region': 'share-invite-code',
   'share-invite-code': null,
-  'member-join': 'enter-invite-code',
-  'enter-invite-code': 'request-complete',
-  'request-complete': null,
+  'enter-invite-code': null,
 };
 
 type OnboardingState = {
@@ -41,7 +39,7 @@ type OnboardingState = {
 };
 
 export function OnboardingPage() {
-  const { push } = useFlow();
+  const { replace } = useFlow();
   const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
 
   const [onboardingState, setOnboardingState] = useState<OnboardingState>(
@@ -131,12 +129,25 @@ export function OnboardingPage() {
                 inviteCode={onboardingState.inviteCode ?? ''}
                 onNext={() => {
                   context.onNext();
-                  push('HomePage', {}, { animate: false });
+                  replace('HomePage', {}, { animate: false });
                 }}
               />
             )}
           />
-          {/* TODO: 멤버 온보딩 UI 추가 */}
+          <Funnel.Step
+            name="enter-invite-code"
+            render={(context) => (
+              <OnboardingCrewJoin
+                onNext={() => {
+                  context.onNext();
+                  replace('CrewJoinStatusPage', {}, { animate: false });
+                }}
+                onPrev={() => {
+                  context.onPrev();
+                }}
+              />
+            )}
+          />
         </Funnel>
       </AppLayout>
     </AppScreen>
