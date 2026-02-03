@@ -40,6 +40,8 @@ globalStyle(`${checkboxRoot}[data-state="unchecked"]`, {
 globalStyle(`${checkboxRoot}[data-disabled]`, {
   cursor: 'not-allowed',
   opacity: 0.5,
+  borderColor: vars.colors.gray30,
+  backgroundColor: vars.colors.gray10,
 });
 
 export const checkboxIndicator = style({
