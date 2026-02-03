@@ -25,6 +25,11 @@ export function LoginPage() {
             러닝 크루를 위한 운영 & 제휴 서비스
           </p>
         </div>
+        <img
+          src="/icons/icon-splash-symbol.svg"
+          alt="login-image"
+          className={styles.loginImage}
+        />
         <div className={styles.buttonWrapper}>
           <KakaoLogin onClick={() => handleLogin(AUTH_PROVIDER.KAKAO)} />
           <AppleLogin onClick={() => handleLogin(AUTH_PROVIDER.APPLE)} />
