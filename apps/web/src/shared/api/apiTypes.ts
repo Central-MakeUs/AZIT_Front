@@ -265,10 +265,7 @@ export interface paths {
     put?: never;
     /**
      * 로그아웃
-     * @description 현재 사용자의 세션을 종료하고 리프레시 토큰 쿠키를 제거합니다. <br>
-     *
-     *     **[참고 사항]** <br>
-     *     * accessToken 파라미터는 무시하시고 기존대로 헤더에 액세스 토큰 넣어서 요청 보내시면 됩니다.
+     * @description 현재 사용자의 세션을 종료하고 리프레시 토큰 쿠키를 제거합니다.
      */
     post: operations['logout'];
     delete?: never;
