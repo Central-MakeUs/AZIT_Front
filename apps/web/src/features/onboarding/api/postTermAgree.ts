@@ -5,7 +5,7 @@ import type { TermAgreeRequest } from '@/shared/api/models';
 
 export const postTermAgree = async (request: TermAgreeRequest) => {
   const response = await onboardingApi
-    .post(END_POINT.AUTH.TERM_AGREE, {
+    .post(END_POINT.ONBOARDING.TERM_AGREE, {
       json: request,
     })
     .json<TermAgreeResponseType>();
