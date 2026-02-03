@@ -31,6 +31,8 @@ export const overlay = recipe({
     display: 'flex',
     alignItems: 'flex-end',
     transition: 'opacity 0.3s ease-out',
+    maxWidth: '480px',
+    margin: '0 auto',
   },
   variants: {
     state: {
