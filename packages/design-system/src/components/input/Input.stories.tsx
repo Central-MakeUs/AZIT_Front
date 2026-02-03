@@ -13,7 +13,7 @@ const meta = {
   argTypes: {
     state: {
       control: 'select',
-      options: ['default', 'disabled'],
+      options: ['default', 'error', 'disabled'],
     },
     placeholder: {
       control: 'text',
@@ -44,6 +44,21 @@ export const WithIcon: Story = {
   args: {
     placeholder: '검색어를 입력하세요',
     icon: <SearchIcon size={20} className={iconColor} />,
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '335px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const Error: Story = {
+  args: {
+    placeholder: '크루 이름을 입력해주세요',
+    state: 'error',
+    defaultValue: 'AZT123',
   },
   decorators: [
     (Story) => (
