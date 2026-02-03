@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { iconVariant } from './Icon.css';
 import type { IconProps } from './types';
 
-function FlagIcon(
+function ShareSheetIcon(
   { size = 24, color, className, ...props }: IconProps,
   ref: Ref<SVGSVGElement>
 ) {
@@ -20,7 +20,7 @@ function FlagIcon(
       {...props}
     >
       <path
-        d="M4 13H19.587C20.0495 13 20.2808 13 20.4128 12.903C20.528 12.8185 20.6015 12.6887 20.6147 12.5464C20.63 12.3833 20.511 12.185 20.273 11.7884L18.247 8.4116C18.1572 8.26195 18.1123 8.18712 18.0947 8.10724C18.0792 8.03659 18.0792 7.96341 18.0947 7.89276C18.1123 7.81288 18.1572 7.73805 18.247 7.5884L20.273 4.2116C20.511 3.81503 20.63 3.61674 20.6147 3.45359C20.6015 3.31133 20.528 3.18154 20.4128 3.09698C20.2808 3 20.0495 3 19.587 3H4L4 21"
+        d="M21 12V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V12M16 7L12 3M12 3L8 7M12 3V15"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
@@ -30,5 +30,5 @@ function FlagIcon(
   );
 }
 
-const ForwardRef = forwardRef(FlagIcon);
+const ForwardRef = forwardRef(ShareSheetIcon);
 export default ForwardRef;
