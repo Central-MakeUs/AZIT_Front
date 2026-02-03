@@ -16,10 +16,18 @@ export const inputContainer = recipe({
     border: `0.5px solid ${vars.colors.gray20}`,
     transition: 'border-color 0.2s ease',
     padding: '10px 16px',
+    selectors: {
+      '&::placeholder': {
+        color: vars.colors.gray30,
+      },
+    },
   },
   variants: {
     state: {
       default: {},
+      error: {
+        borderColor: vars.colors.error,
+      },
       disabled: {
         backgroundColor: vars.colors.gray10,
         color: vars.colors.gray50,
