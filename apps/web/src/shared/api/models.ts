@@ -10,3 +10,5 @@ export type CreateCrewRequest = components['schemas']['CreateCrewRequest'];
 export type CreateCrewResult = components['schemas']['CreateCrewResponse'];
 export type JoinCrewRequest = components['schemas']['JoinCrewRequest'];
 export type CrewInfoResult = components['schemas']['CrewInvitationResponse'];
+export type CrewJoinStatusResult =
+  components['schemas']['CrewJoinStatusResponse'];
