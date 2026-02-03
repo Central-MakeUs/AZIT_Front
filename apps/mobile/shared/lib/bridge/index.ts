@@ -8,6 +8,7 @@ import {
   type AppPostMessageSchema,
   POST_MESSAGE_EVENT,
 } from '@azit/bridge';
+import { Share } from 'react-native';
 import { z } from 'zod';
 
 /**
@@ -20,6 +21,12 @@ export const appBridge = bridge<AppBridge>({
   },
   async openInAppBrowser(url: string) {
     return;
+  },
+  async shareInviteCode(code: string) {
+    await Share.share({
+      message: `00에서 당신을 초대했어요! 초대 코드를 입력해 크루 가입을 신청하세요\n${code}`,
+      url: `${process.env.EXPO_PUBLIC_WEB_URL}/onboarding?inviteCode=${code}`,
+    });
   },
 });
 
