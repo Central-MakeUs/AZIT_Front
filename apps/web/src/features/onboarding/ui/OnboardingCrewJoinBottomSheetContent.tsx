@@ -5,9 +5,6 @@ import type { CrewInfoResult } from '@/shared/api/models';
 import { CATEGORY_LABELS } from '@/shared/constants/crew';
 
 export interface CrewInfo extends CrewInfoResult {
-  name: string;
-  category: keyof typeof CATEGORY_LABELS;
-  memberCount: number;
   crewProfileImage?: string;
 }
 
@@ -25,9 +22,9 @@ export function OnboardingCrewJoinBottomSheetContent({
   onRequestJoin,
 }: OnboardingCrewJoinBottomSheetContentProps) {
   const {
-    name,
-    category,
-    memberCount,
+    name = '',
+    category = 'RUNNING',
+    memberCount = 0,
     crewProfileImage = '/azit.png',
   } = crewInfo;
 
@@ -53,7 +50,9 @@ export function OnboardingCrewJoinBottomSheetContent({
         <h2 className={styles.crewName}>{name}</h2>
       </div>
       <div className={styles.crewMetaSection}>
-        <span className={styles.crewCategory}>{CATEGORY_LABELS[category]}</span>
+        <span className={styles.crewCategory}>
+          {CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS]}
+        </span>
         <span className={styles.crewMemberCount}>멤버 {memberCount}명</span>
       </div>
       <div className={styles.buttonSection}>
