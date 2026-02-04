@@ -3,7 +3,7 @@ import { Header, BellIcon } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
-import { ScheduleListItem } from '@/features/schedule/ui';
+import { ScheduleListItem } from '@/widgets/schedule-list/ui';
 import { mockActivityActivation, mockScheduleList } from '@/shared/mock/home';
 import { logo } from '@/shared/styles/logo.css';
 import * as styles from '../styles/HomePage.css';
