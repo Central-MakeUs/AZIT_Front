@@ -73,10 +73,12 @@ export interface ActivityActivation {
   title: string;
   activationText: string;
   distanceText: string;
+  isLightningRun?: boolean;
 }
 
 export const mockActivityActivation: ActivityActivation = {
   title: '반포 한강 나이트 런',
   activationText: '출석하기',
   distanceText: '100m이내에서 활성화',
+  isLightningRun: true,
 };
