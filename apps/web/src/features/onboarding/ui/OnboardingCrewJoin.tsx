@@ -4,10 +4,12 @@ import { BackButton } from '@/shared/ui/button';
 import { useState } from 'react';
 import { BottomSheet } from '@/shared/ui/bottom-sheet/BottomSheet';
 import { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottomSheetContent';
+import { getCrewInfo } from '../api/getCrewInfo';
+import type { CrewInfoResult } from '@/shared/api/models';
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;
-  onNext: () => void;
+  onNext: (inviteCode: string, crewId: number) => void;
   onPrev: () => void;
 }
 
@@ -20,10 +22,10 @@ export function OnboardingCrewJoin({
 }: OnboardingCrewJoinProps) {
   const [hasValidationError, setHasValidationError] = useState(false);
   const [inviteCode, setInviteCode] = useState(defaultValue ?? '');
+  const [crewInfo, setCrewInfo] = useState<CrewInfoResult | null>(null);
   const isActive = inviteCode.length === INVITE_CODE_LENGTH;
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [isCodeValid, setIsCodeValid] = useState(false);
 
   const handleInviteCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (hasValidationError) {
@@ -32,11 +34,18 @@ export function OnboardingCrewJoin({
     setInviteCode(e.target.value.slice(0, INVITE_CODE_LENGTH));
   };
 
-  const handleSubmit = () => {
-    // TODO: API 검증 로직
-    setIsCodeValid(true);
-    setHasValidationError(false);
-    setIsBottomSheetOpen(true);
+  const handleSubmit = async () => {
+    const response = await getCrewInfo(inviteCode);
+
+    if (response.code === 'CREW_NOT_FOUND') {
+      setHasValidationError(true);
+      return;
+    }
+
+    if (response.result) {
+      setCrewInfo(response.result);
+      setIsBottomSheetOpen(true);
+    }
   };
 
   return (
@@ -78,15 +87,9 @@ export function OnboardingCrewJoin({
         <OnboardingCrewJoinBottomSheetContent
           onClose={() => setIsBottomSheetOpen(false)}
           onRequestJoin={() => {
-            // TODOD: 크루 가입 신청 API 호출
-            onNext();
+            onNext(inviteCode, crewInfo.crewId);
           }}
-          crewInfo={{
-            crewId: 1,
-            name: 'azit',
-            category: 'RUNNING',
-            memberCount: 12,
-          }}
+          crewInfo={crewInfo}
         />
       </BottomSheet>
     </>
