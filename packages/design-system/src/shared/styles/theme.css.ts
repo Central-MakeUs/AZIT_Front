@@ -28,6 +28,7 @@ export const vars = createGlobalTheme(':root', {
     white: '#FFFFFF',
     black: '#000000',
     grad: 'linear-gradient(135deg, #2F5BFF 0%, #1C3799 100%)',
+    grad_secondary: 'linear-gradient(152deg, #CCF00D 10.56%, #83B452 89.94%)',
   },
   typography: {
     fontFamily: {
