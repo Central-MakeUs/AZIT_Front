@@ -16,15 +16,25 @@ export const cardContainer = style({
   alignItems: 'center',
   width: '100%',
   padding: '24px',
-  backgroundColor: '#E5EFFF', // vars에 없고 일회성으로 사용되어 그냥 hex값 넣었어요
+  backgroundColor: '#E5EFFF',
   borderRadius: '24px',
+});
+
+export const cardContainerLightning = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '100%',
+  padding: '24px',
+  backgroundColor: '#EDFBDB',
+  borderRadius: '16px',
 });
 
 export const title = style([
   typography.heading.h3,
   {
     color: vars.colors.black,
-    marginBottom: '8px',
+    marginBottom: '4px',
     textAlign: 'center',
   },
 ]);
@@ -34,7 +44,7 @@ export const buttonWrapper = style({
   justifyContent: 'center',
   alignItems: 'center',
   width: '100%',
-  marginBottom: '12px',
+  marginBottom: '4px',
   position: 'relative',
 });
 
@@ -58,6 +68,16 @@ export const rippleCircleOuter = style({
   opacity: 0.1,
 });
 
+export const rippleCircleOuterLightning = style({
+  position: 'absolute',
+  width: '200px',
+  height: '200px',
+  borderRadius: '50%',
+  backgroundColor: vars.colors.grad_secondary,
+  pointerEvents: 'none',
+  opacity: 1,
+});
+
 export const rippleCircleMiddle = style({
   position: 'absolute',
   width: '200px',
@@ -65,6 +85,17 @@ export const rippleCircleMiddle = style({
   borderRadius: '50%',
   backgroundColor: vars.colors.blue60,
   pointerEvents: 'none',
+  opacity: 0.3,
+});
+
+export const rippleCircleMiddleLightning = style({
+  position: 'absolute',
+  width: '200px',
+  height: '200px',
+  borderRadius: '50%',
+  backgroundColor: vars.colors.secondary,
+  pointerEvents: 'none',
+  opacity: 1,
 });
 
 export const buttonOuter = style({
@@ -78,9 +109,19 @@ export const buttonOuter = style({
   borderRadius: '50%',
   background: vars.colors.grad,
   padding: 0,
-  ':active': {
-    transform: 'scale(0.98)',
-  },
+});
+
+export const buttonOuterLightning = style({
+  position: 'relative',
+  zIndex: 1,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '160px',
+  height: '160px',
+  borderRadius: '50%',
+  background: vars.colors.grad_secondary,
+  padding: 0,
 });
 
 export const button = style({
@@ -88,6 +129,19 @@ export const button = style({
   height: '100%',
   borderRadius: '50%',
   backgroundColor: vars.colors.grad,
+  border: 'none',
+  cursor: 'pointer',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 0,
+});
+
+export const buttonLightning = style({
+  width: '100%',
+  height: '100%',
+  borderRadius: '50%',
+  backgroundColor: vars.colors.grad_secondary,
   border: 'none',
   cursor: 'pointer',
   display: 'flex',

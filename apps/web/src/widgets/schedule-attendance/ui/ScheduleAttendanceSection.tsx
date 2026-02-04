@@ -1,23 +1,33 @@
 import { MarkerPinIcon } from '@azit/design-system';
 import { motion } from 'motion/react';
 import type { ActivityActivation } from '@/shared/mock/home';
-import * as styles from '../styles/ActivityActivationSection.css';
+import * as styles from '../styles/ScheduleAttendanceSection.css';
 
-interface ActivityActivationSectionProps {
+interface ScheduleAttendanceSectionProps {
   activity: ActivityActivation;
 }
 
-export function ActivityActivationSection({
+export function ScheduleAttendanceSection({
   activity,
-}: ActivityActivationSectionProps) {
+}: ScheduleAttendanceSectionProps) {
+  const isLightningRun = activity.isLightningRun ?? false;
+
   return (
     <div className={styles.sectionContainer}>
-      <div className={styles.cardContainer}>
+      <div
+        className={
+          isLightningRun ? styles.cardContainerLightning : styles.cardContainer
+        }
+      >
         <h2 className={styles.title}>{activity.title}</h2>
         <div className={styles.buttonWrapper}>
           <div className={styles.rippleContainer}>
             <motion.div
-              className={styles.rippleCircleOuter}
+              className={
+                isLightningRun
+                  ? styles.rippleCircleOuterLightning
+                  : styles.rippleCircleOuter
+              }
               animate={{
                 scale: [1, 1.1, 1],
                 opacity: [0.1, 0.05, 0.1],
@@ -29,7 +39,11 @@ export function ActivityActivationSection({
               }}
             />
             <motion.div
-              className={styles.rippleCircleMiddle}
+              className={
+                isLightningRun
+                  ? styles.rippleCircleMiddleLightning
+                  : styles.rippleCircleMiddle
+              }
               animate={{
                 scale: [0.9, 1.0, 0.9],
                 opacity: [0.3, 0.15, 0.3],
@@ -41,8 +55,19 @@ export function ActivityActivationSection({
                 ease: 'easeInOut',
               }}
             />
-            <div className={styles.buttonOuter}>
-              <button className={styles.button} type="button">
+            <div
+              className={
+                isLightningRun
+                  ? styles.buttonOuterLightning
+                  : styles.buttonOuter
+              }
+            >
+              <button
+                className={
+                  isLightningRun ? styles.buttonLightning : styles.button
+                }
+                type="button"
+              >
                 <div className={styles.buttonContent}>
                   <div className={styles.iconWrapper}>
                     <MarkerPinIcon size={48} style={{ color: 'white' }} />
