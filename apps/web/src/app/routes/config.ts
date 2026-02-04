@@ -54,6 +54,10 @@ const NotificationSettingsPage = lazyImport(
   () => import('@/pages/mypage-notification/ui/NotificationSettingsPage'),
   'NotificationSettingsPage'
 );
+const HomeAlertPage = lazyImport(
+  () => import('@/pages/home-alert/ui/HomeAlertPage'),
+  'HomeAlertPage'
+);
 
 export const routes = [
   {
@@ -84,6 +88,12 @@ export const routes = [
     name: 'HomePage',
     path: '/',
     element: HomePage,
+    withAuth: false,
+  },
+  {
+    name: 'AlertPage',
+    path: '/alert',
+    element: HomeAlertPage,
     withAuth: false,
   },
   {
