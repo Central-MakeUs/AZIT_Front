@@ -7,15 +7,26 @@ import { ScheduleListItem } from '@/widgets/schedule-list/ui';
 import { mockActivityActivation, mockScheduleList } from '@/shared/mock/home';
 import { logo } from '@/shared/styles/logo.css';
 import * as styles from '../styles/HomePage.css';
+import { useFlow } from '@/app/routes/stackflow';
 
 export function HomePage() {
+  const { push } = useFlow();
+
+  const handleClick = () => {
+    push('AlertPage', {});
+  };
+
   return (
     <AppScreen>
       <AppLayout>
         <Header
           sticky
           left={<h1 className={logo}>AZIT</h1>}
-          right={<BellIcon size={24} color="default" />}
+          right={
+            <button onClick={handleClick}>
+              <BellIcon size={24} color="default" />
+            </button>
+          }
         />
         <div className={styles.pageContainer}>
           <ScheduleAttendanceSection activity={mockActivityActivation} />
