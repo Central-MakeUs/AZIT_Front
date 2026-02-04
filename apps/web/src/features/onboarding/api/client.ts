@@ -8,12 +8,14 @@ export const onboardingApi = authApi.extend({
     afterResponse: [
       async (_request, _options, response) => {
         if (response.status === 200) {
-          const {
-            result: { accessToken },
-          } = await postReissueToken();
+          const tokenResponse = await postReissueToken();
 
-          if (accessToken) {
-            useAuthStore.getState().setAccessToken(accessToken);
+          if (tokenResponse.ok) {
+            const accessToken = tokenResponse.data.result.accessToken;
+
+            if (accessToken) {
+              useAuthStore.getState().setAccessToken(accessToken);
+            }
           }
         }
       },

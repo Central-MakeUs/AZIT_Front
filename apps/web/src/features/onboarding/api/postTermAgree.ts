@@ -1,14 +1,13 @@
 import { onboardingApi } from './client';
+import { post } from '@/shared/api/httpMethods';
 import { END_POINT } from '@/shared/constants/endpoint';
 import type { TermAgreeResponseType } from '../api/types';
 import type { TermAgreeRequest } from '@/shared/api/models';
 
-export const postTermAgree = async (request: TermAgreeRequest) => {
-  const response = await onboardingApi
-    .post(END_POINT.ONBOARDING.TERM_AGREE, {
-      json: request,
-    })
-    .json<TermAgreeResponseType>();
-
-  return response;
+export const postTermAgree = (request: TermAgreeRequest) => {
+  return post<TermAgreeResponseType, TermAgreeRequest>(
+    onboardingApi,
+    END_POINT.ONBOARDING.TERM_AGREE,
+    request
+  );
 };

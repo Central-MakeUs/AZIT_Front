@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { AppLayout } from '@/shared/ui/layout';
 import { Button, vars, type ButtonProps } from '@azit/design-system';
@@ -9,10 +8,7 @@ import type { CrewJoinStatusResult } from '@/shared/api/models';
 import { useQuery } from '@tanstack/react-query';
 import { crewQueries } from '@/shared/api/queries/crew';
 
-type CrewJoinStatus = Exclude<
-  NonNullable<CrewJoinStatusResult['status']>,
-  'EXITED'
->;
+type CrewJoinStatus = CrewJoinStatusResult['status'];
 
 const STATUS_CONTENT: Record<
   CrewJoinStatus,
@@ -41,6 +37,13 @@ const STATUS_CONTENT: Record<
     buttonText: '처음으로',
     buttonState: 'active',
   },
+  // TODO: EXITED 관련 요구사항 반영
+  EXITED: {
+    primaryMessage: '크루를 탈퇴했어요',
+    secondaryMessage: '크루 초대코드를 다시 확인해주세요',
+    buttonText: '처음으로',
+    buttonState: 'active',
+  },
 };
 
 export function CrewJoinStatusPage({
@@ -62,7 +65,16 @@ export function CrewJoinStatusPage({
     }
   };
 
-  const content = STATUS_CONTENT[data?.result as CrewJoinStatus];
+  if (!data?.ok) {
+    return null;
+  }
+
+  const { status } = data.data.result;
+  const content = STATUS_CONTENT[status];
+
+  if (!content) {
+    return null;
+  }
 
   return (
     <AppScreen backgroundColor={vars.colors.white}>

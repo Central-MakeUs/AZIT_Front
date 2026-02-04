@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import { Button, Header, Input } from '@azit/design-system';
 import * as styles from '../styles/OnboardingCrewJoin.css';
 import { BackButton } from '@/shared/ui/button';
-import { useState } from 'react';
 import { BottomSheet } from '@/shared/ui/bottom-sheet/BottomSheet';
 import { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottomSheetContent';
 import { getCrewInfo } from '../api/getCrewInfo';
@@ -37,15 +37,15 @@ export function OnboardingCrewJoin({
   const handleSubmit = async () => {
     const response = await getCrewInfo(inviteCode);
 
-    if (response.code === 'CREW_NOT_FOUND') {
-      setHasValidationError(true);
+    if (!response.ok) {
+      if (response.error.code === 'CREW_NOT_FOUND') {
+        setHasValidationError(true);
+      }
       return;
     }
 
-    if (response.result) {
-      setCrewInfo(response.result);
-      setIsBottomSheetOpen(true);
-    }
+    setCrewInfo(response.data.result);
+    setIsBottomSheetOpen(true);
   };
 
   return (
@@ -84,13 +84,15 @@ export function OnboardingCrewJoin({
         isOpen={isBottomSheetOpen}
         onOutsideClick={() => setIsBottomSheetOpen(false)}
       >
-        <OnboardingCrewJoinBottomSheetContent
-          onClose={() => setIsBottomSheetOpen(false)}
-          onRequestJoin={() => {
-            onNext(inviteCode, crewInfo.crewId);
-          }}
-          crewInfo={crewInfo}
-        />
+        {crewInfo && (
+          <OnboardingCrewJoinBottomSheetContent
+            onClose={() => setIsBottomSheetOpen(false)}
+            onRequestJoin={() => {
+              onNext(inviteCode, crewInfo.crewId);
+            }}
+            crewInfo={crewInfo}
+          />
+        )}
       </BottomSheet>
     </>
   );

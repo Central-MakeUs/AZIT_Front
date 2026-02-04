@@ -9,6 +9,10 @@ export const END_POINT = {
     CREATE_CREW: 'crews',
     CREW_INFO: (invitationCode: string) => `crews/invitation/${invitationCode}`,
     JOIN_CREW: 'crews/join',
+    JOIN_STATUS: (crewId: number) => `crews/${crewId}/join-status`,
     TERM_AGREE: 'members/terms',
+  },
+  STORE: {
+    PRODUCTS: 'products',
   },
 } as const;

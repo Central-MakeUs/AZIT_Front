@@ -1,10 +1,11 @@
 import { authApi } from '@/shared/api/apiClient';
+import { get } from '@/shared/api/httpMethods';
+import { END_POINT } from '@/shared/constants/endpoint';
 import type { CrewJoinStatusResponse } from './types';
 
-export const getCrewJoinStatus = async (crewId: number) => {
-  const response = await authApi
-    .get(`api/v1/crews/${crewId}/join-status`)
-    .json<CrewJoinStatusResponse>();
-
-  return response;
+export const getCrewJoinStatus = (crewId: number) => {
+  return get<CrewJoinStatusResponse>(
+    authApi,
+    END_POINT.ONBOARDING.JOIN_STATUS(crewId)
+  );
 };
