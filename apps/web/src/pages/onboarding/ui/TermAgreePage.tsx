@@ -85,11 +85,10 @@ export function TermAgreePage() {
   };
 
   const handleTermAgree = async () => {
-    try {
-      await postTermAgree(terms);
+    const response = await postTermAgree(terms);
+
+    if (response.ok) {
       replace('OnboardingPage', {}, { animate: false });
-    } catch (error) {
-      console.error(error);
     }
   };
 
