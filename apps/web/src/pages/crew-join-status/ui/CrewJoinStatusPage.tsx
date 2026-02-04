@@ -6,6 +6,8 @@ import { useFlow } from '@/app/routes/stackflow';
 import * as styles from '../styles/CrewJoinStatusPage.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 import type { CrewJoinStatusResult } from '@/shared/api/models';
+import { useQuery } from '@tanstack/react-query';
+import { crewQueries } from '@/shared/api/queries/crew';
 
 type CrewJoinStatus = Exclude<
   NonNullable<CrewJoinStatusResult['status']>,
@@ -41,9 +43,18 @@ const STATUS_CONTENT: Record<
   },
 };
 
-export function CrewJoinStatusPage() {
+export function CrewJoinStatusPage({
+  params,
+}: {
+  params: { crewId?: number };
+}) {
+  const { crewId = 0 } = params;
   const { replace } = useFlow();
-  const [status, setStatus] = useState<CrewJoinStatus>('REJECTED');
+
+  const { data } = useQuery({
+    ...crewQueries.joinStatusQuery(crewId),
+    enabled: crewId > 0,
+  });
 
   const handleButtonClick = () => {
     if (status === 'JOINED' || status === 'REJECTED') {
@@ -51,7 +62,7 @@ export function CrewJoinStatusPage() {
     }
   };
 
-  const content = STATUS_CONTENT[status];
+  const content = STATUS_CONTENT[data?.result as CrewJoinStatus];
 
   return (
     <AppScreen backgroundColor={vars.colors.white}>

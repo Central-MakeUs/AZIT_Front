@@ -11,6 +11,7 @@ import {
 } from '@/features/onboarding/ui';
 import { useFlow } from '@/app/routes/stackflow';
 import { postCreateCrew } from '@/features/onboarding/api/postCreateCrew';
+import { postJoinCrew } from '@/features/onboarding/api/postJoinCrew';
 
 type StepName =
   | 'role-select'
@@ -138,9 +139,13 @@ export function OnboardingPage() {
             name="enter-invite-code"
             render={(context) => (
               <OnboardingCrewJoin
-                onNext={() => {
+                onNext={async (inviteCode, crewId) => {
+                  await postJoinCrew({
+                    invitationCode: inviteCode,
+                  });
+
                   context.onNext();
-                  replace('CrewJoinStatusPage', {}, { animate: false });
+                  replace('CrewJoinStatusPage', { crewId }, { animate: false });
                 }}
                 onPrev={() => {
                   context.onPrev();
