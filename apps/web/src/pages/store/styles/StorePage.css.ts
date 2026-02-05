@@ -1,14 +1,20 @@
 import { style } from '@vanilla-extract/css';
 
+export const headerWrapper = style({
+  flexShrink: 0,
+  width: '100%',
+});
+
 export const pageContainer = style({
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
   display: 'flex',
   flexDirection: 'column',
   gap: '20px',
   alignItems: 'flex-start',
-  justifyContent: 'center',
   width: '100%',
   padding: '12px 20px',
-  paddingBottom: '100px',
 });
 
 export const bannerSection = style({

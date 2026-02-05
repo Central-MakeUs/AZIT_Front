@@ -21,24 +21,22 @@ export function ScheduleMembersPage() {
     <AppScreen>
       <AppLayout>
         <Header className={styles.headerSection} left={<BackButton />} />
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <div className={styles.countSection}>
-              <h2 className={styles.title}>참여 멤버</h2>
-              <div className={styles.countRow}>
-                <span className={styles.count}>
-                  {mockScheduleDetail.participantCount}
-                </span>
-                <span className={styles.countSuffix}>
-                  /{mockScheduleDetail.maxParticipants}
-                </span>
-              </div>
+        <div className={styles.contentWrapper}>
+          <div className={styles.countSection}>
+            <h2 className={styles.title}>참여 멤버</h2>
+            <div className={styles.countRow}>
+              <span className={styles.count}>
+                {mockScheduleDetail.participantCount}
+              </span>
+              <span className={styles.countSuffix}>
+                /{mockScheduleDetail.maxParticipants}
+              </span>
             </div>
-            <div className={styles.memberList}>
-              {members.map((member) => (
-                <ScheduleMemberListItem key={member.id} member={member} />
-              ))}
-            </div>
+          </div>
+          <div className={styles.memberList}>
+            {members.map((member) => (
+              <ScheduleMemberListItem key={member.id} member={member} />
+            ))}
           </div>
         </div>
       </AppLayout>

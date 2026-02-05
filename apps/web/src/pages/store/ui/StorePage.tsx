@@ -18,18 +18,19 @@ export function StorePage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          sticky
-          left={<h1 className={logo}>AZIT</h1>}
-          right={
-            <div className={styles.cartIconWrapper}>
-              <ShoppingCartIcon
-                size={24}
-                onClick={() => push('CartPage', {})}
-              />
-            </div>
-          }
-        />
+        <div className={styles.headerWrapper}>
+          <Header
+            left={<h1 className={logo}>AZIT</h1>}
+            right={
+              <div className={styles.cartIconWrapper}>
+                <ShoppingCartIcon
+                  size={24}
+                  onClick={() => push('CartPage', {})}
+                />
+              </div>
+            }
+          />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.bannerSection}>
             <StoreBanner />
