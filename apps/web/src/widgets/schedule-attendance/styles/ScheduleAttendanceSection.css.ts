@@ -1,20 +1,13 @@
 import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
 
-export const sectionContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  width: '100%',
-  padding: '20px',
-  backgroundColor: vars.colors.white,
-});
-
 export const cardContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'center',
   width: '100%',
+  aspectRatio: '1/1',
   padding: '24px',
   backgroundColor: '#E5EFFF',
   borderRadius: '24px',
@@ -24,7 +17,9 @@ export const cardContainerLightning = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'center',
   width: '100%',
+  aspectRatio: '1/1',
   padding: '24px',
   backgroundColor: '#EDFBDB',
   borderRadius: '16px',
