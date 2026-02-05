@@ -1,5 +1,5 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, ShareIcon } from '@azit/design-system';
+import { Header } from '@azit/design-system';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { ScheduleMemberListItem } from '@/features/schedule-members/ui';
@@ -7,10 +7,6 @@ import { mockScheduleDetail } from '@/shared/mock/schedule';
 import * as styles from '../styles/ScheduleMembersPage.css';
 
 export function ScheduleMembersPage() {
-  const handleShare = () => {
-    // TODO: 공유 로직
-  };
-
   // TODO: 실제 API에서 scheduleId로 멤버 리스트 가져오기
   const members = mockScheduleDetail.participants.map((participant, index) => ({
     ...participant,
