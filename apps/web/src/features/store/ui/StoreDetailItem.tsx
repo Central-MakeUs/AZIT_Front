@@ -1,4 +1,4 @@
-import { MinusIcon, PlusIcon, XIcon } from '@azit/design-system';
+import { MinusIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/StoreDetailItem.css';
 import { useEffect, useState } from 'react';
 
