@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { BellIcon } from '@azit/design-system/icon';
 import { HomeAlertFilterTabs } from './HomeAlertFilterTabs';
 import { HomeAlertListItem } from './HomeAlertListItem';
 import { mockHomeAlertList, type AlertType } from '@/shared/mock/home-alert';
@@ -20,11 +21,18 @@ export function HomeAlertList() {
         activeFilter={activeFilter}
         onFilterChange={setActiveFilter}
       />
-      <div className={styles.itemsContainer}>
-        {filteredAlerts.map((item) => (
-          <HomeAlertListItem key={item.id} item={item} />
-        ))}
-      </div>
+      {filteredAlerts.length > 0 ? (
+        <div className={styles.itemsContainer}>
+          {filteredAlerts.map((item) => (
+            <HomeAlertListItem key={item.id} item={item} />
+          ))}
+        </div>
+      ) : (
+        <div className={styles.emptyState}>
+          <BellIcon size={64} className={styles.emptyStateIcon} aria-hidden />
+          <p className={styles.emptyStateText}>새로운 소식을 기다려보세요!</p>
+        </div>
+      )}
     </div>
   );
 }
