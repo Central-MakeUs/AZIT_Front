@@ -1,5 +1,6 @@
 import { CalendarIcon, ClockIcon, MarkerPinIcon } from '@azit/design-system';
 import * as styles from '../styles/ScheduleDetailInfoSection.css';
+import { StaticMap } from './StaticMap';
 
 interface ScheduleDetailInfoSectionProps {
   date: string;
@@ -44,11 +45,9 @@ export function ScheduleDetailInfoSection({
             <span className={styles.address}>{address}</span>
           </div>
         </div>
-        <img
-          src={'example.png'}
-          alt={`${locationName} 지도`}
-          className={styles.mapImage}
-        />
+        <div className={styles.mapContainer}>
+          <StaticMap latitude={37.498085} longitude={126.851014} />
+        </div>
       </div>
     </div>
   );
