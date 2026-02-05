@@ -1,4 +1,4 @@
-import { Chip } from '@azit/design-system';
+import { Chip } from '@azit/design-system/chip';
 import type { HomeAlertItem } from '@/shared/mock/home-alert';
 import * as styles from '../styles/HomeAlertListItem.css.ts';
 

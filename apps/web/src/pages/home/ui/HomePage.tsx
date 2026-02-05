@@ -1,5 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, BellIcon } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
+import { BellIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';

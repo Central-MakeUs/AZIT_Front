@@ -1,5 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, vars } from '@azit/design-system';
+import { vars } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { HomeAlertList } from '@/features/home-alert/ui';
@@ -9,7 +10,7 @@ export function HomeAlertPage() {
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
-        <Header sticky left={<BackButton />} center="알림" />
+        <Header color="sub" sticky left={<BackButton />} center="알림" />
         <div className={styles.pageContainer}>
           <HomeAlertList />
         </div>

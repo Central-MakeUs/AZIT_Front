@@ -1,4 +1,5 @@
-import { Checkbox, ChevronRightIcon } from '@azit/design-system';
+import { Checkbox } from '@azit/design-system/checkbox';
+import { ChevronRightIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/TermAgreeItem.css';
 
 export interface TermAgreeItemProps {

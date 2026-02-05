@@ -1,5 +1,6 @@
-import { CheckCircleBrokenIcon, typography } from '@azit/design-system';
-import { Button } from '@azit/design-system';
+import { typography } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { CheckCircleBrokenIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/OrderCompleteHeader.css';
 
 interface OrderCompleteHeaderProps {

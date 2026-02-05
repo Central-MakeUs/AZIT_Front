@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, Header } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {

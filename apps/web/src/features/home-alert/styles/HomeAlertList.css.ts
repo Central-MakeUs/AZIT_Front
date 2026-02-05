@@ -9,7 +9,7 @@ export const listContainer = style({
 export const itemsContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '12px',
+  gap: '10px',
   width: '100%',
-  padding: '0 16px',
+  padding: '0 20px',
 });

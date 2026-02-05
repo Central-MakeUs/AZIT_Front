@@ -1,4 +1,4 @@
-import { Dropdown, type DropdownOption } from '@azit/design-system';
+import { Dropdown, type DropdownOption } from '@azit/design-system/dropdown';
 import type { OrderAddress } from '@/shared/mock/order';
 import * as styles from '../styles/OrderAddressSection.css';
 

@@ -1,11 +1,7 @@
 import { useState, useMemo } from 'react';
 import { HomeAlertFilterTabs } from './HomeAlertFilterTabs';
 import { HomeAlertListItem } from './HomeAlertListItem';
-import {
-  mockHomeAlertList,
-  type AlertType,
-  type HomeAlertItem,
-} from '@/shared/mock/home-alert';
+import { mockHomeAlertList, type AlertType } from '@/shared/mock/home-alert';
 import * as styles from '../styles/HomeAlertList.css';
 
 export function HomeAlertList() {
