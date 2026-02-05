@@ -8,7 +8,7 @@ import { ScheduleList } from '@/widgets/schedule-list/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { mockScheduleList } from '@/shared/mock/home';
 import { BottomNavigation } from '@/shared/ui/navigation';
-import { ScheduleCalendar } from '@/features/schedule/ui/ScheduleCalendar';
+import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 
 export function SchedulePage() {
   const [activeFilter, setActiveFilter] = useState<
@@ -24,7 +24,14 @@ export function SchedulePage() {
           right={<PlusIcon size={24} color="primary" aria-hidden />}
         />
         <ScheduleSectionLayout
-          topSection={<ScheduleCalendar />}
+          topSection={
+            <ScheduleWeekCalendar
+              value={new Date()}
+              onChange={() => {}}
+              activeStartDate={new Date()}
+              onActiveStartDateChange={() => {}}
+            />
+          }
           scheduleContent={
             <>
               <ScheduleFilterTab
