@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Chip } from '@azit/design-system/chip';
 import type { HomeAlertItem } from '@/shared/mock/home-alert';
 import * as styles from '../styles/HomeAlertListItem.css.ts';
@@ -8,7 +9,12 @@ interface HomeAlertListItemProps {
 
 export function HomeAlertListItem({ item }: HomeAlertListItemProps) {
   return (
-    <div className={styles.itemContainer}>
+    <div
+      className={clsx(
+        styles.itemContainer,
+        !item.isRead && styles.itemContainerUnread
+      )}
+    >
       <div className={styles.contentContainer}>
         <div className={styles.mainText}>
           <span className={styles.dateText}>{item.date}에 </span>
