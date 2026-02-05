@@ -9,7 +9,6 @@ import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { mockOrderCompleteData } from '@/shared/mock/order-complete';
 import * as styles from '../styles/OrderCompletePage.css';
 import { useFlow } from '@/app/routes/stackflow';
-import { footerWrapper } from '@/shared/styles/footer.css';
 
 export function OrderCompletePage() {
   const { replace } = useFlow();
@@ -38,20 +37,21 @@ export function OrderCompletePage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          sticky
-          left={
-            <button onClick={handleBack} className={styles.iconButton}>
-              <ChevronLeftIcon size={24} />
-            </button>
-          }
-          center="주문 완료"
-          right={
-            <button onClick={handleHome} className={styles.iconButton}>
-              <HomeIcon size={24} />
-            </button>
-          }
-        />
+        <div className={styles.headerWrapper}>
+          <Header
+            left={
+              <button onClick={handleBack} className={styles.iconButton}>
+                <ChevronLeftIcon size={24} />
+              </button>
+            }
+            center="주문 완료"
+            right={
+              <button onClick={handleHome} className={styles.iconButton}>
+                <HomeIcon size={24} />
+              </button>
+            }
+          />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.headerSection}>
             <OrderCompleteHeader
@@ -77,7 +77,7 @@ export function OrderCompletePage() {
               totalPayment={mockOrderCompleteData.payment.totalPayment}
             />
           </div>
-          <div className={footerWrapper}>
+          <div className={styles.footerWrapper}>
             <Button state="active" onClick={handleContinueShopping}>
               쇼핑 계속하기
             </Button>

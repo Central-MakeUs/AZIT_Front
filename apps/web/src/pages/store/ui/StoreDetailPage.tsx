@@ -51,27 +51,28 @@ export function StoreDetailPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          sticky
-          left={
-            <button className={styles.iconButton} onClick={handleClick}>
-              <ChevronLeftIcon size={24} />
-            </button>
-          }
-          right={
-            <div className={styles.headerIconWrapper}>
-              <button className={styles.iconButton}>
-                <ShareIcon size={24} />
+        <div className={styles.headerWrapper}>
+          <Header
+            left={
+              <button className={styles.iconButton} onClick={handleClick}>
+                <ChevronLeftIcon size={24} />
               </button>
-              <button className={styles.iconButton}>
-                <ShoppingCartIcon
-                  size={24}
-                  onClick={() => push('CartPage', {})}
-                />
-              </button>
-            </div>
-          }
-        />
+            }
+            right={
+              <div className={styles.headerIconWrapper}>
+                <button className={styles.iconButton}>
+                  <ShareIcon size={24} />
+                </button>
+                <button className={styles.iconButton}>
+                  <ShoppingCartIcon
+                    size={24}
+                    onClick={() => push('CartPage', {})}
+                  />
+                </button>
+              </div>
+            }
+          />
+        </div>
         <div className={styles.pageContainer}>
           <StoreDetailImageSlider />
           <div className={styles.contentWrapper}>
