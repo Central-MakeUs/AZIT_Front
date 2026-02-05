@@ -2,9 +2,7 @@ import { vars } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
 export const footerWrapper = style({
-  position: 'fixed',
-  bottom: '0',
-  left: '0',
+  flexShrink: 0,
   width: '100%',
   display: 'flex',
   flexDirection: 'column',

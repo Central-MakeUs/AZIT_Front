@@ -24,12 +24,13 @@ export function NotificationSettingsPage() {
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
-        <Header
-          sticky
-          left={<BackButton />}
-          center="알림 설정"
-          className={styles.header}
-        />
+        <div className={styles.headerWrapper}>
+          <Header
+            left={<BackButton />}
+            center="알림 설정"
+            className={styles.header}
+          />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.contentWrapper}>
             <NotificationSettingsList

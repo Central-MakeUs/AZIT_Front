@@ -1,6 +1,11 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
 
+export const headerWrapper = style({
+  flexShrink: 0,
+  width: '100%',
+});
+
 export const pageContainer = style({
   flex: 1,
   minHeight: 0,

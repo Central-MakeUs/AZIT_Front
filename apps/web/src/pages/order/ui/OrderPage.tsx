@@ -61,11 +61,12 @@ export function OrderPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          sticky
-          left={<BackButton onClick={handleBack} />}
-          center="장바구니"
-        />
+        <div className={styles.headerWrapper}>
+          <Header
+            left={<BackButton onClick={handleBack} />}
+            center="장바구니"
+          />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.contentWrapper}>
             <OrderAddressSection
@@ -91,15 +92,15 @@ export function OrderPage() {
               totalPayment={totalPayment}
             />
           </div>
-          <div className={footerWrapper}>
-            <Button
-              className={styles.ctaButton}
-              state="active"
-              onClick={handlePayment}
-            >
-              {totalPayment.toLocaleString()}원 결제하기
-            </Button>
-          </div>
+        </div>
+        <div className={footerWrapper}>
+          <Button
+            className={styles.ctaButton}
+            state="active"
+            onClick={handlePayment}
+          >
+            {totalPayment.toLocaleString()}원 결제하기
+          </Button>
         </div>
       </AppLayout>
     </AppScreen>

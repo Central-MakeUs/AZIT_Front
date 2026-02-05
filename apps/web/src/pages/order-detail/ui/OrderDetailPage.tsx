@@ -25,7 +25,9 @@ export function OrderDetailPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header sticky left={<BackButton />} center="주문 상세" />
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="주문 상세" />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.contentWrapper}>
             <OrderDateSection

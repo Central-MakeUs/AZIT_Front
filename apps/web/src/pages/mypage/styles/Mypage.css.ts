@@ -1,22 +1,26 @@
 import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
 
+export const headerWrapper = style({
+  flexShrink: 0,
+  width: '100%',
+});
+
 export const pageContainer = style({
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  flexGrow: 1,
-  overflowY: 'auto',
   backgroundColor: 'transparent',
+  paddingBottom: '100px',
 });
 
 export const contentWrapper = style({
-  flex: 1,
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  overflowY: 'auto',
-  paddingBottom: 100,
 });
 
 export const menuSectionWrapper = style({

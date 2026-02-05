@@ -139,60 +139,62 @@ export function CartPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header sticky left={<BackButton />} center="장바구니" />
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="장바구니" />
+        </div>
         <div className={styles.pageContainer}>
           {isEmpty ? (
             <CartEmpty />
           ) : (
-            <>
-              <div className={styles.contentWrapper}>
-                <CartSelectionBar
-                  selectedCount={selectedItems.length}
-                  totalCount={allItems.length}
-                  isAllSelected={isAllSelected}
-                  onSelectAll={handleSelectAll}
-                  onDeleteSelected={handleDeleteSelected}
+            <div className={styles.contentWrapper}>
+              <CartSelectionBar
+                selectedCount={selectedItems.length}
+                totalCount={allItems.length}
+                isAllSelected={isAllSelected}
+                onSelectAll={handleSelectAll}
+                onDeleteSelected={handleDeleteSelected}
+              />
+              <Divider />
+              <div className={styles.brandListWrapper}>
+                {cartData.map((brand, index) => (
+                  <div key={brand.id}>
+                    <CartBrandSection
+                      brand={brand}
+                      selectedItemIds={selectedItemIds}
+                      onItemSelectChange={handleItemSelectChange}
+                      onBrandSelectChange={handleBrandSelectChange}
+                      onQuantityChange={handleQuantityChange}
+                      onDeleteItem={handleDeleteItem}
+                    />
+                    {index < cartData.length - 1 && <Divider />}
+                  </div>
+                ))}
+              </div>
+              <Divider />
+              <div className={styles.summaryWrapper}>
+                <CartSummary
+                  totalProductPrice={totalProductPrice}
+                  membershipDiscount={membershipDiscount}
+                  shippingFee={shippingFee}
+                  totalPayment={totalPayment}
                 />
-                <Divider />
-                <div className={styles.brandListWrapper}>
-                  {cartData.map((brand, index) => (
-                    <div key={brand.id}>
-                      <CartBrandSection
-                        brand={brand}
-                        selectedItemIds={selectedItemIds}
-                        onItemSelectChange={handleItemSelectChange}
-                        onBrandSelectChange={handleBrandSelectChange}
-                        onQuantityChange={handleQuantityChange}
-                        onDeleteItem={handleDeleteItem}
-                      />
-                      {index < cartData.length - 1 && <Divider />}
-                    </div>
-                  ))}
-                </div>
-                <Divider />
-                <div className={styles.summaryWrapper}>
-                  <CartSummary
-                    totalProductPrice={totalProductPrice}
-                    membershipDiscount={membershipDiscount}
-                    shippingFee={shippingFee}
-                    totalPayment={totalPayment}
-                  />
-                </div>
               </div>
-              <div className={footerWrapper}>
-                <Button
-                  className={styles.ctaButton}
-                  state={hasSelectedItems ? 'active' : 'disabled'}
-                  disabled={!hasSelectedItems}
-                >
-                  {hasSelectedItems
-                    ? `${formatPrice(totalPayment)} 구매하기`
-                    : '상품을 선택해주세요'}
-                </Button>
-              </div>
-            </>
+            </div>
           )}
         </div>
+        {!isEmpty && (
+          <div className={footerWrapper}>
+            <Button
+              className={styles.ctaButton}
+              state={hasSelectedItems ? 'active' : 'disabled'}
+              disabled={!hasSelectedItems}
+            >
+              {hasSelectedItems
+                ? `${formatPrice(totalPayment)} 구매하기`
+                : '상품을 선택해주세요'}
+            </Button>
+          </div>
+        )}
       </AppLayout>
     </AppScreen>
   );

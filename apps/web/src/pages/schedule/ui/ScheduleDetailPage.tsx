@@ -49,19 +49,21 @@ export function ScheduleDetailPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          left={<BackButton />}
-          right={
-            <button
-              type="button"
-              className={styles.shareButton}
-              onClick={handleShare}
-              aria-label="공유하기"
-            >
-              <ShareIcon size={24} color="default" />
-            </button>
-          }
-        />
+        <div className={styles.headerWrapper}>
+          <Header
+            left={<BackButton />}
+            right={
+              <button
+                type="button"
+                className={styles.shareButton}
+                onClick={handleShare}
+                aria-label="공유하기"
+              >
+                <ShareIcon size={24} color="default" />
+              </button>
+            }
+          />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.contentWrapper}>
             <ScheduleDetailHeaderSection

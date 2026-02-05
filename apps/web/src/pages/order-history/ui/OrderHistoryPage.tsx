@@ -14,7 +14,9 @@ export function OrderHistoryPage() {
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
-        <Header sticky left={<BackButton />} center="주문내역" />
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="주문내역" />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.contentWrapper}>
             {isEmpty ? (
