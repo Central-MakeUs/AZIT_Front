@@ -6,6 +6,7 @@ export interface HomeAlertItem {
   type: 'regular' | 'lightning';
   description: string;
   timestamp: string;
+  isRead?: boolean;
 }
 
 export const mockHomeAlertList: HomeAlertItem[] = [
@@ -15,6 +16,7 @@ export const mockHomeAlertList: HomeAlertItem[] = [
     type: 'regular',
     description: '상세 내용을 확인하고 참가 신청하세요!',
     timestamp: '1월 17일',
+    isRead: false,
   },
   {
     id: '2',
@@ -22,6 +24,7 @@ export const mockHomeAlertList: HomeAlertItem[] = [
     type: 'regular',
     description: '상세 내용을 확인하고 참가 신청하세요!',
     timestamp: '1월 17일',
+    isRead: true,
   },
   {
     id: '3',
@@ -29,6 +32,7 @@ export const mockHomeAlertList: HomeAlertItem[] = [
     type: 'lightning',
     description: '상세 내용을 확인하고 참가 신청하세요!',
     timestamp: '1월 17일',
+    isRead: false,
   },
   {
     id: '4',
@@ -36,5 +40,6 @@ export const mockHomeAlertList: HomeAlertItem[] = [
     type: 'lightning',
     description: '상세 내용을 확인하고 참가 신청하세요!',
     timestamp: '1월 17일',
+    isRead: true,
   },
 ];
