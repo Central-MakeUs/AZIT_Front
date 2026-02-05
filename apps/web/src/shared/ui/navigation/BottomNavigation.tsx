@@ -63,7 +63,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
           icon={CalendarIcon}
           label="일정"
           isActive={activeTab === 'schedule'}
-          onClick={() => {}}
+          onClick={() => handleClick('SchedulePage')}
         />
         <MenuItem
           icon={ShoppingBagIcon}

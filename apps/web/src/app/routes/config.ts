@@ -58,6 +58,10 @@ const HomeAlertPage = lazyImport(
   () => import('@/pages/home-alert/ui/HomeAlertPage'),
   'HomeAlertPage'
 );
+const SchedulePage = lazyImport(
+  () => import('@/pages/schedule/ui/SchedulePage'),
+  'SchedulePage'
+);
 
 export const routes = [
   {
@@ -94,6 +98,12 @@ export const routes = [
     name: 'AlertPage',
     path: '/alert',
     element: HomeAlertPage,
+    withAuth: false,
+  },
+  {
+    name: 'SchedulePage',
+    path: '/schedule',
+    element: SchedulePage,
     withAuth: false,
   },
   {
