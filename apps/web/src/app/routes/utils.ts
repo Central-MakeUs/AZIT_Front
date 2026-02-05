@@ -35,13 +35,13 @@ export function transformRoutes<const Routes extends readonly RouteConfig[]>(
   return { activities, routeMap };
 }
 
-export function lazyImport<T extends Record<string, ComponentType<unknown>>>(
+export function lazyImport<T extends Record<string, ComponentType<any>>>(
   importFn: () => Promise<T>,
   componentName: keyof T
 ) {
   return lazy(() =>
     importFn().then((m) => ({
-      default: m[componentName] as ComponentType<unknown>,
+      default: m[componentName] as ComponentType<any>,
     }))
   );
 }

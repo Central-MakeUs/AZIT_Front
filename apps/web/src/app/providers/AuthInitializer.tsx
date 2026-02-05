@@ -1,5 +1,4 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { HTTPError } from 'ky';
 import { useFlow } from '@/app/routes/stackflow';
 import { useAuthStore } from '@/shared/store/auth';
 import { postReissueToken } from '@/shared/api/postReissueToken';
