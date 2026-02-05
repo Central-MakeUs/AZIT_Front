@@ -74,10 +74,10 @@ export const iconWrapper = style({
   color: vars.colors.gray50,
 });
 
-export const mapImage = style({
+export const mapContainer = style({
   width: '100%',
   height: 160,
   borderRadius: 16,
-  objectFit: 'cover',
   backgroundColor: vars.colors.gray10,
+  overflow: 'hidden',
 });
