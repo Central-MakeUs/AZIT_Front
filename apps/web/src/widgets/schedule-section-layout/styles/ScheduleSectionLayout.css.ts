@@ -5,6 +5,7 @@ export const pageContainer = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
+  height: '100%',
 });
 
 export const topSection = style({
@@ -14,7 +15,6 @@ export const topSection = style({
   width: '100%',
   padding: '20px',
   backgroundColor: vars.colors.white,
-  minHeight: 330,
 });
 
 export const scheduleSection = style({
