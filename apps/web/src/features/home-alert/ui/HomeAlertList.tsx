@@ -22,10 +22,13 @@ export function HomeAlertList() {
 
   return (
     <div className={styles.listContainer}>
-      <ScheduleFilterTab
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-      />
+      <div className={styles.filterContainer}>
+        <ScheduleFilterTab
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+        />
+      </div>
+
       {filteredAlerts.length > 0 ? (
         <div className={styles.itemsContainer}>
           {filteredAlerts.map((item) => (
