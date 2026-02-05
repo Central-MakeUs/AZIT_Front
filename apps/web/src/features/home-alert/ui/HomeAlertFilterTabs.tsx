@@ -1,3 +1,4 @@
+import { Button } from '@azit/design-system/button';
 import * as styles from '../styles/HomeAlertFilterTabs.css';
 import type { AlertType } from '@/shared/mock/home-alert';
 
@@ -19,18 +20,14 @@ export function HomeAlertFilterTabs({
   return (
     <div className={styles.tabsContainer}>
       {filters.map((filter) => (
-        <button
+        <Button
           key={filter.value}
-          type="button"
-          className={
-            activeFilter === filter.value
-              ? styles.tabButtonActive
-              : styles.tabButton
-          }
+          size="small"
+          state={activeFilter === filter.value ? 'active' : 'disabled_outline'}
           onClick={() => onFilterChange(filter.value)}
         >
           {filter.label}
-        </button>
+        </Button>
       ))}
     </div>
   );
