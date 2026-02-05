@@ -1,23 +1,28 @@
 import { useState, useMemo } from 'react';
 import { BellIcon } from '@azit/design-system/icon';
-import { HomeAlertFilterTabs } from './HomeAlertFilterTabs';
+import {
+  ScheduleFilterTab,
+  type ScheduleFilterType,
+} from '@/widgets/schedule-filter-tab/ui';
 import { HomeAlertListItem } from './HomeAlertListItem';
 import { mockHomeAlertList, type AlertType } from '@/shared/mock/home-alert';
 import * as styles from '../styles/HomeAlertList.css';
 
 export function HomeAlertList() {
-  const [activeFilter, setActiveFilter] = useState<AlertType>('all');
+  const [activeFilter, setActiveFilter] = useState<ScheduleFilterType>('all');
 
   const filteredAlerts = useMemo(() => {
     if (activeFilter === 'all') {
       return mockHomeAlertList;
     }
-    return mockHomeAlertList.filter((item) => item.type === activeFilter);
+    return mockHomeAlertList.filter(
+      (item) => item.type === (activeFilter as AlertType)
+    );
   }, [activeFilter]);
 
   return (
     <div className={styles.listContainer}>
-      <HomeAlertFilterTabs
+      <ScheduleFilterTab
         activeFilter={activeFilter}
         onFilterChange={setActiveFilter}
       />
