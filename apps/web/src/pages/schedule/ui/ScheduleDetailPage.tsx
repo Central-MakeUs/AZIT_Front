@@ -12,12 +12,14 @@ import {
 import { useState } from 'react';
 import { mockScheduleDetail } from '@/shared/mock/schedule';
 import * as styles from '../styles/ScheduleDetailPage.css';
+import { useFlow } from '@/app/routes/stackflow';
 
 // TODO: 실제 인증/API 연동 시 교체
 const MOCK_CURRENT_USER_ID = 'user-1';
 const MOCK_HAS_APPLIED = false;
 
 export function ScheduleDetailPage() {
+  const { push } = useFlow();
   const [hasApplied, setHasApplied] = useState(MOCK_HAS_APPLIED);
 
   const isOwner = MOCK_CURRENT_USER_ID === mockScheduleDetail.creatorId;
@@ -41,14 +43,13 @@ export function ScheduleDetailPage() {
   };
 
   const handleSeeMoreParticipants = () => {
-    // TODO: 참여 멤버 더보기 네비게이션
+    push('ScheduleMembersPage', { id: mockScheduleDetail.id });
   };
 
   return (
     <AppScreen>
       <AppLayout>
         <Header
-          sticky
           left={<BackButton />}
           right={
             <button
@@ -87,7 +88,7 @@ export function ScheduleDetailPage() {
               participants={mockScheduleDetail.participants}
               participantCount={mockScheduleDetail.participantCount}
               maxParticipants={mockScheduleDetail.maxParticipants}
-              onSeeMore={handleSeeMoreParticipants}
+              handleClickMore={handleSeeMoreParticipants}
             />
           </div>
         </div>
