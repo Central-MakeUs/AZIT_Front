@@ -8,6 +8,13 @@ export const listContainer = style({
   height: '100%',
 });
 
+export const filterContainer = style({
+  position: 'sticky',
+  top: 0,
+  backgroundColor: vars.colors.background_sub,
+  padding: '16px 20px',
+});
+
 export const itemsContainer = style({
   display: 'flex',
   flexDirection: 'column',
