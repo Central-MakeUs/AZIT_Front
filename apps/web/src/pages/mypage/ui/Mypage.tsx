@@ -13,7 +13,9 @@ export function Mypage() {
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
-        <Header sticky center="마이페이지" />
+        <div className={styles.headerWrapper}>
+          <Header center="마이페이지" />
+        </div>
         <div className={styles.pageContainer}>
           <div className={styles.contentWrapper}>
             <MypageProfileSection profile={mockMypageProfile} />
@@ -31,8 +33,8 @@ export function Mypage() {
             </button>
           </div>
         </div>
-        <BottomNavigation activeTab="mypage" />
       </AppLayout>
+      <BottomNavigation activeTab="mypage" />
     </AppScreen>
   );
 }
