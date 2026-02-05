@@ -4,11 +4,10 @@ import { BellIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
-import { ScheduleListItem } from '@/widgets/schedule-list/ui';
+import { ScheduleList } from '@/widgets/schedule-list/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { mockActivityActivation, mockScheduleList } from '@/shared/mock/home';
 import { logo } from '@/shared/styles/logo.css';
-import * as styles from '../styles/HomePage.css';
 import { useFlow } from '@/app/routes/stackflow';
 
 export function HomePage() {
@@ -35,13 +34,7 @@ export function HomePage() {
             <ScheduleAttendanceSection activity={mockActivityActivation} />
           }
           scheduleTitle="내 일정"
-          scheduleContent={
-            <div className={styles.scheduleList}>
-              {mockScheduleList.map((item) => (
-                <ScheduleListItem key={item.id} item={item} />
-              ))}
-            </div>
-          }
+          scheduleContent={<ScheduleList items={mockScheduleList} />}
         />
       </AppLayout>
       <BottomNavigation activeTab="home" />
