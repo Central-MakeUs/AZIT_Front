@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { mockScheduleDetail } from '@/shared/mock/schedule';
 import * as styles from '../styles/ScheduleDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
+import { bridge } from '@/shared/lib/bridge';
 
 // TODO: 실제 인증/API 연동 시 교체
 const MOCK_CURRENT_USER_ID = 'user-1';
@@ -39,7 +40,7 @@ export function ScheduleDetailPage() {
   };
 
   const handleShare = () => {
-    // TODO: 공유 로직
+    bridge.shareSchedule(mockScheduleDetail.id);
   };
 
   const handleSeeMoreParticipants = () => {
