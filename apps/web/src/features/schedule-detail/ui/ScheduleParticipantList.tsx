@@ -7,14 +7,14 @@ interface ScheduleParticipantListProps {
   participants: ScheduleParticipant[];
   participantCount: number;
   maxParticipants: number;
-  onSeeMore?: () => void;
+  handleClickMore?: () => void;
 }
 
 export function ScheduleParticipantList({
   participants,
   participantCount,
   maxParticipants,
-  onSeeMore,
+  handleClickMore,
 }: ScheduleParticipantListProps) {
   return (
     <div className={styles.section}>
@@ -27,7 +27,7 @@ export function ScheduleParticipantList({
         <button
           type="button"
           className={styles.moreLink}
-          onClick={onSeeMore}
+          onClick={handleClickMore}
           aria-label="참여 멤버 더보기"
         >
           <span className={styles.moreText}>더보기</span>

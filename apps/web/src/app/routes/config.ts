@@ -58,6 +58,10 @@ const ScheduleDetailPage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleDetailPage'),
   'ScheduleDetailPage'
 );
+const ScheduleMembersPage = lazyImport(
+  () => import('@/pages/schedule/ui/ScheduleMembersPage'),
+  'ScheduleMembersPage'
+);
 
 export const routes = [
   {
@@ -154,6 +158,12 @@ export const routes = [
     name: 'ScheduleDetailPage',
     path: '/schedule/:id',
     element: ScheduleDetailPage,
+    withAuth: true,
+  },
+  {
+    name: 'ScheduleMembersPage',
+    path: '/schedule/:id/members',
+    element: ScheduleMembersPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];
