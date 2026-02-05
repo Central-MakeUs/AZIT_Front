@@ -4,7 +4,7 @@ import type { routes } from './config';
 export interface RouteConfig {
   name: string;
   path: string;
-  element: ComponentType;
+  element: ComponentType<any>;
   withAuth: boolean;
 }
 
