@@ -5,6 +5,7 @@ import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
 import { ScheduleListItem } from '@/widgets/schedule-list/ui';
+import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { mockActivityActivation, mockScheduleList } from '@/shared/mock/home';
 import { logo } from '@/shared/styles/logo.css';
 import * as styles from '../styles/HomePage.css';
@@ -29,17 +30,19 @@ export function HomePage() {
             </button>
           }
         />
-        <div className={styles.pageContainer}>
-          <ScheduleAttendanceSection activity={mockActivityActivation} />
-          <div className={styles.scheduleSection}>
-            <h2 className={styles.sectionTitle}>내 일정</h2>
+        <ScheduleSectionLayout
+          topSection={
+            <ScheduleAttendanceSection activity={mockActivityActivation} />
+          }
+          scheduleTitle="내 일정"
+          scheduleContent={
             <div className={styles.scheduleList}>
               {mockScheduleList.map((item) => (
                 <ScheduleListItem key={item.id} item={item} />
               ))}
             </div>
-          </div>
-        </div>
+          }
+        />
       </AppLayout>
       <BottomNavigation activeTab="home" />
     </AppScreen>
