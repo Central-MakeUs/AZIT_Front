@@ -1,6 +1,8 @@
 import { useState, useMemo, useCallback } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, Divider, Header } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {
