@@ -1,4 +1,4 @@
-import { Chip } from '@azit/design-system';
+import { Chip } from '@azit/design-system/chip';
 import * as styles from '../styles/ScheduleDetailHeaderSection.css';
 
 interface ScheduleDetailHeaderSectionProps {
