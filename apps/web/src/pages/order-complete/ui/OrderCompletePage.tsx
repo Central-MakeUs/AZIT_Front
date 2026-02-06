@@ -52,7 +52,7 @@ export function OrderCompletePage() {
             }
           />
         </div>
-        <div className={styles.pageContainer}>
+        <div className={styles.mainContainer}>
           <div className={styles.headerSection}>
             <OrderCompleteHeader
               orderNumber={mockOrderCompleteData.orderNumber}
