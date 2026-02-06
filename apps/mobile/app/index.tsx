@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { WebView } from '@/shared/lib/bridge';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
 import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
@@ -70,18 +70,20 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <WebView
-        ref={webViewRef}
-        source={{ uri: initialUrl }}
-        style={{ flex: 1 }}
-        webviewDebuggingEnabled
-        domStorageEnabled={true}
-        onLoad={handleWebViewLoad}
-        sharedCookiesEnabled={true}
-        thirdPartyCookiesEnabled={true}
-        originWhitelist={['*']}
-      />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <WebView
+          ref={webViewRef}
+          source={{ uri: initialUrl }}
+          style={{ flex: 1 }}
+          webviewDebuggingEnabled
+          domStorageEnabled={true}
+          onLoad={handleWebViewLoad}
+          sharedCookiesEnabled={true}
+          thirdPartyCookiesEnabled={true}
+          originWhitelist={['*']}
+        />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }

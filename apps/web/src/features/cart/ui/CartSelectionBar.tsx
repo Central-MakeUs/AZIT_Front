@@ -1,4 +1,4 @@
-import { Checkbox } from '@azit/design-system';
+import { Checkbox } from '@azit/design-system/checkbox';
 import * as styles from '../styles/CartSelectionBar.css';
 
 interface CartSelectionBarProps {

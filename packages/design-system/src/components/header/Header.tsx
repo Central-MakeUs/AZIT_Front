@@ -8,6 +8,7 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   center?: ReactNode;
   right?: ReactNode;
   sticky?: boolean;
+  color?: 'transparent' | 'default' | 'sub';
 }
 
 export function Header({
@@ -17,11 +18,12 @@ export function Header({
   right,
   sticky,
   className,
+  color,
   ...props
 }: HeaderProps) {
   return (
     <header
-      className={clsx(header({ sticky }), className)}
+      className={clsx(header({ sticky, color }), className)}
       style={width ? { width } : undefined}
       {...props}
     >

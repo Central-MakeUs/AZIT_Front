@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { Header } from '@azit/design-system/header';
 import {
-  Header,
   ChevronLeftIcon,
   ShareIcon,
   ShoppingCartIcon,
   ChevronDownIcon,
-  Dropdown,
-  Button,
-  Divider,
-} from '@azit/design-system';
+} from '@azit/design-system/icon';
+import { Dropdown } from '@azit/design-system/dropdown';
+import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
 import { AppLayout } from '@/shared/ui/layout';
 import {
   StoreDetailImageSlider,
@@ -51,28 +51,29 @@ export function StoreDetailPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          sticky
-          left={
-            <button className={styles.iconButton} onClick={handleClick}>
-              <ChevronLeftIcon size={24} />
-            </button>
-          }
-          right={
-            <div className={styles.headerIconWrapper}>
-              <button className={styles.iconButton}>
-                <ShareIcon size={24} />
+        <div className={styles.headerWrapper}>
+          <Header
+            left={
+              <button className={styles.iconButton} onClick={handleClick}>
+                <ChevronLeftIcon size={24} />
               </button>
-              <button className={styles.iconButton}>
-                <ShoppingCartIcon
-                  size={24}
-                  onClick={() => push('CartPage', {})}
-                />
-              </button>
-            </div>
-          }
-        />
-        <div className={styles.pageContainer}>
+            }
+            right={
+              <div className={styles.headerIconWrapper}>
+                <button className={styles.iconButton}>
+                  <ShareIcon size={24} />
+                </button>
+                <button className={styles.iconButton}>
+                  <ShoppingCartIcon
+                    size={24}
+                    onClick={() => push('CartPage', {})}
+                  />
+                </button>
+              </div>
+            }
+          />
+        </div>
+        <div className={styles.mainContainer}>
           <StoreDetailImageSlider />
           <div className={styles.contentWrapper}>
             <StoreDetailInfo product={product} />

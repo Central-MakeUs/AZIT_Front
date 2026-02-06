@@ -26,6 +26,11 @@ export const iconVariant = recipe({
           [iconColorVar]: vars.colors.gray30,
         },
       },
+      inherit: {
+        vars: {
+          [iconColorVar]: 'currentColor',
+        },
+      },
       default: {
         vars: {
           [iconColorVar]: vars.colors.black,

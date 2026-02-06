@@ -1,4 +1,5 @@
-import { Button, Header } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
 import clsx from 'clsx';
 import { REGION_OPTIONS, type RegionIdType } from '@/shared/constants/region';
 import * as styles from '../styles/OnboardingCrewRegion.css';
@@ -24,7 +25,9 @@ export function OnboardingCrewRegion({
 
   return (
     <>
-      <Header sticky left={<BackButton onClick={onPrev} />} />
+      <div className={styles.headerWrapper}>
+        <Header left={<BackButton onClick={onPrev} />} />
+      </div>
       <div className={styles.stepContainer}>
         <div className={styles.headerSection}>
           <h1 className={styles.title}>지역을 선택해요</h1>

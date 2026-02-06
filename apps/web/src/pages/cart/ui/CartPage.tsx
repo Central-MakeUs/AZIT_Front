@@ -1,6 +1,8 @@
 import { useState, useMemo, useCallback } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, Divider, Header } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {
@@ -139,60 +141,62 @@ export function CartPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header sticky left={<BackButton />} center="장바구니" />
-        <div className={styles.pageContainer}>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="장바구니" />
+        </div>
+        <div className={styles.mainContainer}>
           {isEmpty ? (
             <CartEmpty />
           ) : (
             <>
-              <div className={styles.contentWrapper}>
-                <CartSelectionBar
-                  selectedCount={selectedItems.length}
-                  totalCount={allItems.length}
-                  isAllSelected={isAllSelected}
-                  onSelectAll={handleSelectAll}
-                  onDeleteSelected={handleDeleteSelected}
-                />
-                <Divider />
-                <div className={styles.brandListWrapper}>
-                  {cartData.map((brand, index) => (
-                    <div key={brand.id}>
-                      <CartBrandSection
-                        brand={brand}
-                        selectedItemIds={selectedItemIds}
-                        onItemSelectChange={handleItemSelectChange}
-                        onBrandSelectChange={handleBrandSelectChange}
-                        onQuantityChange={handleQuantityChange}
-                        onDeleteItem={handleDeleteItem}
-                      />
-                      {index < cartData.length - 1 && <Divider />}
-                    </div>
-                  ))}
-                </div>
-                <Divider />
-                <div className={styles.summaryWrapper}>
-                  <CartSummary
-                    totalProductPrice={totalProductPrice}
-                    membershipDiscount={membershipDiscount}
-                    shippingFee={shippingFee}
-                    totalPayment={totalPayment}
-                  />
-                </div>
+              <CartSelectionBar
+                selectedCount={selectedItems.length}
+                totalCount={allItems.length}
+                isAllSelected={isAllSelected}
+                onSelectAll={handleSelectAll}
+                onDeleteSelected={handleDeleteSelected}
+              />
+              <Divider />
+              <div className={styles.brandListWrapper}>
+                {cartData.map((brand, index) => (
+                  <div key={brand.id}>
+                    <CartBrandSection
+                      brand={brand}
+                      selectedItemIds={selectedItemIds}
+                      onItemSelectChange={handleItemSelectChange}
+                      onBrandSelectChange={handleBrandSelectChange}
+                      onQuantityChange={handleQuantityChange}
+                      onDeleteItem={handleDeleteItem}
+                    />
+                    {index < cartData.length - 1 && <Divider />}
+                  </div>
+                ))}
               </div>
-              <div className={footerWrapper}>
-                <Button
-                  className={styles.ctaButton}
-                  state={hasSelectedItems ? 'active' : 'disabled'}
-                  disabled={!hasSelectedItems}
-                >
-                  {hasSelectedItems
-                    ? `${formatPrice(totalPayment)} 구매하기`
-                    : '상품을 선택해주세요'}
-                </Button>
+              <Divider />
+              <div className={styles.summaryWrapper}>
+                <CartSummary
+                  totalProductPrice={totalProductPrice}
+                  membershipDiscount={membershipDiscount}
+                  shippingFee={shippingFee}
+                  totalPayment={totalPayment}
+                />
               </div>
             </>
           )}
         </div>
+        {!isEmpty && (
+          <div className={footerWrapper}>
+            <Button
+              className={styles.ctaButton}
+              state={hasSelectedItems ? 'active' : 'disabled'}
+              disabled={!hasSelectedItems}
+            >
+              {hasSelectedItems
+                ? `${formatPrice(totalPayment)} 구매하기`
+                : '상품을 선택해주세요'}
+            </Button>
+          </div>
+        )}
       </AppLayout>
     </AppScreen>
   );
