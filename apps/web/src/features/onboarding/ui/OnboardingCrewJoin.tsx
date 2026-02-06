@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Button, Header, Input } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
+import { Input } from '@azit/design-system/input';
 import * as styles from '../styles/OnboardingCrewJoin.css';
 import { BackButton } from '@/shared/ui/button';
 import { BottomSheet } from '@/shared/ui/bottom-sheet/BottomSheet';
