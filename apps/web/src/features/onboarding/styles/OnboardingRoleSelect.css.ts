@@ -2,14 +2,15 @@ import { typography, vars } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
 export const stepContainer = style({
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  height: '100%',
   paddingLeft: 20,
   paddingRight: 20,
   paddingTop: 64,
-  paddingBottom: 100,
 });
 
 export const headerSection = style({
@@ -45,17 +46,16 @@ export const cardsSection = style({
 });
 
 export const buttonWrapper = style({
-  position: 'fixed',
-  bottom: 0,
-  left: 0,
-  right: 0,
+  flexShrink: 0,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   paddingLeft: 20,
   paddingRight: 20,
+  paddingTop: 20,
   paddingBottom: 38,
   backgroundColor: vars.colors.white,
+  width: '100%',
 });
 
 export const roleCard = style({

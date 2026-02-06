@@ -1,5 +1,17 @@
-// 글로벌 스타일 필요하면 추가해주세요!
 :root {
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 body,
@@ -12,11 +24,41 @@ p {
 }
 
 .basic-ui-layout {
+  /* Safari fallback for older versions */
+  height: -webkit-fill-available;
+  /* Standard viewport height (fallback) */
   height: 100vh;
+  /* Dynamic viewport height for modern browsers (Safari 15.4+, Chrome 108+) */
+  height: 100dvh;
   width: 100vw;
   max-width: 480px;
   margin: 0 auto;
   position: relative;
+  overflow: hidden;
+}
+
+/* Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari - use fill-available to account for address bar */
+  .basic-ui-layout {
+    height: -webkit-fill-available;
+  }
+
+  html,
+  body {
+    height: -webkit-fill-available;
+  }
+
+  #root {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Modern browsers with dynamic viewport height support */
+@supports (height: 100dvh) {
+  .basic-ui-layout {
+    height: 100dvh;
+  }
 }
 
 .logo-tilt-warp {

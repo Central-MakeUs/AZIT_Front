@@ -54,6 +54,14 @@ const NotificationSettingsPage = lazyImport(
   () => import('@/pages/mypage-notification/ui/NotificationSettingsPage'),
   'NotificationSettingsPage'
 );
+const ScheduleDetailPage = lazyImport(
+  () => import('@/pages/schedule/ui/ScheduleDetailPage'),
+  'ScheduleDetailPage'
+);
+const ScheduleMembersPage = lazyImport(
+  () => import('@/pages/schedule/ui/ScheduleMembersPage'),
+  'ScheduleMembersPage'
+);
 const HomeAlertPage = lazyImport(
   () => import('@/pages/home-alert/ui/HomeAlertPage'),
   'HomeAlertPage'
@@ -168,6 +176,18 @@ export const routes = [
     name: 'NotificationSettingsPage',
     path: '/mypage-notification',
     element: NotificationSettingsPage,
+    withAuth: true,
+  },
+  {
+    name: 'ScheduleDetailPage',
+    path: '/schedule/:id',
+    element: ScheduleDetailPage,
+    withAuth: true,
+  },
+  {
+    name: 'ScheduleMembersPage',
+    path: '/schedule/:id/members',
+    element: ScheduleMembersPage,
     withAuth: true,
   },
   {

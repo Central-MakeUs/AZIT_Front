@@ -25,7 +25,9 @@ export function OnboardingCrewRegion({
 
   return (
     <>
-      <Header sticky left={<BackButton onClick={onPrev} />} />
+      <div className={styles.headerWrapper}>
+        <Header left={<BackButton onClick={onPrev} />} />
+      </div>
       <div className={styles.stepContainer}>
         <div className={styles.headerSection}>
           <h1 className={styles.title}>지역을 선택해요</h1>

@@ -1,15 +1,16 @@
 import { style } from '@vanilla-extract/css';
+import { layoutStyles } from '@/shared/styles/layout.css';
 
-export const pageContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-  width: '100%',
-  padding: '12px 20px',
-  paddingBottom: '100px',
-});
+export const headerWrapper = style([layoutStyles.headerWrapper]);
+
+export const mainContainer = style([
+  layoutStyles.mainContainer,
+  {
+    gap: '20px',
+    alignItems: 'flex-start',
+    padding: '12px 20px',
+  },
+]);
 
 export const bannerSection = style({
   display: 'flex',

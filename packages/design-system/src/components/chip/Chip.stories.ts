@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['primary', 'secondary'],
+      options: ['primary', 'secondary', 'opacity', 'gray', 'green'],
     },
   },
 } satisfies Meta<typeof Chip>;
@@ -30,5 +30,26 @@ export const Secondary: Story = {
   args: {
     type: 'secondary',
     children: '번개런',
+  },
+};
+
+export const Opacity: Story = {
+  args: {
+    type: 'opacity',
+    children: '리더',
+  },
+};
+
+export const Gray: Story = {
+  args: {
+    type: 'gray',
+    children: '5km',
+  },
+};
+
+export const Green: Story = {
+  args: {
+    type: 'green',
+    children: '멤버',
   },
 };
