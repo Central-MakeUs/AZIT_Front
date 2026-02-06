@@ -1,5 +1,7 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, Header, ChevronLeftIcon, HomeIcon } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
+import { ChevronLeftIcon, HomeIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import {
   OrderCompleteHeader,
@@ -9,7 +11,6 @@ import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { mockOrderCompleteData } from '@/shared/mock/order-complete';
 import * as styles from '../styles/OrderCompletePage.css';
 import { useFlow } from '@/app/routes/stackflow';
-import { footerWrapper } from '@/shared/styles/footer.css';
 
 export function OrderCompletePage() {
   const { replace } = useFlow();
@@ -38,21 +39,22 @@ export function OrderCompletePage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          sticky
-          left={
-            <button onClick={handleBack} className={styles.iconButton}>
-              <ChevronLeftIcon size={24} />
-            </button>
-          }
-          center="주문 완료"
-          right={
-            <button onClick={handleHome} className={styles.iconButton}>
-              <HomeIcon size={24} />
-            </button>
-          }
-        />
-        <div className={styles.pageContainer}>
+        <div className={styles.headerWrapper}>
+          <Header
+            left={
+              <button onClick={handleBack} className={styles.iconButton}>
+                <ChevronLeftIcon size={24} />
+              </button>
+            }
+            center="주문 완료"
+            right={
+              <button onClick={handleHome} className={styles.iconButton}>
+                <HomeIcon size={24} />
+              </button>
+            }
+          />
+        </div>
+        <div className={styles.mainContainer}>
           <div className={styles.headerSection}>
             <OrderCompleteHeader
               orderNumber={mockOrderCompleteData.orderNumber}
@@ -77,7 +79,7 @@ export function OrderCompletePage() {
               totalPayment={mockOrderCompleteData.payment.totalPayment}
             />
           </div>
-          <div className={footerWrapper}>
+          <div className={styles.footerWrapper}>
             <Button state="active" onClick={handleContinueShopping}>
               쇼핑 계속하기
             </Button>

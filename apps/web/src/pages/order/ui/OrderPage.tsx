@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, Header } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {
@@ -61,45 +62,44 @@ export function OrderPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header
-          sticky
-          left={<BackButton onClick={handleBack} />}
-          center="장바구니"
-        />
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <OrderAddressSection
-              address={mockOrderAddress}
-              onChangeAddress={handleChangeAddress}
-            />
-            <div className={styles.divider} />
-            <OrderProductListSection
-              products={mockOrderProducts}
-              title={`주문 상품 총 ${mockOrderProducts.length}개`}
-              showDivider={false}
-            />
-            <div className={styles.divider} />
-            <OrderDiscountSection availablePoints={mockAvailablePoints} />
-            <div className={styles.divider} />
-            <OrderPaymentMethodSection paymentMethod={mockPaymentMethod} />
-            <div className={styles.divider} />
-            <OrderSummarySection
-              totalProductPrice={totalProductPrice}
-              membershipDiscount={membershipDiscount}
-              pointsDiscount={pointsDiscount}
-              shippingFee={shippingFee}
-              totalPayment={totalPayment}
-            />
-          </div>
-          <div className={footerWrapper}>
-            <Button
-              className={styles.ctaButton}
-              state="active"
-              onClick={handlePayment}
-            >
-              {totalPayment.toLocaleString()}원 결제하기
-            </Button>
-          </div>
+        <div className={styles.headerWrapper}>
+          <Header
+            left={<BackButton onClick={handleBack} />}
+            center="장바구니"
+          />
+        </div>
+        <div className={styles.mainContainer}>
+          <OrderAddressSection
+            address={mockOrderAddress}
+            onChangeAddress={handleChangeAddress}
+          />
+          <div className={styles.divider} />
+          <OrderProductListSection
+            products={mockOrderProducts}
+            title={`주문 상품 총 ${mockOrderProducts.length}개`}
+            showDivider={false}
+          />
+          <div className={styles.divider} />
+          <OrderDiscountSection availablePoints={mockAvailablePoints} />
+          <div className={styles.divider} />
+          <OrderPaymentMethodSection paymentMethod={mockPaymentMethod} />
+          <div className={styles.divider} />
+          <OrderSummarySection
+            totalProductPrice={totalProductPrice}
+            membershipDiscount={membershipDiscount}
+            pointsDiscount={pointsDiscount}
+            shippingFee={shippingFee}
+            totalPayment={totalPayment}
+          />
+        </div>
+        <div className={footerWrapper}>
+          <Button
+            className={styles.ctaButton}
+            state="active"
+            onClick={handlePayment}
+          >
+            {totalPayment.toLocaleString()}원 결제하기
+          </Button>
         </div>
       </AppLayout>
     </AppScreen>
