@@ -1,40 +1,20 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { layoutStyles } from '@/shared/styles/layout.css';
 
-export const headerWrapper = style({
-  flexShrink: 0,
-  width: '100%',
-});
+export const headerWrapper = style([layoutStyles.headerWrapper]);
 
-export const pageContainer = style({
-  flex: 1,
-  minHeight: 0,
-  overflowY: 'auto',
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  backgroundColor: vars.colors.background,
-});
+export const mainContainer = style([
+  layoutStyles.mainContainer,
+  {
+    backgroundColor: vars.colors.background,
+    gap: '20px',
+    padding: '12px 20px',
+    boxSizing: 'border-box',
+  },
+]);
 
-export const contentWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
-  padding: '12px 20px',
-  width: '100%',
-  boxSizing: 'border-box',
-});
-
-export const bottomBar = style({
-  flexShrink: 0,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  backgroundColor: vars.colors.white,
-  padding: '20px',
-  width: '100%',
-  boxSizing: 'border-box',
-});
+export const footerWrapper = style([layoutStyles.footerWrapper]);
 
 export const shareButton = style({
   background: 'none',
