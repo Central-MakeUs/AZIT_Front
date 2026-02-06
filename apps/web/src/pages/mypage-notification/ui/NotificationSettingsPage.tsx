@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, vars } from '@azit/design-system';
+import { vars } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { NotificationSettingsList } from '@/features/mypage-notification/ui';
