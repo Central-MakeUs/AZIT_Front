@@ -4,7 +4,7 @@ import {
   ShoppingBagIcon,
   UserIcon,
   type IconProps,
-} from '@azit/design-system';
+} from '@azit/design-system/icon';
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 import * as styles from './BottomNavigation.css';
 import { useFlow } from '@/app/routes/stackflow';
@@ -63,7 +63,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
           icon={CalendarIcon}
           label="일정"
           isActive={activeTab === 'schedule'}
-          onClick={() => {}}
+          onClick={() => handleClick('SchedulePage')}
         />
         <MenuItem
           icon={ShoppingBagIcon}

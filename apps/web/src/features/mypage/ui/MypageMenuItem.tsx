@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from '@azit/design-system';
+import { ChevronRightIcon } from '@azit/design-system/icon';
 import type { ActivityName } from '@/app/routes/types';
 import * as styles from '../styles/MypageMenuItem.css';
 import type { MypageMenuItem as MypageMenuItemType } from '@/shared/mock/mypage';

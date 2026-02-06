@@ -40,7 +40,7 @@ export const mockMypageMenuSections: MypageMenuSection[] = [
     id: 'crew',
     title: '크루 활동',
     items: [
-      { id: 'attendance-log', label: '출석 로그' },
+      { id: 'attendance-log', label: '출석 로그', path: 'AttendancePage' },
       { id: 'member-management', label: '멤버 관리' },
     ],
   },

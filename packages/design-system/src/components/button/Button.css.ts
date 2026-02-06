@@ -24,6 +24,10 @@ export const buttonVariant = recipe({
           height: 54,
         },
       ],
+      small: [
+        typography.body.b3,
+        { height: 32, width: 'fit-content', padding: '0 12px' },
+      ],
     },
     state: {
       kakao: {
@@ -47,6 +51,11 @@ export const buttonVariant = recipe({
       disabled: {
         backgroundColor: vars.colors.gray10,
         color: vars.colors.gray50,
+      },
+      disabled_outline: {
+        backgroundColor: vars.colors.white,
+        color: vars.colors.gray40,
+        border: `1px solid ${vars.colors.gray20}`,
       },
     },
   },
