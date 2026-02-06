@@ -1,6 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '../../shared/styles/theme.css';
-import { typography } from '../../shared/styles';
+import { typography, vars } from '../../shared/styles';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const header = recipe({
@@ -13,10 +12,20 @@ export const header = recipe({
     display: 'grid',
     width: '100%',
     gridTemplateColumns: '1fr 3fr 1fr',
-    backgroundColor: vars.colors.background,
     flexShrink: 0,
   },
   variants: {
+    color: {
+      transparent: {
+        backgroundColor: 'transparent',
+      },
+      default: {
+        backgroundColor: vars.colors.background,
+      },
+      sub: {
+        backgroundColor: vars.colors.background_sub,
+      },
+    },
     sticky: {
       true: {
         position: 'sticky',
@@ -25,6 +34,9 @@ export const header = recipe({
         zIndex: 10,
       },
     },
+  },
+  defaultVariants: {
+    color: 'default',
   },
 });
 
