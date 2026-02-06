@@ -1,23 +1,16 @@
 import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
+import { layoutStyles } from '@/shared/styles/layout.css';
 
-export const pageContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  flexGrow: 1,
-  overflowY: 'auto',
-  backgroundColor: 'transparent',
-});
+export const headerWrapper = style([layoutStyles.headerWrapper]);
 
-export const contentWrapper = style({
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  overflowY: 'auto',
-  paddingBottom: 100,
-});
+export const mainContainer = style([
+  layoutStyles.mainContainer,
+  {
+    backgroundColor: 'transparent',
+    paddingBottom: '100px',
+  },
+]);
 
 export const menuSectionWrapper = style({
   display: 'flex',

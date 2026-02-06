@@ -103,7 +103,7 @@ export function TermAgreePage() {
   return (
     <AppScreen>
       <AppLayout>
-        <div className={styles.pageContainer}>
+        <div className={styles.mainContainer}>
           <div className={styles.headerSection}>
             <h1 className={styles.title}>AZIT에 오신 걸 환영해요!</h1>
             <p className={styles.subtitle}>

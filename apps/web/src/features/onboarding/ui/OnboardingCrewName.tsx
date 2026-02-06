@@ -28,7 +28,9 @@ export function OnboardingCrewName({
 
   return (
     <>
-      <Header sticky left={<BackButton onClick={onPrev} />} />
+      <div className={styles.headerWrapper}>
+        <Header left={<BackButton onClick={onPrev} />} />
+      </div>
       <div className={styles.stepContainer}>
         <div className={styles.headerSection}>
           <h1 className={styles.title}>크루 이름을 알려주세요</h1>
