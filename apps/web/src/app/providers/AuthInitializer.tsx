@@ -1,5 +1,4 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { HTTPError } from 'ky';
 import { useFlow } from '@/app/routes/stackflow';
 import { useAuthStore } from '@/shared/store/auth';
 import { postReissueToken } from '@/shared/api/postReissueToken';
@@ -30,11 +29,10 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
     if (isInitialized) return;
 
     const initAuth = async () => {
-      try {
-        const {
-          result: { accessToken, status },
-        } = await postReissueToken();
+      const response = await postReissueToken();
 
+      if (response.ok) {
+        const { accessToken, status, crewId } = response.data.result;
         setAccessToken(accessToken);
 
         switch (status) {
@@ -56,20 +54,28 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
               replace('HomePage', {}, { animate: false });
             }
             break;
+          case 'WAITING_FOR_APPROVE':
+          case 'APPROVED_PENDING_CONFIRM':
+          case 'REJECTED_PENDING_CONFIRM':
+            if (currentActivity !== 'CrewJoinStatusPage') {
+              redirectTargetRef.current = 'CrewJoinStatusPage';
+              replace('CrewJoinStatusPage', { crewId }, { animate: false });
+            }
+            break;
         }
-      } catch (error) {
-        if (error instanceof HTTPError && error.response.status === 401) {
+      } else {
+        if (response.status === 401) {
           if (currentActivity !== 'LoginPage') {
             redirectTargetRef.current = 'LoginPage';
             replace('LoginPage', {}, { animate: false });
           }
         } else {
-          console.error(error);
+          console.error(response.error);
         }
-      } finally {
-        setIsInitialized(true);
-        redirectTargetRef.current = null;
       }
+
+      setIsInitialized(true);
+      redirectTargetRef.current = null;
     };
 
     initAuth();
