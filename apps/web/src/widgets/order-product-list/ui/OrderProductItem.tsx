@@ -1,5 +1,5 @@
 import type { OrderProduct } from '@/shared/mock/order';
-import { Description } from '@azit/design-system';
+import { Description } from '@azit/design-system/description';
 import * as styles from '../styles/OrderProductItem.css.ts';
 
 interface OrderProductItemProps {

@@ -1,5 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, ShoppingCartIcon } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
+import { ShoppingCartIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import {

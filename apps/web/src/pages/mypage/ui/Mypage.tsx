@@ -1,5 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, vars } from '@azit/design-system';
+import { vars } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { MypageProfileSection, MypageMenuSection } from '@/features/mypage/ui';

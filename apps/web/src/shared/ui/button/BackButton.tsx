@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from '@azit/design-system';
+import { ChevronLeftIcon } from '@azit/design-system/icon';
 import * as styles from './BackButton.css';
 import { useFlow } from '@/app/routes/stackflow';
 

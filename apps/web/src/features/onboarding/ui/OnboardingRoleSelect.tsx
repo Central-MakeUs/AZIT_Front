@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
-import { Button, FlagIcon, UsersIcon } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { FlagIcon, UsersIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/OnboardingRoleSelect.css';
 import clsx from 'clsx';
 

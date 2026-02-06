@@ -13,11 +13,11 @@ const meta = {
   argTypes: {
     size: {
       control: 'check',
-      options: ['large'],
+      options: ['large', 'small'],
     },
     state: {
       control: 'select',
-      options: ['active', 'disabled', 'outline'],
+      options: ['active', 'disabled', 'outline', 'disabled_outline'],
     },
   },
   args: { onClick: fn() },
@@ -45,6 +45,22 @@ export const Outline: Story = {
   args: {
     width: '375px',
     state: 'outline',
+    children: '신청하기',
+  },
+};
+
+export const ActiveSmall: Story = {
+  args: {
+    size: 'small',
+    state: 'active',
+    children: '신청하기',
+  },
+};
+
+export const DisableOutlineSmall: Story = {
+  args: {
+    size: 'small',
+    state: 'disabled_outline',
     children: '신청하기',
   },
 };
