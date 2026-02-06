@@ -9,6 +9,6 @@ export const crewQueries = {
     queryOptions({
       queryKey: [...crewQueries.joinStatusKey(crewId)],
       queryFn: () => getCrewJoinStatus(crewId),
-      staleTime: 6000000, // 10분
+      staleTime: 600000, // 10분
     }),
 };
