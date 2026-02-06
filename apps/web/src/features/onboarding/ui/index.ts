@@ -15,3 +15,7 @@ export {
   OnboardingShareInviteCode,
   type OnboardingShareInviteCodeProps,
 } from './OnboardingShareInviteCode';
+export {
+  OnboardingCrewJoin,
+  type OnboardingCrewJoinProps,
+} from './OnboardingCrewJoin';

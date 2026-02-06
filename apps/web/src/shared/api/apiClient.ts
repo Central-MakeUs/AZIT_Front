@@ -2,6 +2,7 @@ import ky from 'ky';
 import { useAuthStore } from '../store/auth';
 import { BASE_API_URL } from '../constants/url';
 import { postReissueToken } from './postReissueToken';
+import { createHttpMethods } from './httpMethods';
 
 export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
@@ -37,11 +38,10 @@ export const authApi = baseApi.extend({
       // 401 에러 발생시, 새 토큰으로 재시도
       async (request, _options, response, state) => {
         if (response.status === 401 && state.retryCount === 0) {
-          const {
-            result: { accessToken },
-          } = await postReissueToken();
+          const tokenResponse = await postReissueToken();
 
-          if (accessToken) {
+          if (tokenResponse.ok) {
+            const accessToken = tokenResponse.data.result.accessToken;
             useAuthStore.getState().setAccessToken(accessToken);
 
             return ky.retry({
@@ -56,3 +56,6 @@ export const authApi = baseApi.extend({
     ],
   },
 });
+
+export const base = createHttpMethods(baseApi);
+export const auth = createHttpMethods(authApi);

@@ -27,12 +27,15 @@ export const useKakaoCode = () => {
     setIsLoading(true);
 
     try {
-      const {
-        result: { accessToken, status },
-      } = await postSocialLogin('KAKAO', {
+      const response = await postSocialLogin('KAKAO', {
         authorizationCode: code,
       });
 
+      if (!response.ok) {
+        throw response.error;
+      }
+
+      const { accessToken, status } = response.data.result;
       setAccessToken(accessToken);
 
       switch (status) {

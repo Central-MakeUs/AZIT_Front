@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
-// import { getStoreProducts } from './getStoreProducts';
+import { getStoreProducts } from '@/pages/store/api/getStoreProducts';
 
 // query factory
 export const storeQueries = {
@@ -9,16 +9,7 @@ export const storeQueries = {
   productsQuery: () =>
     queryOptions({
       queryKey: [...storeQueries.listKey()],
-      // queryFn: () => getStoreProducts(),
-      queryFn: () => {
-        return {
-          products: [
-            { id: 1, name: 'Product 1' },
-            { id: 2, name: 'Product 2' },
-          ],
-        };
-      },
-      select: (data) => data.products,
+      queryFn: () => getStoreProducts(),
     }),
   // productDetailQuery: (id: string) =>
   //   queryOptions({

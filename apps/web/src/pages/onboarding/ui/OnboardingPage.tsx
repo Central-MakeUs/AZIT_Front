@@ -4,33 +4,32 @@ import { AppLayout } from '@/shared/ui/layout';
 import { useFunnel } from '@/features/onboarding/hooks/useFunnel';
 import { OnboardingRoleSelect } from '@/features/onboarding/ui/OnboardingRoleSelect';
 import {
+  OnboardingCrewJoin,
   OnboardingCrewName,
   OnboardingCrewRegion,
   OnboardingShareInviteCode,
 } from '@/features/onboarding/ui';
 import { useFlow } from '@/app/routes/stackflow';
 import { postCreateCrew } from '@/features/onboarding/api/postCreateCrew';
+import { postJoinCrew } from '@/features/onboarding/api/postJoinCrew';
 
 type StepName =
   | 'role-select'
   | 'crew-name'
   | 'crew-region'
   | 'share-invite-code'
-  | 'member-join'
-  | 'enter-invite-code'
-  | 'request-complete';
+  | 'enter-invite-code';
 
 const ONBOARDING_FLOW: Record<
   StepName,
   ((ctx: unknown) => StepName) | StepName | null
 > = {
-  'role-select': (ctx) => (ctx === 'leader' ? 'crew-name' : 'member-join'),
+  'role-select': (ctx) =>
+    ctx === 'leader' ? 'crew-name' : 'enter-invite-code',
   'crew-name': 'crew-region',
   'crew-region': 'share-invite-code',
   'share-invite-code': null,
-  'member-join': 'enter-invite-code',
-  'enter-invite-code': 'request-complete',
-  'request-complete': null,
+  'enter-invite-code': null,
 };
 
 type OnboardingState = {
@@ -41,7 +40,7 @@ type OnboardingState = {
 };
 
 export function OnboardingPage() {
-  const { push } = useFlow();
+  const { replace } = useFlow();
   const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
 
   const [onboardingState, setOnboardingState] = useState<OnboardingState>(
@@ -104,10 +103,10 @@ export function OnboardingPage() {
                     region: crewRegion,
                   });
 
-                  if (response.result.invitationCode) {
+                  if (response.ok) {
                     setOnboardingState((prev) => ({
                       ...prev,
-                      inviteCode: response.result.invitationCode,
+                      inviteCode: response.data.result.invitationCode,
                     }));
                   }
                   context.onNext();
@@ -131,12 +130,38 @@ export function OnboardingPage() {
                 inviteCode={onboardingState.inviteCode ?? ''}
                 onNext={() => {
                   context.onNext();
-                  push('HomePage', {}, { animate: false });
+                  replace('HomePage', {}, { animate: false });
                 }}
               />
             )}
           />
-          {/* TODO: 멤버 온보딩 UI 추가 */}
+          <Funnel.Step
+            name="enter-invite-code"
+            render={(context) => (
+              <OnboardingCrewJoin
+                onNext={async (inviteCode, crewId) => {
+                  const response = await postJoinCrew({
+                    invitationCode: inviteCode,
+                  });
+
+                  if (response.ok) {
+                    context.onNext();
+                    replace(
+                      'CrewJoinStatusPage',
+                      { crewId },
+                      { animate: false }
+                    );
+                  } else {
+                    // TODO: 에러 처리
+                    console.error(response.error);
+                  }
+                }}
+                onPrev={() => {
+                  context.onPrev();
+                }}
+              />
+            )}
+          />
         </Funnel>
       </AppLayout>
     </AppScreen>
