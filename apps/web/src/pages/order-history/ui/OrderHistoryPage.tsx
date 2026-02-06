@@ -1,5 +1,8 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, Header, TruckIcon, vars } from '@azit/design-system';
+import { vars } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
+import { TruckIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';

@@ -25,8 +25,11 @@
     "@vanilla-extract/recipes": "^0.5.7",
     "@vanilla-extract/vite-plugin": "^5.1.4",
     "@webview-bridge/web": "^1.7.8",
+    "dayjs": "^1.11.19",
     "ky": "^1.14.2",
+    "motion": "^12.31.0",
     "react": "catalog:react19.1",
+    "react-calendar": "^6.0.0",
     "react-dom": "catalog:react19.1",
     "zustand": "^5.0.10"
   },

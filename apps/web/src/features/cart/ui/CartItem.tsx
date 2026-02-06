@@ -1,4 +1,5 @@
-import { Checkbox, XIcon } from '@azit/design-system';
+import { Checkbox } from '@azit/design-system/checkbox';
+import { XIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
 import { QuantitySelector } from './QuantitySelector';
 import type { CartItem as CartItemType } from '@/shared/mock/cart';
