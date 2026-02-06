@@ -1,6 +1,7 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { AppLayout } from '@/shared/ui/layout';
-import { Button, vars, type ButtonProps } from '@azit/design-system';
+import { Button, type ButtonProps } from '@azit/design-system/button';
+import { vars } from '@azit/design-system';
 import { useFlow } from '@/app/routes/stackflow';
 import * as styles from '../styles/CrewJoinStatusPage.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
