@@ -25,36 +25,36 @@ export function OrderDetailPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <Header sticky left={<BackButton />} center="주문 상세" />
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <OrderDateSection
-              orderDate={mockOrderDetail.orderDate}
-              orderDayOfWeek={mockOrderDetail.orderDayOfWeek}
-              orderNumber={mockOrderDetail.orderNumber}
-            />
-            <OrderDeliveryAddressSection
-              address={mockOrderDetail.deliveryAddress}
-              deliveryMessage={mockOrderDetail.deliveryMessage}
-            />
-            <OrderDeliveryInfoSection
-              deliveryCompany={mockOrderDetail.deliveryCompany}
-              trackingNumber={mockOrderDetail.trackingNumber}
-              onCheckDelivery={handleCheckDelivery}
-              onCopyTrackingNumber={handleCopyTrackingNumber}
-            />
-            <OrderProductListSection
-              products={mockOrderDetail.products}
-              showOriginalPrice={false}
-            />
-            <PaymentInfoSection
-              totalProductPrice={mockOrderDetail.totalProductPrice}
-              membershipDiscount={mockOrderDetail.membershipDiscount}
-              pointDiscount={mockOrderDetail.pointsDiscount}
-              shippingFee={mockOrderDetail.shippingFee}
-              totalPayment={mockOrderDetail.totalPayment}
-            />
-          </div>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="주문 상세" />
+        </div>
+        <div className={styles.mainContainer}>
+          <OrderDateSection
+            orderDate={mockOrderDetail.orderDate}
+            orderDayOfWeek={mockOrderDetail.orderDayOfWeek}
+            orderNumber={mockOrderDetail.orderNumber}
+          />
+          <OrderDeliveryAddressSection
+            address={mockOrderDetail.deliveryAddress}
+            deliveryMessage={mockOrderDetail.deliveryMessage}
+          />
+          <OrderDeliveryInfoSection
+            deliveryCompany={mockOrderDetail.deliveryCompany}
+            trackingNumber={mockOrderDetail.trackingNumber}
+            onCheckDelivery={handleCheckDelivery}
+            onCopyTrackingNumber={handleCopyTrackingNumber}
+          />
+          <OrderProductListSection
+            products={mockOrderDetail.products}
+            showOriginalPrice={false}
+          />
+          <PaymentInfoSection
+            totalProductPrice={mockOrderDetail.totalProductPrice}
+            membershipDiscount={mockOrderDetail.membershipDiscount}
+            pointDiscount={mockOrderDetail.pointsDiscount}
+            shippingFee={mockOrderDetail.shippingFee}
+            totalPayment={mockOrderDetail.totalPayment}
+          />
         </div>
       </AppLayout>
     </AppScreen>

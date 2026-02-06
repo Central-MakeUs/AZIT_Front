@@ -17,48 +17,46 @@ export function OrderHistoryPage() {
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
-        <Header sticky left={<BackButton />} center="주문내역" />
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            {isEmpty ? (
-              <div className={styles.emptyState}>
-                <div className={styles.emptyStateIconText}>
-                  <TruckIcon size={64} color="secondary" />
-                  <p className={styles.emptyStateText}>
-                    주문 내역이 아직 없어요
-                  </p>
-                </div>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="주문내역" />
+        </div>
+        <div className={styles.mainContainer}>
+          {isEmpty ? (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyStateIconText}>
+                <TruckIcon size={64} color="secondary" />
+                <p className={styles.emptyStateText}>주문 내역이 아직 없어요</p>
               </div>
-            ) : (
-              mockOrderHistoryList.map((group) => (
-                <section key={group.orderId} className={styles.dateSection}>
-                  <div className={styles.dateSectionHeader}>
-                    <span className={styles.dateLabel}>{group.dateLabel}</span>
-                    <Button
-                      type="button"
-                      state="outline"
-                      className={styles.detailButton}
-                      onClick={() =>
-                        push(
-                          'OrderDetailPage',
-                          { id: group.orderId },
-                          { animate: true }
-                        )
-                      }
-                    >
-                      주문 상세
-                    </Button>
-                  </div>
-                  <OrderProductListSection
-                    products={group.products}
-                    title=""
-                    showDivider={false}
-                    showOriginalPrice={false}
-                  />
-                </section>
-              ))
-            )}
-          </div>
+            </div>
+          ) : (
+            mockOrderHistoryList.map((group) => (
+              <section key={group.orderId} className={styles.dateSection}>
+                <div className={styles.dateSectionHeader}>
+                  <span className={styles.dateLabel}>{group.dateLabel}</span>
+                  <Button
+                    type="button"
+                    state="outline"
+                    className={styles.detailButton}
+                    onClick={() =>
+                      push(
+                        'OrderDetailPage',
+                        { id: group.orderId },
+                        { animate: true }
+                      )
+                    }
+                  >
+                    주문 상세
+                  </Button>
+                </div>
+                <OrderProductListSection
+                  products={group.products}
+                  title=""
+                  showDivider={false}
+                  showOriginalPrice={false}
+                />
+              </section>
+            ))
+          )}
         </div>
       </AppLayout>
     </AppScreen>

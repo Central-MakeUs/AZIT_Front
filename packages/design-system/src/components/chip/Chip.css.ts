@@ -31,7 +31,15 @@ export const chipVariant = recipe({
       },
       opacity: {
         backgroundColor: vars.colors.blue10,
-        color: vars.colors.blue80,
+        color: vars.colors.blue60,
+      },
+      gray: {
+        backgroundColor: vars.colors.gray10,
+        color: vars.colors.gray80,
+      },
+      green: {
+        backgroundColor: vars.colors.green10,
+        color: vars.colors.green80,
       },
     },
   },
