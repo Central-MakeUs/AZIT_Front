@@ -61,6 +61,7 @@ const ScheduleDetailPage = lazyImport(
 const ScheduleMembersPage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleMembersPage'),
   'ScheduleMembersPage'
+);
 const HomeAlertPage = lazyImport(
   () => import('@/pages/home-alert/ui/HomeAlertPage'),
   'HomeAlertPage'
