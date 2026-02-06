@@ -28,6 +28,12 @@ export const appBridge = bridge<AppBridge>({
       url: `${process.env.EXPO_PUBLIC_WEB_URL}/onboarding?inviteCode=${code}`,
     });
   },
+  async shareSchedule(scheduleId: string) {
+    await Share.share({
+      message: `일정을 공유합니다.\n${scheduleId}`,
+      url: `${process.env.EXPO_PUBLIC_WEB_URL}/schedule/${scheduleId}`,
+    });
+  },
 });
 
 /**

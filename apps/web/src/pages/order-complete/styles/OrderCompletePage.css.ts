@@ -1,14 +1,15 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { layoutStyles } from '@/shared/styles/layout.css';
 
-export const pageContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  minHeight: '100vh',
-  backgroundColor: vars.colors.white,
-  position: 'relative',
-});
+export const headerWrapper = style([layoutStyles.headerWrapper]);
+
+export const mainContainer = style([
+  layoutStyles.mainContainer,
+  {
+    backgroundColor: vars.colors.white,
+  },
+]);
 
 export const iconButton = style({
   display: 'flex',
@@ -33,9 +34,18 @@ export const headerSection = style({
 export const infoSection = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '36px',
-  backgroundColor: '#F9FAFB',
+  gap: '16px',
+  backgroundColor: vars.colors.background_sub,
   padding: '20px',
   marginTop: '40px',
   minHeight: '509px',
 });
+
+export const footerWrapper = style([
+  layoutStyles.footerWrapper,
+  {
+    padding: '0 20px',
+    paddingTop: '20px',
+    paddingBottom: '20px',
+  },
+]);

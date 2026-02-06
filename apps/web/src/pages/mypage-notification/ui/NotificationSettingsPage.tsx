@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, vars } from '@azit/design-system';
+import { vars } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { NotificationSettingsList } from '@/features/mypage-notification/ui';
@@ -24,19 +25,15 @@ export function NotificationSettingsPage() {
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
-        <Header
-          sticky
-          left={<BackButton />}
-          center="알림 설정"
-          className={styles.header}
-        />
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <NotificationSettingsList
-              items={settings}
-              onToggle={handleToggle}
-            />
-          </div>
+        <div className={styles.headerWrapper}>
+          <Header
+            left={<BackButton />}
+            center="알림 설정"
+            className={styles.header}
+          />
+        </div>
+        <div className={styles.mainContainer}>
+          <NotificationSettingsList items={settings} onToggle={handleToggle} />
         </div>
       </AppLayout>
     </AppScreen>
