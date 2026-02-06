@@ -73,7 +73,7 @@ export function StoreDetailPage() {
             }
           />
         </div>
-        <div className={styles.pageContainer}>
+        <div className={styles.mainContainer}>
           <StoreDetailImageSlider />
           <div className={styles.contentWrapper}>
             <StoreDetailInfo product={product} />

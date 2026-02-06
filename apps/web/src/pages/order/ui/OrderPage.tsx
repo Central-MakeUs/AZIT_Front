@@ -67,31 +67,29 @@ export function OrderPage() {
             center="장바구니"
           />
         </div>
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <OrderAddressSection
-              address={mockOrderAddress}
-              onChangeAddress={handleChangeAddress}
-            />
-            <div className={styles.divider} />
-            <OrderProductListSection
-              products={mockOrderProducts}
-              title={`주문 상품 총 ${mockOrderProducts.length}개`}
-              showDivider={false}
-            />
-            <div className={styles.divider} />
-            <OrderDiscountSection availablePoints={mockAvailablePoints} />
-            <div className={styles.divider} />
-            <OrderPaymentMethodSection paymentMethod={mockPaymentMethod} />
-            <div className={styles.divider} />
-            <OrderSummarySection
-              totalProductPrice={totalProductPrice}
-              membershipDiscount={membershipDiscount}
-              pointsDiscount={pointsDiscount}
-              shippingFee={shippingFee}
-              totalPayment={totalPayment}
-            />
-          </div>
+        <div className={styles.mainContainer}>
+          <OrderAddressSection
+            address={mockOrderAddress}
+            onChangeAddress={handleChangeAddress}
+          />
+          <div className={styles.divider} />
+          <OrderProductListSection
+            products={mockOrderProducts}
+            title={`주문 상품 총 ${mockOrderProducts.length}개`}
+            showDivider={false}
+          />
+          <div className={styles.divider} />
+          <OrderDiscountSection availablePoints={mockAvailablePoints} />
+          <div className={styles.divider} />
+          <OrderPaymentMethodSection paymentMethod={mockPaymentMethod} />
+          <div className={styles.divider} />
+          <OrderSummarySection
+            totalProductPrice={totalProductPrice}
+            membershipDiscount={membershipDiscount}
+            pointsDiscount={pointsDiscount}
+            shippingFee={shippingFee}
+            totalPayment={totalPayment}
+          />
         </div>
         <div className={footerWrapper}>
           <Button

@@ -31,13 +31,8 @@ export function NotificationSettingsPage() {
             className={styles.header}
           />
         </div>
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <NotificationSettingsList
-              items={settings}
-              onToggle={handleToggle}
-            />
-          </div>
+        <div className={styles.mainContainer}>
+          <NotificationSettingsList items={settings} onToggle={handleToggle} />
         </div>
       </AppLayout>
     </AppScreen>

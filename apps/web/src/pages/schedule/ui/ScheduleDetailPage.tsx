@@ -65,37 +65,35 @@ export function ScheduleDetailPage() {
             }
           />
         </div>
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <ScheduleDetailHeaderSection
-              runType={mockScheduleDetail.runType}
-              distance={mockScheduleDetail.distance}
-              pace={mockScheduleDetail.pace}
-              title={mockScheduleDetail.title}
-              leaderNickname={mockScheduleDetail.leader.nickname}
-            />
-            <ScheduleDetailInfoSection
-              date={mockScheduleDetail.date}
-              dayOfWeek={mockScheduleDetail.dayOfWeek}
-              time={mockScheduleDetail.time}
-              locationName={mockScheduleDetail.locationName}
-              address={mockScheduleDetail.address}
-            />
-            <ScheduleDetailDescriptionSection
-              description={mockScheduleDetail.description}
-            />
-            <SchedulePreparationList
-              items={mockScheduleDetail.preparationItems}
-            />
-            <ScheduleParticipantList
-              participants={mockScheduleDetail.participants}
-              participantCount={mockScheduleDetail.participantCount}
-              maxParticipants={mockScheduleDetail.maxParticipants}
-              handleClickMore={handleSeeMoreParticipants}
-            />
-          </div>
+        <div className={styles.mainContainer}>
+          <ScheduleDetailHeaderSection
+            runType={mockScheduleDetail.runType}
+            distance={mockScheduleDetail.distance}
+            pace={mockScheduleDetail.pace}
+            title={mockScheduleDetail.title}
+            leaderNickname={mockScheduleDetail.leader.nickname}
+          />
+          <ScheduleDetailInfoSection
+            date={mockScheduleDetail.date}
+            dayOfWeek={mockScheduleDetail.dayOfWeek}
+            time={mockScheduleDetail.time}
+            locationName={mockScheduleDetail.locationName}
+            address={mockScheduleDetail.address}
+          />
+          <ScheduleDetailDescriptionSection
+            description={mockScheduleDetail.description}
+          />
+          <SchedulePreparationList
+            items={mockScheduleDetail.preparationItems}
+          />
+          <ScheduleParticipantList
+            participants={mockScheduleDetail.participants}
+            participantCount={mockScheduleDetail.participantCount}
+            maxParticipants={mockScheduleDetail.maxParticipants}
+            handleClickMore={handleSeeMoreParticipants}
+          />
         </div>
-        <div className={styles.bottomBar}>
+        <div className={styles.footerWrapper}>
           {isOwner ? (
             <Button size="large" state="active" onClick={handleEdit}>
               수정하기

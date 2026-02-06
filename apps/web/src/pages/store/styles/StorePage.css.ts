@@ -1,21 +1,16 @@
 import { style } from '@vanilla-extract/css';
+import { layoutStyles } from '@/shared/styles/layout.css';
 
-export const headerWrapper = style({
-  flexShrink: 0,
-  width: '100%',
-});
+export const headerWrapper = style([layoutStyles.headerWrapper]);
 
-export const pageContainer = style({
-  flex: 1,
-  minHeight: 0,
-  overflowY: 'auto',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
-  alignItems: 'flex-start',
-  width: '100%',
-  padding: '12px 20px',
-});
+export const mainContainer = style([
+  layoutStyles.mainContainer,
+  {
+    gap: '20px',
+    alignItems: 'flex-start',
+    padding: '12px 20px',
+  },
+]);
 
 export const bannerSection = style({
   display: 'flex',

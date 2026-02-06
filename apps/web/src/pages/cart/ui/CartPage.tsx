@@ -142,11 +142,11 @@ export function CartPage() {
         <div className={styles.headerWrapper}>
           <Header left={<BackButton />} center="장바구니" />
         </div>
-        <div className={styles.pageContainer}>
+        <div className={styles.mainContainer}>
           {isEmpty ? (
             <CartEmpty />
           ) : (
-            <div className={styles.contentWrapper}>
+            <>
               <CartSelectionBar
                 selectedCount={selectedItems.length}
                 totalCount={allItems.length}
@@ -179,7 +179,7 @@ export function CartPage() {
                   totalPayment={totalPayment}
                 />
               </div>
-            </div>
+            </>
           )}
         </div>
         {!isEmpty && (

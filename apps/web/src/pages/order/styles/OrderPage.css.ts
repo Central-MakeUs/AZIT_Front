@@ -1,29 +1,16 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { layoutStyles } from '@/shared/styles/layout.css';
 
-export const headerWrapper = style({
-  flexShrink: 0,
-  width: '100%',
-});
+export const headerWrapper = style([layoutStyles.headerWrapper]);
 
-export const pageContainer = style({
-  flex: 1,
-  minHeight: 0,
-  overflowY: 'auto',
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-});
-
-export const contentWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '32px',
-  paddingLeft: '20px',
-  paddingRight: '20px',
-  paddingTop: '20px',
-  paddingBottom: '20px',
-});
+export const mainContainer = style([
+  layoutStyles.mainContainer,
+  {
+    gap: '32px',
+    padding: '20px',
+  },
+]);
 
 export const divider = style({
   height: '1px',

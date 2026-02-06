@@ -31,7 +31,7 @@ export function StorePage() {
             }
           />
         </div>
-        <div className={styles.pageContainer}>
+        <div className={styles.mainContainer}>
           <div className={styles.bannerSection}>
             <StoreBanner />
           </div>
