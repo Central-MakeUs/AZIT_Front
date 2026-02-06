@@ -25,6 +25,7 @@ export const vars = createGlobalTheme(':root', {
     background: '#FFFFFF',
     background_sub: '#F9FAFB',
     secondary: '#D1F801',
+    error: '#FF4545',
     green10: '#BAEBC1',
     green80: '#187B28',
     white: '#FFFFFF',

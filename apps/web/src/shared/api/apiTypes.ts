@@ -4,6 +4,39 @@
  */
 
 export interface paths {
+  '/api/v1/addresses/{addressId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * 배송지 수정
+     * @description 기존 배송지 정보를 수정합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 본인의 배송지만 수정 가능합니다. (FORBIDDEN_ADDRESS_ACCESS)
+     *     * 모든 필드는 필수 입력 항목입니다. (INVALID_ADDRESS_INPUT)
+     *     * 해당 주소를 '기본 배송지'로 변경 시, 기존의 다른 기본 배송지는 해제됩니다.
+     */
+    put: operations['updateAddress'];
+    post?: never;
+    /**
+     * 배송지 삭제
+     * @description 등록된 배송지를 삭제합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 본인의 배송지만 삭제 가능합니다. (FORBIDDEN_ADDRESS_ACCESS)
+     *     * MVP 정책: 기본 배송지 여부와 상관없이 삭제가 가능합니다.
+     */
+    delete: operations['deleteAddress'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/members/terms': {
     parameters: {
       query?: never;
@@ -42,6 +75,31 @@ export interface paths {
      * @description 서비스 이용을 중단하고 회원의 소셜 연동 해제 및 탈퇴 처리를 진행합니다. <br><br>
      */
     post: operations['withdraw'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/confirm-status': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 가입 승인/거절 결과 확인
+     * @description 사용자가 가입 요청에 대한 승인 또는 거절 결과를 확인했음을 서버에 알립니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * APPROVED_PENDING_CONFIRM 또는 REJECTED_PENDING_CONFIRM 상태인 회원만 호출 가능합니다. (INVALID_MEMBER_STATUS)
+     *     * 가입 승인 완료 화면에서 '홈으로' 버튼 클릭 시 호출: 멤버 상태가 APPROVED_PENDING_CONFIRM -> ACTIVE로 변경됩니다.
+     *     * 가입 거절 안내 화면에서 '처음으로' 버튼 클릭 시 호출: 멤버 상태가 REJECTED_PENDING_CONFIRM -> PENDING_ONBOARDING으로 변경됩니다.
+     */
+    post: operations['confirmMemberStatus'];
     delete?: never;
     options?: never;
     head?: never;
@@ -265,10 +323,7 @@ export interface paths {
     put?: never;
     /**
      * 로그아웃
-     * @description 현재 사용자의 세션을 종료하고 리프레시 토큰 쿠키를 제거합니다. <br>
-     *
-     *     **[참고 사항]** <br>
-     *     * accessToken 파라미터는 무시하시고 기존대로 헤더에 액세스 토큰 넣어서 요청 보내시면 됩니다.
+     * @description 현재 사용자의 세션을 종료하고 리프레시 토큰 쿠키를 제거합니다.
      */
     post: operations['logout'];
     delete?: never;
@@ -297,6 +352,31 @@ export interface paths {
      *     * EMAIL_DISABLED: 사용자가 Apple 설정에서 이메일 공유를 비활성화한 경우(숨기기 설정) 해당 플래그를 N으로 설정합니다.
      */
     post: operations['receiveAppleNotification'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/addresses': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 배송지 등록
+     * @description 신규 배송지 정보를 등록합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 수령인, 연락처, 우편번호, 기본 주소, 상세 주소는 모두 필수 입력 항목입니다. (INVALID_ADDRESS_INPUT)
+     *     * 사용자의 첫 번째 배송지 등록인 경우, 요청값과 관계없이 자동으로 '기본 배송지'로 설정됩니다.
+     *     * 새 주소를 기본 배송지(isDefault: true)로 등록할 경우, 기존에 설정된 기본 배송지는 자동으로 일반 배송지로 변경됩니다.
+     */
+    post: operations['registerAddress'];
     delete?: never;
     options?: never;
     head?: never;
@@ -478,6 +558,25 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    UpdateAddressRequest: {
+      /** @description 수령인 */
+      recipientName: string;
+      /** @description 연락처 */
+      phoneNumber: string;
+      /** @description 우편번호 */
+      zipcode: string;
+      /** @description 주소 */
+      baseAddress: string;
+      /** @description 상세 주소 */
+      detailAddress: string;
+      /** @description 기본 배송지 여부 */
+      isDefault: boolean;
+    };
+    CommonResponseVoid: {
+      code?: string;
+      message?: string;
+      result?: Record<string, never>;
+    };
     AgreeToTermsRequest: {
       /** @description 서비스 이용약관 동의 여부 (필수) */
       serviceTermsAgreed: boolean;
@@ -491,11 +590,6 @@ export interface components {
       marketingTermsAgreed: boolean;
       /** @description 알림 수신 동의 여부 (선택) */
       notificationTermsAgreed: boolean;
-    };
-    CommonResponseVoid: {
-      code?: string;
-      message?: string;
-      result?: Record<string, never>;
     };
     CreateCrewRequest: {
       /** @description 크루 이름 */
@@ -561,7 +655,9 @@ export interface components {
         | 'WITHDRAWN'
         | 'PENDING_TERMS'
         | 'PENDING_ONBOARDING'
-        | 'WAITING_FOR_APPROVE';
+        | 'WAITING_FOR_APPROVE'
+        | 'APPROVED_PENDING_CONFIRM'
+        | 'REJECTED_PENDING_CONFIRM';
       /**
        * Format: int64
        * @description 가입한 크루 ID (없을 경우 null)
@@ -571,6 +667,20 @@ export interface components {
     AppleNotificationRequest: {
       /** @description Apple에서 전달한 페이로드 */
       payload: string;
+    };
+    RegisterAddressRequest: {
+      /** @description 수령인 */
+      recipientName: string;
+      /** @description 연락처 */
+      phoneNumber: string;
+      /** @description 우편번호 */
+      zipcode: string;
+      /** @description 주소 */
+      baseAddress: string;
+      /** @description 상세 주소 */
+      detailAddress: string;
+      /** @description 기본 배송지 여부 */
+      isDefault: boolean;
     };
     CommonResponseSliceResponseProductListResponse: {
       code?: string;
@@ -865,6 +975,150 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  updateAddress: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        addressId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateAddressRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  deleteAddress: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        addressId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   agreeToTerms: {
     parameters: {
       query?: never;
@@ -972,6 +1226,74 @@ export interface operations {
         };
       };
       403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  confirmMemberStatus: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -1691,6 +2013,78 @@ export interface operations {
         };
       };
       403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  registerAddress: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterAddressRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
         headers: {
           [name: string]: unknown;
         };
