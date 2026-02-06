@@ -16,22 +16,20 @@ export function Mypage() {
         <div className={styles.headerWrapper}>
           <Header center="마이페이지" />
         </div>
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <MypageProfileSection profile={mockMypageProfile} />
-            <div className={styles.menuSectionWrapper}>
-              {mockMypageMenuSections.map((section) => (
-                <MypageMenuSection key={section.id} section={section} />
-              ))}
-            </div>
-            <button
-              type="button"
-              className={styles.logoutButton}
-              onClick={() => {}}
-            >
-              로그아웃
-            </button>
+        <div className={styles.mainContainer}>
+          <MypageProfileSection profile={mockMypageProfile} />
+          <div className={styles.menuSectionWrapper}>
+            {mockMypageMenuSections.map((section) => (
+              <MypageMenuSection key={section.id} section={section} />
+            ))}
           </div>
+          <button
+            type="button"
+            className={styles.logoutButton}
+            onClick={() => {}}
+          >
+            로그아웃
+          </button>
         </div>
       </AppLayout>
       <BottomNavigation activeTab="mypage" />
