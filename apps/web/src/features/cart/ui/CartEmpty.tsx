@@ -1,4 +1,5 @@
-import { ShoppingBagIcon, Button } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { ShoppingBagIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/CartEmpty.css';
 
 export function CartEmpty() {

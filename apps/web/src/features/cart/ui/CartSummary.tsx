@@ -1,6 +1,7 @@
 import { formatPrice } from '@/shared/lib/formatters';
 import * as styles from '../styles/CartSummary.css';
-import { Description, Divider } from '@azit/design-system';
+import { Description } from '@azit/design-system/description';
+import { Divider } from '@azit/design-system/divider';
 
 interface CartSummaryProps {
   totalProductPrice: number;
