@@ -25,6 +25,8 @@ export const vars = createGlobalTheme(':root', {
     background: '#FFFFFF',
     background_sub: '#F9FAFB',
     secondary: '#D1F801',
+    green10: '#BAEBC1',
+    green80: '#187B28',
     white: '#FFFFFF',
     black: '#000000',
     grad: 'linear-gradient(135deg, #2F5BFF 0%, #1C3799 100%)',
