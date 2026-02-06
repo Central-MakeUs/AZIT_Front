@@ -69,7 +69,7 @@ export function CrewJoinStatusPage({
     return null;
   }
 
-  const { status } = data.data.result;
+  const { status, name } = data.data.result;
   const content = STATUS_CONTENT[status];
 
   if (!content) {
@@ -83,7 +83,7 @@ export function CrewJoinStatusPage({
           <div className={styles.contentWrapper}>
             <div className={styles.crewInfoContainer}>
               <RoundProfileImage src="/azit.png" />
-              <h1 className={styles.crewName}>아지트</h1>
+              <h1 className={styles.crewName}>{name}</h1>
             </div>
             <div className={styles.statusMessageContainer}>
               <p className={styles.primaryStatusMessage}>
