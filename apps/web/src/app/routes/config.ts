@@ -188,6 +188,9 @@ export const routes = [
     name: 'ScheduleMembersPage',
     path: '/schedule/:id/members',
     element: ScheduleMembersPage,
+    withAuth: true,
+  },
+  {
     name: 'AttendancePage',
     path: '/mypage-attendance',
     element: AttendancePage,
