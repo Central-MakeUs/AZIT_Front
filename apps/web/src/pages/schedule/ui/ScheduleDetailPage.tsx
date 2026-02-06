@@ -1,5 +1,7 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header, Button, ShareIcon } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
+import { Button } from '@azit/design-system/button';
+import { ShareIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {

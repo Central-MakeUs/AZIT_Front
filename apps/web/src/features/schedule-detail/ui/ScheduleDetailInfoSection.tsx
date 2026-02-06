@@ -1,4 +1,8 @@
-import { CalendarIcon, ClockIcon, MarkerPinIcon } from '@azit/design-system';
+import {
+  CalendarIcon,
+  ClockIcon,
+  MarkerPinIcon,
+} from '@azit/design-system/icon';
 import * as styles from '../styles/ScheduleDetailInfoSection.css';
 import { StaticMap } from './StaticMap';
 

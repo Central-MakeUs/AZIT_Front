@@ -1,5 +1,5 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header } from '@azit/design-system';
+import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { ScheduleMemberListItem } from '@/features/schedule-members/ui';
