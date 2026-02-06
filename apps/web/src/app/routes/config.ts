@@ -61,6 +61,17 @@ const ScheduleDetailPage = lazyImport(
 const ScheduleMembersPage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleMembersPage'),
   'ScheduleMembersPage'
+const HomeAlertPage = lazyImport(
+  () => import('@/pages/home-alert/ui/HomeAlertPage'),
+  'HomeAlertPage'
+);
+const SchedulePage = lazyImport(
+  () => import('@/pages/schedule/ui/SchedulePage'),
+  'SchedulePage'
+);
+const AttendancePage = lazyImport(
+  () => import('@/pages/mypage-attendance/ui/AttendancePage'),
+  'AttendancePage'
 );
 
 export const routes = [
@@ -92,6 +103,18 @@ export const routes = [
     name: 'HomePage',
     path: '/',
     element: HomePage,
+    withAuth: false,
+  },
+  {
+    name: 'AlertPage',
+    path: '/alert',
+    element: HomeAlertPage,
+    withAuth: false,
+  },
+  {
+    name: 'SchedulePage',
+    path: '/schedule',
+    element: SchedulePage,
     withAuth: false,
   },
   {
@@ -164,6 +187,9 @@ export const routes = [
     name: 'ScheduleMembersPage',
     path: '/schedule/:id/members',
     element: ScheduleMembersPage,
+    name: 'AttendancePage',
+    path: '/mypage-attendance',
+    element: AttendancePage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];

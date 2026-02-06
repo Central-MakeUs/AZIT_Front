@@ -1,5 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Button, vars } from '@azit/design-system';
+import { vars } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
 import * as styles from '../styles/LoginPage.css';
 import { useSocialLogin } from '../hooks/useSocialLogin';
 import type { AuthProvider } from '@/shared/api/models';

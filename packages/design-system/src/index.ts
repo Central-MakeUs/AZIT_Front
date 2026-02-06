@@ -1,12 +1,6 @@
-export * from './components/button/Button';
-export * from './components/checkbox/Checkbox';
-export * from './components/chip/Chip';
-export * from './components/description/Description';
-export * from './components/divider/Divider';
-export * from './components/dropdown/Dropdown';
-export * from './components/header/Header';
-export { Input } from './components/input/Input';
-
-export * from './components/icon';
-
+/**
+ * 메인 엔트리: 스타일(vars, typography)만 export하여 FCP 부담 최소화.
+ * 컴포넌트/아이콘은 사용처에서 서브패스로 lazy 로딩:
+ * - @azit/design-system/button, /checkbox, /chip, /description, /divider, /dropdown, /header, /input, /icon
+ */
 export * from './shared/styles';

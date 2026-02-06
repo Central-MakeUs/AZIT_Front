@@ -1,4 +1,4 @@
-import { Checkbox } from '@azit/design-system';
+import { Checkbox } from '@azit/design-system/checkbox';
 import { CartItem } from './CartItem';
 import type { CartBrand, CartItem as CartItemType } from '@/shared/mock/cart';
 import * as styles from '../styles/CartBrandSection.css';

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { Header } from '@azit/design-system/header';
 import {
-  Header,
   ChevronLeftIcon,
   ShareIcon,
   ShoppingCartIcon,
   ChevronDownIcon,
-  Dropdown,
-  Button,
-  Divider,
-} from '@azit/design-system';
+} from '@azit/design-system/icon';
+import { Dropdown } from '@azit/design-system/dropdown';
+import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
 import { AppLayout } from '@/shared/ui/layout';
 import {
   StoreDetailImageSlider,

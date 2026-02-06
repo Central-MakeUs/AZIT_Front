@@ -1,4 +1,4 @@
-import { MinusIcon, PlusIcon } from '@azit/design-system';
+import { MinusIcon, PlusIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
 import * as styles from '../styles/QuantitySelector.css';
 
