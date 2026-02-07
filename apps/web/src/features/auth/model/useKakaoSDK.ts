@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { KAKAO_JS_SDK_KEY } from '@/shared/constants/url';
 import { useEffect, useState } from 'react';
 
@@ -54,47 +53,22 @@ export const useKakaoSDK = (): KakaoSDKReturn => {
       return;
     }
 
-    const script = document.createElement('script');
-    script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.7/kakao.min.js';
-    script.integrity =
-      'sha384-tJkjbtDbvoxO+diRuDtwRO9JXR7pjWnfjfRn5ePUpl7e7RJCxKCwwnfqUAdXh53p';
-    script.crossOrigin = 'anonymous';
-    script.async = true;
-
-    script.onload = () => {
-      try {
-        if (window.Kakao) {
-          if (!window.Kakao.isInitialized()) {
-            window.Kakao.init(appKey as string);
-          }
-          setIsLoaded(true);
-        } else {
-          console.error(
-            'Kakao SDK를 로드했지만 window.Kakao를 찾을 수 없습니다.'
-          );
+    try {
+      if (window.Kakao) {
+        if (!window.Kakao.isInitialized()) {
+          window.Kakao.init(appKey as string);
         }
-      } catch (error) {
-        console.error('알 수 없는 에러가 발생했습니다.', error);
-      } finally {
-        setIsLoading(false);
+        setIsLoaded(true);
+      } else {
+        console.error(
+          'Kakao SDK를 로드했지만 window.Kakao를 찾을 수 없습니다.'
+        );
       }
-    };
-
-    script.onerror = () => {
-      console.error('Kakao SDK 스크립트를 로드하는데 실패했습니다.');
+    } catch (error) {
+      console.error('알 수 없는 에러가 발생했습니다.', error);
+    } finally {
       setIsLoading(false);
-    };
-
-    document.head.appendChild(script);
-
-    return () => {
-      const existingScript = document.querySelector(
-        'script[src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.7/kakao.min.js"]'
-      );
-      if (existingScript) {
-        document.head.removeChild(existingScript);
-      }
-    };
+    }
   }, [appKey]);
 
   return { isLoaded, isLoading };

@@ -4,6 +4,7 @@ import { HomePage } from '@/pages/home/ui/HomePage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
 
 import { lazyImport } from './utils';
+import { RedirectPage } from '@/pages/auth/ui/RedirectPage';
 
 const LoginPage = lazyImport(
   () => import('@/pages/auth/ui/LoginPage'),
@@ -28,10 +29,6 @@ const TermAgreePage = lazyImport(
 const OnboardingPage = lazyImport(
   () => import('@/pages/onboarding/ui/OnboardingPage'),
   'OnboardingPage'
-);
-const RedirectPage = lazyImport(
-  () => import('@/pages/auth/ui/RedirectPage'),
-  'RedirectPage'
 );
 const OrderPage = lazyImport(
   () => import('@/pages/order/ui/OrderPage'),
