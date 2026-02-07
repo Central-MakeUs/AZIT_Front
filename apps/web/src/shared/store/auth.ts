@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { postLogout } from '../api/postLogout';
 
 interface AuthState {
   accessToken?: string;
@@ -14,8 +15,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   setAccessToken: (accessToken) => set({ accessToken }),
   setIsInitialized: (isInitialized) => set({ isInitialized }),
   logout: () =>
-    set({
-      accessToken: undefined,
-      isInitialized: false,
+    postLogout().then((response) => {
+      if (response.ok) {
+        set({
+          accessToken: undefined,
+          isInitialized: false,
+        });
+      }
     }),
 }));
