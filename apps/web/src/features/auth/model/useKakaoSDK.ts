@@ -1,37 +1,6 @@
 import { KAKAO_JS_SDK_KEY } from '@/shared/constants/url';
 import { useEffect, useState } from 'react';
 
-interface KakaoAuth {
-  authorize: (settings: { redirectUri: string; state?: string }) => void;
-  getAccessToken: () => string | null;
-  setAccessToken: (token: string) => void;
-  logout: (callback?: () => void) => void;
-}
-
-interface KakaoAPIRequestSettings {
-  url: string;
-  data?: Record<string, unknown>;
-  success?: (response: unknown) => void;
-  fail?: (error: unknown) => void;
-}
-
-interface KakaoAPI {
-  request: <T = unknown>(settings: KakaoAPIRequestSettings) => Promise<T>;
-}
-
-interface KakaoSDK {
-  init: (appKey: string) => void;
-  isInitialized: () => boolean;
-  Auth: KakaoAuth;
-  API: KakaoAPI;
-}
-
-declare global {
-  interface Window {
-    Kakao: KakaoSDK;
-  }
-}
-
 interface KakaoSDKReturn {
   isLoaded: boolean;
   isLoading: boolean;
