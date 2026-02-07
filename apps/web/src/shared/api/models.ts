@@ -24,6 +24,10 @@ export type CrewJoinStatusResult = Required<
 export type StoreProductsResult = Required<
   components['schemas']['SliceResponseProductListResponse']
 >;
+export type StoreProductItem = StoreProductsResult['content'][number];
 export type DeliveryAddressResult = Required<
   components['schemas']['DeliveryAddressResponse']
+>;
+export type StoreProductDetailResult = Required<
+  components['schemas']['ProductDetailResponse']
 >;
