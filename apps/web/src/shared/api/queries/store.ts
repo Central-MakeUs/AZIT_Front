@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 import { getStoreProducts } from '@/pages/store/api/getStoreProducts';
+import { getStoreProductDetail } from '@/pages/store/api/getStoreProductDetail';
 
 // query factory
 export const storeQueries = {
@@ -11,10 +12,10 @@ export const storeQueries = {
       queryKey: [...storeQueries.listKey()],
       queryFn: () => getStoreProducts(),
     }),
-  // productDetailQuery: (id: string) =>
-  //   queryOptions({
-  //     queryKey: [...storeQueries.detailKey(), id],
-  //     queryFn: () => getStoreProductDetail(id),
-  //     select: () => {},
-  //   }),
+  productDetailQuery: (id: string) =>
+    queryOptions({
+      queryKey: [...storeQueries.detailKey(), id],
+      queryFn: () => getStoreProductDetail(id),
+      select: (data) => (data.ok ? data.data.result : undefined),
+    }),
 };
