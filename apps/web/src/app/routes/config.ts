@@ -78,6 +78,18 @@ const AttendancePage = lazyImport(
   () => import('@/pages/mypage-attendance/ui/AttendancePage'),
   'AttendancePage'
 );
+const AddressSettingPage = lazyImport(
+  () => import('@/pages/address/ui/AddressSettingPage'),
+  'AddressSettingPage'
+);
+const AddressRegisterPage = lazyImport(
+  () => import('@/pages/address/ui/AddressRegisterPage'),
+  'AddressRegisterPage'
+);
+const AddressSearchPage = lazyImport(
+  () => import('@/pages/address/ui/AddressSearchPage'),
+  'AddressSearchPage'
+);
 
 export const routes = [
   {
@@ -204,6 +216,24 @@ export const routes = [
     name: 'AttendancePage',
     path: '/mypage-attendance',
     element: AttendancePage,
+    withAuth: true,
+  },
+  {
+    name: 'AddressSettingPage',
+    path: '/address',
+    element: AddressSettingPage,
+    withAuth: true,
+  },
+  {
+    name: 'AddressRegisterPage',
+    path: '/address/register',
+    element: AddressRegisterPage,
+    withAuth: true,
+  },
+  {
+    name: 'AddressSearchPage',
+    path: '/address/search',
+    element: AddressSearchPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];
