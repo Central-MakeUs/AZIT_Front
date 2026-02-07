@@ -32,7 +32,11 @@ export const mockMypageMenuSections: MypageMenuSection[] = [
     title: '쇼핑 관리',
     items: [
       { id: 'order-history', label: '주문 내역', path: 'OrderHistory' },
-      { id: 'delivery-address', label: '배송지 설정' },
+      {
+        id: 'delivery-address',
+        label: '배송지 설정',
+        path: 'AddressSettingPage',
+      },
       { id: 'inquiry', label: '1:1 문의하기' },
     ],
   },

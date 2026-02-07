@@ -37,6 +37,7 @@ export function Input({
     <div className={clsx(inputContainer({ state: currentState }), className)}>
       {icon && <div className={iconSlot}>{icon}</div>}
       <input
+        style={{ backgroundColor: 'inherit' }}
         type={type}
         className={input}
         disabled={disabled}

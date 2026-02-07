@@ -24,6 +24,13 @@ export const buttonVariant = recipe({
           height: 54,
         },
       ],
+      medium: [
+        typography.body.b2,
+        {
+          height: 44,
+          borderRadius: 12,
+        },
+      ],
       small: [
         typography.body.b3,
         { height: 32, width: 'fit-content', padding: '0 12px' },
