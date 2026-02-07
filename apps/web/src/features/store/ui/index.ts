@@ -5,6 +5,7 @@ export { StoreGridItem } from './StoreGridItem';
 export { StoreGridSkeleton } from './StoreGridSkeleton';
 export { StoreDetailImageSlider } from './StoreDetailImageSlider';
 export { StoreDetailInfo } from './StoreDetailInfo';
+export { StoreDetailSkeleton } from './StoreDetailSkeleton';
 export { StoreDetailItem } from './StoreDetailItem';
 export { StoreDetailBanner } from './StoreDetailBanner';
 export { StoreDetailShipping } from './StoreDetailShipping';
