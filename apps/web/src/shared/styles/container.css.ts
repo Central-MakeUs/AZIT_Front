@@ -7,3 +7,10 @@ export const container = style({
   paddingLeft: 20,
   paddingRight: 20,
 });
+
+export const scrollContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+  overflowY: 'auto',
+});
