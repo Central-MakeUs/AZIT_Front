@@ -12,11 +12,19 @@ export const itemContainer = style({
 });
 
 export const imageWrapper = style({
+  position: 'relative',
   width: '100%',
   height: '162px',
   backgroundColor: vars.colors.gray10,
   borderRadius: '8px',
   flexShrink: 0,
+  overflow: 'hidden',
+});
+
+export const thumbnailImage = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
 });
 
 export const infoContainer = style({
