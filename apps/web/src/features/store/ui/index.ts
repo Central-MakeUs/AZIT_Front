@@ -2,6 +2,7 @@ export { StoreBanner } from './StoreBanner';
 export { StoreCategoryButton } from './StoreCategoryButton';
 export { StoreGrid } from './StoreGrid';
 export { StoreGridItem } from './StoreGridItem';
+export { StoreGridSkeleton } from './StoreGridSkeleton';
 export { StoreDetailImageSlider } from './StoreDetailImageSlider';
 export { StoreDetailInfo } from './StoreDetailInfo';
 export { StoreDetailItem } from './StoreDetailItem';
