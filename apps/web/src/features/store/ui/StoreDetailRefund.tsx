@@ -1,8 +1,7 @@
-import type { StoreProduct } from '@/shared/mock/store';
 import * as styles from '../styles/StoreDetailRefund.css';
 
 interface StoreDetailRefundProps {
-  refundPolicy: StoreProduct['refundPolicy'];
+  refundPolicy?: string;
 }
 
 export function StoreDetailRefund({ refundPolicy }: StoreDetailRefundProps) {

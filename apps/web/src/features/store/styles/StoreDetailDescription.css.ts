@@ -6,7 +6,7 @@ export const container = style({
   flexDirection: 'column',
   gap: '12px',
   alignItems: 'flex-start',
-  width: '240px',
+  width: '100%',
 });
 
 export const title = style([
@@ -23,14 +23,26 @@ export const list = style({
   gap: '8px',
   alignItems: 'flex-start',
   width: '100%',
-  listStyle: 'disc',
-  paddingLeft: '21px',
+  listStyle: 'none',
+  paddingLeft: 0,
   paddingBottom: '26px',
 });
 
-export const listItem = style([
+export const description = style([
   typography.body.b3,
   {
     color: vars.colors.black,
+    width: '100%',
+    whiteSpace: 'pre-wrap',
   },
 ]);
+
+export const listItem = style({
+  width: '100%',
+});
+
+export const detailImage = style({
+  width: '100%',
+  display: 'block',
+  objectFit: 'contain',
+});

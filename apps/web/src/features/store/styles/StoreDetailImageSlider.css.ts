@@ -7,6 +7,13 @@ export const imageContainer = style({
   height: '375px',
   backgroundColor: vars.colors.gray10,
   flexShrink: 0,
+  overflow: 'hidden',
+});
+
+export const slideImage = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
 });
 
 export const imageCounter = style([
