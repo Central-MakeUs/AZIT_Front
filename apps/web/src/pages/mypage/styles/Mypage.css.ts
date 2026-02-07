@@ -25,13 +25,14 @@ export const logoutButton = style([
   typography.body.b3,
   {
     display: 'block',
-    width: '100%',
+    width: 'fit-content',
     padding: '16px',
-    paddingTop: '60px',
+    marginTop: '60px',
     textAlign: 'center',
     color: vars.colors.gray50,
     backgroundColor: 'transparent',
     border: 'none',
     cursor: 'pointer',
+    alignSelf: 'center',
   },
 ]);
