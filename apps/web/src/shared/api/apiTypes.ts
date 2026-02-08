@@ -21,7 +21,7 @@ export interface paths {
      *     * 모든 필드는 필수 입력 항목입니다. (INVALID_ADDRESS_INPUT)
      *     * 해당 주소를 '기본 배송지'로 변경 시, 기존의 다른 기본 배송지는 해제됩니다.
      */
-    put: operations['updateAddress'];
+    put: operations['updateDeliveryAddress'];
     post?: never;
     /**
      * 배송지 삭제
@@ -31,7 +31,7 @@ export interface paths {
      *     * 본인의 배송지만 삭제 가능합니다. (FORBIDDEN_ADDRESS_ACCESS)
      *     * MVP 정책: 기본 배송지 여부와 상관없이 삭제가 가능합니다.
      */
-    delete: operations['deleteAddress'];
+    delete: operations['deleteDeliveryAddress'];
     options?: never;
     head?: never;
     patch?: never;
@@ -365,7 +365,15 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get?: never;
+    /**
+     * 배송지 목록 조회
+     * @description 사용자의 모든 배송지 목록을 조회합니다. <br><br>
+     *
+     *     **[정렬 기준]** <br>
+     *     1. 기본 배송지가 가장 상단에 노출됩니다. <br>
+     *     2. 그 외 주소는 최신 등록순으로 정렬됩니다.
+     */
+    get: operations['getDeliveryAddresses'];
     put?: never;
     /**
      * 배송지 등록
@@ -376,7 +384,7 @@ export interface paths {
      *     * 사용자의 첫 번째 배송지 등록인 경우, 요청값과 관계없이 자동으로 '기본 배송지'로 설정됩니다.
      *     * 새 주소를 기본 배송지(isDefault: true)로 등록할 경우, 기존에 설정된 기본 배송지는 자동으로 일반 배송지로 변경됩니다.
      */
-    post: operations['registerAddress'];
+    post: operations['registerDeliveryAddress'];
     delete?: never;
     options?: never;
     head?: never;
@@ -558,14 +566,14 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    UpdateAddressRequest: {
+    UpdateDeliveryAddressRequest: {
       /** @description 수령인 */
       recipientName: string;
-      /** @description 연락처 */
+      /** @description 수령인 연락처 */
       phoneNumber: string;
       /** @description 우편번호 */
       zipcode: string;
-      /** @description 주소 */
+      /** @description 기본 주소 */
       baseAddress: string;
       /** @description 상세 주소 */
       detailAddress: string;
@@ -668,14 +676,14 @@ export interface components {
       /** @description Apple에서 전달한 페이로드 */
       payload: string;
     };
-    RegisterAddressRequest: {
+    RegisterDeliveryAddressRequest: {
       /** @description 수령인 */
       recipientName: string;
-      /** @description 연락처 */
+      /** @description 수령인 연락처 */
       phoneNumber: string;
       /** @description 우편번호 */
       zipcode: string;
-      /** @description 주소 */
+      /** @description 기본 주소 */
       baseAddress: string;
       /** @description 상세 주소 */
       detailAddress: string;
@@ -962,6 +970,31 @@ export interface components {
       message?: string;
       result?: components['schemas']['CartItemCountResponse'];
     };
+    CommonResponseListDeliveryAddressResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['DeliveryAddressResponse'][];
+    };
+    /** @description 배송지 응답 정보 */
+    DeliveryAddressResponse: {
+      /**
+       * Format: int64
+       * @description 배송지 ID
+       */
+      id?: number;
+      /** @description 수령인 성함 */
+      recipientName?: string;
+      /** @description 수령인 연락처 */
+      phoneNumber?: string;
+      /** @description 우편번호 */
+      zipcode?: string;
+      /** @description 기본 주소 */
+      baseAddress?: string;
+      /** @description 상세 주소 */
+      detailAddress?: string;
+      /** @description 기본 배송지 여부 */
+      isDefault?: boolean;
+    };
     CartItemDeleteRequest: {
       /** @description 삭제할 장바구니 ID 리스트 */
       cartItemIds: number[];
@@ -975,7 +1008,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  updateAddress: {
+  updateDeliveryAddress: {
     parameters: {
       query?: never;
       header?: never;
@@ -986,7 +1019,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateAddressRequest'];
+        'application/json': components['schemas']['UpdateDeliveryAddressRequest'];
       };
     };
     responses: {
@@ -1049,7 +1082,7 @@ export interface operations {
       };
     };
   };
-  deleteAddress: {
+  deleteDeliveryAddress: {
     parameters: {
       query?: never;
       header?: never;
@@ -2038,7 +2071,67 @@ export interface operations {
       };
     };
   };
-  registerAddress: {
+  getDeliveryAddresses: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListDeliveryAddressResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  registerDeliveryAddress: {
     parameters: {
       query?: never;
       header?: never;
@@ -2047,7 +2140,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['RegisterAddressRequest'];
+        'application/json': components['schemas']['RegisterDeliveryAddressRequest'];
       };
     };
     responses: {
