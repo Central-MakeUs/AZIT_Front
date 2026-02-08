@@ -91,6 +91,7 @@ export default function App() {
           sharedCookiesEnabled={true}
           thirdPartyCookiesEnabled={true}
           originWhitelist={['*']}
+          userAgent={'azitwebview'}
         />
       </SafeAreaView>
     </SafeAreaProvider>
