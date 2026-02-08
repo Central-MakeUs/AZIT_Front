@@ -125,7 +125,7 @@ export function OnboardingPage() {
             name="share-invite-code"
             render={(context) => (
               <OnboardingShareInviteCode
-                crewName={onboardingState.crewName!}
+                crewName={onboardingState.crewName ?? ''}
                 crewProfileImage="/azit.png"
                 inviteCode={onboardingState.inviteCode ?? ''}
                 onNext={() => {
