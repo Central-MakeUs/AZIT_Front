@@ -22,7 +22,7 @@ export function OnboardingShareInviteCode({
   };
 
   const onShare = async () => {
-    await bridge.shareInviteCode(inviteCode);
+    await bridge.shareInviteCode(inviteCode, crewName);
   };
 
   return (

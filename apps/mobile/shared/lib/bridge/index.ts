@@ -10,6 +10,7 @@ import {
 } from '@azit/bridge';
 import { Share } from 'react-native';
 import { z } from 'zod';
+import { WEBVIEW_URL } from '@/shared/constants/url';
 
 /**
  * Web -> Native 브릿지 설정
@@ -22,16 +23,15 @@ export const appBridge = bridge<AppBridge>({
   async openInAppBrowser(url: string) {
     return;
   },
-  async shareInviteCode(code: string) {
+  async shareInviteCode(code: string, crewName: string) {
     await Share.share({
-      message: `00에서 당신을 초대했어요! 초대 코드를 입력해 크루 가입을 신청하세요\n${code}`,
-      url: `${process.env.EXPO_PUBLIC_WEB_URL}/onboarding?inviteCode=${code}`,
+      message: `AZIT의 ${crewName}에서 당신을 초대했어요! 초대 코드를 입력해 크루 가입을 신청하세요\n${code}\n${WEBVIEW_URL}/onboarding?inviteCode=${code}`,
     });
   },
   async shareSchedule(scheduleId: string) {
     await Share.share({
-      message: `일정을 공유합니다.\n${scheduleId}`,
-      url: `${process.env.EXPO_PUBLIC_WEB_URL}/schedule/${scheduleId}`,
+      message: `[AZIT 일정] 이번 주 정기런/번개런 일정 확정!
+상세 일정을 확인하고, 지금 바로 AZIT 앱에서 신청해 주세요.\n${WEBVIEW_URL}/schedule/${scheduleId}`,
     });
   },
 });
