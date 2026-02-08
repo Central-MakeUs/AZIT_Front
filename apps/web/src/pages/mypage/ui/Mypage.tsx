@@ -9,8 +9,11 @@ import {
   mockMypageMenuSections,
 } from '@/shared/mock/mypage';
 import * as styles from '../styles/Mypage.css';
+import { useAuthStore } from '@/shared/store/auth';
 
 export function Mypage() {
+  const { logout } = useAuthStore();
+
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
@@ -27,7 +30,7 @@ export function Mypage() {
           <button
             type="button"
             className={styles.logoutButton}
-            onClick={() => {}}
+            onClick={logout}
           >
             로그아웃
           </button>

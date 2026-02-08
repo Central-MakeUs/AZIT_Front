@@ -1,13 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-declare global {
-  interface Window {
-    kakao: {
-      maps: any;
-    };
-  }
-}
-
 export function StaticMap({
   latitude,
   longitude,
@@ -18,17 +10,19 @@ export function StaticMap({
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (!window.kakao || !window.kakao.maps) return;
+    const kakao = window.kakao;
+    const maps = kakao?.maps;
+    if (!maps) return;
 
-    window.kakao.maps.load(() => {
+    maps.load(() => {
       const staticMapOption = {
-        center: new window.kakao.maps.LatLng(latitude, longitude),
+        center: new maps.LatLng(latitude, longitude),
         level: 3,
       };
 
-      new window.kakao.maps.StaticMap(containerRef.current, staticMapOption);
+      new maps.StaticMap(containerRef.current, staticMapOption);
     });
-  }, []);
+  }, [latitude, longitude]);
 
   return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
 }

@@ -6,16 +6,7 @@
         "appID": "4U9PQRRKLB.com.azitcrew.app",
         "components": [
           {
-            "/": "/onboarding",
-            "?": {
-              "inviteCode": "?*"
-            }
-          },
-          {
-            "/": "/store/*"
-          },
-          {
-            "/": "/schedule/*"
+            "/": "/*"
           }
         ]
       }
