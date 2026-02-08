@@ -4,15 +4,17 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
 import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
+import { WEBVIEW_URL } from '@/shared/constants/url';
 
 // 스플래시 화면이 자동으로 숨겨지지 않도록 설정
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
-  const [initialUrl, setInitialUrl] = useState<string>(
-    `${process.env.EXPO_PUBLIC_WEB_URL}`
-  );
+  const [initialUrl, setInitialUrl] = useState<string>(WEBVIEW_URL);
+
+  console.log('WEBVIEW_URL:', WEBVIEW_URL);
+  console.log('initialUrl:', initialUrl);
 
   useEffect(() => {
     // 앱이 종료된 상태에서 링크로 열릴 때의 초기 URL 처리
@@ -47,7 +49,7 @@ export default function App() {
   }, []);
 
   const buildWebUrl = (parsedUrl: Linking.ParsedURL): string => {
-    const baseUrl = process.env.EXPO_PUBLIC_WEB_URL; // TODO: hostname으로 변경?
+    const baseUrl = WEBVIEW_URL; // TODO: hostname으로 변경?
 
     let url = `${baseUrl}`;
     if (parsedUrl.path) {
@@ -62,11 +64,17 @@ export default function App() {
 
   // WebView 로드 완료 시 스플래시 화면 숨기기
   const handleWebViewLoad = useCallback(() => {
+    console.log('WebView loaded');
     SplashScreen.hideAsync();
   }, []);
 
+  const handleWebViewError = useCallback((event: any) => {
+    console.log('WebView error:', event.nativeEvent);
+    SplashScreen.hideAsync(); // 최소한 스플래시는 내리기
+  }, []);
+
   if (!initialUrl) {
-    throw new Error('EXPO_PUBLIC_WEB_URL is not set');
+    throw new Error('webview url is not set');
   }
 
   return (
@@ -79,9 +87,11 @@ export default function App() {
           webviewDebuggingEnabled
           domStorageEnabled={true}
           onLoad={handleWebViewLoad}
+          onError={handleWebViewError}
           sharedCookiesEnabled={true}
           thirdPartyCookiesEnabled={true}
           originWhitelist={['*']}
+          userAgent={'azitwebview'}
         />
       </SafeAreaView>
     </SafeAreaProvider>

@@ -16,8 +16,10 @@
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true,
           "NSAllowsArbitraryLoadsInWebContent": true
-        }
-      }
+        },
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "appleTeamId": "4U9PQRRKLB"
     },
     "android": {
       "adaptiveIcon": {
@@ -53,6 +55,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c325e318-4c76-4fe3-957d-cc670a2a69f9"
+      }
     }
   }
 }
