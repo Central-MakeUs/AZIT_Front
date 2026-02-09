@@ -9,6 +9,10 @@ export const itemContainer = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   width: '100%',
+  minWidth: 0,
+  maxWidth: '100%',
+  gridColumn: 'span 1 / span 1',
+  boxSizing: 'border-box',
 });
 
 export const imageWrapper = style({
@@ -33,7 +37,9 @@ export const infoContainer = style({
   gap: '8px',
   alignItems: 'flex-start',
   width: '100%',
+  minWidth: 0,
   padding: '4px 4px 8px 4px',
+  boxSizing: 'border-box',
 });
 
 export const textContainer = style({
@@ -42,6 +48,7 @@ export const textContainer = style({
   gap: '2px',
   alignItems: 'flex-start',
   width: '100%',
+  minWidth: 0,
 });
 
 export const brandName = style([
@@ -49,6 +56,10 @@ export const brandName = style([
   {
     color: vars.colors.black,
     width: '100%',
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 ]);
 
