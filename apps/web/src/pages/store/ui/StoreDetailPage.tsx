@@ -19,21 +19,74 @@ import {
   StoreDetailRefund,
   StoreDetailDescription,
   StoreDetailItem,
+  StoreDetailSkeleton,
 } from '@/features/store/ui';
-import { mockStoreProducts } from '@/shared/mock/store';
 import * as styles from '../styles/StoreDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { footerWrapper } from '@/shared/styles/footer.css';
+import { useActivityParams } from '@stackflow/react';
+import { useQuery } from '@tanstack/react-query';
+import { storeQueries } from '@/shared/api/queries';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
+  const { id } = useActivityParams<{ id: string }>();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
   );
 
-  const product = mockStoreProducts[0];
+  const { data, isPending, isError } = useQuery(
+    storeQueries.productDetailQuery(id ?? '')
+  );
+
+  const product = data;
+
+  if (!id) {
+    return <div>상품 정보를 찾을 수 없습니다.</div>;
+  }
+
+  if (isPending) {
+    return (
+      <AppScreen>
+        <AppLayout>
+          <div className={styles.headerWrapper}>
+            <Header
+              left={
+                <button
+                  className={styles.iconButton}
+                  type="button"
+                  onClick={() => pop()}
+                >
+                  <ChevronLeftIcon size={24} />
+                </button>
+              }
+              right={
+                <div className={styles.headerIconWrapper}>
+                  <button className={styles.iconButton} type="button">
+                    <ShareIcon size={24} />
+                  </button>
+                  <button
+                    className={styles.iconButton}
+                    type="button"
+                    onClick={() => push('CartPage', {})}
+                  >
+                    <ShoppingCartIcon size={24} />
+                  </button>
+                </div>
+              }
+            />
+          </div>
+          <StoreDetailSkeleton />
+        </AppLayout>
+      </AppScreen>
+    );
+  }
+
+  if (isError || !product) {
+    return <div>상품 정보를 찾을 수 없습니다.</div>;
+  }
 
   const handleClick = () => {
     pop();
@@ -74,17 +127,23 @@ export function StoreDetailPage() {
           />
         </div>
         <div className={styles.mainContainer}>
-          <StoreDetailImageSlider />
+          <StoreDetailImageSlider slideImageUrls={product.slideImageUrls} />
           <div className={styles.contentWrapper}>
             <StoreDetailInfo product={product} />
             <Divider />
             <div className={styles.detailsSection}>
               <StoreDetailBanner />
-              <StoreDetailShipping shipping={product.shipping} />
+              <StoreDetailShipping
+                shippingFee={product.shippingFee}
+                expectedShippingDate={product.expectedShippingDate}
+              />
               <StoreDetailRefund refundPolicy={product.refundPolicy} />
             </div>
             <Divider />
-            <StoreDetailDescription details={product.details} />
+            <StoreDetailDescription
+              description={product.description}
+              detailImageUrls={product.detailImageUrls}
+            />
           </div>
           <div className={styles.moreInfoPlaceholder}>
             <div className={styles.moreInfoGradient}>

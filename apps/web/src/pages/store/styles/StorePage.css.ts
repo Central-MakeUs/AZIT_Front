@@ -25,6 +25,7 @@ export const productsSection = style({
   gap: '10px',
   alignItems: 'flex-start',
   width: '100%',
+  marginBottom: '100px',
 });
 
 export const cartIconWrapper = style({
