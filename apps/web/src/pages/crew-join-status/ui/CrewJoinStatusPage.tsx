@@ -8,6 +8,7 @@ import { RoundProfileImage } from '@/widgets/profile/ui';
 import type { CrewJoinStatusResult } from '@/shared/api/models';
 import { useQuery } from '@tanstack/react-query';
 import { crewQueries } from '@/shared/api/queries/crew';
+import { postConfirmJoinStatus } from '@/features/crew-join-status/api/postConfirmJoinStatus';
 
 type CrewJoinStatus = CrewJoinStatusResult['status'];
 
@@ -60,9 +61,15 @@ export function CrewJoinStatusPage({
     enabled: crewId > 0,
   });
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (status === 'JOINED' || status === 'REJECTED') {
-      replace('HomePage', {}, { animate: false });
+      const response = await postConfirmJoinStatus();
+      if (response.ok) {
+        replace('HomePage', {}, { animate: false });
+      } else {
+        // TODO: 토스트 에러
+        console.error(response.error);
+      }
     }
   };
 
