@@ -16,4 +16,8 @@ export const END_POINT = {
   STORE: {
     PRODUCTS: 'products',
   },
+  ADDRESS: {
+    LIST: 'addresses',
+    DETAIL: (addressId: number) => `addresses/${addressId}`,
+  },
 } as const;

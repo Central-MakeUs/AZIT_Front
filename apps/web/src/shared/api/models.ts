@@ -27,3 +27,10 @@ export type StoreProductsResult = Required<
 export type DeliveryAddressResult = Required<
   components['schemas']['DeliveryAddressResponse']
 >;
+export type DeliveryAddressListResult = Required<
+  components['schemas']['DeliveryAddressResponse']
+>[];
+export type RegisterDeliveryAddressRequest =
+  components['schemas']['RegisterDeliveryAddressRequest'];
+export type UpdateDeliveryAddressRequest =
+  components['schemas']['UpdateDeliveryAddressRequest'];
