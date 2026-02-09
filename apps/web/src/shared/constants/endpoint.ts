@@ -17,4 +17,9 @@ export const END_POINT = {
     PRODUCTS: 'products',
     PRODUCT_DETAIL: (productId: number) => `products/${productId}`,
   },
+  CART: {
+    PRODUCTS: 'carts',
+    PRODUCTS_ITEM: 'carts/items',
+    COUNT: 'carts/count',
+  },
 } as const;
