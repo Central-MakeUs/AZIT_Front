@@ -1,24 +1,24 @@
 import { MinusIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/StoreDetailItem.css';
-import { useEffect, useState } from 'react';
 
 interface StoreDetailItemProps {
   option?: string;
+  quantity: number;
+  onQuantityChange: (quantity: number) => void;
   onCancel: () => void;
 }
 
-export function StoreDetailItem({ option, onCancel }: StoreDetailItemProps) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    setCount(1);
-  }, [option]);
-
+export function StoreDetailItem({
+  option,
+  quantity,
+  onQuantityChange,
+  onCancel,
+}: StoreDetailItemProps) {
   const handleCountChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
-      setCount(count + 1);
+      onQuantityChange(quantity + 1);
     } else {
-      setCount(Math.max(count - 1, 1));
+      onQuantityChange(Math.max(quantity - 1, 1));
     }
   };
 
@@ -30,7 +30,7 @@ export function StoreDetailItem({ option, onCancel }: StoreDetailItemProps) {
       <p className={styles.optionText}>{option}</p>
       <p className={styles.shippingText}>1.6 화 이내 발송 예정</p>
       <div className={styles.bottomContainer}>
-        <QuantitySelector count={count} onCountChange={handleCountChange} />
+        <QuantitySelector count={quantity} onCountChange={handleCountChange} />
         <p className={styles.optionText}>16,000원</p>
       </div>
     </div>

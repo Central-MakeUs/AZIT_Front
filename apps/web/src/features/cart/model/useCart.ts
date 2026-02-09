@@ -1,36 +1,13 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { cartQueries } from '@/shared/api/queries/cart';
-import type { CartBrand } from '@/shared/mock/cart';
-import type { CartProductItem } from '@/shared/api/models';
-
-interface CartItem {
-  id: string;
-  brandId: string;
-  name: string;
-  size: string;
-  expectedDelivery: string;
-  originalPrice: number;
-  discountedPrice: number;
-  quantity: number;
-  isSoldOut: boolean;
-}
-
-const formatExpectedDelivery = (dateString: string): string => {
-  try {
-    const date = new Date(dateString);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    const weekday = weekdays[date.getDay()];
-    return `${month}.${day}(${weekday}) 이내 발송 예정`;
-  } catch {
-    return '';
-  }
-};
+import type { CartProductItem, CartBrand } from '@/shared/api/models';
 
 const transformCartData = (items: CartProductItem[]): CartBrand[] => {
-  const brandMap = new Map<string, { name: string; items: CartItem[] }>();
+  const brandMap = new Map<
+    string,
+    { name: string; items: CartProductItem[] }
+  >();
 
   items.forEach((item) => {
     const brandName = item.brandName || '기타';
@@ -40,21 +17,7 @@ const transformCartData = (items: CartProductItem[]): CartBrand[] => {
       brandMap.set(brandId, { name: brandName, items: [] });
     }
 
-    const cartItem: CartItem = {
-      id: String(item.cartItemId),
-      brandId,
-      name: item.productName || '',
-      size: item.optionDescription || '',
-      expectedDelivery: item.expectedShippingDate
-        ? formatExpectedDelivery(item.expectedShippingDate)
-        : '',
-      originalPrice: item.basePrice || 0,
-      discountedPrice: item.salePrice || 0,
-      quantity: item.quantity || 0,
-      isSoldOut: (item.quantity || 0) === 0,
-    };
-
-    brandMap.get(brandId)!.items.push(cartItem);
+    brandMap.get(brandId)!.items.push(item);
   });
 
   return Array.from(brandMap.entries()).map(([id, { name, items }]) => ({
@@ -100,11 +63,15 @@ export function useCart() {
   }, [cartData]);
 
   const selectableItems = useMemo(() => {
-    return allItems.filter((item) => !item.isSoldOut);
+    return allItems.filter(
+      (item) => !item.isOutOfStock && (item.quantity || 0) > 0
+    );
   }, [allItems]);
 
   const selectedItems = useMemo(() => {
-    return selectableItems.filter((item) => selectedItemIds.has(item.id));
+    return selectableItems.filter((item) =>
+      selectedItemIds.has(String(item.cartItemId))
+    );
   }, [selectableItems, selectedItemIds]);
 
   const isAllSelected = useMemo(() => {
@@ -116,7 +83,7 @@ export function useCart() {
 
   const selectedTotalProductPrice = useMemo(() => {
     return selectedItems.reduce(
-      (sum, item) => sum + item.originalPrice * item.quantity,
+      (sum, item) => sum + (item.basePrice || 0) * (item.quantity || 0),
       0
     );
   }, [selectedItems]);
@@ -155,7 +122,9 @@ export function useCart() {
   const handleSelectAll = useCallback(
     (checked: boolean) => {
       if (checked) {
-        const newSelectedIds = new Set(selectableItems.map((item) => item.id));
+        const newSelectedIds = new Set(
+          selectableItems.map((item) => String(item.cartItemId))
+        );
         setSelectedItemIds(newSelectedIds);
       } else {
         setSelectedItemIds(new Set());
@@ -185,16 +154,17 @@ export function useCart() {
       if (!brand) return;
 
       const selectableItemsInBrand = brand.items.filter(
-        (item) => !item.isSoldOut
+        (item) => !item.isOutOfStock && (item.quantity || 0) > 0
       );
 
       setSelectedItemIds((prev) => {
         const newSet = new Set(prev);
         selectableItemsInBrand.forEach((item) => {
+          const itemId = String(item.cartItemId);
           if (checked) {
-            newSet.add(item.id);
+            newSet.add(itemId);
           } else {
-            newSet.delete(item.id);
+            newSet.delete(itemId);
           }
         });
         return newSet;
