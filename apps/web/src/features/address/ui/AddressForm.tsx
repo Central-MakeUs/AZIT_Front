@@ -11,6 +11,15 @@ export interface AddressFormProps {
   onSubmit: (e: React.FormEvent) => void;
 }
 
+const formatPhoneNumber = (raw: string) => {
+  const digits = raw.replace(/\D/g, '');
+  const sliced = digits.slice(0, 11);
+
+  if (sliced.length <= 3) return sliced;
+  if (sliced.length <= 7) return `${sliced.slice(0, 3)}-${sliced.slice(3)}`;
+  return `${sliced.slice(0, 3)}-${sliced.slice(3, 7)}-${sliced.slice(7)}`;
+};
+
 export function AddressForm({
   formId,
   values,
@@ -23,7 +32,7 @@ export function AddressForm({
   };
 
   const handlePhoneNumberChange = (value: string) => {
-    onValuesChange({ ...values, phoneNumber: value });
+    onValuesChange({ ...values, phoneNumber: formatPhoneNumber(value) });
   };
 
   const handleZipcodeChange = (value: string) => {
@@ -60,6 +69,8 @@ export function AddressForm({
         <Input
           id="phone-number"
           type="tel"
+          inputMode="numeric"
+          pattern="\d*"
           className={styles.inputBase}
           value={values.phoneNumber}
           onChange={(e) => handlePhoneNumberChange(e.target.value)}
