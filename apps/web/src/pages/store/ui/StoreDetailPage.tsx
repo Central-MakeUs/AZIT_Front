@@ -26,19 +26,29 @@ import { useFlow } from '@/app/routes/stackflow';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { useActivityParams } from '@stackflow/react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { storeQueries } from '@/shared/api/queries';
+import { cartQueries } from '@/shared/api/queries/cart';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
   const { id } = useActivityParams<{ id: string }>();
+  const queryClient = useQueryClient();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
   );
+  const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(
+    undefined
+  );
+  const [quantity, setQuantity] = useState(1);
 
   const { data, isPending, isError } = useQuery(
     storeQueries.productDetailQuery(id ?? '')
+  );
+
+  const addToCartMutation = useMutation(
+    cartQueries.addItemMutation(queryClient)
   );
 
   const product = data;
@@ -96,9 +106,47 @@ export function StoreDetailPage() {
     setIsBottomSheetOpen(true);
   };
 
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
-    console.log('Selected option:', selectedOption);
+  const options =
+    product.optionGroups?.[0]?.values?.map((optionValue) => ({
+      label: optionValue.value || '',
+      value: String(optionValue.id || ''),
+    })) || [];
+
+  const handleOptionSelect = (optionId: string) => {
+    const selectedOptionValue = options.find((opt) => opt.value === optionId);
+    setSelectedOption(selectedOptionValue?.label);
+    setSelectedOptionId(Number(optionId));
+    setQuantity(1);
+  };
+
+  const selectedSku = product.skus?.find((sku) =>
+    sku.optionValueIds?.includes(selectedOptionId ?? -1)
+  );
+
+  const handleAddToCart = () => {
+    if (!product.id || !selectedSku?.id) {
+      return;
+    }
+
+    addToCartMutation.mutate(
+      {
+        productId: product.id,
+        productSkuId: selectedSku.id,
+        quantity: quantity,
+      },
+      {
+        onSuccess: () => {
+          setIsBottomSheetOpen(false);
+          setSelectedOption(undefined);
+          setSelectedOptionId(undefined);
+          setQuantity(1);
+        },
+        onError: (error) => {
+          console.error('장바구니 추가 실패:', error);
+          // TODO: 에러 처리 (토스트 메시지 등)
+        },
+      }
+    );
   };
 
   return (
@@ -169,24 +217,28 @@ export function StoreDetailPage() {
       >
         <Dropdown
           placeholder="옵션을 선택해주세요"
-          options={['230', '235', '240'].map((option) => ({
-            label: option,
-            value: option,
-          }))}
+          options={options}
           onValueChange={handleOptionSelect}
         />
         <StoreDetailItem
           option={selectedOption}
-          onCancel={() => setSelectedOption(undefined)}
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+          onCancel={() => {
+            setSelectedOption(undefined);
+            setSelectedOptionId(undefined);
+            setQuantity(1);
+          }}
         />
         {selectedOption && (
           <div className={styles.buttonWrapper}>
             <Button
               size="large"
               state="outline"
-              onClick={() => setIsBottomSheetOpen(false)}
+              onClick={handleAddToCart}
+              disabled={addToCartMutation.isPending}
             >
-              장바구니
+              {addToCartMutation.isPending ? '추가 중...' : '장바구니'}
             </Button>
             <Button
               size="large"
