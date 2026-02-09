@@ -40,7 +40,7 @@ export function OnboardingCrewJoin({
     const response = await getCrewInfo(inviteCode);
 
     if (!response.ok) {
-      if (response.error.code === 'CREW_NOT_FOUND') {
+      if (response.status === 404) {
         setHasValidationError(true);
       }
       return;
