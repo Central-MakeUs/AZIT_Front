@@ -1,42 +1,45 @@
 import { Input } from '@azit/design-system/input';
 import { Button } from '@azit/design-system/button';
 import * as styles from '../styles/AddressRegisterForm.css';
+import type { AddressFormValues } from './types';
 
-export interface AddressRegisterFormProps {
-  recipientName: string;
-  phoneNumber: string;
-  zipcode: string;
-  baseAddress: string;
-  detailAddress: string;
-  onRecipientNameChange: (value: string) => void;
-  onPhoneNumberChange: (value: string) => void;
-  onZipcodeChange: (value: string) => void;
-  onBaseAddressChange: (value: string) => void;
-  onDetailAddressChange: (value: string) => void;
+export interface AddressFormProps {
+  formId: string;
+  values: AddressFormValues;
+  onValuesChange: (values: AddressFormValues) => void;
   onAddressSearchClick: () => void;
   onSubmit: (e: React.FormEvent) => void;
 }
 
-export function AddressRegisterForm({
-  recipientName,
-  phoneNumber,
-  zipcode,
-  baseAddress,
-  detailAddress,
-  onRecipientNameChange,
-  onPhoneNumberChange,
-  onZipcodeChange,
-  onBaseAddressChange,
-  onDetailAddressChange,
+export function AddressForm({
+  formId,
+  values,
+  onValuesChange,
   onAddressSearchClick,
   onSubmit,
-}: AddressRegisterFormProps) {
+}: AddressFormProps) {
+  const handleRecipientNameChange = (value: string) => {
+    onValuesChange({ ...values, recipientName: value });
+  };
+
+  const handlePhoneNumberChange = (value: string) => {
+    onValuesChange({ ...values, phoneNumber: value });
+  };
+
+  const handleZipcodeChange = (value: string) => {
+    onValuesChange({ ...values, zipcode: value });
+  };
+
+  const handleBaseAddressChange = (value: string) => {
+    onValuesChange({ ...values, baseAddress: value });
+  };
+
+  const handleDetailAddressChange = (value: string) => {
+    onValuesChange({ ...values, detailAddress: value });
+  };
+
   return (
-    <form
-      id="address-register-form"
-      className={styles.form}
-      onSubmit={onSubmit}
-    >
+    <form id={formId} className={styles.form} onSubmit={onSubmit}>
       <div className={styles.section}>
         <label className={styles.label} htmlFor="recipient-name">
           수령인
@@ -44,8 +47,8 @@ export function AddressRegisterForm({
         <Input
           id="recipient-name"
           className={styles.inputBase}
-          value={recipientName}
-          onChange={(e) => onRecipientNameChange(e.target.value)}
+          value={values.recipientName}
+          onChange={(e) => handleRecipientNameChange(e.target.value)}
           placeholder="수령인을 입력해주세요"
         />
       </div>
@@ -58,8 +61,8 @@ export function AddressRegisterForm({
           id="phone-number"
           type="tel"
           className={styles.inputBase}
-          value={phoneNumber}
-          onChange={(e) => onPhoneNumberChange(e.target.value)}
+          value={values.phoneNumber}
+          onChange={(e) => handlePhoneNumberChange(e.target.value)}
           placeholder="010-0000-0000"
         />
       </div>
@@ -69,8 +72,8 @@ export function AddressRegisterForm({
         <div className={styles.addressRow}>
           <Input
             className={styles.readOnlyInput}
-            value={zipcode}
-            onChange={(e) => onZipcodeChange(e.target.value)}
+            value={values.zipcode}
+            onChange={(e) => handleZipcodeChange(e.target.value)}
             placeholder="우편번호"
             disabled
           />
@@ -86,15 +89,15 @@ export function AddressRegisterForm({
         </div>
         <Input
           className={styles.readOnlyInput}
-          value={baseAddress}
-          onChange={(e) => onBaseAddressChange(e.target.value)}
+          value={values.baseAddress}
+          onChange={(e) => handleBaseAddressChange(e.target.value)}
           placeholder="주소를 입력해주세요"
           disabled
         />
         <Input
           className={styles.inputBase}
-          value={detailAddress}
-          onChange={(e) => onDetailAddressChange(e.target.value)}
+          value={values.detailAddress}
+          onChange={(e) => handleDetailAddressChange(e.target.value)}
           placeholder="상세 주소를 입력해주세요"
         />
       </div>

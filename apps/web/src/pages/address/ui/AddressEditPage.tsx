@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
@@ -7,19 +8,31 @@ import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { AddressForm } from '@/features/address/ui';
 import type { AddressFormValues } from '@/features/address/ui/types';
-import { useAddressSelectionStore } from '@/shared/store/addressSelection';
 import * as styles from '../styles/AddressRegisterEditPage.css';
 import { useFlow } from '@/app/routes/stackflow';
-import { useCreateAddress } from '@/shared/api/queries';
+import { addressQueries, useUpdateAddress } from '@/shared/api/queries';
 
-export function AddressRegisterPage() {
-  const { pop, push } = useFlow();
+export function AddressEditPage() {
+  const { pop, push, replace } = useFlow();
+  const updateMutation = useUpdateAddress();
 
-  const createMutation = useCreateAddress();
-  const selectedAddress = useAddressSelectionStore(
-    (state) => state.selectedAddress
-  );
-  const clearAddress = useAddressSelectionStore((state) => state.clearAddress);
+  const addressId = useMemo(() => {
+    const pathMatch = window.location.pathname.match(/\/address\/(\d+)\/edit/);
+    return pathMatch ? parseInt(pathMatch[1], 10) : null;
+  }, []);
+
+  if (!addressId) {
+    replace('NotFoundPage', {});
+    return;
+  }
+
+  const { data: address } = useQuery({
+    ...addressQueries.addressesQuery(),
+    select: (data) => {
+      if (!data.ok) return undefined;
+      return data.data.result.find((addr) => addr.id === addressId);
+    },
+  });
 
   const [formValues, setFormValues] = useState<AddressFormValues>({
     recipientName: '',
@@ -28,22 +41,17 @@ export function AddressRegisterPage() {
     baseAddress: '',
     detailAddress: '',
   });
-
   const isValidForm = useMemo(
     () => Object.values(formValues).every((value) => value),
     [formValues]
   );
 
   useEffect(() => {
-    if (selectedAddress) {
-      setFormValues((prev) => ({
-        ...prev,
-        zipcode: selectedAddress.zipcode,
-        baseAddress: selectedAddress.baseAddress,
-      }));
-      clearAddress();
+    if (address) {
+      const { id, isDefault, ...currentFormValues } = address;
+      setFormValues(currentFormValues);
     }
-  }, [selectedAddress, clearAddress]);
+  }, [address]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,13 +61,13 @@ export function AddressRegisterPage() {
       return;
     }
 
-    const response = await createMutation.mutateAsync({
-      ...formValues,
-      isDefault: false,
+    const response = await updateMutation.mutateAsync({
+      id: addressId,
+      payload: { ...formValues, isDefault: address?.isDefault ?? false },
     });
 
     if (!response.ok) {
-      alert('배송지 등록에 실패했습니다.');
+      alert('배송지 수정에 실패했습니다.');
       return;
     }
 
@@ -70,12 +78,12 @@ export function AddressRegisterPage() {
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
         <div className={styles.headerWrapper}>
-          <Header color="sub" left={<BackButton />} center="배송지 등록" />
+          <Header color="sub" left={<BackButton />} center="배송지 수정" />
         </div>
         <div className={styles.mainContainer}>
           <div className={styles.formWrapper}>
             <AddressForm
-              formId="address-register-form"
+              formId="address-edit-form"
               values={formValues}
               onValuesChange={setFormValues}
               onAddressSearchClick={() => push('AddressSearchPage', {})}
@@ -86,12 +94,12 @@ export function AddressRegisterPage() {
         <div className={styles.footerWrapper}>
           <Button
             type="submit"
-            form="address-register-form"
+            form="address-edit-form"
             size="large"
             disabled={!isValidForm}
             state={isValidForm ? 'active' : 'disabled'}
           >
-            등록하기
+            수정하기
           </Button>
         </div>
       </AppLayout>
