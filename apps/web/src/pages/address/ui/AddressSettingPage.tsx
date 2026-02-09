@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
+import { PlusIcon } from '@azit/design-system/icon';
+import { Button } from '@azit/design-system/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { AddressCard, AddressEmpty } from '@/features/address-setting/ui';
@@ -10,6 +13,7 @@ import { useFlow } from '@/app/routes/stackflow';
 
 export function AddressSettingPage() {
   const { push } = useFlow();
+  const [addressList, setAddressList] = useState(mockDeliveryAddressList);
 
   const handleDelete = (id: number) => {
     // TODO: Delete API 연동
@@ -25,28 +29,64 @@ export function AddressSettingPage() {
     push('AddressRegisterPage', {});
   };
 
+  const handleComplete = () => {
+    // TODO: 배송지 변경 완료 API 연동
+    console.log('Complete address change');
+  };
+
+  const handleSetDefault = (id: number) => {
+    setAddressList((prevList) =>
+      prevList.map((address) => ({
+        ...address,
+        isDefault: address.id === id,
+      }))
+    );
+  };
+
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
-        <Header color="sub" left={<BackButton />} center="배송지 설정" />
+        <Header
+          color="sub"
+          left={<BackButton />}
+          center="배송지 설정"
+          right={
+            <button onClick={handleRegister}>
+              <PlusIcon size={24} color="default" aria-hidden />
+            </button>
+          }
+        />
         <div className={styles.mainContainer}>
-          {mockDeliveryAddressList.length > 0 ? (
+          {addressList.length > 0 ? (
             <div className={styles.addressListContainer}>
-              {mockDeliveryAddressList.map((address) => (
+              {addressList.map((address) => (
                 <AddressCard
                   key={address.id}
                   address={address}
-                  onDelete={handleDelete}
-                  onEdit={handleEdit}
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                  handleSetDefault={handleSetDefault}
                 />
               ))}
             </div>
           ) : (
             <div className={styles.emptyStateWrapper}>
-              <AddressEmpty onRegister={handleRegister} />
+              <AddressEmpty handleRegister={handleRegister} />
             </div>
           )}
         </div>
+        {addressList.length > 0 && (
+          <div className={styles.footerButtonWrapper}>
+            <Button
+              state="active"
+              size="large"
+              onClick={handleComplete}
+              className={styles.footerButton}
+            >
+              배송지 변경 완료
+            </Button>
+          </div>
+        )}
       </AppLayout>
     </AppScreen>
   );
