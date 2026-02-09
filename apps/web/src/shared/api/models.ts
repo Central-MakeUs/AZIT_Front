@@ -31,3 +31,8 @@ export type DeliveryAddressResult = Required<
 export type StoreProductDetailResult = Required<
   components['schemas']['ProductDetailResponse']
 >;
+export type CartProductsResult = Required<
+  components['schemas']['CartListResponse']
+>;
+export type CartProductItem = CartProductsResult['items'][number];
+export type CartProductAddRequest = components['schemas']['AddToCartRequest'];
