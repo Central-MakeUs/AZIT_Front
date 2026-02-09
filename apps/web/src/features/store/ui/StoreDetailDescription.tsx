@@ -1,25 +1,35 @@
-import type { StoreProduct } from '@/shared/mock/store';
 import * as styles from '../styles/StoreDetailDescription.css';
 
 interface StoreDetailDescriptionProps {
-  details: StoreProduct['details'];
+  description?: string;
+  detailImageUrls?: string[];
 }
 
 export function StoreDetailDescription({
-  details,
+  description,
+  detailImageUrls,
 }: StoreDetailDescriptionProps) {
-  if (!details || details.length === 0) return null;
+  const hasContent =
+    description || (detailImageUrls && detailImageUrls.length > 0);
+  if (!hasContent) return null;
 
   return (
     <div className={styles.container}>
       <p className={styles.title}>상세정보</p>
-      <ul className={styles.list}>
-        {details.map((detail, index) => (
-          <li key={index} className={styles.listItem}>
-            {detail}
-          </li>
-        ))}
-      </ul>
+      {description && <p className={styles.description}>{description}</p>}
+      {detailImageUrls && detailImageUrls.length > 0 && (
+        <ul className={styles.list}>
+          {detailImageUrls.map((url, index) => (
+            <li key={url ?? index} className={styles.listItem}>
+              <img
+                src={url}
+                alt={`상세 ${index + 1}`}
+                className={styles.detailImage}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
