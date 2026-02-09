@@ -1,12 +1,13 @@
-import type { DeliveryAddress } from '@/shared/mock/address';
+import type { DeliveryAddressResult } from '@/shared/api/models';
 import { Chip } from '@azit/design-system/chip';
 import * as styles from '../styles/AddressCard.css';
 
 interface AddressCardProps {
-  address: DeliveryAddress;
+  address: DeliveryAddressResult;
   handleDelete?: (id: number) => void;
   handleEdit?: (id: number) => void;
   handleSetDefault?: (id: number) => void;
+  isDefault: boolean;
 }
 
 export function AddressCard({
@@ -14,11 +15,11 @@ export function AddressCard({
   handleDelete,
   handleEdit,
   handleSetDefault,
+  isDefault,
 }: AddressCardProps) {
   const fullAddress = `${address.baseAddress} ${address.detailAddress}`;
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // 버튼 클릭 시에는 카드 클릭 이벤트가 발생하지 않도록 처리
     if (
       (e.target as HTMLElement).closest('button') ||
       (e.target as HTMLElement).tagName === 'BUTTON'
@@ -26,19 +27,18 @@ export function AddressCard({
       return;
     }
 
-    // 기본 배송지가 아닌 경우에만 기본 배송지로 설정
-    if (!address.isDefault && handleSetDefault) {
+    if (!isDefault && handleSetDefault) {
       handleSetDefault(address.id);
     }
   };
 
   return (
     <div
-      className={address.isDefault ? styles.cardDefault : styles.cardNormal}
+      className={isDefault ? styles.cardDefault : styles.cardNormal}
       onClick={handleCardClick}
     >
       <div className={styles.contentSection}>
-        {address.isDefault && <Chip type="opacity">기본 배송지</Chip>}
+        {isDefault && <Chip type="opacity">기본 배송지</Chip>}
         <div className={styles.recipientRow}>
           <span className={styles.recipientName}>{address.recipientName}</span>
           <span className={styles.recipientPhone}>{address.phoneNumber}</span>

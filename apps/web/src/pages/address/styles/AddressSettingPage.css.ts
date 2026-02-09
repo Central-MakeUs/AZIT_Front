@@ -1,5 +1,8 @@
 import { style } from '@vanilla-extract/css';
 import { layoutStyles } from '@/shared/styles/layout.css';
+import { vars } from '@azit/design-system';
+
+export const headerWrapper = style([layoutStyles.headerWrapper]);
 
 export const mainContainer = style([
   layoutStyles.mainContainer,
@@ -24,17 +27,10 @@ export const emptyStateWrapper = style({
   minHeight: 0,
 });
 
-export const footerButtonWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: 4,
-  width: '100%',
-  padding: '0 20px',
-  paddingBottom: 32,
-});
-
-export const footerButton = style({
-  width: 335,
-  height: 54,
-});
+export const footerButtonWrapper = style([
+  layoutStyles.footerWrapper,
+  {
+    gap: 4,
+    backgroundColor: vars.colors.background_sub,
+  },
+]);

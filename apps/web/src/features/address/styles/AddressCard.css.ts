@@ -78,7 +78,7 @@ const baseButton = style([
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '8px 60px',
+    padding: '8px 0',
     borderRadius: 8,
     cursor: 'pointer',
   },
