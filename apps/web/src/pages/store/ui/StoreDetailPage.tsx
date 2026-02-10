@@ -19,8 +19,8 @@ import {
   StoreDetailRefund,
   StoreDetailDescription,
   StoreDetailItem,
-  StoreDetailSkeleton,
 } from '@/features/store/ui';
+import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
 import * as styles from '../styles/StoreDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';

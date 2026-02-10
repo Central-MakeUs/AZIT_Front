@@ -10,6 +10,7 @@ import {
   CartSummary,
   CartEmpty,
 } from '@/features/cart/ui';
+import { CartSkeleton } from '@/widgets/skeleton/ui';
 import { useCart } from '@/features/cart/model/useCart';
 import * as styles from '../styles/CartPage.css';
 import { formatPrice } from '@/shared/lib/formatters';
@@ -45,7 +46,7 @@ export function CartPage() {
         </div>
         <div className={styles.mainContainer}>
           {isPending ? (
-            <div>로딩 중...</div>
+            <CartSkeleton />
           ) : isEmpty ? (
             <CartEmpty />
           ) : (
