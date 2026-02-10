@@ -32,6 +32,12 @@ export const imageWrapper = style({
   overflow: 'hidden',
 });
 
+export const productImage = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+});
+
 export const soldOutOverlay = style({
   position: 'absolute',
   inset: 0,
