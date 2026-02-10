@@ -2,7 +2,7 @@ import { Checkbox } from '@azit/design-system/checkbox';
 import { XIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
 import { QuantitySelector } from './QuantitySelector';
-import type { CartProductItem } from '@/shared/api/models';
+import type { CartProductItem } from '../api/types';
 import * as styles from '../styles/CartItem.css';
 import { formatPrice } from '@/shared/lib/formatters';
 import { useState } from 'react';

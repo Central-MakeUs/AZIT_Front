@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { CartProductItem } from '@/shared/api/models';
+import type { CartProductItem } from '../api/types';
 
 type CartProductsResponse = Awaited<
   ReturnType<

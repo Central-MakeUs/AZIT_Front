@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { cartQueries } from '@/shared/api/queries/cart';
-import type { CartProductItem, CartBrand } from '@/shared/api/models';
+import type { CartProductItem, CartBrand } from '../api/types';
 import { useCartAction } from './useCartAction';
 import { useCartPrice } from './useCartPrice';
 import { useCartSelect } from './useCartSelect';
