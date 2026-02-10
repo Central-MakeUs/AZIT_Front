@@ -34,7 +34,10 @@ export type StoreProductDetailResult = Required<
 export type CartProductsResult = Required<
   components['schemas']['CartListResponse']
 >;
-export type CartProductItem = CartProductsResult['items'][number];
+export type CartProductItem = CartProductsResult['items'][number] & {
+  productId?: number;
+  productSkuId?: number;
+};
 export type CartProductAddRequest = components['schemas']['AddToCartRequest'];
 export type CartProductDeleteRequest =
   components['schemas']['CartItemDeleteRequest'];
