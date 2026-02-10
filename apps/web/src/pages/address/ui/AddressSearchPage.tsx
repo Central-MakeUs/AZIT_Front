@@ -2,11 +2,11 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
-import { KakaoPostcode } from '@/features/address-setting/ui';
+import { KakaoPostcode } from '@/features/address/ui';
 import { useAddressSelectionStore } from '@/shared/store/addressSelection';
 import * as styles from '../styles/AddressSearchPage.css';
 import { useFlow } from '@/app/routes/stackflow';
-import type { KakaoPostcodeResult } from '@/features/address-setting/model/useKakaoPostcode';
+import type { KakaoPostcodeResult } from '@/features/address/model/useKakaoPostcode';
 
 export function AddressSearchPage() {
   const { pop } = useFlow();
