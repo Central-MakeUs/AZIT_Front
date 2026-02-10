@@ -1,5 +1,6 @@
 import { getCrewJoinStatus } from '@/pages/crew-join-status/api/getCrewJoinStatus';
-import { queryOptions } from '@tanstack/react-query';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
+import { postConfirmJoinStatus } from '@/features/crew-join-status/api/postConfirmJoinStatus';
 
 export const crewQueries = {
   defaultKey: ['crew'] as const,
@@ -11,4 +12,7 @@ export const crewQueries = {
       queryFn: () => getCrewJoinStatus(crewId),
       staleTime: 600000, // 10분
     }),
+  confirmJoinStatus: mutationOptions({
+    mutationFn: () => postConfirmJoinStatus(),
+  }),
 };
