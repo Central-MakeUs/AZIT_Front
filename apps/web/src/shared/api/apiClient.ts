@@ -26,14 +26,6 @@ export const authApi = baseApi.extend({
         }
       },
     ],
-    beforeError: [
-      async (error) => {
-        if (error.response) {
-          error.message = `${error.message}: ${await error.response.text()}`;
-        }
-        return error;
-      },
-    ],
     afterResponse: [
       // 401 에러 발생시, 새 토큰으로 재시도
       async (request, _options, response, state) => {
