@@ -10,6 +10,7 @@ import {
   CartSummary,
   CartEmpty,
 } from '@/features/cart/ui';
+import { CartProvider } from '@/features/cart/context/CartContext';
 import { CartSkeleton } from '@/widgets/skeleton/ui';
 import { useCart } from '@/features/cart/model/useCart';
 import * as styles from '../styles/CartPage.css';
@@ -17,6 +18,7 @@ import { formatPrice } from '@/shared/lib/formatters';
 import { footerWrapper } from '@/shared/styles/footer.css';
 
 export function CartPage() {
+  const cart = useCart();
   const {
     cartData,
     isPending,
@@ -33,72 +35,72 @@ export function CartPage() {
     handleSelectAll,
     handleItemSelectChange,
     handleBrandSelectChange,
-    handleQuantityChange,
     handleDeleteItem,
     handleDeleteSelected,
-  } = useCart();
+  } = cart;
 
   return (
     <AppScreen>
       <AppLayout>
-        <div className={styles.headerWrapper}>
-          <Header left={<BackButton />} center="장바구니" />
-        </div>
-        <div className={styles.mainContainer}>
-          {isPending ? (
-            <CartSkeleton />
-          ) : isEmpty ? (
-            <CartEmpty />
-          ) : (
-            <>
-              <CartSelectionBar
-                selectedCount={selectedItems.length}
-                totalCount={allItems.length}
-                isAllSelected={isAllSelected}
-                onSelectAll={handleSelectAll}
-                onDeleteSelected={handleDeleteSelected}
-              />
-              <Divider />
-              <div className={styles.brandListWrapper}>
-                {cartData.map((brand, index) => (
-                  <div key={brand.id}>
-                    <CartBrandSection
-                      brand={brand}
-                      selectedItemIds={selectedItemIds}
-                      onItemSelectChange={handleItemSelectChange}
-                      onBrandSelectChange={handleBrandSelectChange}
-                      onQuantityChange={handleQuantityChange}
-                      onDeleteItem={handleDeleteItem}
-                    />
-                    {index < cartData.length - 1 && <Divider />}
-                  </div>
-                ))}
-              </div>
-              <Divider />
-              <div className={styles.summaryWrapper}>
-                <CartSummary
-                  totalProductPrice={totalProductPrice}
-                  membershipDiscount={membershipDiscount}
-                  shippingFee={shippingFee}
-                  totalPayment={totalPayment}
-                />
-              </div>
-            </>
-          )}
-        </div>
-        {!isEmpty && (
-          <div className={footerWrapper}>
-            <Button
-              className={styles.ctaButton}
-              state={hasSelectedItems ? 'active' : 'disabled'}
-              disabled={!hasSelectedItems}
-            >
-              {hasSelectedItems
-                ? `${formatPrice(totalPayment)} 구매하기`
-                : '상품을 선택해주세요'}
-            </Button>
+        <CartProvider value={cart}>
+          <div className={styles.headerWrapper}>
+            <Header left={<BackButton />} center="장바구니" />
           </div>
-        )}
+          <div className={styles.mainContainer}>
+            {isPending ? (
+              <CartSkeleton />
+            ) : isEmpty ? (
+              <CartEmpty />
+            ) : (
+              <>
+                <CartSelectionBar
+                  selectedCount={selectedItems.length}
+                  totalCount={allItems.length}
+                  isAllSelected={isAllSelected}
+                  onSelectAll={handleSelectAll}
+                  onDeleteSelected={handleDeleteSelected}
+                />
+                <Divider />
+                <div className={styles.brandListWrapper}>
+                  {cartData.map((brand, index) => (
+                    <div key={brand.id}>
+                      <CartBrandSection
+                        brand={brand}
+                        selectedItemIds={selectedItemIds}
+                        onItemSelectChange={handleItemSelectChange}
+                        onBrandSelectChange={handleBrandSelectChange}
+                        onDeleteItem={handleDeleteItem}
+                      />
+                      {index < cartData.length - 1 && <Divider />}
+                    </div>
+                  ))}
+                </div>
+                <Divider />
+                <div className={styles.summaryWrapper}>
+                  <CartSummary
+                    totalProductPrice={totalProductPrice}
+                    membershipDiscount={membershipDiscount}
+                    shippingFee={shippingFee}
+                    totalPayment={totalPayment}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+          {!isEmpty && (
+            <div className={footerWrapper}>
+              <Button
+                className={styles.ctaButton}
+                state={hasSelectedItems ? 'active' : 'disabled'}
+                disabled={!hasSelectedItems}
+              >
+                {hasSelectedItems
+                  ? `${formatPrice(totalPayment)} 구매하기`
+                  : '상품을 선택해주세요'}
+              </Button>
+            </div>
+          )}
+        </CartProvider>
       </AppLayout>
     </AppScreen>
   );
