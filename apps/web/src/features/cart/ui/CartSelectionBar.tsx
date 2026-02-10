@@ -1,40 +1,35 @@
 import { Checkbox } from '@azit/design-system/checkbox';
+import { useCartContext } from '../context/CartContext';
 import * as styles from '../styles/CartSelectionBar.css';
 
-interface CartSelectionBarProps {
-  selectedCount: number;
-  totalCount: number;
-  isAllSelected: boolean;
-  onSelectAll: (checked: boolean) => void;
-  onDeleteSelected: () => void;
-}
+export function CartSelectionBar() {
+  const {
+    selectedItems,
+    allItems,
+    isAllSelected,
+    handleSelectAll,
+    handleDeleteSelected,
+  } = useCartContext();
 
-export function CartSelectionBar({
-  selectedCount,
-  totalCount,
-  isAllSelected,
-  onSelectAll,
-  onDeleteSelected,
-}: CartSelectionBarProps) {
   return (
     <>
       <div className={styles.container}>
         <div className={styles.leftSection}>
           <Checkbox
             checked={isAllSelected}
-            onCheckedChange={(checked) => onSelectAll(checked === true)}
+            onCheckedChange={(checked) => handleSelectAll(checked === true)}
           />
           <div className={styles.selectionText}>
             <span>전체선택</span>
             <span>
-              ({selectedCount}/{totalCount})
+              ({selectedItems.length}/{allItems.length})
             </span>
           </div>
         </div>
         <button
           type="button"
           className={styles.deleteButton}
-          onClick={onDeleteSelected}
+          onClick={handleDeleteSelected}
         >
           선택삭제
         </button>

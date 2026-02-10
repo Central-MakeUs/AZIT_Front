@@ -20,20 +20,83 @@ import {
   StoreDetailDescription,
   StoreDetailItem,
 } from '@/features/store/ui';
-import { mockStoreProducts } from '@/shared/mock/store';
+import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
 import * as styles from '../styles/StoreDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { footerWrapper } from '@/shared/styles/footer.css';
+import { useActivityParams } from '@stackflow/react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { storeQueries } from '@/shared/api/queries';
+import { cartQueries } from '@/shared/api/queries/cart';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
+  const { id } = useActivityParams<{ id: string }>();
+  const queryClient = useQueryClient();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
   );
+  const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(
+    undefined
+  );
+  const [quantity, setQuantity] = useState(1);
 
-  const product = mockStoreProducts[0];
+  const { data, isPending, isError } = useQuery(
+    storeQueries.productDetailQuery(id ?? '')
+  );
+
+  const addToCartMutation = useMutation(
+    cartQueries.addItemMutation(queryClient)
+  );
+
+  const product = data;
+
+  if (!id) {
+    return <div>상품 정보를 찾을 수 없습니다.</div>;
+  }
+
+  if (isPending) {
+    return (
+      <AppScreen>
+        <AppLayout>
+          <div className={styles.headerWrapper}>
+            <Header
+              left={
+                <button
+                  className={styles.iconButton}
+                  type="button"
+                  onClick={() => pop()}
+                >
+                  <ChevronLeftIcon size={24} />
+                </button>
+              }
+              right={
+                <div className={styles.headerIconWrapper}>
+                  <button className={styles.iconButton} type="button">
+                    <ShareIcon size={24} />
+                  </button>
+                  <button
+                    className={styles.iconButton}
+                    type="button"
+                    onClick={() => push('CartPage', {})}
+                  >
+                    <ShoppingCartIcon size={24} />
+                  </button>
+                </div>
+              }
+            />
+          </div>
+          <StoreDetailSkeleton />
+        </AppLayout>
+      </AppScreen>
+    );
+  }
+
+  if (isError || !product) {
+    return <div>상품 정보를 찾을 수 없습니다.</div>;
+  }
 
   const handleClick = () => {
     pop();
@@ -43,9 +106,47 @@ export function StoreDetailPage() {
     setIsBottomSheetOpen(true);
   };
 
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
-    console.log('Selected option:', selectedOption);
+  const options =
+    product.optionGroups?.[0]?.values?.map((optionValue) => ({
+      label: optionValue.value || '',
+      value: String(optionValue.id || ''),
+    })) || [];
+
+  const handleOptionSelect = (optionId: string) => {
+    const selectedOptionValue = options.find((opt) => opt.value === optionId);
+    setSelectedOption(selectedOptionValue?.label);
+    setSelectedOptionId(Number(optionId));
+    setQuantity(1);
+  };
+
+  const selectedSku = product.skus?.find((sku) =>
+    sku.optionValueIds?.includes(selectedOptionId ?? -1)
+  );
+
+  const handleAddToCart = () => {
+    if (!product.id || !selectedSku?.id) {
+      return;
+    }
+
+    addToCartMutation.mutate(
+      {
+        productId: product.id,
+        productSkuId: selectedSku.id,
+        quantity: quantity,
+      },
+      {
+        onSuccess: () => {
+          setIsBottomSheetOpen(false);
+          setSelectedOption(undefined);
+          setSelectedOptionId(undefined);
+          setQuantity(1);
+        },
+        onError: (error) => {
+          console.error('장바구니 추가 실패:', error);
+          // TODO: 에러 처리 (토스트 메시지 등)
+        },
+      }
+    );
   };
 
   return (
@@ -74,17 +175,23 @@ export function StoreDetailPage() {
           />
         </div>
         <div className={styles.mainContainer}>
-          <StoreDetailImageSlider />
+          <StoreDetailImageSlider slideImageUrls={product.slideImageUrls} />
           <div className={styles.contentWrapper}>
             <StoreDetailInfo product={product} />
             <Divider />
             <div className={styles.detailsSection}>
               <StoreDetailBanner />
-              <StoreDetailShipping shipping={product.shipping} />
+              <StoreDetailShipping
+                shippingFee={product.shippingFee}
+                expectedShippingDate={product.expectedShippingDate}
+              />
               <StoreDetailRefund refundPolicy={product.refundPolicy} />
             </div>
             <Divider />
-            <StoreDetailDescription details={product.details} />
+            <StoreDetailDescription
+              description={product.description}
+              detailImageUrls={product.detailImageUrls}
+            />
           </div>
           <div className={styles.moreInfoPlaceholder}>
             <div className={styles.moreInfoGradient}>
@@ -110,24 +217,29 @@ export function StoreDetailPage() {
       >
         <Dropdown
           placeholder="옵션을 선택해주세요"
-          options={['230', '235', '240'].map((option) => ({
-            label: option,
-            value: option,
-          }))}
+          options={options}
           onValueChange={handleOptionSelect}
         />
         <StoreDetailItem
           option={selectedOption}
-          onCancel={() => setSelectedOption(undefined)}
+          salePrice={product.salePrice}
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+          onCancel={() => {
+            setSelectedOption(undefined);
+            setSelectedOptionId(undefined);
+            setQuantity(1);
+          }}
         />
         {selectedOption && (
           <div className={styles.buttonWrapper}>
             <Button
               size="large"
               state="outline"
-              onClick={() => setIsBottomSheetOpen(false)}
+              onClick={handleAddToCart}
+              disabled={addToCartMutation.isPending}
             >
-              장바구니
+              {addToCartMutation.isPending ? '추가 중...' : '장바구니'}
             </Button>
             <Button
               size="large"
