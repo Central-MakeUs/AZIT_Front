@@ -24,6 +24,9 @@ export function CrewJoinStatusPage({
   });
 
   const handleButtonClick = async () => {
+    if (!data?.ok) return;
+    const { status } = data.data.result;
+
     if (
       status === CREW_JOIN_STATUS.JOINED ||
       status === CREW_JOIN_STATUS.REJECTED
@@ -45,6 +48,7 @@ export function CrewJoinStatusPage({
   }
 
   const { status, name } = data.data.result;
+
   const content = STATUS_CONTENT[status];
 
   if (!content) {
