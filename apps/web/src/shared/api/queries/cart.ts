@@ -4,8 +4,12 @@ import {
   mutationOptions,
   type QueryClient,
 } from '@tanstack/react-query';
-import type { CartProductAddRequest } from '../models';
+import type {
+  CartProductAddRequest,
+  CartProductDeleteRequest,
+} from '../models';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
+import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
 
 export const cartQueries = {
   all: ['cart'] as const,
@@ -17,6 +21,15 @@ export const cartQueries = {
   addItemMutation: (queryClient: QueryClient) =>
     mutationOptions({
       mutationFn: (data: CartProductAddRequest) => postCartProductAdd(data),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [...cartQueries.all, 'products'],
+        });
+      },
+    }),
+  deleteItemMutation: (queryClient: QueryClient) =>
+    mutationOptions({
+      mutationFn: (data: CartProductDeleteRequest) => deleteCartProduct(data),
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: [...cartQueries.all, 'products'],

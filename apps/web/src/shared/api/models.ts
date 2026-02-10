@@ -36,6 +36,8 @@ export type CartProductsResult = Required<
 >;
 export type CartProductItem = CartProductsResult['items'][number];
 export type CartProductAddRequest = components['schemas']['AddToCartRequest'];
+export type CartProductDeleteRequest =
+  components['schemas']['CartItemDeleteRequest'];
 
 export interface CartBrand {
   id: string;
