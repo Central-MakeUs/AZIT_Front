@@ -8,7 +8,7 @@ import { RoundProfileImage } from '@/widgets/profile/ui';
 import { useQuery } from '@tanstack/react-query';
 import { crewQueries } from '@/shared/api/queries/crew';
 import { postConfirmJoinStatus } from '@/features/crew-join-status/api/postConfirmJoinStatus';
-import { CREW_JOINS_STATUS, STATUS_CONTENT } from '../model/crewJoinStatus';
+import { CREW_JOIN_STATUS, STATUS_CONTENT } from '../model/crewJoinStatus';
 
 export function CrewJoinStatusPage({
   params,
@@ -25,13 +25,13 @@ export function CrewJoinStatusPage({
 
   const handleButtonClick = async () => {
     if (
-      status === CREW_JOINS_STATUS.JOINED ||
-      status === CREW_JOINS_STATUS.REJECTED
+      status === CREW_JOIN_STATUS.JOINED ||
+      status === CREW_JOIN_STATUS.REJECTED
     ) {
       const response = await postConfirmJoinStatus();
       if (response.ok) {
         const redirectActivity =
-          status === CREW_JOINS_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
+          status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
         replace(redirectActivity, {}, { animate: false });
       } else {
         // TODO: 토스트 에러

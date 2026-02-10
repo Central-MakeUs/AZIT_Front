@@ -3,7 +3,7 @@ import type { ButtonProps } from '@azit/design-system/button';
 
 type CrewJoinStatus = CrewJoinStatusResult['status'];
 
-export const CREW_JOINS_STATUS = {
+export const CREW_JOIN_STATUS = {
   REQUESTED: 'REQUESTED',
   JOINED: 'JOINED',
   REJECTED: 'REJECTED',
