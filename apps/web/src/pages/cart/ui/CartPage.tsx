@@ -19,25 +19,7 @@ import { footerWrapper } from '@/shared/styles/footer.css';
 
 export function CartPage() {
   const cart = useCart();
-  const {
-    cartData,
-    isPending,
-    isEmpty,
-    selectedItemIds,
-    selectedItems,
-    allItems,
-    isAllSelected,
-    hasSelectedItems,
-    totalProductPrice,
-    membershipDiscount,
-    shippingFee,
-    totalPayment,
-    handleSelectAll,
-    handleItemSelectChange,
-    handleBrandSelectChange,
-    handleDeleteItem,
-    handleDeleteSelected,
-  } = cart;
+  const { cartData, isPending, isEmpty, hasSelectedItems, totalPayment } = cart;
 
   return (
     <AppScreen>
@@ -53,36 +35,19 @@ export function CartPage() {
               <CartEmpty />
             ) : (
               <>
-                <CartSelectionBar
-                  selectedCount={selectedItems.length}
-                  totalCount={allItems.length}
-                  isAllSelected={isAllSelected}
-                  onSelectAll={handleSelectAll}
-                  onDeleteSelected={handleDeleteSelected}
-                />
+                <CartSelectionBar />
                 <Divider />
                 <div className={styles.brandListWrapper}>
                   {cartData.map((brand, index) => (
                     <div key={brand.id}>
-                      <CartBrandSection
-                        brand={brand}
-                        selectedItemIds={selectedItemIds}
-                        onItemSelectChange={handleItemSelectChange}
-                        onBrandSelectChange={handleBrandSelectChange}
-                        onDeleteItem={handleDeleteItem}
-                      />
+                      <CartBrandSection brand={brand} />
                       {index < cartData.length - 1 && <Divider />}
                     </div>
                   ))}
                 </div>
                 <Divider />
                 <div className={styles.summaryWrapper}>
-                  <CartSummary
-                    totalProductPrice={totalProductPrice}
-                    membershipDiscount={membershipDiscount}
-                    shippingFee={shippingFee}
-                    totalPayment={totalPayment}
-                  />
+                  <CartSummary />
                 </div>
               </>
             )}
