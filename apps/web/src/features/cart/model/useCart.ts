@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { cartQueries } from '@/shared/api/queries/cart';
 import type { CartProductItem, CartBrand } from '@/shared/api/models';
 
@@ -28,12 +28,17 @@ const transformCartData = (items: CartProductItem[]): CartBrand[] => {
 };
 
 export function useCart() {
+  const queryClient = useQueryClient();
   const [selectedItemIds, setSelectedItemIds] = useState<Set<string>>(
     new Set()
   );
 
   const { data: cartProductsResponse, isPending } = useQuery(
     cartQueries.productsQuery()
+  );
+
+  const deleteItemMutation = useMutation(
+    cartQueries.deleteItemMutation(queryClient)
   );
 
   const cartData = useMemo(() => {
@@ -181,13 +186,36 @@ export function useCart() {
     []
   );
 
-  const handleDeleteItem = useCallback((_itemId: string) => {
-    // TODO: DELETE api call
-  }, []);
+  const handleDeleteItem = useCallback(
+    (itemId: string) => {
+      deleteItemMutation.mutate(
+        { cartItemIds: [Number(itemId)] },
+        {
+          onSuccess: () => {
+            setSelectedItemIds((prev) => {
+              const next = new Set(prev);
+              next.delete(itemId);
+              return next;
+            });
+          },
+        }
+      );
+    },
+    [deleteItemMutation]
+  );
 
   const handleDeleteSelected = useCallback(() => {
-    // TODO: DELETE api call for selected items
-  }, []);
+    if (selectedItemIds.size === 0) return;
+    const cartItemIds = Array.from(selectedItemIds, Number);
+    deleteItemMutation.mutate(
+      { cartItemIds },
+      {
+        onSuccess: () => {
+          setSelectedItemIds(new Set());
+        },
+      }
+    );
+  }, [deleteItemMutation, selectedItemIds]);
 
   const hasSelectedItems = selectedItems.length > 0;
   const isEmpty = cartData.length === 0;
