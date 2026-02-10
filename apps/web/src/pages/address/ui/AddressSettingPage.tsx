@@ -86,7 +86,11 @@ export function AddressSettingPage() {
             left={<BackButton />}
             center="배송지 설정"
             right={
-              <button onClick={handleRegister}>
+              <button
+                onClick={handleRegister}
+                type="button"
+                aria-label="배송지 등록하기"
+              >
                 <PlusIcon size={24} color="default" aria-hidden />
               </button>
             }
