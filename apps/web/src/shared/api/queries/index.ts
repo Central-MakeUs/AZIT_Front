@@ -5,3 +5,4 @@ export {
   useUpdateAddress,
   useDeleteAddress,
 } from './address';
+export { crewQueries } from './crew';
