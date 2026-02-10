@@ -1,4 +1,5 @@
 export { AddressCard } from './AddressCard';
 export { AddressEmpty } from './AddressEmpty';
-export { AddressRegisterForm } from './AddressRegisterForm';
+export { AddressForm } from './AddressForm';
 export { KakaoPostcode } from './KakaoPostcode';
+export type { AddressFormProps } from './AddressForm';

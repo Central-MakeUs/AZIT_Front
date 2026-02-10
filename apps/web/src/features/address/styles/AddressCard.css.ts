@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
 
-export const card = style({
+const baseCard = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 12,
@@ -9,14 +9,29 @@ export const card = style({
   padding: 16,
   backgroundColor: vars.colors.white,
   borderRadius: 12,
-  border: `0.5px solid ${vars.colors.gray20}`,
 });
+
+export const cardDefault = style([
+  baseCard,
+  {
+    border: `1px solid ${vars.colors.blue80}`,
+  },
+]);
+
+export const cardNormal = style([
+  baseCard,
+  {
+    border: `0.5px solid ${vars.colors.gray20}`,
+    cursor: 'pointer',
+  },
+]);
 
 export const contentSection = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: 12,
+  gap: 8,
   width: '100%',
+  alignItems: 'flex-start',
 });
 
 export const recipientRow = style({
@@ -63,7 +78,7 @@ const baseButton = style([
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '8px 60px',
+    padding: '8px 0',
     borderRadius: 8,
     cursor: 'pointer',
   },
