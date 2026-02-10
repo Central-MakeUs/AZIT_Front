@@ -4,13 +4,11 @@ import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { MypageProfileSection, MypageMenuSection } from '@/features/mypage/ui';
-import {
-  mockMypageProfile,
-  mockMypageMenuSections,
-} from '@/shared/mock/mypage';
+import { mockMypageProfile } from '@/shared/mock/mypage';
 import * as styles from '../styles/Mypage.css';
 import { useAuthStore } from '@/shared/store/auth';
 import { MYPAGE_MENU } from '@/features/mypage/model/menu';
+import { AlertDialog } from '@azit/design-system/alert-dialog';
 
 export function Mypage() {
   const { logout } = useAuthStore();
@@ -28,13 +26,35 @@ export function Mypage() {
               <MypageMenuSection key={section.id} section={section} />
             ))}
           </div>
-          <button
-            type="button"
-            className={styles.logoutButton}
-            onClick={logout}
-          >
-            로그아웃
-          </button>
+          <div className={styles.buttonWrapper}>
+            <div className={styles.buttonContainer}>
+              <div className={styles.logoutButtonWrapper}>
+                <button
+                  type="button"
+                  className={styles.logoutButton}
+                  onClick={logout}
+                >
+                  로그아웃
+                </button>
+              </div>
+              <div className={styles.withdrawButtonWrapper}>
+                <AlertDialog
+                  trigger={
+                    <button type="button" className={styles.withdrawButton}>
+                      회원탈퇴
+                    </button>
+                  }
+                  title="정말로 탈퇴하시겠습니까?"
+                  description="탈퇴한 계정은 복구할 수 없어요"
+                  actionText="탈퇴하기"
+                  cancelText="취소하기"
+                  onAction={() => {
+                    // TODO: 회원탈퇴 기능 구현
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </AppLayout>
       <BottomNavigation activeTab="mypage" />
