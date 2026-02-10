@@ -1,3 +1,3 @@
-export { createDeliveryAddress } from './createDeliveryAddress';
+export { postDeliveryAddress } from './postDeliveryAddress';
 export { updateDeliveryAddress } from './updateDeliveryAddress';
 export { deleteDeliveryAddress } from './deleteDeliveryAddress';
