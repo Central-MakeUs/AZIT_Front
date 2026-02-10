@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/StoreDetailImageSlider.css';
 
 const SWIPE_THRESHOLD = 50;
@@ -72,47 +71,11 @@ export function StoreDetailImageSlider({
         ))}
       </div>
 
-      {/* {hasMultiple && (
-        <>
-          <button
-            type="button"
-            className={`${styles.navButton} ${styles.navButtonPrev}`}
-            onClick={goPrev}
-            aria-label="이전 이미지"
-          >
-            <ChevronLeftIcon size={24} />
-          </button>
-          <button
-            type="button"
-            className={`${styles.navButton} ${styles.navButtonNext}`}
-            onClick={goNext}
-            aria-label="다음 이미지"
-          >
-            <ChevronRightIcon size={24} />
-          </button>
-        </>
-      )} */}
-
       <div className={styles.bottomArea}>
         <div className={styles.imageCounter}>
           <span>{currentIndex + 1}</span>
           <span>/ {count}</span>
         </div>
-        {/* {hasMultiple && (
-          <div className={styles.dots} role="tablist" aria-label="슬라이드">
-            {slideImageUrls!.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                role="tab"
-                aria-selected={index === currentIndex}
-                aria-label={`${index + 1}번째 이미지`}
-                className={index === currentIndex ? `${styles.dot} ${styles.dotActive}` : styles.dot}
-                onClick={() => setCurrentIndex(index)}
-              />
-            ))}
-          </div>
-        )} */}
       </div>
     </div>
   );
