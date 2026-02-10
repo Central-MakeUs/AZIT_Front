@@ -37,6 +37,10 @@ export function useCart() {
     cartQueries.productsQuery()
   );
 
+  const addToCartMutation = useMutation(
+    cartQueries.addItemMutation(queryClient)
+  );
+
   const deleteItemMutation = useMutation(
     cartQueries.deleteItemMutation(queryClient)
   );
@@ -179,9 +183,20 @@ export function useCart() {
   );
 
   const handleQuantityChange = useCallback(
-    (_itemId: string, _quantity: number) => {
-      // TODO: PUT api call to update quantity
-      // API 호출 후 queryClient.invalidateQueries로 데이터 갱신
+    (itemId: number, productSkuId: number, quantity: number) => {
+      addToCartMutation.mutate(
+        {
+          productId: itemId,
+          productSkuId: productSkuId,
+          quantity: quantity,
+        },
+        {
+          onSuccess: () => {},
+          onError: () => {
+            // TODO: 토스트 메시지로 에러 처리하기
+          },
+        }
+      );
     },
     []
   );

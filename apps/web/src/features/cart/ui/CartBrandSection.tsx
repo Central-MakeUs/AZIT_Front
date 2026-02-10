@@ -8,7 +8,11 @@ interface CartBrandSectionProps {
   selectedItemIds: Set<string>;
   onItemSelectChange: (itemId: string, checked: boolean) => void;
   onBrandSelectChange: (brandId: string, checked: boolean) => void;
-  onQuantityChange: (itemId: string, quantity: number) => void;
+  onQuantityChange: (
+    itemId: number,
+    productSkuId: number,
+    quantity: number
+  ) => void;
   onDeleteItem: (itemId: string) => void;
 }
 
@@ -54,8 +58,8 @@ export function CartBrandSection({
               item={item}
               isSelected={selectedItemIds.has(itemId)}
               onSelectChange={(checked) => onItemSelectChange(itemId, checked)}
-              onQuantityChange={(quantity) =>
-                onQuantityChange(itemId, quantity)
+              onQuantityChange={(itemId, productSkuId, quantity) =>
+                onQuantityChange(itemId, productSkuId, quantity)
               }
               onDelete={() => onDeleteItem(itemId)}
             />

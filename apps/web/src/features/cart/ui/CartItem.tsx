@@ -5,12 +5,17 @@ import { QuantitySelector } from './QuantitySelector';
 import type { CartProductItem } from '@/shared/api/models';
 import * as styles from '../styles/CartItem.css';
 import { formatPrice } from '@/shared/lib/formatters';
+import { useState } from 'react';
 
 interface CartItemProps {
   item: CartProductItem;
   isSelected: boolean;
   onSelectChange: (checked: boolean) => void;
-  onQuantityChange: (quantity: number) => void;
+  onQuantityChange: (
+    itemId: number,
+    productSkuId: number,
+    quantity: number
+  ) => void;
   onDelete: () => void;
 }
 
@@ -34,6 +39,9 @@ export function CartItem({
   onQuantityChange,
   onDelete,
 }: CartItemProps) {
+  const [quantity, setQuantity] = useState(item.quantity || 0);
+
+  const itemId = item.cartItemId || 0;
   const name = item.productName || '';
   const size = item.optionDescription || '';
   const expectedDelivery = item.expectedShippingDate
@@ -41,17 +49,25 @@ export function CartItem({
     : '';
   const originalPrice = item.basePrice || 0;
   const discountedPrice = item.salePrice || 0;
-  const quantity = item.quantity || 0;
   const isSoldOut = item.isOutOfStock || quantity === 0;
   const imageUrl = item.productImageUrl;
+  const productSkuId = 0; // TODO: 상품 옵션 조합(SKU) ID 추가 시 수정
 
   const handleIncrease = () => {
-    onQuantityChange(quantity + 1);
+    setQuantity((prev) => prev + 1);
+    try {
+      onQuantityChange(itemId, productSkuId, quantity + 1);
+    } catch (error) {
+      setQuantity((prev) => prev - 1);
+    }
   };
 
   const handleDecrease = () => {
-    if (quantity > 1) {
-      onQuantityChange(quantity - 1);
+    setQuantity((prev) => prev - 1);
+    try {
+      onQuantityChange(itemId, productSkuId, quantity - 1);
+    } catch (error) {
+      setQuantity((prev) => prev + 1);
     }
   };
 
