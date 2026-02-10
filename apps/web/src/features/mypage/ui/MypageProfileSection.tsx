@@ -22,7 +22,7 @@ export function MypageProfileSection({ profile }: MypageProfileSectionProps) {
           <span className={styles.nickname}>{profile.nickname}</span>
         </div>
       </div>
-      <div className={styles.statGrid}>
+      {/* <div className={styles.statGrid}>
         <MypageStatCard
           icon={<CheckIcon size={24} color="primary" />}
           label="출석"
@@ -33,7 +33,7 @@ export function MypageProfileSection({ profile }: MypageProfileSectionProps) {
           label="포인트"
           value={profile.pointCount.toLocaleString('ko-KR')}
         />
-      </div>
+      </div> */}
     </section>
   );
 }

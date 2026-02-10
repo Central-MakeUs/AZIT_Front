@@ -91,6 +91,14 @@ const AddressEditPage = lazyImport(
   () => import('@/pages/address/ui/AddressEditPage'),
   'AddressEditPage'
 );
+const TermDetailPage = lazyImport(
+  () => import('@/pages/term-detail/ui/TermDetailPage'),
+  'TermDetailPage'
+);
+const MemberManagementPage = lazyImport(
+  () => import('@/pages/member-management/ui/MemberManagementPage'),
+  'MemberManagementPage'
+);
 
 export const routes = [
   {
@@ -241,6 +249,18 @@ export const routes = [
     name: 'AddressEditPage',
     path: '/address/:id/edit',
     element: AddressEditPage,
+    withAuth: true,
+  },
+  {
+    name: 'TermDetailPage',
+    path: '/term-detail/:termType',
+    element: TermDetailPage,
+    withAuth: false,
+  },
+  {
+    name: 'MemberManagementPage',
+    path: '/member-management',
+    element: MemberManagementPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];

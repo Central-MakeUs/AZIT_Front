@@ -10,6 +10,7 @@ import {
 } from '@/shared/mock/mypage';
 import * as styles from '../styles/Mypage.css';
 import { useAuthStore } from '@/shared/store/auth';
+import { MYPAGE_MENU } from '@/features/mypage/model/menu';
 
 export function Mypage() {
   const { logout } = useAuthStore();
@@ -23,7 +24,7 @@ export function Mypage() {
         <div className={styles.mainContainer}>
           <MypageProfileSection profile={mockMypageProfile} />
           <div className={styles.menuSectionWrapper}>
-            {mockMypageMenuSections.map((section) => (
+            {MYPAGE_MENU.map((section) => (
               <MypageMenuSection key={section.id} section={section} />
             ))}
           </div>
