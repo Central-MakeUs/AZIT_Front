@@ -87,6 +87,10 @@ const AddressSearchPage = lazyImport(
   () => import('@/pages/address/ui/AddressSearchPage'),
   'AddressSearchPage'
 );
+const AddressEditPage = lazyImport(
+  () => import('@/pages/address/ui/AddressEditPage'),
+  'AddressEditPage'
+);
 
 export const routes = [
   {
@@ -231,6 +235,12 @@ export const routes = [
     name: 'AddressSearchPage',
     path: '/address/search',
     element: AddressSearchPage,
+    withAuth: true,
+  },
+  {
+    name: 'AddressEditPage',
+    path: '/address/:id/edit',
+    element: AddressEditPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];
