@@ -1,5 +1,3 @@
-export type AddressFormMode = 'create' | 'edit';
-
 export interface AddressFormValues {
   recipientName: string;
   phoneNumber: string;
