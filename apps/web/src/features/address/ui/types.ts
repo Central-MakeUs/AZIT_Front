@@ -6,4 +6,5 @@ export interface AddressFormValues {
   zipcode: string;
   baseAddress: string;
   detailAddress: string;
+  isDefault: boolean;
 }
