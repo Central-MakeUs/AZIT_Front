@@ -52,8 +52,6 @@ export const buttonWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  paddingLeft: 20,
-  paddingRight: 20,
-  paddingBottom: 38,
+  padding: 20,
   backgroundColor: vars.colors.white,
 });

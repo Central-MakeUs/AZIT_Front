@@ -81,7 +81,7 @@ export const dragHandle = style({
 });
 
 export const content = style({
-  padding: '0 20px 40px',
+  padding: '0 20px',
   overflowY: 'auto',
   flexGrow: 1,
 });
