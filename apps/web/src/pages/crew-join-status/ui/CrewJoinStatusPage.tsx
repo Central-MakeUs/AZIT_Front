@@ -2,13 +2,12 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { AppLayout } from '@/shared/ui/layout';
 import { Button } from '@azit/design-system/button';
 import { vars } from '@azit/design-system';
-import { useFlow } from '@/app/routes/stackflow';
 import * as styles from '../styles/CrewJoinStatusPage.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 import { useQuery } from '@tanstack/react-query';
-import { crewQueries } from '@/shared/api/queries/crew';
-import { postConfirmJoinStatus } from '@/features/crew-join-status/api/postConfirmJoinStatus';
-import { CREW_JOIN_STATUS, STATUS_CONTENT } from '../model/crewJoinStatus';
+import { crewQueries } from '@/shared/api/queries';
+import { STATUS_CONTENT } from '../../../features/crew-join-status/model/crewJoinStatus';
+import { useConfirmJoinStatus } from '@/features/crew-join-status/hooks/useConfirmJoinStatus';
 
 export function CrewJoinStatusPage({
   params,
@@ -16,39 +15,22 @@ export function CrewJoinStatusPage({
   params: { crewId?: number };
 }) {
   const { crewId = 0 } = params;
-  const { replace } = useFlow();
-
   const { data } = useQuery({
     ...crewQueries.joinStatusQuery(crewId),
+    refetchOnMount: true,
     enabled: crewId > 0,
+    gcTime: 0,
   });
 
-  const handleButtonClick = async () => {
-    if (!data?.ok) return;
-    const { status } = data.data.result;
-
-    if (
-      status === CREW_JOIN_STATUS.JOINED ||
-      status === CREW_JOIN_STATUS.REJECTED
-    ) {
-      const response = await postConfirmJoinStatus();
-      if (response.ok) {
-        const redirectActivity =
-          status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
-        replace(redirectActivity, {}, { animate: false });
-      } else {
-        // TODO: 토스트 에러
-        console.error(response.error);
-      }
-    }
-  };
+  const { handleJoinStatus } = useConfirmJoinStatus(
+    data?.ok ? data.data.result.status : null
+  );
 
   if (!data?.ok) {
     return null;
   }
 
   const { status, name } = data.data.result;
-
   const content = STATUS_CONTENT[status];
 
   if (!content) {
@@ -77,7 +59,7 @@ export function CrewJoinStatusPage({
             <Button
               size="large"
               state={content.buttonState}
-              onClick={handleButtonClick}
+              onClick={handleJoinStatus}
               disabled={content.buttonState === 'disabled'}
             >
               {content.buttonText}
