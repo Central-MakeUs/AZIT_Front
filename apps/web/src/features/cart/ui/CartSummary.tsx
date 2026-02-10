@@ -1,26 +1,17 @@
 import { formatPrice } from '@/shared/lib/formatters';
+import { useCartContext } from '../context/CartContext';
 import * as styles from '../styles/CartSummary.css';
 import { Description } from '@azit/design-system/description';
 import { Divider } from '@azit/design-system/divider';
-
-interface CartSummaryProps {
-  totalProductPrice: number;
-  membershipDiscount: number;
-  shippingFee: number;
-  totalPayment: number;
-}
 
 function formatDiscount(price: number): string {
   if (price === 0) return '0원';
   return `-${formatPrice(price)}`;
 }
 
-export function CartSummary({
-  totalProductPrice,
-  membershipDiscount,
-  shippingFee,
-  totalPayment,
-}: CartSummaryProps) {
+export function CartSummary() {
+  const { totalProductPrice, membershipDiscount, shippingFee, totalPayment } =
+    useCartContext();
   return (
     <div className={styles.container}>
       <div className={styles.section}>

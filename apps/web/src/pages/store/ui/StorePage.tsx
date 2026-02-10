@@ -3,12 +3,7 @@ import { Header } from '@azit/design-system/header';
 import { ShoppingCartIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
-import {
-  StoreBanner,
-  StoreCategoryButton,
-  StoreGrid,
-} from '@/features/store/ui';
-import { mockStoreProducts } from '@/shared/mock/store';
+import { StoreGridView } from '@/features/store/ui';
 import * as styles from '../styles/StorePage.css';
 import { logo } from '@/shared/styles/logo.css';
 import { useFlow } from '@/app/routes/stackflow';
@@ -32,15 +27,7 @@ export function StorePage() {
             }
           />
         </div>
-        <div className={styles.mainContainer}>
-          <div className={styles.bannerSection}>
-            <StoreBanner />
-          </div>
-          <div className={styles.productsSection}>
-            <StoreCategoryButton label="전체" />
-            <StoreGrid products={mockStoreProducts} />
-          </div>
-        </div>
+        <StoreGridView />
       </AppLayout>
       <BottomNavigation activeTab="store" />
     </AppScreen>

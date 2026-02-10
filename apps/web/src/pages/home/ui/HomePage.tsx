@@ -9,6 +9,7 @@ import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { mockActivityActivation, mockScheduleList } from '@/shared/mock/home';
 import { logo } from '@/shared/styles/logo.css';
 import { useFlow } from '@/app/routes/stackflow';
+import { scrollContainer } from '@/shared/styles/container.css';
 
 export function HomePage() {
   const { push } = useFlow();
@@ -29,13 +30,15 @@ export function HomePage() {
             </button>
           }
         />
-        <ScheduleSectionLayout
-          topSection={
-            <ScheduleAttendanceSection activity={mockActivityActivation} />
-          }
-          scheduleTitle="내 일정"
-          scheduleContent={<ScheduleList items={mockScheduleList} />}
-        />
+        <div className={scrollContainer}>
+          <ScheduleSectionLayout
+            topSection={
+              <ScheduleAttendanceSection activity={mockActivityActivation} />
+            }
+            scheduleTitle="내 일정"
+            scheduleContent={<ScheduleList items={mockScheduleList} />}
+          />
+        </div>
       </AppLayout>
       <BottomNavigation activeTab="home" />
     </AppScreen>

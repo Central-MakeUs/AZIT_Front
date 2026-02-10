@@ -1,28 +1,20 @@
 import { Checkbox } from '@azit/design-system/checkbox';
 import { CartItem } from './CartItem';
-import type { CartBrand, CartItem as CartItemType } from '@/shared/mock/cart';
+import type { CartBrand } from '../api/types';
+import { useCartContext } from '../context/CartContext';
 import * as styles from '../styles/CartBrandSection.css';
 
 interface CartBrandSectionProps {
   brand: CartBrand;
-  selectedItemIds: Set<string>;
-  onItemSelectChange: (itemId: string, checked: boolean) => void;
-  onBrandSelectChange: (brandId: string, checked: boolean) => void;
-  onQuantityChange: (itemId: string, quantity: number) => void;
-  onDeleteItem: (itemId: string) => void;
 }
 
-export function CartBrandSection({
-  brand,
-  selectedItemIds,
-  onItemSelectChange,
-  onBrandSelectChange,
-  onQuantityChange,
-  onDeleteItem,
-}: CartBrandSectionProps) {
-  const selectableItems = brand.items.filter((item) => !item.isSoldOut);
+export function CartBrandSection({ brand }: CartBrandSectionProps) {
+  const { selectedItemIds, handleBrandSelectChange } = useCartContext();
+  const selectableItems = brand.items.filter(
+    (item) => !item.isOutOfStock && (item.quantity || 0) > 0
+  );
   const selectedCount = selectableItems.filter((item) =>
-    selectedItemIds.has(item.id)
+    selectedItemIds.has(String(item.cartItemId))
   ).length;
   const isBrandSelected =
     selectableItems.length > 0 && selectedCount === selectableItems.length;
@@ -30,7 +22,7 @@ export function CartBrandSection({
     selectedCount > 0 && selectedCount < selectableItems.length;
 
   const handleBrandCheck = (checked: boolean) => {
-    onBrandSelectChange(brand.id, checked);
+    handleBrandSelectChange(brand.id, checked);
   };
 
   return (
@@ -44,16 +36,10 @@ export function CartBrandSection({
         <span className={styles.brandName}>{brand.name}</span>
       </div>
       <div className={styles.itemsWrapper}>
-        {brand.items.map((item: CartItemType) => (
-          <CartItem
-            key={item.id}
-            item={item}
-            isSelected={selectedItemIds.has(item.id)}
-            onSelectChange={(checked) => onItemSelectChange(item.id, checked)}
-            onQuantityChange={(quantity) => onQuantityChange(item.id, quantity)}
-            onDelete={() => onDeleteItem(item.id)}
-          />
-        ))}
+        {brand.items.map((item) => {
+          const itemId = String(item.cartItemId);
+          return <CartItem key={itemId} item={item} />;
+        })}
       </div>
     </div>
   );
