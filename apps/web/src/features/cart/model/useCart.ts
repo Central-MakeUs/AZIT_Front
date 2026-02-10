@@ -1,7 +1,10 @@
-import { useState, useMemo, useCallback } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { cartQueries } from '@/shared/api/queries/cart';
 import type { CartProductItem, CartBrand } from '@/shared/api/models';
+import { useCartAction } from './useCartAction';
+import { useCartPrice } from './useCartPrice';
+import { useCartSelect } from './useCartSelect';
 
 const transformCartData = (items: CartProductItem[]): CartBrand[] => {
   const brandMap = new Map<
@@ -27,22 +30,15 @@ const transformCartData = (items: CartProductItem[]): CartBrand[] => {
   }));
 };
 
+/**
+ * 1) product fetching + 훅 조합
+ * 2) useCartSelect: 선택 상태 및 핸들러
+ * 3) useCartAction: 아이템 추가 및 삭제 뮤테이션
+ * 4) useCartPrice: product 기반 가격, 주문 요약 정보 계산
+ */
 export function useCart() {
-  const queryClient = useQueryClient();
-  const [selectedItemIds, setSelectedItemIds] = useState<Set<string>>(
-    new Set()
-  );
-
   const { data: cartProductsResponse, isPending } = useQuery(
     cartQueries.productsQuery()
-  );
-
-  const addToCartMutation = useMutation(
-    cartQueries.addItemMutation(queryClient)
-  );
-
-  const deleteItemMutation = useMutation(
-    cartQueries.deleteItemMutation(queryClient)
   );
 
   const cartData = useMemo(() => {
@@ -52,185 +48,32 @@ export function useCart() {
     return transformCartData(cartProductsResponse.data.result.items);
   }, [cartProductsResponse]);
 
-  const apiPriceInfo = useMemo(() => {
-    if (!cartProductsResponse?.ok || !cartProductsResponse.data.result) {
-      return null;
-    }
-    return {
-      totalProductPrice:
-        cartProductsResponse.data.result.totalProductPrice || 0,
-      membershipDiscount:
-        cartProductsResponse.data.result.membershipDiscount || 0,
-      shippingFee: cartProductsResponse.data.result.shippingFee || 0,
-      totalPaymentPrice:
-        cartProductsResponse.data.result.totalPaymentPrice || 0,
-    };
-  }, [cartProductsResponse]);
-
   const allItems = useMemo(() => {
     return cartData.flatMap((brand) => brand.items);
   }, [cartData]);
 
-  const selectableItems = useMemo(() => {
-    return allItems.filter(
-      (item) => !item.isOutOfStock && (item.quantity || 0) > 0
-    );
-  }, [allItems]);
+  const {
+    selectedItemIds,
+    setSelectedItemIds,
+    selectableItems,
+    selectedItems,
+    isAllSelected,
+    handleSelectAll,
+    handleItemSelectChange,
+    handleBrandSelectChange,
+  } = useCartSelect({ allItems, cartData });
 
-  const selectedItems = useMemo(() => {
-    return selectableItems.filter((item) =>
-      selectedItemIds.has(String(item.cartItemId))
-    );
-  }, [selectableItems, selectedItemIds]);
+  const { handleQuantityChange, handleDeleteItem, handleDeleteSelected } =
+    useCartAction({
+      selectedItemIds,
+      setSelectedItemIds,
+    });
 
-  const isAllSelected = useMemo(() => {
-    return (
-      selectableItems.length > 0 &&
-      selectedItems.length === selectableItems.length
-    );
-  }, [selectableItems, selectedItems]);
-
-  const selectedTotalProductPrice = useMemo(() => {
-    return selectedItems.reduce(
-      (sum, item) => sum + (item.basePrice || 0) * (item.quantity || 0),
-      0
-    );
-  }, [selectedItems]);
-
-  const totalProductPrice = useMemo(() => {
-    if (selectedItems.length === 0 && apiPriceInfo) {
-      return apiPriceInfo.totalProductPrice;
-    }
-    return selectedTotalProductPrice;
-  }, [selectedItems.length, selectedTotalProductPrice, apiPriceInfo]);
-
-  const membershipDiscount = useMemo(() => {
-    if (selectedItems.length === 0 && apiPriceInfo) {
-      return apiPriceInfo.membershipDiscount;
-    }
-    return Math.floor(selectedTotalProductPrice * 0.1);
-  }, [selectedItems.length, selectedTotalProductPrice, apiPriceInfo]);
-
-  const shippingFee = useMemo(() => {
-    return apiPriceInfo?.shippingFee || 0;
-  }, [apiPriceInfo]);
-
-  const totalPayment = useMemo(() => {
-    if (selectedItems.length === 0 && apiPriceInfo) {
-      return apiPriceInfo.totalPaymentPrice;
-    }
-    return totalProductPrice - membershipDiscount + shippingFee;
-  }, [
-    selectedItems.length,
-    totalProductPrice,
-    membershipDiscount,
-    shippingFee,
-    apiPriceInfo,
-  ]);
-
-  const handleSelectAll = useCallback(
-    (checked: boolean) => {
-      if (checked) {
-        const newSelectedIds = new Set(
-          selectableItems.map((item) => String(item.cartItemId))
-        );
-        setSelectedItemIds(newSelectedIds);
-      } else {
-        setSelectedItemIds(new Set());
-      }
-    },
-    [selectableItems]
-  );
-
-  const handleItemSelectChange = useCallback(
-    (itemId: string, checked: boolean) => {
-      setSelectedItemIds((prev) => {
-        const newSet = new Set(prev);
-        if (checked) {
-          newSet.add(itemId);
-        } else {
-          newSet.delete(itemId);
-        }
-        return newSet;
-      });
-    },
-    []
-  );
-
-  const handleBrandSelectChange = useCallback(
-    (brandId: string, checked: boolean) => {
-      const brand = cartData.find((b) => b.id === brandId);
-      if (!brand) return;
-
-      const selectableItemsInBrand = brand.items.filter(
-        (item) => !item.isOutOfStock && (item.quantity || 0) > 0
-      );
-
-      setSelectedItemIds((prev) => {
-        const newSet = new Set(prev);
-        selectableItemsInBrand.forEach((item) => {
-          const itemId = String(item.cartItemId);
-          if (checked) {
-            newSet.add(itemId);
-          } else {
-            newSet.delete(itemId);
-          }
-        });
-        return newSet;
-      });
-    },
-    [cartData]
-  );
-
-  const handleQuantityChange = useCallback(
-    (itemId: number, productSkuId: number, quantity: number) => {
-      addToCartMutation.mutate(
-        {
-          productId: itemId,
-          productSkuId: productSkuId,
-          quantity: quantity,
-        },
-        {
-          onSuccess: () => {},
-          onError: () => {
-            // TODO: 토스트 메시지로 에러 처리하기
-          },
-        }
-      );
-    },
-    []
-  );
-
-  const handleDeleteItem = useCallback(
-    (itemId: string) => {
-      deleteItemMutation.mutate(
-        { cartItemIds: [Number(itemId)] },
-        {
-          onSuccess: () => {
-            setSelectedItemIds((prev) => {
-              const next = new Set(prev);
-              next.delete(itemId);
-              return next;
-            });
-          },
-        }
-      );
-    },
-    [deleteItemMutation]
-  );
-
-  const handleDeleteSelected = useCallback(() => {
-    if (selectedItemIds.size === 0) return;
-    const cartItemIds = Array.from(selectedItemIds, Number);
-    deleteItemMutation.mutate(
-      { cartItemIds },
-      {
-        onSuccess: () => {
-          setSelectedItemIds(new Set());
-        },
-      }
-    );
-  }, [deleteItemMutation, selectedItemIds]);
+  const { totalProductPrice, membershipDiscount, shippingFee, totalPayment } =
+    useCartPrice({
+      selectedItems,
+      cartProductsResponse,
+    });
 
   const hasSelectedItems = selectedItems.length > 0;
   const isEmpty = cartData.length === 0;
