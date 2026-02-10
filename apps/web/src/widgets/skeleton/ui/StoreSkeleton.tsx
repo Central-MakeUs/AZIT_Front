@@ -1,6 +1,8 @@
-import * as styles from '../styles/StoreGridSkeletonItem.css';
+import * as styles from '../styles/StoreSkeleton.css';
 
-export function StoreGridSkeletonItem() {
+const SKELETON_ITEM_COUNT = 6;
+
+function StoreSkeletonItem() {
   return (
     <div className={styles.itemContainer}>
       <div className={styles.imageBlock} />
@@ -14,6 +16,16 @@ export function StoreGridSkeletonItem() {
           <div className={styles.discountLine} />
         </div>
       </div>
+    </div>
+  );
+}
+
+export function StoreSkeleton() {
+  return (
+    <div className={styles.gridContainer}>
+      {Array.from({ length: SKELETON_ITEM_COUNT }, (_, index) => (
+        <StoreSkeletonItem key={index} />
+      ))}
     </div>
   );
 }

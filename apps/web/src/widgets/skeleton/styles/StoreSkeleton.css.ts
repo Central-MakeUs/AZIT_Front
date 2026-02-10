@@ -12,6 +12,14 @@ const skeletonBase = style({
   animation: `${pulse} 1.5s ease-in-out infinite`,
 });
 
+export const gridContainer = style({
+  display: 'grid',
+  gap: '12px 11px',
+  alignItems: 'flex-start',
+  width: '100%',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+});
+
 export const itemContainer = style({
   display: 'flex',
   flexDirection: 'column',
