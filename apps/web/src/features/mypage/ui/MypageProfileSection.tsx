@@ -1,7 +1,5 @@
 import { Chip } from '@azit/design-system/chip';
-import { CheckIcon, CoinsStackedIcon } from '@azit/design-system/icon';
 import type { MypageProfile } from '@/shared/mock/mypage';
-import { MypageStatCard } from './MypageStatCard';
 import * as styles from '../styles/MypageProfileSection.css';
 
 interface MypageProfileSectionProps {
