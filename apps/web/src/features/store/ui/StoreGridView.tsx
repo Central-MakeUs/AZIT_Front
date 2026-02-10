@@ -3,7 +3,7 @@ import { useStoreGrid } from '../model/useStoreGrid';
 import * as styles from '../styles/StoreGridView.css.ts';
 import { StoreBanner } from './StoreBanner';
 import { StoreGrid } from './StoreGrid';
-import { StoreGridSkeleton } from './StoreGridSkeleton';
+import { StoreSkeleton } from '@/widgets/skeleton/ui';
 import { Button } from '@azit/design-system/button';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { storeQueries } from '@/shared/api/queries';
@@ -30,11 +30,7 @@ export function StoreGridView() {
         </div>
         <div className={styles.productsSection}>
           <Button size="small">전체</Button>
-          {isPending ? (
-            <StoreGridSkeleton />
-          ) : (
-            <StoreGrid products={products} />
-          )}
+          {isPending ? <StoreSkeleton /> : <StoreGrid products={products} />}
           <div
             ref={bottomSentinelRef}
             style={{
@@ -42,7 +38,7 @@ export function StoreGridView() {
               width: '100%',
             }}
           />
-          {isFetchingNextPage && <StoreGridSkeleton />}
+          {isFetchingNextPage && <StoreSkeleton />}
         </div>
       </div>
     </div>
