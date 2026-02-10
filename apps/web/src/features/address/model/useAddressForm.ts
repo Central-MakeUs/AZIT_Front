@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { AddressFormValues } from '../ui';
+import type { AddressFormValues } from '../model/types';
 import { useAddressSelectionStore } from '@/shared/store/addressSelection';
 
 export function useAddressForm(initialData?: Partial<AddressFormValues>) {
