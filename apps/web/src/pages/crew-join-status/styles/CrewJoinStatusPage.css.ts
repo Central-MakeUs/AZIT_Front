@@ -8,7 +8,7 @@ export const pageContainer = style({
   justifyContent: 'center',
   width: '100%',
   height: 'inherit',
-  padding: '0 20px',
+  padding: 20,
 });
 
 export const contentWrapper = style({

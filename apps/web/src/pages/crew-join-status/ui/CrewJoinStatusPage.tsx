@@ -1,51 +1,14 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { AppLayout } from '@/shared/ui/layout';
-import { Button, type ButtonProps } from '@azit/design-system/button';
+import { Button } from '@azit/design-system/button';
 import { vars } from '@azit/design-system';
 import { useFlow } from '@/app/routes/stackflow';
 import * as styles from '../styles/CrewJoinStatusPage.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
-import type { CrewJoinStatusResult } from '@/shared/api/models';
 import { useQuery } from '@tanstack/react-query';
 import { crewQueries } from '@/shared/api/queries/crew';
-
-type CrewJoinStatus = CrewJoinStatusResult['status'];
-
-const STATUS_CONTENT: Record<
-  CrewJoinStatus,
-  {
-    primaryMessage: string;
-    secondaryMessage: string;
-    buttonText: string;
-    buttonState: ButtonProps['state'];
-  }
-> = {
-  REQUESTED: {
-    primaryMessage: '가입 요청이 완료되었어요',
-    secondaryMessage: '요청이 승인되면 알림으로 알려드릴게요',
-    buttonText: '승인 대기 중',
-    buttonState: 'disabled',
-  },
-  JOINED: {
-    primaryMessage: '가입 요청이 승인되었어요',
-    secondaryMessage: '아지트에서 크루와 함께 활동해보세요',
-    buttonText: '홈으로',
-    buttonState: 'active',
-  },
-  REJECTED: {
-    primaryMessage: '가입 요청이 거절되었어요',
-    secondaryMessage: '크루 초대코드를 다시 확인해주세요',
-    buttonText: '처음으로',
-    buttonState: 'active',
-  },
-  // TODO: EXITED 관련 요구사항 반영
-  EXITED: {
-    primaryMessage: '크루를 탈퇴했어요',
-    secondaryMessage: '크루 초대코드를 다시 확인해주세요',
-    buttonText: '처음으로',
-    buttonState: 'active',
-  },
-};
+import { postConfirmJoinStatus } from '@/features/crew-join-status/api/postConfirmJoinStatus';
+import { CREW_JOIN_STATUS, STATUS_CONTENT } from '../model/crewJoinStatus';
 
 export function CrewJoinStatusPage({
   params,
@@ -60,9 +23,23 @@ export function CrewJoinStatusPage({
     enabled: crewId > 0,
   });
 
-  const handleButtonClick = () => {
-    if (status === 'JOINED' || status === 'REJECTED') {
-      replace('HomePage', {}, { animate: false });
+  const handleButtonClick = async () => {
+    if (!data?.ok) return;
+    const { status } = data.data.result;
+
+    if (
+      status === CREW_JOIN_STATUS.JOINED ||
+      status === CREW_JOIN_STATUS.REJECTED
+    ) {
+      const response = await postConfirmJoinStatus();
+      if (response.ok) {
+        const redirectActivity =
+          status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
+        replace(redirectActivity, {}, { animate: false });
+      } else {
+        // TODO: 토스트 에러
+        console.error(response.error);
+      }
     }
   };
 
@@ -71,6 +48,7 @@ export function CrewJoinStatusPage({
   }
 
   const { status, name } = data.data.result;
+
   const content = STATUS_CONTENT[status];
 
   if (!content) {

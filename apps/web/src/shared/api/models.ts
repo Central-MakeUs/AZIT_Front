@@ -38,3 +38,10 @@ export type CartProductsResult = Required<
 export type CartProductAddRequest = components['schemas']['AddToCartRequest'];
 export type CartProductDeleteRequest =
   components['schemas']['CartItemDeleteRequest'];
+export type DeliveryAddressListResult = Required<
+  components['schemas']['DeliveryAddressResponse']
+>[];
+export type RegisterDeliveryAddressRequest =
+  components['schemas']['RegisterDeliveryAddressRequest'];
+export type UpdateDeliveryAddressRequest =
+  components['schemas']['UpdateDeliveryAddressRequest'];
