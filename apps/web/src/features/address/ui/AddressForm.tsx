@@ -70,7 +70,7 @@ export function AddressForm({
           id="phone-number"
           type="tel"
           inputMode="numeric"
-          pattern="\d*"
+          pattern="[0-9\-]*"
           className={styles.inputBase}
           value={values.phoneNumber}
           onChange={(e) => handlePhoneNumberChange(e.target.value)}

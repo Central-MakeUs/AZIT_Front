@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
@@ -6,64 +6,24 @@ import { Button } from '@azit/design-system/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { AddressForm } from '@/features/address/ui';
-import type { AddressFormValues } from '@/features/address/ui/types';
-import { useAddressSelectionStore } from '@/shared/store/addressSelection';
 import * as styles from '../styles/AddressRegisterEditPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 import { useCreateAddress } from '@/shared/api/queries';
+import { useAddressForm } from '@/features/address/model/useAddressForm';
 
 export function AddressRegisterPage() {
   const { pop, push } = useFlow();
-
   const createMutation = useCreateAddress();
-  const selectedAddress = useAddressSelectionStore(
-    (state) => state.selectedAddress
-  );
-  const clearAddress = useAddressSelectionStore((state) => state.clearAddress);
 
-  const [formValues, setFormValues] = useState<AddressFormValues>({
-    recipientName: '',
-    phoneNumber: '',
-    zipcode: '',
-    baseAddress: '',
-    detailAddress: '',
-  });
+  const { formValues, setFormValues, isValidForm } = useAddressForm();
 
-  const isValidForm = useMemo(
-    () => Object.values(formValues).every((value) => value),
-    [formValues]
-  );
-
-  useEffect(() => {
-    if (selectedAddress) {
-      setFormValues((prev) => ({
-        ...prev,
-        zipcode: selectedAddress.zipcode,
-        baseAddress: selectedAddress.baseAddress,
-      }));
-      clearAddress();
-    }
-  }, [selectedAddress, clearAddress]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (Object.values(formValues).some((value) => !value)) {
-      // TODO: 토스트 처리 (모든 필드를 입력해주세요)
-      return;
-    }
-
-    const response = await createMutation.mutateAsync({
-      ...formValues,
-      isDefault: false,
+    createMutation.mutate(formValues, {
+      onSuccess: () => {
+        pop();
+      },
     });
-
-    if (!response.ok) {
-      alert('배송지 등록에 실패했습니다.');
-      return;
-    }
-
-    pop();
   };
 
   return (
