@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
