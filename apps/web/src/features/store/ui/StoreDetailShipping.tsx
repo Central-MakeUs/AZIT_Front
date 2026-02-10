@@ -1,19 +1,30 @@
-import type { StoreProduct } from '@/shared/mock/store';
 import * as styles from '../styles/StoreDetailShipping.css';
 
 interface StoreDetailShippingProps {
-  shipping: StoreProduct['shipping'];
+  shippingFee?: number;
+  expectedShippingDate?: string;
 }
 
-export function StoreDetailShipping({ shipping }: StoreDetailShippingProps) {
-  if (!shipping) return null;
+export function StoreDetailShipping({
+  shippingFee,
+  expectedShippingDate,
+}: StoreDetailShippingProps) {
+  if (shippingFee == null && !expectedShippingDate) return null;
 
   return (
     <div className={styles.container}>
       <p className={styles.label}>배송</p>
       <div className={styles.content}>
-        <p className={styles.text}>{shipping.type}</p>
-        <p className={styles.text}>{shipping.estimatedDate}</p>
+        {shippingFee != null && (
+          <p className={styles.text}>
+            {shippingFee === 0
+              ? '무료 배송'
+              : `배송비 ${shippingFee.toLocaleString()}원`}
+          </p>
+        )}
+        {expectedShippingDate && (
+          <p className={styles.text}>{expectedShippingDate}</p>
+        )}
       </div>
     </div>
   );

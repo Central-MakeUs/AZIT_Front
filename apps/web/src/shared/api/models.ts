@@ -24,9 +24,20 @@ export type CrewJoinStatusResult = Required<
 export type StoreProductsResult = Required<
   components['schemas']['SliceResponseProductListResponse']
 >;
+export type StoreProductItem = StoreProductsResult['content'][number];
 export type DeliveryAddressResult = Required<
   components['schemas']['DeliveryAddressResponse']
 >;
+export type StoreProductDetailResult = Required<
+  components['schemas']['ProductDetailResponse']
+>;
+export type CartProductsResult = Required<
+  components['schemas']['CartListResponse']
+>;
+
+export type CartProductAddRequest = components['schemas']['AddToCartRequest'];
+export type CartProductDeleteRequest =
+  components['schemas']['CartItemDeleteRequest'];
 export type DeliveryAddressListResult = Required<
   components['schemas']['DeliveryAddressResponse']
 >[];
