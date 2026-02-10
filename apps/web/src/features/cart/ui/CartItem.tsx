@@ -10,9 +10,6 @@ import { useCartContext } from '../context/CartContext';
 
 interface CartItemProps {
   item: CartProductItem;
-  isSelected: boolean;
-  onSelectChange: (checked: boolean) => void;
-  onDelete: () => void;
 }
 
 const formatExpectedDelivery = (dateString: string): string => {
@@ -28,16 +25,18 @@ const formatExpectedDelivery = (dateString: string): string => {
   }
 };
 
-export function CartItem({
-  item,
-  isSelected,
-  onSelectChange,
-  onDelete,
-}: CartItemProps) {
-  const { handleQuantityChange } = useCartContext();
+export function CartItem({ item }: CartItemProps) {
+  const {
+    selectedItemIds,
+    handleQuantityChange,
+    handleItemSelectChange,
+    handleDeleteItem,
+  } = useCartContext();
+  const itemId = String(item.cartItemId);
+  const isSelected = selectedItemIds.has(itemId);
   const [quantity, setQuantity] = useState(item.quantity || 0);
 
-  const itemId = item.cartItemId || 0;
+  const cartItemId = item.cartItemId || 0;
   const name = item.productName || '';
   const size = item.optionDescription || '';
   const expectedDelivery = item.expectedShippingDate
@@ -50,20 +49,24 @@ export function CartItem({
   const productSkuId = item.productSkuId || 0;
 
   const handleIncrease = () => {
-    setQuantity((prev) => prev + 1);
-    handleQuantityChange(itemId, productSkuId, 1);
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    handleQuantityChange(cartItemId, productSkuId, newQuantity);
   };
 
   const handleDecrease = () => {
-    setQuantity((prev) => prev - 1);
-    // handleQuantityChange(itemId, productSkuId, -1);
+    const newQuantity = quantity - 1;
+    setQuantity(newQuantity);
+    handleQuantityChange(cartItemId, productSkuId, newQuantity);
   };
 
   return (
     <div className={styles.container}>
       <Checkbox
         checked={isSelected}
-        onCheckedChange={(checked) => onSelectChange(checked === true)}
+        onCheckedChange={(checked) =>
+          handleItemSelectChange(itemId, checked === true)
+        }
         disabled={isSoldOut}
       />
       <div className={styles.contentWrapper}>
@@ -92,7 +95,7 @@ export function CartItem({
                 <button
                   type="button"
                   className={styles.deleteButton}
-                  onClick={onDelete}
+                  onClick={() => handleDeleteItem(itemId)}
                   aria-label="상품 삭제"
                 >
                   <XIcon size={20} />

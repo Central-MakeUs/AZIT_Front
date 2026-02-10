@@ -1,23 +1,15 @@
 import { Checkbox } from '@azit/design-system/checkbox';
 import { CartItem } from './CartItem';
 import type { CartBrand } from '@/shared/api/models';
+import { useCartContext } from '../context/CartContext';
 import * as styles from '../styles/CartBrandSection.css';
 
 interface CartBrandSectionProps {
   brand: CartBrand;
-  selectedItemIds: Set<string>;
-  onItemSelectChange: (itemId: string, checked: boolean) => void;
-  onBrandSelectChange: (brandId: string, checked: boolean) => void;
-  onDeleteItem: (itemId: string) => void;
 }
 
-export function CartBrandSection({
-  brand,
-  selectedItemIds,
-  onItemSelectChange,
-  onBrandSelectChange,
-  onDeleteItem,
-}: CartBrandSectionProps) {
+export function CartBrandSection({ brand }: CartBrandSectionProps) {
+  const { selectedItemIds, handleBrandSelectChange } = useCartContext();
   const selectableItems = brand.items.filter(
     (item) => !item.isOutOfStock && (item.quantity || 0) > 0
   );
@@ -30,7 +22,7 @@ export function CartBrandSection({
     selectedCount > 0 && selectedCount < selectableItems.length;
 
   const handleBrandCheck = (checked: boolean) => {
-    onBrandSelectChange(brand.id, checked);
+    handleBrandSelectChange(brand.id, checked);
   };
 
   return (
@@ -46,15 +38,7 @@ export function CartBrandSection({
       <div className={styles.itemsWrapper}>
         {brand.items.map((item) => {
           const itemId = String(item.cartItemId);
-          return (
-            <CartItem
-              key={itemId}
-              item={item}
-              isSelected={selectedItemIds.has(itemId)}
-              onSelectChange={(checked) => onItemSelectChange(itemId, checked)}
-              onDelete={() => onDeleteItem(itemId)}
-            />
-          );
+          return <CartItem key={itemId} item={item} />;
         })}
       </div>
     </div>
