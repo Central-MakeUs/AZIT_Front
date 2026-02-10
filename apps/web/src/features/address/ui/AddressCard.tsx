@@ -45,14 +45,22 @@ export function AddressCard({
         </div>
         <p className={styles.addressText}>{fullAddress}</p>
       </div>
-      <div className={styles.buttonRow}>
-        <button
-          type="button"
-          className={styles.deleteButton}
-          onClick={() => handleDelete?.(address.id)}
-        >
-          삭제
-        </button>
+      <div
+        className={
+          isDefault
+            ? `${styles.buttonRow} ${styles.buttonRowSingle}`
+            : styles.buttonRow
+        }
+      >
+        {!isDefault && (
+          <button
+            type="button"
+            className={styles.deleteButton}
+            onClick={() => handleDelete?.(address.id)}
+          >
+            삭제
+          </button>
+        )}
         <button
           type="button"
           className={styles.editButton}
