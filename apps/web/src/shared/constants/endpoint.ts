@@ -12,6 +12,7 @@ export const END_POINT = {
     JOIN_CREW: 'crews/join',
     JOIN_STATUS: (crewId: number) => `crews/${crewId}/join-status`,
     TERM_AGREE: 'members/terms',
+    CONFIRM_JOIN_STATUS: 'members/me/confirm-status',
   },
   STORE: {
     PRODUCTS: 'products',
@@ -21,5 +22,9 @@ export const END_POINT = {
     PRODUCTS: 'carts',
     PRODUCTS_ITEM: 'carts/items',
     COUNT: 'carts/count',
+  },
+  ADDRESS: {
+    LIST: 'addresses',
+    DETAIL: (addressId: number) => `addresses/${addressId}`,
   },
 } as const;

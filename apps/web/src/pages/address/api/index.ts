@@ -1,0 +1,1 @@
+export { getDeliveryAddresses } from './getDeliveryAddresses';

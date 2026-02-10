@@ -1,6 +1,7 @@
 import { globalStyle } from '@vanilla-extract/css';
 
 import * as layers from './layers.css';
+import { vars } from '@azit/design-system';
 
 /**
  * Remove all the styles of the "User-Agent-Stylesheet", except for the
@@ -204,3 +205,30 @@ globalStyle(':where(dialog:modal)', {
     },
   },
 });
+
+/**
+ * Input focus 시 배경색/outline 커스텀
+ */
+globalStyle('input:focus', {
+  '@layer': {
+    [layers.reset]: {
+      outline: 'none',
+      backgroundColor: 'transparent',
+    },
+  },
+});
+
+/**
+ * Chrome 자동완성(autofill) 파란 배경 제거
+ */
+globalStyle(
+  'input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus',
+  {
+    '@layer': {
+      [layers.reset]: {
+        WebkitBoxShadow: `0 0 0 1000px ${vars.colors.white} inset`,
+        WebkitTextFillColor: vars.colors.black,
+      },
+    },
+  }
+);

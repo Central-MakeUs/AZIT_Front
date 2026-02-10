@@ -1,5 +1,8 @@
 import { style } from '@vanilla-extract/css';
 import { layoutStyles } from '@/shared/styles/layout.css';
+import { vars } from '@azit/design-system';
+
+export const headerWrapper = style([layoutStyles.headerWrapper]);
 
 export const mainContainer = style([
   layoutStyles.mainContainer,
@@ -11,7 +14,7 @@ export const mainContainer = style([
 export const addressListContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: 10,
+  gap: 12,
   width: '100%',
 });
 
@@ -23,3 +26,11 @@ export const emptyStateWrapper = style({
   width: '100%',
   minHeight: 0,
 });
+
+export const footerButtonWrapper = style([
+  layoutStyles.footerWrapper,
+  {
+    gap: 4,
+    backgroundColor: vars.colors.background_sub,
+  },
+]);
