@@ -1,7 +1,7 @@
 import type { CrewJoinStatusResult } from '@/shared/api/models';
 import type { ButtonProps } from '@azit/design-system/button';
 
-type CrewJoinStatus = CrewJoinStatusResult['status'];
+export type CrewJoinStatus = CrewJoinStatusResult['status'];
 
 export const CREW_JOIN_STATUS = {
   REQUESTED: 'REQUESTED',

@@ -1,0 +1,42 @@
+import { useFlow } from '@/app/routes/stackflow';
+import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
+import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
+import { crewQueries } from '@/shared/api/queries';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
+  const { replace } = useFlow();
+  const queryClient = useQueryClient();
+
+  const confirmJoinStatusMuation = useMutation({
+    ...crewQueries.confirmJoinStatus,
+    onSuccess: (data) => {
+      queryClient.removeQueries({
+        queryKey: crewQueries.defaultKey,
+      });
+
+      if (data.ok) {
+        const redirectActivity =
+          status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
+        replace(redirectActivity, {}, { animate: false });
+      } else {
+        // TODO: 토스트 처리
+        console.log(data.error);
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const handleJoinStatus = () => {
+    if (
+      status === CREW_JOIN_STATUS.JOINED ||
+      status === CREW_JOIN_STATUS.REJECTED
+    ) {
+      confirmJoinStatusMuation.mutate();
+    }
+  };
+
+  return { handleJoinStatus };
+};
