@@ -8,11 +8,6 @@ interface CartBrandSectionProps {
   selectedItemIds: Set<string>;
   onItemSelectChange: (itemId: string, checked: boolean) => void;
   onBrandSelectChange: (brandId: string, checked: boolean) => void;
-  onQuantityChange: (
-    itemId: number,
-    productSkuId: number,
-    quantity: number
-  ) => void;
   onDeleteItem: (itemId: string) => void;
 }
 
@@ -21,7 +16,6 @@ export function CartBrandSection({
   selectedItemIds,
   onItemSelectChange,
   onBrandSelectChange,
-  onQuantityChange,
   onDeleteItem,
 }: CartBrandSectionProps) {
   const selectableItems = brand.items.filter(
@@ -58,9 +52,6 @@ export function CartBrandSection({
               item={item}
               isSelected={selectedItemIds.has(itemId)}
               onSelectChange={(checked) => onItemSelectChange(itemId, checked)}
-              onQuantityChange={(itemId, productSkuId, quantity) =>
-                onQuantityChange(itemId, productSkuId, quantity)
-              }
               onDelete={() => onDeleteItem(itemId)}
             />
           );
