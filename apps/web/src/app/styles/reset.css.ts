@@ -225,8 +225,8 @@ globalStyle(
   {
     '@layer': {
       [layers.reset]: {
-        WebkitBoxShadow: '0 0 0 1000px #ffffff inset',
-        WebkitTextFillColor: '#000000',
+        WebkitBoxShadow: `0 0 0 1000px ${vars.colors.white} inset`,
+        WebkitTextFillColor: vars.colors.black,
       },
     },
   }
