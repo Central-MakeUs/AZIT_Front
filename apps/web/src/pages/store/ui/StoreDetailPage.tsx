@@ -222,6 +222,7 @@ export function StoreDetailPage() {
         />
         <StoreDetailItem
           option={selectedOption}
+          salePrice={product.salePrice}
           quantity={quantity}
           onQuantityChange={setQuantity}
           onCancel={() => {

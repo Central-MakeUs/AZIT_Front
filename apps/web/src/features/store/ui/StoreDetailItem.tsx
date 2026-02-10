@@ -1,8 +1,10 @@
 import { MinusIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
+import { formatPrice } from '@/shared/lib/formatters';
 import * as styles from '../styles/StoreDetailItem.css';
 
 interface StoreDetailItemProps {
   option?: string;
+  salePrice?: number;
   quantity: number;
   onQuantityChange: (quantity: number) => void;
   onCancel: () => void;
@@ -10,6 +12,7 @@ interface StoreDetailItemProps {
 
 export function StoreDetailItem({
   option,
+  salePrice = 0,
   quantity,
   onQuantityChange,
   onCancel,
@@ -31,7 +34,7 @@ export function StoreDetailItem({
       <p className={styles.shippingText}>1.6 화 이내 발송 예정</p>
       <div className={styles.bottomContainer}>
         <QuantitySelector count={quantity} onCountChange={handleCountChange} />
-        <p className={styles.optionText}>16,000원</p>
+        <p className={styles.optionText}>{formatPrice(salePrice)}</p>
       </div>
     </div>
   );
