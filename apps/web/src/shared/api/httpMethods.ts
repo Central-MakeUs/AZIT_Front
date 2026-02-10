@@ -47,11 +47,16 @@ export function createHttpMethods(client: KyInstance) {
       });
     },
 
-    delete: <T, E = ApiResponseWithoutResult>(
+    delete: <T, B = unknown, E = ApiResponseWithoutResult>(
       url: string,
+      body: B,
       options?: Options
     ): Promise<ApiResult<T, E>> => {
-      return apiHandler<T, E>(client, url, { ...options, method: 'delete' });
+      return apiHandler<T, E>(client, url, {
+        ...options,
+        method: 'delete',
+        json: body,
+      });
     },
   };
 }
