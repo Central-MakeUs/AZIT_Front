@@ -1,40 +1,29 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
-import type { ActivityName } from '@/app/routes/types';
 import * as styles from '../styles/MypageMenuItem.css';
-import type { MypageMenuItem as MypageMenuItemType } from '@/shared/mock/mypage';
+import type { MenuItem } from '../model/menu';
 
 interface MypageMenuItemProps {
-  item: MypageMenuItemType;
-  onClick?: (path: ActivityName) => void;
+  item: MenuItem;
+  onClick?: (item: MenuItem) => void;
 }
 
 export function MypageMenuItem({ item, onClick }: MypageMenuItemProps) {
   const handleClick = () => {
-    if (item.path && onClick) {
-      onClick(item.path as ActivityName);
-    }
+    onClick?.(item);
   };
-
-  const isClickable = Boolean(item.path && onClick);
 
   return (
     <div
-      className={
-        isClickable ? `${styles.item} ${styles.itemClickable}` : styles.item
-      }
-      role={isClickable ? 'button' : undefined}
-      tabIndex={isClickable ? 0 : undefined}
-      onClick={isClickable ? handleClick : undefined}
-      onKeyDown={
-        isClickable
-          ? (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleClick();
-              }
-            }
-          : undefined
-      }
+      className={`${styles.item} ${styles.itemClickable}`}
+      role={'button'}
+      tabIndex={0}
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleClick();
+        }
+      }}
     >
       <span className={styles.label}>{item.label}</span>
       <ChevronRightIcon size={20} color="secondary" />
