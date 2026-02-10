@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { CartProductItem, CartBrand } from '@/shared/api/models';
+import type { CartProductItem, CartBrand } from '../api/types';
 
 interface UseCartSelectParams {
   allItems: CartProductItem[];
