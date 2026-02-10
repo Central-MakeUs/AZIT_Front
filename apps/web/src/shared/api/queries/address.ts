@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { getDeliveryAddresses } from '@/pages/address/api/getDeliveryAddresses';
 import {
-  createDeliveryAddress,
+  postDeliveryAddress,
   updateDeliveryAddress,
   deleteDeliveryAddress,
 } from '@/features/address/api';
@@ -30,7 +30,7 @@ export const useCreateAddress = () => {
 
   return useMutation({
     mutationFn: (payload: RegisterDeliveryAddressRequest) =>
-      createDeliveryAddress(payload),
+      postDeliveryAddress(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: addressQueries.listKey(),
