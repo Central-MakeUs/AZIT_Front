@@ -1,4 +1,5 @@
 import type { ActivityName } from '@/app/routes/types';
+import { MEMBER_ROLE, type MemberRoleType } from './role';
 
 interface BaseMenuItem {
   id: string;
@@ -25,8 +26,8 @@ export interface MyPageMenuGroup {
   items: MenuItem[];
 }
 
-export const getMyPageMenu: (role: string) => MyPageMenuGroup[] = (
-  role: string
+export const getMyPageMenu: (role: MemberRoleType) => MyPageMenuGroup[] = (
+  role
 ) => {
   return [
     {
@@ -59,7 +60,7 @@ export const getMyPageMenu: (role: string) => MyPageMenuGroup[] = (
       items: [
         {
           id: 'member-management',
-          label: role === '리더' ? '멤버 관리' : '멤버 목록',
+          label: role === MEMBER_ROLE.LEADER ? '멤버 관리' : '멤버 목록',
           path: 'MemberManagementPage',
           type: 'page',
         },

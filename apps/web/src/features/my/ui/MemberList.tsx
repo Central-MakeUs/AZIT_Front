@@ -4,10 +4,15 @@ import type { MemberManagementItem } from '@/shared/mock/member-management';
 
 interface MemberListProps {
   members: MemberManagementItem[];
+  canRemoveMember?: boolean;
   onRemoveMember?: (member: MemberManagementItem) => void;
 }
 
-export function MemberList({ members, onRemoveMember }: MemberListProps) {
+export function MemberList({
+  members,
+  canRemoveMember = false,
+  onRemoveMember,
+}: MemberListProps) {
   return (
     <div className={styles.list}>
       {members.map((member) => (
@@ -16,7 +21,11 @@ export function MemberList({ members, onRemoveMember }: MemberListProps) {
           nickname={member.nickname}
           crewMemberRole={member.crewMemberRole}
           joinDate={member.joinDate}
-          onRemove={onRemoveMember ? () => onRemoveMember(member) : undefined}
+          onRemove={
+            canRemoveMember && onRemoveMember
+              ? () => onRemoveMember(member)
+              : undefined
+          }
         />
       ))}
     </div>
