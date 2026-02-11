@@ -29,9 +29,43 @@ export interface paths {
      *
      *     **[참고 사항]** <br>
      *     * 본인의 배송지만 삭제 가능합니다. (FORBIDDEN_ADDRESS_ACCESS)
-     *     * MVP 정책: 기본 배송지 여부와 상관없이 삭제가 가능합니다.
+     *     * 기본 배송지일 경우 삭제가 불가능합니다. (CANNOT_DELETE_DEFAULT_ADDRESS)
      */
     delete: operations['deleteDeliveryAddress'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/orders': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 주문 내역 목록 조회 (무한 스크롤)
+     * @description 커서 기반 페이징을 사용하여 사용자의 전체 주문 내역을 최신순으로 조회합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 무한 스크롤 방식: hasNext를 통해 다음 페이지 존재 여부를 확인하고, lastId를 다음 요청의 cursorId로 호출하면 됩니다.
+     *     * 상품명, 브랜드명, 이미지 등은 구매 시점의 정보를 제공하므로 현재의 상품 정보와 다를 수 있습니다.
+     */
+    get: operations['getOrders'];
+    put?: never;
+    /**
+     * 주문 생성 (결제)
+     * @description 최종 결제 정보와 배송지를 입력받아 주문을 생성하고 상품 재고를 차감합니다. <br><br>
+     *
+     *     **[참고사항]** <br>
+     *     * 주문 시점에 각 SKU의 재고가 즉시 차감됩니다.
+     *     * 보유 포인트 잔액과 최소 사용 단위(1,000P)를 검증합니다. (INVALID_POINT_USAGE)
+     *     * 결제 수단 (MVP): 현재 '무통장 입금(BANK_TRANSFER)'만 지원합니다. 그 외 수단은 에러를 반환합니다. (PAYMENT_METHOD_NOT_SUPPORTED)
+     *     * 주문이 성공하면 선택한 장바구니 아이템들은 자동으로 삭제됩니다.
+     */
+    post: operations['createOrder'];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -391,6 +425,31 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/orders/{orderNumber}/cancel': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 주문 취소
+     * @description 주문 상태가 결제 대기(PENDING) 혹은 결제 완료(PAID)인 경우에만 취소가 가능합니다. <br><br>
+     *
+     *     **[내부 로직]** <br>
+     *     1. 주문 상태를 CANCELLED(주문 취소)로 변경합니다.
+     *     2. 주문했던 상품의 재고를 주문 수량만큼 다시 증가시킵니다.
+     *     3. 사용했던 포인트를 사용자 계정으로 전액 환불합니다.
+     */
+    patch: operations['cancelOrder'];
+    trace?: never;
+  };
   '/api/v1/products': {
     parameters: {
       query?: never;
@@ -400,10 +459,9 @@ export interface paths {
     };
     /**
      * 상품 목록 조회 (무한 스크롤)
-     * @description 커서 기반 페이징을 사용하여 전체 상품 목록을 조회합니다. <br><br>
+     * @description 커서 기반 페이징을 사용하여 전체 상품 목록을 최신순으로 조회합니다. <br><br>
      *
      *     **[참고 사항]** <br>
-     *     * 최신순 정렬: 가장 최근에 등록된 상품부터 정렬되어 반환됩니다.
      *     * 무한 스크롤 방식: hasNext를 통해 다음 페이지 존재 여부를 확인하고, lastId를 다음 요청의 cursorId로 호출하면 됩니다.
      */
     get: operations['getProducts'];
@@ -444,7 +502,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/orders/checkout': {
+  '/api/v1/orders/{orderNumber}': {
     parameters: {
       query?: never;
       header?: never;
@@ -452,18 +510,96 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 주문/결제 상세 정보 조회
-     * @description 장바구니에서 선택한 상품들을 바탕으로 결제 상세 페이지에 필요한 정보를 조회합니다. <br><br>
+     * 주문 상세 조회
+     * @description 특정 주문 번호를 기반으로 주문의 상세 내역을 조회합니다. <br><br>
      *
      *     **[참고 사항]** <br>
-     *     * 배송지: 사용자의 기본 배송지 정보를 조회합니다. (없을 경우 null 반환)
-     *     * 배송비: 브랜드별로 가장 높은 배송비를 한 번씩만 합산하여 계산합니다.
-     *     * 포인트 정책: 보유 포인트와 함께 사용 가능한 최소 단위(1,000P), 입력 단위(100P) 정보를 제공합니다.
-     *     * 결제 수단: 현재 사용 가능한 결제 수단 목록과 활성화 여부를 제공합니다. (네이버페이는 현재 비활성화 상태)
+     *     * 요청한 사용자가 해당 주문의 소유자인지 확인하며, 타인의 주문 조회 시 에러를 반환합니다. (FORBIDDEN_ERROR)
+     *     * 구매 당시의 상품명, 브랜드명, 옵션 정보, 이미지 및 수량이 반영된 가격 정보를 포함하는 '스냅샷' 정보를 제공합니다.
+     *     * API 호출 시에는 #이 없는 형태(예: AZ2602104434)를 사용합니다. 단, API 응답 시에는 UI 가독성을 위해 주문번호에 #을 접두어로 붙여 반환합니다.
+     */
+    get: operations['getOrderDetail'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/orders/checkout/direct': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 주문서 조회(바로 구매)
+     * @description 상품 상세에서 선택한 상품을 바탕으로 주문서(결제 상세 페이지)에 필요한 정보를 조회합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 파라미터 deliveryAddressId가 있을 경우, deliveryAddressId로 배송지 정보를 조회합니다.
+     *     * 파라미터 deliveryAddressId가 없을 경우, 사용자의 기본 배송지 정보를 조회합니다. (없을 경우 null 반환)
+     *     * 브랜드별로 가장 높은 배송비를 한 번씩만 합산하여 계산합니다.
+     *     * 보유 포인트와 함께 사용 가능한 최소 단위(1,000P), 입력 단위(100P) 정보를 제공합니다.
+     *     * 현재 사용 가능한 결제 수단 목록과 활성화 여부를 제공합니다. (네이버페이는 현재 비활성화 상태)
      *     * '아지트 멤버십 할인'은 각 상품의 (정가 - 판매가) 총합으로 계산됩니다.
      *     * 포인트 '모두 사용' 클릭 시 응답의 availablePoints 값을 활용하여 100P 단위로 가공하시면 됩니다.
      */
-    get: operations['getCheckoutInfo'];
+    get: operations['getCheckoutInfoDirect'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/orders/checkout/cart': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 주문서 조회(장바구니)
+     * @description 장바구니에서 선택한 상품들을 바탕으로 주문서(결제 상세 페이지)에 필요한 정보를 조회합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 파라미터 deliveryAddressId가 있을 경우, deliveryAddressId로 배송지 정보를 조회합니다.
+     *     * 파라미터 deliveryAddressId가 없을 경우, 사용자의 기본 배송지 정보를 조회합니다. (없을 경우 null 반환)
+     *     * 브랜드별로 가장 높은 배송비를 한 번씩만 합산하여 계산합니다.
+     *     * 보유 포인트와 함께 사용 가능한 최소 단위(1,000P), 입력 단위(100P) 정보를 제공합니다.
+     *     * 현재 사용 가능한 결제 수단 목록과 활성화 여부를 제공합니다.
+     *     * '아지트 멤버십 할인'은 각 상품의 (정가 - 판매가) 총합으로 계산됩니다.
+     *     * 포인트 '모두 사용' 클릭 시 응답의 availablePoints 값을 활용하여 100P 단위로 가공하시면 됩니다.
+     */
+    get: operations['getCheckoutInfoFromCart'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 마이페이지 정보 조회
+     * @description 로그인한 사용자의 마이페이지 정보를 조회합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 소속 크루가 없으면 null을 반환합니다.
+     */
+    get: operations['getMyPageInfo'];
     put?: never;
     post?: never;
     delete?: never;
@@ -613,6 +749,97 @@ export interface components {
       message?: string;
       result?: Record<string, never>;
     };
+    CreateOrderRequest: {
+      /** @description 주문할 장바구니 아이템 ID 리스트(장바구니 구매용) */
+      cartItemIds?: number[];
+      /**
+       * Format: int64
+       * @description sku ID(바로 구매용)
+       */
+      skuId?: number;
+      /**
+       * Format: int32
+       * @description 구매할 상품 수량(바로 구매용)
+       */
+      quantity?: number;
+      /** @description 수령인 이름 */
+      recipientName: string;
+      /** @description 수령인 연락처 */
+      phoneNumber: string;
+      /** @description 기본 주소 */
+      baseAddress: string;
+      /** @description 상세 주소 */
+      detailAddress: string;
+      /** @description 배송 요청사항 */
+      shippingInstruction?: string;
+      /**
+       * Format: int64
+       * @description 사용할 포인트
+       */
+      usedPoints?: number;
+      /** @description 결제 수단 */
+      paymentMethod: string;
+    };
+    /** @description 최종 결제 금액 요약 */
+    CheckoutSummaryResponse: {
+      /**
+       * Format: int64
+       * @description 총 상품금액 (할인 전 합계)
+       */
+      totalProductPrice?: number;
+      /**
+       * Format: int64
+       * @description 아지트 멤버십 할인 금액
+       */
+      membershipDiscount?: number;
+      /**
+       * Format: int64
+       * @description 포인트 할인 금액
+       */
+      pointDiscount?: number;
+      /**
+       * Format: int64
+       * @description 배송비
+       */
+      shippingFee?: number;
+      /**
+       * Format: int64
+       * @description 최종 결제 금액
+       */
+      totalPaymentPrice?: number;
+    };
+    CommonResponseCreateOrderResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['CreateOrderResponse'];
+    };
+    CreateOrderResponse: {
+      /** @description 주문 번호 */
+      orderNumber?: string;
+      deliveryInfo?: components['schemas']['DeliveryAddressResponse'];
+      depositAccountInfo?: components['schemas']['DepositAccountResponse'];
+      summary?: components['schemas']['CheckoutSummaryResponse'];
+    };
+    /** @description 배송지 정보 */
+    DeliveryAddressResponse: {
+      /** @description 수령인 이름 */
+      recipientName?: string;
+      /** @description 수령인 연락처 */
+      phoneNumber?: string;
+      /** @description 기본 주소 */
+      baseAddress?: string;
+      /** @description 상세 주소 */
+      detailAddress?: string;
+    };
+    /** @description 입금 계좌 정보 */
+    DepositAccountResponse: {
+      /** @description 은행명 */
+      bankName?: string;
+      /** @description 계좌번호 */
+      accountNumber?: string;
+      /** @description 예금주 */
+      accountHolder?: string;
+    };
     AgreeToTermsRequest: {
       /** @description 서비스 이용약관 동의 여부 (필수) */
       serviceTermsAgreed: boolean;
@@ -717,6 +944,12 @@ export interface components {
       detailAddress: string;
       /** @description 기본 배송지 여부 */
       isDefault: boolean;
+    };
+    CursorPageQuery: {
+      /** Format: int64 */
+      cursorId?: number;
+      /** Format: int32 */
+      size?: number;
     };
     CommonResponseSliceResponseProductListResponse: {
       code?: string;
@@ -858,13 +1091,157 @@ export interface components {
       /** @description 매칭되는 옵션값 ID 리스트 (정렬된 순서) */
       optionValueIds?: number[];
     };
-    /** @description 주문할 상품 목록 */
-    CheckoutItemResponse: {
+    CommonResponseSliceResponseOrderListResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['SliceResponseOrderListResponse'];
+    };
+    /** @description 주문 상품 목록 */
+    OrderItemSummaryResponse: {
+      /** @description 구매 당시 브랜드명 */
+      brandName?: string;
+      /** @description 구매 당시 상품명 */
+      productName?: string;
+      /** @description 구매 당시 옵션 정보 */
+      optionDescription?: string;
+      /** @description 구매 당시 상품 대표 이미지 url */
+      productImageUrl?: string;
       /**
        * Format: int64
-       * @description 장바구니 항목 ID
+       * @description 판매가
        */
-      cartItemId?: number;
+      salePrice?: number;
+      /**
+       * Format: int32
+       * @description 구매 수량
+       */
+      quantity?: number;
+    };
+    /** @description 데이터 내용 */
+    OrderListResponse: {
+      /**
+       * Format: int64
+       * @description 주문 ID
+       */
+      id?: number;
+      /**
+       * Format: date-time
+       * @description 주문 날짜
+       */
+      orderDate?: string;
+      /** @description 주문 번호 */
+      orderNumber?: string;
+      /**
+       * @description 주문 상태
+       * @enum {string}
+       */
+      status?:
+        | 'PENDING'
+        | 'PAID'
+        | 'PREPARING'
+        | 'SHIPPING'
+        | 'DELIVERED'
+        | 'PURCHASE_CONFIRMED'
+        | 'CANCELLED'
+        | 'EXPIRED'
+        | 'PENDING_REFUNDED'
+        | 'REFUNDED';
+      /** @description 주문 상품 목록 */
+      items?: components['schemas']['OrderItemSummaryResponse'][];
+    };
+    SliceResponseOrderListResponse: {
+      /** @description 데이터 내용 */
+      content?: components['schemas']['OrderListResponse'][];
+      /** @description 남은 페이지가 있는지 여부 (false면 마지막 페이지) */
+      hasNext?: boolean;
+      /**
+       * Format: int64
+       * @description 마지막 데이터의 ID, 다음 페이지 호출 시 해당 id를 cursorId에 넣어서 호출
+       */
+      lastId?: number;
+    };
+    CommonResponseOrderDetailResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['OrderDetailResponse'];
+    };
+    OrderDetailResponse: {
+      /**
+       * Format: int64
+       * @description 주문 ID
+       */
+      id?: number;
+      /**
+       * Format: date-time
+       * @description 주문 날짜
+       */
+      orderDate?: string;
+      /** @description 주문 번호 */
+      orderNumber?: string;
+      deliveryInfo?: components['schemas']['DeliveryAddressResponse'];
+      shippingInfo?: components['schemas']['ShippingResponse'];
+      /** @description 주문 상품 목록 */
+      items?: components['schemas']['OrderItemResponse'][];
+      summary?: components['schemas']['PaymentSummaryResponse'];
+    };
+    /** @description 주문 상품 목록 */
+    OrderItemResponse: {
+      /** @description 구매 당시 브랜드명 */
+      brandName?: string;
+      /** @description 구매 당시 상품명 */
+      productName?: string;
+      /** @description 구매 당시 옵션 정보 */
+      optionDescription?: string;
+      /** @description 구매 당시 상품 대표 이미지 url */
+      productImageUrl?: string;
+      /**
+       * Format: int64
+       * @description 총 판매가
+       */
+      totalSalePrice?: number;
+      /**
+       * Format: int32
+       * @description 구매 수량
+       */
+      quantity?: number;
+    };
+    /** @description 결제 금액 요약 */
+    PaymentSummaryResponse: {
+      /**
+       * Format: int64
+       * @description 총 상품금액 (할인 전 합계)
+       */
+      totalProductPrice?: number;
+      /**
+       * Format: int64
+       * @description 아지트 멤버십 할인 금액
+       */
+      membershipDiscount?: number;
+      /**
+       * Format: int64
+       * @description 포인트 할인 금액
+       */
+      pointDiscount?: number;
+      /**
+       * Format: int64
+       * @description 배송비
+       */
+      shippingFee?: number;
+      /**
+       * Format: int64
+       * @description 최종 결제 예정 금액
+       */
+      totalPaymentPrice?: number;
+    };
+    /** @description 배송 정보 */
+    ShippingResponse: {
+      /** @description 택배사 (배송 전일 경우 null) */
+      courier?: string;
+      /** @description 운송장 번호 (배송 전일 경우 null) */
+      trackingNumber?: string;
+    };
+    /** @description 주문할 상품 목록 */
+    CheckoutItemResponse: {
       /** @description 브랜드명 */
       brandName?: string;
       /** @description 상품명 */
@@ -888,57 +1265,24 @@ export interface components {
        * @description 장바구니에 담은 수량
        */
       quantity?: number;
-    };
-    /** @description 최종 결제 금액 요약 */
-    CheckoutSummaryResponse: {
       /**
        * Format: int64
-       * @description 총 상품금액 (할인 전 합계)
+       * @description 총 정가
        */
-      totalProductPrice?: number;
+      totalBasePrice?: number;
       /**
        * Format: int64
-       * @description 아지트 멤버십 할인 금액
+       * @description 총 판매가
        */
-      membershipDiscount?: number;
-      /**
-       * Format: int64
-       * @description 배송비
-       */
-      shippingFee?: number;
-      /**
-       * Format: int64
-       * @description 최종 결제 예정 금액
-       */
-      totalPaymentPrice?: number;
+      totalSalePrice?: number;
     };
     CommonResponseOrderCheckoutResponse: {
       code?: string;
       message?: string;
       result?: components['schemas']['OrderCheckoutResponse'];
     };
-    /** @description 배송지 응답 정보 */
-    DeliveryAddressResponse: {
-      /**
-       * Format: int64
-       * @description 배송지 ID
-       */
-      id?: number;
-      /** @description 수령인 성함 */
-      recipientName?: string;
-      /** @description 수령인 연락처 */
-      phoneNumber?: string;
-      /** @description 우편번호 */
-      zipcode?: string;
-      /** @description 기본 주소 */
-      baseAddress?: string;
-      /** @description 상세 주소 */
-      detailAddress?: string;
-      /** @description 기본 배송지 여부 */
-      isDefault?: boolean;
-    };
     OrderCheckoutResponse: {
-      deliveryAddress?: components['schemas']['DeliveryAddressResponse'];
+      deliveryInfo?: components['schemas']['DeliveryAddressResponse'];
       /** @description 주문할 상품 목록 */
       items?: components['schemas']['CheckoutItemResponse'][];
       pointInfo?: components['schemas']['PointInfoResponse'];
@@ -950,8 +1294,8 @@ export interface components {
     PaymentMethodResponse: {
       /** @description 결제 수단 코드 */
       code?: string;
-      /** @description 결제 수단 명칭 */
-      label?: string;
+      /** @description 결제 수단 설명 */
+      description?: string;
       /** @description 활성화 여부 */
       isEnabled?: boolean;
     };
@@ -972,6 +1316,34 @@ export interface components {
        * @description 포인트 사용 단위
        */
       pointUnit?: number;
+    };
+    CommonResponseMyPageResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['MyPageResponse'];
+    };
+    MyPageResponse: {
+      /**
+       * Format: int64
+       * @description 사용자 ID
+       */
+      id?: number;
+      /** @description 닉네임 */
+      nickname?: string;
+      /** @description 크루 내 역할 */
+      crewMemberRole?: string;
+      /** @description 프로필 이미지 url */
+      profileImageUrl?: string;
+      /**
+       * Format: int32
+       * @description 누적 출석 횟수
+       */
+      totalAttendanceCount?: number;
+      /**
+       * Format: int64
+       * @description 포인트
+       */
+      totalPoints?: number;
     };
     CommonResponseCrewJoinStatusResponse: {
       code?: string;
@@ -1040,7 +1412,7 @@ export interface components {
        * Format: int64
        * @description 장바구니 항목 ID
        */
-      cartItemId?: number;
+      id?: number;
       /** @description 브랜드명 */
       brandName?: string;
       /** @description 상품명 */
@@ -1050,6 +1422,11 @@ export interface components {
        * @description 예상 발송 시작일
        */
       expectedShippingDate?: string;
+      /**
+       * Format: int64
+       * @description 상품 sku ID
+       */
+      productSkuId?: number;
       /** @description 선택 옵션 정보 */
       optionDescription?: string;
       /** @description 상품 대표 이미지 URL */
@@ -1223,6 +1600,148 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getOrders: {
+    parameters: {
+      query: {
+        query: components['schemas']['CursorPageQuery'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseSliceResponseOrderListResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  createOrder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateOrderRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseCreateOrderResponse'];
         };
       };
       400: {
@@ -2326,13 +2845,80 @@ export interface operations {
       };
     };
   };
+  cancelOrder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        orderNumber: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   getProducts: {
     parameters: {
-      query?: {
-        /** @description 마지막으로 조회된 상품 ID (첫 페이지 조회 시 null 또는 넣지 않아도 됨) */
-        cursorId?: number;
-        /** @description 한 번에 조회할 상품 개수 */
-        size?: number;
+      query: {
+        query: components['schemas']['CursorPageQuery'];
       };
       header?: never;
       path?: never;
@@ -2462,10 +3048,82 @@ export interface operations {
       };
     };
   };
-  getCheckoutInfo: {
+  getOrderDetail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        orderNumber: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseOrderDetailResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getCheckoutInfoDirect: {
     parameters: {
       query: {
-        cartItemIds: number[];
+        skuId: number;
+        quantity: number;
+        deliveryAddressId?: number;
       };
       header?: never;
       path?: never;
@@ -2480,6 +3138,145 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['CommonResponseOrderCheckoutResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getCheckoutInfoFromCart: {
+    parameters: {
+      query: {
+        cartItemIds: number[];
+        deliveryAddressId?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseOrderCheckoutResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getMyPageInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseMyPageResponse'];
         };
       };
       400: {
