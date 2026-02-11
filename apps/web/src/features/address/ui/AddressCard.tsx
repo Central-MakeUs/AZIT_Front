@@ -38,7 +38,7 @@ export function AddressCard({
       onClick={handleCardClick}
     >
       <div className={styles.contentSection}>
-        {isDefault && <Chip type="opacity">기본 배송지</Chip>}
+        {isDefault && <Chip type="skyblue">기본 배송지</Chip>}
         <div className={styles.recipientRow}>
           <span className={styles.recipientName}>{address.recipientName}</span>
           <span className={styles.recipientPhone}>{address.phoneNumber}</span>
