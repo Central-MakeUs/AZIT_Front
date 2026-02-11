@@ -1,12 +1,18 @@
 import { Chip } from '@azit/design-system/chip';
-import type { MypageProfile } from '@/shared/mock/mypage';
-import * as styles from '../styles/MypageProfileSection.css';
+import * as styles from '../styles/MyProfileSection.css';
+import type { ChipType } from '@azit/design-system/components/chip/Chip.css';
+import type { MyInfoResult } from '@/shared/api/models';
 
-interface MypageProfileSectionProps {
-  profile: MypageProfile;
+interface MyProfileSectionProps {
+  profile: MyInfoResult;
 }
 
-export function MypageProfileSection({ profile }: MypageProfileSectionProps) {
+const ROLE_CHIP_TYPE_MAP: Record<string, ChipType> = {
+  리더: 'skyblue',
+  멤버: 'green',
+};
+
+export function MyProfileSection({ profile }: MyProfileSectionProps) {
   return (
     <section className={styles.container}>
       <div className={styles.profileRow}>
@@ -16,7 +22,9 @@ export function MypageProfileSection({ profile }: MypageProfileSectionProps) {
           aria-label={profile.nickname}
         />
         <div className={styles.profileInfo}>
-          {profile.isLeader && <Chip type="opacity">리더</Chip>}
+          <Chip type={ROLE_CHIP_TYPE_MAP[profile.crewMemberRole]}>
+            {profile.crewMemberRole}
+          </Chip>
           <span className={styles.nickname}>{profile.nickname}</span>
         </div>
       </div>
