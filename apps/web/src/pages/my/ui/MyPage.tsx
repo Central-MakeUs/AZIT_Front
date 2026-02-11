@@ -9,7 +9,7 @@ import { WithdrawButton } from '@/features/auth/ui';
 import { useAuthStore } from '@/shared/store/auth';
 import { getMyPageMenu } from '@/features/my/model/menu';
 import { memberQueries } from '@/shared/api/queries';
-import * as styles from '../styles/Mypage.css';
+import * as styles from '../styles/MyPage.css';
 
 export function MyPage() {
   const { logout } = useAuthStore();
