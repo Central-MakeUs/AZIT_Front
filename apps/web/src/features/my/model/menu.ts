@@ -81,12 +81,12 @@ export const getMyPageMenu: (role: string) => MyPageMenuGroup[] = (
           path: 'TermDetailPage',
           type: 'page',
         },
-        {
-          id: 'location-service-terms',
-          label: '위치 기반 서비스 이용약관',
-          path: 'TermDetailPage',
-          type: 'page',
-        },
+        // {
+        //   id: 'location-service-terms',
+        //   label: '위치 기반 서비스 이용약관',
+        //   path: 'TermDetailPage',
+        //   type: 'page',
+        // },
         {
           id: 'third-party-info-agreement',
           label: '제 3자 정보제공 동의 내역',
