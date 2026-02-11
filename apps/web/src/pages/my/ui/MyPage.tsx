@@ -1,20 +1,24 @@
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
-import { MypageProfileSection, MypageMenuSection } from '@/features/mypage/ui';
-import { mockMypageProfile } from '@/shared/mock/mypage';
+import { MyProfileSection, MyMenuSection } from '@/features/my/ui';
 import { useAuthStore } from '@/shared/store/auth';
-import { MYPAGE_MENU } from '@/features/mypage/model/menu';
+import { MYPAGE_MENU } from '@/features/my/model/menu';
 import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { postWithdraw } from '@/features/auth/api/postWithdraw';
 import { useFlow } from '@/app/routes/stackflow';
+import { memberQueries } from '@/shared/api/queries';
 import * as styles from '../styles/Mypage.css';
 
-export function Mypage() {
+export function MyPage() {
   const { logout, setAccessToken, setIsInitialized } = useAuthStore();
   const { replace } = useFlow();
+
+  // const { data: myInfoData } = useSuspenseQuery(memberQueries.myInfoQuery());
+  // const myInfo = myInfoData.ok ? myInfoData.data.result : undefined;
 
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
@@ -23,11 +27,15 @@ export function Mypage() {
           <Header center="마이페이지" />
         </div>
         <div className={styles.mainContainer}>
-          {/* TODO: 프로필 정보 API 연동 */}
-          <MypageProfileSection profile={mockMypageProfile} />
+          <MyProfileSection profile={myInfo} />
+
           <div className={styles.menuSectionWrapper}>
             {MYPAGE_MENU.map((section) => (
-              <MypageMenuSection key={section.id} section={section} />
+              <MyMenuSection
+                key={section.id}
+                section={section}
+                member={myInfo}
+              />
             ))}
           </div>
           <div className={styles.buttonWrapper}>

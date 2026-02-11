@@ -3,7 +3,7 @@ import { Header } from '@azit/design-system/header';
 import { CheckIcon, CoinsStackedIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
-import { MypageStatCard } from '@/features/mypage/ui/MypageStatCard';
+import { MypageStatCard } from '@/features/my/ui/MypageStatCard';
 import { AttendanceRecordList } from '@/features/mypage-attendance/ui';
 import { mockAttendanceRecords } from '@/shared/mock/mypage-attendance';
 import * as styles from '../styles/AttendancePage.css';
