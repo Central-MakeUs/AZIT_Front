@@ -1,19 +1,20 @@
 import { XIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/MemberListItem.css';
-import type { MemberRole } from '@/shared/mock/member-management';
+import type { MemberRole } from '@/features/my/model/types';
 import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '../model/role';
+import { formatJoinDate } from '@/shared/lib/formatters';
 
 interface MemberListItemProps {
   nickname: string;
   crewMemberRole: MemberRole;
-  joinDate: string;
+  joinedDate: string;
   onRemove?: () => void;
 }
 
 export function MemberListItem({
   nickname,
   crewMemberRole,
-  joinDate,
+  joinedDate,
   onRemove,
 }: MemberListItemProps) {
   return (
@@ -34,7 +35,9 @@ export function MemberListItem({
                 {MEMBER_ROLE_LABEL[crewMemberRole]}
               </span>
             </div>
-            <span className={styles.joinDate}>{joinDate}</span>
+            <span
+              className={styles.joinDate}
+            >{`${formatJoinDate(joinedDate)} 가입`}</span>
           </div>
         </div>
         {onRemove && (

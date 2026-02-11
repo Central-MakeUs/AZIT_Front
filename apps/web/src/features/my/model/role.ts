@@ -1,5 +1,3 @@
-export type MemberRoleType = 'LEADER' | 'MEMBER';
-
 export const MEMBER_ROLE = {
   LEADER: 'LEADER',
   MEMBER: 'MEMBER',

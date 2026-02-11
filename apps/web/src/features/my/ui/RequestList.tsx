@@ -1,6 +1,7 @@
 import { RequestListItem } from './RequestListItem';
 import * as styles from '../styles/RequestList.css';
-import type { MemberRequestItem } from '@/shared/mock/member-management';
+import type { MemberRequestItem } from '@/features/my/model/types';
+import { formatJoinDate } from '@/shared/lib/formatters';
 
 interface RequestListProps {
   requests: MemberRequestItem[];
@@ -20,7 +21,7 @@ export function RequestList({
           key={request.memberId}
           nickname={request.nickname}
           profileImageUrl={request.profileImageUrl}
-          requestedAt={request.requestedAt}
+          requestedAt={`${formatJoinDate(request.requestedAt)} 요청`}
           onApprove={onApprove ? () => onApprove(request) : undefined}
           onReject={onReject ? () => onReject(request) : undefined}
         />

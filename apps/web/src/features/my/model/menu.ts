@@ -1,5 +1,6 @@
 import type { ActivityName } from '@/app/routes/types';
-import { MEMBER_ROLE, type MemberRoleType } from './role';
+import { MEMBER_ROLE } from './role';
+import type { MemberRole } from './types';
 
 interface BaseMenuItem {
   id: string;
@@ -10,6 +11,8 @@ interface PageMenuItem extends BaseMenuItem {
   type: 'page';
   path: ActivityName;
   url?: never;
+  /** stackflow push 시 전달할 params (예: crew id) */
+  pushParams?: Record<string, unknown>;
 }
 
 interface ExternalLinkMenuItem extends BaseMenuItem {
@@ -26,9 +29,10 @@ export interface MyPageMenuGroup {
   items: MenuItem[];
 }
 
-export const getMyPageMenu: (role: MemberRoleType) => MyPageMenuGroup[] = (
-  role
-) => {
+export const getMyPageMenu: (
+  role: MemberRole,
+  crewId: number
+) => MyPageMenuGroup[] = (role, crewId) => {
   return [
     {
       id: 'shopping',
@@ -61,8 +65,10 @@ export const getMyPageMenu: (role: MemberRoleType) => MyPageMenuGroup[] = (
         {
           id: 'member-management',
           label: role === MEMBER_ROLE.LEADER ? '멤버 관리' : '멤버 목록',
-          path: 'MemberManagementPage',
+          path:
+            role === MEMBER_ROLE.LEADER ? 'MemberManagePage' : 'MemberViewPage',
           type: 'page',
+          pushParams: { id: crewId },
         },
       ],
     },

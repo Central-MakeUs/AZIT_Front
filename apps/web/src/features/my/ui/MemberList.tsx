@@ -1,11 +1,11 @@
 import { MemberListItem } from './MemberListItem';
 import * as styles from '../styles/MemberList.css';
-import type { MemberManagementItem } from '@/shared/mock/member-management';
+import type { MemberItem } from '@/features/my/model/types';
 
 interface MemberListProps {
-  members: MemberManagementItem[];
+  members: MemberItem[];
   canRemoveMember?: boolean;
-  onRemoveMember?: (member: MemberManagementItem) => void;
+  onRemoveMember?: (member: MemberItem) => void;
 }
 
 export function MemberList({
@@ -19,8 +19,8 @@ export function MemberList({
         <MemberListItem
           key={member.id}
           nickname={member.nickname}
-          crewMemberRole={member.crewMemberRole}
-          joinDate={member.joinDate}
+          crewMemberRole={member.role}
+          joinedDate={member.joinedDate}
           onRemove={
             canRemoveMember && onRemoveMember
               ? () => onRemoveMember(member)

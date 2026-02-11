@@ -1389,6 +1389,11 @@ export interface components {
       /** @description 닉네임 */
       nickname?: string;
       /**
+       * Format: int64
+       * @description 크루 ID
+       */
+      crewId?: number;
+      /**
        * @description 크루 내 역할
        * @enum {string}
        */
