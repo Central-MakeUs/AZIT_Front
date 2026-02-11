@@ -118,7 +118,7 @@ function MemberListView({
   return (
     <>
       <p className={styles.totalCount}>총 {totalCount ?? members.length}명</p>
-      <MemberList members={members} canRemoveMember={isLeader} />
+      <MemberList members={members} />
       <div ref={bottomSentinelRef} className={styles.sentinel} aria-hidden />
     </>
   );
