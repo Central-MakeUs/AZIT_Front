@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
@@ -6,7 +6,7 @@ import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { MyProfileSection, MyMenuSection } from '@/features/my/ui';
 import { useAuthStore } from '@/shared/store/auth';
-import { MYPAGE_MENU } from '@/features/my/model/menu';
+import { getMyPageMenu } from '@/features/my/model/menu';
 import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { postWithdraw } from '@/features/auth/api/postWithdraw';
 import { useFlow } from '@/app/routes/stackflow';
@@ -17,8 +17,14 @@ export function MyPage() {
   const { logout, setAccessToken, setIsInitialized } = useAuthStore();
   const { replace } = useFlow();
 
-  // const { data: myInfoData } = useSuspenseQuery(memberQueries.myInfoQuery());
-  // const myInfo = myInfoData.ok ? myInfoData.data.result : undefined;
+  const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
+
+  if (isLoading || !myInfoData?.ok) {
+    return <></>;
+  }
+
+  const myInfo = myInfoData.data.result;
+  const filteredMenu = getMyPageMenu(myInfo.crewMemberRole);
 
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
@@ -30,7 +36,7 @@ export function MyPage() {
           <MyProfileSection profile={myInfo} />
 
           <div className={styles.menuSectionWrapper}>
-            {MYPAGE_MENU.map((section) => (
+            {filteredMenu.map((section) => (
               <MyMenuSection
                 key={section.id}
                 section={section}
