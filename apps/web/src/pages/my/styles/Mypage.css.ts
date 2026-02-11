@@ -57,16 +57,3 @@ export const logoutButton = style([
     cursor: 'pointer',
   },
 ]);
-
-export const withdrawButton = style([
-  typography.body.b3,
-  {
-    width: 'fit-content',
-    padding: '4px',
-    textAlign: 'center',
-    color: vars.colors.gray50,
-    backgroundColor: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-  },
-]);
