@@ -1,14 +1,18 @@
 import { Chip } from '@azit/design-system/chip';
-import { CheckIcon, CoinsStackedIcon } from '@azit/design-system/icon';
-import type { MypageProfile } from '@/shared/mock/mypage';
-import { MypageStatCard } from './MypageStatCard';
-import * as styles from '../styles/MypageProfileSection.css';
+import * as styles from '../styles/MyProfileSection.css';
+import type { ChipType } from '@azit/design-system/components/chip/Chip.css';
+import type { MyInfoResult } from '@/shared/api/models';
 
-interface MypageProfileSectionProps {
-  profile: MypageProfile;
+interface MyProfileSectionProps {
+  profile: MyInfoResult;
 }
 
-export function MypageProfileSection({ profile }: MypageProfileSectionProps) {
+const ROLE_CHIP_TYPE_MAP: Record<string, ChipType> = {
+  리더: 'skyblue',
+  멤버: 'green',
+};
+
+export function MyProfileSection({ profile }: MyProfileSectionProps) {
   return (
     <section className={styles.container}>
       <div className={styles.profileRow}>
@@ -18,11 +22,13 @@ export function MypageProfileSection({ profile }: MypageProfileSectionProps) {
           aria-label={profile.nickname}
         />
         <div className={styles.profileInfo}>
-          {profile.isLeader && <Chip type="opacity">리더</Chip>}
+          <Chip type={ROLE_CHIP_TYPE_MAP[profile.crewMemberRole]}>
+            {profile.crewMemberRole}
+          </Chip>
           <span className={styles.nickname}>{profile.nickname}</span>
         </div>
       </div>
-      <div className={styles.statGrid}>
+      {/* <div className={styles.statGrid}>
         <MypageStatCard
           icon={<CheckIcon size={24} color="primary" />}
           label="출석"
@@ -33,7 +39,7 @@ export function MypageProfileSection({ profile }: MypageProfileSectionProps) {
           label="포인트"
           value={profile.pointCount.toLocaleString('ko-KR')}
         />
-      </div>
+      </div> */}
     </section>
   );
 }

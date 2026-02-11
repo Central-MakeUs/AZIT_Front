@@ -132,6 +132,6 @@ export const buttonWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: 4,
-  padding: '0 20px',
+  padding: 20,
   backgroundColor: vars.colors.white,
 });
