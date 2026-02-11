@@ -1,13 +1,13 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
-import * as styles from '../styles/MypageMenuItem.css';
+import * as styles from '../styles/MyMenuItem.css';
 import type { MenuItem } from '../model/menu';
 
-interface MypageMenuItemProps {
+interface MyMenuItemProps {
   item: MenuItem;
   onClick?: (item: MenuItem) => void;
 }
 
-export function MypageMenuItem({ item, onClick }: MypageMenuItemProps) {
+export function MyMenuItem({ item, onClick }: MyMenuItemProps) {
   const handleClick = () => {
     onClick?.(item);
   };

@@ -1,13 +1,15 @@
 import { useFlow } from '@/app/routes/stackflow';
-import * as styles from '../styles/MypageMenuSection.css';
-import { MypageMenuItem } from './MypageMenuItem';
+import * as styles from '../styles/MyMenuSection.css';
+import { MyMenuItem } from './MyMenuItem';
 import type { MenuItem, MyPageMenuGroup } from '../model/menu';
+import type { MyInfoResult } from '@/shared/api/models';
 
-interface MypageMenuSectionProps {
+interface MyMenuSectionProps {
   section: MyPageMenuGroup;
+  member?: MyInfoResult | null;
 }
 
-export function MypageMenuSection({ section }: MypageMenuSectionProps) {
+export function MyMenuSection({ section, member }: MyMenuSectionProps) {
   const { push } = useFlow();
 
   const handleItemClick = (item: MenuItem) => {
@@ -29,7 +31,7 @@ export function MypageMenuSection({ section }: MypageMenuSectionProps) {
       <h2 className={styles.title}>{section.title}</h2>
       <div className={styles.list}>
         {section.items.map((item) => (
-          <MypageMenuItem
+          <MyMenuItem
             key={item.id}
             item={item}
             onClick={() => handleItemClick(item)}

@@ -42,7 +42,7 @@ const OrderDetailPage = lazyImport(
   () => import('@/pages/order-detail/ui/OrderDetailPage'),
   'OrderDetailPage'
 );
-const Mypage = lazyImport(() => import('@/pages/mypage/ui/Mypage'), 'Mypage');
+const MyPage = lazyImport(() => import('@/pages/my/ui/MyPage'), 'MyPage');
 const OrderHistory = lazyImport(
   () => import('@/pages/order-history/ui/OrderHistoryPage'),
   'OrderHistoryPage'
@@ -96,7 +96,7 @@ const TermDetailPage = lazyImport(
   'TermDetailPage'
 );
 const MemberManagementPage = lazyImport(
-  () => import('@/pages/member-management/ui/MemberManagementPage'),
+  () => import('@/pages/my/ui/MemberManagementPage'),
   'MemberManagementPage'
 );
 
@@ -188,7 +188,7 @@ export const routes = [
   {
     name: 'Mypage',
     path: '/mypage',
-    element: Mypage,
+    element: MyPage,
     withAuth: true,
   },
   {
