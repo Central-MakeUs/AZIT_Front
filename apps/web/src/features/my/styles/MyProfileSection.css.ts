@@ -4,6 +4,7 @@ import { vars, typography } from '@azit/design-system';
 export const container = style({
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'center',
   gap: 12,
   width: '100%',
   padding: '20px 20px 24px',
@@ -13,8 +14,7 @@ export const container = style({
 export const profileRow = style({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'flex-start',
-  gap: 12,
+  gap: 16,
 });
 
 export const avatar = style({
@@ -29,6 +29,7 @@ export const profileInfo = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  justifyContent: 'center',
   gap: 8,
   flex: 1,
   minWidth: 0,
