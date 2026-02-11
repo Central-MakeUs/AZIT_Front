@@ -42,7 +42,7 @@ const OrderDetailPage = lazyImport(
   () => import('@/pages/order-detail/ui/OrderDetailPage'),
   'OrderDetailPage'
 );
-const Mypage = lazyImport(() => import('@/pages/mypage/ui/Mypage'), 'Mypage');
+const MyPage = lazyImport(() => import('@/pages/my/ui/MyPage'), 'MyPage');
 const OrderHistory = lazyImport(
   () => import('@/pages/order-history/ui/OrderHistoryPage'),
   'OrderHistoryPage'
@@ -90,6 +90,14 @@ const AddressSearchPage = lazyImport(
 const AddressEditPage = lazyImport(
   () => import('@/pages/address/ui/AddressEditPage'),
   'AddressEditPage'
+);
+const TermDetailPage = lazyImport(
+  () => import('@/pages/term-detail/ui/TermDetailPage'),
+  'TermDetailPage'
+);
+const MemberManagementPage = lazyImport(
+  () => import('@/pages/my/ui/MemberManagementPage'),
+  'MemberManagementPage'
 );
 
 export const routes = [
@@ -180,7 +188,7 @@ export const routes = [
   {
     name: 'Mypage',
     path: '/mypage',
-    element: Mypage,
+    element: MyPage,
     withAuth: true,
   },
   {
@@ -241,6 +249,18 @@ export const routes = [
     name: 'AddressEditPage',
     path: '/address/:id/edit',
     element: AddressEditPage,
+    withAuth: true,
+  },
+  {
+    name: 'TermDetailPage',
+    path: '/term-detail/:termType',
+    element: TermDetailPage,
+    withAuth: false,
+  },
+  {
+    name: 'MemberManagementPage',
+    path: '/member-management',
+    element: MemberManagementPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];

@@ -71,6 +71,10 @@ export const buttonRow = style({
   width: '100%',
 });
 
+export const buttonRowSingle = style({
+  justifyContent: 'flex-end',
+});
+
 const baseButton = style([
   typography.body.b3,
   {
@@ -96,8 +100,10 @@ export const deleteButton = style([
 export const editButton = style([
   baseButton,
   {
-    backgroundColor: vars.colors.blue80,
+    flex: '0 1 50%',
+    maxWidth: '50%',
+    backgroundColor: vars.colors.white,
     border: `0.5px solid ${vars.colors.blue80}`,
-    color: vars.colors.white,
+    color: vars.colors.blue80,
   },
 ]);

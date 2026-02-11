@@ -14,7 +14,7 @@ export function ScheduleMemberListItem({
       <div className={styles.avatar} />
       <div className={styles.infoRow}>
         <span className={styles.nickname}>{member.nickname}</span>
-        {member.isLeader && <Chip type="opacity">리더</Chip>}
+        {member.isLeader && <Chip type="skyblue">리더</Chip>}
       </div>
     </div>
   );

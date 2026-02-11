@@ -19,7 +19,7 @@ export function ScheduleListItem({ item }: ScheduleListItemProps) {
           {item.tags.map((tag, index) => (
             <Chip
               key={index}
-              type={tag.type === 'primary' ? 'primary' : 'opacity'}
+              type={tag.type === 'primary' ? 'primary' : 'skyblue'}
             >
               {tag.label}
             </Chip>

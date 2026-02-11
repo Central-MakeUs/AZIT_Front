@@ -28,7 +28,7 @@ export function ScheduleDetailHeaderSection({
         <div className={styles.avatar} />
         <div className={styles.leaderInfo}>
           <span className={styles.leaderNickname}>{leaderNickname}</span>
-          <Chip type="opacity">리더</Chip>
+          <Chip type="skyblue">리더</Chip>
         </div>
       </div>
     </div>

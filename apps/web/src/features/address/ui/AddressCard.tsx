@@ -38,21 +38,29 @@ export function AddressCard({
       onClick={handleCardClick}
     >
       <div className={styles.contentSection}>
-        {isDefault && <Chip type="opacity">기본 배송지</Chip>}
+        {isDefault && <Chip type="skyblue">기본 배송지</Chip>}
         <div className={styles.recipientRow}>
           <span className={styles.recipientName}>{address.recipientName}</span>
           <span className={styles.recipientPhone}>{address.phoneNumber}</span>
         </div>
         <p className={styles.addressText}>{fullAddress}</p>
       </div>
-      <div className={styles.buttonRow}>
-        <button
-          type="button"
-          className={styles.deleteButton}
-          onClick={() => handleDelete?.(address.id)}
-        >
-          삭제
-        </button>
+      <div
+        className={
+          isDefault
+            ? `${styles.buttonRow} ${styles.buttonRowSingle}`
+            : styles.buttonRow
+        }
+      >
+        {!isDefault && (
+          <button
+            type="button"
+            className={styles.deleteButton}
+            onClick={() => handleDelete?.(address.id)}
+          >
+            삭제
+          </button>
+        )}
         <button
           type="button"
           className={styles.editButton}

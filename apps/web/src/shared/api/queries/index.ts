@@ -6,3 +6,4 @@ export {
   useDeleteAddress,
 } from './address';
 export { crewQueries } from './crew';
+export { memberQueries } from './member';
