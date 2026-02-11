@@ -5,7 +5,7 @@ import * as styles from './AlertDialog.css';
 export interface AlertDialogProps {
   trigger: ReactNode;
   title: string;
-  description: string;
+  description?: string;
   actionText?: string;
   onAction?: () => void;
   cancelText?: string;
@@ -29,9 +29,11 @@ export function AlertDialog({
             <RadixAlertDialog.Title className={styles.title}>
               {title}
             </RadixAlertDialog.Title>
-            <RadixAlertDialog.Description className={styles.description}>
-              {description}
-            </RadixAlertDialog.Description>
+            {description && (
+              <RadixAlertDialog.Description className={styles.description}>
+                {description}
+              </RadixAlertDialog.Description>
+            )}
           </div>
 
           <div className={styles.buttonContainer}>

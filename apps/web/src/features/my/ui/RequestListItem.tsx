@@ -1,28 +1,54 @@
+import { AlertDialog } from '@azit/design-system/alert-dialog';
+import { memberQueries } from '@/shared/api/queries';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as styles from '../styles/RequestListItem.css';
-
-function formatRequestedAt(isoDate: string): string {
-  const date = new Date(isoDate);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  return `${year}년 ${month}월 요청`;
-}
+import { formatJoinDate } from '@/shared/lib/formatters';
 
 interface RequestListItemProps {
+  crewId: number;
+  targetMemberId: number;
   nickname: string;
   profileImageUrl: string;
   requestedAt: string;
-  onApprove?: () => void;
-  onReject?: () => void;
 }
 
 export function RequestListItem({
+  crewId,
+  targetMemberId,
   nickname,
   profileImageUrl,
   requestedAt,
-  onApprove,
-  onReject,
 }: RequestListItemProps) {
-  const requestDateLabel = formatRequestedAt(requestedAt);
+  const queryClient = useQueryClient();
+
+  const approveMutation = useMutation({
+    ...memberQueries.approveJoinRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.joinRequestsKey(crewId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.crewMembersKey(crewId),
+      });
+    },
+  });
+
+  const rejectMutation = useMutation({
+    ...memberQueries.rejectJoinRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.joinRequestsKey(crewId),
+      });
+    },
+  });
+
+  const handleApprove = () => {
+    approveMutation.mutate({ crewId, targetMemberId });
+  };
+
+  const handleReject = () => {
+    rejectMutation.mutate({ crewId, targetMemberId });
+  };
 
   return (
     <article className={styles.card}>
@@ -40,22 +66,33 @@ export function RequestListItem({
         )}
         <div className={styles.info}>
           <span className={styles.nickname}>{nickname}</span>
-          <span className={styles.requestDate}>{requestDateLabel}</span>
+          <span
+            className={styles.requestDate}
+          >{`${formatJoinDate(requestedAt)} 요청`}</span>
         </div>
       </div>
       <div className={styles.buttonRow}>
-        <button
-          type="button"
-          className={styles.rejectButton}
-          onClick={onReject}
-          aria-label="요청 거절"
-        >
-          거절
-        </button>
+        <AlertDialog
+          trigger={
+            <button
+              type="button"
+              className={styles.rejectButton}
+              disabled={rejectMutation.isPending}
+              aria-label="요청 거절"
+            >
+              거절
+            </button>
+          }
+          title="가입 요청을 거절하시겠습니까?"
+          actionText="거절"
+          cancelText="취소"
+          onAction={handleReject}
+        />
         <button
           type="button"
           className={styles.approveButton}
-          onClick={onApprove}
+          onClick={handleApprove}
+          disabled={approveMutation.isPending}
           aria-label="요청 승인"
         >
           승인

@@ -21,6 +21,10 @@ export const END_POINT = {
   CREW: {
     MEMBERS: (crewId: number) => `crews/${crewId}/members`,
     JOIN_REQUESTS: (crewId: number) => `crews/${crewId}/join-requests`,
+    APPROVE_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
+      `crews/${crewId}/join-requests/${targetMemberId}/approve`,
+    REJECT_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
+      `crews/${crewId}/join-requests/${targetMemberId}/reject`,
   },
   STORE: {
     PRODUCTS: 'products',
