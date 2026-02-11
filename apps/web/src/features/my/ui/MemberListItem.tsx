@@ -37,14 +37,16 @@ export function MemberListItem({
             <span className={styles.joinDate}>{joinDate}</span>
           </div>
         </div>
-        <button
-          type="button"
-          className={styles.removeButton}
-          onClick={onRemove}
-          aria-label="멤버 제거"
-        >
-          <XIcon size={20} color="secondary" />
-        </button>
+        {onRemove && (
+          <button
+            type="button"
+            className={styles.removeButton}
+            onClick={onRemove}
+            aria-label="멤버 제거"
+          >
+            <XIcon size={20} color="secondary" />
+          </button>
+        )}
       </div>
     </article>
   );
