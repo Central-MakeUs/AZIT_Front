@@ -1,4 +1,4 @@
-import { XIcon } from '@azit/design-system/icon';
+// import { XIcon } from '@azit/design-system/icon';
 import * as styles from '../styles/MemberListItem.css';
 import type { MemberRole } from '@/features/my/model/types';
 import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '../model/role';
@@ -8,14 +8,12 @@ interface MemberListItemProps {
   nickname: string;
   crewMemberRole: MemberRole;
   joinedDate: string;
-  onRemove?: () => void;
 }
 
 export function MemberListItem({
   nickname,
   crewMemberRole,
   joinedDate,
-  onRemove,
 }: MemberListItemProps) {
   return (
     <article className={styles.card}>
@@ -40,16 +38,13 @@ export function MemberListItem({
             >{`${formatJoinDate(joinedDate)} 가입`}</span>
           </div>
         </div>
-        {onRemove && (
-          <button
-            type="button"
-            className={styles.removeButton}
-            onClick={onRemove}
-            aria-label="멤버 제거"
-          >
-            <XIcon size={20} color="secondary" />
-          </button>
-        )}
+        {/* <button
+          type="button"
+          className={styles.removeButton}
+          aria-label="멤버 제거"
+        >
+          <XIcon size={20} color="secondary" />
+        </button> */}
       </div>
     </article>
   );

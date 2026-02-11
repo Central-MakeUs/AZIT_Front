@@ -40,7 +40,7 @@ export function MemberViewPage({ params }: { params?: { id?: string } }) {
           ) : (
             <>
               <p className={styles.totalCount}>총 {members.length}명</p>
-              <MemberList members={members} canRemoveMember={false} />
+              <MemberList members={members} />
             </>
           )}
         </div>
