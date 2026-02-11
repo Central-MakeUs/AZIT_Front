@@ -95,9 +95,13 @@ const TermDetailPage = lazyImport(
   () => import('@/pages/term-detail/ui/TermDetailPage'),
   'TermDetailPage'
 );
-const MemberManagementPage = lazyImport(
-  () => import('@/pages/my/ui/MemberManagementPage'),
-  'MemberManagementPage'
+const MemberManagePage = lazyImport(
+  () => import('@/pages/my/ui/MemberManagePage'),
+  'MemberManagePage'
+);
+const MemberViewPage = lazyImport(
+  () => import('@/pages/my/ui/MemberViewPage'),
+  'MemberViewPage'
 );
 
 export const routes = [
@@ -258,9 +262,15 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'MemberManagementPage',
-    path: '/member-management',
-    element: MemberManagementPage,
+    name: 'MemberManagePage',
+    path: '/crew/:id/manage',
+    element: MemberManagePage,
+    withAuth: true,
+  },
+  {
+    name: 'MemberViewPage',
+    path: '/crew/:id/members',
+    element: MemberViewPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];

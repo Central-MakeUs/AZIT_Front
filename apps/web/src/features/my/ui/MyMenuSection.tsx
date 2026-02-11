@@ -16,7 +16,7 @@ export function MyMenuSection({ section }: MyMenuSectionProps) {
       if (item.path === 'TermDetailPage') {
         push(item.path, { termType: item.id }, { animate: true });
       } else {
-        push(item.path, {}, { animate: true });
+        push(item.path, item.pushParams ?? {}, { animate: true });
       }
     } else if (item.type === 'external_link') {
       window.open(item.url, '_blank');
