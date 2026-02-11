@@ -2,14 +2,12 @@ import { useFlow } from '@/app/routes/stackflow';
 import * as styles from '../styles/MyMenuSection.css';
 import { MyMenuItem } from './MyMenuItem';
 import type { MenuItem, MyPageMenuGroup } from '../model/menu';
-import type { MyInfoResult } from '@/shared/api/models';
 
 interface MyMenuSectionProps {
   section: MyPageMenuGroup;
-  member?: MyInfoResult | null;
 }
 
-export function MyMenuSection({ section, member }: MyMenuSectionProps) {
+export function MyMenuSection({ section }: MyMenuSectionProps) {
   const { push } = useFlow();
 
   const handleItemClick = (item: MenuItem) => {
@@ -21,7 +19,6 @@ export function MyMenuSection({ section, member }: MyMenuSectionProps) {
         push(item.path, {}, { animate: true });
       }
     } else if (item.type === 'external_link') {
-      console.log('item.url', item.url);
       window.open(item.url, '_blank');
     }
   };

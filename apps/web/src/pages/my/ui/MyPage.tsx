@@ -37,11 +37,7 @@ export function MyPage() {
 
           <div className={styles.menuSectionWrapper}>
             {filteredMenu.map((section) => (
-              <MyMenuSection
-                key={section.id}
-                section={section}
-                member={myInfo}
-              />
+              <MyMenuSection key={section.id} section={section} />
             ))}
           </div>
           <div className={styles.buttonWrapper}>
