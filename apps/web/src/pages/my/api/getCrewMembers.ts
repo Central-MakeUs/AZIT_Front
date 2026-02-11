@@ -5,10 +5,11 @@ import { END_POINT } from '@/shared/constants/endpoint';
 
 export const getCrewMembers = (
   crewId: number,
-  params: { cursorId?: number; size?: number } = { size: 10 }
+  params: { cursorId?: number; size?: number }
 ) => {
+  const searchParams = { ...params, size: params.size ?? 10 };
   return auth.get<ApiResponse<CrewMemberListResult>>(
     END_POINT.CREW.MEMBERS(crewId),
-    { searchParams: params }
+    { searchParams }
   );
 };

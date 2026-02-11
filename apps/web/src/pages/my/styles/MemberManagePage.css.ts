@@ -20,3 +20,17 @@ export const totalCount = style([
     marginBottom: 12,
   },
 ]);
+
+export const loadingMore = style([
+  typography.body.b2,
+  {
+    color: vars.colors.gray70,
+    textAlign: 'center',
+    padding: 12,
+  },
+]);
+
+export const sentinel = style({
+  height: 1,
+  width: '100%',
+});
