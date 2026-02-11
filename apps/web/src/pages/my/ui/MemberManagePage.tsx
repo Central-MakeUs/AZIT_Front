@@ -69,7 +69,7 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
         </div>
         <div className={styles.mainContainer}>
           {activeTab === 'request' ? (
-            <RequestListView requests={requests} />
+            <RequestListView crewId={crewId} requests={requests} />
           ) : (
             <MemberListView members={members} isLeader={isLeader} />
           )}
@@ -94,9 +94,15 @@ function MemberListView({
   );
 }
 
-function RequestListView({ requests }: { requests: MemberRequestItem[] }) {
+function RequestListView({
+  crewId,
+  requests,
+}: {
+  crewId: number;
+  requests: MemberRequestItem[];
+}) {
   return requests.length > 0 ? (
-    <RequestList requests={requests} />
+    <RequestList crewId={crewId} requests={requests} />
   ) : (
     <RequestListEmpty />
   );
