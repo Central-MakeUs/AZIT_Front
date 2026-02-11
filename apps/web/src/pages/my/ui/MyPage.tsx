@@ -5,17 +5,14 @@ import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { MyProfileSection, MyMenuSection } from '@/features/my/ui';
+import { WithdrawButton } from '@/features/auth/ui';
 import { useAuthStore } from '@/shared/store/auth';
 import { getMyPageMenu } from '@/features/my/model/menu';
-import { AlertDialog } from '@azit/design-system/alert-dialog';
-import { postWithdraw } from '@/features/auth/api/postWithdraw';
-import { useFlow } from '@/app/routes/stackflow';
 import { memberQueries } from '@/shared/api/queries';
 import * as styles from '../styles/Mypage.css';
 
 export function MyPage() {
-  const { logout, setAccessToken, setIsInitialized } = useAuthStore();
-  const { replace } = useFlow();
+  const { logout } = useAuthStore();
 
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
 
@@ -52,26 +49,7 @@ export function MyPage() {
                 </button>
               </div>
               <div className={styles.withdrawButtonWrapper}>
-                <AlertDialog
-                  trigger={
-                    <button type="button" className={styles.withdrawButton}>
-                      회원탈퇴
-                    </button>
-                  }
-                  title="정말로 탈퇴하시겠습니까?"
-                  description="탈퇴한 계정은 복구할 수 없어요"
-                  actionText="탈퇴하기"
-                  cancelText="취소하기"
-                  onAction={async () => {
-                    const response = await postWithdraw();
-
-                    if (response.ok) {
-                      setAccessToken(undefined);
-                      setIsInitialized(false);
-                      replace('LoginPage', {}, { animate: false });
-                    }
-                  }}
-                />
+                <WithdrawButton />
               </div>
             </div>
           </div>
