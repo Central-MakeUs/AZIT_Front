@@ -19,7 +19,7 @@ export function useCartSelect({ allItems, cartData }: UseCartSelectParams) {
 
   const selectedItems = useMemo(() => {
     return selectableItems.filter((item) =>
-      selectedItemIds.has(String(item.cartItemId))
+      selectedItemIds.has(String(item.id))
     );
   }, [selectableItems, selectedItemIds]);
 
@@ -34,7 +34,7 @@ export function useCartSelect({ allItems, cartData }: UseCartSelectParams) {
     (checked: boolean) => {
       if (checked) {
         const newSelectedIds = new Set(
-          selectableItems.map((item) => String(item.cartItemId))
+          selectableItems.map((item) => String(item.id))
         );
         setSelectedItemIds(newSelectedIds);
       } else {
@@ -71,7 +71,7 @@ export function useCartSelect({ allItems, cartData }: UseCartSelectParams) {
       setSelectedItemIds((prev) => {
         const newSet = new Set(prev);
         selectableItemsInBrand.forEach((item) => {
-          const itemId = String(item.cartItemId);
+          const itemId = String(item.id);
           if (checked) {
             newSet.add(itemId);
           } else {

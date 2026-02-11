@@ -32,11 +32,11 @@ export function CartItem({ item }: CartItemProps) {
     handleItemSelectChange,
     handleDeleteItem,
   } = useCartContext();
-  const itemId = String(item.cartItemId);
+  const itemId = String(item.id);
   const isSelected = selectedItemIds.has(itemId);
   const [quantity, setQuantity] = useState(item.quantity || 0);
 
-  const cartItemId = item.cartItemId || 0;
+  const cartItemId = item.id || 0;
   const name = item.productName || '';
   const size = item.optionDescription || '';
   const expectedDelivery = item.expectedShippingDate

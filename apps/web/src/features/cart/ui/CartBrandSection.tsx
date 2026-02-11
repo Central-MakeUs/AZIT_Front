@@ -14,7 +14,7 @@ export function CartBrandSection({ brand }: CartBrandSectionProps) {
     (item) => !item.isOutOfStock && (item.quantity || 0) > 0
   );
   const selectedCount = selectableItems.filter((item) =>
-    selectedItemIds.has(String(item.cartItemId))
+    selectedItemIds.has(String(item.id))
   ).length;
   const isBrandSelected =
     selectableItems.length > 0 && selectedCount === selectableItems.length;
@@ -37,7 +37,7 @@ export function CartBrandSection({ brand }: CartBrandSectionProps) {
       </div>
       <div className={styles.itemsWrapper}>
         {brand.items.map((item) => {
-          const itemId = String(item.cartItemId);
+          const itemId = String(item.id);
           return <CartItem key={itemId} item={item} />;
         })}
       </div>
