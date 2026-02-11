@@ -13,6 +13,7 @@ import {
 import { memberQueries } from '@/shared/api/queries';
 import { MEMBER_ROLE } from '@/features/my/model/role';
 import type { MemberItem, MemberRequestItem } from '@/features/my/model/types';
+import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import * as styles from '../styles/MemberManagePage.css';
 
 export function MemberManagePage({ params }: { params?: { id?: string } }) {
@@ -23,9 +24,20 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
   const myInfo = myInfoData?.ok ? myInfoData.data.result : null;
 
-  const { data: membersData } = useInfiniteQuery({
+  const {
+    data: membersData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     ...memberQueries.crewMembersQuery(crewId),
     enabled: crewId > 0 && activeTab === 'member',
+  });
+
+  const { scrollRef, bottomSentinelRef } = useInfiniteScroll({
+    hasNextPage: hasNextPage ?? false,
+    isFetchingNextPage,
+    fetchNextPage,
   });
 
   const members: MemberItem[] =
@@ -41,9 +53,14 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
         : []
     ) ?? [];
 
+  const totalCount =
+    membersData?.pages[0]?.ok === true
+      ? membersData.pages[0].data.result.totalCount
+      : undefined;
+
   const { data: joinRequestsData } = useQuery({
     ...memberQueries.joinRequestsQuery(crewId),
-    enabled: crewId > 0 && activeTab === 'request',
+    enabled: crewId > 0,
   });
 
   const requests = joinRequestsData?.ok
@@ -67,11 +84,19 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
             requestCount={requests.length}
           />
         </div>
-        <div className={styles.mainContainer}>
+        <div
+          className={styles.mainContainer}
+          ref={activeTab === 'member' ? scrollRef : undefined}
+        >
           {activeTab === 'request' ? (
             <RequestListView crewId={crewId} requests={requests} />
           ) : (
-            <MemberListView members={members} isLeader={isLeader} />
+            <MemberListView
+              members={members}
+              totalCount={totalCount}
+              isLeader={isLeader}
+              bottomSentinelRef={bottomSentinelRef}
+            />
           )}
         </div>
       </AppLayout>
@@ -81,15 +106,20 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
 
 function MemberListView({
   members,
+  totalCount,
   isLeader,
+  bottomSentinelRef,
 }: {
   members: MemberItem[];
+  totalCount: number | undefined;
   isLeader: boolean;
+  bottomSentinelRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <>
-      <p className={styles.totalCount}>총 {members.length}명</p>
+      <p className={styles.totalCount}>총 {totalCount ?? members.length}명</p>
       <MemberList members={members} canRemoveMember={isLeader} />
+      <div ref={bottomSentinelRef} className={styles.sentinel} aria-hidden />
     </>
   );
 }
