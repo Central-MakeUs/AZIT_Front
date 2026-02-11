@@ -5,6 +5,10 @@ export const END_POINT = {
     SOCIAL_LOGIN: (provider: AuthProvider) => `auth/social-login/${provider}`,
     REISSUE_TOKEN: 'auth/reissue',
     LOGOUT: 'auth/logout',
+    WITHDRAW: 'members/me/withdraw',
+  },
+  MEMBER: {
+    MY_INFO: 'members/me',
   },
   ONBOARDING: {
     CREATE_CREW: 'crews',
