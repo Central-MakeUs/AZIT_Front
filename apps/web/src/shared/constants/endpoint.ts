@@ -7,6 +7,9 @@ export const END_POINT = {
     LOGOUT: 'auth/logout',
     WITHDRAW: 'members/me/withdraw',
   },
+  MEMBER: {
+    MY_INFO: 'members/me',
+  },
   ONBOARDING: {
     CREATE_CREW: 'crews',
     CREW_INFO: (invitationCode: string) => `crews/invitation/${invitationCode}`,
