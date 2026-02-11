@@ -816,12 +816,21 @@ export interface components {
     CreateOrderResponse: {
       /** @description 주문 번호 */
       orderNumber?: string;
-      deliveryInfo?: components['schemas']['DeliveryAddressResponse'];
-      depositAccountInfo?: components['schemas']['DepositAccountResponse'];
+      deliveryInfo?: components['schemas']['OrderDeliveryInfoResponse'];
+      depositAccountInfo?: components['schemas']['DepositAccountInfoResponse'];
       summary?: components['schemas']['CheckoutSummaryResponse'];
     };
+    /** @description 입금 계좌 정보 */
+    DepositAccountInfoResponse: {
+      /** @description 은행명 */
+      bankName?: string;
+      /** @description 계좌번호 */
+      accountNumber?: string;
+      /** @description 예금주 */
+      accountHolder?: string;
+    };
     /** @description 배송지 정보 */
-    DeliveryAddressResponse: {
+    OrderDeliveryInfoResponse: {
       /** @description 수령인 이름 */
       recipientName?: string;
       /** @description 수령인 연락처 */
@@ -830,15 +839,6 @@ export interface components {
       baseAddress?: string;
       /** @description 상세 주소 */
       detailAddress?: string;
-    };
-    /** @description 입금 계좌 정보 */
-    DepositAccountResponse: {
-      /** @description 은행명 */
-      bankName?: string;
-      /** @description 계좌번호 */
-      accountNumber?: string;
-      /** @description 예금주 */
-      accountHolder?: string;
     };
     AgreeToTermsRequest: {
       /** @description 서비스 이용약관 동의 여부 (필수) */
@@ -1165,6 +1165,19 @@ export interface components {
       message?: string;
       result?: components['schemas']['OrderDetailResponse'];
     };
+    /** @description 배송지 정보 */
+    OrderDetailDeliveryInfoResponse: {
+      /** @description 수령인 이름 */
+      recipientName?: string;
+      /** @description 수령인 연락처 */
+      phoneNumber?: string;
+      /** @description 기본 주소 */
+      baseAddress?: string;
+      /** @description 상세 주소 */
+      detailAddress?: string;
+      /** @description 배송 요청사항 */
+      shippingInstruction?: string;
+    };
     OrderDetailResponse: {
       /**
        * Format: int64
@@ -1178,7 +1191,7 @@ export interface components {
       orderDate?: string;
       /** @description 주문 번호 */
       orderNumber?: string;
-      deliveryInfo?: components['schemas']['DeliveryAddressResponse'];
+      deliveryInfo?: components['schemas']['OrderDetailDeliveryInfoResponse'];
       shippingInfo?: components['schemas']['ShippingResponse'];
       /** @description 주문 상품 목록 */
       items?: components['schemas']['OrderItemResponse'][];
@@ -1280,6 +1293,26 @@ export interface components {
       code?: string;
       message?: string;
       result?: components['schemas']['OrderCheckoutResponse'];
+    };
+    /** @description 배송지 정보 (기본 배송지 우선, 없으면 null) */
+    DeliveryAddressResponse: {
+      /**
+       * Format: int64
+       * @description 배송지 ID
+       */
+      id?: number;
+      /** @description 수령인 이름 */
+      recipientName?: string;
+      /** @description 수령인 연락처 */
+      phoneNumber?: string;
+      /** @description 우편번호 */
+      zipcode?: string;
+      /** @description 기본 주소 */
+      baseAddress?: string;
+      /** @description 상세 주소 */
+      detailAddress?: string;
+      /** @description 기본 배송지 여부 */
+      isDefault?: boolean;
     };
     OrderCheckoutResponse: {
       deliveryInfo?: components['schemas']['DeliveryAddressResponse'];
