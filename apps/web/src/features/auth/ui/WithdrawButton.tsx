@@ -13,7 +13,7 @@ export function WithdrawButton() {
         </button>
       }
       title="정말로 탈퇴하시겠습니까?"
-      description="탈퇴한 계정은 복구할 수 없어요"
+      description="탈퇴 후 30일이 지나면 계정 복구가 불가능해요"
       actionText="탈퇴하기"
       cancelText="취소하기"
       onAction={handleWithdraw}

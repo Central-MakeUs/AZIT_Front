@@ -5,7 +5,6 @@ import {
   ChevronLeftIcon,
   ShareIcon,
   ShoppingCartIcon,
-  ChevronDownIcon,
 } from '@azit/design-system/icon';
 import { Dropdown } from '@azit/design-system/dropdown';
 import { Button } from '@azit/design-system/button';
@@ -29,11 +28,13 @@ import { useActivityParams } from '@stackflow/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { storeQueries } from '@/shared/api/queries';
 import { cartQueries } from '@/shared/api/queries/cart';
+import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
   const { id } = useActivityParams<{ id: string }>();
   const queryClient = useQueryClient();
+  const { share: shareWithKakao } = useKakaoShare();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
@@ -102,6 +103,21 @@ export function StoreDetailPage() {
     pop();
   };
 
+  const handleShare = () => {
+    const imageUrl =
+      product.slideImageUrls?.[0] ?? product.detailImageUrls?.[0] ?? '';
+    shareWithKakao({
+      title: `[AZIT 스토어] ${product.productName} 크루 전용 특가 도착!
+오직 AZIT 크루에게만 제공되는 단독 최저가! 지금 바로 앱에서 확인하고 혜택을 누려보세요.`,
+      imageUrl,
+      url: window.location.href,
+      productName: product.productName ?? '',
+      regularPrice: product.basePrice ?? 0,
+      discountRate: product.discountRate ?? 0,
+      discountPrice: product.salePrice ?? 0,
+    });
+  };
+
   const handlePurchaseClick = () => {
     setIsBottomSheetOpen(true);
   };
@@ -161,7 +177,13 @@ export function StoreDetailPage() {
             }
             right={
               <div className={styles.headerIconWrapper}>
-                <button className={styles.iconButton}>
+                <button
+                  className={styles.iconButton}
+                  type="button"
+                  id="kakaotalk-sharing-btn"
+                  onClick={handleShare}
+                  aria-label="카카오 공유"
+                >
                   <ShareIcon size={24} />
                 </button>
                 <button className={styles.iconButton}>
@@ -193,7 +215,7 @@ export function StoreDetailPage() {
               detailImageUrls={product.detailImageUrls}
             />
           </div>
-          <div className={styles.moreInfoPlaceholder}>
+          {/* <div className={styles.moreInfoPlaceholder}>
             <div className={styles.moreInfoGradient}>
               <button className={styles.moreInfoButton}>
                 <span className={styles.moreInfoButtonText}>
@@ -202,7 +224,7 @@ export function StoreDetailPage() {
                 <ChevronDownIcon size={24} color="primary" />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className={footerWrapper}>
           <Button size="large" state="active" onClick={handlePurchaseClick}>

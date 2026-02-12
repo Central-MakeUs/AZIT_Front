@@ -1,6 +1,141 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { layoutStyles } from '@/shared/styles/layout.css';
+import { vars } from '@azit/design-system';
+
+const typography = {
+  h1: vars.typography.heading.h1,
+  h2: vars.typography.heading.h2,
+  h3: vars.typography.heading.h3,
+  bodyB1: vars.typography.body.b1,
+  bodyB2: vars.typography.body.b2,
+  bodyB3: vars.typography.body.b3,
+};
 
 export const headerWrapper = style([layoutStyles.headerWrapper]);
 
-export const mainContainer = style([layoutStyles.mainContainer]);
+export const markdownContainer = style([
+  layoutStyles.mainContainer,
+  {
+    backgroundColor: vars.colors.background_sub,
+    padding: 20,
+    fontFamily: vars.typography.fontFamily.primary,
+    color: vars.colors.gray100,
+  },
+]);
+
+/* Heading */
+globalStyle(`${markdownContainer} h1`, {
+  ...typography.h1,
+  marginTop: '1.5rem',
+  marginBottom: '0.75rem',
+});
+
+globalStyle(`${markdownContainer} h1:first-child`, {
+  marginTop: 0,
+});
+
+globalStyle(`${markdownContainer} h2`, {
+  ...typography.h2,
+  marginTop: '1.5rem',
+  marginBottom: '0.75rem',
+});
+
+globalStyle(`${markdownContainer} h2:first-child`, {
+  marginTop: 0,
+});
+
+globalStyle(`${markdownContainer} h3`, {
+  ...typography.h3,
+  marginTop: '1.25rem',
+  marginBottom: '0.5rem',
+});
+
+globalStyle(`${markdownContainer} h3:first-child`, {
+  marginTop: 0,
+});
+
+/* Paragraph */
+globalStyle(`${markdownContainer} p`, {
+  ...typography.bodyB2,
+  marginTop: 0,
+  marginBottom: '0.75rem',
+});
+
+/* List */
+globalStyle(`${markdownContainer} ul`, {
+  ...typography.bodyB2,
+  marginTop: 0,
+  marginBottom: '0.75rem',
+  paddingLeft: '1.25rem',
+  listStyleType: 'disc',
+  listStylePosition: 'outside',
+});
+
+globalStyle(`${markdownContainer} ol`, {
+  ...typography.bodyB2,
+  marginTop: 0,
+  marginBottom: '0.75rem',
+  paddingLeft: '1.25rem',
+  listStyleType: 'decimal',
+  listStylePosition: 'outside',
+});
+
+globalStyle(`${markdownContainer} li`, {
+  marginBottom: '0.25rem',
+});
+
+globalStyle(`${markdownContainer} li:last-child`, {
+  marginBottom: 0,
+});
+
+/* Bold */
+globalStyle(`${markdownContainer} strong`, {
+  fontWeight: typography.bodyB1.fontWeight,
+});
+
+/* Code (inline) */
+globalStyle(`${markdownContainer} code`, {
+  ...typography.bodyB3,
+  backgroundColor: vars.colors.gray10,
+  color: vars.colors.gray100,
+  padding: '0.2rem 0.4rem',
+  borderRadius: '4px',
+});
+
+/* Code block */
+globalStyle(`${markdownContainer} pre`, {
+  marginTop: 0,
+  marginBottom: '0.75rem',
+  overflow: 'auto',
+  borderRadius: '4px',
+});
+
+globalStyle(`${markdownContainer} pre code`, {
+  display: 'block',
+  padding: '0.75rem 1rem',
+  backgroundColor: vars.colors.gray10,
+});
+
+/* Link */
+globalStyle(`${markdownContainer} a`, {
+  ...typography.bodyB2,
+  color: vars.colors.blue60,
+  textDecoration: 'underline',
+});
+
+/* Blockquote */
+globalStyle(`${markdownContainer} blockquote`, {
+  ...typography.bodyB3,
+  marginTop: 0,
+  marginBottom: '0.75rem',
+  paddingLeft: '1rem',
+  borderLeft: `3px solid ${vars.colors.gray30}`,
+  color: vars.colors.gray70,
+});
+
+/* Horizontal rule */
+globalStyle(`${markdownContainer} hr`, {
+  margin: '1.25rem 0',
+  border: 'none',
+  borderTop: `1px solid ${vars.colors.gray20}`,
+});
