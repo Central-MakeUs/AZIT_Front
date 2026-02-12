@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
 import {
-  ChevronDownIcon,
   ChevronLeftIcon,
-  ChevronUpIcon,
   ShareIcon,
   ShoppingCartIcon,
 } from '@azit/design-system/icon';
@@ -35,9 +33,11 @@ import {
   OrderPolicyDropdown,
   OrderPolicyFooter,
 } from '@/widgets/order-policy/ui';
+import { useOrderStore } from '@/shared/store/order';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
+  const { setDirectOrder, setIsDirectOrder } = useOrderStore();
   const { id } = useActivityParams<{ id: string }>();
   const queryClient = useQueryClient();
   const { share: shareWithKakao } = useKakaoShare();
@@ -124,8 +124,18 @@ export function StoreDetailPage() {
     });
   };
 
-  const handlePurchaseClick = () => {
+  const handleOptionSelectClick = () => {
     setIsBottomSheetOpen(true);
+  };
+
+  const handlePurchaseClick = () => {
+    setIsBottomSheetOpen(false);
+    setDirectOrder({
+      skuId: selectedSku!.id,
+      quantity: quantity,
+    });
+    setIsDirectOrder(true);
+    push('OrderPage', {});
   };
 
   const options =
@@ -236,7 +246,7 @@ export function StoreDetailPage() {
           <OrderPolicyFooter />
         </div>
         <div className={footerWrapper}>
-          <Button size="large" state="active" onClick={handlePurchaseClick}>
+          <Button size="large" state="active" onClick={handleOptionSelectClick}>
             구매하기
           </Button>
         </div>
@@ -272,14 +282,7 @@ export function StoreDetailPage() {
             >
               {addToCartMutation.isPending ? '추가 중...' : '장바구니'}
             </Button>
-            <Button
-              size="large"
-              state="active"
-              onClick={() => {
-                setIsBottomSheetOpen(false);
-                push('OrderPage', {});
-              }}
-            >
+            <Button size="large" state="active" onClick={handlePurchaseClick}>
               구매하기
             </Button>
           </div>
