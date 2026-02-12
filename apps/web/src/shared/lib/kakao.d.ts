@@ -63,6 +63,7 @@ interface KakaoShareButton {
 
 interface KakaoShare {
   createDefaultButton: (options: {
+    container: string;
     objectType: string;
     content?: KakaoShareFeedContent;
     commerce: KakaoShareCommerce;

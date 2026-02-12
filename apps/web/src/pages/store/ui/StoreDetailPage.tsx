@@ -180,6 +180,7 @@ export function StoreDetailPage() {
                 <button
                   className={styles.iconButton}
                   type="button"
+                  id="kakaotalk-sharing-btn"
                   onClick={handleShare}
                   aria-label="카카오 공유"
                 >
