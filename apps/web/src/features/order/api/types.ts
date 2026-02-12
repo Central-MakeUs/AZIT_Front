@@ -18,3 +18,5 @@ export type DeliveryAddress = components['schemas']['DeliveryAddressResponse'];
 export type PaymentMethod = components['schemas']['PaymentMethodResponse'];
 export type DepositAccountInfo =
   components['schemas']['DepositAccountInfoResponse'];
+
+export type OrderRequest = components['schemas']['CreateOrderRequest'];
