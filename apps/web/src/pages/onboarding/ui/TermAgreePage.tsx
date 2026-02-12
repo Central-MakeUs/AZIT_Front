@@ -30,30 +30,36 @@ const TERM_LIST = [
     label: '개인정보 처리방침',
     required: true,
   },
-  {
-    id: 'locationServiceAgreed',
-    label: '위치 기반 서비스 이용약관',
-    required: true,
-  },
+  // {
+  //   id: 'locationServiceAgreed',
+  //   label: '위치 기반 서비스 이용약관',
+  //   required: true,
+  // },
   {
     id: 'thirdPartyInfoAgreed',
     label: '제 3자 정보제공 동의',
     required: true,
   },
-  {
-    id: 'marketingTermsAgreed',
-    label: '마케팅 정보 수신 동의',
-    required: false,
-  },
-  {
-    id: 'notificationTermsAgreed',
-    label: '알림 수신 동의',
-    required: false,
-  },
+  // {
+  //   id: 'marketingTermsAgreed',
+  //   label: '마케팅 정보 수신 동의',
+  //   required: false,
+  // },
+  // {
+  //   id: 'notificationTermsAgreed',
+  //   label: '알림 수신 동의',
+  //   required: false,
+  // },
 ] as const;
 
+const TERM_ID_TO_TERM_TYPE: Record<string, string> = {
+  serviceTermsAgreed: 'terms-of-service',
+  privacyPolicyAgreed: 'privacy-policy',
+  thirdPartyInfoAgreed: 'third-party-info-agreement',
+};
+
 export function TermAgreePage() {
-  const { replace } = useFlow();
+  const { replace, push } = useFlow();
   const [terms, setTerms] = useState<TermsState>(
     () =>
       Object.fromEntries(
@@ -95,8 +101,11 @@ export function TermAgreePage() {
   };
 
   const handleDetailClick = (id: string) => {
-    // TODO: 약관 상세 페이지로 이동
-    console.log('클릭한 약관 상세:', id);
+    const termType = TERM_ID_TO_TERM_TYPE[id];
+
+    if (termType) {
+      push('TermDetailPage', { termType }, { animate: true });
+    }
   };
 
   return (
