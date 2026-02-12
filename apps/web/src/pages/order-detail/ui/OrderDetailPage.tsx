@@ -14,8 +14,10 @@ import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 import { orderQueries } from '@/shared/api/queries/order';
 import { useQuery } from '@tanstack/react-query';
 import { useActivityParams } from '@stackflow/react';
+import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import * as styles from '../styles/OrderDetailPage.css';
 import { Divider } from '@azit/design-system/divider';
+import { Button } from '@azit/design-system/button';
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -55,11 +57,18 @@ export function OrderDetailPage() {
     // TODO: 택배사 확인 로직
   };
 
+  const handleCancelOrder = () => {
+    // TODO: 주문 취소 로직
+  };
+
+  const handleInquiry = () => {
+    window.open(KAKAO_INQUIRY_CHAT_URL, '_blank');
+  };
+
   const handleCopyTrackingNumber = () => {
     const trackingNumber = result?.shippingInfo?.trackingNumber;
     if (trackingNumber) {
       navigator.clipboard.writeText(trackingNumber);
-      // TODO: 복사 완료 토스트 표시
     }
   };
 
@@ -151,6 +160,14 @@ export function OrderDetailPage() {
               totalPayment={summary.totalPaymentPrice ?? 0}
             />
           )}
+          <div className={styles.buttonContainer}>
+            <Button state="outline" onClick={handleCancelOrder}>
+              주문 취소
+            </Button>
+            <Button state="outline" onClick={handleInquiry}>
+              1:1 문의하기
+            </Button>
+          </div>
         </div>
       </AppLayout>
     </AppScreen>
