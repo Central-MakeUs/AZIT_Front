@@ -81,3 +81,8 @@ export const emptyStateText = style([
     textAlign: 'center',
   },
 ]);
+
+export const sentinel = style({
+  height: 1,
+  width: '100%',
+});
