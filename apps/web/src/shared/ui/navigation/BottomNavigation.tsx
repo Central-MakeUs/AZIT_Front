@@ -1,6 +1,6 @@
 import {
-  HomeIcon,
-  CalendarIcon,
+  // HomeIcon,
+  // CalendarIcon,
   ShoppingBagIcon,
   UserIcon,
   type IconProps,
