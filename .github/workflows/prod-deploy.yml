@@ -36,6 +36,9 @@ jobs:
         run: pnpm --filter web build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL_PROD }}
+          VITE_KAKAO_JS_SDK_KEY: ${{ secrets.VITE_KAKAO_JS_SDK_KEY_PROD }}
+          VITE_KAKAO_AUTHORIZE_URL: ${{ secrets.VITE_KAKAO_AUTHORIZE_URL_PROD }}
+          VITE_APPLE_AUTHORIZE_URL: ${{ secrets.VITE_APPLE_AUTHORIZE_URL_PROD }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
