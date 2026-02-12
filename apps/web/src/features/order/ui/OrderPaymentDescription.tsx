@@ -5,12 +5,19 @@ import * as styles from '../styles/OrderPaymentDescription.css';
 import { CopyIcon } from '@azit/design-system/icon';
 import { Input } from '@azit/design-system/input';
 
+interface OrderPaymentDescriptionProps extends DepositAccountInfo {
+  depositorName?: string;
+  onDepositorNameChange?: (value: string) => void;
+}
+
 export function OrderPaymentDescription({
   bankName,
   accountHolder,
   accountNumber,
   paymentDeadline,
-}: DepositAccountInfo) {
+  depositorName = '',
+  onDepositorNameChange,
+}: OrderPaymentDescriptionProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber!.replace(/-/g, ''));
   };
@@ -49,7 +56,11 @@ export function OrderPaymentDescription({
       <Description className={styles.inputDescription}>
         <Description.Label className={styles.label}>입금자명</Description.Label>
         <Description.Value className={styles.value}>
-          <Input placeholder="입금자명을 입력해주세요" />
+          <Input
+            placeholder="입금자명을 입력해주세요"
+            value={depositorName}
+            onChange={(e) => onDepositorNameChange?.(e.target.value)}
+          />
         </Description.Value>
       </Description>
     </div>
