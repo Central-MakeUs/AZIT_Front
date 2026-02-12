@@ -1,4 +1,5 @@
 import type { ActivityName } from '@/app/routes/types';
+import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import { MEMBER_ROLE } from './role';
 import type { MemberRole } from './types';
 
@@ -54,7 +55,7 @@ export const getMyPageMenu: (
           id: 'inquiry',
           label: '1:1 문의하기',
           type: 'external_link',
-          url: 'http://pf.kakao.com/_uxlqgn/chat',
+          url: KAKAO_INQUIRY_CHAT_URL,
         },
       ],
     },
