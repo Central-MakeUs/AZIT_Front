@@ -29,7 +29,7 @@ export const menuItem = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '64px',
+  flex: 1,
   height: '50px',
   overflow: 'hidden',
   position: 'relative',
