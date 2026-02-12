@@ -18,7 +18,7 @@ export function RequestList({ crewId, requests }: RequestListProps) {
           targetMemberId={request.memberId}
           nickname={request.nickname}
           profileImageUrl={request.profileImageUrl}
-          requestedAt={`${formatJoinDate(request.requestedAt)} 요청`}
+          requestedAt={request.requestedAt}
         />
       ))}
     </div>
