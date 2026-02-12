@@ -23,6 +23,7 @@ export const avatar = style({
   borderRadius: '50%',
   backgroundColor: vars.colors.gray10,
   flexShrink: 0,
+  objectFit: 'cover',
 });
 
 export const profileInfo = style({
