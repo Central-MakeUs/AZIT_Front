@@ -33,7 +33,7 @@ export function OrderCompletePage() {
   const handleHome = () => {
     // TODO: 홈으로
     console.log('홈으로');
-    replace('HomePage', {});
+    replace('StorePage', {});
   };
 
   return (
