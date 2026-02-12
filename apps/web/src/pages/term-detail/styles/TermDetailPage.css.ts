@@ -3,42 +3,12 @@ import { layoutStyles } from '@/shared/styles/layout.css';
 import { vars } from '@azit/design-system';
 
 const typography = {
-  h1: {
-    fontSize: vars.typography.heading.h1.fontSize,
-    fontWeight: vars.typography.heading.h1.fontWeight,
-    lineHeight: vars.typography.heading.h1.lineHeight,
-    letterSpacing: vars.typography.heading.h1.letterSpacing,
-  },
-  h2: {
-    fontSize: vars.typography.heading.h2.fontSize,
-    fontWeight: vars.typography.heading.h2.fontWeight,
-    lineHeight: vars.typography.heading.h2.lineHeight,
-    letterSpacing: vars.typography.heading.h2.letterSpacing,
-  },
-  h3: {
-    fontSize: vars.typography.heading.h3.fontSize,
-    fontWeight: vars.typography.heading.h3.fontWeight,
-    lineHeight: vars.typography.heading.h3.lineHeight,
-    letterSpacing: vars.typography.heading.h3.letterSpacing,
-  },
-  bodyB1: {
-    fontSize: vars.typography.body.b1.fontSize,
-    fontWeight: vars.typography.body.b1.fontWeight,
-    lineHeight: vars.typography.body.b1.lineHeight,
-    letterSpacing: vars.typography.body.b1.letterSpacing,
-  },
-  bodyB2: {
-    fontSize: vars.typography.body.b2.fontSize,
-    fontWeight: vars.typography.body.b2.fontWeight,
-    lineHeight: vars.typography.body.b2.lineHeight,
-    letterSpacing: vars.typography.body.b2.letterSpacing,
-  },
-  bodyB3: {
-    fontSize: vars.typography.body.b3.fontSize,
-    fontWeight: vars.typography.body.b3.fontWeight,
-    lineHeight: vars.typography.body.b3.lineHeight,
-    letterSpacing: vars.typography.body.b3.letterSpacing,
-  },
+  h1: vars.typography.heading.h1,
+  h2: vars.typography.heading.h2,
+  h3: vars.typography.heading.h3,
+  bodyB1: vars.typography.body.b1,
+  bodyB2: vars.typography.body.b2,
+  bodyB3: vars.typography.body.b3,
 };
 
 export const headerWrapper = style([layoutStyles.headerWrapper]);
