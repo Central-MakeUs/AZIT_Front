@@ -14,7 +14,7 @@ export const contentWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '32px',
-  width: '173px',
+  width: '100%',
 });
 
 export const textWrapper = style({
@@ -31,6 +31,16 @@ export const title = style([
   {
     textAlign: 'center',
     width: '100%',
+  },
+]);
+
+export const description = style([
+  typography.body.b2,
+  {
+    width: '100%',
+    color: vars.colors.gray60,
+    textWrap: 'nowrap',
+    textAlign: 'center',
   },
 ]);
 

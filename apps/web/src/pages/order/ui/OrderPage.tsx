@@ -102,8 +102,8 @@ export function OrderPage() {
 
     try {
       const response = await createOrderMutation.mutateAsync(payload);
-      if (response.ok) {
-        replace('OrderCompletePage', {});
+      if (response.ok && response.data?.result) {
+        replace('OrderCompletePage', { orderResult: response.data.result });
       }
       // TODO response.ok === false일 때 토스트 에러 처리
     } catch {
