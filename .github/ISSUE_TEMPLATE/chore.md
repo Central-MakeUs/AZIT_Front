@@ -1,9 +1,9 @@
 ---
 name: 📚 Chore / Docs
 about: 문서, 설정, 잡무성 작업
-title: "[Chore] "
+title: '[Chore] '
 labels: chore
-assignees: ""
+assignees: ''
 ---
 
 ## 📝 작업 내용
