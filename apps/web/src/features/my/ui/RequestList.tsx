@@ -1,5 +1,4 @@
 import type { MemberRequestItem } from '@/features/my/model/types';
-import { formatJoinDate } from '@/shared/lib/formatters';
 import { RequestListItem } from './RequestListItem';
 import * as styles from '../styles/RequestList.css';
 
