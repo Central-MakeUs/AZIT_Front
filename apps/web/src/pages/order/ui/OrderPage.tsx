@@ -11,7 +11,7 @@ import {
   OrderSummarySection,
 } from '@/features/order/ui';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-import { useOrderStore } from '@/shared/store/order';
+import { useActivityParams } from '@stackflow/react';
 
 import * as styles from '../styles/OrderPage.css';
 import { useFlow } from '@/app/routes/stackflow';
@@ -26,9 +26,33 @@ import {
 
 const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
 
+interface OrderPageParams {
+  skuId?: string;
+  quantity?: string;
+  cartItemIds?: string; // JSON stringified number[]
+}
+
+function parseOrderParams(params: OrderPageParams | undefined) {
+  if (!params) return { skuId: 0, quantity: 0, cartItemIds: [] as number[] };
+  const skuId = Number(params.skuId) || 0;
+  const quantity = Number(params.quantity) || 0;
+  let cartItemIds: number[] = [];
+  try {
+    const parsed = params.cartItemIds ? JSON.parse(params.cartItemIds) : [];
+    cartItemIds = Array.isArray(parsed)
+      ? parsed.filter((n: unknown) => typeof n === 'number')
+      : [];
+  } catch {
+    // ignore
+  }
+  return { skuId, quantity, cartItemIds };
+}
+
 export function OrderPage() {
   const { pop, push, replace } = useFlow();
-  const { order, isDirectOrder } = useOrderStore();
+  const params = useActivityParams<OrderPageParams>();
+  const { skuId, quantity, cartItemIds } = parseOrderParams(params);
+  const isDirectOrder = skuId > 0;
 
   const [selectedPaymentCode, setSelectedPaymentCode] = useState<
     string | undefined
@@ -43,18 +67,13 @@ export function OrderPage() {
   };
 
   const { data: checkoutInfoDirect, isPending: isDirectPending } = useQuery({
-    ...orderQueries.checkoutDirectQuery({
-      skuId: order?.skuId ?? 0,
-      quantity: order?.quantity ?? 0,
-    }),
-    enabled: isDirectOrder && !!order?.skuId && (order?.quantity ?? 0) > 0,
+    ...orderQueries.checkoutDirectQuery({ skuId, quantity }),
+    enabled: isDirectOrder && skuId > 0 && quantity > 0,
   });
 
   const { data: checkoutInfoCart, isPending: isCartPending } = useQuery({
-    ...orderQueries.checkoutCartQuery({
-      cartItemIds: order?.cartItemIds ?? [],
-    }),
-    enabled: !isDirectOrder && (order?.cartItemIds?.length ?? 0) > 0,
+    ...orderQueries.checkoutCartQuery({ cartItemIds }),
+    enabled: !isDirectOrder && cartItemIds.length > 0,
   });
 
   const checkoutInfo = isDirectOrder ? checkoutInfoDirect : checkoutInfoCart;
@@ -85,9 +104,7 @@ export function OrderPage() {
     }
 
     const payload = {
-      ...(isDirectOrder
-        ? { skuId: order?.skuId, quantity: order?.quantity ?? 0 }
-        : { cartItemIds: order?.cartItemIds ?? [] }),
+      ...(isDirectOrder ? { skuId, quantity } : { cartItemIds }),
       recipientName: delivery.recipientName ?? '',
       phoneNumber: delivery.phoneNumber ?? '',
       baseAddress: delivery.baseAddress ?? '',

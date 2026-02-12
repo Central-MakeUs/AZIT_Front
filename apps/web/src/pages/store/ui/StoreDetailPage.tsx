@@ -33,11 +33,9 @@ import {
   OrderPolicyDropdown,
   OrderPolicyFooter,
 } from '@/widgets/order-policy/ui';
-import { useOrderStore } from '@/shared/store/order';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
-  const { setDirectOrder, setIsDirectOrder } = useOrderStore();
   const { id } = useActivityParams<{ id: string }>();
   const queryClient = useQueryClient();
   const { share: shareWithKakao } = useKakaoShare();
@@ -130,12 +128,10 @@ export function StoreDetailPage() {
 
   const handlePurchaseClick = () => {
     setIsBottomSheetOpen(false);
-    setDirectOrder({
+    push('OrderPage', {
       skuId: selectedSku!.id,
-      quantity: quantity,
+      quantity,
     });
-    setIsDirectOrder(true);
-    push('OrderPage', {});
   };
 
   const options =
