@@ -1,9 +1,15 @@
-import type { OrderProduct } from '@/shared/mock/order';
+import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
+
+type OrderProductListItem = OrderItem | OrderItemResponse;
+
+function isCheckoutItem(item: OrderProductListItem): item is OrderItem {
+  return 'basePrice' in item && 'salePrice' in item;
+}
 import { Description } from '@azit/design-system/description';
 import * as styles from '../styles/OrderProductItem.css.ts';
 
 interface OrderProductItemProps {
-  product: OrderProduct;
+  product: OrderProductListItem;
   showOriginalPrice?: boolean;
 }
 
@@ -11,9 +17,17 @@ export function OrderProductItem({
   product,
   showOriginalPrice = true,
 }: OrderProductItemProps) {
+  const hasBasePrice = isCheckoutItem(product) && (product.basePrice ?? 0) > 0;
+  const salePrice =
+    (isCheckoutItem(product)
+      ? product.salePrice
+      : (product as OrderItemResponse).totalSalePrice) ?? 0;
+  const basePrice = isCheckoutItem(product) ? (product.basePrice ?? 0) : 0;
+  const quantity = product.quantity ?? 0;
+
   return (
     <div className={styles.productItem}>
-      <div className={styles.productImage} />
+      <img className={styles.productImage} src={product.productImageUrl} />
       <div className={styles.productInfo}>
         <div className={styles.productDetails}>
           <div className={styles.productTexts}>
@@ -22,17 +36,21 @@ export function OrderProductItem({
           </div>
           <Description>
             <Description.Label>
-              <span className={styles.points}>{product.points}</span>
-              <span className={styles.quantity}> / {product.quantity}개</span>
+              <p className={styles.quantity}>
+                <span style={{ color: 'black' }}>
+                  {product.optionDescription}
+                </span>{' '}
+                / {quantity}개
+              </p>
             </Description.Label>
             <Description.Value className={styles.priceContainer}>
-              {showOriginalPrice && (
+              {showOriginalPrice && hasBasePrice && (
                 <span className={styles.originalPrice}>
-                  {product.originalPrice.toLocaleString()}원
+                  {basePrice.toLocaleString()}원
                 </span>
               )}
               <span className={styles.discountedPrice}>
-                {product.discountedPrice.toLocaleString()}원
+                {salePrice.toLocaleString()}원
               </span>
             </Description.Value>
           </Description>

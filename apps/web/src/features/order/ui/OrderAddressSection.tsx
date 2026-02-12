@@ -1,10 +1,13 @@
 import { Dropdown, type DropdownOption } from '@azit/design-system/dropdown';
-import type { OrderAddress } from '@/shared/mock/order';
+import type { DeliveryAddress } from '@/features/order/api/types';
 import * as styles from '../styles/OrderAddressSection.css';
+import type { Dispatch, SetStateAction } from 'react';
 
 interface OrderAddressSectionProps {
-  address: OrderAddress;
-  onChangeAddress?: () => void;
+  address: DeliveryAddress | null;
+  onChangeAddress: () => void;
+  deliveryMessage?: string;
+  onChangeDeliveryMessage: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const deliveryRequestOptions: DropdownOption[] = [
@@ -17,7 +20,13 @@ const deliveryRequestOptions: DropdownOption[] = [
 export function OrderAddressSection({
   address,
   onChangeAddress,
+  deliveryMessage,
+  onChangeDeliveryMessage,
 }: OrderAddressSectionProps) {
+  const handleDeliveryMessageChange = (message: string) => {
+    onChangeDeliveryMessage(message);
+  };
+
   return (
     <div className={styles.addressSection}>
       <div className={styles.header}>
@@ -27,22 +36,34 @@ export function OrderAddressSection({
           className={styles.changeButton}
           onClick={onChangeAddress}
         >
-          변경하기
+          {address ? '변경하기' : '입력하기'}
         </button>
       </div>
-      <div className={styles.addressInfo}>
-        <div className={styles.recipientInfo}>
-          <p className={styles.recipientName}>{address.name}</p>
-          <p className={styles.recipientPhone}>{address.phone}</p>
-        </div>
-        <p className={styles.address}>{address.address}</p>
-      </div>
-      <div className={styles.dropdownWrapper}>
-        <Dropdown
-          placeholder="배송 요청사항을 선택해주세요"
-          options={deliveryRequestOptions}
-        />
-      </div>
+      {address ? (
+        <>
+          <div className={styles.addressInfo}>
+            <div className={styles.recipientInfo}>
+              <p className={styles.recipientName}>{address.recipientName}</p>
+              <p className={styles.recipientPhone}>{address.phoneNumber}</p>
+            </div>
+            <p className={styles.address}>
+              {[address.baseAddress, address.detailAddress]
+                .filter(Boolean)
+                .join(' ')}
+            </p>
+          </div>
+          <div className={styles.dropdownWrapper}>
+            <Dropdown
+              placeholder="배송 요청사항을 선택해주세요"
+              options={deliveryRequestOptions}
+              value={deliveryMessage}
+              onValueChange={handleDeliveryMessageChange}
+            />
+          </div>
+        </>
+      ) : (
+        <p className={styles.address}>배송지를 입력해주세요</p>
+      )}
     </div>
   );
 }
