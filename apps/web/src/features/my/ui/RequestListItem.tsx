@@ -62,7 +62,11 @@ export function RequestListItem({
             height={56}
           />
         ) : (
-          <div className={styles.avatar} aria-hidden />
+          <div
+            className={styles.avatar}
+            role="img"
+            aria-label={'프로필 이미지'}
+          />
         )}
         <div className={styles.info}>
           <span className={styles.nickname}>{nickname}</span>
