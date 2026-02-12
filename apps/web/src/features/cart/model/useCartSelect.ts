@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState } from 'react';
 import type { CartProductItem, CartBrand } from '../api/types';
 
 interface UseCartSelectParams {
@@ -11,78 +11,69 @@ export function useCartSelect({ allItems, cartData }: UseCartSelectParams) {
     new Set()
   );
 
-  const selectableItems = useMemo(() => {
-    return allItems.filter(
-      (item) => !item.isOutOfStock && (item.quantity || 0) > 0
-    );
-  }, [allItems]);
-
-  const selectedItems = useMemo(() => {
-    return selectableItems.filter((item) =>
-      selectedItemIds.has(String(item.id))
-    );
-  }, [selectableItems, selectedItemIds]);
-
-  const isAllSelected = useMemo(() => {
-    return (
-      selectableItems.length > 0 &&
-      selectedItems.length === selectableItems.length
-    );
-  }, [selectableItems, selectedItems]);
-
-  const handleSelectAll = useCallback(
-    (checked: boolean) => {
-      if (checked) {
-        const newSelectedIds = new Set(
-          selectableItems.map((item) => String(item.id))
-        );
-        setSelectedItemIds(newSelectedIds);
-      } else {
-        setSelectedItemIds(new Set());
-      }
-    },
-    [selectableItems]
+  const selectableItems = allItems.filter(
+    (item) => !item.isOutOfStock && (item.quantity || 0) > 0
   );
 
-  const handleItemSelectChange = useCallback(
-    (itemId: string, checked: boolean) => {
-      setSelectedItemIds((prev) => {
-        const newSet = new Set(prev);
+  const selectedItems = (() => {
+    const seen = new Set<number>();
+    return selectableItems.filter((item) => {
+      if (!selectedItemIds.has(String(item.id))) return false;
+      const id = item.id;
+      if (id == null || seen.has(id)) return false;
+      seen.add(id);
+      return true;
+    });
+  })();
+
+  const isAllSelected =
+    selectableItems.length > 0 &&
+    selectedItems.length === selectableItems.length;
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const newSelectedIds = new Set(
+        selectableItems.map((item) => String(item.id))
+      );
+      setSelectedItemIds(newSelectedIds);
+    } else {
+      setSelectedItemIds(new Set());
+    }
+  };
+
+  const handleItemSelectChange = (itemId: string, checked: boolean) => {
+    setSelectedItemIds((prev) => {
+      const newSet = new Set(prev);
+      if (checked) {
+        newSet.add(itemId);
+      } else {
+        newSet.delete(itemId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleBrandSelectChange = (brandId: string, checked: boolean) => {
+    const brand = cartData.find((b) => b.id === brandId);
+    if (!brand) return;
+
+    const selectableItemsInBrand = brand.items.filter(
+      (item) => !item.isOutOfStock && (item.quantity || 0) > 0
+    );
+
+    setSelectedItemIds((prev) => {
+      const newSet = new Set(prev);
+      selectableItemsInBrand.forEach((item) => {
+        const itemId = String(item.id);
         if (checked) {
           newSet.add(itemId);
         } else {
           newSet.delete(itemId);
         }
-        return newSet;
       });
-    },
-    []
-  );
-
-  const handleBrandSelectChange = useCallback(
-    (brandId: string, checked: boolean) => {
-      const brand = cartData.find((b) => b.id === brandId);
-      if (!brand) return;
-
-      const selectableItemsInBrand = brand.items.filter(
-        (item) => !item.isOutOfStock && (item.quantity || 0) > 0
-      );
-
-      setSelectedItemIds((prev) => {
-        const newSet = new Set(prev);
-        selectableItemsInBrand.forEach((item) => {
-          const itemId = String(item.id);
-          if (checked) {
-            newSet.add(itemId);
-          } else {
-            newSet.delete(itemId);
-          }
-        });
-        return newSet;
-      });
-    },
-    [cartData]
-  );
+      return newSet;
+    });
+  };
 
   return {
     selectedItemIds,
