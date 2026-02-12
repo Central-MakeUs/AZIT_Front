@@ -44,6 +44,7 @@ export const END_POINT = {
     CHECKOUT_CART: 'orders/checkout/cart',
     CREATE: 'orders',
     DETAIL: (orderNumber: string) => `orders/${orderNumber}`,
+    CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
   },
 } as const;
