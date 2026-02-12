@@ -58,7 +58,8 @@ jobs:
             --paths "/*"
 
       - name: Notify Discord
-        if: ${{ always() && secrets.DISCORD_WEBHOOK_URL_PROD != '' }}
+        if: always()
+        continue-on-error: true
         run: |
           STATUS_TITLE="🚀 Prod 배포 결과"
           STATUS_BODY="✅ Prod 배포 성공"
