@@ -29,11 +29,13 @@ import { useActivityParams } from '@stackflow/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { storeQueries } from '@/shared/api/queries';
 import { cartQueries } from '@/shared/api/queries/cart';
+import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
   const { id } = useActivityParams<{ id: string }>();
   const queryClient = useQueryClient();
+  const { share: shareWithKakao } = useKakaoShare();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
@@ -102,6 +104,18 @@ export function StoreDetailPage() {
     pop();
   };
 
+  const handleShare = () => {
+    const imageUrl =
+      product.slideImageUrls?.[0] ?? product.detailImageUrls?.[0] ?? '';
+    shareWithKakao({
+      title: `[AZIT 스토어] ${product.productName} 크루 전용 특가 도착!
+오직 AZIT 크루에게만 제공되는 단독 최저가! 지금 바로 앱에서 확인하고 혜택을 누려보세요.`,
+      description: product.brandName ?? undefined,
+      imageUrl,
+      url: window.location.href,
+    });
+  };
+
   const handlePurchaseClick = () => {
     setIsBottomSheetOpen(true);
   };
@@ -161,7 +175,12 @@ export function StoreDetailPage() {
             }
             right={
               <div className={styles.headerIconWrapper}>
-                <button className={styles.iconButton}>
+                <button
+                  className={styles.iconButton}
+                  type="button"
+                  onClick={handleShare}
+                  aria-label="카카오 공유"
+                >
                   <ShareIcon size={24} />
                 </button>
                 <button className={styles.iconButton}>
