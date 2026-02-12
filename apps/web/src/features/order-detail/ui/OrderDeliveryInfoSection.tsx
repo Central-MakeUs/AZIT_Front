@@ -43,7 +43,6 @@ export function OrderDeliveryInfoSection({
           </button>
         </div>
       </div>
-      <div className={styles.divider} />
     </div>
   );
 }

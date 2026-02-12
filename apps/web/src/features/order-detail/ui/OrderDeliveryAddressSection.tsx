@@ -28,7 +28,6 @@ export function OrderDeliveryAddressSection({
           </p>
         )}
       </div>
-      <div className={styles.divider} />
     </div>
   );
 }

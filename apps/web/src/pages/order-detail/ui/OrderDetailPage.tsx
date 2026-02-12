@@ -8,12 +8,14 @@ import {
   OrderDeliveryAddressSection,
   OrderDeliveryInfoSection,
 } from '@/features/order-detail/ui';
+import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 import { orderQueries } from '@/shared/api/queries/order';
 import { useQuery } from '@tanstack/react-query';
 import { useActivityParams } from '@stackflow/react';
 import * as styles from '../styles/OrderDetailPage.css';
+import { Divider } from '@azit/design-system/divider';
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -100,6 +102,7 @@ export function OrderDetailPage() {
 
   const deliveryInfo = result.deliveryInfo;
   const shippingInfo = result.shippingInfo;
+  const depositAccountInfo = result.depositAccountInfo;
   const items = result.items ?? [];
   const summary = result.summary;
 
@@ -115,8 +118,21 @@ export function OrderDetailPage() {
             orderDayOfWeek={orderDayOfWeek}
             orderNumber={result.orderNumber ?? orderNumber}
           />
+          <Divider />
           {deliveryInfo && (
-            <OrderDeliveryAddressSection deliveryInfo={deliveryInfo} />
+            <>
+              <OrderDeliveryAddressSection deliveryInfo={deliveryInfo} />
+              <Divider />
+            </>
+          )}
+          {depositAccountInfo && (
+            <>
+              <DepositInfoSection
+                {...depositAccountInfo}
+                depositorName={depositAccountInfo.depositorName ?? ''}
+              />
+              <Divider />
+            </>
           )}
           <OrderDeliveryInfoSection
             deliveryCompany={shippingInfo?.courier ?? '배송 준비 중'}
@@ -124,6 +140,7 @@ export function OrderDetailPage() {
             onCheckDelivery={handleCheckDelivery}
             onCopyTrackingNumber={handleCopyTrackingNumber}
           />
+          <Divider />
           <OrderProductListSection products={items} showOriginalPrice={false} />
           {summary && (
             <PaymentInfoSection
