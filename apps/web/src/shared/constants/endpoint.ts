@@ -42,5 +42,6 @@ export const END_POINT = {
   ORDER: {
     CHECKOUT_DIRECT: 'orders/checkout/direct',
     CHECKOUT_CART: 'orders/checkout/cart',
+    CREATE: 'orders',
   },
 } as const;

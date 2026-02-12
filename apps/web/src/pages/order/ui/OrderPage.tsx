@@ -18,8 +18,13 @@ import { useFlow } from '@/app/routes/stackflow';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { Divider } from '@azit/design-system/divider';
 import { orderQueries } from '@/shared/api/queries/order';
-import { useQuery } from '@tanstack/react-query';
-import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  DEFAULT_PAYMENT_METHOD,
+  PAYMENT_METHOD_MAP,
+} from '@/shared/constants/order';
+
+const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
 
 export function OrderPage() {
   const { pop, push, replace } = useFlow();
@@ -29,6 +34,9 @@ export function OrderPage() {
     string | undefined
   >();
   const [deliveryMessage, setDeliveryMessage] = useState<string | undefined>();
+  const [depositorName, setDepositorName] = useState('');
+
+  const createOrderMutation = useMutation(orderQueries.createOrderMutation());
 
   const handlePaymentSelect = (method: { code?: string }) => {
     setSelectedPaymentCode(method.code);
@@ -64,9 +72,43 @@ export function OrderPage() {
   const shippingFee = summary?.shippingFee ?? 0;
   const totalPayment = totalProductPrice - membershipDiscount + shippingFee;
 
-  const handlePayment = () => {
-    // TODO: 결제 API 호출 (order store 데이터 사용)
-    replace('OrderCompletePage', {});
+  const handlePayment = async () => {
+    if (!result) return;
+    const delivery = result.deliveryInfo;
+    if (!delivery) {
+      // TODO 토스트 - 배송지를 선택해주세요
+      return;
+    }
+    if (selectedPaymentCode === BANK_TRANSFER_CODE && !depositorName.trim()) {
+      // TODO 토스트 - 입금자명을 입력해주세요
+      return;
+    }
+
+    const payload = {
+      ...(isDirectOrder
+        ? { skuId: order?.skuId, quantity: order?.quantity ?? 0 }
+        : { cartItemIds: order?.cartItemIds ?? [] }),
+      recipientName: delivery.recipientName ?? '',
+      phoneNumber: delivery.phoneNumber ?? '',
+      baseAddress: delivery.baseAddress ?? '',
+      detailAddress: delivery.detailAddress ?? '',
+      ...(deliveryMessage && { shippingInstruction: deliveryMessage }),
+      usedPoints: 0,
+      paymentMethod: selectedPaymentCode ?? '',
+      ...(selectedPaymentCode === BANK_TRANSFER_CODE && {
+        depositorName: depositorName.trim(),
+      }),
+    };
+
+    try {
+      const response = await createOrderMutation.mutateAsync(payload);
+      if (response.ok) {
+        replace('OrderCompletePage', {});
+      }
+      // TODO response.ok === false일 때 토스트 에러 처리
+    } catch {
+      // TODO 네트워크 에러 등.. 토스트 처리
+    }
   };
 
   const handleChangeAddress = () => {
@@ -141,7 +183,11 @@ export function OrderPage() {
             onSelect={handlePaymentSelect}
           />
           {selectedPaymentCode && result.depositAccountInfo && (
-            <OrderPaymentDescription {...result.depositAccountInfo} />
+            <OrderPaymentDescription
+              {...result.depositAccountInfo}
+              depositorName={depositorName}
+              onDepositorNameChange={setDepositorName}
+            />
           )}
           <Divider />
           <OrderSummarySection
@@ -155,11 +201,17 @@ export function OrderPage() {
         <div className={footerWrapper}>
           <Button
             className={styles.ctaButton}
-            state={selectedPaymentCode ? 'active' : 'disabled'}
-            disabled={!selectedPaymentCode}
+            state={
+              selectedPaymentCode && !createOrderMutation.isPending
+                ? 'active'
+                : 'disabled'
+            }
+            disabled={!selectedPaymentCode || createOrderMutation.isPending}
             onClick={handlePayment}
           >
-            {totalPayment.toLocaleString()}원 결제하기
+            {createOrderMutation.isPending
+              ? '결제 중...'
+              : `${totalPayment.toLocaleString()}원 결제하기`}
           </Button>
         </div>
       </AppLayout>
