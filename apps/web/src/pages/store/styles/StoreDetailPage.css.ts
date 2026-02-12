@@ -134,3 +134,44 @@ export const bottomSheetContent = style({
   paddingBottom: '80px',
   width: '100%',
 });
+
+export const storeDetailFooter = style({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+  padding: '20px 20px 0',
+  backgroundColor: vars.colors.background_sub,
+  paddingBottom: '50px',
+});
+
+export const storeDetailFooterText = style([
+  typography.body.b4,
+  {
+    color: vars.colors.gray70,
+  },
+]);
+
+export const storeDetailFooterLinks = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  gap: '4px 8px',
+  paddingTop: '4px',
+});
+
+export const storeDetailFooterLink = style([
+  typography.body.b4,
+  {
+    color: vars.colors.gray70,
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    textDecoration: 'underline',
+  },
+]);
+
+export const storeDetailFooterDivider = style({
+  color: vars.colors.gray30,
+});
