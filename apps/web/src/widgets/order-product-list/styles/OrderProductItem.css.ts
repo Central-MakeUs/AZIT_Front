@@ -13,6 +13,8 @@ export const productImage = style({
   borderRadius: '4px',
   backgroundColor: vars.colors.gray10,
   flexShrink: 0,
+  objectFit: 'cover',
+  objectPosition: 'center',
 });
 
 export const productInfo = style({
