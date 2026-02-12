@@ -3,9 +3,12 @@ import { KAKAO_JS_SDK_KEY } from '@/shared/constants/url';
 
 export interface KakaoShareOptions {
   title: string;
-  description?: string;
   imageUrl: string;
   url: string;
+  productName: string;
+  regularPrice: number;
+  discountRate: number;
+  discountPrice: number;
 }
 
 function ensureKakaoInitialized(): boolean {
@@ -18,33 +21,39 @@ function ensureKakaoInitialized(): boolean {
 
 export function useKakaoShare() {
   const share = useCallback(
-    async ({ title, description, imageUrl, url }: KakaoShareOptions) => {
+    async ({
+      title,
+      imageUrl,
+      url,
+      productName,
+      regularPrice,
+      discountRate,
+      discountPrice,
+    }: KakaoShareOptions) => {
       if (!ensureKakaoInitialized() || !window.Kakao?.Share) {
         console.error('Kakao SDK가 초기화되지 않았습니다.');
         return;
       }
       try {
-        await window.Kakao.Share.sendDefault({
+        await window.Kakao.Share.createDefaultButton({
           objectType: 'feed',
           content: {
             title,
-            description: description ?? '',
             imageUrl,
             link: {
               mobileWebUrl: url,
               webUrl: url,
             },
           },
+          commerce: {
+            productName: productName,
+            regularPrice: regularPrice,
+            discountRate: discountRate,
+            discountPrice: discountPrice,
+          },
           buttons: [
             {
-              title: '웹으로 보기',
-              link: {
-                mobileWebUrl: url,
-                webUrl: url,
-              },
-            },
-            {
-              title: '앱으로 보기',
+              title: '구매하기',
               link: {
                 mobileWebUrl: url,
                 webUrl: url,
