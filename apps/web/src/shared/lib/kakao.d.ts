@@ -50,10 +50,16 @@ interface KakaoShareFeedContent {
   link: KakaoShareLink;
 }
 
+interface KakaoShareButton {
+  title: string;
+  link: KakaoShareLink;
+}
+
 interface KakaoShare {
   sendDefault: (options: {
     objectType: string;
     content?: KakaoShareFeedContent;
+    buttons?: KakaoShareButton[];
   }) => Promise<unknown>;
 }
 

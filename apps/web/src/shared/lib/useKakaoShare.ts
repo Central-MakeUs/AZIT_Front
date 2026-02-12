@@ -35,6 +35,22 @@ export function useKakaoShare() {
               webUrl: url,
             },
           },
+          buttons: [
+            {
+              title: '웹으로 보기',
+              link: {
+                mobileWebUrl: url,
+                webUrl: url,
+              },
+            },
+            {
+              title: '앱으로 보기',
+              link: {
+                mobileWebUrl: url,
+                webUrl: url,
+              },
+            },
+          ],
         });
       } catch (error) {
         console.error('카카오 공유 실패:', error);
