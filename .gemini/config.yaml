@@ -1,0 +1,165 @@
+# Azit Frontend Code Review Config for Gemini
+
+meta:
+  project: Azit
+  scope: frontend
+  purpose: code-review
+  reviewer: gemini
+  language: ko
+
+behavior:
+  tone: friendly
+  style: concise
+  focus:
+    - maintainability
+    - reusability
+    - correctness
+  rules_mode: strict
+  forbid:
+    - subjective_opinion
+    - style_bikeshedding
+    - vague_feedback
+
+review_output:
+  format:
+    - section: '잘한 점'
+    - section: '위반 사항'
+    - section: '개선 제안'
+  require_reason: true
+  require_alternative_code: true
+
+architecture:
+  fsd:
+    layers:
+      - app
+      - pages
+      - widgets
+      - features
+      - shared
+    dependency_direction: 'up_to_down' # pages -> widgets -> features -> shared
+    forbid:
+      - lower_to_upper_import
+      - same_layer_slice_import
+    layer_rules:
+      pages:
+        allow: [screen, fetch_read_api, composition]
+        forbid: [business_logic, mutation]
+      widgets:
+        allow: [ui_composition]
+        forbid: [data_fetch]
+      features:
+        allow: [mutation, business_logic]
+        forbid: [read_only_fetch]
+      shared:
+        allow: [generic, infra, ui, lib]
+        forbid: [domain_specific]
+
+entities:
+  strategy: 'disabled_initially'
+  migrate_later: true
+
+conventions:
+  functions:
+    component: function
+    util: arrow
+  naming:
+    constants: BIG_SNAKE_CASE
+    forbid_abbreviation: true
+    rest_prefix:
+      get: 'get_'
+      post: 'post_'
+      update: 'update_'
+      delete: 'delete_'
+  files:
+    folder_case: kebab-case
+    file_case:
+      allow:
+        - PascalCase
+        - camelCase
+    component_case: PascalCase
+    variable_case: camelCase
+
+path_rules:
+  - path: '**/src/**/ui/**/*.tsx'
+    must:
+      - accessibility
+      - prevent_rerender
+
+  - path: '**/*.stories.tsx'
+    must:
+      - all_prop_variations
+
+  - path: '**/src/**/*.css.ts'
+    must:
+      - design_tokens
+      - recipe_variant
+      - responsive_strategy
+      - no_duplicate_styles
+
+  - path: '**/src/**/**/model/*.ts'
+    must:
+      - use_prefix
+      - explicit_loading_error
+      - tanstack_naming
+
+  - path: '**/src/shared/ui/**'
+    must:
+      - generic_types
+      - reusable_props
+      - no_domain_dependency
+      - minimal_side_effects
+
+  - path: '**/src/pages/**/ui/**'
+    must:
+      - page_domain_coupling_ok
+      - suggest_shared_if_reusable
+
+  # - path: '**/src/**/apis/**'
+  #   must:
+  #     - query_key_factory
+  #     - type_safe_response
+  #     - async_await_consistency
+
+  - path: '**/src/routes/**'
+    must:
+      - code_splitting
+      - error_boundary
+
+  - path: '**/src/**/constants/**'
+    must:
+      - big_snake_case
+      - export_const
+      - as_const
+
+  - path: '**/src/**'
+    must:
+      - typescript_only
+      - style_system_allowed: [vanilla_extract, tailwind]
+      - no_var
+
+exclude:
+  - '!packages/tooling/**'
+  - '!**/pnpm-lock.yaml'
+
+priority:
+  - architecture
+  - types
+  - reusability
+  - performance
+  - style
+
+security:
+  forbid:
+    - hardcoded_secret
+    - hardcoded_api_key
+
+performance:
+  check:
+    - react_memo
+    - useMemo
+    - useCallback
+
+forbidden_phrases:
+  - '팀 스타일에 따라'
+  - '취향'
+  - '괜찮아 보입니다'

@@ -1,13 +1,39 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>web</title>
+    <link rel="stylesheet" href="/src/app/styles/index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="icon" sizes="16x16" href="/favicon/16_favicon.png" />
+    <link rel="icon" sizes="32x32" href="/favicon/32_favicon.png" />
+    <link rel="icon" sizes="48x48" href="/favicon/48_favicon.png" />
+
+    <meta property="og:title" content="크루 전용 단독 특가 도착 | 아지트" />
+    <meta property="og:url" content="https://dev.azitcrew.com" />
+    <meta
+      property="og:description"
+      content="오직 AZIT 크루만! 앱에서 단독 최저가 혜택 확인하기"
+    />
+    <meta property="og:image" content="/og_image.png" />
+
+    <title>아지트(AZIT)</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/app/main.tsx"></script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%VITE_KAKAO_JS_SDK_KEY%&autoload=false"
+    ></script>
+    <script
+      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.7/kakao.min.js"
+      integrity="sha384-tJkjbtDbvoxO+diRuDtwRO9JXR7pjWnfjfRn5ePUpl7e7RJCxKCwwnfqUAdXh53p"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

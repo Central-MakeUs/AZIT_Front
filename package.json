@@ -2,6 +2,8 @@
   "name": "AZIT_Front",
   "private": true,
   "scripts": {
+    "postinstall": "lefthook install",
+    "format": "prettier --cache --write .",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=web",
@@ -9,14 +11,19 @@
     "build:web": "turbo run build --filter=web",
     "build:mobile": "pnpm --filter mobile build",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "prettier": "prettier --cache --check \"**/*.{js,jsx,ts,tsx,json,md,yaml,yml}\"",
+    "typecheck": "turbo run typecheck",
+    "commitlint": "commitlint"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-conventional": "^20.3.0",
+    "@turbo/gen": "^2.7.2",
+    "eslint": "catalog:",
+    "lefthook": "^1.10.0",
     "prettier": "^3.7.4",
     "turbo": "^2.7.2",
-    "typescript": "catalog:",
-    "eslint": "catalog:"
+    "typescript": "catalog:"
   },
   "packageManager": "pnpm@10.26.0",
   "engines": {
