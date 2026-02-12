@@ -21,7 +21,7 @@ export function MyPage() {
   }
 
   const myInfo = myInfoData.data.result;
-  const filteredMenu = getMyPageMenu(myInfo.crewMemberRole);
+  const filteredMenu = getMyPageMenu(myInfo.crewMemberRole, myInfo.crewId);
 
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
@@ -31,7 +31,6 @@ export function MyPage() {
         </div>
         <div className={styles.mainContainer}>
           <MyProfileSection profile={myInfo} />
-
           <div className={styles.menuSectionWrapper}>
             {filteredMenu.map((section) => (
               <MyMenuSection key={section.id} section={section} />

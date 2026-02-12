@@ -16,7 +16,12 @@ export function StoreDetailDescription({
   return (
     <div className={styles.container}>
       <p className={styles.title}>상세정보</p>
-      {description && <p className={styles.description}>{description}</p>}
+      {description && (
+        <div
+          className={styles.description}
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
+      )}
       {detailImageUrls && detailImageUrls.length > 0 && (
         <ul className={styles.list}>
           {detailImageUrls.map((url, index) => (

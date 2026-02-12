@@ -38,11 +38,45 @@ interface KakaoAPI {
   request: <T = unknown>(settings: KakaoAPIRequestSettings) => Promise<T>;
 }
 
+interface KakaoShareLink {
+  mobileWebUrl?: string;
+  webUrl?: string;
+}
+
+interface KakaoShareFeedContent {
+  title: string;
+  imageUrl: string;
+  link: KakaoShareLink;
+}
+
+interface KakaoShareCommerce {
+  productName: string;
+  regularPrice: number;
+  discountRate: number;
+  discountPrice: number;
+}
+
+interface KakaoShareButton {
+  title: string;
+  link: KakaoShareLink;
+}
+
+interface KakaoShare {
+  createDefaultButton: (options: {
+    container: string;
+    objectType: string;
+    content?: KakaoShareFeedContent;
+    commerce: KakaoShareCommerce;
+    buttons?: KakaoShareButton[];
+  }) => Promise<unknown>;
+}
+
 interface KakaoSDK {
   init: (appKey: string) => void;
   isInitialized: () => boolean;
   Auth: KakaoAuth;
   API: KakaoAPI;
+  Share: KakaoShare;
 }
 
 declare global {

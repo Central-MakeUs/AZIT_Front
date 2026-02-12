@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
 
 export const container = style({
@@ -36,6 +36,11 @@ export const description = style([
     whiteSpace: 'pre-wrap',
   },
 ]);
+
+globalStyle('div > li', {
+  listStyleType: 'disc',
+  listStylePosition: 'inside',
+});
 
 export const listItem = style({
   width: '100%',

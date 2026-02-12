@@ -1,6 +1,6 @@
 import {
-  HomeIcon,
-  CalendarIcon,
+  // HomeIcon,
+  // CalendarIcon,
   ShoppingBagIcon,
   UserIcon,
   type IconProps,
@@ -53,7 +53,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
   return (
     <div className={styles.navigationWrapper}>
       <nav className={styles.navigationContainer}>
-        <MenuItem
+        {/* <MenuItem
           icon={HomeIcon}
           label="홈"
           isActive={activeTab === 'home'}
@@ -64,7 +64,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
           label="일정"
           isActive={activeTab === 'schedule'}
           onClick={() => handleClick('SchedulePage')}
-        />
+        /> */}
         <MenuItem
           icon={ShoppingBagIcon}
           label="스토어"

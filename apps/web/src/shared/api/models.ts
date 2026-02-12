@@ -45,4 +45,13 @@ export type RegisterDeliveryAddressRequest =
   components['schemas']['RegisterDeliveryAddressRequest'];
 export type UpdateDeliveryAddressRequest =
   components['schemas']['UpdateDeliveryAddressRequest'];
-export type MyInfoResult = Required<components['schemas']['MyPageResponse']>;
+export type MyInfoResult = Required<components['schemas']['MyInfoResponse']>;
+export type CrewMemberListResult = Required<
+  components['schemas']['CrewMemberListResponse']
+>;
+export type CrewMemberDetailResult = Required<
+  components['schemas']['CrewMemberDetailResponse']
+>;
+export type JoinRequestMemberResult = Required<
+  components['schemas']['JoinRequestMemberResponse']
+>;

@@ -1,4 +1,6 @@
 import type { ActivityName } from '@/app/routes/types';
+import { MEMBER_ROLE } from './role';
+import type { MemberRole } from './types';
 
 interface BaseMenuItem {
   id: string;
@@ -9,6 +11,8 @@ interface PageMenuItem extends BaseMenuItem {
   type: 'page';
   path: ActivityName;
   url?: never;
+  /** stackflow push 시 전달할 params (예: crew id) */
+  pushParams?: Record<string, unknown>;
 }
 
 interface ExternalLinkMenuItem extends BaseMenuItem {
@@ -25,9 +29,10 @@ export interface MyPageMenuGroup {
   items: MenuItem[];
 }
 
-export const getMyPageMenu: (role: string) => MyPageMenuGroup[] = (
-  role: string
-) => {
+export const getMyPageMenu: (
+  role: MemberRole,
+  crewId: number
+) => MyPageMenuGroup[] = (role, crewId) => {
   return [
     {
       id: 'shopping',
@@ -59,9 +64,11 @@ export const getMyPageMenu: (role: string) => MyPageMenuGroup[] = (
       items: [
         {
           id: 'member-management',
-          label: role === '리더' ? '멤버 관리' : '멤버 목록',
-          path: 'MemberManagementPage',
+          label: role === MEMBER_ROLE.LEADER ? '멤버 관리' : '멤버 목록',
+          path:
+            role === MEMBER_ROLE.LEADER ? 'MemberManagePage' : 'MemberViewPage',
           type: 'page',
+          pushParams: { id: crewId },
         },
       ],
     },
@@ -81,12 +88,12 @@ export const getMyPageMenu: (role: string) => MyPageMenuGroup[] = (
           path: 'TermDetailPage',
           type: 'page',
         },
-        {
-          id: 'location-service-terms',
-          label: '위치 기반 서비스 이용약관',
-          path: 'TermDetailPage',
-          type: 'page',
-        },
+        // {
+        //   id: 'location-service-terms',
+        //   label: '위치 기반 서비스 이용약관',
+        //   path: 'TermDetailPage',
+        //   type: 'page',
+        // },
         {
           id: 'third-party-info-agreement',
           label: '제 3자 정보제공 동의 내역',
