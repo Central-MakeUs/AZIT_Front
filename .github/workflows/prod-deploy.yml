@@ -1,0 +1,70 @@
+name: Deploy Main Branch With AWS S3, CloudFront
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Web
+        run: pnpm --filter web build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL_PROD }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync apps/web/dist s3://${{ secrets.AWS_S3_PROD_BUCKET }} --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.AWS_CF_PROD_DISTRIBUTION_ID }} \
+            --paths "/*"
+
+      - name: Notify Discord
+        if: ${{ always() && secrets.DISCORD_WEBHOOK_URL_PROD != '' }}
+        run: |
+          STATUS_TITLE="🚀 Prod 배포 결과"
+          STATUS_BODY="✅ Prod 배포 성공"
+          if [ "${{ job.status }}" != "success" ]; then
+            STATUS_BODY="❌ Prod 배포 실패"
+          fi
+
+          curl -H "Content-Type: application/json" \
+            -d "{
+              \"content\": \"${STATUS_TITLE}\n${STATUS_BODY}\n\n🔗 ${{ secrets.PRODUCTION_URL }}\"
+            }" \
+            ${{ secrets.DISCORD_WEBHOOK_URL_PROD }}
