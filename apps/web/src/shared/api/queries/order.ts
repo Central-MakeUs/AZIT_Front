@@ -8,7 +8,6 @@ import type {
   DirectOrderCheckoutRequest,
   OrderRequest,
 } from '@/features/order/api/types';
-import { useOrderStore } from '@/shared/store/order';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 
 export const orderQueries = {
@@ -26,6 +25,5 @@ export const orderQueries = {
   createOrderMutation: () =>
     mutationOptions({
       mutationFn: (data: OrderRequest) => postOrderCreate(data),
-      onSuccess: () => useOrderStore.getState().resetOrder(),
     }),
 };
