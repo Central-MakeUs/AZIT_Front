@@ -36,7 +36,7 @@ export function useKakaoShare() {
       }
       try {
         await window.Kakao.Share.createDefaultButton({
-          objectType: 'feed',
+          objectType: 'commerce',
           content: {
             title,
             imageUrl,
