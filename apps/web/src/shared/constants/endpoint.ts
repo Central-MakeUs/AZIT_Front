@@ -39,4 +39,8 @@ export const END_POINT = {
     LIST: 'addresses',
     DETAIL: (addressId: number) => `addresses/${addressId}`,
   },
+  ORDER: {
+    CHECKOUT_DIRECT: 'orders/checkout/direct',
+    CHECKOUT_CART: 'orders/checkout/cart',
+  },
 } as const;
