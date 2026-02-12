@@ -193,7 +193,7 @@ export function StoreDetailPage() {
               detailImageUrls={product.detailImageUrls}
             />
           </div>
-          <div className={styles.moreInfoPlaceholder}>
+          {/* <div className={styles.moreInfoPlaceholder}>
             <div className={styles.moreInfoGradient}>
               <button className={styles.moreInfoButton}>
                 <span className={styles.moreInfoButtonText}>
@@ -202,7 +202,7 @@ export function StoreDetailPage() {
                 <ChevronDownIcon size={24} color="primary" />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className={footerWrapper}>
           <Button size="large" state="active" onClick={handlePurchaseClick}>
