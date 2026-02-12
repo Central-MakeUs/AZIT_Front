@@ -21,7 +21,7 @@ export const cardDefault = style([
 export const cardNormal = style([
   baseCard,
   {
-    border: `0.5px solid ${vars.colors.gray20}`,
+    border: `1px solid ${vars.colors.gray20}`,
     cursor: 'pointer',
   },
 ]);
@@ -67,7 +67,7 @@ export const buttonRow = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: 11,
+  gap: 10,
   width: '100%',
 });
 
@@ -92,7 +92,7 @@ export const deleteButton = style([
   baseButton,
   {
     backgroundColor: vars.colors.white,
-    border: `0.5px solid ${vars.colors.gray20}`,
+    border: `1px solid ${vars.colors.gray20}`,
     color: vars.colors.gray60,
   },
 ]);
@@ -100,10 +100,9 @@ export const deleteButton = style([
 export const editButton = style([
   baseButton,
   {
-    flex: '0 1 50%',
     maxWidth: '50%',
     backgroundColor: vars.colors.white,
-    border: `0.5px solid ${vars.colors.blue80}`,
+    border: `1px solid ${vars.colors.blue80}`,
     color: vars.colors.blue80,
   },
 ]);
