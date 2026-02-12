@@ -13,6 +13,7 @@ export type CartOrderCheckoutResponse = NonNullable<
 >;
 
 export type OrderItem = components['schemas']['CheckoutItemDetailResponse'];
+export type OrderItemResponse = components['schemas']['OrderItemResponse'];
 export type DeliveryAddress = components['schemas']['DeliveryAddressResponse'];
 export type PaymentMethod = components['schemas']['PaymentMethodResponse'];
 export type DepositAccountInfo =
