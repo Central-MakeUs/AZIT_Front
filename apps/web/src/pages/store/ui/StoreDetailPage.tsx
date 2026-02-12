@@ -29,9 +29,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { storeQueries } from '@/shared/api/queries';
 import { cartQueries } from '@/shared/api/queries/cart';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
+import {
+  OrderPolicyDropdown,
+  OrderPolicyFooter,
+} from '@/widgets/order-policy/ui';
+import { useOrderStore } from '@/shared/store/order';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
+  const { setDirectOrder, setIsDirectOrder } = useOrderStore();
   const { id } = useActivityParams<{ id: string }>();
   const queryClient = useQueryClient();
   const { share: shareWithKakao } = useKakaoShare();
@@ -118,8 +124,18 @@ export function StoreDetailPage() {
     });
   };
 
-  const handlePurchaseClick = () => {
+  const handleOptionSelectClick = () => {
     setIsBottomSheetOpen(true);
+  };
+
+  const handlePurchaseClick = () => {
+    setIsBottomSheetOpen(false);
+    setDirectOrder({
+      skuId: selectedSku!.id,
+      quantity: quantity,
+    });
+    setIsDirectOrder(true);
+    push('OrderPage', {});
   };
 
   const options =
@@ -225,9 +241,12 @@ export function StoreDetailPage() {
               </button>
             </div>
           </div> */}
+          <Divider className={styles.divider} />
+          <OrderPolicyDropdown />
+          <OrderPolicyFooter />
         </div>
         <div className={footerWrapper}>
-          <Button size="large" state="active" onClick={handlePurchaseClick}>
+          <Button size="large" state="active" onClick={handleOptionSelectClick}>
             구매하기
           </Button>
         </div>
@@ -263,14 +282,7 @@ export function StoreDetailPage() {
             >
               {addToCartMutation.isPending ? '추가 중...' : '장바구니'}
             </Button>
-            <Button
-              size="large"
-              state="active"
-              onClick={() => {
-                setIsBottomSheetOpen(false);
-                push('OrderPage', {});
-              }}
-            >
+            <Button size="large" state="active" onClick={handlePurchaseClick}>
               구매하기
             </Button>
           </div>
