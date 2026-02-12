@@ -28,7 +28,9 @@ export function OrderCompletePage({
 
   const handleViewDetail = () => {
     if (orderResult?.orderNumber) {
-      replace('OrderDetailPage', { id: orderResult.orderNumber });
+      replace('OrderDetailPage', {
+        id: orderResult.orderNumber.replace('#', ''),
+      });
     }
   };
 
