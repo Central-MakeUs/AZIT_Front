@@ -1,9 +1,9 @@
 ---
 name: ✨ Feature Request
 about: 새로운 기능이나 개선 사항 제안
-title: "[Feature] "
+title: '[Feature] '
 labels: enhancement
-assignees: ""
+assignees: ''
 ---
 
 ## 🚀 기능 설명
