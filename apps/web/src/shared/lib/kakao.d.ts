@@ -38,11 +38,31 @@ interface KakaoAPI {
   request: <T = unknown>(settings: KakaoAPIRequestSettings) => Promise<T>;
 }
 
+interface KakaoShareLink {
+  mobileWebUrl?: string;
+  webUrl?: string;
+}
+
+interface KakaoShareFeedContent {
+  title: string;
+  description?: string;
+  imageUrl: string;
+  link: KakaoShareLink;
+}
+
+interface KakaoShare {
+  sendDefault: (options: {
+    objectType: string;
+    content?: KakaoShareFeedContent;
+  }) => Promise<unknown>;
+}
+
 interface KakaoSDK {
   init: (appKey: string) => void;
   isInitialized: () => boolean;
   Auth: KakaoAuth;
   API: KakaoAPI;
+  Share: KakaoShare;
 }
 
 declare global {
