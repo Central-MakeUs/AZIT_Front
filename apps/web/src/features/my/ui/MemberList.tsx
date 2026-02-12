@@ -13,6 +13,7 @@ export function MemberList({ members }: MemberListProps) {
         <MemberListItem
           key={member.id}
           nickname={member.nickname}
+          profileImageUrl={member.profileImageUrl}
           crewMemberRole={member.role}
           joinedDate={member.joinedDate}
         />
