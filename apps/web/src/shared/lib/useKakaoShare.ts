@@ -36,6 +36,7 @@ export function useKakaoShare() {
       }
       try {
         await window.Kakao.Share.createDefaultButton({
+          container: '#kakaotalk-sharing-btn',
           objectType: 'commerce',
           content: {
             title,
