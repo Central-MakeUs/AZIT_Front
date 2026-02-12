@@ -5,7 +5,6 @@ import {
   ChevronLeftIcon,
   ShareIcon,
   ShoppingCartIcon,
-  ChevronDownIcon,
 } from '@azit/design-system/icon';
 import { Dropdown } from '@azit/design-system/dropdown';
 import { Button } from '@azit/design-system/button';
