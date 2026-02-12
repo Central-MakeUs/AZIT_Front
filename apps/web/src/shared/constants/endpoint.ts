@@ -18,6 +18,14 @@ export const END_POINT = {
     TERM_AGREE: 'members/terms',
     CONFIRM_JOIN_STATUS: 'members/me/confirm-status',
   },
+  CREW: {
+    MEMBERS: (crewId: number) => `crews/${crewId}/members`,
+    JOIN_REQUESTS: (crewId: number) => `crews/${crewId}/join-requests`,
+    APPROVE_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
+      `crews/${crewId}/join-requests/${targetMemberId}/approve`,
+    REJECT_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
+      `crews/${crewId}/join-requests/${targetMemberId}/reject`,
+  },
   STORE: {
     PRODUCTS: 'products',
     PRODUCT_DETAIL: (productId: number) => `products/${productId}`,

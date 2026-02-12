@@ -130,7 +130,8 @@ export function OnboardingPage() {
                 inviteCode={onboardingState.inviteCode ?? ''}
                 onNext={() => {
                   context.onNext();
-                  replace('HomePage', {}, { animate: false });
+                  replace('StorePage', {}, { animate: false });
+                  // 심사 위해 임시로 스토어 페이지를 홈페이지로 사용
                 }}
               />
             )}
