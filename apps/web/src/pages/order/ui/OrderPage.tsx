@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import {
+  OrderAddressSection,
   OrderPaymentDescription,
   OrderPaymentMethodSection,
   OrderSummarySection,
@@ -21,12 +22,13 @@ import { useQuery } from '@tanstack/react-query';
 import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
 
 export function OrderPage() {
-  const { pop, replace } = useFlow();
+  const { pop, push, replace } = useFlow();
   const { order, isDirectOrder } = useOrderStore();
 
   const [selectedPaymentCode, setSelectedPaymentCode] = useState<
     string | undefined
   >();
+  const [deliveryMessage, setDeliveryMessage] = useState<string | undefined>();
 
   const handlePaymentSelect = (method: { code?: string }) => {
     setSelectedPaymentCode(method.code);
@@ -65,6 +67,10 @@ export function OrderPage() {
   const handlePayment = () => {
     // TODO: 결제 API 호출 (order store 데이터 사용)
     replace('OrderCompletePage', {});
+  };
+
+  const handleChangeAddress = () => {
+    push('AddressSettingPage', {});
   };
 
   const handleBack = () => {
@@ -115,6 +121,12 @@ export function OrderPage() {
           />
         </div>
         <div className={styles.mainContainer}>
+          <OrderAddressSection
+            onChangeAddress={handleChangeAddress}
+            address={result.deliveryInfo ?? null}
+            deliveryMessage={deliveryMessage}
+            onChangeDeliveryMessage={setDeliveryMessage}
+          />
           <Divider />
           <OrderProductListSection
             products={products}
