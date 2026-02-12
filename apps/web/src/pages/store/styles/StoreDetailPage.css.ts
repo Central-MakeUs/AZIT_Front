@@ -134,3 +134,8 @@ export const bottomSheetContent = style({
   paddingBottom: '80px',
   width: '100%',
 });
+
+export const divider = style({
+  width: 'calc(100% - 40px)',
+  margin: '0 auto',
+});

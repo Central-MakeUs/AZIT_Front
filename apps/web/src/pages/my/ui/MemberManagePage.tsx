@@ -45,6 +45,7 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
       page.ok
         ? page.data.result.content.map((member) => ({
             id: member.id ?? 0,
+            memberId: member.memberId ?? member.id ?? 0,
             nickname: member.nickname ?? '',
             profileImageUrl: member.profileImageUrl ?? '',
             role: member.role ?? 'MEMBER',

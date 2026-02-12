@@ -15,9 +15,12 @@ import {
   useDeleteAddress,
   useUpdateAddress,
 } from '@/shared/api/queries';
+import { useQueryClient } from '@tanstack/react-query';
+import { orderQueries } from '@/shared/api/queries/order';
 
 export function AddressSettingPage() {
   const { push, pop } = useFlow();
+  const queryClient = useQueryClient();
 
   const deleteMutation = useDeleteAddress();
   const updateDefaultAddress = useUpdateAddress();
@@ -70,6 +73,7 @@ export function AddressSettingPage() {
       return;
     }
 
+    await queryClient.invalidateQueries({ queryKey: orderQueries.all });
     pop();
   };
 
