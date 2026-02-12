@@ -16,8 +16,7 @@ export function OrderDateSection({
       <h2 className={styles.date}>
         {orderDate}({orderDayOfWeek})
       </h2>
-      <p className={styles.orderNumber}>주문번호 #{orderNumber}</p>
-      <div className={styles.divider} />
+      <p className={styles.orderNumber}>주문번호 {orderNumber}</p>
     </div>
   );
 }
