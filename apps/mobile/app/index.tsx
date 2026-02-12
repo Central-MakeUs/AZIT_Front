@@ -13,9 +13,6 @@ export default function App() {
   const webViewRef = useRef<WebViewType>(null);
   const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
 
-  console.log('WEBVIEW_URL:', WEBVIEW_URL);
-  console.log('initialUrl:', initialUrl);
-
   useEffect(() => {
     // 앱이 종료된 상태에서 링크로 열릴 때의 초기 URL 처리
     const getInitialUrl = async () => {
@@ -79,7 +76,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <WebView
           ref={webViewRef}
           source={{ uri: initialUrl }}

@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "backgroundColor": "#003483",
     "scheme": "azit",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -45,9 +46,9 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#003483",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#003483"
           }
         }
       ]
