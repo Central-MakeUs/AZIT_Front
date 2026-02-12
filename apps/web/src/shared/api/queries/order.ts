@@ -9,6 +9,7 @@ import type {
   DirectOrderCheckoutRequest,
   OrderRequest,
 } from '@/features/order/api/types';
+import { postOrderCancel } from '@/pages/order-detail/api/postOrderCancel';
 import { getOrderHistory } from '@/pages/order-history/api/getOrderHistory';
 import {
   infiniteQueryOptions,
@@ -47,5 +48,9 @@ export const orderQueries = {
         const { hasNext, lastId } = lastPage.data.result;
         return hasNext && lastId ? lastId : undefined;
       },
+    }),
+  cancelOrderMutation: (orderNumber: string) =>
+    mutationOptions({
+      mutationFn: () => postOrderCancel(orderNumber),
     }),
 };
