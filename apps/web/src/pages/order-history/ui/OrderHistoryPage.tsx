@@ -1,0 +1,64 @@
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { vars } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
+import { TruckIcon } from '@azit/design-system/icon';
+import { AppLayout } from '@/shared/ui/layout';
+import { BackButton } from '@/shared/ui/button';
+import { OrderProductListSection } from '@/widgets/order-product-list/ui';
+import { mockOrderHistoryList } from '@/shared/mock/order-history';
+import { useFlow } from '@/app/routes/stackflow';
+import * as styles from '../styles/OrderHistory.css';
+
+export function OrderHistoryPage() {
+  const { push } = useFlow();
+  const isEmpty = mockOrderHistoryList.length === 0;
+
+  return (
+    <AppScreen backgroundColor={vars.colors.background_sub}>
+      <AppLayout>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="주문내역" />
+        </div>
+        <div className={styles.mainContainer}>
+          {isEmpty ? (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyStateIconText}>
+                <TruckIcon size={64} color="secondary" />
+                <p className={styles.emptyStateText}>주문 내역이 아직 없어요</p>
+              </div>
+            </div>
+          ) : (
+            mockOrderHistoryList.map((group) => (
+              <section key={group.orderId} className={styles.dateSection}>
+                <div className={styles.dateSectionHeader}>
+                  <span className={styles.dateLabel}>{group.dateLabel}</span>
+                  <Button
+                    type="button"
+                    state="outline"
+                    className={styles.detailButton}
+                    onClick={() =>
+                      push(
+                        'OrderDetailPage',
+                        { id: group.orderId },
+                        { animate: true }
+                      )
+                    }
+                  >
+                    주문 상세
+                  </Button>
+                </div>
+                <OrderProductListSection
+                  products={group.products}
+                  title=""
+                  showDivider={false}
+                  showOriginalPrice={false}
+                />
+              </section>
+            ))
+          )}
+        </div>
+      </AppLayout>
+    </AppScreen>
+  );
+}

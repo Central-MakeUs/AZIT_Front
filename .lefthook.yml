@@ -1,0 +1,32 @@
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      run: pnpm prettier
+
+    lint:
+      run: |
+        git diff --cached --name-only \
+          | grep -E '^(apps|packages|tooling)/' \
+          | cut -d/ -f1,2 \
+          | sort -u \
+          | while read -r pkg; do
+              pnpm exec turbo run lint --filter="./$pkg"
+            done
+
+    typecheck:
+      run: |
+        git diff --cached --name-only \
+          | grep -E '^(apps|packages|tooling)/' \
+          | cut -d/ -f1,2 \
+          | sort -u \
+          | while read -r pkg; do
+              pnpm exec turbo run typecheck --filter="./$pkg"
+            done
+
+    format:
+      run: pnpm format
+      stage_fixed: true
+
+commit-msg:
+  run: pnpm commitlint --edit {1}
