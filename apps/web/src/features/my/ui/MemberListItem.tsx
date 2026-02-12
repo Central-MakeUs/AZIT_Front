@@ -8,10 +8,12 @@ interface MemberListItemProps {
   nickname: string;
   crewMemberRole: MemberRole;
   joinedDate: string;
+  profileImageUrl: string;
 }
 
 export function MemberListItem({
   nickname,
+  profileImageUrl,
   crewMemberRole,
   joinedDate,
 }: MemberListItemProps) {
@@ -19,7 +21,15 @@ export function MemberListItem({
     <article className={styles.card}>
       <div className={styles.contentWrapper}>
         <div className={styles.contentRow}>
-          <div className={styles.avatar} aria-hidden />
+          {profileImageUrl ? (
+            <img
+              src={profileImageUrl}
+              alt={'프로필 이미지'}
+              className={styles.avatar}
+            />
+          ) : (
+            <div className={styles.avatar} aria-hidden />
+          )}
           <div className={styles.info}>
             <div className={styles.nameRow}>
               <span className={styles.nickname}>{nickname}</span>
