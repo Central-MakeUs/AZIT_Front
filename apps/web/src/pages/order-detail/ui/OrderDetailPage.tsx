@@ -12,12 +12,14 @@ import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSect
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 import { orderQueries } from '@/shared/api/queries/order';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useActivityParams } from '@stackflow/react';
+import { useFlow } from '@/app/routes/stackflow';
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import * as styles from '../styles/OrderDetailPage.css';
 import { Divider } from '@azit/design-system/divider';
 import { Button } from '@azit/design-system/button';
+import type { OrderStatus } from '@/features/order-detail/api/types';
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -38,6 +40,17 @@ function formatOrderDate(dateString: string | undefined) {
 
 export function OrderDetailPage() {
   const { id: orderNumber } = useActivityParams<{ id?: string }>();
+  const { replace } = useFlow();
+  const queryClient = useQueryClient();
+
+  const cancelOrderMutation = useMutation({
+    ...orderQueries.cancelOrderMutation(orderNumber ?? ''),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orderQueries.all });
+      replace('OrderHistory', {});
+    },
+  });
+
   const { data, isPending, isError } = useQuery({
     ...orderQueries.getOrderDetailQuery(orderNumber ?? ''),
     enabled: !!orderNumber,
@@ -58,7 +71,7 @@ export function OrderDetailPage() {
   };
 
   const handleCancelOrder = () => {
-    // TODO: 주문 취소 로직
+    cancelOrderMutation.mutate();
   };
 
   const handleInquiry = () => {
@@ -126,6 +139,7 @@ export function OrderDetailPage() {
             orderDate={orderDate}
             orderDayOfWeek={orderDayOfWeek}
             orderNumber={result.orderNumber ?? orderNumber}
+            orderStatus={result.status as OrderStatus}
           />
           <Divider />
           {deliveryInfo && (
@@ -161,8 +175,12 @@ export function OrderDetailPage() {
             />
           )}
           <div className={styles.buttonContainer}>
-            <Button state="outline" onClick={handleCancelOrder}>
-              주문 취소
+            <Button
+              state="outline"
+              onClick={handleCancelOrder}
+              disabled={cancelOrderMutation.isPending}
+            >
+              {cancelOrderMutation.isPending ? '취소 처리 중...' : '주문 취소'}
             </Button>
             <Button state="outline" onClick={handleInquiry}>
               1:1 문의하기
