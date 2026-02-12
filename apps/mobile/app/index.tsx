@@ -11,7 +11,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
-  const [initialUrl, setInitialUrl] = useState<string>(WEBVIEW_URL);
+  const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
 
   console.log('WEBVIEW_URL:', WEBVIEW_URL);
   console.log('initialUrl:', initialUrl);
