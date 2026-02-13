@@ -26,7 +26,6 @@ export function useKakaoShare() {
       }
       try {
         await window.Kakao.Share.sendDefault({
-          container: '#kakaotalk-sharing-btn',
           objectType: 'feed',
           content: {
             title: title,
