@@ -62,6 +62,7 @@ export interface paths {
      *     * 주문 시점에 각 SKU의 재고가 즉시 차감됩니다.
      *     * 보유 포인트 잔액과 최소 사용 단위(1,000P)를 검증합니다. (INVALID_POINT_USAGE)
      *     * 결제 수단 (MVP): 현재 '무통장 입금(BANK_TRANSFER)'만 지원합니다. 그 외 수단은 에러를 반환합니다. (PAYMENT_METHOD_NOT_SUPPORTED)
+     *     * 무통장 입금으로 주문 시, 입금자명은 필수입니다. (INVALID_ORDER_REQUEST)
      *     * 주문이 성공하면 선택한 장바구니 아이템들은 자동으로 삭제됩니다.
      */
     post: operations['createOrder'];
@@ -250,8 +251,8 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 장바구니 항목 추가 및 수량 변경
-     * @description 상품의 특정 옵션(SKU)을 장바구니에 담거나 기존 항목의 수량을 추가합니다. <br><br>
+     * 장바구니 담기 및 수량 추가(상품 상세)
+     * @description 상품 상세 페이지에서 상품의 특정 옵션(SKU)을 장바구니에 담거나 기존 항목의 수량을 추가합니다. <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 장바구니에 해당 SKU가 없는 경우 새로운 항목으로 등록됩니다.
@@ -448,6 +449,31 @@ export interface paths {
      *     3. 사용했던 포인트를 사용자 계정으로 전액 환불합니다.
      */
     patch: operations['cancelOrder'];
+    trace?: never;
+  };
+  '/api/v1/carts/items/{cartItemId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 장바구니 아이템 수량 변경
+     * @description 장바구니에 담긴 특정 아이템의 수량을 변경(절대값)합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 변경하려는 수량이 상품의 재고보다 많을 수 없습니다. (OUT_OF_STOCK)
+     *     * 변경하려는 수량은 최소 1개 이상이어야 합니다. (INVALID_QUANTITY)
+     *     * 본인의 장바구니 항목만 수정할 수 있습니다. (FORBIDDEN_ERROR)
+     */
+    patch: operations['updateCartItemQuantity'];
     trace?: never;
   };
   '/api/v1/products': {
@@ -711,12 +737,9 @@ export interface paths {
     };
     /**
      * 장바구니 목록 조회
-     * @description 사용자의 장바구니에 담긴 상품 목록과 결제 요약 정보를 조회합니다. <br><br>
+     * @description 사용자의 장바구니에 담긴 상품 목록을 조회합니다. <br><br>
      *
-     *     **[데이터 구조]** <br>
-     *     * totalProductPrice: 장바구니에 담긴 모든 상품의 '정가 + 옵션가' 합계입니다.
-     *     * membershipDiscount: 아지트 멤버십 할인 금액입니다.
-     *     * shippingFee: 브랜드별로 가장 높은 배송비를 한 번씩만 합산한 금액입니다.
+     *     **[참고 사항]** <br>
      *     * expectedShippingDate: 상품의 예상 출고 소요 시간을 기준으로 계산되며, 주말(토, 일)은 발송일에서 제외됩니다.
      */
     get: operations['getCarts'];
@@ -746,6 +769,32 @@ export interface paths {
     put?: never;
     post?: never;
     delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/members/{targetMemberId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 멤버 방출
+     * @description 크루 리더가 특정 멤버를 크루에서 방출(탈퇴 처리)합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 해당 크루의 리더(LEADER)만 이 API를 호출할 수 있습니다. (NOT_CREW_LEADER)
+     *     * 리더 본인은 스스로를 방출할 수 없습니다. (CANNOT_KICK_SELF)
+     *     * 가입 완료(JOINED) 상태인 멤버만 방출 가능합니다. (NOT_A_CREW_MEMBER)
+     *     * 방출 후 해당 멤버가 더 이상 어떤 크루에도 가입되어 있지 않다면, 앱 사용 제한을 위해 PENDING_ONBOARDING 상태로 변경됩니다.
+     */
+    delete: operations['deleteCrewMember'];
     options?: never;
     head?: never;
     patch?: never;
@@ -804,9 +853,50 @@ export interface components {
       usedPoints?: number;
       /** @description 결제 수단 */
       paymentMethod: string;
+      /** @description 입금자명(무통장입금) */
+      depositorName?: string;
+    };
+    CommonResponseCreateOrderResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['CreateOrderResponse'];
+    };
+    CreateOrderResponse: {
+      /** @description 주문 번호 */
+      orderNumber?: string;
+      deliveryInfo?: components['schemas']['OrderDeliveryInfoResponse'];
+      depositAccountInfo?: components['schemas']['DepositAccountInfoResponse'];
+      summary?: components['schemas']['OrderSummaryResponse'];
+    };
+    /** @description 입금 계좌 정보 */
+    DepositAccountInfoResponse: {
+      /** @description 은행명 */
+      bankName?: string;
+      /** @description 계좌번호 */
+      accountNumber?: string;
+      /** @description 예금주 */
+      accountHolder?: string;
+      /** @description 입금자명 */
+      depositorName?: string;
+      /**
+       * Format: date-time
+       * @description 입금 기한
+       */
+      paymentDeadline?: string;
+    };
+    /** @description 배송지 정보 */
+    OrderDeliveryInfoResponse: {
+      /** @description 수령인 이름 */
+      recipientName?: string;
+      /** @description 수령인 연락처 */
+      phoneNumber?: string;
+      /** @description 기본 주소 */
+      baseAddress?: string;
+      /** @description 상세 주소 */
+      detailAddress?: string;
     };
     /** @description 최종 결제 금액 요약 */
-    CheckoutSummaryResponse: {
+    OrderSummaryResponse: {
       /**
        * Format: int64
        * @description 총 상품금액 (할인 전 합계)
@@ -829,41 +919,9 @@ export interface components {
       shippingFee?: number;
       /**
        * Format: int64
-       * @description 최종 결제 금액
+       * @description 총 결제 금액
        */
       totalPaymentPrice?: number;
-    };
-    CommonResponseCreateOrderResponse: {
-      code?: string;
-      message?: string;
-      result?: components['schemas']['CreateOrderResponse'];
-    };
-    CreateOrderResponse: {
-      /** @description 주문 번호 */
-      orderNumber?: string;
-      deliveryInfo?: components['schemas']['OrderDeliveryInfoResponse'];
-      depositAccountInfo?: components['schemas']['DepositAccountInfoResponse'];
-      summary?: components['schemas']['CheckoutSummaryResponse'];
-    };
-    /** @description 입금 계좌 정보 */
-    DepositAccountInfoResponse: {
-      /** @description 은행명 */
-      bankName?: string;
-      /** @description 계좌번호 */
-      accountNumber?: string;
-      /** @description 예금주 */
-      accountHolder?: string;
-    };
-    /** @description 배송지 정보 */
-    OrderDeliveryInfoResponse: {
-      /** @description 수령인 이름 */
-      recipientName?: string;
-      /** @description 수령인 연락처 */
-      phoneNumber?: string;
-      /** @description 기본 주소 */
-      baseAddress?: string;
-      /** @description 상세 주소 */
-      detailAddress?: string;
     };
     AgreeToTermsRequest: {
       /** @description 서비스 이용약관 동의 여부 (필수) */
@@ -871,13 +929,13 @@ export interface components {
       /** @description 개인정보 처리방침 동의 여부 (필수) */
       privacyPolicyAgreed: boolean;
       /** @description 위치기반 서비스 이용약관 동의 여부 (필수) */
-      locationServiceAgreed: boolean;
+      locationServiceAgreed?: boolean;
       /** @description 제3자 정보제공 동의 여부 (필수) */
       thirdPartyInfoAgreed: boolean;
       /** @description 마케팅 정보 수신 동의 여부 (선택) */
-      marketingTermsAgreed: boolean;
+      marketingTermsAgreed?: boolean;
       /** @description 알림 수신 동의 여부 (선택) */
-      notificationTermsAgreed: boolean;
+      notificationTermsAgreed?: boolean;
     };
     CreateCrewRequest: {
       /** @description 크루 이름 */
@@ -969,6 +1027,13 @@ export interface components {
       detailAddress: string;
       /** @description 기본 배송지 여부 */
       isDefault: boolean;
+    };
+    UpdateCartItemQuantityRequest: {
+      /**
+       * Format: int32
+       * @description 담을 수량
+       */
+      quantity?: number;
     };
     CursorPageQuery: {
       /** Format: int64 */
@@ -1122,7 +1187,17 @@ export interface components {
       result?: components['schemas']['SliceResponseOrderListResponse'];
     };
     /** @description 주문 상품 목록 */
-    OrderItemSummaryResponse: {
+    OrderItemResponse: {
+      /**
+       * Format: int64
+       * @description 상품 ID
+       */
+      productId?: number;
+      /**
+       * Format: int64
+       * @description sku ID
+       */
+      skuId?: number;
       /** @description 구매 당시 브랜드명 */
       brandName?: string;
       /** @description 구매 당시 상품명 */
@@ -1133,9 +1208,9 @@ export interface components {
       productImageUrl?: string;
       /**
        * Format: int64
-       * @description 판매가
+       * @description 총 판매가
        */
-      salePrice?: number;
+      totalSalePrice?: number;
       /**
        * Format: int32
        * @description 구매 수량
@@ -1172,7 +1247,7 @@ export interface components {
         | 'PENDING_REFUNDED'
         | 'REFUNDED';
       /** @description 주문 상품 목록 */
-      items?: components['schemas']['OrderItemSummaryResponse'][];
+      items?: components['schemas']['OrderItemResponse'][];
     };
     SliceResponseOrderListResponse: {
       /** @description 데이터 내용 */
@@ -1216,60 +1291,27 @@ export interface components {
       orderDate?: string;
       /** @description 주문 번호 */
       orderNumber?: string;
+      /**
+       * @description 주문 상태
+       * @enum {string}
+       */
+      status?:
+        | 'PENDING'
+        | 'PAID'
+        | 'PREPARING'
+        | 'SHIPPING'
+        | 'DELIVERED'
+        | 'PURCHASE_CONFIRMED'
+        | 'CANCELLED'
+        | 'EXPIRED'
+        | 'PENDING_REFUNDED'
+        | 'REFUNDED';
       deliveryInfo?: components['schemas']['OrderDetailDeliveryInfoResponse'];
+      depositAccountInfo?: components['schemas']['DepositAccountInfoResponse'];
       shippingInfo?: components['schemas']['ShippingResponse'];
       /** @description 주문 상품 목록 */
       items?: components['schemas']['OrderItemResponse'][];
-      summary?: components['schemas']['PaymentSummaryResponse'];
-    };
-    /** @description 주문 상품 목록 */
-    OrderItemResponse: {
-      /** @description 구매 당시 브랜드명 */
-      brandName?: string;
-      /** @description 구매 당시 상품명 */
-      productName?: string;
-      /** @description 구매 당시 옵션 정보 */
-      optionDescription?: string;
-      /** @description 구매 당시 상품 대표 이미지 url */
-      productImageUrl?: string;
-      /**
-       * Format: int64
-       * @description 총 판매가
-       */
-      totalSalePrice?: number;
-      /**
-       * Format: int32
-       * @description 구매 수량
-       */
-      quantity?: number;
-    };
-    /** @description 결제 금액 요약 */
-    PaymentSummaryResponse: {
-      /**
-       * Format: int64
-       * @description 총 상품금액 (할인 전 합계)
-       */
-      totalProductPrice?: number;
-      /**
-       * Format: int64
-       * @description 아지트 멤버십 할인 금액
-       */
-      membershipDiscount?: number;
-      /**
-       * Format: int64
-       * @description 포인트 할인 금액
-       */
-      pointDiscount?: number;
-      /**
-       * Format: int64
-       * @description 배송비
-       */
-      shippingFee?: number;
-      /**
-       * Format: int64
-       * @description 최종 결제 예정 금액
-       */
-      totalPaymentPrice?: number;
+      summary?: components['schemas']['OrderSummaryResponse'];
     };
     /** @description 배송 정보 */
     ShippingResponse: {
@@ -1279,7 +1321,17 @@ export interface components {
       trackingNumber?: string;
     };
     /** @description 주문할 상품 목록 */
-    CheckoutItemResponse: {
+    CheckoutItemDetailResponse: {
+      /**
+       * Format: int64
+       * @description 상품 ID
+       */
+      productId?: number;
+      /**
+       * Format: int64
+       * @description sku ID
+       */
+      skuId?: number;
       /** @description 브랜드명 */
       brandName?: string;
       /** @description 상품명 */
@@ -1342,11 +1394,12 @@ export interface components {
     OrderCheckoutResponse: {
       deliveryInfo?: components['schemas']['DeliveryAddressResponse'];
       /** @description 주문할 상품 목록 */
-      items?: components['schemas']['CheckoutItemResponse'][];
+      items?: components['schemas']['CheckoutItemDetailResponse'][];
+      depositAccountInfo?: components['schemas']['DepositAccountInfoResponse'];
       pointInfo?: components['schemas']['PointInfoResponse'];
       /** @description 사용 가능한 결제 수단 목록 */
       paymentMethods?: components['schemas']['PaymentMethodResponse'][];
-      summary?: components['schemas']['CheckoutSummaryResponse'];
+      summary?: components['schemas']['OrderSummaryResponse'];
     };
     /** @description 사용 가능한 결제 수단 목록 */
     PaymentMethodResponse: {
@@ -1420,9 +1473,14 @@ export interface components {
     CrewMemberDetailResponse: {
       /**
        * Format: int64
-       * @description 멤버 ID
+       * @description 크루 멤버 ID
        */
       id?: number;
+      /**
+       * Format: int64
+       * @description 멤버 ID
+       */
+      memberId?: number;
       /** @description 닉네임 */
       nickname?: string;
       /** @description 프로필 이미지 URL */
@@ -1515,15 +1573,24 @@ export interface components {
        */
       memberCount?: number;
     };
-    /** @description 장바구니 상품 목록 */
-    CartItemDetail: {
+    CartItemListResponse: {
       /**
        * Format: int64
        * @description 장바구니 항목 ID
        */
       id?: number;
+      /**
+       * Format: int64
+       * @description 브랜드 ID
+       */
+      brandId?: number;
       /** @description 브랜드명 */
       brandName?: string;
+      /**
+       * Format: int64
+       * @description 상품 ID
+       */
+      productId?: number;
       /** @description 상품명 */
       productName?: string;
       /**
@@ -1557,35 +1624,16 @@ export interface components {
       quantity?: number;
       /** @description 품절 여부 */
       isOutOfStock?: boolean;
-    };
-    CartListResponse: {
-      /** @description 장바구니 상품 목록 */
-      items?: components['schemas']['CartItemDetail'][];
-      /**
-       * Format: int64
-       * @description 총 상품금액 (할인 전 합계)
-       */
-      totalProductPrice?: number;
-      /**
-       * Format: int64
-       * @description 아지트 멤버십 할인 금액
-       */
-      membershipDiscount?: number;
       /**
        * Format: int64
        * @description 배송비
        */
       shippingFee?: number;
-      /**
-       * Format: int64
-       * @description 최종 결제 예정 금액
-       */
-      totalPaymentPrice?: number;
     };
-    CommonResponseCartListResponse: {
+    CommonResponseListCartItemListResponse: {
       code?: string;
       message?: string;
-      result?: components['schemas']['CartListResponse'];
+      result?: components['schemas']['CartItemListResponse'][];
     };
     CartItemCountResponse: {
       /**
@@ -3024,6 +3072,80 @@ export interface operations {
       };
     };
   };
+  updateCartItemQuantity: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        cartItemId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateCartItemQuantityRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   getProducts: {
     parameters: {
       query: {
@@ -3719,7 +3841,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['CommonResponseCartListResponse'];
+          '*/*': components['schemas']['CommonResponseListCartItemListResponse'];
         };
       };
       400: {
@@ -3799,6 +3921,77 @@ export interface operations {
         };
       };
       403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  deleteCrewMember: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+        targetMemberId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
         headers: {
           [name: string]: unknown;
         };

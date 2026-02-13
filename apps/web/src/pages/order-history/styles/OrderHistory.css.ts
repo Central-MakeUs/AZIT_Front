@@ -1,5 +1,6 @@
-import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
+
 import { layoutStyles } from '@/shared/styles/layout.css';
 
 export const headerWrapper = style([layoutStyles.headerWrapper]);
@@ -81,3 +82,8 @@ export const emptyStateText = style([
     textAlign: 'center',
   },
 ]);
+
+export const sentinel = style({
+  height: 1,
+  width: '100%',
+});

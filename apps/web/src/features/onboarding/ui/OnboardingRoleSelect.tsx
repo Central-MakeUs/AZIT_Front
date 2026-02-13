@@ -1,8 +1,9 @@
-import { useState, type ReactNode } from 'react';
 import { Button } from '@azit/design-system/button';
 import { FlagIcon, UsersIcon } from '@azit/design-system/icon';
-import * as styles from '../styles/OnboardingRoleSelect.css';
 import clsx from 'clsx';
+import { useState, type ReactNode } from 'react';
+
+import * as styles from '@/features/onboarding/styles/OnboardingRoleSelect.css';
 
 export type OnboardingRoleType = 'leader' | 'member';
 
