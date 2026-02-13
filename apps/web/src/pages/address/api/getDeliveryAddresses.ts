@@ -1,5 +1,6 @@
 import { auth } from '@/shared/api/apiClient';
 import { END_POINT } from '@/shared/constants/endpoint';
+
 import type { DeliveryAddressListResponse } from './types';
 
 export const getDeliveryAddresses = () => {

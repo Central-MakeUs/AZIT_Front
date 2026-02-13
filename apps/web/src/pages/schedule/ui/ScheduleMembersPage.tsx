@@ -1,9 +1,12 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
 import { ScheduleMemberListItem } from '@/features/schedule-members/ui';
+
 import { mockScheduleDetail } from '@/shared/mock/schedule';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
 import * as styles from '../styles/ScheduleMembersPage.css';
 
 export function ScheduleMembersPage() {

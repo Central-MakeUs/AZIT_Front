@@ -6,9 +6,11 @@ import {
   type IconProps,
 } from '@azit/design-system/icon';
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
-import * as styles from './BottomNavigation.css';
+
 import { useFlow } from '@/app/routes/stackflow';
 import type { ActivityName } from '@/app/routes/types';
+
+import * as styles from './BottomNavigation.css';
 
 type NavigationState = 'home' | 'schedule' | 'store' | 'mypage';
 

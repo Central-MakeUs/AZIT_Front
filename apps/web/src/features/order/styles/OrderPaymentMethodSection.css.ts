@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 export const paymentMethodSection = style({
   display: 'flex',

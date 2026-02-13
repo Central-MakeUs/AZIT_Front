@@ -1,4 +1,5 @@
 import type { AttendanceRecord } from '@/shared/mock/mypage-attendance';
+
 import { AttendanceRecordListItem } from './AttendanceRecordListItem';
 import * as styles from '../styles/AttendanceRecordList.css.ts';
 

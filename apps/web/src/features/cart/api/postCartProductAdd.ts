@@ -1,7 +1,7 @@
 import { auth } from '@/shared/api/apiClient';
-import { END_POINT } from '@/shared/constants/endpoint';
-import type { CartProductAddRequest } from '@/shared/api/models.ts';
 import type { ApiResponseWithoutResult } from '@/shared/api/baseTypes.ts';
+import type { CartProductAddRequest } from '@/shared/api/models.ts';
+import { END_POINT } from '@/shared/constants/endpoint';
 
 export const postCartProductAdd = (data: CartProductAddRequest) => {
   return auth.post<ApiResponseWithoutResult>(

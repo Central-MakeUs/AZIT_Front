@@ -1,11 +1,14 @@
-import { useState, useMemo } from 'react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useFlow } from '@/app/routes/stackflow';
-import { postTermAgree } from '@/features/onboarding/api/postTermAgree';
-import { TermAgreeItem } from '@/features/onboarding/ui';
 import { Button } from '@azit/design-system/button';
 import { Checkbox } from '@azit/design-system/checkbox';
 import { Divider } from '@azit/design-system/divider';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useState, useMemo } from 'react';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import { postTermAgree } from '@/features/onboarding/api/postTermAgree';
+import { TermAgreeItem } from '@/features/onboarding/ui';
+
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from '../styles/TermAgreePage.css';
