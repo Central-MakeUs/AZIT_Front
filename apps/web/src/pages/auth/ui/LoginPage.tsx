@@ -61,7 +61,7 @@ function KakaoLogin({ onClick }: { onClick: () => void }) {
 function AppleLogin({ onClick }: { onClick: () => void }) {
   const ua = navigator.userAgent;
 
-  if (!/iPhone|iPad|iPod/.test(ua)) {
+  if (!/iPhone|iPad|iPod|ios/.test(ua)) {
     return null;
   }
 
