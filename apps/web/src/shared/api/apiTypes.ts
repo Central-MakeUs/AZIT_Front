@@ -737,12 +737,9 @@ export interface paths {
     };
     /**
      * 장바구니 목록 조회
-     * @description 사용자의 장바구니에 담긴 상품 목록과 결제 요약 정보를 조회합니다. <br><br>
+     * @description 사용자의 장바구니에 담긴 상품 목록을 조회합니다. <br><br>
      *
-     *     **[데이터 구조]** <br>
-     *     * totalProductPrice: 장바구니에 담긴 모든 상품의 '정가 + 옵션가' 합계입니다.
-     *     * membershipDiscount: 아지트 멤버십 할인 금액입니다.
-     *     * shippingFee: 브랜드별로 가장 높은 배송비를 한 번씩만 합산한 금액입니다.
+     *     **[참고 사항]** <br>
      *     * expectedShippingDate: 상품의 예상 출고 소요 시간을 기준으로 계산되며, 주말(토, 일)은 발송일에서 제외됩니다.
      */
     get: operations['getCarts'];
@@ -932,13 +929,13 @@ export interface components {
       /** @description 개인정보 처리방침 동의 여부 (필수) */
       privacyPolicyAgreed: boolean;
       /** @description 위치기반 서비스 이용약관 동의 여부 (필수) */
-      locationServiceAgreed: boolean;
+      locationServiceAgreed?: boolean;
       /** @description 제3자 정보제공 동의 여부 (필수) */
       thirdPartyInfoAgreed: boolean;
       /** @description 마케팅 정보 수신 동의 여부 (선택) */
-      marketingTermsAgreed: boolean;
+      marketingTermsAgreed?: boolean;
       /** @description 알림 수신 동의 여부 (선택) */
-      notificationTermsAgreed: boolean;
+      notificationTermsAgreed?: boolean;
     };
     CreateCrewRequest: {
       /** @description 크루 이름 */
@@ -1576,15 +1573,24 @@ export interface components {
        */
       memberCount?: number;
     };
-    /** @description 장바구니 상품 목록 */
-    CartItemDetailResponse: {
+    CartItemListResponse: {
       /**
        * Format: int64
        * @description 장바구니 항목 ID
        */
       id?: number;
+      /**
+       * Format: int64
+       * @description 브랜드 ID
+       */
+      brandId?: number;
       /** @description 브랜드명 */
       brandName?: string;
+      /**
+       * Format: int64
+       * @description 상품 ID
+       */
+      productId?: number;
       /** @description 상품명 */
       productName?: string;
       /**
@@ -1618,35 +1624,16 @@ export interface components {
       quantity?: number;
       /** @description 품절 여부 */
       isOutOfStock?: boolean;
-    };
-    CartListResponse: {
-      /** @description 장바구니 상품 목록 */
-      items?: components['schemas']['CartItemDetailResponse'][];
-      /**
-       * Format: int64
-       * @description 총 상품금액 (할인 전 합계)
-       */
-      totalProductPrice?: number;
-      /**
-       * Format: int64
-       * @description 아지트 멤버십 할인 금액
-       */
-      membershipDiscount?: number;
       /**
        * Format: int64
        * @description 배송비
        */
       shippingFee?: number;
-      /**
-       * Format: int64
-       * @description 최종 결제 예정 금액
-       */
-      totalPaymentPrice?: number;
     };
-    CommonResponseCartListResponse: {
+    CommonResponseListCartItemListResponse: {
       code?: string;
       message?: string;
-      result?: components['schemas']['CartListResponse'];
+      result?: components['schemas']['CartItemListResponse'][];
     };
     CartItemCountResponse: {
       /**
@@ -3854,7 +3841,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['CommonResponseCartListResponse'];
+          '*/*': components['schemas']['CommonResponseListCartItemListResponse'];
         };
       };
       400: {
