@@ -2,16 +2,15 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { WebView } from '@/shared/lib/bridge';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
+import { Platform } from 'react-native';
 import * as Linking from 'expo-linking';
-import * as SplashScreen from 'expo-splash-screen';
 import { WEBVIEW_URL } from '@/shared/constants/url';
-
-// 스플래시 화면이 자동으로 숨겨지지 않도록 설정
-SplashScreen.preventAutoHideAsync();
+import CustomAnimatedSplash from './splash-screen';
 
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
   const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
+  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => {
     // 앱이 종료된 상태에서 링크로 열릴 때의 초기 URL 처리
@@ -59,16 +58,22 @@ export default function App() {
     return url;
   };
 
-  // WebView 로드 완료 시 스플래시 화면 숨기기
+  const handleSplashFinish = useCallback(() => {
+    setSplashDone(true);
+  }, []);
+
   const handleWebViewLoad = useCallback(() => {
     console.log('WebView loaded');
-    SplashScreen.hideAsync();
   }, []);
 
   const handleWebViewError = useCallback((event: any) => {
     console.log('WebView error:', event.nativeEvent);
-    SplashScreen.hideAsync(); // 최소한 스플래시는 내리기
   }, []);
+
+  // 스플래시는 CustomAnimatedSplash만 사용
+  if (!splashDone) {
+    return <CustomAnimatedSplash onFinish={handleSplashFinish} />;
+  }
 
   if (!initialUrl) {
     throw new Error('webview url is not set');
@@ -88,7 +93,7 @@ export default function App() {
           sharedCookiesEnabled={true}
           thirdPartyCookiesEnabled={true}
           originWhitelist={['*']}
-          userAgent={'azitwebview'}
+          userAgent={Platform.OS === 'ios' ? `ios azitwebview` : 'azitwebview'}
         />
       </SafeAreaView>
     </SafeAreaProvider>
