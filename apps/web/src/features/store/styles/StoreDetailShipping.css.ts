@@ -20,7 +20,7 @@ export const content = style({
   flexDirection: 'column',
   gap: '4px',
   alignItems: 'flex-start',
-  width: '162px',
+  width: '100%',
 });
 
 export const text = style([

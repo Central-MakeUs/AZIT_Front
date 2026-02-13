@@ -1,3 +1,5 @@
+import { formatExpectedShippingDate } from '@/shared/lib/formatters';
+
 import * as styles from '../styles/StoreDetailShipping.css';
 
 interface StoreDetailShippingProps {
@@ -23,7 +25,9 @@ export function StoreDetailShipping({
           </p>
         )}
         {expectedShippingDate && (
-          <p className={styles.text}>{expectedShippingDate}</p>
+          <p className={styles.text}>
+            {formatExpectedShippingDate(expectedShippingDate)}
+          </p>
         )}
       </div>
     </div>
