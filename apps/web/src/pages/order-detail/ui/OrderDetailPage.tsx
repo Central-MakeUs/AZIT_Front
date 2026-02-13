@@ -2,9 +2,6 @@ import { Button } from '@azit/design-system/button';
 import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useActivityParams } from '@stackflow/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -13,82 +10,37 @@ import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
 import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
 import type { OrderStatus } from '@/features/order-detail/api/types';
+import { useOrderDetail } from '@/features/order-detail/model/useOrderDetail';
 import {
   OrderDateSection,
   OrderDeliveryAddressSection,
   OrderDeliveryInfoSection,
 } from '@/features/order-detail/ui';
 
-import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
-import { orderQueries } from '@/shared/queries/order';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from '../styles/OrderDetailPage.css';
 
-const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
-
-function formatOrderDate(dateString: string | undefined) {
-  if (!dateString) return { orderDate: '', orderDayOfWeek: '' };
-  try {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const orderDate = `${year}.${month}.${day}`;
-    const orderDayOfWeek = WEEKDAYS[date.getDay()];
-    return { orderDate, orderDayOfWeek };
-  } catch {
-    return { orderDate: dateString, orderDayOfWeek: '' };
-  }
-}
-
 export function OrderDetailPage() {
-  const { id: orderNumber } = useActivityParams<{ id?: string }>();
   const { replace } = useFlow();
-  const queryClient = useQueryClient();
-
-  const cancelOrderMutation = useMutation({
-    ...orderQueries.cancelOrderMutation(orderNumber ?? ''),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: orderQueries.all });
-      replace('OrderHistory', {});
+  const {
+    orderNumber,
+    result,
+    isPending,
+    isError,
+    orderDate,
+    orderDayOfWeek,
+    cancelOrderMutation,
+    handlers: {
+      handleCheckDelivery,
+      handleCancelOrder,
+      handleInquiry,
+      handleCopyTrackingNumber,
     },
+  } = useOrderDetail({
+    onCancelSuccess: () => replace('OrderHistory', {}),
   });
-
-  const { data, isPending, isError } = useQuery({
-    ...orderQueries.getOrderDetailQuery(orderNumber ?? ''),
-    enabled: !!orderNumber,
-  });
-
-  const result = useMemo(() => {
-    if (!data?.ok || !data.data?.result) return null;
-    return data.data.result;
-  }, [data]);
-
-  const { orderDate, orderDayOfWeek } = useMemo(
-    () => formatOrderDate(result?.orderDate),
-    [result?.orderDate]
-  );
-
-  const handleCheckDelivery = () => {
-    // TODO: 택배사 확인 로직
-  };
-
-  const handleCancelOrder = () => {
-    cancelOrderMutation.mutate();
-  };
-
-  const handleInquiry = () => {
-    window.open(KAKAO_INQUIRY_CHAT_URL, '_blank');
-  };
-
-  const handleCopyTrackingNumber = () => {
-    const trackingNumber = result?.shippingInfo?.trackingNumber;
-    if (trackingNumber) {
-      navigator.clipboard.writeText(trackingNumber);
-    }
-  };
 
   if (!orderNumber) {
     return (
