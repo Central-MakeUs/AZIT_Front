@@ -1,5 +1,5 @@
-import { SchedulePreparationListItem } from './SchedulePreparationListItem';
-import * as styles from '../styles/SchedulePreparationList.css';
+import * as styles from '@/features/schedule-detail/styles/SchedulePreparationList.css';
+import { SchedulePreparationListItem } from '@/features/schedule-detail/ui/SchedulePreparationListItem';
 
 interface SchedulePreparationListProps {
   items: string[];

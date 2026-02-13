@@ -1,8 +1,8 @@
 import { Chip } from '@azit/design-system/chip';
 
-import type { ScheduleParticipant } from '@/shared/mock/schedule';
+import * as styles from '@/features/schedule-members/styles/ScheduleMemberListItem.css';
 
-import * as styles from '../styles/ScheduleMemberListItem.css';
+import type { ScheduleParticipant } from '@/shared/mock/schedule';
 
 interface ScheduleMemberListItemProps {
   member: ScheduleParticipant & { isLeader?: boolean };

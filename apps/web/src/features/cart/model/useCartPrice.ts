@@ -1,4 +1,4 @@
-import type { CartProductItem } from '../api/types';
+import type { CartProductItem } from '@/features/cart/api/types';
 
 type CartProductsResponse = Awaited<
   ReturnType<
