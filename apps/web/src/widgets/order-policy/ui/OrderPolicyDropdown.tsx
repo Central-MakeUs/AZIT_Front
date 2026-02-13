@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@azit/design-system/icon';
 import { useState } from 'react';
 
-import * as styles from '../styles/OrderPolicyDropdown.css';
+import * as styles from '@/widgets/order-policy/styles/OrderPolicyDropdown.css';
 
 export default function OrderPolicyDropdown() {
   const [isOpen, setIsOpen] = useState(false);
