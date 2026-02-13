@@ -61,9 +61,10 @@ export const bottomArea = style({
   left: 0,
   right: 0,
   bottom: '20px',
+  padding: '0 20px',
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-end',
   gap: '12px',
   zIndex: 1,
 });
