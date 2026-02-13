@@ -1,7 +1,7 @@
 import { useFlow } from '@/app/routes/stackflow';
 import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
 import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
-import { crewQueries } from '@/shared/api/queries';
+import { crewQueries } from '@/shared/queries';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {

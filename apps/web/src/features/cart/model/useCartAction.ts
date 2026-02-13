@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { cartQueries } from '@/shared/api/queries/cart';
+import { cartQueries } from '@/shared/queries/cart';
 
 interface UseCartActionParams {
   selectedItemIds: Set<string>;
