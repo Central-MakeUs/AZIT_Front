@@ -1,9 +1,9 @@
-export { storeQueries } from './store';
-export { addressQueries } from './address';
 export {
   useCreateAddress,
   useUpdateAddress,
   useDeleteAddress,
-} from './address';
-export { crewQueries } from './crew';
-export { memberQueries } from './member';
+  addressQueries,
+} from '@/shared/queries/address';
+export { crewQueries } from '@/shared/queries/crew';
+export { memberQueries } from '@/shared/queries/member';
+export { storeQueries } from '@/shared/queries/store';
