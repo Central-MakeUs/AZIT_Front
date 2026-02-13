@@ -1,15 +1,17 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
-import Markdown from 'react-markdown';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useActivityParams } from '@stackflow/react';
-import * as styles from '../styles/TermDetailPage.css';
+import Markdown from 'react-markdown';
+
+import * as styles from '@/pages/term-detail/styles/TermDetailPage.css';
+
 import {
   PRIVACY_POLICY,
   TERMS_OF_SERVICE,
   THIRD_PARTY_INFO_AGREEMENT,
 } from '@/shared/constants/term';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
 
 const TERM_CONTENT_MAP: Record<string, { title: string; content: string }> = {
   'terms-of-service': {

@@ -1,7 +1,9 @@
 import { Chip } from '@azit/design-system/chip';
 import { ClockIcon, MarkerPinIcon, UsersIcon } from '@azit/design-system/icon';
+
+import * as styles from '@/widgets/schedule-list/styles/ScheduleListItem.css';
+
 import type { ScheduleItem } from '@/shared/mock/home';
-import * as styles from '../styles/ScheduleListItem.css';
 
 interface ScheduleListItemProps {
   item: ScheduleItem;

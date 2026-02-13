@@ -1,5 +1,6 @@
 import { Divider } from '@azit/design-system/divider';
-import * as styles from '../styles/CartSkeleton.css';
+
+import * as styles from '@/widgets/skeleton/styles/CartSkeleton.css';
 
 function CartItemSkeleton() {
   return (

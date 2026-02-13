@@ -1,5 +1,5 @@
-import { lazy, type ReactNode, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { lazy, type ReactNode, Suspense } from 'react';
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 export const container = style({
   display: 'flex',
@@ -20,7 +20,7 @@ export const content = style({
   flexDirection: 'column',
   gap: '4px',
   alignItems: 'flex-start',
-  width: '162px',
+  width: '100%',
 });
 
 export const text = style([

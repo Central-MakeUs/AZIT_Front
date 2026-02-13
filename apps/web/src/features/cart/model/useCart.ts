@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { cartQueries } from '@/shared/api/queries/cart';
-import type { CartProductItem, CartBrand } from '../api/types';
-import { useCartAction } from './useCartAction';
-import { useCartPrice } from './useCartPrice';
-import { useCartSelect } from './useCartSelect';
+import { useMemo } from 'react';
+
+import type { CartProductItem, CartBrand } from '@/features/cart/api/types';
+import { useCartAction } from '@/features/cart/model/useCartAction';
+import { useCartPrice } from '@/features/cart/model/useCartPrice';
+import { useCartSelect } from '@/features/cart/model/useCartSelect';
+
+import { cartQueries } from '@/shared/queries/cart';
 
 const transformCartData = (items: CartProductItem[]): CartBrand[] => {
   const brandMap = new Map<
@@ -42,10 +44,10 @@ export function useCart() {
   );
 
   const cartData = useMemo(() => {
-    if (!cartProductsResponse?.ok || !cartProductsResponse.data.result.items) {
+    if (!cartProductsResponse?.ok || !cartProductsResponse.data.result) {
       return [];
     }
-    return transformCartData(cartProductsResponse.data.result.items);
+    return transformCartData(cartProductsResponse.data.result);
   }, [cartProductsResponse]);
 
   const allItems = useMemo(() => {
@@ -63,17 +65,19 @@ export function useCart() {
     handleBrandSelectChange,
   } = useCartSelect({ allItems, cartData });
 
-  const { handleQuantityChange, handleDeleteItem, handleDeleteSelected } =
-    useCartAction({
-      selectedItemIds,
-      setSelectedItemIds,
-    });
+  const {
+    handleAddItem,
+    isAddToCartPending,
+    handleQuantityChange,
+    handleDeleteItem,
+    handleDeleteSelected,
+  } = useCartAction({
+    selectedItemIds,
+    setSelectedItemIds,
+  });
 
   const { totalProductPrice, membershipDiscount, shippingFee, totalPayment } =
-    useCartPrice({
-      selectedItems,
-      cartProductsResponse,
-    });
+    useCartPrice({ selectedItems });
 
   const hasSelectedItems = selectedItems.length > 0;
   const isEmpty = cartData.length === 0;
@@ -92,6 +96,8 @@ export function useCart() {
     membershipDiscount,
     shippingFee,
     totalPayment,
+    handleAddItem,
+    isAddToCartPending,
     handleSelectAll,
     handleItemSelectChange,
     handleBrandSelectChange,

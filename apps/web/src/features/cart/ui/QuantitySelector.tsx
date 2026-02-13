@@ -1,6 +1,7 @@
 import { MinusIcon, PlusIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
-import * as styles from '../styles/QuantitySelector.css';
+
+import * as styles from '@/features/cart/styles/QuantitySelector.css';
 
 interface QuantitySelectorProps {
   quantity: number;

@@ -1,12 +1,15 @@
-import { useState, useMemo } from 'react';
 import { BellIcon } from '@azit/design-system/icon';
+import { useState, useMemo } from 'react';
+
 import {
   ScheduleFilterTab,
   type ScheduleFilterType,
 } from '@/widgets/schedule-filter-tab/ui';
-import { HomeAlertListItem } from './HomeAlertListItem';
+
+import * as styles from '@/features/home-alert/styles/HomeAlertList.css';
+import { HomeAlertListItem } from '@/features/home-alert/ui/HomeAlertListItem';
+
 import { mockHomeAlertList, type AlertType } from '@/shared/mock/home-alert';
-import * as styles from '../styles/HomeAlertList.css';
 
 export function HomeAlertList() {
   const [activeFilter, setActiveFilter] = useState<ScheduleFilterType>('all');

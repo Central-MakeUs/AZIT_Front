@@ -1,11 +1,18 @@
-import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 export const section = style({
   display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  width: '100%',
+});
+
+export const dateColumn = style({
+  display: 'flex',
   flexDirection: 'column',
   gap: '4px',
-  width: '100%',
 });
 
 export const date = style([
@@ -28,3 +35,10 @@ export const divider = style({
   backgroundColor: vars.colors.gray10,
   marginTop: '16px',
 });
+
+export const orderStatus = style([
+  typography.body.b2,
+  {
+    color: vars.colors.blue60,
+  },
+]);

@@ -2,7 +2,10 @@ import type {
   ApiResponse,
   ApiResponseWithoutResult,
 } from '@/shared/api/baseTypes';
-import type { CreateCrewResult, CrewInfoResult } from '@/shared/api/models';
+import type {
+  CreateCrewResult,
+  CrewInfoResult,
+} from '@/shared/api/models/crew';
 
 export type CreateCrewResponseType = ApiResponse<CreateCrewResult>;
 export type JoinCrewResponseType = ApiResponse<{}>;

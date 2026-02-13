@@ -1,5 +1,6 @@
+import * as styles from '@/features/schedule-detail/styles/ScheduleParticipantListItem.css';
+
 import type { ScheduleParticipant } from '@/shared/mock/schedule';
-import * as styles from '../styles/ScheduleParticipantListItem.css';
 
 interface ScheduleParticipantListItemProps {
   participant: ScheduleParticipant;

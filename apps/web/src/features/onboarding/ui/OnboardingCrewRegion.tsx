@@ -1,10 +1,12 @@
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import clsx from 'clsx';
-import { REGION_OPTIONS, type RegionIdType } from '@/shared/constants/region';
-import * as styles from '../styles/OnboardingCrewRegion.css';
-import { BackButton } from '@/shared/ui/button';
 import { useState } from 'react';
+
+import * as styles from '@/features/onboarding/styles/OnboardingCrewRegion.css';
+
+import { REGION_OPTIONS, type RegionIdType } from '@/shared/constants/region';
+import { BackButton } from '@/shared/ui/button';
 
 export interface OnboardingCrewRegionProps {
   defaultValue?: string;

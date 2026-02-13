@@ -1,7 +1,8 @@
-import { lazy, type ComponentType } from 'react';
-import type { RouteConfig } from './types';
-import { withAuth } from './withAuth';
 import type { ActivityComponentType } from '@stackflow/react';
+import { lazy, type ComponentType } from 'react';
+
+import type { RouteConfig } from '@/app/routes/types';
+import { withAuth } from '@/app/routes/withAuth';
 
 /**
  * RouteConfig[]를 stackflow의 activities와 routes로 변환

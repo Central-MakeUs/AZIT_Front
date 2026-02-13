@@ -1,8 +1,9 @@
-import Calendar from 'react-calendar';
-import '../style/ScheduleCalendarBase.css.ts';
-import dayjs from 'dayjs';
-import * as styles from '../style/ScheduleCalendar.css.ts';
 import { ChevronLeftIcon, ChevronRightIcon } from '@azit/design-system/icon';
+import dayjs from 'dayjs';
+import Calendar from 'react-calendar';
+import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
+
+import * as styles from '@/widgets/schedule-calendar/style/ScheduleCalendar.css.ts';
 
 interface ScheduleCalendarProps {
   value: Date;

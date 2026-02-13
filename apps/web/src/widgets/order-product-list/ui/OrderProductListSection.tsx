@@ -1,9 +1,12 @@
-import type { OrderProduct } from '@/shared/mock/order';
-import { OrderProductItem } from './OrderProductItem';
-import * as styles from '../styles/OrderProductListSection.css';
+import * as styles from '@/widgets/order-product-list/styles/OrderProductListSection.css';
+import { OrderProductItem } from '@/widgets/order-product-list/ui/OrderProductItem';
+
+import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
+
+type OrderProductListItem = OrderItem | OrderItemResponse;
 
 interface OrderProductListSectionProps {
-  products: OrderProduct[];
+  products: OrderProductListItem[];
   title?: string;
   showDivider?: boolean;
   showOriginalPrice?: boolean;
@@ -19,9 +22,9 @@ export function OrderProductListSection({
     <div className={styles.section}>
       {title ? <h3 className={styles.title}>{title}</h3> : null}
       <div className={styles.productList}>
-        {products.map((product) => (
+        {products.map((product, index) => (
           <OrderProductItem
-            key={product.id}
+            key={product.productId ?? product.skuId ?? index}
             product={product}
             showOriginalPrice={showOriginalPrice}
           />

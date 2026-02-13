@@ -1,6 +1,7 @@
 import { Button } from '@azit/design-system/button';
 import { TruckIcon } from '@azit/design-system/icon';
-import * as styles from '../styles/AddressEmpty.css';
+
+import * as styles from '@/features/address/styles/AddressEmpty.css';
 
 interface AddressEmptyStateProps {
   handleRegister: () => void;

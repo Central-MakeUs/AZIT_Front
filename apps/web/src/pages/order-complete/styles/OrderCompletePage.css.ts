@@ -1,5 +1,6 @@
-import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
+
 import { layoutStyles } from '@/shared/styles/layout.css';
 
 export const headerWrapper = style([layoutStyles.headerWrapper]);
@@ -8,6 +9,7 @@ export const mainContainer = style([
   layoutStyles.mainContainer,
   {
     backgroundColor: vars.colors.white,
+    paddingBottom: '120px',
   },
 ]);
 
@@ -43,9 +45,5 @@ export const infoSection = style({
 
 export const footerWrapper = style([
   layoutStyles.footerWrapper,
-  {
-    padding: '0 20px',
-    paddingTop: '20px',
-    paddingBottom: '20px',
-  },
+  { position: 'fixed', bottom: 0 },
 ]);

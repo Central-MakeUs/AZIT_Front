@@ -1,6 +1,8 @@
-import { useKakaoPostcode } from '../model/useKakaoPostcode';
-import type { KakaoPostcodeResult } from '../model/useKakaoPostcode';
-import * as styles from '../styles/KakaoPostcode.css';
+import {
+  useKakaoPostcode,
+  type KakaoPostcodeResult,
+} from '@/features/address/model/useKakaoPostcode';
+import * as styles from '@/features/address/styles/KakaoPostcode.css';
 
 export interface KakaoPostcodeProps {
   onComplete: (data: KakaoPostcodeResult) => void;

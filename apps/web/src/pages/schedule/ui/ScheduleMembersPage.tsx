@@ -1,10 +1,13 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
+import * as styles from '@/pages/schedule/styles/ScheduleMembersPage.css';
+
 import { ScheduleMemberListItem } from '@/features/schedule-members/ui';
+
 import { mockScheduleDetail } from '@/shared/mock/schedule';
-import * as styles from '../styles/ScheduleMembersPage.css';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
 
 export function ScheduleMembersPage() {
   // TODO: 실제 API에서 scheduleId로 멤버 리스트 가져오기

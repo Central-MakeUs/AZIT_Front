@@ -1,5 +1,6 @@
+import * as styles from '@/widgets/order-payment-info/styles/PaymentInfoSection.css';
+
 import { formatPrice } from '@/shared/lib/formatters';
-import * as styles from '../styles/PaymentInfoSection.css';
 
 interface PaymentInfoSectionProps {
   totalProductPrice: number;
@@ -12,7 +13,7 @@ interface PaymentInfoSectionProps {
 export function PaymentInfoSection({
   totalProductPrice,
   membershipDiscount,
-  pointDiscount,
+  // pointDiscount,
   shippingFee,
   totalPayment,
 }: PaymentInfoSectionProps) {
@@ -33,12 +34,12 @@ export function PaymentInfoSection({
               -{formatPrice(membershipDiscount)}
             </p>
           </div>
-          <div className={styles.discountRow}>
+          {/* <div className={styles.discountRow}>
             <p className={styles.discountLabel}>아지트 포인트 할인</p>
             <p className={styles.discountValue}>
               -{formatPrice(pointDiscount)}
             </p>
-          </div>
+          </div> */}
           <div className={styles.detailRow}>
             <p className={styles.detailLabel}>배송비</p>
             <p className={styles.detailValue}>{formatPrice(shippingFee)}</p>

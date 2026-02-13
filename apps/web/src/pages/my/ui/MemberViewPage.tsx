@@ -1,11 +1,14 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+import * as styles from '@/pages/my/styles/MemberViewPage.css';
+
 import { MemberList } from '@/features/my/ui';
-import { memberQueries } from '@/shared/api/queries';
-import * as styles from '../styles/MemberViewPage.css';
+
+import { memberQueries } from '@/shared/queries';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
 
 export function MemberViewPage({ params }: { params?: { id?: string } }) {
   const crewId = Number(params?.id) || 0;
@@ -20,6 +23,7 @@ export function MemberViewPage({ params }: { params?: { id?: string } }) {
       page.ok
         ? page.data.result.content.map((member) => ({
             id: member.id ?? 0,
+            memberId: member.memberId ?? member.id ?? 0,
             nickname: member.nickname ?? '',
             profileImageUrl: member.profileImageUrl ?? '',
             role: member.role ?? 'MEMBER',

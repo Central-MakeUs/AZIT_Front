@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 const baseCard = style({
   display: 'flex',

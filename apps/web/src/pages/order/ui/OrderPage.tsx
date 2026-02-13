@@ -1,63 +1,89 @@
-import { useMemo } from 'react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import * as styles from '@/pages/order/styles/OrderPage.css';
+
+import { OrderProductListSection } from '@/widgets/order-product-list/ui';
+
+import { useOrder } from '@/features/order/model/useOrder';
 import {
   OrderAddressSection,
-  OrderDiscountSection,
+  OrderPaymentDescription,
   OrderPaymentMethodSection,
   OrderSummarySection,
 } from '@/features/order/ui';
-import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-import {
-  mockOrderProducts,
-  mockOrderAddress,
-  mockPaymentMethod,
-  mockAvailablePoints,
-} from '@/shared/mock/order';
-import * as styles from '../styles/OrderPage.css';
-import { useFlow } from '@/app/routes/stackflow';
-import { footerWrapper } from '@/shared/styles/footer.css';
 
-const MEMBERSHIP_DISCOUNT_RATE = 0.1;
+import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
+import { footerWrapper } from '@/shared/styles/footer.css';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
 
 export function OrderPage() {
-  const { pop, replace } = useFlow();
+  const { pop, push, replace } = useFlow();
+  const {
+    result,
+    isPending,
+    products,
+    totalProductPrice,
+    membershipDiscount,
+    shippingFee,
+    totalPayment,
+    selectedPaymentCode,
+    deliveryMessage,
+    setDeliveryMessage,
+    depositorName,
+    setDepositorName,
+    createOrderMutation,
+    handlers: {
+      handlePaymentSelect,
+      handlePayment,
+      handleChangeAddress,
+      handleBack,
+    },
+  } = useOrder({
+    onBack: () => pop(),
+    onChangeAddress: () => push('AddressSettingPage', {}),
+    onOrderSuccess: (orderResult) =>
+      replace('OrderCompletePage', { orderResult }),
+  });
 
-  const totalProductPrice = useMemo(() => {
-    return mockOrderProducts.reduce(
-      (sum, product) => sum + product.originalPrice * product.quantity,
-      0
-    );
-  }, []);
-
-  const membershipDiscount = useMemo(() => {
-    return Math.floor(totalProductPrice * MEMBERSHIP_DISCOUNT_RATE);
-  }, [totalProductPrice]);
-
-  const pointsDiscount = 0;
-  const shippingFee = 0;
-
-  const totalPayment = useMemo(() => {
+  if (isPending) {
     return (
-      totalProductPrice - membershipDiscount - pointsDiscount + shippingFee
+      <AppScreen>
+        <AppLayout>
+          <div className={styles.headerWrapper}>
+            <Header
+              left={<BackButton onClick={handleBack} />}
+              center="주문하기"
+            />
+          </div>
+          <div className={styles.mainContainer}>로딩 중...</div>
+        </AppLayout>
+      </AppScreen>
     );
-  }, [totalProductPrice, membershipDiscount, pointsDiscount, shippingFee]);
+  }
 
-  const handleChangeAddress = () => {
-    // TODO: 배송지 변경 로직
-  };
-
-  const handlePayment = () => {
-    // TODO: 결제 로직
-    replace('OrderCompletePage', {});
-  };
-
-  const handleBack = () => {
-    pop();
-  };
+  if (!result) {
+    return (
+      <AppScreen>
+        <AppLayout>
+          <div className={styles.headerWrapper}>
+            <Header
+              left={<BackButton onClick={handleBack} />}
+              center="주문하기"
+            />
+          </div>
+          <div className={styles.mainContainer}>
+            주문 정보를 불러올 수 없습니다.
+          </div>
+        </AppLayout>
+      </AppScreen>
+    );
+  }
 
   return (
     <AppScreen>
@@ -65,29 +91,41 @@ export function OrderPage() {
         <div className={styles.headerWrapper}>
           <Header
             left={<BackButton onClick={handleBack} />}
-            center="장바구니"
+            center="주문하기"
           />
         </div>
         <div className={styles.mainContainer}>
           <OrderAddressSection
-            address={mockOrderAddress}
             onChangeAddress={handleChangeAddress}
+            address={result.deliveryInfo ?? null}
+            deliveryMessage={deliveryMessage}
+            onChangeDeliveryMessage={setDeliveryMessage}
           />
-          <div className={styles.divider} />
+          <Divider />
           <OrderProductListSection
-            products={mockOrderProducts}
-            title={`주문 상품 총 ${mockOrderProducts.length}개`}
+            products={products}
+            title={`주문 상품 총 ${products.length}개`}
             showDivider={false}
           />
-          <div className={styles.divider} />
-          <OrderDiscountSection availablePoints={mockAvailablePoints} />
-          <div className={styles.divider} />
-          <OrderPaymentMethodSection paymentMethod={mockPaymentMethod} />
-          <div className={styles.divider} />
+
+          <Divider />
+          <OrderPaymentMethodSection
+            paymentMethods={result.paymentMethods ?? [DEFAULT_PAYMENT_METHOD]}
+            selectedPaymentCode={selectedPaymentCode}
+            onSelect={handlePaymentSelect}
+          />
+          {selectedPaymentCode && result.depositAccountInfo && (
+            <OrderPaymentDescription
+              {...result.depositAccountInfo}
+              depositorName={depositorName}
+              onDepositorNameChange={setDepositorName}
+            />
+          )}
+          <Divider />
           <OrderSummarySection
             totalProductPrice={totalProductPrice}
             membershipDiscount={membershipDiscount}
-            pointsDiscount={pointsDiscount}
+            pointsDiscount={0}
             shippingFee={shippingFee}
             totalPayment={totalPayment}
           />
@@ -95,10 +133,17 @@ export function OrderPage() {
         <div className={footerWrapper}>
           <Button
             className={styles.ctaButton}
-            state="active"
+            state={
+              selectedPaymentCode && !createOrderMutation.isPending
+                ? 'active'
+                : 'disabled'
+            }
+            disabled={!selectedPaymentCode || createOrderMutation.isPending}
             onClick={handlePayment}
           >
-            {totalPayment.toLocaleString()}원 결제하기
+            {createOrderMutation.isPending
+              ? '결제 중...'
+              : `${totalPayment.toLocaleString()}원 결제하기`}
           </Button>
         </div>
       </AppLayout>

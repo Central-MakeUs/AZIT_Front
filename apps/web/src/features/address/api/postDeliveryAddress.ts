@@ -1,7 +1,7 @@
 import { auth } from '@/shared/api/apiClient';
-import { END_POINT } from '@/shared/constants/endpoint';
-import type { RegisterDeliveryAddressRequest } from '@/shared/api/models';
 import type { ApiResponse } from '@/shared/api/baseTypes';
+import type { RegisterDeliveryAddressRequest } from '@/shared/api/models/address';
+import { END_POINT } from '@/shared/constants/endpoint';
 
 export const postDeliveryAddress = (
   payload: RegisterDeliveryAddressRequest
