@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import { formatOrderDate } from '@/shared/lib/formatters';
+import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { orderQueries } from '@/shared/queries/order';
 
 export interface UseOrderDetailOptions {
@@ -47,7 +48,7 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
   };
 
   const handleInquiry = () => {
-    window.open(KAKAO_INQUIRY_CHAT_URL, '_blank');
+    openExternalUrl(KAKAO_INQUIRY_CHAT_URL);
   };
 
   const handleCopyTrackingNumber = () => {
