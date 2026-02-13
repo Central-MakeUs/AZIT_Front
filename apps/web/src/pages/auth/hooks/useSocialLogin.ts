@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { useKakaoLogin } from '@/features/auth/model';
 
-import type { AuthProvider } from '@/shared/api/models';
+import type { AuthProvider } from '@/shared/api/models/auth';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
 import { APPLE_AUTHORIZE_URL } from '@/shared/constants/url';
 

@@ -5,14 +5,14 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/address/styles/AddressRegisterEditPage.css';
+
 import { useAddressForm } from '@/features/address/model/useAddressForm';
 import { AddressForm } from '@/features/address/ui';
 
 import { useCreateAddress } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/AddressRegisterEditPage.css';
 
 export function AddressRegisterPage() {
   const { pop, push } = useFlow();

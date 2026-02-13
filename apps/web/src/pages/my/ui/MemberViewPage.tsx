@@ -2,13 +2,13 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
+import * as styles from '@/pages/my/styles/MemberViewPage.css';
+
 import { MemberList } from '@/features/my/ui';
 
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/MemberViewPage.css';
 
 export function MemberViewPage({ params }: { params?: { id?: string } }) {
   const crewId = Number(params?.id) || 0;

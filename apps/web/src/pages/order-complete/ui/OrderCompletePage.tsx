@@ -6,6 +6,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/order-complete/styles/OrderCompletePage.css';
+
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 
 import type { CreateOrderResponse } from '@/features/order/api/types';
@@ -16,8 +18,6 @@ import {
 import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
 
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/OrderCompletePage.css';
 
 interface OrderCompletePageParams {
   orderResult?: CreateOrderResponse;
