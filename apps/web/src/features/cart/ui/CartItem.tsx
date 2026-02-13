@@ -48,18 +48,17 @@ export function CartItem({ item }: CartItemProps) {
   const discountedPrice = item.salePrice || 0;
   const isSoldOut = item.isOutOfStock || quantity === 0;
   const imageUrl = item.productImageUrl;
-  const productSkuId = item.productSkuId || 0;
 
   const handleIncrease = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    handleQuantityChange(cartItemId, productSkuId, newQuantity);
+    handleQuantityChange(cartItemId, newQuantity);
   };
 
   const handleDecrease = () => {
     const newQuantity = quantity - 1;
     setQuantity(newQuantity);
-    handleQuantityChange(cartItemId, productSkuId, newQuantity);
+    handleQuantityChange(cartItemId, newQuantity);
   };
 
   return (
