@@ -5,6 +5,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/order/styles/OrderPage.css';
+
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
 import { useOrder } from '@/features/order/model/useOrder';
@@ -19,8 +21,6 @@ import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/OrderPage.css';
 
 export function OrderPage() {
   const { pop, push, replace } = useFlow();

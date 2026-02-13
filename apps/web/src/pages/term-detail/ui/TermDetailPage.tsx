@@ -3,6 +3,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useActivityParams } from '@stackflow/react';
 import Markdown from 'react-markdown';
 
+import * as styles from '@/pages/term-detail/styles/TermDetailPage.css';
+
 import {
   PRIVACY_POLICY,
   TERMS_OF_SERVICE,
@@ -10,8 +12,6 @@ import {
 } from '@/shared/constants/term';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/TermDetailPage.css';
 
 const TERM_CONTENT_MAP: Record<string, { title: string; content: string }> = {
   'terms-of-service': {

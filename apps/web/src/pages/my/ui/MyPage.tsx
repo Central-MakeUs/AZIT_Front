@@ -3,6 +3,8 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
+import * as styles from '@/pages/my/styles/MyPage.css';
+
 import { WithdrawButton } from '@/features/auth/ui';
 import { getMyPageMenu } from '@/features/my/model/menu';
 import { MyProfileSection, MyMenuSection } from '@/features/my/ui';
@@ -11,8 +13,6 @@ import { memberQueries } from '@/shared/queries';
 import { useAuthStore } from '@/shared/store/auth';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
-
-import * as styles from '../styles/MyPage.css';
 
 export function MyPage() {
   const { logout } = useAuthStore();

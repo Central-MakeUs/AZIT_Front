@@ -6,6 +6,8 @@ import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/schedule/styles/ScheduleDetailPage.css';
+
 import {
   ScheduleDetailHeaderSection,
   ScheduleDetailInfoSection,
@@ -18,8 +20,6 @@ import { bridge } from '@/shared/lib/bridge';
 import { mockScheduleDetail } from '@/shared/mock/schedule';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/ScheduleDetailPage.css';
 
 // TODO: 실제 인증/API 연동 시 교체
 const MOCK_CURRENT_USER_ID = 'user-1';

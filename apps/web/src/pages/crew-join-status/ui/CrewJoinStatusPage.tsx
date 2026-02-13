@@ -3,15 +3,15 @@ import { Button } from '@azit/design-system/button';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
+import * as styles from '@/pages/crew-join-status/styles/CrewJoinStatusPage.css';
+
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
 import { useConfirmJoinStatus } from '@/features/crew-join-status/hooks/useConfirmJoinStatus';
+import { STATUS_CONTENT } from '@/features/crew-join-status/model/crewJoinStatus';
 
 import { crewQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
-
-import { STATUS_CONTENT } from '../../../features/crew-join-status/model/crewJoinStatus';
-import * as styles from '../styles/CrewJoinStatusPage.css';
 
 export function CrewJoinStatusPage({
   params,

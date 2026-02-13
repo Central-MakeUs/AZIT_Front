@@ -4,9 +4,9 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { useKakaoCode } from '@/features/auth/model/useKakaoCode';
+import * as styles from '@/pages/auth/styles/LoginPage.css';
 
-import * as styles from '../styles/LoginPage.css';
+import { useKakaoCode } from '@/features/auth/model/useKakaoCode';
 
 export function RedirectPage() {
   const { isLoading, error, invalidAccess } = useKakaoCode();

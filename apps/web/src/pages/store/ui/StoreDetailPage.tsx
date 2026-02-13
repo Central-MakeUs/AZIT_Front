@@ -10,6 +10,8 @@ import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/store/styles/StoreDetailPage.css';
+
 import {
   OrderPolicyDropdown,
   OrderPolicyFooter,
@@ -33,8 +35,6 @@ import { footerWrapper } from '@/shared/styles/footer.css';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { CartIconButton } from '@/shared/ui/cart-icon-button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/StoreDetailPage.css';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();

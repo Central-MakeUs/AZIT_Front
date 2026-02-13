@@ -3,6 +3,8 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useState, useCallback } from 'react';
 
+import * as styles from '@/pages/mypage-notification/styles/NotificationSettingsPage.css';
+
 import { NotificationSettingsList } from '@/features/mypage-notification/ui';
 
 import {
@@ -11,8 +13,6 @@ import {
 } from '@/shared/mock/mypage-notification';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/NotificationSettingsPage.css';
 
 export function NotificationSettingsPage() {
   const [settings, setSettings] = useState<NotificationSettingItem[]>(
