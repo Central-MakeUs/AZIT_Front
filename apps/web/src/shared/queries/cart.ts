@@ -6,12 +6,14 @@ import {
 
 import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
 import { getCartProducts } from '@/features/cart/api/getCartProducts';
+import { patchCartProductQuantity } from '@/features/cart/api/patchCartProductQuantity';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
 
 import { getCartCount } from '@/shared/api/handlers/getCartCount';
 import type {
   CartProductAddRequest,
   CartProductDeleteRequest,
+  CartProductUpdateQuantityRequest,
 } from '@/shared/api/models/cart';
 
 export const cartQueries = {
@@ -37,6 +39,21 @@ export const cartQueries = {
         });
         queryClient.invalidateQueries({
           queryKey: [...cartQueries.countKey()],
+        });
+      },
+    }),
+  changeItemQuantityMutation: (queryClient: QueryClient) =>
+    mutationOptions({
+      mutationFn: ({
+        cartItemId,
+        data,
+      }: {
+        cartItemId: number;
+        data: CartProductUpdateQuantityRequest;
+      }) => patchCartProductQuantity(cartItemId, data),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [...cartQueries.productsKey()],
         });
       },
     }),
