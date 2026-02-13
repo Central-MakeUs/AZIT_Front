@@ -8,7 +8,7 @@ import { MyProfileSection, MyMenuSection } from '@/features/my/ui';
 import { WithdrawButton } from '@/features/auth/ui';
 import { useAuthStore } from '@/shared/store/auth';
 import { getMyPageMenu } from '@/features/my/model/menu';
-import { memberQueries } from '@/shared/api/queries';
+import { memberQueries } from '@/shared/queries';
 import * as styles from '../styles/MyPage.css';
 
 export function MyPage() {

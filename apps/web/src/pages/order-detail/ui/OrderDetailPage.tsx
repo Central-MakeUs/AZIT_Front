@@ -11,7 +11,7 @@ import {
 import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-import { orderQueries } from '@/shared/api/queries/order';
+import { orderQueries } from '@/shared/queries/order';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useActivityParams } from '@stackflow/react';
 import { useFlow } from '@/app/routes/stackflow';
