@@ -3,14 +3,14 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/address/styles/AddressSearchPage.css';
+
 import type { KakaoPostcodeResult } from '@/features/address/model/useKakaoPostcode';
 import { KakaoPostcode } from '@/features/address/ui';
 
 import { useAddressSelectionStore } from '@/shared/store/addressSelection';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/AddressSearchPage.css';
 
 export function AddressSearchPage() {
   const { pop } = useFlow();

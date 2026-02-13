@@ -5,6 +5,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/order-detail/styles/OrderDetailPage.css';
+
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
@@ -19,8 +21,6 @@ import {
 
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/OrderDetailPage.css';
 
 export function OrderDetailPage() {
   const { replace } = useFlow();

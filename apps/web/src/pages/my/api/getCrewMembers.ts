@@ -1,6 +1,6 @@
 import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
-import type { CrewMemberListResult } from '@/shared/api/models';
+import type { CrewMemberListResult } from '@/shared/api/models/crew';
 import { END_POINT } from '@/shared/constants/endpoint';
 
 export const getCrewMembers = (

@@ -5,6 +5,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/cart/styles/CartPage.css';
+
 import { CartSkeleton } from '@/widgets/skeleton/ui';
 
 import { CartProvider } from '@/features/cart/context/CartContext';
@@ -20,8 +22,6 @@ import { formatPrice } from '@/shared/lib/formatters';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/CartPage.css';
 
 export function CartPage() {
   const { push } = useFlow();
