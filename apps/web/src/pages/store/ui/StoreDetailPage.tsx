@@ -27,6 +27,7 @@ import {
   StoreDetailItem,
 } from '@/features/store/ui';
 
+import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
@@ -167,23 +168,42 @@ export function StoreDetailPage() {
         <StoreDetailItem
           option={selectedOption}
           salePrice={product.salePrice}
+          shippingDate={product.expectedShippingDate}
           quantity={quantity}
           onQuantityChange={setQuantity}
           onCancel={closeBottomSheetAndResetOption}
         />
         {selectedOption && (
-          <div className={styles.buttonWrapper}>
-            <Button
-              size="large"
-              state="outline"
-              onClick={handleAddToCart}
-              disabled={isAddToCartPending}
-            >
-              {isAddToCartPending ? '추가 중...' : '장바구니'}
-            </Button>
-            <Button size="large" state="active" onClick={handlePurchaseClick}>
-              구매하기
-            </Button>
+          <div className={styles.selectedOptionContainer}>
+            <Divider />
+            <div className={styles.expectFeeContainer}>
+              <p className={styles.expectFeeLabel}>예상 결제 금액</p>
+              <p className={styles.expectFeeAmount}>
+                <span className={styles.expectFeeAmountValue}>
+                  {formatPrice(
+                    product.salePrice * quantity + product.shippingFee
+                  )}
+                </span>
+                <span className={styles.shippingFeeValue}>
+                  {product.shippingFee > 0
+                    ? `배송비 ${formatPrice(product.shippingFee)}`
+                    : '무료배송'}
+                </span>
+              </p>
+            </div>
+            <div className={styles.buttonWrapper}>
+              <Button
+                size="large"
+                state="outline"
+                onClick={handleAddToCart}
+                disabled={isAddToCartPending}
+              >
+                {isAddToCartPending ? '추가 중...' : '장바구니'}
+              </Button>
+              <Button size="large" state="active" onClick={handlePurchaseClick}>
+                구매하기
+              </Button>
+            </div>
           </div>
         )}
       </BottomSheet>
