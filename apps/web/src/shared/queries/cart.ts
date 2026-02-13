@@ -35,10 +35,7 @@ export const cartQueries = {
       mutationFn: (data: CartProductAddRequest) => postCartProductAdd(data),
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [...cartQueries.productsKey()],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [...cartQueries.countKey()],
+          queryKey: [...cartQueries.all],
         });
       },
     }),

@@ -110,8 +110,14 @@ export function useAddToCart() {
     [addItemMutation]
   );
 
+  const addItemAsync = useCallback(
+    (data: CartProductAddRequest) => addItemMutation.mutateAsync(data),
+    [addItemMutation]
+  );
+
   return {
     handleAddItem,
+    addItemAsync,
     isPending: addItemMutation.isPending,
   };
 }

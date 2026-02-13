@@ -184,3 +184,12 @@ export const selectedOptionContainer = style({
   left: '20px',
   width: 'calc(100% - 40px)',
 });
+
+export const selectedOptionList = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  width: '100%',
+  maxHeight: 'calc(100% - 235px)',
+  overflowY: 'scroll',
+});

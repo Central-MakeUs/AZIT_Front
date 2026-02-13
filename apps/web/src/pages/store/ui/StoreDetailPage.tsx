@@ -44,10 +44,10 @@ export function StoreDetailPage() {
     isPending,
     isError,
     isBottomSheetOpen,
-    selectedOption,
-    quantity,
-    setQuantity,
+    selectedItems,
     options,
+    shippingFee,
+    expectedPayment,
     isAddToCartPending,
     handleShare,
     handleOptionSelectClick,
@@ -55,10 +55,13 @@ export function StoreDetailPage() {
     handleAddToCart,
     handlePurchaseClick,
     closeBottomSheetAndResetOption,
+    setItemQuantity,
+    removeItem,
   } = useStoreDetail({
     productId: id ?? '',
     shareWithKakao,
     onPurchase: ({ skuId, quantity }) => push('OrderPage', { skuId, quantity }),
+    onPurchaseMultiple: () => push('CartPage', {}),
   });
 
   if (!id) {
@@ -165,28 +168,31 @@ export function StoreDetailPage() {
           options={options}
           onValueChange={handleOptionSelect}
         />
-        <StoreDetailItem
-          option={selectedOption}
-          salePrice={product.salePrice}
-          shippingDate={product.expectedShippingDate}
-          quantity={quantity}
-          onQuantityChange={setQuantity}
-          onCancel={closeBottomSheetAndResetOption}
-        />
-        {selectedOption && (
+        <div className={styles.selectedOptionList}>
+          {selectedItems.map((item) => (
+            <StoreDetailItem
+              key={item.id}
+              option={item.optionLabel}
+              salePrice={product.salePrice}
+              shippingDate={product.expectedShippingDate}
+              quantity={item.quantity}
+              onQuantityChange={(q) => setItemQuantity(item.id, q)}
+              onCancel={() => removeItem(item.id)}
+            />
+          ))}
+        </div>
+        {selectedItems.length > 0 && (
           <div className={styles.selectedOptionContainer}>
             <Divider />
             <div className={styles.expectFeeContainer}>
               <p className={styles.expectFeeLabel}>예상 결제 금액</p>
               <p className={styles.expectFeeAmount}>
                 <span className={styles.expectFeeAmountValue}>
-                  {formatPrice(
-                    product.salePrice * quantity + product.shippingFee
-                  )}
+                  {formatPrice(expectedPayment)}
                 </span>
                 <span className={styles.shippingFeeValue}>
-                  {product.shippingFee > 0
-                    ? `배송비 ${formatPrice(product.shippingFee)}`
+                  {shippingFee > 0
+                    ? `배송비 ${formatPrice(shippingFee)}`
                     : '무료배송'}
                 </span>
               </p>
