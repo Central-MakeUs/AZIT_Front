@@ -15,3 +15,7 @@ export const label = style([
     color: vars.colors.gray70,
   },
 ]);
+
+export const pushIcon = style({
+  color: vars.colors.gray50,
+});

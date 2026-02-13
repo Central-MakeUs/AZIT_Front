@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { useFlow } from '@/app/routes/stackflow';
 
 import type { MenuItem, MyPageMenuGroup } from '@/features/my/model/menu';
@@ -30,12 +32,13 @@ export function MyMenuSection({ section }: MyMenuSectionProps) {
     <section className={styles.container}>
       <h2 className={styles.title}>{section.title}</h2>
       <div className={styles.list}>
-        {section.items.map((item) => (
-          <MyMenuItem
-            key={item.id}
-            item={item}
-            onClick={() => handleItemClick(item)}
-          />
+        {section.items.map((item, index) => (
+          <Fragment key={item.id}>
+            <MyMenuItem item={item} onClick={() => handleItemClick(item)} />
+            {index < section.items.length - 1 && (
+              <div className={styles.listItemDivider} aria-hidden />
+            )}
+          </Fragment>
         ))}
       </div>
     </section>
