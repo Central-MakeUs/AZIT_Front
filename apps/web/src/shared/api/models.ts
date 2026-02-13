@@ -55,3 +55,7 @@ export type CrewMemberDetailResult = Required<
 export type JoinRequestMemberResult = Required<
   components['schemas']['JoinRequestMemberResponse']
 >;
+
+export type CartCountResult = Required<
+  components['schemas']['CartItemCountResponse']
+>;
