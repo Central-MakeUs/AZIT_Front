@@ -2,14 +2,12 @@ import { Button } from '@azit/design-system/button';
 import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useActivityParams } from '@stackflow/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
+import { useOrder } from '@/features/order/model/useOrder';
 import {
   OrderAddressSection,
   OrderPaymentDescription,
@@ -17,128 +15,41 @@ import {
   OrderSummarySection,
 } from '@/features/order/ui';
 
-import {
-  DEFAULT_PAYMENT_METHOD,
-  PAYMENT_METHOD_MAP,
-} from '@/shared/constants/order';
-import { orderQueries } from '@/shared/queries/order';
+import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from '../styles/OrderPage.css';
 
-const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
-
-interface OrderPageParams {
-  skuId?: string;
-  quantity?: string;
-  cartItemIds?: string; // JSON stringified number[]
-}
-
-function parseOrderParams(params: OrderPageParams | undefined) {
-  if (!params) return { skuId: 0, quantity: 0, cartItemIds: [] as number[] };
-  const skuId = Number(params.skuId) || 0;
-  const quantity = Number(params.quantity) || 0;
-  let cartItemIds: number[] = [];
-  try {
-    const parsed = params.cartItemIds ? JSON.parse(params.cartItemIds) : [];
-    cartItemIds = Array.isArray(parsed)
-      ? parsed.filter((n: unknown) => typeof n === 'number')
-      : [];
-  } catch {
-    // ignore
-  }
-  return { skuId, quantity, cartItemIds };
-}
-
 export function OrderPage() {
   const { pop, push, replace } = useFlow();
-  const params = useActivityParams<OrderPageParams>();
-  const { skuId, quantity, cartItemIds } = parseOrderParams(params);
-  const isDirectOrder = skuId > 0;
-
-  const [selectedPaymentCode, setSelectedPaymentCode] = useState<
-    string | undefined
-  >();
-  const [deliveryMessage, setDeliveryMessage] = useState<string | undefined>();
-  const [depositorName, setDepositorName] = useState('');
-
-  const createOrderMutation = useMutation(orderQueries.createOrderMutation());
-
-  const handlePaymentSelect = (method: { code?: string }) => {
-    setSelectedPaymentCode(method.code);
-  };
-
-  const { data: checkoutInfoDirect, isPending: isDirectPending } = useQuery({
-    ...orderQueries.checkoutDirectQuery({ skuId, quantity }),
-    enabled: isDirectOrder && skuId > 0 && quantity > 0,
+  const {
+    result,
+    isPending,
+    products,
+    totalProductPrice,
+    membershipDiscount,
+    shippingFee,
+    totalPayment,
+    selectedPaymentCode,
+    deliveryMessage,
+    setDeliveryMessage,
+    depositorName,
+    setDepositorName,
+    createOrderMutation,
+    handlers: {
+      handlePaymentSelect,
+      handlePayment,
+      handleChangeAddress,
+      handleBack,
+    },
+  } = useOrder({
+    onBack: () => pop(),
+    onChangeAddress: () => push('AddressSettingPage', {}),
+    onOrderSuccess: (orderResult) =>
+      replace('OrderCompletePage', { orderResult }),
   });
-
-  const { data: checkoutInfoCart, isPending: isCartPending } = useQuery({
-    ...orderQueries.checkoutCartQuery({ cartItemIds }),
-    enabled: !isDirectOrder && cartItemIds.length > 0,
-  });
-
-  const checkoutInfo = isDirectOrder ? checkoutInfoDirect : checkoutInfoCart;
-  const isPending = isDirectOrder ? isDirectPending : isCartPending;
-
-  const result =
-    !checkoutInfo?.ok || !checkoutInfo.data?.result
-      ? null
-      : checkoutInfo.data.result;
-
-  const products = result?.items ?? [];
-  const summary = result?.summary;
-  const totalProductPrice = summary?.totalProductPrice ?? 0;
-  const membershipDiscount = summary?.membershipDiscount ?? 0;
-  const shippingFee = summary?.shippingFee ?? 0;
-  const totalPayment = totalProductPrice - membershipDiscount + shippingFee;
-
-  const handlePayment = async () => {
-    if (!result) return;
-    const delivery = result.deliveryInfo;
-    if (!delivery) {
-      // TODO 토스트 - 배송지를 선택해주세요
-      return;
-    }
-    if (selectedPaymentCode === BANK_TRANSFER_CODE && !depositorName.trim()) {
-      // TODO 토스트 - 입금자명을 입력해주세요
-      return;
-    }
-
-    const payload = {
-      ...(isDirectOrder ? { skuId, quantity } : { cartItemIds }),
-      recipientName: delivery.recipientName ?? '',
-      phoneNumber: delivery.phoneNumber ?? '',
-      baseAddress: delivery.baseAddress ?? '',
-      detailAddress: delivery.detailAddress ?? '',
-      ...(deliveryMessage && { shippingInstruction: deliveryMessage }),
-      usedPoints: 0,
-      paymentMethod: selectedPaymentCode ?? '',
-      ...(selectedPaymentCode === BANK_TRANSFER_CODE && {
-        depositorName: depositorName.trim(),
-      }),
-    };
-
-    try {
-      const response = await createOrderMutation.mutateAsync(payload);
-      if (response.ok && response.data?.result) {
-        replace('OrderCompletePage', { orderResult: response.data.result });
-      }
-      // TODO response.ok === false일 때 토스트 에러 처리
-    } catch {
-      // TODO 네트워크 에러 등.. 토스트 처리
-    }
-  };
-
-  const handleChangeAddress = () => {
-    push('AddressSettingPage', {});
-  };
-
-  const handleBack = () => {
-    pop();
-  };
 
   if (isPending) {
     return (
