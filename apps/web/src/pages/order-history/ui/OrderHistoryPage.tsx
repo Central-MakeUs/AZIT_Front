@@ -3,59 +3,31 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { TruckIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
-import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
-import { orderQueries } from '@/shared/queries/order';
+import { useOrderHistory } from '@/features/order-history/model/useOrderHistory';
+
+import { formatOrderDateLabel } from '@/shared/lib/formatters';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
-import type { OrderListItem } from '../api/types';
 import * as styles from '../styles/OrderHistory.css.ts';
-
-const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
-
-function formatOrderDateLabel(dateString: string | undefined) {
-  if (!dateString) return '';
-  try {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const dayOfWeek = WEEKDAYS[date.getDay()];
-    return `${year}.${month}.${day}(${dayOfWeek})`;
-  } catch {
-    return dateString;
-  }
-}
 
 export function OrderHistoryPage() {
   const { push } = useFlow();
-
   const {
-    data: orderHistoryData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+    orders,
     isPending,
-  } = useInfiniteQuery(orderQueries.orderHistoryInfiniteQuery());
-
-  const { scrollRef, bottomSentinelRef } = useInfiniteScroll({
-    hasNextPage: hasNextPage ?? false,
-    isFetchingNextPage,
-    fetchNextPage,
+    isEmpty,
+    scrollRef,
+    bottomSentinelRef,
+    handlers: { handleOrderDetail },
+  } = useOrderHistory({
+    onOrderDetail: (id) => push('OrderDetailPage', { id }),
   });
-
-  const orders: OrderListItem[] =
-    orderHistoryData?.pages.flatMap((page) =>
-      page.ok && page.data?.result?.content ? page.data.result.content : []
-    ) ?? [];
-
-  const isEmpty = !isPending && orders.length === 0;
 
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
@@ -90,11 +62,7 @@ export function OrderHistoryPage() {
                       type="button"
                       state="outline"
                       className={styles.detailButton}
-                      onClick={() =>
-                        push('OrderDetailPage', {
-                          id: order.orderNumber!.replace(/^#/, ''),
-                        })
-                      }
+                      onClick={() => handleOrderDetail(order)}
                     >
                       주문 상세
                     </Button>
