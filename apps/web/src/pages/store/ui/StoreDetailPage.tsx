@@ -23,8 +23,8 @@ import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { useActivityParams } from '@stackflow/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { storeQueries } from '@/shared/api/queries';
-import { cartQueries } from '@/shared/api/queries/cart';
+import { storeQueries } from '@/shared/queries';
+import { cartQueries } from '@/shared/queries/cart';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import {
   OrderPolicyDropdown,
