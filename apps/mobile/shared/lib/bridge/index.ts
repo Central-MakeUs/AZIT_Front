@@ -8,6 +8,7 @@ import {
   type AppPostMessageSchema,
   POST_MESSAGE_EVENT,
 } from '@azit/bridge';
+import * as Linking from 'expo-linking';
 import { Share } from 'react-native';
 import { z } from 'zod';
 import { WEBVIEW_URL } from '@/shared/constants/url';
@@ -22,6 +23,9 @@ export const appBridge = bridge<AppBridge>({
   },
   async openInAppBrowser(url: string) {
     return;
+  },
+  async openExternalBrowser(url: string) {
+    await Linking.openURL(url);
   },
   async shareInviteCode(code: string, crewName: string) {
     await Share.share({
