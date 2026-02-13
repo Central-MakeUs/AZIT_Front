@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 
-import type { routes } from './config';
+import type { routes } from '@/app/routes/config';
 
 export interface RouteConfig {
   name: string;

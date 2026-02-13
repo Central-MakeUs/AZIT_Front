@@ -1,10 +1,9 @@
+import type { RouteConfig } from '@/app/routes/types';
+import { lazyImport } from '@/app/routes/utils';
+
 import { RedirectPage } from '@/pages/auth/ui/RedirectPage';
 import { HomePage } from '@/pages/home/ui/HomePage';
 import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
-
-import type { RouteConfig } from './types';
-import { lazyImport } from './utils';
-
 
 const LoginPage = lazyImport(
   () => import('@/pages/auth/ui/LoginPage'),
