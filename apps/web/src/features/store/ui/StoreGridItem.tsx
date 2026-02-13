@@ -1,7 +1,9 @@
-import { formatPrice } from '@/shared/lib/formatters';
-import type { StoreProductItem } from '@/shared/api/models';
-import * as styles from '../styles/StoreGridItem.css';
 import { useFlow } from '@/app/routes/stackflow';
+
+import type { StoreProductItem } from '@/shared/api/models';
+import { formatPrice } from '@/shared/lib/formatters';
+
+import * as styles from '../styles/StoreGridItem.css';
 
 interface StoreGridItemProps {
   product: StoreProductItem;

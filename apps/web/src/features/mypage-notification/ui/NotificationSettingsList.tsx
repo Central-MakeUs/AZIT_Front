@@ -1,4 +1,5 @@
 import type { NotificationSettingItem as NotificationSettingItemType } from '@/shared/mock/mypage-notification';
+
 import { NotificationSettingItem } from './NotificationSettingItem';
 import * as styles from '../styles/NotificationSettingsList.css';
 

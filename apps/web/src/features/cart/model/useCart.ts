@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+
 import { cartQueries } from '@/shared/queries/cart';
-import type { CartProductItem, CartBrand } from '../api/types';
+
 import { useCartAction } from './useCartAction';
 import { useCartPrice } from './useCartPrice';
 import { useCartSelect } from './useCartSelect';
+import type { CartProductItem, CartBrand } from '../api/types';
 
 const transformCartData = (items: CartProductItem[]): CartBrand[] => {
   const brandMap = new Map<

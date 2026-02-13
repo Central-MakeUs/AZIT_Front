@@ -1,5 +1,6 @@
-import { KAKAO_AUTHORIZE_URL } from '@/shared/constants/url';
 import { useCallback } from 'react';
+
+import { KAKAO_AUTHORIZE_URL } from '@/shared/constants/url';
 
 interface KakaoLoginOptions {
   redirectUri?: string;

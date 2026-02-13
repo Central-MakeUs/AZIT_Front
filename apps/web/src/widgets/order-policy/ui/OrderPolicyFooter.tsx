@@ -1,4 +1,5 @@
 import { useFlow } from '@/app/routes/stackflow';
+
 import * as styles from '../styles/OrderPolicyFooter.css';
 
 export default function OrderPolicyFooter() {

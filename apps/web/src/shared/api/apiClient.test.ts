@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { authApi } from './apiClient';
 import { useAuthStore } from '../store/auth';
 

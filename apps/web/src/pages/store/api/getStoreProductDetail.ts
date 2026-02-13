@@ -1,6 +1,7 @@
 import { auth } from '@/shared/api/apiClient';
-import type { StoreProductDetailResponse } from './types';
 import { END_POINT } from '@/shared/constants/endpoint';
+
+import type { StoreProductDetailResponse } from './types';
 
 export const getStoreProductDetail = (productId: string) => {
   return auth.get<StoreProductDetailResponse>(

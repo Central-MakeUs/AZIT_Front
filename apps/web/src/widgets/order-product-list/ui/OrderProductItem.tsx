@@ -1,12 +1,14 @@
+import { Description } from '@azit/design-system/description';
+
 import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
+
+import * as styles from '../styles/OrderProductItem.css.ts';
 
 type OrderProductListItem = OrderItem | OrderItemResponse;
 
 function isCheckoutItem(item: OrderProductListItem): item is OrderItem {
   return 'basePrice' in item && 'salePrice' in item;
 }
-import { Description } from '@azit/design-system/description';
-import * as styles from '../styles/OrderProductItem.css.ts';
 
 interface OrderProductItemProps {
   product: OrderProductListItem;

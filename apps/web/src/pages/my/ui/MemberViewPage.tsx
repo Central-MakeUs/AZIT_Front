@@ -1,10 +1,13 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
 import { MemberList } from '@/features/my/ui';
+
 import { memberQueries } from '@/shared/queries';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
 import * as styles from '../styles/MemberViewPage.css';
 
 export function MemberViewPage({ params }: { params?: { id?: string } }) {

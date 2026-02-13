@@ -1,5 +1,6 @@
-import { KAKAO_JS_SDK_KEY } from '@/shared/constants/url';
 import { useEffect, useState } from 'react';
+
+import { KAKAO_JS_SDK_KEY } from '@/shared/constants/url';
 
 interface KakaoSDKReturn {
   isLoaded: boolean;

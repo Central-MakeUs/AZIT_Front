@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
+
 import { cartQueries } from '@/shared/queries/cart';
 
 interface UseCartActionParams {

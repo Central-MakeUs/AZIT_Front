@@ -1,18 +1,23 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
 import { ChevronLeftIcon, HomeIcon } from '@azit/design-system/icon';
-import { AppLayout } from '@/shared/ui/layout';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
+
+import type { CreateOrderResponse } from '@/features/order/api/types';
 import {
   OrderCompleteHeader,
   DeliveryInfoSection,
 } from '@/features/order-complete/ui';
-import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
-import * as styles from '../styles/OrderCompletePage.css';
-import { useFlow } from '@/app/routes/stackflow';
-import type { CreateOrderResponse } from '@/features/order/api/types';
-import { Divider } from '@azit/design-system/divider';
 import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
+
+import { AppLayout } from '@/shared/ui/layout';
+
+import * as styles from '../styles/OrderCompletePage.css';
 
 interface OrderCompletePageParams {
   orderResult?: CreateOrderResponse;
