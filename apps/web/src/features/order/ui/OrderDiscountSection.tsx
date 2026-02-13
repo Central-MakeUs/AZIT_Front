@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import * as styles from '../styles/OrderDiscountSection.css';
+import * as styles from '@/features/order/styles/OrderDiscountSection.css';
 
 interface OrderDiscountSectionProps {
   availablePoints: number;

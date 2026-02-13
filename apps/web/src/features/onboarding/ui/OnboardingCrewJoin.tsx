@@ -3,13 +3,13 @@ import { Header } from '@azit/design-system/header';
 import { Input } from '@azit/design-system/input';
 import { useState } from 'react';
 
-import type { CrewInfoResult } from '@/shared/api/models';
+import { getCrewInfo } from '@/features/onboarding/api/getCrewInfo';
+import * as styles from '@/features/onboarding/styles/OnboardingCrewJoin.css';
+import { OnboardingCrewJoinBottomSheetContent } from '@/features/onboarding/ui/OnboardingCrewJoinBottomSheetContent';
+
+import type { CrewInfoResult } from '@/shared/api/models/crew';
 import { BottomSheet } from '@/shared/ui/bottom-sheet/BottomSheet';
 import { BackButton } from '@/shared/ui/button';
-
-import { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottomSheetContent';
-import { getCrewInfo } from '../api/getCrewInfo';
-import * as styles from '../styles/OnboardingCrewJoin.css';
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;

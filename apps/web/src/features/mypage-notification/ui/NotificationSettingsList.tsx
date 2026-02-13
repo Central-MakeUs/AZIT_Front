@@ -1,7 +1,7 @@
-import type { NotificationSettingItem as NotificationSettingItemType } from '@/shared/mock/mypage-notification';
+import * as styles from '@/features/mypage-notification/styles/NotificationSettingsList.css';
+import { NotificationSettingItem } from '@/features/mypage-notification/ui/NotificationSettingItem';
 
-import { NotificationSettingItem } from './NotificationSettingItem';
-import * as styles from '../styles/NotificationSettingsList.css';
+import type { NotificationSettingItem as NotificationSettingItemType } from '@/shared/mock/mypage-notification';
 
 interface NotificationSettingsListProps {
   items: NotificationSettingItemType[];
