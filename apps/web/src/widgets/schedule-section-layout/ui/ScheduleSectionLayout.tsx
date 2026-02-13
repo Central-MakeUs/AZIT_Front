@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import * as styles from '../styles/ScheduleSectionLayout.css';
+import * as styles from '@/widgets/schedule-section-layout/styles/ScheduleSectionLayout.css';
 
 interface ScheduleSectionLayoutProps {
   topSection?: ReactNode;

@@ -1,6 +1,6 @@
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '../styles/OrderPolicyFooter.css';
+import * as styles from '@/widgets/order-policy/styles/OrderPolicyFooter.css';
 
 export default function OrderPolicyFooter() {
   const { push } = useFlow();

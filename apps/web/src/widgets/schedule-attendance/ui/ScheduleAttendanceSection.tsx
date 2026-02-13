@@ -1,9 +1,9 @@
 import { MarkerPinIcon } from '@azit/design-system/icon';
 import { motion } from 'motion/react';
 
-import type { ActivityActivation } from '@/shared/mock/home';
+import * as styles from '@/widgets/schedule-attendance/styles/ScheduleAttendanceSection.css';
 
-import * as styles from '../styles/ScheduleAttendanceSection.css';
+import type { ActivityActivation } from '@/shared/mock/home';
 
 interface ScheduleAttendanceSectionProps {
   activity: ActivityActivation;
