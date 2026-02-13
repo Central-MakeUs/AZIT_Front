@@ -1,4 +1,4 @@
-import * as styles from '../styles/ScheduleDetailDescriptionSection.css';
+import * as styles from '@/features/schedule-detail/styles/ScheduleDetailDescriptionSection.css';
 
 interface ScheduleDetailDescriptionSectionProps {
   description: string;

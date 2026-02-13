@@ -1,9 +1,9 @@
 import { Chip } from '@azit/design-system/chip';
 import clsx from 'clsx';
 
-import type { HomeAlertItem } from '@/shared/mock/home-alert';
+import * as styles from '@/features/home-alert/styles/HomeAlertListItem.css.ts';
 
-import * as styles from '../styles/HomeAlertListItem.css.ts';
+import type { HomeAlertItem } from '@/shared/mock/home-alert';
 
 interface HomeAlertListItemProps {
   item: HomeAlertItem;
