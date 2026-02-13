@@ -14,9 +14,9 @@ import {
   addressQueries,
   useDeleteAddress,
   useUpdateAddress,
-} from '@/shared/api/queries';
+} from '@/shared/queries';
 import { useQueryClient } from '@tanstack/react-query';
-import { orderQueries } from '@/shared/api/queries/order';
+import { orderQueries } from '@/shared/queries/order';
 
 export function AddressSettingPage() {
   const { push, pop } = useFlow();

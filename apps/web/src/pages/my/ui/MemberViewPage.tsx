@@ -4,7 +4,7 @@ import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { MemberList } from '@/features/my/ui';
-import { memberQueries } from '@/shared/api/queries';
+import { memberQueries } from '@/shared/queries';
 import * as styles from '../styles/MemberViewPage.css';
 
 export function MemberViewPage({ params }: { params?: { id?: string } }) {

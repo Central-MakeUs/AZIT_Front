@@ -9,7 +9,7 @@ import { BackButton } from '@/shared/ui/button';
 import { AddressForm } from '@/features/address/ui';
 import * as styles from '../styles/AddressRegisterEditPage.css';
 import { useFlow } from '@/app/routes/stackflow';
-import { addressQueries, useUpdateAddress } from '@/shared/api/queries';
+import { addressQueries, useUpdateAddress } from '@/shared/queries';
 import { useAddressForm } from '@/features/address/model/useAddressForm';
 
 export function AddressEditPage() {

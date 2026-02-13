@@ -10,7 +10,7 @@ import {
   RequestList,
   RequestListEmpty,
 } from '@/features/my/ui';
-import { memberQueries } from '@/shared/api/queries';
+import { memberQueries } from '@/shared/queries';
 import { MEMBER_ROLE } from '@/features/my/model/role';
 import type { MemberItem, MemberRequestItem } from '@/features/my/model/types';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';

@@ -7,7 +7,7 @@ import { TruckIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-import { orderQueries } from '@/shared/api/queries/order';
+import { orderQueries } from '@/shared/queries/order';
 import { useFlow } from '@/app/routes/stackflow';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import * as styles from '../styles/OrderHistory.css.ts';

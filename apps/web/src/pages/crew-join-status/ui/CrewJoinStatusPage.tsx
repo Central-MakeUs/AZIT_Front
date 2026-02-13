@@ -5,7 +5,7 @@ import { vars } from '@azit/design-system';
 import * as styles from '../styles/CrewJoinStatusPage.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 import { useQuery } from '@tanstack/react-query';
-import { crewQueries } from '@/shared/api/queries';
+import { crewQueries } from '@/shared/queries';
 import { STATUS_CONTENT } from '../../../features/crew-join-status/model/crewJoinStatus';
 import { useConfirmJoinStatus } from '@/features/crew-join-status/hooks/useConfirmJoinStatus';
 

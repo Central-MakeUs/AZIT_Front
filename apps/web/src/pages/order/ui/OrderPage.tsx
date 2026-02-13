@@ -17,7 +17,7 @@ import * as styles from '../styles/OrderPage.css';
 import { useFlow } from '@/app/routes/stackflow';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { Divider } from '@azit/design-system/divider';
-import { orderQueries } from '@/shared/api/queries/order';
+import { orderQueries } from '@/shared/queries/order';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   DEFAULT_PAYMENT_METHOD,
