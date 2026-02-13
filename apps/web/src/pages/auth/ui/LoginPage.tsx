@@ -1,11 +1,14 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Button } from '@azit/design-system/button';
-import * as styles from '../styles/LoginPage.css';
-import { useSocialLogin } from '../hooks/useSocialLogin';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
+import { useKakaoSDK } from '@/features/auth/model';
+
 import type { AuthProvider } from '@/shared/api/models';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
-import { useKakaoSDK } from '@/features/auth/model';
+
+import { useSocialLogin } from '../hooks/useSocialLogin';
+import * as styles from '../styles/LoginPage.css';
 
 export function LoginPage() {
   useKakaoSDK();

@@ -1,5 +1,7 @@
 import type { ActivityName } from '@/app/routes/types';
+
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
+
 import { MEMBER_ROLE } from './role';
 import type { MemberRole } from './types';
 

@@ -1,5 +1,5 @@
-import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { keyframes, style } from '@vanilla-extract/css';
 
 const pulse = keyframes({
   '0%, 100%': { opacity: 1 },

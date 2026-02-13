@@ -1,9 +1,11 @@
 import { Chip } from '@azit/design-system/chip';
-import * as styles from '../styles/MyProfileSection.css';
 import type { ChipType } from '@azit/design-system/components/chip/Chip.css';
+
 import type { MyInfoResult } from '@/shared/api/models';
+
 import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '../model/role';
 import type { MemberRole } from '../model/types';
+import * as styles from '../styles/MyProfileSection.css';
 
 interface MyProfileSectionProps {
   profile: MyInfoResult;

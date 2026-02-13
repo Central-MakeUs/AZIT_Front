@@ -1,4 +1,12 @@
-import { getOrderDetail } from '@/features/order-detail/api/getOrderDetail';
+import {
+  infiniteQueryOptions,
+  mutationOptions,
+  queryOptions,
+} from '@tanstack/react-query';
+
+import { postOrderCancel } from '@/pages/order-detail/api/postOrderCancel';
+import { getOrderHistory } from '@/pages/order-history/api/getOrderHistory';
+
 import {
   getCheckoutInfoCart,
   getCheckoutInfoDirect,
@@ -9,13 +17,7 @@ import type {
   DirectOrderCheckoutRequest,
   OrderRequest,
 } from '@/features/order/api/types';
-import { postOrderCancel } from '@/pages/order-detail/api/postOrderCancel';
-import { getOrderHistory } from '@/pages/order-history/api/getOrderHistory';
-import {
-  infiniteQueryOptions,
-  mutationOptions,
-  queryOptions,
-} from '@tanstack/react-query';
+import { getOrderDetail } from '@/features/order-detail/api/getOrderDetail';
 
 export const orderQueries = {
   all: ['order'] as const,

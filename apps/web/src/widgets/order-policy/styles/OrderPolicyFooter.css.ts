@@ -1,5 +1,5 @@
-import { globalStyle, style } from '@vanilla-extract/css';
 import { typography, vars } from '@azit/design-system';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 export const orderPolicyFooter = style({
   width: '100%',

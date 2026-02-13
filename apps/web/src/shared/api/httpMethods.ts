@@ -1,4 +1,5 @@
 import type { KyInstance, Options } from 'ky';
+
 import { apiHandler, type ApiResult } from './apiHandler';
 import type { ApiResponseWithoutResult } from './baseTypes';
 

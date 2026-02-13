@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { loadKakaoPostcodeScript } from '@/shared/lib/kakaoPostcode';
 
 export interface KakaoPostcodeResult {

@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+
 import type { routes } from './config';
 
 export interface RouteConfig {

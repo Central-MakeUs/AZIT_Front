@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 /** 마이페이지 메뉴·알림 설정 등 리스트 아이템 행 공통 스타일 */
 export const listItemRow = style({

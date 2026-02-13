@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import * as styles from '../styles/RoundProfileImage.css';
 
 export interface RoundProfileImageProps {

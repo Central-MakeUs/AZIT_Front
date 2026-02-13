@@ -1,9 +1,9 @@
 import { Description } from '@azit/design-system/description';
-import type { DepositAccountInfo } from '../api/types';
-
-import * as styles from '../styles/OrderPaymentDescription.css';
 import { CopyIcon } from '@azit/design-system/icon';
 import { Input } from '@azit/design-system/input';
+
+import type { DepositAccountInfo } from '../api/types';
+import * as styles from '../styles/OrderPaymentDescription.css';
 
 interface OrderPaymentDescriptionProps extends DepositAccountInfo {
   depositorName?: string;

@@ -1,15 +1,20 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
 import { CheckIcon, CoinsStackedIcon } from '@azit/design-system/icon';
-import { AppLayout } from '@/shared/ui/layout';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+
 import { MypageStatCard } from '@/features/my/ui/MypageStatCard';
 import { AttendanceRecordList } from '@/features/mypage-attendance/ui';
+
 import { mockAttendanceRecords } from '@/shared/mock/mypage-attendance';
-import * as styles from '../styles/AttendancePage.css';
 import { BackButton } from '@/shared/ui/button';
-import { useFlow } from '@/app/routes/stackflow';
-import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
+import { AppLayout } from '@/shared/ui/layout';
+
+import * as styles from '../styles/AttendancePage.css';
 
 export function AttendancePage() {
   const { pop } = useFlow();

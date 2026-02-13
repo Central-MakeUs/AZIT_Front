@@ -1,6 +1,8 @@
 import { Button } from '@azit/design-system/button';
 import { ClockIcon, MarkerPinIcon } from '@azit/design-system/icon';
+
 import type { AttendanceRecord } from '@/shared/mock/mypage-attendance';
+
 import * as styles from '../styles/AttendanceRecordListItem.css';
 
 interface AttendanceRecordListItemProps {

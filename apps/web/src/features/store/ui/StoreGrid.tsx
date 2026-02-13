@@ -1,4 +1,5 @@
 import type { StoreProductItem } from '@/shared/api/models';
+
 import { StoreGridItem } from './StoreGridItem';
 import * as styles from '../styles/StoreGrid.css';
 

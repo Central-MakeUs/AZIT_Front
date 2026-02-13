@@ -1,4 +1,5 @@
 import { formatPrice } from '@/shared/lib/formatters';
+
 import * as styles from '../styles/PaymentInfoSection.css';
 
 interface PaymentInfoSectionProps {

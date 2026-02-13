@@ -1,7 +1,8 @@
+import clsx from 'clsx';
 import { useEffect, useState, type ReactNode, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+
 import * as styles from './BottomSheet.css';
-import clsx from 'clsx';
 
 interface BottomSheetProps {
   isOpen: boolean;

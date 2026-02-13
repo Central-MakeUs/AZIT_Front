@@ -1,19 +1,22 @@
-import { useState } from 'react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import { MEMBER_ROLE } from '@/features/my/model/role';
+import type { MemberItem, MemberRequestItem } from '@/features/my/model/types';
 import {
   MemberList,
   MemberManagementTab,
   RequestList,
   RequestListEmpty,
 } from '@/features/my/ui';
-import { memberQueries } from '@/shared/queries';
-import { MEMBER_ROLE } from '@/features/my/model/role';
-import type { MemberItem, MemberRequestItem } from '@/features/my/model/types';
+
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
+import { memberQueries } from '@/shared/queries';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
 import * as styles from '../styles/MemberManagePage.css';
 
 export function MemberManagePage({ params }: { params?: { id?: string } }) {

@@ -1,17 +1,21 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { TruckIcon } from '@azit/design-system/icon';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
-import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-import { orderQueries } from '@/shared/queries/order';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
 import { useFlow } from '@/app/routes/stackflow';
+
+import { OrderProductListSection } from '@/widgets/order-product-list/ui';
+
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
-import * as styles from '../styles/OrderHistory.css.ts';
+import { orderQueries } from '@/shared/queries/order';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
 import type { OrderListItem } from '../api/types';
+import * as styles from '../styles/OrderHistory.css.ts';
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 

@@ -1,16 +1,18 @@
-import { getCartProducts } from '@/features/cart/api/getCartProducts';
 import {
   queryOptions,
   mutationOptions,
   type QueryClient,
 } from '@tanstack/react-query';
+
+import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
+import { getCartProducts } from '@/features/cart/api/getCartProducts';
+import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
+
+import { getCartCount } from '../getCartCount';
 import type {
   CartProductAddRequest,
   CartProductDeleteRequest,
 } from '../models';
-import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
-import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
-import { getCartCount } from '../getCartCount';
 
 export const cartQueries = {
   all: ['cart'] as const,

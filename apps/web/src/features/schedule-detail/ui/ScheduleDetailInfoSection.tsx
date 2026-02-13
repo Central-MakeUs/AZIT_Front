@@ -3,8 +3,9 @@ import {
   ClockIcon,
   MarkerPinIcon,
 } from '@azit/design-system/icon';
-import * as styles from '../styles/ScheduleDetailInfoSection.css';
+
 import { StaticMap } from './StaticMap';
+import * as styles from '../styles/ScheduleDetailInfoSection.css';
 
 interface ScheduleDetailInfoSectionProps {
   date: string;

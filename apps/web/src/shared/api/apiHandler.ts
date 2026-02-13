@@ -1,5 +1,6 @@
 import type { KyInstance, Options } from 'ky';
 import { HTTPError } from 'ky';
+
 import type { ApiResponseWithoutResult } from './baseTypes';
 
 interface BaseResult {

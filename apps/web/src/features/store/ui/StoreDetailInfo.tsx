@@ -1,5 +1,6 @@
-import { formatPrice } from '@/shared/lib/formatters';
 import type { StoreProductDetailResult } from '@/shared/api/models';
+import { formatPrice } from '@/shared/lib/formatters';
+
 import * as styles from '../styles/StoreDetailInfo.css';
 
 interface StoreDetailInfoProps {

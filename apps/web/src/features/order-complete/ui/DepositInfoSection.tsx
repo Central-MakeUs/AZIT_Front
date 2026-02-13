@@ -1,6 +1,8 @@
 import { Description } from '@azit/design-system/description';
 import { CopyIcon } from '@azit/design-system/icon';
+
 import type { DepositAccountInfo } from '@/features/order/api/types';
+
 import * as styles from '../styles/DepositInfoSection.css.ts';
 
 interface DepositInfoSectionProps extends DepositAccountInfo {

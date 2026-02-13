@@ -1,16 +1,20 @@
-import { useEffect, useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
-import { Header } from '@azit/design-system/header';
 import { Button } from '@azit/design-system/button';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
-import { AddressForm } from '@/features/address/ui';
-import * as styles from '../styles/AddressRegisterEditPage.css';
+import { Header } from '@azit/design-system/header';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useMemo } from 'react';
+
 import { useFlow } from '@/app/routes/stackflow';
-import { addressQueries, useUpdateAddress } from '@/shared/queries';
+
 import { useAddressForm } from '@/features/address/model/useAddressForm';
+import { AddressForm } from '@/features/address/ui';
+
+import { addressQueries, useUpdateAddress } from '@/shared/queries';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
+import * as styles from '../styles/AddressRegisterEditPage.css';
 
 export function AddressEditPage() {
   const { pop, push, replace } = useFlow();

@@ -1,4 +1,5 @@
 import type { ScheduleItem } from '@/shared/mock/home';
+
 import { ScheduleListItem } from './ScheduleListItem';
 import * as styles from '../styles/ScheduleList.css';
 

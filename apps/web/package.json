@@ -35,6 +35,7 @@
     "zustand": "^5.0.10"
   },
   "devDependencies": {
+    "eslint-plugin-import": "^2.29.1",
     "@azit/design-system": "workspace:*",
     "@azit/eslint": "workspace:*",
     "@azit/typescript": "workspace:*",

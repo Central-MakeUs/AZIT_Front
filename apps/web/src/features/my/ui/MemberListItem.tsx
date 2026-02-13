@@ -1,8 +1,10 @@
 // import { XIcon } from '@azit/design-system/icon';
-import * as styles from '../styles/MemberListItem.css';
 import type { MemberRole } from '@/features/my/model/types';
-import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '../model/role';
+
 import { formatJoinDate } from '@/shared/lib/formatters';
+
+import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '../model/role';
+import * as styles from '../styles/MemberListItem.css';
 
 interface MemberListItemProps {
   nickname: string;

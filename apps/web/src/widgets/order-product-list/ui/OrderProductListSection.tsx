@@ -1,6 +1,7 @@
+import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
+
 import { OrderProductItem } from './OrderProductItem';
 import * as styles from '../styles/OrderProductListSection.css';
-import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
 
 type OrderProductListItem = OrderItem | OrderItemResponse;
 

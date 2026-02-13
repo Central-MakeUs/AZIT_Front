@@ -1,13 +1,15 @@
-import { postApproveJoinRequest } from '@/features/my/api/postApproveJoinRequest';
-import { postRejectJoinRequest } from '@/features/my/api/postRejectJoinRequest';
 import {
   infiniteQueryOptions,
   mutationOptions,
   queryOptions,
 } from '@tanstack/react-query';
+
 import { getCrewMembers } from '@/pages/my/api/getCrewMembers';
 import { getJoinRequests } from '@/pages/my/api/getJoinRequests';
 import { getMyInfo } from '@/pages/my/api/getMyInfo';
+
+import { postApproveJoinRequest } from '@/features/my/api/postApproveJoinRequest';
+import { postRejectJoinRequest } from '@/features/my/api/postRejectJoinRequest';
 
 export const memberQueries = {
   all: ['member'] as const,

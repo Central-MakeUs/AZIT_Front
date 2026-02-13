@@ -1,25 +1,30 @@
-import { useMemo } from 'react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useActivityParams } from '@stackflow/react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
+import { OrderProductListSection } from '@/widgets/order-product-list/ui';
+
+import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
+import type { OrderStatus } from '@/features/order-detail/api/types';
 import {
   OrderDateSection,
   OrderDeliveryAddressSection,
   OrderDeliveryInfoSection,
 } from '@/features/order-detail/ui';
-import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
-import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
-import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-import { orderQueries } from '@/shared/queries/order';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useActivityParams } from '@stackflow/react';
-import { useFlow } from '@/app/routes/stackflow';
+
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
+import { orderQueries } from '@/shared/queries/order';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
 import * as styles from '../styles/OrderDetailPage.css';
-import { Divider } from '@azit/design-system/divider';
-import { Button } from '@azit/design-system/button';
-import type { OrderStatus } from '@/features/order-detail/api/types';
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 

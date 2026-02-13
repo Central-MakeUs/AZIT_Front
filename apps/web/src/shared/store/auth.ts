@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import { postLogout } from '../api/postLogout';
 
 interface AuthState {

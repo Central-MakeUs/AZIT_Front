@@ -1,12 +1,14 @@
 import { Checkbox } from '@azit/design-system/checkbox';
 import { XIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
+import { useState } from 'react';
+
+import { formatPrice } from '@/shared/lib/formatters';
+
 import { QuantitySelector } from './QuantitySelector';
 import type { CartProductItem } from '../api/types';
-import * as styles from '../styles/CartItem.css';
-import { formatPrice } from '@/shared/lib/formatters';
-import { useState } from 'react';
 import { useCartContext } from '../context/CartContext';
+import * as styles from '../styles/CartItem.css';
 
 interface CartItemProps {
   item: CartProductItem;
