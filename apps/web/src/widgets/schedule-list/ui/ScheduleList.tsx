@@ -1,7 +1,7 @@
-import type { ScheduleItem } from '@/shared/mock/home';
+import * as styles from '@/widgets/schedule-list/styles/ScheduleList.css';
+import { ScheduleListItem } from '@/widgets/schedule-list/ui/ScheduleListItem';
 
-import { ScheduleListItem } from './ScheduleListItem';
-import * as styles from '../styles/ScheduleList.css';
+import type { ScheduleItem } from '@/shared/mock/home';
 
 interface ScheduleListProps {
   items: ScheduleItem[];
