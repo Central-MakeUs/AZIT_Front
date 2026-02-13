@@ -8,11 +8,11 @@ import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
 import { getCartProducts } from '@/features/cart/api/getCartProducts';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
 
-import { getCartCount } from '../getCartCount';
+import { getCartCount } from '../api/getCartCount';
 import type {
   CartProductAddRequest,
   CartProductDeleteRequest,
-} from '../models';
+} from '../api/models';
 
 export const cartQueries = {
   all: ['cart'] as const,
