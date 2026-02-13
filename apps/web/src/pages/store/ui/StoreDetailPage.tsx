@@ -5,7 +5,7 @@ import { Header } from '@azit/design-system/header';
 import { ChevronLeftIcon, ShareIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useActivityParams } from '@stackflow/react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -18,6 +18,7 @@ import {
 } from '@/widgets/order-policy/ui';
 import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
 
+import { useAddToCart } from '@/features/cart/model/useCartAction';
 import {
   StoreDetailImageSlider,
   StoreDetailInfo,
@@ -30,7 +31,6 @@ import {
 
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import { storeQueries } from '@/shared/queries';
-import { cartQueries } from '@/shared/queries/cart';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { CartIconButton } from '@/shared/ui/cart-icon-button';
@@ -39,7 +39,6 @@ import { AppLayout } from '@/shared/ui/layout';
 export function StoreDetailPage() {
   const { pop, push } = useFlow();
   const { id } = useActivityParams<{ id: string }>();
-  const queryClient = useQueryClient();
   const { share: shareWithKakao } = useKakaoShare();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
@@ -54,9 +53,7 @@ export function StoreDetailPage() {
     storeQueries.productDetailQuery(id ?? '')
   );
 
-  const addToCartMutation = useMutation(
-    cartQueries.addItemMutation(queryClient)
-  );
+  const { handleAddItem, isPending: isAddToCartPending } = useAddToCart();
 
   const product = data;
 
@@ -152,7 +149,7 @@ export function StoreDetailPage() {
       return;
     }
 
-    addToCartMutation.mutate(
+    handleAddItem(
       {
         productId: product.id,
         productSkuId: selectedSku.id,
@@ -265,9 +262,9 @@ export function StoreDetailPage() {
               size="large"
               state="outline"
               onClick={handleAddToCart}
-              disabled={addToCartMutation.isPending}
+              disabled={isAddToCartPending}
             >
-              {addToCartMutation.isPending ? '추가 중...' : '장바구니'}
+              {isAddToCartPending ? '추가 중...' : '장바구니'}
             </Button>
             <Button size="large" state="active" onClick={handlePurchaseClick}>
               구매하기
