@@ -1,9 +1,9 @@
 import { Checkbox } from '@azit/design-system/checkbox';
 
-import { CartItem } from './CartItem';
-import type { CartBrand } from '../api/types';
-import { useCartContext } from '../context/CartContext';
-import * as styles from '../styles/CartBrandSection.css';
+import type { CartBrand } from '@/features/cart/api/types';
+import { useCartContext } from '@/features/cart/context/CartContext';
+import * as styles from '@/features/cart/styles/CartBrandSection.css';
+import { CartItem } from '@/features/cart/ui/CartItem';
 
 interface CartBrandSectionProps {
   brand: CartBrand;

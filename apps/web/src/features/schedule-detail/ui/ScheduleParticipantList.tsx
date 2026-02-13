@@ -1,9 +1,9 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
 
-import type { ScheduleParticipant } from '@/shared/mock/schedule';
+import * as styles from '@/features/schedule-detail/styles/ScheduleParticipantList.css';
+import { ScheduleParticipantListItem } from '@/features/schedule-detail/ui/ScheduleParticipantListItem';
 
-import { ScheduleParticipantListItem } from './ScheduleParticipantListItem';
-import * as styles from '../styles/ScheduleParticipantList.css';
+import type { ScheduleParticipant } from '@/shared/mock/schedule';
 
 interface ScheduleParticipantListProps {
   participants: ScheduleParticipant[];

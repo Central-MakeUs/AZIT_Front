@@ -1,4 +1,4 @@
-import * as styles from '../styles/StoreDetailDescription.css';
+import * as styles from '@/features/store/styles/StoreDetailDescription.css';
 
 interface StoreDetailDescriptionProps {
   description?: string;

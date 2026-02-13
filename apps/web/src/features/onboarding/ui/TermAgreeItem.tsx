@@ -1,7 +1,7 @@
 import { Checkbox } from '@azit/design-system/checkbox';
 import { ChevronRightIcon } from '@azit/design-system/icon';
 
-import * as styles from '../styles/TermAgreeItem.css';
+import * as styles from '@/features/onboarding/styles/TermAgreeItem.css';
 
 export interface TermAgreeItemProps {
   id: string;

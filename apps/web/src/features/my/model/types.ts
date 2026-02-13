@@ -1,7 +1,7 @@
 import type {
   CrewMemberDetailResult,
   JoinRequestMemberResult,
-} from '@/shared/api/models';
+} from '@/shared/api/models/crew';
 
 export type MemberRole = CrewMemberDetailResult['role'];
 export type MemberItem = CrewMemberDetailResult;

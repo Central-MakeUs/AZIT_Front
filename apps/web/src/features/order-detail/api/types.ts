@@ -1,9 +1,5 @@
-import type { components } from '@/shared/api/apiTypes';
-
-export type OrderDetailResponse = components['schemas']['OrderDetailResponse'];
-export type OrderDetailDeliveryInfo =
-  components['schemas']['OrderDetailDeliveryInfoResponse'];
-
-export type OrderStatus = NonNullable<
-  components['schemas']['OrderListResponse']['status']
->;
+export type {
+  OrderDetailDeliveryInfoResponse as OrderDetailDeliveryInfo,
+  OrderDetailResponse,
+  OrderStatus,
+} from '@/shared/api/models/order';

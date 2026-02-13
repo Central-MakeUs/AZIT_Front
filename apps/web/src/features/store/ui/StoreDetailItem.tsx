@@ -1,8 +1,8 @@
 import { MinusIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 
-import { formatPrice } from '@/shared/lib/formatters';
+import * as styles from '@/features/store/styles/StoreDetailItem.css';
 
-import * as styles from '../styles/StoreDetailItem.css';
+import { formatPrice } from '@/shared/lib/formatters';
 
 interface StoreDetailItemProps {
   option?: string;

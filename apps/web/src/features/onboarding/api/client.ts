@@ -1,6 +1,6 @@
 import { authApi } from '@/shared/api/apiClient';
+import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
 import { createHttpMethods } from '@/shared/api/httpMethods';
-import { postReissueToken } from '@/shared/api/postReissueToken';
 import { useAuthStore } from '@/shared/store/auth';
 
 // 약관동의, 온보딩시 기존 API 호출 후 액세스 토큰 재발급 로직 추가

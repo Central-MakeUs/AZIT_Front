@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { useAuthStore } from '@/shared/store/auth';
+import { postSocialLogin } from '@/features/auth/api/postSocialLogin';
 
-import { postSocialLogin } from '../api/postSocialLogin';
+import { useAuthStore } from '@/shared/store/auth';
 
 export const useKakaoCode = () => {
   const [isLoading, setIsLoading] = useState(false);

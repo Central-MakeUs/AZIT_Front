@@ -1,11 +1,11 @@
 import { Chip } from '@azit/design-system/chip';
 import type { ChipType } from '@azit/design-system/components/chip/Chip.css';
 
-import type { MyInfoResult } from '@/shared/api/models';
+import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/features/my/model/role';
+import type { MemberRole } from '@/features/my/model/types';
+import * as styles from '@/features/my/styles/MyProfileSection.css';
 
-import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '../model/role';
-import type { MemberRole } from '../model/types';
-import * as styles from '../styles/MyProfileSection.css';
+import type { MyInfoResult } from '@/shared/api/models/my';
 
 interface MyProfileSectionProps {
   profile: MyInfoResult;

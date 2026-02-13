@@ -1,4 +1,4 @@
-import * as styles from '../styles/StoreDetailBanner.css';
+import * as styles from '@/features/store/styles/StoreDetailBanner.css';
 
 export function StoreDetailBanner() {
   return (

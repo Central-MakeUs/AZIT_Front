@@ -3,7 +3,7 @@ import { ShoppingBagIcon } from '@azit/design-system/icon';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '../styles/CartEmpty.css';
+import * as styles from '@/features/cart/styles/CartEmpty.css';
 
 export function CartEmpty() {
   const { replace } = useFlow();

@@ -1,8 +1,8 @@
 import { Button } from '@azit/design-system/button';
 import { Input } from '@azit/design-system/input';
 
-import type { AddressFormValues } from '../model/types';
-import * as styles from '../styles/AddressRegisterForm.css';
+import type { AddressFormValues } from '@/features/address/model/types';
+import * as styles from '@/features/address/styles/AddressRegisterForm.css';
 
 export interface AddressFormProps {
   formId: string;

@@ -1,6 +1,6 @@
 import { CopyIcon } from '@azit/design-system/icon';
 
-import * as styles from '../styles/OrderDeliveryInfoSection.css.ts';
+import * as styles from '@/features/order-detail/styles/OrderDeliveryInfoSection.css.ts';
 
 interface OrderDeliveryInfoSectionProps {
   deliveryCompany: string;

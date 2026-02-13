@@ -6,10 +6,10 @@ import {
   type ScheduleFilterType,
 } from '@/widgets/schedule-filter-tab/ui';
 
-import { mockHomeAlertList, type AlertType } from '@/shared/mock/home-alert';
+import * as styles from '@/features/home-alert/styles/HomeAlertList.css';
+import { HomeAlertListItem } from '@/features/home-alert/ui/HomeAlertListItem';
 
-import { HomeAlertListItem } from './HomeAlertListItem';
-import * as styles from '../styles/HomeAlertList.css';
+import { mockHomeAlertList, type AlertType } from '@/shared/mock/home-alert';
 
 export function HomeAlertList() {
   const [activeFilter, setActiveFilter] = useState<ScheduleFilterType>('all');
