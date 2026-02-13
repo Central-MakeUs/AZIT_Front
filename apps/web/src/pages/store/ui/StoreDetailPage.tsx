@@ -5,8 +5,6 @@ import { Header } from '@azit/design-system/header';
 import { ChevronLeftIcon, ShareIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useActivityParams } from '@stackflow/react';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -18,7 +16,7 @@ import {
 } from '@/widgets/order-policy/ui';
 import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
 
-import { useAddToCart } from '@/features/cart/model/useCartAction';
+import { useStoreDetail } from '@/features/store/model/useStoreDetail';
 import {
   StoreDetailImageSlider,
   StoreDetailInfo,
@@ -30,7 +28,6 @@ import {
 } from '@/features/store/ui';
 
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
-import { storeQueries } from '@/shared/queries';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { CartIconButton } from '@/shared/ui/cart-icon-button';
@@ -40,22 +37,28 @@ export function StoreDetailPage() {
   const { pop, push } = useFlow();
   const { id } = useActivityParams<{ id: string }>();
   const { share: shareWithKakao } = useKakaoShare();
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(
-    undefined
-  );
-  const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(
-    undefined
-  );
-  const [quantity, setQuantity] = useState(1);
 
-  const { data, isPending, isError } = useQuery(
-    storeQueries.productDetailQuery(id ?? '')
-  );
-
-  const { handleAddItem, isPending: isAddToCartPending } = useAddToCart();
-
-  const product = data;
+  const {
+    product,
+    isPending,
+    isError,
+    isBottomSheetOpen,
+    selectedOption,
+    quantity,
+    setQuantity,
+    options,
+    isAddToCartPending,
+    handleShare,
+    handleOptionSelectClick,
+    handleOptionSelect,
+    handleAddToCart,
+    handlePurchaseClick,
+    closeBottomSheetAndResetOption,
+  } = useStoreDetail({
+    productId: id ?? '',
+    shareWithKakao,
+    onPurchase: ({ skuId, quantity }) => push('OrderPage', { skuId, quantity }),
+  });
 
   if (!id) {
     return <div>상품 정보를 찾을 수 없습니다.</div>;
@@ -96,87 +99,13 @@ export function StoreDetailPage() {
     return <div>상품 정보를 찾을 수 없습니다.</div>;
   }
 
-  const handleClick = () => {
-    pop();
-  };
-
-  const handleShare = () => {
-    const imageUrl =
-      product.slideImageUrls?.[0] ?? product.detailImageUrls?.[0] ?? '';
-    shareWithKakao({
-      title: `[AZIT 스토어] ${product.productName} 크루 전용 특가 도착!
-오직 AZIT 크루에게만 제공되는 단독 최저가! 지금 바로 앱에서 확인하고 혜택을 누려보세요.`,
-      imageUrl,
-      url: window.location.href,
-      productName: product.productName ?? '',
-      regularPrice: product.basePrice ?? 0,
-      discountRate: product.discountRate ?? 0,
-      discountPrice: product.salePrice ?? 0,
-    });
-  };
-
-  const handleOptionSelectClick = () => {
-    setIsBottomSheetOpen(true);
-  };
-
-  const handlePurchaseClick = () => {
-    setIsBottomSheetOpen(false);
-    push('OrderPage', {
-      skuId: selectedSku!.id,
-      quantity,
-    });
-  };
-
-  const options =
-    product.optionGroups?.[0]?.values?.map((optionValue) => ({
-      label: optionValue.value || '',
-      value: String(optionValue.id || ''),
-    })) || [];
-
-  const handleOptionSelect = (optionId: string) => {
-    const selectedOptionValue = options.find((opt) => opt.value === optionId);
-    setSelectedOption(selectedOptionValue?.label);
-    setSelectedOptionId(Number(optionId));
-    setQuantity(1);
-  };
-
-  const selectedSku = product.skus?.find((sku) =>
-    sku.optionValueIds?.includes(selectedOptionId ?? -1)
-  );
-
-  const handleAddToCart = () => {
-    if (!product.id || !selectedSku?.id) {
-      return;
-    }
-
-    handleAddItem(
-      {
-        productId: product.id,
-        productSkuId: selectedSku.id,
-        quantity: quantity,
-      },
-      {
-        onSuccess: () => {
-          setIsBottomSheetOpen(false);
-          setSelectedOption(undefined);
-          setSelectedOptionId(undefined);
-          setQuantity(1);
-        },
-        onError: (error) => {
-          console.error('장바구니 추가 실패:', error);
-          // TODO: 에러 처리 (토스트 메시지 등)
-        },
-      }
-    );
-  };
-
   return (
     <AppScreen>
       <AppLayout>
         <div className={styles.headerWrapper}>
           <Header
             left={
-              <button className={styles.iconButton} onClick={handleClick}>
+              <button className={styles.iconButton} onClick={() => pop()}>
                 <ChevronLeftIcon size={24} />
               </button>
             }
@@ -215,16 +144,6 @@ export function StoreDetailPage() {
               detailImageUrls={product.detailImageUrls}
             />
           </div>
-          {/* <div className={styles.moreInfoPlaceholder}>
-            <div className={styles.moreInfoGradient}>
-              <button className={styles.moreInfoButton}>
-                <span className={styles.moreInfoButtonText}>
-                  상품 정보 더보기
-                </span>
-                <ChevronDownIcon size={24} color="primary" />
-              </button>
-            </div>
-          </div> */}
           <Divider className={styles.divider} />
           <OrderPolicyDropdown />
           <OrderPolicyFooter />
@@ -237,7 +156,7 @@ export function StoreDetailPage() {
       </AppLayout>
       <BottomSheet
         isOpen={isBottomSheetOpen}
-        onOutsideClick={() => setIsBottomSheetOpen(false)}
+        onOutsideClick={closeBottomSheetAndResetOption}
         contentClassName={styles.bottomSheetContent}
       >
         <Dropdown
@@ -250,11 +169,7 @@ export function StoreDetailPage() {
           salePrice={product.salePrice}
           quantity={quantity}
           onQuantityChange={setQuantity}
-          onCancel={() => {
-            setSelectedOption(undefined);
-            setSelectedOptionId(undefined);
-            setQuantity(1);
-          }}
+          onCancel={closeBottomSheetAndResetOption}
         />
         {selectedOption && (
           <div className={styles.buttonWrapper}>
