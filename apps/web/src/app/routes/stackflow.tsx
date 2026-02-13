@@ -33,5 +33,5 @@ export const { Stack, useFlow } = stackflow({
     },
   ],
   activities,
-  initialActivity: () => 'HomePage',
+  initialActivity: () => 'StorePage',
 });
