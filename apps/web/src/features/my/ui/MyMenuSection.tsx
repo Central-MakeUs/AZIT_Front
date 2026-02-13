@@ -1,7 +1,8 @@
 import { useFlow } from '@/app/routes/stackflow';
-import * as styles from '../styles/MyMenuSection.css';
-import { MyMenuItem } from './MyMenuItem';
-import type { MenuItem, MyPageMenuGroup } from '../model/menu';
+
+import type { MenuItem, MyPageMenuGroup } from '@/features/my/model/menu';
+import * as styles from '@/features/my/styles/MyMenuSection.css';
+import { MyMenuItem } from '@/features/my/ui/MyMenuItem';
 
 interface MyMenuSectionProps {
   section: MyPageMenuGroup;

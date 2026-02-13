@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 export const container = style({
   display: 'flex',
@@ -18,7 +18,6 @@ export const title = style([
   typography.body.b2,
   {
     color: vars.colors.black,
-    fontWeight: '600',
   },
 ]);
 

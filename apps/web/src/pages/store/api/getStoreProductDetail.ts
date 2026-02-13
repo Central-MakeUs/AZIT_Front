@@ -1,5 +1,6 @@
+import type { StoreProductDetailResponse } from '@/pages/store/api/types';
+
 import { auth } from '@/shared/api/apiClient';
-import type { StoreProductDetailResponse } from './types';
 import { END_POINT } from '@/shared/constants/endpoint';
 
 export const getStoreProductDetail = (productId: string) => {

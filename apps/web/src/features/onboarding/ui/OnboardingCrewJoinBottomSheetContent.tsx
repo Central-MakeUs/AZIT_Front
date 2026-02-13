@@ -1,8 +1,11 @@
 import { Button } from '@azit/design-system/button';
 import { XIcon } from '@azit/design-system/icon';
+
 import { RoundProfileImage } from '@/widgets/profile/ui';
-import * as styles from '../styles/OnboardingCrewJoinBottomSheetContent.css';
-import type { CrewInfoResult } from '@/shared/api/models';
+
+import * as styles from '@/features/onboarding/styles/OnboardingCrewJoinBottomSheetContent.css';
+
+import type { CrewInfoResult } from '@/shared/api/models/crew';
 import { CATEGORY_LABELS } from '@/shared/constants/crew';
 
 export interface CrewInfo extends CrewInfoResult {
