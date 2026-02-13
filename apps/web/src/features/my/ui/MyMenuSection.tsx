@@ -4,6 +4,8 @@ import type { MenuItem, MyPageMenuGroup } from '@/features/my/model/menu';
 import * as styles from '@/features/my/styles/MyMenuSection.css';
 import { MyMenuItem } from '@/features/my/ui/MyMenuItem';
 
+import { openExternalUrl } from '@/shared/lib/openExternalUrl';
+
 interface MyMenuSectionProps {
   section: MyPageMenuGroup;
 }
@@ -20,7 +22,7 @@ export function MyMenuSection({ section }: MyMenuSectionProps) {
         push(item.path, item.pushParams ?? {}, { animate: true });
       }
     } else if (item.type === 'external_link') {
-      window.open(item.url, '_blank');
+      openExternalUrl(item.url);
     }
   };
 
