@@ -1,4 +1,4 @@
-import type { AuthProvider } from '../api/models';
+import type { AuthProvider } from '@/shared/api/models/auth';
 
 export const END_POINT = {
   AUTH: {

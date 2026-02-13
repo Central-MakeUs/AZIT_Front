@@ -1,6 +1,6 @@
 import { base } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
-import type { ReissueTokenResult } from '@/shared/api/models';
+import type { ReissueTokenResult } from '@/shared/api/models/auth';
 import { END_POINT } from '@/shared/constants/endpoint';
 
 export const postReissueToken = () => {

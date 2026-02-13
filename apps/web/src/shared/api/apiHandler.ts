@@ -1,7 +1,7 @@
 import type { KyInstance, Options } from 'ky';
 import { HTTPError } from 'ky';
 
-import type { ApiResponseWithoutResult } from './baseTypes';
+import type { ApiResponseWithoutResult } from '@/shared/api/baseTypes';
 
 interface BaseResult {
   status: number;

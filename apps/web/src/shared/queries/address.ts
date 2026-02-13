@@ -15,7 +15,7 @@ import {
 import type {
   RegisterDeliveryAddressRequest,
   UpdateDeliveryAddressRequest,
-} from '@/shared/api/models';
+} from '@/shared/api/models/address';
 
 export const addressQueries = {
   all: ['shippingAddresses'] as const,

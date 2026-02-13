@@ -1,3 +1,3 @@
-import type { components } from '../api/apiTypes';
+import type { components } from '@/shared/api/apiTypes';
 
 export type Order = components['schemas']['CreateOrderRequest'];

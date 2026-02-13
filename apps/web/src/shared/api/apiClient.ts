@@ -1,9 +1,9 @@
 import ky from 'ky';
 
-import { createHttpMethods } from './httpMethods';
-import { postReissueToken } from './postReissueToken';
-import { BASE_API_URL } from '../constants/url';
-import { useAuthStore } from '../store/auth';
+import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
+import { createHttpMethods } from '@/shared/api/httpMethods';
+import { BASE_API_URL } from '@/shared/constants/url';
+import { useAuthStore } from '@/shared/store/auth';
 
 export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,

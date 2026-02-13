@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { postLogout } from '../api/postLogout';
+import { postLogout } from '@/shared/api/handlers/postLogout';
 
 interface AuthState {
   accessToken?: string;
