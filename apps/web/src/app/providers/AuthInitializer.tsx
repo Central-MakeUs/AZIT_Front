@@ -2,11 +2,10 @@ import { useStack } from '@stackflow/react';
 import { useEffect, useRef, type ReactNode } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
+import type { ActivityName } from '@/app/routes/types';
 
-import { postReissueToken } from '@/shared/api/postReissueToken';
+import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
 import { useAuthStore } from '@/shared/store/auth';
-
-import type { ActivityName } from '../routes/types';
 
 interface AuthInitializerProps {
   children: ReactNode;
