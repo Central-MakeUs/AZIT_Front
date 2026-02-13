@@ -44,10 +44,10 @@ export function useCart() {
   );
 
   const cartData = useMemo(() => {
-    if (!cartProductsResponse?.ok || !cartProductsResponse.data.result.items) {
+    if (!cartProductsResponse?.ok || !cartProductsResponse.data.result) {
       return [];
     }
-    return transformCartData(cartProductsResponse.data.result.items);
+    return transformCartData(cartProductsResponse.data.result);
   }, [cartProductsResponse]);
 
   const allItems = useMemo(() => {
@@ -65,17 +65,19 @@ export function useCart() {
     handleBrandSelectChange,
   } = useCartSelect({ allItems, cartData });
 
-  const { handleQuantityChange, handleDeleteItem, handleDeleteSelected } =
-    useCartAction({
-      selectedItemIds,
-      setSelectedItemIds,
-    });
+  const {
+    handleAddItem,
+    isAddToCartPending,
+    handleQuantityChange,
+    handleDeleteItem,
+    handleDeleteSelected,
+  } = useCartAction({
+    selectedItemIds,
+    setSelectedItemIds,
+  });
 
   const { totalProductPrice, membershipDiscount, shippingFee, totalPayment } =
-    useCartPrice({
-      selectedItems,
-      cartProductsResponse,
-    });
+    useCartPrice({ selectedItems });
 
   const hasSelectedItems = selectedItems.length > 0;
   const isEmpty = cartData.length === 0;
@@ -94,6 +96,8 @@ export function useCart() {
     membershipDiscount,
     shippingFee,
     totalPayment,
+    handleAddItem,
+    isAddToCartPending,
     handleSelectAll,
     handleItemSelectChange,
     handleBrandSelectChange,
