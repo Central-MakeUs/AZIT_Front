@@ -1,6 +1,6 @@
-import { formatPrice } from '@/shared/lib/formatters';
+import * as styles from '@/widgets/order-payment-info/styles/PaymentInfoSection.css';
 
-import * as styles from '../styles/PaymentInfoSection.css';
+import { formatPrice } from '@/shared/lib/formatters';
 
 interface PaymentInfoSectionProps {
   totalProductPrice: number;

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
 
-import * as styles from '../style/ScheduleWeekCalendar.css.ts';
-import '../style/ScheduleCalendarBase.css.ts';
+import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
+import * as styles from '@/widgets/schedule-calendar/style/ScheduleWeekCalendar.css.ts';
 
 interface ScheduleWeekCalendarProps {
   value: Date;
