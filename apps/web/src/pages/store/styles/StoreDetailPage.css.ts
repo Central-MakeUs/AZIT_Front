@@ -120,10 +120,7 @@ export const buttonWrapper = style({
   display: 'flex',
   gap: '10px',
   alignItems: 'center',
-  position: 'absolute',
-  bottom: '20px',
-  left: '20px',
-  width: 'calc(100% - 40px)',
+  width: '100%',
 });
 
 export const bottomSheetContent = style({
@@ -139,4 +136,51 @@ export const bottomSheetContent = style({
 export const divider = style({
   width: 'calc(100% - 40px)',
   margin: '0 auto',
+});
+
+export const expectFeeContainer = style({
+  display: 'flex',
+  width: '100%',
+  alignItems: 'flex-start',
+  justifyContent: 'space-between',
+});
+
+export const expectFeeLabel = style([
+  typography.body.b3,
+  {
+    color: vars.colors.black,
+  },
+]);
+
+export const expectFeeAmount = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+});
+
+export const expectFeeAmountValue = style([
+  typography.body.b1,
+  {
+    color: vars.colors.black,
+    textAlign: 'right',
+  },
+]);
+
+export const shippingFeeValue = style([
+  typography.body.b3,
+  {
+    color: vars.colors.gray50,
+    textAlign: 'right',
+  },
+]);
+
+export const selectedOptionContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px',
+  alignItems: 'center',
+  position: 'absolute',
+  bottom: '20px',
+  left: '20px',
+  width: 'calc(100% - 40px)',
 });
