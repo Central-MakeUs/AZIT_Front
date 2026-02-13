@@ -27,7 +27,7 @@ export function MyMenuItem({ item, onClick }: MyMenuItemProps) {
       }}
     >
       <span className={styles.label}>{item.label}</span>
-      <ChevronRightIcon size={20} color="secondary" />
+      <ChevronRightIcon size={20} className={styles.pushIcon} />
     </div>
   );
 }
