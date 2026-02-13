@@ -10,20 +10,31 @@ import type {
 } from '../models';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
 import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
+import { getCartCount } from '../getCartCount';
 
 export const cartQueries = {
   all: ['cart'] as const,
+  countKey: () => [...cartQueries.all, 'count'] as const,
+  productsKey: () => [...cartQueries.all, 'products'] as const,
   productsQuery: () =>
     queryOptions({
-      queryKey: [...cartQueries.all, 'products'],
+      queryKey: [...cartQueries.productsKey()],
       queryFn: () => getCartProducts(),
+    }),
+  countQuery: () =>
+    queryOptions({
+      queryKey: [...cartQueries.countKey()],
+      queryFn: () => getCartCount(),
     }),
   addItemMutation: (queryClient: QueryClient) =>
     mutationOptions({
       mutationFn: (data: CartProductAddRequest) => postCartProductAdd(data),
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [...cartQueries.all, 'products'],
+          queryKey: [...cartQueries.productsKey()],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [...cartQueries.countKey()],
         });
       },
     }),
@@ -32,7 +43,10 @@ export const cartQueries = {
       mutationFn: (data: CartProductDeleteRequest) => deleteCartProduct(data),
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [...cartQueries.all, 'products'],
+          queryKey: [...cartQueries.productsKey()],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [...cartQueries.countKey()],
         });
       },
     }),
