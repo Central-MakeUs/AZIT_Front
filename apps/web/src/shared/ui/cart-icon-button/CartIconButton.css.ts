@@ -32,4 +32,5 @@ export const badge = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  zIndex: 100,
 });
