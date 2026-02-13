@@ -1,4 +1,7 @@
-import { pageLoaderContainer, spinner } from './PageLoader.css.ts';
+import {
+  pageLoaderContainer,
+  spinner,
+} from '@/shared/ui/loading/PageLoader.css.ts';
 
 export function PageLoader() {
   return (

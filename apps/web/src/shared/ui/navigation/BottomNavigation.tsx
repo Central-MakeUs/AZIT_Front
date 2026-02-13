@@ -10,7 +10,7 @@ import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 import { useFlow } from '@/app/routes/stackflow';
 import type { ActivityName } from '@/app/routes/types';
 
-import * as styles from './BottomNavigation.css';
+import * as styles from '@/shared/ui/navigation/BottomNavigation.css';
 
 type NavigationState = 'home' | 'schedule' | 'store' | 'mypage';
 

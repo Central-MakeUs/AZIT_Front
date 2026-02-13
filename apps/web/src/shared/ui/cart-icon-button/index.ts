@@ -1,1 +1,1 @@
-export { CartIconButton } from './CartIconButton';
+export { CartIconButton } from '@/shared/ui/cart-icon-button/CartIconButton';
