@@ -1,4 +1,4 @@
-import type { AuthProvider } from '../api/models';
+import type { AuthProvider } from '@/shared/api/models/auth';
 
 export const END_POINT = {
   AUTH: {
@@ -33,10 +33,19 @@ export const END_POINT = {
   CART: {
     PRODUCTS: 'carts',
     PRODUCTS_ITEM: 'carts/items',
+    PRODUCTS_ITEM_QUANTITY: (cartItemId: number) => `carts/items/${cartItemId}`,
     COUNT: 'carts/count',
   },
   ADDRESS: {
     LIST: 'addresses',
     DETAIL: (addressId: number) => `addresses/${addressId}`,
+  },
+  ORDER: {
+    CHECKOUT_DIRECT: 'orders/checkout/direct',
+    CHECKOUT_CART: 'orders/checkout/cart',
+    CREATE: 'orders',
+    DETAIL: (orderNumber: string) => `orders/${orderNumber}`,
+    CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
+    HISTORY: 'orders',
   },
 } as const;

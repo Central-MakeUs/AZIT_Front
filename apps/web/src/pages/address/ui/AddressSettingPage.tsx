@@ -1,23 +1,30 @@
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { PlusIcon } from '@azit/design-system/icon';
-import { Button } from '@azit/design-system/button';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
-import { AddressCard, AddressEmpty } from '@/features/address/ui';
-import * as styles from '../styles/AddressSettingPage.css';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+
 import { useFlow } from '@/app/routes/stackflow';
+
+import * as styles from '@/pages/address/styles/AddressSettingPage.css';
+
+import { AddressCard, AddressEmpty } from '@/features/address/ui';
+
 import {
   addressQueries,
   useDeleteAddress,
   useUpdateAddress,
-} from '@/shared/api/queries';
+} from '@/shared/queries';
+import { orderQueries } from '@/shared/queries/order';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
 
 export function AddressSettingPage() {
   const { push, pop } = useFlow();
+  const queryClient = useQueryClient();
 
   const deleteMutation = useDeleteAddress();
   const updateDefaultAddress = useUpdateAddress();
@@ -70,6 +77,7 @@ export function AddressSettingPage() {
       return;
     }
 
+    await queryClient.invalidateQueries({ queryKey: orderQueries.all });
     pop();
   };
 
