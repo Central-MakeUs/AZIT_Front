@@ -8,6 +8,7 @@ export const mainContainer = style([
   layoutStyles.mainContainer,
   {
     backgroundColor: vars.colors.white,
+    paddingBottom: '120px',
   },
 ]);
 
@@ -43,9 +44,5 @@ export const infoSection = style({
 
 export const footerWrapper = style([
   layoutStyles.footerWrapper,
-  {
-    padding: '0 20px',
-    paddingTop: '20px',
-    paddingBottom: '20px',
-  },
+  { position: 'fixed', bottom: 0 },
 ]);

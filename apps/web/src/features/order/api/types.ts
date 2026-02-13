@@ -20,3 +20,8 @@ export type DepositAccountInfo =
   components['schemas']['DepositAccountInfoResponse'];
 
 export type OrderRequest = components['schemas']['CreateOrderRequest'];
+
+export type CreateOrderResponse = components['schemas']['CreateOrderResponse'];
+export type OrderDeliveryInfo =
+  components['schemas']['OrderDeliveryInfoResponse'];
+export type OrderSummary = components['schemas']['OrderSummaryResponse'];

@@ -4,6 +4,7 @@ import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
 import { AppLayout } from '@/shared/ui/layout';
 import { BackButton } from '@/shared/ui/button';
+import { useFlow } from '@/app/routes/stackflow';
 import {
   CartSelectionBar,
   CartBrandSection,
@@ -18,8 +19,25 @@ import { formatPrice } from '@/shared/lib/formatters';
 import { footerWrapper } from '@/shared/styles/footer.css';
 
 export function CartPage() {
+  const { push } = useFlow();
   const cart = useCart();
-  const { cartData, isPending, isEmpty, hasSelectedItems, totalPayment } = cart;
+  const {
+    cartData,
+    isPending,
+    isEmpty,
+    hasSelectedItems,
+    totalPayment,
+    selectedItems,
+  } = cart;
+
+  const handlePurchaseClick = () => {
+    if (!hasSelectedItems) return;
+    const cartItemIds = selectedItems
+      .map((item) => item.id)
+      .filter((id): id is number => typeof id === 'number' && id > 0);
+    if (cartItemIds.length === 0) return;
+    push('OrderPage', { cartItemIds: JSON.stringify(cartItemIds) });
+  };
 
   return (
     <AppScreen>
@@ -58,6 +76,7 @@ export function CartPage() {
                 className={styles.ctaButton}
                 state={hasSelectedItems ? 'active' : 'disabled'}
                 disabled={!hasSelectedItems}
+                onClick={handlePurchaseClick}
               >
                 {hasSelectedItems
                   ? `${formatPrice(totalPayment)} 구매하기`

@@ -8,8 +8,16 @@ export const mainContainer = style([
   layoutStyles.mainContainer,
   {
     backgroundColor: vars.colors.background,
-    gap: '16px',
+    gap: '20px',
     padding: '16px',
     boxSizing: 'border-box',
+    paddingBottom: '120px',
   },
 ]);
+
+export const buttonContainer = style({
+  display: 'flex',
+  marginTop: '12px',
+  gap: '10px',
+  width: '100%',
+});

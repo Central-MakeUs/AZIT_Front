@@ -8,33 +8,78 @@ import {
   DeliveryInfoSection,
 } from '@/features/order-complete/ui';
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
-import { mockOrderCompleteData } from '@/shared/mock/order-complete';
 import * as styles from '../styles/OrderCompletePage.css';
 import { useFlow } from '@/app/routes/stackflow';
+import type { CreateOrderResponse } from '@/features/order/api/types';
+import { Divider } from '@azit/design-system/divider';
+import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
 
-export function OrderCompletePage() {
+interface OrderCompletePageParams {
+  orderResult?: CreateOrderResponse;
+}
+
+export function OrderCompletePage({
+  params,
+}: {
+  params?: OrderCompletePageParams;
+}) {
   const { replace } = useFlow();
+  const orderResult = params?.orderResult;
 
   const handleViewDetail = () => {
-    replace('OrderDetailPage', { id: 1 });
-    console.log('주문 상세보기');
+    if (orderResult?.orderNumber) {
+      replace('OrderDetailPage', {
+        id: orderResult.orderNumber.replace('#', ''),
+      });
+    }
   };
 
   const handleContinueShopping = () => {
-    // TODO: 홈으로 네비게이션
-    console.log('쇼핑 계속하기');
+    replace('StorePage', {});
   };
 
   const handleBack = () => {
-    // TODO: 뒤로가기
-    console.log('뒤로가기');
+    replace('StorePage', {});
   };
 
   const handleHome = () => {
-    // TODO: 홈으로
-    console.log('홈으로');
     replace('StorePage', {});
   };
+
+  if (!orderResult) {
+    return (
+      <AppScreen>
+        <AppLayout>
+          <div className={styles.headerWrapper}>
+            <Header
+              left={
+                <button onClick={handleBack} className={styles.iconButton}>
+                  <ChevronLeftIcon size={24} />
+                </button>
+              }
+              center="주문 완료"
+              right={
+                <button onClick={handleHome} className={styles.iconButton}>
+                  <HomeIcon size={24} />
+                </button>
+              }
+            />
+          </div>
+          <div className={styles.mainContainer}>
+            주문 정보를 불러올 수 없습니다.
+          </div>
+        </AppLayout>
+      </AppScreen>
+    );
+  }
+
+  const { orderNumber, deliveryInfo, summary, depositAccountInfo } =
+    orderResult;
+  const address = deliveryInfo
+    ? [deliveryInfo.baseAddress, deliveryInfo.detailAddress]
+        .filter(Boolean)
+        .join(' ')
+    : '';
 
   return (
     <AppScreen>
@@ -57,27 +102,35 @@ export function OrderCompletePage() {
         <div className={styles.mainContainer}>
           <div className={styles.headerSection}>
             <OrderCompleteHeader
-              orderNumber={mockOrderCompleteData.orderNumber}
+              orderNumber={orderNumber ?? ''}
               onViewDetail={handleViewDetail}
             />
           </div>
           <div className={styles.infoSection}>
-            <DeliveryInfoSection
-              name={mockOrderCompleteData.deliveryInfo.name}
-              phone={mockOrderCompleteData.deliveryInfo.phone}
-              address={mockOrderCompleteData.deliveryInfo.address}
-            />
-            <PaymentInfoSection
-              totalProductPrice={
-                mockOrderCompleteData.payment.totalProductPrice
-              }
-              membershipDiscount={
-                mockOrderCompleteData.payment.membershipDiscount
-              }
-              pointDiscount={mockOrderCompleteData.payment.pointDiscount}
-              shippingFee={mockOrderCompleteData.payment.shippingFee}
-              totalPayment={mockOrderCompleteData.payment.totalPayment}
-            />
+            {deliveryInfo && (
+              <DeliveryInfoSection
+                name={deliveryInfo.recipientName ?? ''}
+                phone={deliveryInfo.phoneNumber ?? ''}
+                address={address}
+              />
+            )}
+            <Divider />
+            {depositAccountInfo && (
+              <DepositInfoSection
+                {...depositAccountInfo}
+                depositorName={depositAccountInfo.depositorName ?? ''}
+              />
+            )}
+            <Divider />
+            {summary && (
+              <PaymentInfoSection
+                totalProductPrice={summary.totalProductPrice ?? 0}
+                membershipDiscount={summary.membershipDiscount ?? 0}
+                pointDiscount={summary.pointDiscount ?? 0}
+                shippingFee={summary.shippingFee ?? 0}
+                totalPayment={summary.totalPaymentPrice ?? 0}
+              />
+            )}
           </div>
           <div className={styles.footerWrapper}>
             <Button state="active" onClick={handleContinueShopping}>
