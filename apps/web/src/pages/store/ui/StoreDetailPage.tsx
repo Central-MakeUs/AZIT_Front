@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import {
-  ChevronLeftIcon,
-  ShareIcon,
-  ShoppingCartIcon,
-} from '@azit/design-system/icon';
+import { ChevronLeftIcon, ShareIcon } from '@azit/design-system/icon';
 import { Dropdown } from '@azit/design-system/dropdown';
 import { Button } from '@azit/design-system/button';
 import { Divider } from '@azit/design-system/divider';
@@ -19,6 +15,7 @@ import {
   StoreDetailDescription,
   StoreDetailItem,
 } from '@/features/store/ui';
+import { CartIconButton } from '@/shared/ui/cart-icon-button';
 import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
 import * as styles from '../styles/StoreDetailPage.css';
 import { useFlow } from '@/app/routes/stackflow';
@@ -82,13 +79,7 @@ export function StoreDetailPage() {
                   <button className={styles.iconButton} type="button">
                     <ShareIcon size={24} />
                   </button>
-                  <button
-                    className={styles.iconButton}
-                    type="button"
-                    onClick={() => push('CartPage', {})}
-                  >
-                    <ShoppingCartIcon size={24} />
-                  </button>
+                  <CartIconButton onClick={() => push('CartPage', {})} />
                 </div>
               }
             />
@@ -198,12 +189,7 @@ export function StoreDetailPage() {
                 >
                   <ShareIcon size={24} />
                 </button>
-                <button className={styles.iconButton}>
-                  <ShoppingCartIcon
-                    size={24}
-                    onClick={() => push('CartPage', {})}
-                  />
-                </button>
+                <CartIconButton onClick={() => push('CartPage', {})} />
               </div>
             }
           />
