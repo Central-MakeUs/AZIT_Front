@@ -45,15 +45,9 @@ interface KakaoShareLink {
 
 interface KakaoShareFeedContent {
   title: string;
+  description: string;
   imageUrl: string;
   link: KakaoShareLink;
-}
-
-interface KakaoShareCommerce {
-  productName: string;
-  regularPrice: number;
-  discountRate: number;
-  discountPrice: number;
 }
 
 interface KakaoShareButton {
@@ -62,11 +56,10 @@ interface KakaoShareButton {
 }
 
 interface KakaoShare {
-  createDefaultButton: (options: {
+  sendDefault: (options: {
     container: string;
     objectType: string;
     content?: KakaoShareFeedContent;
-    commerce: KakaoShareCommerce;
     buttons?: KakaoShareButton[];
   }) => Promise<unknown>;
 }
