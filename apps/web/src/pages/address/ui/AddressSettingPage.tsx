@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/address/styles/AddressSettingPage.css';
+
 import { AddressCard, AddressEmpty } from '@/features/address/ui';
 
 import {
@@ -19,8 +21,6 @@ import {
 import { orderQueries } from '@/shared/queries/order';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-
-import * as styles from '../styles/AddressSettingPage.css';
 
 export function AddressSettingPage() {
   const { push, pop } = useFlow();
