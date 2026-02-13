@@ -57,7 +57,6 @@ interface KakaoShareButton {
 
 interface KakaoShare {
   sendDefault: (options: {
-    container: string;
     objectType: string;
     content?: KakaoShareFeedContent;
     buttons?: KakaoShareButton[];
