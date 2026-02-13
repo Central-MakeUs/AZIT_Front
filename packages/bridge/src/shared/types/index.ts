@@ -7,6 +7,7 @@ import { POST_MESSAGE_EVENT } from '../constants';
 export type AppBridge = {
   getMessage(): Promise<"I'm from native">;
   openInAppBrowser(url: string): Promise<void>;
+  openExternalBrowser(url: string): Promise<void>;
   shareInviteCode(code: string, crewName: string): Promise<void>;
   shareSchedule(scheduleId: string): Promise<void>;
 };
