@@ -33,6 +33,7 @@ export const END_POINT = {
   CART: {
     PRODUCTS: 'carts',
     PRODUCTS_ITEM: 'carts/items',
+    PRODUCTS_ITEM_QUANTITY: (cartItemId: number) => `carts/items/${cartItemId}`,
     COUNT: 'carts/count',
   },
   ADDRESS: {
