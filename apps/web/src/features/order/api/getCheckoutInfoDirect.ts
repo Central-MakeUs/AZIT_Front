@@ -1,10 +1,11 @@
 import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
+import { END_POINT } from '@/shared/constants/endpoint';
+
 import type {
   DirectOrderCheckoutRequest,
   DirectOrderCheckoutResponse,
 } from './types';
-import { END_POINT } from '@/shared/constants/endpoint';
 
 export const getCheckoutInfoDirect = (data: DirectOrderCheckoutRequest) => {
   return auth.get<ApiResponse<DirectOrderCheckoutResponse>>(

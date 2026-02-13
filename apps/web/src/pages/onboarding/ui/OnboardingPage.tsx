@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { AppLayout } from '@/shared/ui/layout';
+import { useEffect, useState } from 'react';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import { postCreateCrew } from '@/features/onboarding/api/postCreateCrew';
+import { postJoinCrew } from '@/features/onboarding/api/postJoinCrew';
 import { useFunnel } from '@/features/onboarding/hooks/useFunnel';
-import { OnboardingRoleSelect } from '@/features/onboarding/ui/OnboardingRoleSelect';
 import {
   OnboardingCrewJoin,
   OnboardingCrewName,
   OnboardingCrewRegion,
   OnboardingShareInviteCode,
 } from '@/features/onboarding/ui';
-import { useFlow } from '@/app/routes/stackflow';
-import { postCreateCrew } from '@/features/onboarding/api/postCreateCrew';
-import { postJoinCrew } from '@/features/onboarding/api/postJoinCrew';
+import { OnboardingRoleSelect } from '@/features/onboarding/ui/OnboardingRoleSelect';
+
+import { AppLayout } from '@/shared/ui/layout';
 
 type StepName =
   | 'role-select'

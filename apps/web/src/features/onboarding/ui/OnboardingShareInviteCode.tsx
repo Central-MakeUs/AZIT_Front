@@ -1,8 +1,11 @@
 import { Button } from '@azit/design-system/button';
 import { CopyIcon, ShareSheetIcon } from '@azit/design-system/icon';
+
 import { RoundProfileImage } from '@/widgets/profile/ui';
-import * as styles from '../styles/OnboardingShareInviteCode.css';
+
 import { bridge } from '@/shared/lib/bridge';
+
+import * as styles from '../styles/OnboardingShareInviteCode.css';
 
 export interface OnboardingShareInviteCodeProps {
   crewName: string;

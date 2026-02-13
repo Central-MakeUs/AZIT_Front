@@ -1,28 +1,32 @@
-import { useState } from 'react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button } from '@azit/design-system/button';
+import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useActivityParams } from '@stackflow/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import { OrderProductListSection } from '@/widgets/order-product-list/ui';
+
 import {
   OrderAddressSection,
   OrderPaymentDescription,
   OrderPaymentMethodSection,
   OrderSummarySection,
 } from '@/features/order/ui';
-import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-import { useActivityParams } from '@stackflow/react';
 
-import * as styles from '../styles/OrderPage.css';
-import { useFlow } from '@/app/routes/stackflow';
-import { footerWrapper } from '@/shared/styles/footer.css';
-import { Divider } from '@azit/design-system/divider';
-import { orderQueries } from '@/shared/queries/order';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   DEFAULT_PAYMENT_METHOD,
   PAYMENT_METHOD_MAP,
 } from '@/shared/constants/order';
+import { orderQueries } from '@/shared/queries/order';
+import { footerWrapper } from '@/shared/styles/footer.css';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
+import * as styles from '../styles/OrderPage.css';
 
 const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
 

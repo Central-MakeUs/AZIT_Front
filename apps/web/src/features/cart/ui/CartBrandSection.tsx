@@ -1,4 +1,5 @@
 import { Checkbox } from '@azit/design-system/checkbox';
+
 import { CartItem } from './CartItem';
 import type { CartBrand } from '../api/types';
 import { useCartContext } from '../context/CartContext';

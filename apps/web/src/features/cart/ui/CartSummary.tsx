@@ -1,8 +1,10 @@
-import { formatPrice } from '@/shared/lib/formatters';
-import { useCartContext } from '../context/CartContext';
-import * as styles from '../styles/CartSummary.css';
 import { Description } from '@azit/design-system/description';
 import { Divider } from '@azit/design-system/divider';
+
+import { formatPrice } from '@/shared/lib/formatters';
+
+import { useCartContext } from '../context/CartContext';
+import * as styles from '../styles/CartSummary.css';
 
 function formatDiscount(price: number): string {
   if (price === 0) return '0원';

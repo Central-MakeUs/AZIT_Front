@@ -1,4 +1,5 @@
 import { Checkbox } from '@azit/design-system/checkbox';
+
 import { useCartContext } from '../context/CartContext';
 import * as styles from '../styles/CartSelectionBar.css';
 

@@ -1,7 +1,7 @@
-import { stackflow } from '@stackflow/react';
 import { basicUIPlugin } from '@stackflow/plugin-basic-ui';
-import { basicRendererPlugin } from '@stackflow/plugin-renderer-basic';
 import { historySyncPlugin } from '@stackflow/plugin-history-sync';
+import { basicRendererPlugin } from '@stackflow/plugin-renderer-basic';
+import { stackflow } from '@stackflow/react';
 
 import '@stackflow/plugin-basic-ui/index.css';
 

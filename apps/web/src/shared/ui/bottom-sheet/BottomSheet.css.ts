@@ -1,5 +1,5 @@
-import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { style, keyframes } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 export const slideUp = keyframes({

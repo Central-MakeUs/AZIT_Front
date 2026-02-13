@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+
 import * as styles from '../styles/StoreDetailImageSlider.css';
 
 const SWIPE_THRESHOLD = 50;

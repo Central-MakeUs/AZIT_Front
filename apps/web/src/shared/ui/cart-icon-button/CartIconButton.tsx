@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import { ShoppingCartIcon } from '@azit/design-system/icon';
+import { useQuery } from '@tanstack/react-query';
+
 import { cartQueries } from '@/shared/queries/cart';
 
 import * as styles from './CartIconButton.css';

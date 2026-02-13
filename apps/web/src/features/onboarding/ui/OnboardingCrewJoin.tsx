@@ -1,13 +1,15 @@
-import { useState } from 'react';
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { Input } from '@azit/design-system/input';
-import * as styles from '../styles/OnboardingCrewJoin.css';
-import { BackButton } from '@/shared/ui/button';
+import { useState } from 'react';
+
+import type { CrewInfoResult } from '@/shared/api/models';
 import { BottomSheet } from '@/shared/ui/bottom-sheet/BottomSheet';
+import { BackButton } from '@/shared/ui/button';
+
 import { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottomSheetContent';
 import { getCrewInfo } from '../api/getCrewInfo';
-import type { CrewInfoResult } from '@/shared/api/models';
+import * as styles from '../styles/OnboardingCrewJoin.css';
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;

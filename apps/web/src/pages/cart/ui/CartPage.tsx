@@ -1,22 +1,27 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Button } from '@azit/design-system/button';
 import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
 import { useFlow } from '@/app/routes/stackflow';
+
+import { CartSkeleton } from '@/widgets/skeleton/ui';
+
+import { CartProvider } from '@/features/cart/context/CartContext';
+import { useCart } from '@/features/cart/model/useCart';
 import {
   CartSelectionBar,
   CartBrandSection,
   CartSummary,
   CartEmpty,
 } from '@/features/cart/ui';
-import { CartProvider } from '@/features/cart/context/CartContext';
-import { CartSkeleton } from '@/widgets/skeleton/ui';
-import { useCart } from '@/features/cart/model/useCart';
-import * as styles from '../styles/CartPage.css';
+
 import { formatPrice } from '@/shared/lib/formatters';
 import { footerWrapper } from '@/shared/styles/footer.css';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
+import * as styles from '../styles/CartPage.css';
 
 export function CartPage() {
   const { push } = useFlow();

@@ -1,11 +1,21 @@
-import { useState } from 'react';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { Header } from '@azit/design-system/header';
-import { ChevronLeftIcon, ShareIcon } from '@azit/design-system/icon';
-import { Dropdown } from '@azit/design-system/dropdown';
 import { Button } from '@azit/design-system/button';
 import { Divider } from '@azit/design-system/divider';
-import { AppLayout } from '@/shared/ui/layout';
+import { Dropdown } from '@azit/design-system/dropdown';
+import { Header } from '@azit/design-system/header';
+import { ChevronLeftIcon, ShareIcon } from '@azit/design-system/icon';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useActivityParams } from '@stackflow/react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import {
+  OrderPolicyDropdown,
+  OrderPolicyFooter,
+} from '@/widgets/order-policy/ui';
+import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
+
 import {
   StoreDetailImageSlider,
   StoreDetailInfo,
@@ -15,21 +25,16 @@ import {
   StoreDetailDescription,
   StoreDetailItem,
 } from '@/features/store/ui';
-import { CartIconButton } from '@/shared/ui/cart-icon-button';
-import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
-import * as styles from '../styles/StoreDetailPage.css';
-import { useFlow } from '@/app/routes/stackflow';
-import { BottomSheet } from '@/shared/ui/bottom-sheet';
-import { footerWrapper } from '@/shared/styles/footer.css';
-import { useActivityParams } from '@stackflow/react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import { storeQueries } from '@/shared/queries';
 import { cartQueries } from '@/shared/queries/cart';
-import { useKakaoShare } from '@/shared/lib/useKakaoShare';
-import {
-  OrderPolicyDropdown,
-  OrderPolicyFooter,
-} from '@/widgets/order-policy/ui';
+import { footerWrapper } from '@/shared/styles/footer.css';
+import { BottomSheet } from '@/shared/ui/bottom-sheet';
+import { CartIconButton } from '@/shared/ui/cart-icon-button';
+import { AppLayout } from '@/shared/ui/layout';
+
+import * as styles from '../styles/StoreDetailPage.css';
 
 export function StoreDetailPage() {
   const { pop, push } = useFlow();

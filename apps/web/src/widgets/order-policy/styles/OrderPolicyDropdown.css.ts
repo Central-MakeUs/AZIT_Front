@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { typography, vars } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 export const refundPolicyDropdown = style({
   width: '100%',

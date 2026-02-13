@@ -1,6 +1,7 @@
 import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
 import { END_POINT } from '@/shared/constants/endpoint';
+
 import type { OrderDetailResponse } from './types';
 
 export const getOrderDetail = (orderNumber: string) => {
