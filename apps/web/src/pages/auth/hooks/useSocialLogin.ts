@@ -15,7 +15,7 @@ export const useSocialLogin = () => {
   });
 
   const loginWithApple = () => {
-    window.location.href = `${APPLE_AUTHORIZE_URL}&state=${window.location.origin}`;
+    window.location.href = `${APPLE_AUTHORIZE_URL}&state=${window.location.origin}/store`;
   };
 
   const loginWith = useCallback(async (provider: AuthProvider) => {
