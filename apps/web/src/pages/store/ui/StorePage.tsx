@@ -1,7 +1,7 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import { ShoppingCartIcon } from '@azit/design-system/icon';
 import { AppLayout } from '@/shared/ui/layout';
+import { CartIconButton } from '@/shared/ui/cart-icon-button';
 import { BottomNavigation } from '@/shared/ui/navigation';
 import { StoreGridView } from '@/features/store/ui';
 import * as styles from '../styles/StorePage.css';
@@ -19,10 +19,7 @@ export function StorePage() {
             left={<h1 className={logo}>AZIT</h1>}
             right={
               <div className={styles.cartIconWrapper}>
-                <ShoppingCartIcon
-                  size={24}
-                  onClick={() => push('CartPage', {})}
-                />
+                <CartIconButton onClick={() => push('CartPage', {})} />
               </div>
             }
           />
