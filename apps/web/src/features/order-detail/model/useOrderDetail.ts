@@ -6,6 +6,7 @@ import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import { formatOrderDate } from '@/shared/lib/formatters';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { orderQueries } from '@/shared/queries/order';
+import { toast } from '@/shared/ui/toast';
 
 export interface UseOrderDetailOptions {
   onCancelSuccess?: () => void;
@@ -20,6 +21,7 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
     ...orderQueries.cancelOrderMutation(orderNumber ?? ''),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: orderQueries.all });
+      toast.success('주문 취소가 완료되었습니다.');
       onCancelSuccess?.();
     },
   });
