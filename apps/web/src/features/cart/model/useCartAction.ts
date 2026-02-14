@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
+import { showCartError } from '@/features/cart/lib/showCartError';
+
 import type { CartProductAddRequest } from '@/shared/api/models/cart';
 import { cartQueries } from '@/shared/queries/cart';
 
@@ -34,7 +36,9 @@ export function useCartAction({
     (data: CartProductAddRequest, options?: HandleAddItemOptions) => {
       addItemMutation.mutate(data, {
         onSuccess: () => options?.onSuccess?.(),
-        onError: (error) => options?.onError?.(error as Error),
+        onError: (error) =>
+          options?.onError?.(error as Error) ??
+          showCartError(error instanceof Error ? error.message : undefined),
       });
     },
     [addItemMutation]
@@ -104,7 +108,9 @@ export function useAddToCart() {
     (data: CartProductAddRequest, options?: HandleAddItemOptions) => {
       addItemMutation.mutate(data, {
         onSuccess: () => options?.onSuccess?.(),
-        onError: (error) => options?.onError?.(error as Error),
+        onError: (error) =>
+          options?.onError?.(error as Error) ??
+          showCartError(error instanceof Error ? error.message : undefined),
       });
     },
     [addItemMutation]
