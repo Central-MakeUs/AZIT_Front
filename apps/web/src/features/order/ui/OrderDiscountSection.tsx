@@ -1,18 +1,35 @@
-import { useState } from 'react';
-import * as styles from '../styles/OrderDiscountSection.css';
+import { useState, useEffect } from 'react';
+
+import * as styles from '@/features/order/styles/OrderDiscountSection.css';
 
 interface OrderDiscountSectionProps {
   availablePoints: number;
+  usedPoints?: number;
+  onPointsChange?: (usedPoints: number) => void;
 }
 
 export function OrderDiscountSection({
   availablePoints,
+  usedPoints = 0,
+  onPointsChange,
 }: OrderDiscountSectionProps) {
-  const [pointsToUse, setPointsToUse] = useState(0);
+  const [pointsToUse, setPointsToUse] = useState(usedPoints);
+
+  useEffect(() => {
+    if (onPointsChange !== undefined) {
+      setPointsToUse(usedPoints);
+    }
+  }, [usedPoints]);
+
+  const handlePointsChange = (value: number) => {
+    setPointsToUse(value);
+    onPointsChange?.(value);
+  };
 
   const handleUseAllPoints = () => {
     if (availablePoints >= 1000) {
       setPointsToUse(availablePoints);
+      onPointsChange?.(availablePoints);
     }
   };
 
@@ -40,7 +57,7 @@ export function OrderDiscountSection({
               type="number"
               className={styles.pointsInput}
               value={pointsToUse || ''}
-              onChange={(e) => setPointsToUse(Number(e.target.value))}
+              onChange={(e) => handlePointsChange(Number(e.target.value))}
               placeholder="0"
             />
             <p className={styles.pointsUnit}>P</p>

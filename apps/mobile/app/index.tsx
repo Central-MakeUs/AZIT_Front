@@ -2,19 +2,18 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { WebView } from '@/shared/lib/bridge';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
+import { Platform } from 'react-native';
 import * as Linking from 'expo-linking';
-import * as SplashScreen from 'expo-splash-screen';
 import { WEBVIEW_URL } from '@/shared/constants/url';
+import CustomAnimatedSplash from './splash-screen';
+import * as SplashScreen from 'expo-splash-screen';
 
-// 스플래시 화면이 자동으로 숨겨지지 않도록 설정
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
   const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
-
-  console.log('WEBVIEW_URL:', WEBVIEW_URL);
-  console.log('initialUrl:', initialUrl);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     // 앱이 종료된 상태에서 링크로 열릴 때의 초기 URL 처리
@@ -62,15 +61,8 @@ export default function App() {
     return url;
   };
 
-  // WebView 로드 완료 시 스플래시 화면 숨기기
-  const handleWebViewLoad = useCallback(() => {
-    console.log('WebView loaded');
-    SplashScreen.hideAsync();
-  }, []);
-
-  const handleWebViewError = useCallback((event: any) => {
-    console.log('WebView error:', event.nativeEvent);
-    SplashScreen.hideAsync(); // 최소한 스플래시는 내리기
+  const handleSplashFinish = useCallback(() => {
+    setShowSplash(false);
   }, []);
 
   if (!initialUrl) {
@@ -79,19 +71,18 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
+      {showSplash && <CustomAnimatedSplash onFinish={handleSplashFinish} />}
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <WebView
           ref={webViewRef}
           source={{ uri: initialUrl }}
           style={{ flex: 1 }}
           webviewDebuggingEnabled
           domStorageEnabled={true}
-          onLoad={handleWebViewLoad}
-          onError={handleWebViewError}
           sharedCookiesEnabled={true}
           thirdPartyCookiesEnabled={true}
           originWhitelist={['*']}
-          userAgent={'azitwebview'}
+          userAgent={Platform.OS === 'ios' ? `ios azitwebview` : 'azitwebview'}
         />
       </SafeAreaView>
     </SafeAreaProvider>

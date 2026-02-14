@@ -1,5 +1,6 @@
 import { Button } from '@azit/design-system/button';
-import * as styles from '../styles/ScheduleFilterTab.css';
+
+import * as styles from '@/widgets/schedule-filter-tab/styles/ScheduleFilterTab.css';
 
 export type ScheduleFilterType = 'all' | 'regular' | 'lightning';
 

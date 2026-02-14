@@ -1,5 +1,6 @@
-import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { keyframes, style } from '@vanilla-extract/css';
+
 import { layoutStyles } from '@/shared/styles/layout.css';
 
 const pulse = keyframes({

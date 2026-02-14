@@ -1,5 +1,6 @@
+import type { StoreProductsResponse } from '@/pages/store/api/types';
+
 import { auth } from '@/shared/api/apiClient';
-import type { StoreProductsResponse } from './types';
 import { END_POINT } from '@/shared/constants/endpoint';
 
 export const getStoreProducts = (cursorId?: number, size = 10) => {

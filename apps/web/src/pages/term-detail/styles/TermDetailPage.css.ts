@@ -1,6 +1,7 @@
-import { globalStyle, style } from '@vanilla-extract/css';
-import { layoutStyles } from '@/shared/styles/layout.css';
 import { vars } from '@azit/design-system';
+import { globalStyle, style } from '@vanilla-extract/css';
+
+import { layoutStyles } from '@/shared/styles/layout.css';
 
 const typography = {
   h1: vars.typography.heading.h1,
