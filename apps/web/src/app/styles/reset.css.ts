@@ -1,7 +1,7 @@
+import { vars } from '@azit/design-system';
 import { globalStyle } from '@vanilla-extract/css';
 
 import * as layers from './layers.css';
-import { vars } from '@azit/design-system';
 
 /**
  * Remove all the styles of the "User-Agent-Stylesheet", except for the

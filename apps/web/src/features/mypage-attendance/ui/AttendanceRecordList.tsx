@@ -1,6 +1,7 @@
+import * as styles from '@/features/mypage-attendance/styles/AttendanceRecordList.css.ts';
+import { AttendanceRecordListItem } from '@/features/mypage-attendance/ui/AttendanceRecordListItem';
+
 import type { AttendanceRecord } from '@/shared/mock/mypage-attendance';
-import { AttendanceRecordListItem } from './AttendanceRecordListItem';
-import * as styles from '../styles/AttendanceRecordList.css.ts';
 
 interface AttendanceRecordListProps {
   records: AttendanceRecord[];

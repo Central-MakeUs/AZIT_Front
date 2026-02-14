@@ -1,12 +1,14 @@
 import { Checkbox } from '@azit/design-system/checkbox';
 import { XIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
-import { QuantitySelector } from './QuantitySelector';
-import type { CartProductItem } from '../api/types';
-import * as styles from '../styles/CartItem.css';
-import { formatPrice } from '@/shared/lib/formatters';
 import { useState } from 'react';
-import { useCartContext } from '../context/CartContext';
+
+import type { CartProductItem } from '@/features/cart/api/types';
+import { useCartContext } from '@/features/cart/context/CartContext';
+import * as styles from '@/features/cart/styles/CartItem.css';
+import { QuantitySelector } from '@/features/cart/ui/QuantitySelector';
+
+import { formatPrice } from '@/shared/lib/formatters';
 
 interface CartItemProps {
   item: CartProductItem;
@@ -46,18 +48,17 @@ export function CartItem({ item }: CartItemProps) {
   const discountedPrice = item.salePrice || 0;
   const isSoldOut = item.isOutOfStock || quantity === 0;
   const imageUrl = item.productImageUrl;
-  const productSkuId = item.productSkuId || 0;
 
   const handleIncrease = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    handleQuantityChange(cartItemId, productSkuId, newQuantity);
+    handleQuantityChange(cartItemId, newQuantity);
   };
 
   const handleDecrease = () => {
     const newQuantity = quantity - 1;
     setQuantity(newQuantity);
-    handleQuantityChange(cartItemId, productSkuId, newQuantity);
+    handleQuantityChange(cartItemId, newQuantity);
   };
 
   return (

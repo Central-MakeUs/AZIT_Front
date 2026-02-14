@@ -1,14 +1,18 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
-import { Header } from '@azit/design-system/header';
 import { Button } from '@azit/design-system/button';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
-import { AddressForm } from '@/features/address/ui';
-import * as styles from '../styles/AddressRegisterEditPage.css';
+import { Header } from '@azit/design-system/header';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
 import { useFlow } from '@/app/routes/stackflow';
-import { useCreateAddress } from '@/shared/api/queries';
+
+import * as styles from '@/pages/address/styles/AddressRegisterEditPage.css';
+
 import { useAddressForm } from '@/features/address/model/useAddressForm';
+import { AddressForm } from '@/features/address/ui';
+
+import { useCreateAddress } from '@/shared/queries';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
 
 export function AddressRegisterPage() {
   const { pop, push } = useFlow();

@@ -1,20 +1,23 @@
-import { useState } from 'react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { Header } from '@azit/design-system/header';
-import { AppLayout } from '@/shared/ui/layout';
-import { BackButton } from '@/shared/ui/button';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import * as styles from '@/pages/my/styles/MemberManagePage.css';
+
+import { MEMBER_ROLE } from '@/features/my/model/role';
+import type { MemberItem, MemberRequestItem } from '@/features/my/model/types';
 import {
   MemberList,
   MemberManagementTab,
   RequestList,
   RequestListEmpty,
 } from '@/features/my/ui';
-import { memberQueries } from '@/shared/api/queries';
-import { MEMBER_ROLE } from '@/features/my/model/role';
-import type { MemberItem, MemberRequestItem } from '@/features/my/model/types';
+
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
-import * as styles from '../styles/MemberManagePage.css';
+import { memberQueries } from '@/shared/queries';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
 
 export function MemberManagePage({ params }: { params?: { id?: string } }) {
   const [activeTab, setActiveTab] = useState<'member' | 'request'>('member');
@@ -45,6 +48,7 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
       page.ok
         ? page.data.result.content.map((member) => ({
             id: member.id ?? 0,
+            memberId: member.memberId ?? member.id ?? 0,
             nickname: member.nickname ?? '',
             profileImageUrl: member.profileImageUrl ?? '',
             role: member.role ?? 'MEMBER',

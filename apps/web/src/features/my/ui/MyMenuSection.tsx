@@ -1,7 +1,12 @@
+import { Fragment } from 'react';
+
 import { useFlow } from '@/app/routes/stackflow';
-import * as styles from '../styles/MyMenuSection.css';
-import { MyMenuItem } from './MyMenuItem';
-import type { MenuItem, MyPageMenuGroup } from '../model/menu';
+
+import type { MenuItem, MyPageMenuGroup } from '@/features/my/model/menu';
+import * as styles from '@/features/my/styles/MyMenuSection.css';
+import { MyMenuItem } from '@/features/my/ui/MyMenuItem';
+
+import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 
 interface MyMenuSectionProps {
   section: MyPageMenuGroup;
@@ -19,7 +24,7 @@ export function MyMenuSection({ section }: MyMenuSectionProps) {
         push(item.path, item.pushParams ?? {}, { animate: true });
       }
     } else if (item.type === 'external_link') {
-      window.open(item.url, '_blank');
+      openExternalUrl(item.url);
     }
   };
 
@@ -27,12 +32,13 @@ export function MyMenuSection({ section }: MyMenuSectionProps) {
     <section className={styles.container}>
       <h2 className={styles.title}>{section.title}</h2>
       <div className={styles.list}>
-        {section.items.map((item) => (
-          <MyMenuItem
-            key={item.id}
-            item={item}
-            onClick={() => handleItemClick(item)}
-          />
+        {section.items.map((item, index) => (
+          <Fragment key={item.id}>
+            <MyMenuItem item={item} onClick={() => handleItemClick(item)} />
+            {index < section.items.length - 1 && (
+              <div className={styles.listItemDivider} aria-hidden />
+            )}
+          </Fragment>
         ))}
       </div>
     </section>
