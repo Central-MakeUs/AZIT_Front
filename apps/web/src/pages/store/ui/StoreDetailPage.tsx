@@ -163,56 +163,65 @@ export function StoreDetailPage() {
         onOutsideClick={closeBottomSheetAndResetOption}
         contentClassName={styles.bottomSheetContent}
       >
-        <Dropdown
-          placeholder="옵션을 선택해주세요"
-          options={options}
-          onValueChange={handleOptionSelect}
-          isPlaceholder={true}
-        />
-        <div className={styles.selectedOptionList}>
-          {selectedItems.map((item) => (
-            <StoreDetailItem
-              key={item.id}
-              option={item.optionLabel}
-              salePrice={product.salePrice}
-              shippingDate={product.expectedShippingDate}
-              quantity={item.quantity}
-              onQuantityChange={(q) => setItemQuantity(item.id, q)}
-              onCancel={() => removeItem(item.id)}
+        <div className={styles.bottomSheetContentWrapper}>
+          <div className={styles.dropdownWrapper}>
+            <Dropdown
+              placeholder="옵션을 선택해주세요"
+              options={options}
+              onValueChange={handleOptionSelect}
+              isPlaceholder={true}
             />
-          ))}
-        </div>
-        {selectedItems.length > 0 && (
-          <div className={styles.selectedOptionContainer}>
-            <Divider />
-            <div className={styles.expectFeeContainer}>
-              <p className={styles.expectFeeLabel}>예상 결제 금액</p>
-              <p className={styles.expectFeeAmount}>
-                <span className={styles.expectFeeAmountValue}>
-                  {formatPrice(expectedPayment)}
-                </span>
-                <span className={styles.shippingFeeValue}>
-                  {shippingFee > 0
-                    ? `배송비 ${formatPrice(shippingFee)}`
-                    : '무료배송'}
-                </span>
-              </p>
-            </div>
-            <div className={styles.buttonWrapper}>
-              <Button
-                size="large"
-                state="outline"
-                onClick={handleAddToCart}
-                disabled={isAddToCartPending}
-              >
-                {isAddToCartPending ? '추가 중...' : '장바구니'}
-              </Button>
-              <Button size="large" state="active" onClick={handlePurchaseClick}>
-                구매하기
-              </Button>
-            </div>
           </div>
-        )}
+
+          <div className={styles.selectedOptionList}>
+            {selectedItems.map((item) => (
+              <StoreDetailItem
+                key={item.id}
+                option={item.optionLabel}
+                salePrice={product.salePrice}
+                shippingDate={product.expectedShippingDate}
+                quantity={item.quantity}
+                onQuantityChange={(q) => setItemQuantity(item.id, q)}
+                onCancel={() => removeItem(item.id)}
+              />
+            ))}
+          </div>
+          {selectedItems.length > 0 && (
+            <div className={styles.selectedOptionContainer}>
+              <Divider />
+              <div className={styles.expectFeeContainer}>
+                <p className={styles.expectFeeLabel}>예상 결제 금액</p>
+                <p className={styles.expectFeeAmount}>
+                  <span className={styles.expectFeeAmountValue}>
+                    {formatPrice(expectedPayment)}
+                  </span>
+                  <span className={styles.shippingFeeValue}>
+                    {shippingFee > 0
+                      ? `배송비 ${formatPrice(shippingFee)}`
+                      : '무료배송'}
+                  </span>
+                </p>
+              </div>
+              <div className={styles.buttonWrapper}>
+                <Button
+                  size="large"
+                  state="outline"
+                  onClick={handleAddToCart}
+                  disabled={isAddToCartPending}
+                >
+                  {isAddToCartPending ? '추가 중...' : '장바구니'}
+                </Button>
+                <Button
+                  size="large"
+                  state="active"
+                  onClick={handlePurchaseClick}
+                >
+                  구매하기
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </BottomSheet>
     </AppScreen>
   );
