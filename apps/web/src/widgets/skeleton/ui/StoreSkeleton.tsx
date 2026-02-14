@@ -1,4 +1,4 @@
-import * as styles from '../styles/StoreSkeleton.css';
+import * as styles from '@/widgets/skeleton/styles/StoreSkeleton.css';
 
 const SKELETON_ITEM_COUNT = 6;
 

@@ -1,6 +1,7 @@
 import type { KyInstance, Options } from 'ky';
-import { apiHandler, type ApiResult } from './apiHandler';
-import type { ApiResponseWithoutResult } from './baseTypes';
+
+import { apiHandler, type ApiResult } from '@/shared/api/apiHandler';
+import type { ApiResponseWithoutResult } from '@/shared/api/baseTypes';
 
 export function createHttpMethods(client: KyInstance) {
   return {

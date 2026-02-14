@@ -1,6 +1,10 @@
+import type {
+  AuthProviderType,
+  SocialLoginResponseType,
+} from '@/features/auth/api/types';
+
 import { base } from '@/shared/api/apiClient';
-import type { AuthProviderType, SocialLoginResponseType } from './types';
-import type { SocialLoginRequest } from '@/shared/api/models';
+import type { SocialLoginRequest } from '@/shared/api/models/auth';
 import { END_POINT } from '@/shared/constants/endpoint';
 
 export const postSocialLogin = (

@@ -1,6 +1,7 @@
 import { AlertDialog } from '@azit/design-system/alert-dialog';
+
 import { useWithdraw } from '@/features/auth/model';
-import * as styles from '../styles/WithdrawButton.css';
+import * as styles from '@/features/auth/styles/WithdrawButton.css';
 
 export function WithdrawButton() {
   const { handleWithdraw } = useWithdraw();

@@ -1,6 +1,7 @@
-import { container } from '@/shared/styles/container.css';
 import { typography, vars } from '@azit/design-system';
 import { composeStyles, style } from '@vanilla-extract/css';
+
+import { container } from '@/shared/styles/container.css';
 
 export const loginContainer = composeStyles(
   container,

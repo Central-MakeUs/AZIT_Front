@@ -16,11 +16,6 @@ export const inputContainer = recipe({
     border: `0.5px solid ${vars.colors.gray20}`,
     transition: 'border-color 0.2s ease',
     padding: '10px 16px',
-    selectors: {
-      '&::placeholder': {
-        color: vars.colors.gray30,
-      },
-    },
   },
   variants: {
     state: {
@@ -41,7 +36,7 @@ export const inputContainer = recipe({
 });
 
 export const input = style([
-  typography.body.b2,
+  typography.body.b3,
   {
     flexGrow: 1,
     width: '100%',
@@ -52,6 +47,7 @@ export const input = style([
     selectors: {
       '&::placeholder': {
         color: vars.colors.gray30,
+        ...vars.typography.body.b3,
       },
       '&:disabled': {
         backgroundColor: 'inherit',

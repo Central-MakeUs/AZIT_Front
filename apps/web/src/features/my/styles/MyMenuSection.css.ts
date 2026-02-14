@@ -1,5 +1,7 @@
-import { style } from '@vanilla-extract/css';
 import { vars, typography } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
+
+export { listItemDivider } from '@/shared/styles/listItemRow.css';
 
 export const container = style({
   display: 'flex',

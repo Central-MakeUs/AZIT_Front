@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react';
-import { useCart } from '../model/useCart';
+
+import { useCart } from '@/features/cart/model/useCart';
 
 export type CartContextValue = ReturnType<typeof useCart>;
 
