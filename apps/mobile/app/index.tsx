@@ -6,11 +6,14 @@ import { Platform } from 'react-native';
 import * as Linking from 'expo-linking';
 import { WEBVIEW_URL } from '@/shared/constants/url';
 import CustomAnimatedSplash from './splash-screen';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
   const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
-  const [splashDone, setSplashDone] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     // 앱이 종료된 상태에서 링크로 열릴 때의 초기 URL 처리
@@ -59,21 +62,8 @@ export default function App() {
   };
 
   const handleSplashFinish = useCallback(() => {
-    setSplashDone(true);
+    setShowSplash(false);
   }, []);
-
-  const handleWebViewLoad = useCallback(() => {
-    console.log('WebView loaded');
-  }, []);
-
-  const handleWebViewError = useCallback((event: any) => {
-    console.log('WebView error:', event.nativeEvent);
-  }, []);
-
-  // 스플래시는 CustomAnimatedSplash만 사용
-  if (!splashDone) {
-    return <CustomAnimatedSplash onFinish={handleSplashFinish} />;
-  }
 
   if (!initialUrl) {
     throw new Error('webview url is not set');
@@ -81,6 +71,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
+      {showSplash && <CustomAnimatedSplash onFinish={handleSplashFinish} />}
       <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <WebView
           ref={webViewRef}
@@ -88,8 +79,6 @@ export default function App() {
           style={{ flex: 1 }}
           webviewDebuggingEnabled
           domStorageEnabled={true}
-          onLoad={handleWebViewLoad}
-          onError={handleWebViewError}
           sharedCookiesEnabled={true}
           thirdPartyCookiesEnabled={true}
           originWhitelist={['*']}

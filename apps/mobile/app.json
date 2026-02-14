@@ -38,7 +38,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [],
+    "plugins": ["expo-splash-screen"],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
