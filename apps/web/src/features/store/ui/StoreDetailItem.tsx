@@ -2,11 +2,15 @@ import { MinusIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/features/store/styles/StoreDetailItem.css';
 
-import { formatPrice } from '@/shared/lib/formatters';
+import {
+  formatExpectedShippingDate,
+  formatPrice,
+} from '@/shared/lib/formatters';
 
 interface StoreDetailItemProps {
   option?: string;
   salePrice?: number;
+  shippingDate?: string;
   quantity: number;
   onQuantityChange: (quantity: number) => void;
   onCancel: () => void;
@@ -15,6 +19,7 @@ interface StoreDetailItemProps {
 export function StoreDetailItem({
   option,
   salePrice = 0,
+  shippingDate,
   quantity,
   onQuantityChange,
   onCancel,
@@ -33,10 +38,12 @@ export function StoreDetailItem({
     <div className={styles.container}>
       <XIcon className={styles.cancelButton} onClick={onCancel} />
       <p className={styles.optionText}>{option}</p>
-      <p className={styles.shippingText}>1.6 화 이내 발송 예정</p>
+      <p className={styles.shippingText}>
+        {formatExpectedShippingDate(shippingDate ?? '').replace('판매자', '')}
+      </p>
       <div className={styles.bottomContainer}>
         <QuantitySelector count={quantity} onCountChange={handleCountChange} />
-        <p className={styles.optionText}>{formatPrice(salePrice)}</p>
+        <p className={styles.optionText}>{formatPrice(salePrice * quantity)}</p>
       </div>
     </div>
   );

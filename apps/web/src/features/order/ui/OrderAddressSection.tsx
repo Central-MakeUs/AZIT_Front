@@ -12,10 +12,10 @@ interface OrderAddressSectionProps {
 }
 
 const deliveryRequestOptions: DropdownOption[] = [
-  { value: '1', label: '문 앞에 놓아주세요' },
-  { value: '2', label: '경비실에 맡겨주세요' },
-  { value: '3', label: '직접 받겠습니다' },
-  { value: '4', label: '배송 전에 연락주세요' },
+  { value: '문 앞에 놓아주세요', label: '문 앞에 놓아주세요' },
+  { value: '경비실에 맡겨주세요', label: '경비실에 맡겨주세요' },
+  { value: '직접 받겠습니다', label: '직접 받겠습니다' },
+  { value: '배송 전에 연락주세요', label: '배송 전에 연락주세요' },
 ];
 
 export function OrderAddressSection({
