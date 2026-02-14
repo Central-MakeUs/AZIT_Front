@@ -57,6 +57,7 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
     const trackingNumber = result?.shippingInfo?.trackingNumber;
     if (trackingNumber) {
       navigator.clipboard.writeText(trackingNumber);
+      toast.success('송장번호가 복사되었습니다.');
     }
   };
 
