@@ -167,6 +167,7 @@ export function StoreDetailPage() {
           placeholder="옵션을 선택해주세요"
           options={options}
           onValueChange={handleOptionSelect}
+          isPlaceholder={true}
         />
         <div className={styles.selectedOptionList}>
           {selectedItems.map((item) => (

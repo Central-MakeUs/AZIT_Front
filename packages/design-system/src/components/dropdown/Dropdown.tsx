@@ -10,6 +10,7 @@ export interface DropdownProps {
   options: DropdownOption[];
   value?: string;
   onValueChange?: (value: string) => void;
+  isPlaceholder?: boolean;
 }
 
 export function Dropdown({
@@ -17,15 +18,17 @@ export function Dropdown({
   options,
   value,
   onValueChange,
+  isPlaceholder: isPlaceholderProp,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [_selectedValue, setSelectedValue] = useState<string | undefined>(
-    value
-  );
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(value);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const displayText = placeholder;
-  const isPlaceholder = true;
+  const isPlaceholder = isPlaceholderProp ?? selectedValue === undefined;
+  const selectedOption = options.find((opt) => opt.value === selectedValue);
+  const displayText = isPlaceholder
+    ? placeholder
+    : (selectedOption?.label ?? placeholder);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
