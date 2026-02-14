@@ -44,6 +44,7 @@ globalStyle('div > li', {
 
 export const listItem = style({
   width: '100%',
+  position: 'relative',
 });
 
 export const detailImage = style({
@@ -51,3 +52,25 @@ export const detailImage = style({
   display: 'block',
   objectFit: 'contain',
 });
+
+export const moreInfoButton = style([
+  typography.body.b1,
+  {
+    width: '100vw',
+    transform: 'translateX(-50%)',
+    transformOrigin: 'center bottom',
+    height: '114px',
+    background: `linear-gradient(to bottom, transparent 0%, ${vars.colors.white} 53.07%)`,
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    gap: '4px',
+    cursor: 'pointer',
+    position: 'absolute',
+    bottom: 0,
+    left: '50%',
+    padding: '0 20px',
+    color: vars.colors.blue80,
+    textAlign: 'center',
+  },
+]);
