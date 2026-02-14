@@ -181,8 +181,7 @@ export const selectedOptionContainer = style({
   alignItems: 'center',
   position: 'absolute',
   bottom: '20px',
-  left: '20px',
-  width: 'calc(100% - 40px)',
+  width: '100%',
 });
 
 export const selectedOptionList = style({
@@ -190,6 +189,22 @@ export const selectedOptionList = style({
   flexDirection: 'column',
   gap: '12px',
   width: '100%',
-  maxHeight: 'calc(100% - 235px)',
+  maxHeight: 'calc(100% - 224px)',
   overflowY: 'scroll',
+  position: 'absolute',
+  top: '57px',
+});
+
+export const dropdownWrapper = style({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+});
+
+export const bottomSheetContentWrapper = style({
+  width: '100%',
+  position: 'relative',
+  height: '100%',
 });
