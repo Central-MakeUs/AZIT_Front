@@ -50,11 +50,11 @@ export function OrderProductItem({
             <Description.Value className={styles.priceContainer}>
               {showOriginalPrice && hasBasePrice && (
                 <span className={styles.originalPrice}>
-                  {formatPrice(basePrice * quantity)}
+                  {formatPrice(basePrice)}
                 </span>
               )}
               <span className={styles.discountedPrice}>
-                {formatPrice(salePrice * quantity)}
+                {formatPrice(salePrice)}
               </span>
             </Description.Value>
           </Description>
