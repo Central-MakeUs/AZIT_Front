@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "azit",
+    "name": "아지트",
     "slug": "azit",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.azitcrew.app",
-      "associatedDomains": ["applinks:dev.azitcrew.com"],
+      "associatedDomains": ["applinks:azitcrew.com"],
       "infoPlist": {
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true,
