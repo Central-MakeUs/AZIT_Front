@@ -6,6 +6,7 @@ import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
 import { Stack } from '@/app/routes/stackflow';
 
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
+import { Toaster } from '@/shared/ui/toast';
 
 import '@/app/styles/globals.css';
 import '@/app/styles/index.css';
@@ -17,6 +18,13 @@ createRoot(document.getElementById('root')!).render(
         <Suspense fallback={<PageLoader />}>
           <Stack />
         </Suspense>
+        <Toaster
+          richColors
+          toastOptions={{
+            duration: 2500,
+            className: 'azit-toast',
+          }}
+        />
       </KakaoDeeplinkProvider>
     </ReactQueryProvider>
   </StrictMode>
