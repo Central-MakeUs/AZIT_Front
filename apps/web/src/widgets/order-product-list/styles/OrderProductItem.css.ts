@@ -22,7 +22,7 @@ export const productInfo = style({
   flexDirection: 'column',
   gap: '4px',
   flex: 1,
-  flexShrink: 0,
+  minWidth: 0,
   width: '100%',
 });
 
@@ -39,6 +39,7 @@ export const productTexts = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '4px',
+  minWidth: 0,
   width: '100%',
 });
 
@@ -47,7 +48,7 @@ export const brandName = style({
   fontWeight: vars.typography.body.b4.fontWeight,
   lineHeight: vars.typography.body.b4.lineHeight,
   color: vars.colors.black,
-  width: '100%',
+  minWidth: 0,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
@@ -58,7 +59,7 @@ export const productName = style({
   fontWeight: vars.typography.body.b3.fontWeight,
   lineHeight: vars.typography.body.b3.lineHeight,
   color: vars.colors.black,
-  width: '100%',
+  minWidth: 0,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
