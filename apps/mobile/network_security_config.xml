@@ -3,6 +3,8 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">azitcrew.com</domain>
+        <domain includeSubdomains="true">dev.azitcrew.com</domain>
     </domain-config>
     <base-config>
         <trust-anchors>
