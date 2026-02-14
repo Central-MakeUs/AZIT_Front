@@ -25,9 +25,7 @@ export function LoginPage() {
       <section className={styles.loginContainer}>
         <div className={styles.titleWrapper}>
           <h2 className={styles.title}>AZIT</h2>
-          <p className={styles.description}>
-            러닝 크루를 위한 운영 & 제휴 서비스
-          </p>
+          <p className={styles.description}>러닝 크루를 위한 제휴 서비스</p>
         </div>
         <img
           src="/icons/icon-splash-symbol.svg"
