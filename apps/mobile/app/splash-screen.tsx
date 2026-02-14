@@ -3,8 +3,6 @@ import { StyleSheet, View, Image, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as SplashScreen from 'expo-splash-screen';
 
-const fadeAnim = new Animated.Value(1);
-
 export default function CustomAnimatedSplash({
   onFinish,
 }: {
@@ -18,21 +16,17 @@ export default function CustomAnimatedSplash({
         console.error('Failed to hide splash screen', error);
       }
 
-      setTimeout(() => {
-        Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 1000,
-          useNativeDriver: true,
-        }).start(() => {
-          onFinish();
-        });
-      }, 1000);
+      const timer = setTimeout(() => {
+        onFinish();
+      }, 1500);
+
+      return () => clearTimeout(timer);
     };
     showSplash();
   }, [onFinish]);
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <View style={styles.container}>
       <LinearGradient
         colors={['#003483', '#000b1d']}
         start={{ x: 0, y: 0 }}
@@ -51,7 +45,7 @@ export default function CustomAnimatedSplash({
           resizeMode="contain"
         />
       </View>
-    </Animated.View>
+    </View>
   );
 }
 
@@ -80,6 +74,6 @@ const styles = StyleSheet.create({
     width: 470,
     height: 470,
     bottom: -150,
-    right: -100,
+    right: -30,
   },
 });
