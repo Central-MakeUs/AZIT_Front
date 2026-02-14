@@ -36,6 +36,13 @@ export const checkButton = style([
   },
 ]);
 
+export const disabled = style({
+  cursor: 'not-allowed',
+  backgroundColor: vars.colors.gray10,
+  borderColor: vars.colors.gray30,
+  color: vars.colors.gray50,
+});
+
 export const infoRow = style({
   display: 'flex',
   alignItems: 'center',
