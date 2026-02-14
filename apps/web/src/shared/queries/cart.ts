@@ -8,7 +8,6 @@ import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
 import { getCartProducts } from '@/features/cart/api/getCartProducts';
 import { patchCartProductQuantity } from '@/features/cart/api/patchCartProductQuantity';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
-import { showCartError } from '@/features/cart/lib/showCartError';
 
 import { getCartCount } from '@/shared/api/handlers/getCartCount';
 import type {
@@ -38,9 +37,6 @@ export const cartQueries = {
         queryClient.invalidateQueries({
           queryKey: [...cartQueries.all],
         });
-      },
-      onError: (error: Error) => {
-        showCartError(error.message);
       },
     }),
   changeItemQuantityMutation: (queryClient: QueryClient) =>
