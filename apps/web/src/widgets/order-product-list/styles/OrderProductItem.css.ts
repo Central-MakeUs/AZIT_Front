@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 export const productItem = style({
   display: 'flex',
@@ -13,6 +13,8 @@ export const productImage = style({
   borderRadius: '4px',
   backgroundColor: vars.colors.gray10,
   flexShrink: 0,
+  objectFit: 'cover',
+  objectPosition: 'center',
 });
 
 export const productInfo = style({

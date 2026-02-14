@@ -1,5 +1,6 @@
-import type { CrewJoinStatusResult } from '@/shared/api/models';
 import type { ButtonProps } from '@azit/design-system/button';
+
+import type { CrewJoinStatusResult } from '@/shared/api/models/crew';
 
 export type CrewJoinStatus = CrewJoinStatusResult['status'];
 

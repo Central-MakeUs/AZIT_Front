@@ -1,5 +1,5 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+  "rewrites": [{ "source": "/((?!assets/|favicon/).*)", "destination": "/" }],
   "headers": [
     {
       "source": "/.well-known/apple-app-site-association",

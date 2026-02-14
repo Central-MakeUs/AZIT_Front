@@ -1,11 +1,14 @@
-import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { vars } from '@azit/design-system';
 import { Button } from '@azit/design-system/button';
-import * as styles from '../styles/LoginPage.css';
-import { useSocialLogin } from '../hooks/useSocialLogin';
-import type { AuthProvider } from '@/shared/api/models';
-import { AUTH_PROVIDER } from '@/shared/constants/auth';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+
+import { useSocialLogin } from '@/pages/auth/hooks/useSocialLogin';
+import * as styles from '@/pages/auth/styles/LoginPage.css';
+
 import { useKakaoSDK } from '@/features/auth/model';
+
+import type { AuthProvider } from '@/shared/api/models/auth';
+import { AUTH_PROVIDER } from '@/shared/constants/auth';
 
 export function LoginPage() {
   useKakaoSDK();
@@ -22,9 +25,7 @@ export function LoginPage() {
       <section className={styles.loginContainer}>
         <div className={styles.titleWrapper}>
           <h2 className={styles.title}>AZIT</h2>
-          <p className={styles.description}>
-            러닝 크루를 위한 운영 & 제휴 서비스
-          </p>
+          <p className={styles.description}>러닝 크루를 위한 제휴 서비스</p>
         </div>
         <img
           src="/icons/icon-splash-symbol.svg"
@@ -58,7 +59,7 @@ function KakaoLogin({ onClick }: { onClick: () => void }) {
 function AppleLogin({ onClick }: { onClick: () => void }) {
   const ua = navigator.userAgent;
 
-  if (!/iPhone|iPad|iPod/.test(ua)) {
+  if (!/iPhone|iPad|iPod|ios/.test(ua)) {
     return null;
   }
 

@@ -1,72 +1,43 @@
-import { useMemo } from 'react';
-import type { CartProductItem } from '../api/types';
-
-type CartProductsResponse = Awaited<
-  ReturnType<
-    typeof import('@/features/cart/api/getCartProducts').getCartProducts
-  >
->;
+import type { CartProductItem } from '@/features/cart/api/types';
 
 interface UseCartPriceParams {
   selectedItems: CartProductItem[];
-  cartProductsResponse: CartProductsResponse | undefined;
 }
 
-export function useCartPrice({
-  selectedItems,
-  cartProductsResponse,
-}: UseCartPriceParams) {
-  const apiPriceInfo = useMemo(() => {
-    if (!cartProductsResponse?.ok || !cartProductsResponse.data.result) {
-      return null;
-    }
-    return {
-      totalProductPrice:
-        cartProductsResponse.data.result.totalProductPrice || 0,
-      membershipDiscount:
-        cartProductsResponse.data.result.membershipDiscount || 0,
-      shippingFee: cartProductsResponse.data.result.shippingFee || 0,
-      totalPaymentPrice:
-        cartProductsResponse.data.result.totalPaymentPrice || 0,
-    };
-  }, [cartProductsResponse]);
-  const selectedTotalProductPrice = useMemo(() => {
-    return selectedItems.reduce(
-      (sum, item) => sum + (item.basePrice || 0) * (item.quantity || 0),
-      0
-    );
-  }, [selectedItems]);
+export function useCartPrice({ selectedItems }: UseCartPriceParams) {
+  // 선택된 상품의 총 상품 가격 (정가)
+  const selectedTotalProductPrice = selectedItems.reduce(
+    (sum, item) => sum + (item.basePrice || 0) * (item.quantity || 0),
+    0
+  );
 
-  const totalProductPrice = useMemo(() => {
-    if (selectedItems.length === 0 && apiPriceInfo) {
-      return apiPriceInfo.totalProductPrice;
-    }
-    return selectedTotalProductPrice;
-  }, [selectedItems.length, selectedTotalProductPrice, apiPriceInfo]);
+  // 선택된 상품의 총 판매 가격 (할인가)
+  const selectedTotalSalePrice = selectedItems.reduce(
+    (sum, item) => sum + (item.salePrice || 0) * (item.quantity || 0),
+    0
+  );
 
-  const membershipDiscount = useMemo(() => {
-    if (selectedItems.length === 0 && apiPriceInfo) {
-      return apiPriceInfo.membershipDiscount;
-    }
-    return Math.floor(selectedTotalProductPrice * 0.1);
-  }, [selectedItems.length, selectedTotalProductPrice, apiPriceInfo]);
+  // 총 가격은 선택된 상품의 총 가격과 같음
+  const totalProductPrice = selectedTotalProductPrice;
 
-  const shippingFee = useMemo(() => {
-    return apiPriceInfo?.shippingFee || 0;
-  }, [apiPriceInfo]);
+  // 총 할인된 가격은 선택된 상품의 총 가격 - 선택된 상품의 총 판매 가격
+  const membershipDiscount = selectedTotalProductPrice - selectedTotalSalePrice;
 
-  const totalPayment = useMemo(() => {
-    if (selectedItems.length === 0 && apiPriceInfo) {
-      return apiPriceInfo.totalPaymentPrice;
+  // 배송비는 브랜드별로 1회만 (같은 브랜드 상품은 배송비 중복 부과 방지)
+  const shippingFee = (() => {
+    const feeByBrand = new Map<number | string, number>();
+    for (const item of selectedItems) {
+      const key = item.brandId ?? item.brandName ?? '';
+      if (key === '') continue;
+      if (!feeByBrand.has(key)) {
+        feeByBrand.set(key, item.shippingFee ?? 0);
+      }
     }
-    return totalProductPrice - membershipDiscount + shippingFee;
-  }, [
-    selectedItems.length,
-    totalProductPrice,
-    membershipDiscount,
-    shippingFee,
-    apiPriceInfo,
-  ]);
+    return [...feeByBrand.values()].reduce((a, b) => a + b, 0);
+  })();
+
+  // 총 결제 금액은 선택된 상품의 판매 가격 + 배송비
+  const totalPayment = selectedTotalSalePrice + shippingFee;
 
   return {
     totalProductPrice,

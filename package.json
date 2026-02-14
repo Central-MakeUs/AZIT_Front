@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "postinstall": "lefthook install",
-    "format": "prettier --cache --write .",
+    "format": "prettier --cache --write . && turbo run lint -- --fix",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=web",

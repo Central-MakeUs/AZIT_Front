@@ -1,13 +1,13 @@
-import { stackflow } from '@stackflow/react';
 import { basicUIPlugin } from '@stackflow/plugin-basic-ui';
-import { basicRendererPlugin } from '@stackflow/plugin-renderer-basic';
 import { historySyncPlugin } from '@stackflow/plugin-history-sync';
+import { basicRendererPlugin } from '@stackflow/plugin-renderer-basic';
+import { stackflow } from '@stackflow/react';
 
 import '@stackflow/plugin-basic-ui/index.css';
 
-import { routes } from './config';
-import { transformRoutes } from './utils';
-import { AuthInitializer } from '../providers/AuthInitializer';
+import { AuthInitializer } from '@/app/providers/AuthInitializer';
+import { routes } from '@/app/routes/config';
+import { transformRoutes } from '@/app/routes/utils';
 
 const { activities, routeMap } = transformRoutes(routes);
 
@@ -33,5 +33,5 @@ export const { Stack, useFlow } = stackflow({
     },
   ],
   activities,
-  initialActivity: () => 'HomePage',
+  initialActivity: () => 'StorePage',
 });

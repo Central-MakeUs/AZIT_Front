@@ -1,5 +1,5 @@
-import { linkBridge, type BridgeStore } from '@webview-bridge/web';
 import type { AppBridge, AppPostMessageSchema } from '@azit/bridge';
+import { linkBridge, type BridgeStore } from '@webview-bridge/web';
 
 /**
  * Web -> Native 및 Native -> Web 브릿지 설정

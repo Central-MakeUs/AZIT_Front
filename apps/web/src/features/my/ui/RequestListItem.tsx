@@ -1,8 +1,10 @@
 import { AlertDialog } from '@azit/design-system/alert-dialog';
-import { memberQueries } from '@/shared/api/queries';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import * as styles from '../styles/RequestListItem.css';
+
+import * as styles from '@/features/my/styles/RequestListItem.css';
+
 import { formatJoinDate } from '@/shared/lib/formatters';
+import { memberQueries } from '@/shared/queries';
 
 interface RequestListItemProps {
   crewId: number;

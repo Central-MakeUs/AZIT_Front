@@ -1,7 +1,7 @@
 import { auth } from '@/shared/api/apiClient';
-import { END_POINT } from '@/shared/constants/endpoint';
-import type { UpdateDeliveryAddressRequest } from '@/shared/api/models';
 import type { ApiResponse } from '@/shared/api/baseTypes';
+import type { UpdateDeliveryAddressRequest } from '@/shared/api/models/address';
+import { END_POINT } from '@/shared/constants/endpoint';
 
 export const updateDeliveryAddress = (
   addressId: number,

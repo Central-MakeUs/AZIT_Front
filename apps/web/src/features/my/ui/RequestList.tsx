@@ -1,6 +1,6 @@
 import type { MemberRequestItem } from '@/features/my/model/types';
-import { RequestListItem } from './RequestListItem';
-import * as styles from '../styles/RequestList.css';
+import * as styles from '@/features/my/styles/RequestList.css';
+import { RequestListItem } from '@/features/my/ui/RequestListItem';
 
 interface RequestListProps {
   crewId: number;

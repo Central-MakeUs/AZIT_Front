@@ -1,6 +1,7 @@
-import type { StoreProductItem } from '@/shared/api/models';
-import { StoreGridItem } from './StoreGridItem';
-import * as styles from '../styles/StoreGrid.css';
+import * as styles from '@/features/store/styles/StoreGrid.css';
+import { StoreGridItem } from '@/features/store/ui/StoreGridItem';
+
+import type { StoreProductItem } from '@/shared/api/models/store';
 
 interface StoreGridProps {
   products: StoreProductItem[];

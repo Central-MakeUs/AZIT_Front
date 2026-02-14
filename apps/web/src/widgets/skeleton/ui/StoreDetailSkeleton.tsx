@@ -1,4 +1,4 @@
-import * as styles from '../styles/StoreDetailSkeleton.css';
+import * as styles from '@/widgets/skeleton/styles/StoreDetailSkeleton.css';
 
 export function StoreDetailSkeleton() {
   return (

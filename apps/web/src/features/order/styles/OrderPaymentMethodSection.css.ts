@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css';
 import { vars } from '@azit/design-system';
+import { style } from '@vanilla-extract/css';
 
 export const paymentMethodSection = style({
   display: 'flex',
@@ -26,15 +26,35 @@ export const paymentMethodContainer = style({
   width: '100%',
 });
 
-export const paymentMethodCard = style({
-  position: 'absolute',
-  border: `0.5px solid ${vars.colors.gray20}`,
+const paymentMethodCardBase = {
+  position: 'absolute' as const,
   borderRadius: '12px',
   height: '52px',
   left: 0,
   top: 0,
   width: '100%',
-  overflow: 'hidden',
+  overflow: 'hidden' as const,
+};
+
+export const paymentMethodCard = style({
+  ...paymentMethodCardBase,
+  border: `0.5px solid ${vars.colors.gray20}`,
+  cursor: 'pointer',
+});
+
+export const paymentMethodCardDisabled = style({
+  ...paymentMethodCardBase,
+  border: `0.5px solid ${vars.colors.gray20}`,
+  opacity: 0.5,
+  filter: 'grayscale(1)',
+  cursor: 'not-allowed',
+});
+
+export const paymentMethodCardSelected = style({
+  ...paymentMethodCardBase,
+  border: `1px solid ${vars.colors.blue80}`,
+  backgroundColor: vars.colors.blue10,
+  cursor: 'pointer',
 });
 
 export const paymentMethodContent = style({
@@ -48,7 +68,7 @@ export const paymentMethodContent = style({
 
 export const paymentLogo = style({
   height: '25px',
-  width: '67px',
+  width: 'fit-content',
   borderRadius: '500px',
   position: 'relative',
   overflow: 'hidden',
