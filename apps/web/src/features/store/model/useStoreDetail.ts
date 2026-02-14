@@ -49,14 +49,11 @@ export function useStoreDetail({
     const imageUrl =
       product.slideImageUrls?.[0] ?? product.detailImageUrls?.[0] ?? '';
     shareWithKakao({
-      title: `[AZIT 스토어] ${product.productName} 크루 전용 특가 도착!
-오직 AZIT 크루에게만 제공되는 단독 최저가! 지금 바로 앱에서 확인하고 혜택을 누려보세요.`,
+      title: '[AZIT 스토어]',
       imageUrl,
       url: window.location.href,
-      productName: product.productName ?? '',
-      regularPrice: product.basePrice ?? 0,
-      discountRate: product.discountRate ?? 0,
-      discountPrice: product.salePrice ?? 0,
+      description: `${product.productName} 크루 전용 특가 도착!
+      오직 AZIT 크루에게만 제공되는 단독 최저가! 지금 바로 앱에서 확인하고 혜택을 누려보세요.`,
     });
   }
 
