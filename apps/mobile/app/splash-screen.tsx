@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as SplashScreen from 'expo-splash-screen';
+
+const fadeAnim = new Animated.Value(1);
 
 export default function CustomAnimatedSplash({
   onFinish,
@@ -8,25 +11,39 @@ export default function CustomAnimatedSplash({
   onFinish: () => void;
 }) {
   useEffect(() => {
-    const timer = setTimeout(onFinish, 2000);
-    return () => clearTimeout(timer);
+    const showSplash = async () => {
+      try {
+        await SplashScreen.hideAsync();
+      } catch (error) {
+        console.error('Failed to hide splash screen', error);
+      }
+
+      setTimeout(() => {
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start(() => {
+          onFinish();
+        });
+      }, 1000);
+    };
+    showSplash();
   }, [onFinish]);
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <LinearGradient
         colors={['#003483', '#000b1d']}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={StyleSheet.absoluteFill}
       />
-
       <Image
-        source={require('../assets/images/splash_bg_symbol.svg')}
+        source={require('../assets/images/splash-bg-symbol.png')}
         style={styles.symbolImage}
         resizeMode="stretch"
       />
-
       <View style={styles.logoContainer}>
         <Image
           source={require('../assets/images/splash-icon.png')}
@@ -34,15 +51,21 @@ export default function CustomAnimatedSplash({
           resizeMode="contain"
         />
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 9999,
   },
   logoContainer: {
     alignItems: 'center',
