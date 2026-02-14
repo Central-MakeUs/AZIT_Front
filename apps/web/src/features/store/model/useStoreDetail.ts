@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
+import { showCartError } from '@/features/cart/lib/showCartError';
 import { useAddToCart } from '@/features/cart/model/useCartAction';
 
 import type { KakaoShareOptions } from '@/shared/lib/useKakaoShare';
@@ -136,36 +137,48 @@ export function useStoreDetail({
       return;
     }
     if (!product?.id) return;
-    const promises = selectedItems.map((item) =>
-      addItemAsync({
-        productId: product.id,
-        productSkuId: item.skuId,
-        quantity: item.quantity,
-      })
-    );
-    try {
-      await Promise.all(promises);
+
+    let hadFailure = false;
+    for (const item of [...selectedItems]) {
+      try {
+        await addItemAsync({
+          productId: product.id,
+          productSkuId: item.skuId,
+          quantity: item.quantity,
+        });
+        setSelectedItems((prev) => prev.filter((i) => i.id !== item.id));
+      } catch {
+        hadFailure = true;
+      }
+    }
+    if (hadFailure) {
+      showCartError();
+    } else {
       closeBottomSheetAndResetOption();
       onPurchaseMultiple?.();
-    } catch (error) {
-      console.error('장바구니 추가 실패:', error);
     }
   }
 
   async function handleAddToCart() {
     if (!product?.id || selectedItems.length === 0) return;
-    const promises = selectedItems.map((item) =>
-      addItemAsync({
-        productId: product.id,
-        productSkuId: item.skuId,
-        quantity: item.quantity,
-      })
-    );
-    try {
-      await Promise.all(promises);
+
+    let hadFailure = false;
+    for (const item of [...selectedItems]) {
+      try {
+        await addItemAsync({
+          productId: product.id,
+          productSkuId: item.skuId,
+          quantity: item.quantity,
+        });
+        setSelectedItems((prev) => prev.filter((i) => i.id !== item.id));
+      } catch {
+        hadFailure = true;
+      }
+    }
+    if (hadFailure) {
+      showCartError();
+    } else {
       closeBottomSheetAndResetOption();
-    } catch (error) {
-      console.error('장바구니 추가 실패:', error);
     }
   }
 
