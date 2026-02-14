@@ -10,6 +10,7 @@ export interface DropdownProps {
   options: DropdownOption[];
   value?: string;
   onValueChange?: (value: string) => void;
+  isPlaceholder?: boolean;
 }
 
 export function Dropdown({
@@ -17,14 +18,17 @@ export function Dropdown({
   options,
   value,
   onValueChange,
+  isPlaceholder: isPlaceholderProp,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string | undefined>(value);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const isPlaceholder = isPlaceholderProp ?? selectedValue === undefined;
   const selectedOption = options.find((opt) => opt.value === selectedValue);
-  const displayText = selectedOption?.label || placeholder;
-  const isPlaceholder = !selectedOption;
+  const displayText = isPlaceholder
+    ? placeholder
+    : (selectedOption?.label ?? placeholder);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -66,7 +70,7 @@ export function Dropdown({
         <span
           className={`${styles.iconWrapper} ${isOpen ? styles.iconOpen : ''}`}
         >
-          <ChevronDownIcon />
+          <ChevronDownIcon color="secondary" />
         </span>
       </button>
 
@@ -76,11 +80,7 @@ export function Dropdown({
             <button
               key={option.value}
               type="button"
-              className={`${styles.dropdownItem} ${
-                selectedValue === option.value
-                  ? styles.dropdownItemSelected
-                  : ''
-              }`}
+              className={styles.dropdownItem}
               onClick={() => handleSelect(option)}
             >
               {option.label}
