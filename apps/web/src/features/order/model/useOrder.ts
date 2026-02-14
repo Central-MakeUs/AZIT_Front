@@ -8,6 +8,7 @@ import { PAYMENT_METHOD_MAP } from '@/shared/constants/order';
 import { parseOrderParams } from '@/shared/lib/orderParams';
 import type { OrderPageParams } from '@/shared/lib/orderParams';
 import { orderQueries } from '@/shared/queries/order';
+import { toast } from '@/shared/ui/toast';
 
 const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
 
@@ -64,11 +65,11 @@ export function useOrder(options: UseOrderOptions = {}) {
     if (!result) return;
     const delivery = result.deliveryInfo;
     if (!delivery) {
-      // TODO 토스트 - 배송지를 선택해주세요
+      toast.error('배송지를 선택해주세요');
       return;
     }
     if (selectedPaymentCode === BANK_TRANSFER_CODE && !depositorName.trim()) {
-      // TODO 토스트 - 입금자명을 입력해주세요
+      toast.error('입금자명을 입력해주세요');
       return;
     }
 
@@ -91,9 +92,11 @@ export function useOrder(options: UseOrderOptions = {}) {
       if (response.ok && response.data?.result) {
         onOrderSuccess?.(response.data.result);
       }
-      // TODO response.ok === false일 때 토스트 에러 처리
+      if (!response.ok) {
+        toast.error('주문에 실패했어요');
+      }
     } catch {
-      // TODO 네트워크 에러 등.. 토스트 처리
+      toast.error('주문에 실패했어요');
     }
   };
 
