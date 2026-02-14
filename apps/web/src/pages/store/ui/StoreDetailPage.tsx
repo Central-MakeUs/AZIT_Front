@@ -27,6 +27,7 @@ import {
   StoreDetailItem,
 } from '@/features/store/ui';
 
+import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
@@ -43,10 +44,10 @@ export function StoreDetailPage() {
     isPending,
     isError,
     isBottomSheetOpen,
-    selectedOption,
-    quantity,
-    setQuantity,
+    selectedItems,
     options,
+    shippingFee,
+    expectedPayment,
     isAddToCartPending,
     handleShare,
     handleOptionSelectClick,
@@ -54,10 +55,13 @@ export function StoreDetailPage() {
     handleAddToCart,
     handlePurchaseClick,
     closeBottomSheetAndResetOption,
+    setItemQuantity,
+    removeItem,
   } = useStoreDetail({
     productId: id ?? '',
     shareWithKakao,
     onPurchase: ({ skuId, quantity }) => push('OrderPage', { skuId, quantity }),
+    onPurchaseMultiple: () => push('CartPage', {}),
   });
 
   if (!id) {
@@ -163,27 +167,50 @@ export function StoreDetailPage() {
           placeholder="옵션을 선택해주세요"
           options={options}
           onValueChange={handleOptionSelect}
+          isPlaceholder={true}
         />
-        <StoreDetailItem
-          option={selectedOption}
-          salePrice={product.salePrice}
-          quantity={quantity}
-          onQuantityChange={setQuantity}
-          onCancel={closeBottomSheetAndResetOption}
-        />
-        {selectedOption && (
-          <div className={styles.buttonWrapper}>
-            <Button
-              size="large"
-              state="outline"
-              onClick={handleAddToCart}
-              disabled={isAddToCartPending}
-            >
-              {isAddToCartPending ? '추가 중...' : '장바구니'}
-            </Button>
-            <Button size="large" state="active" onClick={handlePurchaseClick}>
-              구매하기
-            </Button>
+        <div className={styles.selectedOptionList}>
+          {selectedItems.map((item) => (
+            <StoreDetailItem
+              key={item.id}
+              option={item.optionLabel}
+              salePrice={product.salePrice}
+              shippingDate={product.expectedShippingDate}
+              quantity={item.quantity}
+              onQuantityChange={(q) => setItemQuantity(item.id, q)}
+              onCancel={() => removeItem(item.id)}
+            />
+          ))}
+        </div>
+        {selectedItems.length > 0 && (
+          <div className={styles.selectedOptionContainer}>
+            <Divider />
+            <div className={styles.expectFeeContainer}>
+              <p className={styles.expectFeeLabel}>예상 결제 금액</p>
+              <p className={styles.expectFeeAmount}>
+                <span className={styles.expectFeeAmountValue}>
+                  {formatPrice(expectedPayment)}
+                </span>
+                <span className={styles.shippingFeeValue}>
+                  {shippingFee > 0
+                    ? `배송비 ${formatPrice(shippingFee)}`
+                    : '무료배송'}
+                </span>
+              </p>
+            </div>
+            <div className={styles.buttonWrapper}>
+              <Button
+                size="large"
+                state="outline"
+                onClick={handleAddToCart}
+                disabled={isAddToCartPending}
+              >
+                {isAddToCartPending ? '추가 중...' : '장바구니'}
+              </Button>
+              <Button size="large" state="active" onClick={handlePurchaseClick}>
+                구매하기
+              </Button>
+            </div>
           </div>
         )}
       </BottomSheet>

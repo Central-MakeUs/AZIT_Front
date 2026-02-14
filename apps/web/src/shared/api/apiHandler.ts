@@ -34,22 +34,24 @@ export async function apiHandler<T, E = ApiResponseWithoutResult>(
   } catch (error) {
     if (error instanceof HTTPError) {
       const res = error.response;
+      let body: E;
 
       try {
-        const body = (await res.clone().json()) as E;
-        return {
-          ok: false,
-          status: res.status,
-          error: body,
-        };
+        body = (await res.clone().json()) as E;
       } catch {
-        // TODO: 기술적 에러 관련 UI 처리
-        // JSON 파싱 에러 (기술적 에러)
         throw error;
       }
+
+      const message =
+        typeof body === 'object' &&
+        body !== null &&
+        'message' in body &&
+        typeof (body as { message?: unknown }).message === 'string'
+          ? (body as { message: string }).message
+          : '요청에 실패했습니다';
+      throw new Error(message);
     }
 
-    // 네트워크 에러 등 (기술적 에러)
     throw error;
   }
 }
