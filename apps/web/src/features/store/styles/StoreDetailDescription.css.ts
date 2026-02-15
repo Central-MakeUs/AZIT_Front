@@ -52,6 +52,7 @@ export const detailImage = style({
   height: 'auto',
   display: 'block',
   objectFit: 'contain',
+  objectPosition: 'top',
 });
 
 export const moreInfoButton = style([
