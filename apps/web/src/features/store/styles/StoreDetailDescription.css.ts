@@ -51,6 +51,13 @@ export const detailImage = style({
   width: '100%',
   height: 'auto',
   display: 'block',
+  objectFit: 'cover',
+  objectPosition: 'top',
+});
+
+export const detailImageWithMoreInfo = style({
+  width: '100%',
+  height: '500px',
   objectFit: 'contain',
   objectPosition: 'top',
 });
