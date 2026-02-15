@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { WebView } from '@/shared/lib/bridge';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
-import { Alert, Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import * as Linking from 'expo-linking';
 import { WEBVIEW_URL } from '@/shared/constants/url';
 import CustomAnimatedSplash from './splash-screen';
@@ -70,10 +70,6 @@ export default function App() {
   if (!initialUrl) {
     throw new Error('webview url is not set');
   }
-
-  useEffect(() => {
-    Alert.alert(currentUrl);
-  }, [currentUrl]);
 
   const isHomePath = currentUrl.includes('/auth');
 
