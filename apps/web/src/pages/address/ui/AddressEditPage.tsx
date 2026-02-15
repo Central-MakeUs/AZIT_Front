@@ -3,7 +3,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -16,22 +16,13 @@ import { addressQueries, useUpdateAddress } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
-export function AddressEditPage() {
+export function AddressEditPage({ params }: { params: { id: number } }) {
   const { pop, push, replace } = useFlow();
   const updateMutation = useUpdateAddress();
 
-  const addressId = useMemo(() => {
-    const pathMatch = window.location.pathname.match(/\/address\/(\d+)\/edit/);
-    return pathMatch ? parseInt(pathMatch[1], 10) : null;
-  }, []);
+  const { id: addressId } = params;
 
-  useEffect(() => {
-    if (!addressId) {
-      replace('NotFoundPage', {});
-    }
-  }, [addressId, replace]);
-
-  const { data: address } = useQuery({
+  const { data: address, isLoading } = useQuery({
     ...addressQueries.addressesQuery(),
     select: (data) => {
       if (!data.ok) return;
@@ -43,6 +34,12 @@ export function AddressEditPage() {
       return restData;
     },
   });
+
+  useEffect(() => {
+    if (!isLoading && !address) {
+      replace('NotFoundPage', {});
+    }
+  }, [isLoading, address, replace]);
 
   const { formValues, setFormValues, isValidForm } = useAddressForm(address);
 
