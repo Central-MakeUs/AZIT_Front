@@ -6,7 +6,7 @@ export const infoContainer = style({
   flexDirection: 'column',
   gap: '12px',
   alignItems: 'flex-start',
-  width: '249px',
+  width: '100%',
 });
 
 export const textContainer = style({
@@ -29,6 +29,7 @@ export const productName = style([
   typography.body.b2,
   {
     color: vars.colors.black,
+    textWrap: 'wrap',
     width: '100%',
   },
 ]);
@@ -37,7 +38,7 @@ export const priceContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: '130px',
+  width: '100%',
 });
 
 export const originalPrice = style([
