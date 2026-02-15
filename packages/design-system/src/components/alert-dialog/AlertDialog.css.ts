@@ -16,7 +16,6 @@ export const content = style({
   transform: 'translate(-50%, -50%)',
   width: '90%',
   maxWidth: '335px',
-  minHeight: '175px',
   backgroundColor: vars.colors.white,
   borderRadius: '16px',
   padding: '16px',
