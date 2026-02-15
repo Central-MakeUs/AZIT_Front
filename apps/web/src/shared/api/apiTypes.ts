@@ -1112,6 +1112,8 @@ export interface components {
       id?: number;
       /** @description 옵션값 명칭 */
       value?: string;
+      /** @description 품절 여부 */
+      isSoldOut?: boolean;
     };
     ProductDetailResponse: {
       /**
@@ -1180,6 +1182,8 @@ export interface components {
       stockQuantity?: number;
       /** @description 매칭되는 옵션값 ID 리스트 (정렬된 순서) */
       optionValueIds?: number[];
+      /** @description 품절 여부 */
+      isSoldOut?: boolean;
     };
     CommonResponseSliceResponseOrderListResponse: {
       code?: string;
@@ -1188,6 +1192,11 @@ export interface components {
     };
     /** @description 주문 상품 목록 */
     OrderItemResponse: {
+      /**
+       * Format: int64
+       * @description 카트 아이템 ID
+       */
+      id?: number;
       /**
        * Format: int64
        * @description 상품 ID
@@ -1206,6 +1215,16 @@ export interface components {
       optionDescription?: string;
       /** @description 구매 당시 상품 대표 이미지 url */
       productImageUrl?: string;
+      /**
+       * Format: int64
+       * @description 상품 정가
+       */
+      basePrice?: number;
+      /**
+       * Format: int64
+       * @description 상품 판매가
+       */
+      salePrice?: number;
       /**
        * Format: int64
        * @description 총 판매가
@@ -1446,6 +1465,12 @@ export interface components {
        * @description 크루 ID
        */
       crewId?: number;
+      /** @description 크루 이름 */
+      crewName?: string;
+      /** @description 크루 초대코드 */
+      invitationCode?: string;
+      /** @description 크루 프로필 이미지 url */
+      crewImageUrl?: string;
       /**
        * @description 크루 내 역할
        * @enum {string}

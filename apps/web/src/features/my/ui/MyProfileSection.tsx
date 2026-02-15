@@ -17,7 +17,6 @@ const ROLE_CHIP_TYPE_MAP: Record<MemberRole, ChipType> = {
 };
 
 export function MyProfileSection({ profile }: MyProfileSectionProps) {
-  console.log(profile);
   return (
     <section className={styles.container}>
       <div className={styles.profileRow}>
