@@ -1,4 +1,6 @@
 export { MyProfileSection } from './MyProfileSection';
+export { MyCrewInfoSection } from './MyCrewInfoSection';
+export type { MyCrewInfoSectionProps } from './MyCrewInfoSection';
 export { MyMenuSection } from './MyMenuSection';
 export { MyMenuItem } from './MyMenuItem';
 export { MypageStatCard } from './MypageStatCard';
