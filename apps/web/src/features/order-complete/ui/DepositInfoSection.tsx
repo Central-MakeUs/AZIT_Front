@@ -4,6 +4,8 @@ import { CopyIcon } from '@azit/design-system/icon';
 import type { DepositAccountInfo } from '@/features/order/api/types';
 import * as styles from '@/features/order-complete/styles/DepositInfoSection.css.ts';
 
+import { toast } from '@/shared/ui/toast';
+
 interface DepositInfoSectionProps extends DepositAccountInfo {
   depositorName: string;
 }
@@ -17,6 +19,7 @@ export function DepositInfoSection({
 }: DepositInfoSectionProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber?.replace(/-/g, '') ?? '');
+    toast.success('계좌번호가 복사되었습니다.');
   };
 
   return (
