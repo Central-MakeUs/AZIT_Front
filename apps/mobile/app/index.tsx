@@ -71,10 +71,6 @@ export default function App() {
     throw new Error('webview url is not set');
   }
 
-  useEffect(() => {
-    Alert.alert(currentUrl);
-  }, [currentUrl]);
-
   const isHomePath = currentUrl.includes('/auth');
 
   return (
