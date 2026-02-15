@@ -69,7 +69,7 @@ export function StoreDetailDescription({
             <img
               src={detailImageUrls[0]}
               alt="상세 1"
-              className={styles.detailImage}
+              className={`${!isMoreInfoOpen ? styles.detailImageWithMoreInfo : styles.detailImage}`}
             />
             {!isMoreInfoOpen && (
               <button
