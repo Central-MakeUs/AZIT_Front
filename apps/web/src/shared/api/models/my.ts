@@ -1,3 +1,9 @@
 import type { components } from '@/shared/api/apiTypes';
 
-export type MyInfoResult = Required<components['schemas']['MyInfoResponse']>;
+type MyInfoResponseSchema = components['schemas']['MyInfoResponse'];
+
+export type MyInfoResult = Required<
+  Omit<MyInfoResponseSchema, 'invitationCode'>
+> & {
+  invitationCode: string | null;
+};
