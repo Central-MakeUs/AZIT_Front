@@ -58,7 +58,7 @@ export const detailImage = style({
 export const detailImageWithMoreInfo = style({
   width: '100%',
   height: '500px',
-  objectFit: 'contain',
+  objectFit: 'cover',
   objectPosition: 'top',
 });
 
