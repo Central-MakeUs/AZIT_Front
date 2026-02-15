@@ -49,8 +49,9 @@ export const listItem = style({
 
 export const detailImage = style({
   width: '100%',
+  height: '100%',
   display: 'block',
-  objectFit: 'contain',
+  objectFit: 'cover',
 });
 
 export const moreInfoButton = style([
@@ -72,5 +73,11 @@ export const moreInfoButton = style([
     padding: '0 20px',
     color: vars.colors.blue80,
     textAlign: 'center',
+    top: 386,
   },
 ]);
+
+export const listItemWithMoreInfo = style({
+  height: '500px',
+  overflow: 'hidden',
+});
