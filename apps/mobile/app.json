@@ -2,7 +2,7 @@
   "expo": {
     "name": "AZIT",
     "slug": "azit",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "azit",
@@ -22,6 +22,7 @@
       "appleTeamId": "4U9PQRRKLB"
     },
     "android": {
+      "versionCode": 3,
       "intentFilters": [
         {
           "action": "VIEW",
