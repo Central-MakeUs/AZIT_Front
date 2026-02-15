@@ -78,7 +78,7 @@ export const priceContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: '102px',
+  width: '100%',
 });
 
 export const originalPrice = style([
@@ -87,6 +87,9 @@ export const originalPrice = style([
     color: vars.colors.gray40,
     textDecoration: 'line-through',
     width: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 ]);
 
@@ -108,5 +111,9 @@ export const discountedPrice = style([
   typography.body.b2,
   {
     color: vars.colors.black,
+    width: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 ]);
