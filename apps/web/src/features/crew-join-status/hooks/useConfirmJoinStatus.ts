@@ -20,7 +20,7 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
 
       if (data.ok) {
         const redirectActivity =
-          status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
+          status === CREW_JOIN_STATUS.JOINED ? 'StorePage' : 'OnboardingPage';
         replace(redirectActivity, {}, { animate: false });
       } else {
         // TODO: 토스트 처리

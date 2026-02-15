@@ -7,7 +7,11 @@ import * as styles from '@/pages/my/styles/MyPage.css';
 
 import { WithdrawButton } from '@/features/auth/ui';
 import { getMyPageMenu } from '@/features/my/model/menu';
-import { MyProfileSection, MyMenuSection } from '@/features/my/ui';
+import {
+  MyProfileSection,
+  MyCrewInfoSection,
+  MyMenuSection,
+} from '@/features/my/ui';
 
 import { memberQueries } from '@/shared/queries';
 import { useAuthStore } from '@/shared/store/auth';
@@ -35,6 +39,11 @@ export function MyPage() {
         <div className={styles.mainContainer}>
           <MyProfileSection profile={myInfo} />
           <div className={styles.menuSectionWrapper}>
+            <MyCrewInfoSection
+              crewName={myInfo.crewName}
+              crewImageUrl={myInfo.crewImageUrl}
+              inviteCode={myInfo.invitationCode}
+            />
             {filteredMenu.map((section) => (
               <MyMenuSection key={section.id} section={section} />
             ))}

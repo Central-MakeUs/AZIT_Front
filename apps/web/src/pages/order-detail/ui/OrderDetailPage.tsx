@@ -115,6 +115,7 @@ export function OrderDetailPage() {
             </>
           )}
           <OrderDeliveryInfoSection
+            deliveryStatus={result.status as OrderStatus}
             deliveryCompany={shippingInfo?.courier ?? '배송 준비 중'}
             trackingNumber={shippingInfo?.trackingNumber ?? '-'}
             onCheckDelivery={handleCheckDelivery}

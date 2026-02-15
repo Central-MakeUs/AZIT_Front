@@ -32,54 +32,62 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
     if (isInitialized) return;
 
     const initAuth = async () => {
-      const response = await postReissueToken();
+      try {
+        const response = await postReissueToken();
 
-      if (response.ok) {
-        const { accessToken, status, crewId } = response.data.result;
-        setAccessToken(accessToken);
+        if (response.ok) {
+          const { accessToken, status, crewId } = response.data.result;
+          setAccessToken(accessToken);
 
-        switch (status) {
-          case 'PENDING_TERMS':
-            if (currentActivity !== 'TermAgreePage') {
-              redirectTargetRef.current = 'TermAgreePage';
-              replace('TermAgreePage', {}, { animate: false });
-            }
-            break;
-          case 'PENDING_ONBOARDING':
-            if (currentActivity !== 'OnboardingPage') {
-              redirectTargetRef.current = 'OnboardingPage';
-              replace('OnboardingPage', {}, { animate: false });
-            }
-            break;
-          case 'ACTIVE':
-            if (inactiveActivities.includes(currentActivity)) {
-              redirectTargetRef.current = 'StorePage';
-              replace('StorePage', {}, { animate: false });
-              // 심사 위해 임시로 스토어 페이지를 홈페이지로 사용
-            }
-            break;
-          case 'WAITING_FOR_APPROVE':
-          case 'APPROVED_PENDING_CONFIRM':
-          case 'REJECTED_PENDING_CONFIRM':
-            if (currentActivity !== 'CrewJoinStatusPage') {
-              redirectTargetRef.current = 'CrewJoinStatusPage';
-              replace('CrewJoinStatusPage', { crewId }, { animate: false });
-            }
-            break;
-        }
-      } else {
-        if (response.status === 401) {
-          if (currentActivity !== 'LoginPage') {
-            redirectTargetRef.current = 'LoginPage';
-            replace('LoginPage', {}, { animate: false });
+          switch (status) {
+            case 'PENDING_TERMS':
+              if (currentActivity !== 'TermAgreePage') {
+                redirectTargetRef.current = 'TermAgreePage';
+                replace('TermAgreePage', {}, { animate: false });
+              }
+              break;
+            case 'PENDING_ONBOARDING':
+              if (currentActivity !== 'OnboardingPage') {
+                redirectTargetRef.current = 'OnboardingPage';
+                replace('OnboardingPage', {}, { animate: false });
+              }
+              break;
+            case 'ACTIVE':
+              if (inactiveActivities.includes(currentActivity)) {
+                redirectTargetRef.current = 'StorePage';
+                replace('StorePage', {}, { animate: false });
+                // 심사 위해 임시로 스토어 페이지를 홈페이지로 사용
+              }
+              break;
+            case 'WAITING_FOR_APPROVE':
+            case 'APPROVED_PENDING_CONFIRM':
+            case 'REJECTED_PENDING_CONFIRM':
+              if (currentActivity !== 'CrewJoinStatusPage') {
+                redirectTargetRef.current = 'CrewJoinStatusPage';
+                replace('CrewJoinStatusPage', { crewId }, { animate: false });
+              }
+              break;
           }
         } else {
-          console.error(response.error);
+          if (response.status === 401) {
+            if (currentActivity !== 'LoginPage') {
+              redirectTargetRef.current = 'LoginPage';
+              replace('LoginPage', {}, { animate: false });
+            }
+          } else {
+            console.error(response.error);
+          }
         }
+      } catch (error) {
+        console.error('토큰 재발급 실패:', error);
+        if (currentActivity !== 'LoginPage') {
+          redirectTargetRef.current = 'LoginPage';
+          replace('LoginPage', {}, { animate: false });
+        }
+      } finally {
+        setIsInitialized(true);
+        redirectTargetRef.current = null;
       }
-
-      setIsInitialized(true);
-      redirectTargetRef.current = null;
     };
 
     initAuth();

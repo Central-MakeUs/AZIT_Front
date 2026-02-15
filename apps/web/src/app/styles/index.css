@@ -70,3 +70,7 @@ p {
     'XROT' 0,
     'YROT' 0;
 }
+
+.azit-toast {
+  margin-bottom: 80px;
+}

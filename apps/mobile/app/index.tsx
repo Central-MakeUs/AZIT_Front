@@ -2,16 +2,18 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { WebView } from '@/shared/lib/bridge';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
-import { Platform } from 'react-native';
+import { Alert, Platform, StyleSheet } from 'react-native';
 import * as Linking from 'expo-linking';
 import { WEBVIEW_URL } from '@/shared/constants/url';
 import CustomAnimatedSplash from './splash-screen';
 import * as SplashScreen from 'expo-splash-screen';
+import { LinearGradient } from 'expo-linear-gradient';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
+  const [currentUrl, setCurrentUrl] = useState('');
   const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
   const [showSplash, setShowSplash] = useState(true);
 
@@ -69,10 +71,30 @@ export default function App() {
     throw new Error('webview url is not set');
   }
 
+  useEffect(() => {
+    Alert.alert(currentUrl);
+  }, [currentUrl]);
+
+  const isHomePath = currentUrl.includes('/auth');
+
   return (
     <SafeAreaProvider>
       {showSplash && <CustomAnimatedSplash onFinish={handleSplashFinish} />}
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: isHomePath ? 'transparent' : '#ffffff',
+          paddingBottom: Platform.OS === 'ios' ? -24 : 0,
+        }}
+      >
+        {isHomePath && (
+          <LinearGradient
+            colors={['#003483', '#000b1d']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+        )}
         <WebView
           ref={webViewRef}
           source={{ uri: initialUrl }}
@@ -83,6 +105,9 @@ export default function App() {
           thirdPartyCookiesEnabled={true}
           originWhitelist={['*']}
           userAgent={Platform.OS === 'ios' ? `ios azitwebview` : 'azitwebview'}
+          onNavigationStateChange={(navState) => {
+            setCurrentUrl(navState.url);
+          }}
         />
       </SafeAreaView>
     </SafeAreaProvider>

@@ -4,6 +4,8 @@ import * as styles from '@/widgets/order-product-list/styles/OrderProductItem.cs
 
 import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
 
+import { formatPrice } from '@/shared/lib/formatters';
+
 type OrderProductListItem = OrderItem | OrderItemResponse;
 
 function isCheckoutItem(item: OrderProductListItem): item is OrderItem {
@@ -48,11 +50,11 @@ export function OrderProductItem({
             <Description.Value className={styles.priceContainer}>
               {showOriginalPrice && hasBasePrice && (
                 <span className={styles.originalPrice}>
-                  {basePrice.toLocaleString()}원
+                  {formatPrice(basePrice)}
                 </span>
               )}
               <span className={styles.discountedPrice}>
-                {salePrice.toLocaleString()}원
+                {formatPrice(salePrice)}
               </span>
             </Description.Value>
           </Description>

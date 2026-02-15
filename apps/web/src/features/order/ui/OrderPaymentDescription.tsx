@@ -5,6 +5,8 @@ import { Input } from '@azit/design-system/input';
 import type { DepositAccountInfo } from '@/features/order/api/types';
 import * as styles from '@/features/order/styles/OrderPaymentDescription.css';
 
+import { toast } from '@/shared/ui/toast';
+
 interface OrderPaymentDescriptionProps extends DepositAccountInfo {
   depositorName?: string;
   onDepositorNameChange?: (value: string) => void;
@@ -20,7 +22,9 @@ export function OrderPaymentDescription({
 }: OrderPaymentDescriptionProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber!.replace(/-/g, ''));
+    toast.success('계좌번호가 복사되었습니다.');
   };
+
   return (
     <div className={styles.container}>
       <Description className={styles.description}>

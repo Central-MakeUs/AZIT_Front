@@ -123,7 +123,7 @@ export function CartItem({ item }: CartItemProps) {
           />
           <div className={styles.priceWrapper}>
             <span className={styles.originalPrice}>
-              {formatPrice(originalPrice)}
+              {formatPrice(originalPrice * quantity)}
             </span>
             <span
               className={clsx(
@@ -131,7 +131,7 @@ export function CartItem({ item }: CartItemProps) {
                 isSoldOut && styles.discountedPriceSoldOut
               )}
             >
-              {formatPrice(discountedPrice)}
+              {formatPrice(discountedPrice * quantity)}
             </span>
           </div>
         </div>
