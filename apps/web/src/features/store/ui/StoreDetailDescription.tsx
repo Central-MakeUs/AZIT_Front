@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import * as styles from '@/features/store/styles/StoreDetailDescription.css';
 
+const MORE_INFO_HEIGHT_THRESHOLD = 500;
+
 interface StoreDetailDescriptionProps {
   description?: string;
   detailImageUrls?: string[];
@@ -12,28 +14,37 @@ export function StoreDetailDescription({
   description,
   detailImageUrls,
 }: StoreDetailDescriptionProps) {
-  const firstImageRef = useRef<HTMLImageElement>(null);
-  const moreInfoThreshold = 500;
+  const imageListRef = useRef<HTMLUListElement>(null);
   const hasMeasuredRef = useRef(false);
 
-  const isMoreInfoNotNeeded = () => {
-    if (!firstImageRef.current) return false;
-    const height = firstImageRef.current.getBoundingClientRect().height;
-    return height <= moreInfoThreshold;
-  };
-
-  const updateOpenStateByHeight = () => {
-    if (hasMeasuredRef.current || !firstImageRef.current) return;
-    hasMeasuredRef.current = true;
-    setIsMoreInfoOpen(isMoreInfoNotNeeded());
-  };
-
-  const [isMoreInfoOpen, setIsMoreInfoOpen] = useState(false);
+  const [isMoreInfoOpen, setIsMoreInfoOpen] = useState(true);
 
   const firstImageUrl = detailImageUrls?.[0];
   useEffect(() => {
     hasMeasuredRef.current = false;
   }, [firstImageUrl]);
+
+  useEffect(() => {
+    const listEl = imageListRef.current;
+    if (!listEl || !detailImageUrls?.length) return;
+
+    const checkHeight = () => {
+      if (hasMeasuredRef.current) return;
+      const height = listEl.getBoundingClientRect().height;
+      if (height > MORE_INFO_HEIGHT_THRESHOLD) {
+        hasMeasuredRef.current = true;
+        setIsMoreInfoOpen(false);
+      }
+    };
+
+    const observer = new ResizeObserver(() => {
+      requestAnimationFrame(checkHeight);
+    });
+    observer.observe(listEl);
+    requestAnimationFrame(checkHeight);
+
+    return () => observer.disconnect();
+  }, [detailImageUrls, firstImageUrl]);
 
   const hasContent =
     description || (detailImageUrls && detailImageUrls.length > 0);
@@ -50,17 +61,15 @@ export function StoreDetailDescription({
         />
       )}
       {detailImageUrls && detailImageUrls.length > 0 && (
-        <ul className={styles.list}>
+        <ul ref={imageListRef} className={styles.list}>
           <li
             key={detailImageUrls[0]}
             className={`${styles.listItem} ${!isMoreInfoOpen ? styles.listItemWithMoreInfo : ''}`}
           >
             <img
-              ref={firstImageRef}
               src={detailImageUrls[0]}
               alt="상세 1"
               className={styles.detailImage}
-              onLoad={() => requestAnimationFrame(updateOpenStateByHeight)}
             />
             {!isMoreInfoOpen && (
               <button
