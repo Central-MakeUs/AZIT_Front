@@ -42,7 +42,7 @@ export const memberQueries = {
       queryKey: memberQueries.joinRequestsKey(crewId),
       queryFn: () => getJoinRequests(crewId),
       staleTime: 1000 * 60 * 5,
-      refetchInterval: 1000 * 30,
+      refetchInterval: 1000 * 10,
       refetchIntervalInBackground: false, // 탭 포커스일 때만 refetch
     }),
   approveJoinRequest: mutationOptions({

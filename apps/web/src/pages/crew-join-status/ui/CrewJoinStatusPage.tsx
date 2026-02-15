@@ -22,6 +22,7 @@ export function CrewJoinStatusPage({
   const { data } = useQuery({
     ...crewQueries.joinStatusQuery(crewId),
     refetchOnMount: true,
+    refetchInterval: 10000, // 해당 페이지에 있을 때 10초마다 리패치
     enabled: crewId > 0,
     gcTime: 0,
   });
