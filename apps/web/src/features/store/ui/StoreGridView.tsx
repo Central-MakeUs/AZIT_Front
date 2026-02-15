@@ -5,7 +5,7 @@ import { StoreSkeleton } from '@/widgets/skeleton/ui';
 
 import { useStoreGrid } from '@/features/store/model/useStoreGrid';
 import * as styles from '@/features/store/styles/StoreGridView.css.ts';
-import { StoreBanner } from '@/features/store/ui/StoreBanner';
+// import { StoreBanner } from '@/features/store/ui/StoreBanner';
 import { StoreGrid } from '@/features/store/ui/StoreGrid';
 
 import { storeQueries } from '@/shared/queries';
@@ -28,9 +28,9 @@ export function StoreGridView() {
   return (
     <div ref={scrollRef} className={scrollContainer}>
       <div className={styles.mainContainer}>
-        <div className={styles.bannerSection}>
+        {/* <div className={styles.bannerSection}>
           <StoreBanner />
-        </div>
+        </div> */}
         <div className={styles.productsSection}>
           <Button size="small">전체</Button>
           {isPending ? <StoreSkeleton /> : <StoreGrid products={products} />}
