@@ -14,17 +14,18 @@ export function KakaoDeeplinkProvider({
 
     const targetPath = window.location.pathname + window.location.search;
     const deeplink = `azit://host${targetPath}`;
-    const storeUrl =
-      'https://apps.apple.com/kr/app/%EB%84%A4%EC%9D%B4%EB%B2%84-naver/id393499958';
+    // TODO: android, apple 스토어 리다이렉팅
+    // const storeUrl =
+    //   'https://apps.apple.com/kr/app/%EB%84%A4%EC%9D%B4%EB%B2%84-naver/id393499958';
 
-    const now = Date.now();
+    // const now = Date.now();
     window.location.href = deeplink;
 
-    setTimeout(() => {
-      if (Date.now() - now < 1500) {
-        window.location.href = storeUrl;
-      }
-    }, 1200);
+    // setTimeout(() => {
+    //   if (Date.now() - now < 1500) {
+    //     window.location.href = storeUrl;
+    //   }
+    // }, 1200);
   }, []);
 
   return <>{children}</>;
