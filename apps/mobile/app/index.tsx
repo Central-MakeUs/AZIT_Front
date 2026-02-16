@@ -100,7 +100,7 @@ export default function App() {
           sharedCookiesEnabled={true}
           thirdPartyCookiesEnabled={true}
           originWhitelist={['*']}
-          userAgent={Platform.OS === 'ios' ? `ios azitwebview` : 'azitwebview'}
+          applicationNameForUserAgent={'azitwebview'}
           onNavigationStateChange={(navState) => {
             setCurrentUrl(navState.url);
           }}
