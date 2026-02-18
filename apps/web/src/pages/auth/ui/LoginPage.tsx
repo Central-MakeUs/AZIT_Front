@@ -67,7 +67,7 @@ function AppleLogin({ onClick }: { onClick: () => void }) {
     <Button state="apple" onClick={onClick}>
       <div className={styles.textWrapper}>
         <img src="/icons/icon-apple.svg" alt="apple" />
-        <span>애플로 로그인</span>
+        <span>Apple로 로그인</span>
       </div>
     </Button>
   );
