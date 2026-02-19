@@ -1,7 +1,8 @@
-export { ScheduleMemberListItem } from './ScheduleMemberListItem';
+export { ScheduleParticipantListItem } from './ScheduleParticipantListItem';
 export { ScheduleDetailHeaderSection } from './ScheduleDetailHeaderSection';
 export { ScheduleDetailInfoSection } from './ScheduleDetailInfoSection';
 export { ScheduleDetailDescriptionSection } from './ScheduleDetailDescriptionSection';
 export { SchedulePreparationList } from './SchedulePreparationList';
 export { ScheduleParticipantList } from './ScheduleParticipantList';
+export { ScheduleParticipantTitle } from './ScheduleParticipantTitle';
 export { StaticMap } from './StaticMap';
