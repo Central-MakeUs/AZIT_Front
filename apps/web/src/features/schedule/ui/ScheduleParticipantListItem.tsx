@@ -1,4 +1,4 @@
-import * as styles from '@/features/schedule-detail/styles/ScheduleParticipantListItem.css';
+import * as styles from '@/features/schedule/styles/ScheduleParticipantListItem.css';
 
 import type { ScheduleParticipant } from '@/shared/mock/schedule';
 
