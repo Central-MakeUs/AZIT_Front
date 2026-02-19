@@ -15,4 +15,6 @@ export const placeholderContainer = style({
   borderRadius: '100%',
   backgroundColor: vars.colors.gray20,
   flexShrink: 0,
+  width: 'var(--profile-image-size, 96px)',
+  height: 'var(--profile-image-size, 96px)',
 });
