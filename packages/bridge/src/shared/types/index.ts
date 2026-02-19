@@ -5,11 +5,10 @@ import { POST_MESSAGE_EVENT } from '../constants';
  * Web 앱에서 Native 메서드를 호출할 때 사용하는 타입
  */
 export type AppBridge = {
-  getMessage(): Promise<"I'm from native">;
-  openInAppBrowser(url: string): Promise<void>;
   openExternalBrowser(url: string): Promise<void>;
   shareInviteCode(code: string, crewName: string): Promise<void>;
   shareSchedule(scheduleId: string): Promise<void>;
+  openNaverMap(address: string, lat: number, lng: number): Promise<void>;
 };
 
 /**
