@@ -5,7 +5,7 @@ export const container = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  gap: 12,
+  gap: 20,
   width: '100%',
   padding: '20px 20px 24px',
   backgroundColor: vars.colors.white,
