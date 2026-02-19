@@ -1,7 +1,10 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/features/schedule/styles/ScheduleParticipantList.css';
-import { ScheduleParticipantListItem } from '@/features/schedule/ui/ScheduleParticipantListItem';
+import {
+  ScheduleParticipantListItem,
+  ScheduleParticipantTitle,
+} from '@/features/schedule/ui';
 
 import type { ScheduleParticipant } from '@/shared/mock/schedule';
 
@@ -22,11 +25,10 @@ export function ScheduleParticipantList({
     <div className={styles.section}>
       <div className={styles.headerRow}>
         <div className={styles.titleBlock}>
-          <h3 className={styles.title}>참여 멤버</h3>
-          <p>
-            <span className={styles.count}>{participantCount}</span>
-            <span className={styles.countSuffix}>/{maxParticipants}</span>
-          </p>
+          <ScheduleParticipantTitle
+            participantCount={participantCount}
+            maxParticipants={maxParticipants}
+          />
         </div>
         <button
           type="button"

@@ -52,6 +52,7 @@ export const mockScheduleDetail: ScheduleDetail = {
     id: `participant-${i + 1}`,
     nickname: '닉네임',
     profileImageUrl: undefined,
+    isLeader: i === 0,
   })),
   participantCount: 12,
   maxParticipants: 20,

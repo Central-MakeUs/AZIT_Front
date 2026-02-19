@@ -3,7 +3,10 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import * as styles from '@/pages/schedule/styles/ScheduleMembersPage.css';
 
-import { ScheduleMemberListItem } from '@/features/schedule/ui';
+import {
+  ScheduleParticipantListItem,
+  ScheduleParticipantTitle,
+} from '@/features/schedule/ui';
 
 import { mockScheduleDetail } from '@/shared/mock/schedule';
 import { BackButton } from '@/shared/ui/button';
@@ -21,20 +24,17 @@ export function ScheduleMembersPage() {
       <AppLayout>
         <Header className={styles.headerSection} left={<BackButton />} />
         <div className={styles.contentWrapper}>
-          <div className={styles.countSection}>
-            <h2 className={styles.title}>참여 멤버</h2>
-            <div className={styles.countRow}>
-              <span className={styles.count}>
-                {mockScheduleDetail.participantCount}
-              </span>
-              <span className={styles.countSuffix}>
-                /{mockScheduleDetail.maxParticipants}
-              </span>
-            </div>
-          </div>
+          <ScheduleParticipantTitle
+            participantCount={mockScheduleDetail.participantCount}
+            maxParticipants={mockScheduleDetail.maxParticipants}
+          />
           <div className={styles.memberList}>
             {members.map((member) => (
-              <ScheduleMemberListItem key={member.id} member={member} />
+              <ScheduleParticipantListItem
+                key={member.id}
+                participant={member}
+                orientation="horizontal"
+              />
             ))}
           </div>
         </div>
