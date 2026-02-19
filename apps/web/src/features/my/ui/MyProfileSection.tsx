@@ -1,11 +1,17 @@
 import { Chip } from '@azit/design-system/chip';
 import type { ChipType } from '@azit/design-system/components/chip/Chip.css';
+import {
+  CheckCircleBrokenIcon,
+  CoinsStackedIcon,
+} from '@azit/design-system/icon';
 
 import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/features/my/model/role';
 import type { MemberRole } from '@/features/my/model/types';
 import * as styles from '@/features/my/styles/MyProfileSection.css';
 
 import type { MyInfoResult } from '@/shared/api/models/my';
+
+import { MypageStatCard } from './MypageStatCard';
 
 interface MyProfileSectionProps {
   profile: MyInfoResult;
@@ -40,19 +46,18 @@ export function MyProfileSection({ profile }: MyProfileSectionProps) {
           <span className={styles.nickname}>{profile.nickname}</span>
         </div>
       </div>
-      {/* TODO: 운영 기능 오픈시 제공 */}
-      {/* <div className={styles.statGrid}>
+      <div className={styles.statGrid}>
         <MypageStatCard
-          icon={<CheckIcon size={24} color="primary" />}
+          icon={<CheckCircleBrokenIcon size={24} strokeWidth={1.25} />}
           label="출석"
-          value={profile.attendanceCount}
+          value={profile.totalAttendanceCount}
         />
         <MypageStatCard
-          icon={<CoinsStackedIcon size={24} color="primary" />}
+          icon={<CoinsStackedIcon size={24} strokeWidth={1.25} />}
           label="포인트"
-          value={profile.pointCount.toLocaleString('ko-KR')}
+          value={profile.totalPoints.toLocaleString('ko-KR')}
         />
-      </div> */}
+      </div>
     </section>
   );
 }
