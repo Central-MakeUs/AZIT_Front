@@ -4,6 +4,46 @@
  */
 
 export interface paths {
+  '/api/v1/crews/{crewId}/schedules/{scheduleId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * 크루 일정 수정
+     * @description 기존에 생성된 크루 일정 정보를 수정합니다. <br>
+     *     준비물 리스트의 경우, 기존 리스트를 모두 대체하는 방식으로 업데이트됩니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 해당 일정을 생성한 본인만 수정할 수 있습니다. (FORBIDDEN_ERROR)
+     *     * 해당 크루의 정회원(JOINED)이어야 합니다. (NOT_A_CREW_MEMBER)
+     *     * 정기런으로 수정하거나 정기런을 수정할 경우, 반드시 리더 권한이 있어야 합니다. (ONLY_LEADER_CAN_CREATE_REGULAR_RUN)
+     *     * 존재하지 않는 일정 ID를 입력할 경우 수정이 불가합니다. (SCHEDULE_NOT_FOUND)
+     *     * 일정 제목: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
+     *     * 세부 장소: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
+     *     * 준비물: 최대 5개까지 등록 가능하며, 각 항목은 15자 이내여야 합니다. (INVALID_INPUT_VALUE)
+     *     * 모임 시간: 현재 시간보다 과거의 시간으로 수정할 수 없습니다. (INVALID_SCHEDULE_TIME) <br><br>
+     */
+    put: operations['updateSchedule'];
+    post?: never;
+    /**
+     * 크루 일정 취소(삭제)
+     * @description 생성된 일정을 취소 상태(CANCELLED)로 변경합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 해당 일정을 생성한 본인 또는 크루 리더만 취소할 수 있습니다. (FORBIDDEN_ERROR)
+     *     * 해당 크루의 정회원(JOINED 상태)이어야 합니다. (NOT_A_CREW_MEMBER)
+     *     * 이미 취소된 일정은 다시 취소할 수 없습니다. (ALREADY_CANCELLED_SCHEDULE)
+     */
+    delete: operations['cancelSchedule'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/addresses/{addressId}': {
     parameters: {
       query?: never;
@@ -164,6 +204,39 @@ export interface paths {
      *     * 온보딩 단계(PENDING_ONBOARDING) 또는 정회원(ACTIVE) 상태의 사용자만 요청 가능합니다. (INVALID_MEMBER_STATUS)
      */
     post: operations['createCrew'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/schedules': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 크루 일정 생성
+     * @description 크루 내에서 진행되는 새로운 런(정기런 또는 번개런) 일정을 생성합니다. <br><br>
+     *
+     *     **[입력 데이터]** <br>
+     *     * 런 종류(runType): REGULAR(정기런), LIGHTNING(번개런) <br>
+     *     * 오전/오후(amPm): 오전, 오후 <br>
+     *     * 준비물(supplies): 문자열 리스트 형식으로 전달 <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 해당 크루의 정회원(JOINED)만 일정을 생성할 수 있습니다. (NOT_A_CREW_MEMBER)
+     *     * 정기런은 크루의 리더만 생성 가능합니다. (ONLY_LEADER_CAN_CREATE_REGULAR_RUN)
+     *     * 일정 제목: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
+     *     * 세부 장소: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
+     *     * 준비물: 최대 5개까지 등록 가능하며, 각 항목은 15자 이내여야 합니다. (INVALID_INPUT_VALUE)
+     *     * 모임 시간: 현재 시간보다 과거의 시간으로 생성할 수 없습니다. (INVALID_SCHEDULE_TIME)
+     */
+    post: operations['createSchedule'];
     delete?: never;
     options?: never;
     head?: never;
@@ -804,6 +877,81 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    UpdateScheduleRequest: {
+      /** @description 런 타이틀 */
+      title: string;
+      /**
+       * @description 런 종류 (REGULAR: 정기런, LIGHTNING: 번개런)
+       * @enum {string}
+       */
+      runType: 'REGULAR' | 'LIGHTNING';
+      /**
+       * Format: date
+       * @description 모임 날짜
+       */
+      date: string;
+      /**
+       * @description 오전/오후 구분 (AM, PM)
+       * @enum {string}
+       */
+      amPm: 'AM' | 'PM';
+      /**
+       * Format: int32
+       * @description 시간 (1~12)
+       */
+      hour?: number;
+      /**
+       * Format: int32
+       * @description 분 (0~59)
+       */
+      minute?: number;
+      /** @description 집합 장소 명칭 */
+      locationName: string;
+      /** @description 집합 장소 주소 */
+      address: string;
+      /** @description 세부 장소 (유저 직접 입력) */
+      detailedLocation: string;
+      /**
+       * Format: double
+       * @description 위도
+       */
+      latitude: number;
+      /**
+       * Format: double
+       * @description 경도
+       */
+      longitude: number;
+      /**
+       * Format: double
+       * @description 목표 거리 (km)
+       */
+      distance?: number;
+      /**
+       * Format: double
+       * @description 목표 페이스 (분/km)
+       */
+      pace?: number;
+      /**
+       * Format: int32
+       * @description 최대 모집 인원
+       */
+      maxParticipants?: number;
+      /** @description 상세 설명 */
+      description?: string;
+      /**
+       * @description 준비물 리스트 (각 최대 15자, 최대 5개)
+       * @example [
+       *       "러닝화",
+       *       "생수"
+       *     ]
+       */
+      supplies?: string[];
+    };
+    CommonResponseVoid: {
+      code?: string;
+      message?: string;
+      result?: Record<string, never>;
+    };
     UpdateDeliveryAddressRequest: {
       /** @description 수령인 */
       recipientName: string;
@@ -817,11 +965,6 @@ export interface components {
       detailAddress: string;
       /** @description 기본 배송지 여부 */
       isDefault: boolean;
-    };
-    CommonResponseVoid: {
-      code?: string;
-      message?: string;
-      result?: Record<string, never>;
     };
     CreateOrderRequest: {
       /** @description 주문할 장바구니 아이템 ID 리스트(장바구니 구매용) */
@@ -953,6 +1096,78 @@ export interface components {
     CreateCrewResponse: {
       /** @description 초대코드 */
       invitationCode?: string;
+      /** @description 크루 이미지 url */
+      crewImageUrl?: string;
+    };
+    CreateScheduleRequest: {
+      /** @description 런 타이틀 */
+      title: string;
+      /**
+       * @description 런 종류 (REGULAR: 정기런, LIGHTNING: 번개런)
+       * @enum {string}
+       */
+      runType: 'REGULAR' | 'LIGHTNING';
+      /**
+       * Format: date
+       * @description 모임 날짜
+       */
+      date: string;
+      /**
+       * @description 오전/오후 구분 (AM, PM)
+       * @enum {string}
+       */
+      amPm: 'AM' | 'PM';
+      /**
+       * Format: int32
+       * @description 시간 (1~12)
+       */
+      hour?: number;
+      /**
+       * Format: int32
+       * @description 분 (0~59)
+       */
+      minute?: number;
+      /** @description 집합 장소 명칭 */
+      locationName: string;
+      /** @description 집합 장소 주소 */
+      address: string;
+      /** @description 세부 장소 (유저 직접 입력) */
+      detailedLocation: string;
+      /**
+       * Format: double
+       * @description 위도
+       */
+      latitude: number;
+      /**
+       * Format: double
+       * @description 경도
+       */
+      longitude: number;
+      /**
+       * Format: double
+       * @description 목표 거리 (km)
+       */
+      distance?: number;
+      /**
+       * Format: double
+       * @description 목표 페이스 (분/km)
+       */
+      pace?: number;
+      /**
+       * Format: int32
+       * @description 최대 모집 인원
+       */
+      maxParticipants?: number;
+      /** @description 상세 설명 */
+      description?: string;
+      /**
+       * @description 준비물 리스트 (각 최대 15자, 최대 5개)
+       * @example [
+       *       "러닝화",
+       *       "생수"
+       *     ]
+       */
+      supplies?: string[];
     };
     JoinCrewRequest: {
       /** @description 초대코드 */
@@ -1469,7 +1684,7 @@ export interface components {
       crewName?: string;
       /** @description 크루 초대코드 */
       invitationCode?: string;
-      /** @description 크루 프로필 이미지 url */
+      /** @description 크루 이미지 url */
       crewImageUrl?: string;
       /**
        * @description 크루 내 역할
@@ -1597,6 +1812,8 @@ export interface components {
        * @description 크루에 가입되어 있는 멤버 수
        */
       memberCount?: number;
+      /** @description 크루 이미지 url */
+      crewImageUrl?: string;
     };
     CartItemListResponse: {
       /**
@@ -1690,6 +1907,152 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  updateSchedule: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+        scheduleId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateScheduleRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  cancelSchedule: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+        scheduleId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   updateDeliveryAddress: {
     parameters: {
       query?: never;
@@ -2196,6 +2559,72 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['CommonResponseCreateCrewResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  createSchedule: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateScheduleRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
         };
       };
       400: {
