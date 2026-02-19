@@ -1,3 +1,4 @@
+export { ScheduleMemberListItem } from './ScheduleMemberListItem';
 export { ScheduleDetailHeaderSection } from './ScheduleDetailHeaderSection';
 export { ScheduleDetailInfoSection } from './ScheduleDetailInfoSection';
 export { ScheduleDetailDescriptionSection } from './ScheduleDetailDescriptionSection';

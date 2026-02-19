@@ -1,6 +1,6 @@
 import { Chip } from '@azit/design-system/chip';
 
-import * as styles from '@/features/schedule-members/styles/ScheduleMemberListItem.css';
+import * as styles from '@/features/schedule/styles/ScheduleMemberListItem.css';
 
 import type { ScheduleParticipant } from '@/shared/mock/schedule';
 
