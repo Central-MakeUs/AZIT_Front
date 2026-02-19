@@ -3,7 +3,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import * as styles from '@/pages/schedule/styles/ScheduleMembersPage.css';
 
-import { ScheduleMemberListItem } from '@/features/schedule-members/ui';
+import { ScheduleMemberListItem } from '@/features/schedule/ui';
 
 import { mockScheduleDetail } from '@/shared/mock/schedule';
 import { BackButton } from '@/shared/ui/button';
