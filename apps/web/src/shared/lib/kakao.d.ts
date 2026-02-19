@@ -15,11 +15,6 @@ interface KakaoPostcodeOptions {
   height?: string;
 }
 
-interface KakaoMapsStaticMapOption {
-  center: { lat: number; lng: number } | unknown;
-  level?: number;
-}
-
 interface KakaoAuth {
   authorize: (settings: { redirectUri: string; state?: string }) => void;
   getAccessToken: () => string | null;
@@ -76,14 +71,6 @@ declare global {
     kakao?: {
       Postcode?: new (options: KakaoPostcodeOptions) => {
         embed: (element: HTMLElement) => void;
-      };
-      maps?: {
-        load: (callback: () => void) => void;
-        LatLng: new (lat: number, lng: number) => unknown;
-        StaticMap: new (
-          container: HTMLElement | null,
-          options: KakaoMapsStaticMapOption
-        ) => unknown;
       };
     };
     Kakao?: KakaoSDK;
