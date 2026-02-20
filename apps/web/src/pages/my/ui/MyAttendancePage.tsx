@@ -6,11 +6,11 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import * as styles from '@/pages/my/styles/MyAttendancePage.css.ts';
 
+import { AttendanceRecordList } from '@/widgets/mypage-attendance/ui';
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
 import { MypageStatCard } from '@/features/my/ui/MypageStatCard';
-import { AttendanceRecordList } from '@/features/mypage-attendance/ui';
 
 import { mockAttendanceRecords } from '@/shared/mock/mypage-attendance';
 import { BackButton } from '@/shared/ui/button';
