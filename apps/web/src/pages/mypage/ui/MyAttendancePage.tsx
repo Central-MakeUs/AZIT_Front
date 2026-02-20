@@ -32,12 +32,7 @@ export function MyAttendancePage() {
         />
         <ScheduleSectionLayout
           topSection={
-            <ScheduleCalendar
-              value={new Date()}
-              onChange={() => {}}
-              activeStartDate={new Date()}
-              onActiveStartDateChange={() => {}}
-            />
+            <ScheduleCalendar value={new Date()} onChange={() => {}} />
           }
           scheduleContent={
             <>
