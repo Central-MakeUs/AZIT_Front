@@ -1,10 +1,11 @@
 import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
+import { END_POINT } from '@/shared/constants/endpoint';
+
 import type {
   CrewScheduleListRequest,
   CrewScheduleListResponse,
-} from '@/shared/api/models/schedule';
-import { END_POINT } from '@/shared/constants/endpoint';
+} from '../model/schedule.model';
 
 export const getScheduleList = (
   crewId: number,
