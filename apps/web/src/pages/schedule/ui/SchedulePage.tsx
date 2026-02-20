@@ -21,13 +21,19 @@ import { ScheduleList } from '@/entities/schedule/ui';
 export function SchedulePage() {
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<string | undefined>(undefined);
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+    setDate(dayjs(date).format('YYYY-MM-DD'));
+  };
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
-      date: dayjs(selectedDate).format('YYYY-MM-DD'),
+      date,
     }),
     enabled: crewId > 0,
   });
@@ -45,7 +51,7 @@ export function SchedulePage() {
             topSection={
               <ScheduleWeekCalendar
                 value={selectedDate}
-                onChange={setSelectedDate}
+                onChange={handleDateChange}
               />
             }
             scheduleContent={
