@@ -46,8 +46,6 @@ export function SchedulePage() {
               <ScheduleWeekCalendar
                 value={selectedDate}
                 onChange={setSelectedDate}
-                activeStartDate={selectedDate}
-                onActiveStartDateChange={setSelectedDate}
               />
             }
             scheduleContent={
