@@ -3,7 +3,7 @@ import { Header } from '@azit/design-system/header';
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import * as styles from '@/features/onboarding/styles/OnboardingCrewRegion.css';
+import * as styles from '@/widgets/onboarding/styles/OnboardingCrewRegion.css';
 
 import { REGION_OPTIONS, type RegionIdType } from '@/shared/constants/region';
 import { BackButton } from '@/shared/ui/button';
