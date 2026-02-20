@@ -1,8 +1,7 @@
 import type { components } from '@/shared/api/apiTypes';
 
-export type OrderListItem = components['schemas']['OrderListResponse'];
-export type OrderStatus = NonNullable<OrderListItem['status']>;
-export type OrderHistorySliceResponse =
+export type OrderListResponse = components['schemas']['OrderListResponse'];
+export type SliceResponseOrderListResponse =
   components['schemas']['SliceResponseOrderListResponse'];
 
 export type CheckoutItemDetailResponse =

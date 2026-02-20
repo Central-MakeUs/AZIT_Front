@@ -9,17 +9,19 @@ import {
 import * as styles from '@/features/home-alert/styles/HomeAlertList.css';
 import { HomeAlertListItem } from '@/features/home-alert/ui/HomeAlertListItem';
 
-import { mockHomeAlertList, type AlertType } from '@/shared/mock/home-alert';
+import { mockHomeAlertList } from '@/shared/mock/home-alert';
 
 export function HomeAlertList() {
-  const [activeFilter, setActiveFilter] = useState<ScheduleFilterType>('all');
+  const [activeFilter, setActiveFilter] =
+    useState<ScheduleFilterType>(undefined);
 
   const filteredAlerts = useMemo(() => {
-    if (activeFilter === 'all') {
+    if (activeFilter === undefined) {
       return mockHomeAlertList;
     }
     return mockHomeAlertList.filter(
-      (item) => item.type === (activeFilter as AlertType)
+      (item) =>
+        item.type === (activeFilter === 'REGULAR' ? 'regular' : 'lightning')
     );
   }, [activeFilter]);
 

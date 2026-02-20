@@ -10,7 +10,7 @@ import * as styles from '@/pages/order/styles/OrderHistory.css.ts';
 
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
-import { useOrderHistory } from '@/features/order-history/model/useOrderHistory';
+import { useOrderHistory } from '@/features/order/model/useOrderHistory';
 
 import { formatOrderDateLabel } from '@/shared/lib/formatters';
 import { BackButton } from '@/shared/ui/button';
