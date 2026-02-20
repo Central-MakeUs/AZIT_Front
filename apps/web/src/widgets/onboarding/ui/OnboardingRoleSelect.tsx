@@ -3,7 +3,7 @@ import { FlagIcon, UsersIcon } from '@azit/design-system/icon';
 import clsx from 'clsx';
 import { useState, type ReactNode } from 'react';
 
-import * as styles from '@/features/onboarding/styles/OnboardingRoleSelect.css';
+import * as styles from '@/widgets/onboarding/styles/OnboardingRoleSelect.css';
 
 export type OnboardingRoleType = 'leader' | 'member';
 
