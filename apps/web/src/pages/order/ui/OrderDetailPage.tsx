@@ -7,20 +7,21 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import * as styles from '@/pages/order/styles/OrderDetailPage.css.ts';
 
-import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
-import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-
-import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
-import type { OrderStatus } from '@/features/order-detail/api/types';
-import { useOrderDetail } from '@/features/order-detail/model/useOrderDetail';
+import { DepositInfoSection } from '@/widgets/order-complete/ui';
 import {
   OrderDateSection,
   OrderDeliveryAddressSection,
   OrderDeliveryInfoSection,
-} from '@/features/order-detail/ui';
+} from '@/widgets/order-detail/ui';
+import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
+import { OrderProductListSection } from '@/widgets/order-product-list/ui';
+
+import { useOrderDetail } from '@/features/order/model/useOrderDetail';
 
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+
+import type { OrderStatus } from '@/entities/order/model';
 
 export function OrderDetailPage() {
   const { replace } = useFlow();

@@ -4,32 +4,30 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { postOrderCancel } from '@/pages/order-detail/api/postOrderCancel';
-import { getOrderHistory } from '@/pages/order-history/api/getOrderHistory';
-
-import {
-  getCheckoutInfoCart,
-  getCheckoutInfoDirect,
-} from '@/features/order/api';
+import { postOrderCancel } from '@/features/order/api/postOrderCancel';
 import { postOrderCreate } from '@/features/order/api/postOrderCreate';
+
+import { getOrderDetail } from '@/entities/order/api/getOrderDetail';
+import { getOrderFromCart } from '@/entities/order/api/getOrderFromCart';
+import { getOrderFromDirect } from '@/entities/order/api/getOrderFromDirect';
+import { getOrderHistory } from '@/entities/order/api/getOrderHistory';
 import type {
   CartOrderCheckoutRequest,
   DirectOrderCheckoutRequest,
   OrderRequest,
-} from '@/features/order/api/types';
-import { getOrderDetail } from '@/features/order-detail/api/getOrderDetail';
+} from '@/entities/order/model';
 
 export const orderQueries = {
   all: ['order'] as const,
   checkoutDirectQuery: (data: DirectOrderCheckoutRequest) =>
     queryOptions({
       queryKey: [...orderQueries.all, 'checkoutDirect'],
-      queryFn: () => getCheckoutInfoDirect(data),
+      queryFn: () => getOrderFromDirect(data),
     }),
   checkoutCartQuery: (data: CartOrderCheckoutRequest) =>
     queryOptions({
       queryKey: [...orderQueries.all, 'checkoutCart'],
-      queryFn: () => getCheckoutInfoCart(data),
+      queryFn: () => getOrderFromCart(data),
     }),
   createOrderMutation: () =>
     mutationOptions({

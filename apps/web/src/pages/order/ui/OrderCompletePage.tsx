@@ -8,16 +8,16 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import * as styles from '@/pages/order/styles/OrderCompletePage.css.ts';
 
+import {
+  DepositInfoSection,
+  DeliveryInfoSection,
+  OrderCompleteHeader,
+} from '@/widgets/order-complete/ui';
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 
-import type { CreateOrderResponse } from '@/features/order/api/types';
-import {
-  OrderCompleteHeader,
-  DeliveryInfoSection,
-} from '@/features/order-complete/ui';
-import { DepositInfoSection } from '@/features/order-complete/ui/DepositInfoSection';
-
 import { AppLayout } from '@/shared/ui/layout';
+
+import type { CreateOrderResponse } from '@/entities/order/model';
 
 interface OrderCompletePageParams {
   orderResult?: CreateOrderResponse;

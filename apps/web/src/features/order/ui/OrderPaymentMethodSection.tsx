@@ -1,5 +1,6 @@
-import type { PaymentMethod } from '@/features/order/api/types';
 import * as styles from '@/features/order/styles/OrderPaymentMethodSection.css';
+
+import type { PaymentMethod } from '@/entities/order/model';
 
 interface OrderPaymentMethodSectionProps {
   paymentMethods: PaymentMethod[];

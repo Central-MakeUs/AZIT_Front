@@ -1,8 +1,8 @@
 import { CopyIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/order-detail/styles/OrderDeliveryInfoSection.css.ts';
+import * as styles from '@/widgets/order-detail/styles/OrderDeliveryInfoSection.css';
 
-import type { OrderStatus } from '../api/types';
+import type { OrderStatus } from '@/entities/order/model';
 
 interface OrderDeliveryInfoSectionProps {
   deliveryStatus: OrderStatus;
@@ -21,13 +21,6 @@ export function OrderDeliveryInfoSection({
     <div className={styles.section}>
       <div className={styles.header}>
         <h3 className={styles.title}>배송 정보</h3>
-        {/* <button
-          type="button"
-          className={`${styles.checkButton} ${deliveryStatus !== 'SHIPPING' ? styles.disabled : ''}`}
-          onClick={onCheckDelivery}
-        >
-          택배사에서 확인
-        </button> */}
       </div>
       <div className={styles.infoRow}>
         <span className={styles.label}>택배사</span>

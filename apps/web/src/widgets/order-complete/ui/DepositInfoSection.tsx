@@ -1,10 +1,11 @@
 import { Description } from '@azit/design-system/description';
 import { CopyIcon } from '@azit/design-system/icon';
 
-import type { DepositAccountInfo } from '@/features/order/api/types';
-import * as styles from '@/features/order-complete/styles/DepositInfoSection.css.ts';
+import * as styles from '@/widgets/order-complete/styles/DepositInfoSection.css';
 
 import { toast } from '@/shared/ui/toast';
+
+import type { DepositAccountInfo } from '@/entities/order/model';
 
 interface DepositInfoSectionProps extends DepositAccountInfo {
   depositorName: string;

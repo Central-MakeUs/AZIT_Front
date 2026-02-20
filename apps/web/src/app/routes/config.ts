@@ -34,16 +34,16 @@ const OrderPage = lazyImport(
   'OrderPage'
 );
 const OrderCompletePage = lazyImport(
-  () => import('@/pages/order-complete/ui/OrderCompletePage'),
+  () => import('@/pages/order/ui/OrderCompletePage'),
   'OrderCompletePage'
 );
 const OrderDetailPage = lazyImport(
-  () => import('@/pages/order-detail/ui/OrderDetailPage'),
+  () => import('@/pages/order/ui/OrderDetailPage'),
   'OrderDetailPage'
 );
 const MyPage = lazyImport(() => import('@/pages/my/ui/MyPage'), 'MyPage');
 const OrderHistory = lazyImport(
-  () => import('@/pages/order-history/ui/OrderHistoryPage'),
+  () => import('@/pages/order/ui/OrderHistoryPage'),
   'OrderHistoryPage'
 );
 const NotificationSettingsPage = lazyImport(

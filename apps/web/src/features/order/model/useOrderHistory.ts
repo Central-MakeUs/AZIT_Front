@@ -1,8 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import type { OrderListItem } from '@/shared/api/models/order';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { orderQueries } from '@/shared/queries/order';
+
+import type { OrderListItem } from '@/entities/order/model';
 
 export interface UseOrderHistoryOptions {
   onOrderDetail?: (orderNumber: string) => void;
