@@ -5,16 +5,16 @@ import {
 } from '@tanstack/react-query';
 
 import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
-import { getCartProducts } from '@/features/cart/api/getCartProducts';
 import { patchCartProductQuantity } from '@/features/cart/api/patchCartProductQuantity';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
 
-import { getCartCount } from '@/shared/api/handlers/getCartCount';
+import { getCartCount } from '@/entities/cart/api/getCartCount';
+import { getCartProducts } from '@/entities/cart/api/getCartProducts';
 import type {
   CartProductAddRequest,
   CartProductDeleteRequest,
   CartProductUpdateQuantityRequest,
-} from '@/shared/api/models/cart';
+} from '@/entities/cart/model';
 
 export const cartQueries = {
   all: ['cart'] as const,

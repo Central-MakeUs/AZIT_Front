@@ -1,9 +1,8 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import type { CrewScheduleListRequest } from '@/shared/api/models/schedule';
-
 import { getScheduleCalendar } from '@/entities/schedule/api/getScheduleCalendar';
 import { getScheduleList } from '@/entities/schedule/api/getScheduleList';
+import type { CrewScheduleListRequest } from '@/entities/schedule/model/schedule.model';
 
 export const scheduleQueries = {
   all: ['schedule'] as const,
