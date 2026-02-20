@@ -106,5 +106,5 @@ globalStyle('.react-calendar__tile--active', {
 });
 
 globalStyle('.react-calendar__tile--now', {
-  border: `1px solid ${vars.colors.blue80} !important`,
+  // border: `1px solid ${vars.colors.blue80} !important`,
 });
