@@ -3,17 +3,18 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { postCreateCrew } from '@/features/onboarding/api/postCreateCrew';
-import { postJoinCrew } from '@/features/onboarding/api/postJoinCrew';
-import { useFunnel } from '@/features/onboarding/hooks/useFunnel';
 import {
   OnboardingCrewJoin,
   OnboardingCrewName,
   OnboardingCrewRegion,
   OnboardingShareInviteCode,
-} from '@/features/onboarding/ui';
-import { OnboardingRoleSelect } from '@/features/onboarding/ui/OnboardingRoleSelect';
+} from '@/widgets/onboarding/ui';
+import { OnboardingRoleSelect } from '@/widgets/onboarding/ui/OnboardingRoleSelect';
 
+import { postCreateCrew } from '@/features/crew-create/api/postCreateCrew';
+import { postJoinCrew } from '@/features/crew-join/api/postJoinCrew';
+
+import { useFunnel } from '@/shared/lib/useFunnel';
 import { AppLayout } from '@/shared/ui/layout';
 
 type StepName =
