@@ -77,7 +77,11 @@ export function SchedulePage() {
                 {isLoading ? (
                   <ScheduleListSkeleton />
                 ) : (
-                  <ScheduleList items={scheduleList} />
+                  <ScheduleList
+                    items={scheduleList.filter((item) =>
+                      dayjs(item.meetingAt).isAfter(dayjs(selectedDate))
+                    )}
+                  />
                 )}
               </>
             }
