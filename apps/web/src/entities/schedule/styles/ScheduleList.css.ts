@@ -14,7 +14,8 @@ export const emptyContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  height: '200px',
+  height: '220px',
+  gap: '16px',
 });
 
 export const emptyText = style([
@@ -23,3 +24,8 @@ export const emptyText = style([
     color: vars.colors.gray60,
   },
 ]);
+
+export const addScheduleButton = style({
+  width: 'fit-content',
+  padding: '0 30px',
+});
