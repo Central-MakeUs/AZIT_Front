@@ -3,8 +3,9 @@ import { useCallback } from 'react';
 
 import { showCartError } from '@/features/cart/lib/showCartError';
 
-import type { CartProductAddRequest } from '@/shared/api/models/cart';
 import { cartQueries } from '@/shared/queries/cart';
+
+import type { CartProductAddRequest } from '@/entities/cart/model';
 
 interface HandleAddItemOptions {
   onSuccess?: () => void;
