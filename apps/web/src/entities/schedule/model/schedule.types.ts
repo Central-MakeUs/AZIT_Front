@@ -1,4 +1,4 @@
-import type { CrewScheduleListResponse } from '@/shared/api/models/schedule';
+import type { CrewScheduleListResponse } from './schedule.model';
 
 export type ScheduleListItem = CrewScheduleListResponse;
 export type ScheduleList = ScheduleListItem[];
