@@ -7,8 +7,8 @@ import {
 import { postApproveJoinRequest } from '@/features/crew-join-approval/api/postApproveJoinRequest';
 import { postRejectJoinRequest } from '@/features/crew-join-approval/api/postRejectJoinRequest';
 
-import { getCrewMembers } from '@/entities/user/api/getCrewMembers';
-import { getJoinRequests } from '@/entities/user/api/getJoinRequests';
+import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
+import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { getMyInfo } from '@/entities/user/api/getMyInfo';
 
 export const memberQueries = {
@@ -40,7 +40,7 @@ export const memberQueries = {
   joinRequestsQuery: (crewId: number) =>
     queryOptions({
       queryKey: memberQueries.joinRequestsKey(crewId),
-      queryFn: () => getJoinRequests(crewId),
+      queryFn: () => getCrewJoinRequests(crewId),
       staleTime: 1000 * 60 * 5,
       refetchInterval: 1000 * 10,
       refetchIntervalInBackground: false, // 탭 포커스일 때만 refetch

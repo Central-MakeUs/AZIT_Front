@@ -19,7 +19,8 @@ import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
-import type { MemberItem, MemberRequestItem } from '@/entities/user/model';
+import type { MemberRequestItem } from '@/entities/crew/model/crew.types';
+import type { MemberItem } from '@/entities/user/model';
 
 export function MemberManagePage({ params }: { params?: { id?: string } }) {
   const [activeTab, setActiveTab] = useState<'member' | 'request'>('member');
