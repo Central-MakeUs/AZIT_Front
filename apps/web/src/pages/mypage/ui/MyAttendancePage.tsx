@@ -1,6 +1,6 @@
 import { Header } from '@azit/design-system/header';
-import { CheckIcon, CoinsStackedIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useQuery } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -12,6 +12,7 @@ import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalenda
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
 import { mockAttendanceRecords } from '@/shared/mock/mypage-attendance';
+import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
@@ -21,6 +22,12 @@ export function MyAttendancePage() {
   const handleBack = () => {
     pop();
   };
+
+  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
+  const totalAttendanceCount = myInfoData?.ok
+    ? myInfoData.data.result.totalAttendanceCount
+    : 0;
+  const totalPoints = myInfoData?.ok ? myInfoData.data.result.totalPoints : 0;
 
   return (
     <AppScreen>
@@ -43,14 +50,12 @@ export function MyAttendancePage() {
             <>
               <div className={styles.statCardsContainer}>
                 <MypageStatCard
-                  icon={<CheckIcon size={24} color="primary" />}
                   label="이번 달 출석"
-                  value="24"
+                  value={totalAttendanceCount.toLocaleString('ko-KR')}
                 />
                 <MypageStatCard
-                  icon={<CoinsStackedIcon size={24} color="primary" />}
                   label="획득 포인트"
-                  value="2,400"
+                  value={totalPoints.toLocaleString('ko-KR')}
                 />
               </div>
               <AttendanceRecordList records={mockAttendanceRecords} />
