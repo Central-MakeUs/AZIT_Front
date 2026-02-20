@@ -4,13 +4,12 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '@/pages/my/styles/MyAttendancePage.css.ts';
+import * as styles from '@/pages/mypage/styles/MyAttendancePage.css.ts';
 
-import { MypageStatCard } from '@/widgets/my/ui';
+import { MypageStatCard } from '@/widgets/mypage/ui';
 import { AttendanceRecordList } from '@/widgets/mypage-attendance/ui';
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
-
 
 import { mockAttendanceRecords } from '@/shared/mock/mypage-attendance';
 import { BackButton } from '@/shared/ui/button';

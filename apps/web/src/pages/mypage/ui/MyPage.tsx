@@ -3,14 +3,14 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
-import { getMyPageMenu } from '@/pages/my/config/menu';
-import * as styles from '@/pages/my/styles/MyPage.css';
+import { getMypageMenu } from '@/pages/mypage/config/menu';
+import * as styles from '@/pages/mypage/styles/MyPage.css';
 
 import {
   MyProfileSection,
   MyCrewInfoSection,
   MyMenuSection,
-} from '@/widgets/my/ui';
+} from '@/widgets/mypage/ui';
 
 import { WithdrawButton } from '@/features/auth/ui';
 
@@ -29,7 +29,7 @@ export function MyPage() {
   }
 
   const myInfo = myInfoData.data.result;
-  const filteredMenu = getMyPageMenu(myInfo.crewMemberRole, myInfo.crewId);
+  const filteredMenu = getMypageMenu(myInfo.crewMemberRole, myInfo.crewId);
 
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
