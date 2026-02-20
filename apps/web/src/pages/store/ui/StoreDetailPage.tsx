@@ -27,7 +27,6 @@ import {
 
 import { useStoreDetail } from '@/features/store/model/useStoreDetail';
 
-
 import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import { footerWrapper } from '@/shared/styles/footer.css';
