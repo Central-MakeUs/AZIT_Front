@@ -1,4 +1,4 @@
-import * as styles from '@/widgets/my/styles/MemberListItem.css';
+import * as styles from '@/widgets/mypage/styles/MemberListItem.css';
 
 import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/constants/member-role';
 import { formatJoinDate } from '@/shared/lib/formatters';

@@ -1,5 +1,5 @@
-import * as styles from '@/widgets/my/styles/MemberList.css';
-import { MemberListItem } from '@/widgets/my/ui/MemberListItem';
+import * as styles from '@/widgets/mypage/styles/MemberList.css';
+import { MemberListItem } from '@/widgets/mypage/ui/MemberListItem';
 
 import type { MemberItem } from '@/entities/user/model';
 

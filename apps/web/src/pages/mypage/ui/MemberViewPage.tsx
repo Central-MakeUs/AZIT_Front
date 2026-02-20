@@ -2,9 +2,9 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import * as styles from '@/pages/my/styles/MemberViewPage.css';
+import * as styles from '@/pages/mypage/styles/MemberViewPage.css';
 
-import { MemberList } from '@/widgets/my/ui';
+import { MemberList } from '@/widgets/mypage/ui';
 
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';

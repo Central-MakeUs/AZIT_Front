@@ -1,8 +1,8 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/widgets/my/styles/MyMenuItem.css';
+import * as styles from '@/widgets/mypage/styles/MyMenuItem.css';
 
-import type { MenuItem } from '@/shared/types/my-menu';
+import type { MenuItem } from '@/shared/types/mypage-menu';
 
 interface MyMenuItemProps {
   item: MenuItem;

@@ -5,8 +5,8 @@ import {
   CoinsStackedIcon,
 } from '@azit/design-system/icon';
 
-import * as styles from '@/widgets/my/styles/MyProfileSection.css';
-import { MypageStatCard } from '@/widgets/my/ui/MypageStatCard';
+import * as styles from '@/widgets/mypage/styles/MyProfileSection.css';
+import { MypageStatCard } from '@/widgets/mypage/ui/MypageStatCard';
 
 import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/constants/member-role';
 

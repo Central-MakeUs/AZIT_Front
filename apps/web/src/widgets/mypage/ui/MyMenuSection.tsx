@@ -3,14 +3,14 @@ import { Fragment } from 'react';
 import { useFlow } from '@/app/routes/stackflow';
 import type { ActivityName } from '@/app/routes/types';
 
-import * as styles from '@/widgets/my/styles/MyMenuSection.css';
-import { MyMenuItem } from '@/widgets/my/ui/MyMenuItem';
+import * as styles from '@/widgets/mypage/styles/MyMenuSection.css';
+import { MyMenuItem } from '@/widgets/mypage/ui/MyMenuItem';
 
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
-import type { MenuItem, MyPageMenuGroup } from '@/shared/types/my-menu';
+import type { MenuItem, MypageMenuGroup } from '@/shared/types/mypage-menu';
 
 interface MyMenuSectionProps {
-  section: MyPageMenuGroup;
+  section: MypageMenuGroup;
 }
 
 export function MyMenuSection({ section }: MyMenuSectionProps) {
