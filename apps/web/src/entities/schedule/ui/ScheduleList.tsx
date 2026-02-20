@@ -1,7 +1,6 @@
 import { useFlow } from '@/app/routes/stackflow';
 
-import type { ScheduleListItem as ScheduleListItemType } from '../model/types';
-
+import type { ScheduleListItem as ScheduleListItemType } from '@/entities/schedule/model/schedule.types';
 import * as styles from '@/entities/schedule/styles/ScheduleList.css.ts';
 import { ScheduleListItem } from '@/entities/schedule/ui/ScheduleListItem';
 

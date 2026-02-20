@@ -6,7 +6,7 @@ import * as styles from '@/pages/schedule/styles/ScheduleMembersPage.css';
 import {
   ScheduleParticipantListItem,
   ScheduleParticipantTitle,
-} from '@/features/schedule/ui';
+} from '@/widgets/schedule/ui';
 
 import { mockScheduleDetail } from '@/shared/mock/schedule';
 import { BackButton } from '@/shared/ui/button';

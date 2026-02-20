@@ -14,7 +14,7 @@ import {
   ScheduleDetailDescriptionSection,
   SchedulePreparationList,
   ScheduleParticipantList,
-} from '@/features/schedule/ui';
+} from '@/widgets/schedule/ui';
 
 import { bridge } from '@/shared/lib/bridge';
 import { mockScheduleDetail } from '@/shared/mock/schedule';

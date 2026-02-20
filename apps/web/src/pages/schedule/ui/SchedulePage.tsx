@@ -15,7 +15,7 @@ import { scrollContainer } from '@/shared/styles/container.css';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 
-import type { RunType } from '@/entities/schedule/model/types';
+import type { RunType } from '@/entities/schedule/model/schedule.types';
 import { ScheduleList } from '@/entities/schedule/ui';
 
 export function SchedulePage() {
