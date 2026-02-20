@@ -1,10 +1,11 @@
 import type { components } from '@/shared/api/apiTypes';
 
+/** API 스키마 기준 Response/Request 타입만 정의 */
+
 export type DeliveryAddressResponse =
   components['schemas']['DeliveryAddressResponse'];
-export type DeliveryAddressResult = Required<DeliveryAddressResponse>;
-export type DeliveryAddressListResult = Required<DeliveryAddressResponse>[];
-export type RegisterDeliveryAddressRequest =
+export type DeliveryAddressResponseSchema = DeliveryAddressResponse;
+export type RegisterDeliveryAddressRequestSchema =
   components['schemas']['RegisterDeliveryAddressRequest'];
-export type UpdateDeliveryAddressRequest =
+export type UpdateDeliveryAddressRequestSchema =
   components['schemas']['UpdateDeliveryAddressRequest'];

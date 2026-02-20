@@ -1,4 +1,4 @@
-import type { components, operations } from '../apiTypes';
+import type { components, operations } from '@/shared/api/apiTypes';
 
 export type CrewScheduleListResponse =
   components['schemas']['CrewScheduleListResponse'];
