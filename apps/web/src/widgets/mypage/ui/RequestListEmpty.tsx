@@ -1,6 +1,6 @@
 import { UsersIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/widgets/my/styles/RequestListEmpty.css';
+import * as styles from '@/widgets/mypage/styles/RequestListEmpty.css';
 
 export function RequestListEmpty() {
   return (

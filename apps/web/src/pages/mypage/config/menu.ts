@@ -2,16 +2,16 @@ import type { ActivityName } from '@/app/routes/types';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
-import type { MyPageMenuGroup } from '@/shared/types/my-menu';
+import type { MypageMenuGroup } from '@/shared/types/mypage-menu';
 
 import type { MemberRole } from '@/entities/user/model';
 
-export type { MenuItem, MyPageMenuGroup } from '@/shared/types/my-menu';
+export type { MenuItem, MypageMenuGroup } from '@/shared/types/mypage-menu';
 
-export const getMyPageMenu: (
+export const getMypageMenu: (
   role: MemberRole,
   crewId: number
-) => MyPageMenuGroup[] = (role, crewId) => {
+) => MypageMenuGroup[] = (role, crewId) => {
   return [
     {
       id: 'shopping',
