@@ -15,6 +15,17 @@ export function RoundProfileImage({
   size = 96,
   className,
 }: RoundProfileImageProps) {
+  if (!src) {
+    return (
+      <div
+        className={clsx(styles.placeholderContainer, className)}
+        style={{ '--profile-image-size': `${size}px` } as React.CSSProperties}
+        role="img"
+        aria-label={alt}
+      />
+    );
+  }
+
   return (
     <img
       src={src}
