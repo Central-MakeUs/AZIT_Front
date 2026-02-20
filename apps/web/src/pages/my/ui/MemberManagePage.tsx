@@ -6,7 +6,6 @@ import { useState } from 'react';
 import * as styles from '@/pages/my/styles/MemberManagePage.css';
 
 import { MEMBER_ROLE } from '@/features/my/model/role';
-import type { MemberItem, MemberRequestItem } from '@/features/my/model/types';
 import {
   MemberList,
   MemberManagementTab,
@@ -18,6 +17,8 @@ import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+
+import type { MemberItem, MemberRequestItem } from '@/entities/user/model';
 
 export function MemberManagePage({ params }: { params?: { id?: string } }) {
   const [activeTab, setActiveTab] = useState<'member' | 'request'>('member');
