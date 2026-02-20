@@ -6,7 +6,6 @@ export const listContainer = style({
   flexDirection: 'column',
   gap: '10px',
   width: '100%',
-  height: '100%',
 });
 
 export const emptyContainer = style({
@@ -15,8 +14,7 @@ export const emptyContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  height: '100px',
-  flex: 1,
+  height: '200px',
 });
 
 export const emptyText = style([
