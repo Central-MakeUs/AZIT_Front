@@ -5,7 +5,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '@/pages/order-detail/styles/OrderDetailPage.css';
+import * as styles from '@/pages/order/styles/OrderDetailPage.css.ts';
 
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';

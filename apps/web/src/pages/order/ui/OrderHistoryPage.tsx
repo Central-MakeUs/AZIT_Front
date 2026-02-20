@@ -6,7 +6,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '@/pages/order-history/styles/OrderHistory.css.ts';
+import * as styles from '@/pages/order/styles/OrderHistory.css.ts';
 
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
