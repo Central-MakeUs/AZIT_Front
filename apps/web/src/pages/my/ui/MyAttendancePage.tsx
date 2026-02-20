@@ -4,7 +4,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '@/pages/mypage-attendance/styles/AttendancePage.css';
+import * as styles from '@/pages/my/styles/MyAttendancePage.css.ts';
 
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
@@ -16,7 +16,7 @@ import { mockAttendanceRecords } from '@/shared/mock/mypage-attendance';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
-export function AttendancePage() {
+export function MyAttendancePage() {
   const { pop } = useFlow();
 
   const handleBack = () => {
