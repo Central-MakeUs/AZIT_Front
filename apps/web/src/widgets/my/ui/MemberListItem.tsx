@@ -1,6 +1,6 @@
 import * as styles from '@/widgets/my/styles/MemberListItem.css';
 
-import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/config/member-role';
+import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/constants/member-role';
 import { formatJoinDate } from '@/shared/lib/formatters';
 
 import type { MemberRole } from '@/entities/user/model';

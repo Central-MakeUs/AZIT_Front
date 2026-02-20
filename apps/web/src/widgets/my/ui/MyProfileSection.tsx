@@ -8,7 +8,7 @@ import {
 import * as styles from '@/widgets/my/styles/MyProfileSection.css';
 import { MypageStatCard } from '@/widgets/my/ui/MypageStatCard';
 
-import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/config/member-role';
+import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/constants/member-role';
 
 import type { MemberRole } from '@/entities/user/model';
 import type { MyInfoResult } from '@/entities/user/model';

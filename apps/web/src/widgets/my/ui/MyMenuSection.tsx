@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
-
+import type { ActivityName } from '@/app/routes/types';
 
 import * as styles from '@/widgets/my/styles/MyMenuSection.css';
 import { MyMenuItem } from '@/widgets/my/ui/MyMenuItem';
@@ -21,7 +21,9 @@ export function MyMenuSection({ section }: MyMenuSectionProps) {
       if (item.path === 'TermDetailPage') {
         push('TermDetailPage', { termType: item.id }, { animate: true });
       } else {
-        push(item.path, item.pushParams ?? {}, { animate: true });
+        push(item.path as ActivityName, item.pushParams ?? {}, {
+          animate: true,
+        });
       }
     } else if (item.type === 'external_link') {
       openExternalUrl(item.url);
