@@ -1,7 +1,7 @@
 import { Chip } from '@azit/design-system/chip';
 import clsx from 'clsx';
 
-import * as styles from '@/features/home-alert/styles/HomeAlertListItem.css.ts';
+import * as styles from '@/widgets/home-alert/styles/HomeAlertListItem.css.ts';
 
 import type { HomeAlertItem } from '@/shared/mock/home-alert';
 
