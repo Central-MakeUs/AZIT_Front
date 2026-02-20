@@ -1,9 +1,10 @@
 import type { ActivityName } from '@/app/routes/types';
 
 import { MEMBER_ROLE } from '@/features/my/model/role';
-import type { MemberRole } from '@/features/my/model/types';
 
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
+
+import type { MemberRole } from '@/entities/user/model';
 
 interface BaseMenuItem {
   id: string;
