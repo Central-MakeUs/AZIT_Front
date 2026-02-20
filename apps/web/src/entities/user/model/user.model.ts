@@ -7,5 +7,3 @@ export type CrewMemberListResponse =
   components['schemas']['CrewMemberListResponse'];
 export type CrewMemberDetailResponse =
   components['schemas']['CrewMemberDetailResponse'];
-export type JoinRequestMemberResponse =
-  components['schemas']['JoinRequestMemberResponse'];
