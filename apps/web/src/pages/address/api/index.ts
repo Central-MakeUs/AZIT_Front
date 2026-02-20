@@ -1,1 +1,0 @@
-export { getDeliveryAddresses } from './getDeliveryAddresses';

@@ -1,7 +1,7 @@
 import * as styles from '@/widgets/order-product-list/styles/OrderProductListSection.css';
 import { OrderProductItem } from '@/widgets/order-product-list/ui/OrderProductItem';
 
-import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
+import type { OrderItem, OrderItemResponse } from '@/entities/order/model';
 
 type OrderProductListItem = OrderItem | OrderItemResponse;
 
