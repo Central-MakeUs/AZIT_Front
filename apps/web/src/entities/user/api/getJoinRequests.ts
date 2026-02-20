@@ -1,7 +1,8 @@
 import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
-import type { JoinRequestMemberResult } from '@/shared/api/models/crew';
 import { END_POINT } from '@/shared/constants/endpoint';
+
+import type { JoinRequestMemberResult } from '@/entities/user/model';
 
 export const getJoinRequests = (crewId: number) => {
   return auth.get<ApiResponse<JoinRequestMemberResult[]>>(

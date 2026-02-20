@@ -1,6 +1,7 @@
-import type { MemberItem } from '@/features/my/model/types';
 import * as styles from '@/features/my/styles/MemberList.css';
 import { MemberListItem } from '@/features/my/ui/MemberListItem';
+
+import type { MemberItem } from '@/entities/user/model';
 
 interface MemberListProps {
   members: MemberItem[];

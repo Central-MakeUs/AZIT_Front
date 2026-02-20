@@ -11,12 +11,3 @@ export type CrewInfoResult = Required<
 export type CrewJoinStatusResult = Required<
   components['schemas']['CrewJoinStatusResponse']
 >;
-export type CrewMemberListResult = Required<
-  components['schemas']['CrewMemberListResponse']
->;
-export type CrewMemberDetailResult = Required<
-  components['schemas']['CrewMemberDetailResponse']
->;
-export type JoinRequestMemberResult = Required<
-  components['schemas']['JoinRequestMemberResponse']
->;

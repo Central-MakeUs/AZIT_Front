@@ -6,12 +6,12 @@ import {
 } from '@azit/design-system/icon';
 
 import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/features/my/model/role';
-import type { MemberRole } from '@/features/my/model/types';
 import * as styles from '@/features/my/styles/MyProfileSection.css';
 
-import type { MyInfoResult } from '@/shared/api/models/my';
-
 import { MypageStatCard } from './MypageStatCard';
+
+import type { MemberRole } from '@/entities/user/model';
+import type { MyInfoResult } from '@/entities/user/model';
 
 interface MyProfileSectionProps {
   profile: MyInfoResult;

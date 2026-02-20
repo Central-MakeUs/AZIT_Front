@@ -4,12 +4,12 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { getCrewMembers } from '@/pages/my/api/getCrewMembers';
-import { getJoinRequests } from '@/pages/my/api/getJoinRequests';
-import { getMyInfo } from '@/pages/my/api/getMyInfo';
-
 import { postApproveJoinRequest } from '@/features/my/api/postApproveJoinRequest';
 import { postRejectJoinRequest } from '@/features/my/api/postRejectJoinRequest';
+
+import { getCrewMembers } from '@/entities/user/api/getCrewMembers';
+import { getJoinRequests } from '@/entities/user/api/getJoinRequests';
+import { getMyInfo } from '@/entities/user/api/getMyInfo';
 
 export const memberQueries = {
   all: ['member'] as const,
