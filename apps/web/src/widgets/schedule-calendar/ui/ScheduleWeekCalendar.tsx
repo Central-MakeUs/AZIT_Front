@@ -7,18 +7,15 @@ import * as styles from '@/widgets/schedule-calendar/style/ScheduleWeekCalendar.
 interface ScheduleWeekCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
-  activeStartDate: Date;
-  onActiveStartDateChange: (date: Date) => void;
 }
 
 export function ScheduleWeekCalendar({
   value,
   onChange,
-  activeStartDate,
-  onActiveStartDateChange,
 }: ScheduleWeekCalendarProps) {
-  const startOfWeek = dayjs(activeStartDate).startOf('week').toDate();
-  const endOfWeek = dayjs(activeStartDate).endOf('week').toDate();
+  const activeStartDate = dayjs(value).startOf('week').toDate();
+  const startOfWeek = dayjs(value).startOf('week').toDate();
+  const endOfWeek = dayjs(value).endOf('week').toDate();
 
   return (
     <div className={styles.calendarContainer}>
@@ -34,8 +31,8 @@ export function ScheduleWeekCalendar({
           if (date instanceof Date) onChange(date);
         }}
         activeStartDate={activeStartDate}
-        onActiveStartDateChange={({ activeStartDate }) => {
-          if (activeStartDate) onActiveStartDateChange(activeStartDate);
+        onActiveStartDateChange={({ activeStartDate: nextStart }) => {
+          if (nextStart) onChange(nextStart);
         }}
         formatShortWeekday={(_, date) =>
           dayjs(date).format('ddd').toUpperCase()

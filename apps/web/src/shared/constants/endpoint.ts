@@ -48,4 +48,8 @@ export const END_POINT = {
     CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
   },
+  SCHEDULE: {
+    LIST: (crewId: number) => `crews/${crewId}/schedules`,
+    CALENDAR: (crewId: number) => `crews/${crewId}/schedules/calendar`,
+  },
 } as const;
