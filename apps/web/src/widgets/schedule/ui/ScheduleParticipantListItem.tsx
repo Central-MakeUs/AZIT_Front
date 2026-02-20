@@ -1,6 +1,5 @@
 import { RoundProfileImage } from '@/widgets/profile/ui';
-
-import * as styles from '@/features/schedule/styles/ScheduleParticipantListItem.css';
+import * as styles from '@/widgets/schedule/styles/ScheduleParticipantListItem.css';
 
 import type { ScheduleParticipant } from '@/shared/mock/schedule';
 export type ScheduleParticipantOrientation = 'horizontal' | 'vertical';
