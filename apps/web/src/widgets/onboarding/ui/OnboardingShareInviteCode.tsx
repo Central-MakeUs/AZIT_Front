@@ -1,9 +1,9 @@
 import { Button } from '@azit/design-system/button';
 import { CopyIcon, ShareSheetIcon } from '@azit/design-system/icon';
 
+import * as styles from '@/widgets/onboarding/styles/OnboardingShareInviteCode.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
-import * as styles from '@/features/onboarding/styles/OnboardingShareInviteCode.css';
 
 import { bridge } from '@/shared/lib/bridge';
 

@@ -2,7 +2,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { useState } from 'react';
 
-import * as styles from '@/features/onboarding/styles/OnboardingCrewName.css';
+import * as styles from '@/widgets/onboarding/styles/OnboardingCrewName.css';
 
 import { BackButton } from '@/shared/ui/button';
 
