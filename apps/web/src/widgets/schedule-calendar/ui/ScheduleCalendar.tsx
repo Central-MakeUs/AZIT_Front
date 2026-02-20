@@ -10,7 +10,7 @@ import type { ScheduleCalendarList } from '@/entities/schedule/model/schedule.ty
 interface ScheduleCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
-  scheduleData: ScheduleCalendarList;
+  scheduleData?: ScheduleCalendarList;
 }
 
 export function ScheduleCalendar({
@@ -24,6 +24,8 @@ export function ScheduleCalendar({
   const handleNextMonth = () => {
     onChange(dayjs(value).add(1, 'month').toDate());
   };
+
+  const activeStartDate = dayjs(value).startOf('month').toDate();
 
   return (
     <div className={styles.calendarContainer}>
@@ -49,17 +51,19 @@ export function ScheduleCalendar({
 
       <Calendar
         value={value}
+        activeStartDate={activeStartDate}
+        onActiveStartDateChange={({ activeStartDate: nextStart }) => {
+          if (nextStart) onChange(nextStart);
+        }}
         onChange={(value) => {
-          if (value instanceof Date) {
-            onChange(value);
-          }
+          if (value instanceof Date) onChange(value);
         }}
         formatShortWeekday={(_, date) =>
           dayjs(date).format('ddd').toUpperCase()
         }
         formatDay={(_, date) => dayjs(date).format('D')}
         tileContent={({ date }: { date: Date }) => {
-          const schedule = scheduleData.find((item) =>
+          const schedule = scheduleData?.find((item) =>
             dayjs(item.date).isSame(date, 'day')
           );
           const hasLightning = schedule?.hasLightning;
