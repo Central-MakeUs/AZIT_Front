@@ -3,6 +3,6 @@ import type {
   ApiResponseWithoutResult,
 } from '@/shared/api/baseTypes';
 
-export type ConfirmJoinStatusResponseType =
-  | ApiResponse<{}>
+export type TermAgreeResponseType =
+  | ApiResponse<Record<string, never>>
   | ApiResponseWithoutResult;
