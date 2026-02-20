@@ -1,7 +1,7 @@
 import * as styles from '@/features/crew-join-approval/styles/RequestList.css';
 import { RequestListItem } from '@/features/crew-join-approval/ui/RequestListItem';
 
-import type { MemberRequestItem } from '@/entities/user/model';
+import type { MemberRequestItem } from '@/entities/crew/model/crew.types';
 
 interface RequestListProps {
   crewId: number;
