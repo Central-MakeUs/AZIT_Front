@@ -705,7 +705,7 @@ export interface paths {
      *     * '아지트 멤버십 할인'은 각 상품의 (정가 - 판매가) 총합으로 계산됩니다.
      *     * 포인트 '모두 사용' 클릭 시 응답의 availablePoints 값을 활용하여 100P 단위로 가공하시면 됩니다.
      */
-    get: operations['getCheckoutInfoDirect'];
+    get: operations['getOrderFromDirect'];
     put?: never;
     post?: never;
     delete?: never;
@@ -4398,7 +4398,7 @@ export interface operations {
       };
     };
   };
-  getCheckoutInfoDirect: {
+  getOrderFromDirect: {
     parameters: {
       query: {
         skuId: number;

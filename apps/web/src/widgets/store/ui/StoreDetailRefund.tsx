@@ -1,0 +1,18 @@
+import * as styles from '@/widgets/store/styles/StoreDetailRefund.css';
+
+interface StoreDetailRefundProps {
+  refundPolicy?: string;
+}
+
+export function StoreDetailRefund({ refundPolicy }: StoreDetailRefundProps) {
+  if (!refundPolicy) return null;
+
+  return (
+    <div className={styles.container}>
+      <p className={styles.label}>환불</p>
+      <div className={styles.content}>
+        <p className={styles.text}>{refundPolicy}</p>
+      </div>
+    </div>
+  );
+}
