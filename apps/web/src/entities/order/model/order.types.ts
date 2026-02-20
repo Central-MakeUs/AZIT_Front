@@ -1,5 +1,4 @@
 import type { operations } from '@/shared/api/apiTypes';
-import type { DeliveryAddressResponse } from '@/shared/api/models/address';
 
 import type {
   CheckoutItemDetailResponse,
@@ -10,6 +9,8 @@ import type {
   OrderSummaryResponse,
   PaymentMethodResponse,
 } from './order.model';
+
+import type { DeliveryAddressResponse } from '@/entities/address/model';
 
 /** order.model 타입 가공 */
 
