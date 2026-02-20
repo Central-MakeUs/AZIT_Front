@@ -1,4 +1,4 @@
-import * as styles from '@/features/store/styles/StoreDetailInfo.css';
+import * as styles from '@/widgets/store/styles/StoreDetailInfo.css';
 
 import { formatPrice } from '@/shared/lib/formatters';
 

@@ -1,4 +1,4 @@
-import * as styles from '@/features/store/styles/StoreDetailShipping.css';
+import * as styles from '@/widgets/store/styles/StoreDetailShipping.css';
 
 import { formatExpectedShippingDate } from '@/shared/lib/formatters';
 

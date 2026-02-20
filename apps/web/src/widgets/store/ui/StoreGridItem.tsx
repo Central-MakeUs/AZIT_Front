@@ -1,6 +1,6 @@
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '@/features/store/styles/StoreGridItem.css';
+import * as styles from '@/widgets/store/styles/StoreGridItem.css';
 
 import { formatPrice } from '@/shared/lib/formatters';
 
