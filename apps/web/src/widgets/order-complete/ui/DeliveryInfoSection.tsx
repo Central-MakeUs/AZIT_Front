@@ -1,4 +1,4 @@
-import * as styles from '@/features/order-complete/styles/DeliveryInfoSection.css.ts';
+import * as styles from '@/widgets/order-complete/styles/DeliveryInfoSection.css';
 
 interface DeliveryInfoSectionProps {
   name: string;

@@ -1,5 +1,6 @@
-import type { OrderDetailDeliveryInfo } from '@/features/order-detail/api/types';
-import * as styles from '@/features/order-detail/styles/OrderDeliveryAddressSection.css';
+import * as styles from '@/widgets/order-detail/styles/OrderDeliveryAddressSection.css';
+
+import type { OrderDetailDeliveryInfo } from '@/entities/order/model';
 
 interface OrderDeliveryAddressSectionProps {
   deliveryInfo: OrderDetailDeliveryInfo;
