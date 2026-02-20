@@ -4,7 +4,6 @@ import { XIcon } from '@azit/design-system/icon';
 import * as styles from '@/widgets/onboarding/styles/OnboardingCrewJoinBottomSheetContent.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
-
 import { CATEGORY_LABELS } from '@/shared/constants/crew';
 
 import type { CrewInfoResult } from '@/entities/crew/model';

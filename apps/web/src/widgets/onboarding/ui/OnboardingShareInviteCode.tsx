@@ -4,7 +4,6 @@ import { CopyIcon, ShareSheetIcon } from '@azit/design-system/icon';
 import * as styles from '@/widgets/onboarding/styles/OnboardingShareInviteCode.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
-
 import { bridge } from '@/shared/lib/bridge';
 
 export interface OnboardingShareInviteCodeProps {
