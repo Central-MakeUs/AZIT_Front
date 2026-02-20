@@ -32,7 +32,8 @@ export function AttendanceRecordListItem({
   return (
     <div className={styles.itemContainer}>
       <div className={styles.dateContainer}>
-        <p className={styles.date}>{record.date}</p>
+        <p className={styles.date}>{record.date.split(' ')[0]}</p>
+        <p className={styles.date}>{record.date.split(' ')[1]}</p>
       </div>
       <div className={styles.contentContainer}>
         <p className={styles.title}>{record.title}</p>
