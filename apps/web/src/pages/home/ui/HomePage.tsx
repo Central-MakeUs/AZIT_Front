@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
 import { mockActivityActivation } from '@/shared/mock/home';
 import { memberQueries } from '@/shared/queries';
