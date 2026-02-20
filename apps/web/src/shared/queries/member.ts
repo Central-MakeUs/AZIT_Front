@@ -4,8 +4,8 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { postApproveJoinRequest } from '@/features/my/api/postApproveJoinRequest';
-import { postRejectJoinRequest } from '@/features/my/api/postRejectJoinRequest';
+import { postApproveJoinRequest } from '@/features/crew-join-approval/api/postApproveJoinRequest';
+import { postRejectJoinRequest } from '@/features/crew-join-approval/api/postRejectJoinRequest';
 
 import { getCrewMembers } from '@/entities/user/api/getCrewMembers';
 import { getJoinRequests } from '@/entities/user/api/getJoinRequests';
