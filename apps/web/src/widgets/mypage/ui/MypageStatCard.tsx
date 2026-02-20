@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import * as styles from '@/widgets/my/styles/MypageStatCard.css';
+import * as styles from '@/widgets/mypage/styles/MypageStatCard.css';
 
 interface MypageStatCardProps {
   icon: ReactNode;

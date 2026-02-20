@@ -41,13 +41,13 @@ const OrderDetailPage = lazyImport(
   () => import('@/pages/order/ui/OrderDetailPage'),
   'OrderDetailPage'
 );
-const MyPage = lazyImport(() => import('@/pages/my/ui/MyPage'), 'MyPage');
+const MyPage = lazyImport(() => import('@/pages/mypage/ui/MyPage'), 'MyPage');
 const OrderHistory = lazyImport(
   () => import('@/pages/order/ui/OrderHistoryPage'),
   'OrderHistoryPage'
 );
 const NotificationSettingsPage = lazyImport(
-  () => import('@/pages/my/ui/MyNotificationPage'),
+  () => import('@/pages/mypage/ui/MyNotificationPage'),
   'MyNotificationPage'
 );
 const CrewJoinStatusPage = lazyImport(
@@ -71,7 +71,7 @@ const SchedulePage = lazyImport(
   'SchedulePage'
 );
 const AttendancePage = lazyImport(
-  () => import('@/pages/my/ui/MyAttendancePage'),
+  () => import('@/pages/mypage/ui/MyAttendancePage'),
   'MyAttendancePage'
 );
 const AddressSettingPage = lazyImport(
@@ -95,11 +95,11 @@ const TermDetailPage = lazyImport(
   'TermDetailPage'
 );
 const MemberManagePage = lazyImport(
-  () => import('@/pages/my/ui/MemberManagePage'),
+  () => import('@/pages/mypage/ui/MemberManagePage'),
   'MemberManagePage'
 );
 const MemberViewPage = lazyImport(
-  () => import('@/pages/my/ui/MemberViewPage'),
+  () => import('@/pages/mypage/ui/MemberViewPage'),
   'MemberViewPage'
 );
 

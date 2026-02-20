@@ -18,7 +18,7 @@ export interface ExternalLinkMenuItem extends BaseMenuItem {
 
 export type MenuItem = PageMenuItem | ExternalLinkMenuItem;
 
-export interface MyPageMenuGroup {
+export interface MypageMenuGroup {
   id: string;
   title: string;
   items: MenuItem[];

@@ -1,6 +1,6 @@
 import { CopyIcon, UploadIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/widgets/my/styles/MyCrewInfoSection.css';
+import * as styles from '@/widgets/mypage/styles/MyCrewInfoSection.css';
 
 import { bridge } from '@/shared/lib/bridge';
 
