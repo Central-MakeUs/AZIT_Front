@@ -1,4 +1,4 @@
-import * as styles from '@/features/store/styles/StoreBanner.css';
+import * as styles from '@/widgets/store/styles/StoreBanner.css';
 
 export function StoreBanner() {
   return (

@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from '@azit/design-system/icon';
 import { useEffect, useRef, useState } from 'react';
 
-import * as styles from '@/features/store/styles/StoreDetailDescription.css';
+import * as styles from '@/widgets/store/styles/StoreDetailDescription.css';
 
 const MORE_INFO_HEIGHT_THRESHOLD = 500;
 

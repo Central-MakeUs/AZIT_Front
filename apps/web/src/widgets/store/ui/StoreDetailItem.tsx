@@ -1,6 +1,6 @@
 import { MinusIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/store/styles/StoreDetailItem.css';
+import * as styles from '@/widgets/store/styles/StoreDetailItem.css';
 
 import {
   formatExpectedShippingDate,
