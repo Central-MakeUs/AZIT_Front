@@ -1,8 +1,8 @@
-function getNaverMaps(): Window['naver'] {
+const getNaverMaps = (): Window['naver'] => {
   return typeof window !== 'undefined' ? window.naver : undefined;
-}
+};
 
-export function reverseGeocode(lat: number, lng: number): Promise<string> {
+export const reverseGeocode = (lat: number, lng: number): Promise<string> => {
   return new Promise((resolve, reject) => {
     const naver = getNaverMaps();
 
@@ -40,4 +40,4 @@ export function reverseGeocode(lat: number, lng: number): Promise<string> {
       }
     );
   });
-}
+};
