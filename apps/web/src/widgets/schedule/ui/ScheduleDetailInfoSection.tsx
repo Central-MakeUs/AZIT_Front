@@ -4,8 +4,8 @@ import {
   MarkerPinIcon,
 } from '@azit/design-system/icon';
 
-import * as styles from '@/features/schedule/styles/ScheduleDetailInfoSection.css';
-import { StaticMap } from '@/features/schedule/ui/StaticMap';
+import * as styles from '@/widgets/schedule/styles/ScheduleDetailInfoSection.css';
+import { StaticMap } from '@/widgets/schedule/ui/StaticMap';
 
 interface ScheduleDetailInfoSectionProps {
   date: string;
