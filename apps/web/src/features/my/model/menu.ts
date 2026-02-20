@@ -1,37 +1,12 @@
 import type { ActivityName } from '@/app/routes/types';
 
-import { MEMBER_ROLE } from '@/features/my/model/role';
-
+import { MEMBER_ROLE } from '@/shared/config/member-role';
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
+import type { MyPageMenuGroup } from '@/shared/types/my-menu';
 
 import type { MemberRole } from '@/entities/user/model';
 
-interface BaseMenuItem {
-  id: string;
-  label: string;
-}
-
-interface PageMenuItem extends BaseMenuItem {
-  type: 'page';
-  path: ActivityName;
-  url?: never;
-  /** stackflow push 시 전달할 params (예: crew id) */
-  pushParams?: Record<string, unknown>;
-}
-
-interface ExternalLinkMenuItem extends BaseMenuItem {
-  type: 'external_link';
-  url: string;
-  path?: never;
-}
-
-export type MenuItem = PageMenuItem | ExternalLinkMenuItem;
-
-export interface MyPageMenuGroup {
-  id: string;
-  title: string;
-  items: MenuItem[];
-}
+export type { MenuItem, MyPageMenuGroup } from '@/shared/types/my-menu';
 
 export const getMyPageMenu: (
   role: MemberRole,
@@ -45,13 +20,13 @@ export const getMyPageMenu: (
         {
           id: 'order-history',
           label: '주문 내역',
-          path: 'OrderHistory',
+          path: 'OrderHistory' as ActivityName,
           type: 'page',
         },
         {
           id: 'address',
           label: '배송지 설정',
-          path: 'AddressSettingPage',
+          path: 'AddressSettingPage' as ActivityName,
           type: 'page',
         },
         {
@@ -69,8 +44,9 @@ export const getMyPageMenu: (
         {
           id: 'member-management',
           label: role === MEMBER_ROLE.LEADER ? '멤버 관리' : '멤버 목록',
-          path:
-            role === MEMBER_ROLE.LEADER ? 'MemberManagePage' : 'MemberViewPage',
+          path: (role === MEMBER_ROLE.LEADER
+            ? 'MemberManagePage'
+            : 'MemberViewPage') as ActivityName,
           type: 'page',
           pushParams: { id: crewId },
         },
@@ -83,25 +59,19 @@ export const getMyPageMenu: (
         {
           id: 'terms-of-service',
           label: '서비스 이용약관',
-          path: 'TermDetailPage',
+          path: 'TermDetailPage' as ActivityName,
           type: 'page',
         },
         {
           id: 'privacy-policy',
           label: '개인정보 처리방침',
-          path: 'TermDetailPage',
+          path: 'TermDetailPage' as ActivityName,
           type: 'page',
         },
-        // {
-        //   id: 'location-service-terms',
-        //   label: '위치 기반 서비스 이용약관',
-        //   path: 'TermDetailPage',
-        //   type: 'page',
-        // },
         {
           id: 'third-party-info-agreement',
           label: '제 3자 정보제공 동의 내역',
-          path: 'TermDetailPage',
+          path: 'TermDetailPage' as ActivityName,
           type: 'page',
         },
       ],
