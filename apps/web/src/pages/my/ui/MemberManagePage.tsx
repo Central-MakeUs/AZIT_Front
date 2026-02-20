@@ -5,14 +5,15 @@ import { useState } from 'react';
 
 import * as styles from '@/pages/my/styles/MemberManagePage.css';
 
-import { MEMBER_ROLE } from '@/features/my/model/role';
 import {
   MemberList,
   MemberManagementTab,
-  RequestList,
   RequestListEmpty,
-} from '@/features/my/ui';
+} from '@/widgets/my/ui';
 
+import { RequestList } from '@/features/crew-join-approval/ui';
+
+import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
