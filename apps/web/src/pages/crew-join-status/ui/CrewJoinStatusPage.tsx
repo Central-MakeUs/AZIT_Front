@@ -7,8 +7,8 @@ import * as styles from '@/pages/crew-join-status/styles/CrewJoinStatusPage.css'
 
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
-import { useConfirmJoinStatus } from '@/features/crew-join-status/hooks/useConfirmJoinStatus';
-import { STATUS_CONTENT } from '@/features/crew-join-status/model/crewJoinStatus';
+import { STATUS_CONTENT } from '@/features/crew-join/model/crewJoinStatus';
+import { useConfirmJoinStatus } from '@/features/crew-join-approval/hooks/useConfirmJoinStatus';
 
 import { crewQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
