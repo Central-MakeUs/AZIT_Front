@@ -5,7 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
+import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
+// import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
@@ -39,6 +40,13 @@ export function SchedulePage() {
     enabled: crewId > 0,
   });
 
+  const { data: scheduleCalendarList = [] } = useQuery({
+    ...scheduleQueries.getScheduleCalendarQuery(crewId, {
+      yearMonth: dayjs(selectedDate).format('YYYY-MM'),
+    }),
+    enabled: crewId > 0,
+  });
+
   return (
     <AppScreen>
       <AppLayout>
@@ -50,10 +58,15 @@ export function SchedulePage() {
         <div className={scrollContainer}>
           <ScheduleSectionLayout
             topSection={
-              <ScheduleWeekCalendar
+              <ScheduleCalendar
                 value={selectedDate}
                 onChange={handleDateChange}
+                scheduleData={scheduleCalendarList}
               />
+              // <ScheduleWeekCalendar
+              //     value={selectedDate}
+              //     onChange={handleDateChange}
+              //   />
             }
             scheduleContent={
               <>
