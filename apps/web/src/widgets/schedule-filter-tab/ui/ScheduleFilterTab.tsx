@@ -2,17 +2,17 @@ import { Button } from '@azit/design-system/button';
 
 import * as styles from '@/widgets/schedule-filter-tab/styles/ScheduleFilterTab.css';
 
-export type ScheduleFilterType = 'all' | 'regular' | 'lightning';
+import type { RunType } from '@/entities/schedule/model/types';
 
 interface ScheduleFilterTabProps {
-  activeFilter: ScheduleFilterType;
-  onFilterChange: (filter: ScheduleFilterType) => void;
+  activeFilter: RunType;
+  onFilterChange: (filter: RunType) => void;
 }
 
-const FILTERS: { label: string; value: ScheduleFilterType }[] = [
-  { label: '전체', value: 'all' },
-  { label: '정기런', value: 'regular' },
-  { label: '번개런', value: 'lightning' },
+const FILTERS: { label: string; value: RunType }[] = [
+  { label: '전체', value: undefined },
+  { label: '정기런', value: 'REGULAR' },
+  { label: '번개런', value: 'LIGHTNING' },
 ];
 
 export function ScheduleFilterTab({
