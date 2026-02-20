@@ -4,8 +4,8 @@ import {
   MarkerPinIcon,
 } from '@azit/design-system/icon';
 
-import * as styles from '@/features/schedule-detail/styles/ScheduleDetailInfoSection.css';
-import { StaticMap } from '@/features/schedule-detail/ui/StaticMap';
+import * as styles from '@/features/schedule/styles/ScheduleDetailInfoSection.css';
+import { StaticMap } from '@/features/schedule/ui/StaticMap';
 
 interface ScheduleDetailInfoSectionProps {
   date: string;
@@ -51,7 +51,10 @@ export function ScheduleDetailInfoSection({
           </div>
         </div>
         <div className={styles.mapContainer}>
-          <StaticMap latitude={37.498085} longitude={126.851014} />
+          <StaticMap
+            latitude={37.52964580905185}
+            longitude={126.93366366931356}
+          />
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@
           "NSAllowsArbitraryLoads": true,
           "NSAllowsArbitraryLoadsInWebContent": true
         },
+        "LSApplicationQueriesSchemes": ["nmap"],
         "ITSAppUsesNonExemptEncryption": false
       },
       "appleTeamId": "4U9PQRRKLB"
