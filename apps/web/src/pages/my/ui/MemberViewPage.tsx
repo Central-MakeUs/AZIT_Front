@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import * as styles from '@/pages/my/styles/MemberViewPage.css';
 
-import { MemberList } from '@/features/my/ui';
+import { MemberList } from '@/widgets/my/ui';
 
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';

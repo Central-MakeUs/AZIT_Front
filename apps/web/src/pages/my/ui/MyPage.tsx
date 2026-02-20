@@ -3,15 +3,16 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
+import { getMyPageMenu } from '@/pages/my/config/menu';
 import * as styles from '@/pages/my/styles/MyPage.css';
 
-import { WithdrawButton } from '@/features/auth/ui';
-import { getMyPageMenu } from '@/features/my/model/menu';
 import {
   MyProfileSection,
   MyCrewInfoSection,
   MyMenuSection,
-} from '@/features/my/ui';
+} from '@/widgets/my/ui';
+
+import { WithdrawButton } from '@/features/auth/ui';
 
 import { memberQueries } from '@/shared/queries';
 import { useAuthStore } from '@/shared/store/auth';
