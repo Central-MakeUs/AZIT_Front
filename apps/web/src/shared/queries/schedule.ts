@@ -3,7 +3,10 @@ import { queryOptions } from '@tanstack/react-query';
 import { getMemberScheduleList } from '@/entities/schedule/api/getMemberScheduleList';
 import { getScheduleCalendar } from '@/entities/schedule/api/getScheduleCalendar';
 import { getScheduleList } from '@/entities/schedule/api/getScheduleList';
-import type { CrewScheduleListRequest } from '@/entities/schedule/model/schedule.model';
+import type {
+  CrewScheduleCalendarRequest,
+  CrewScheduleListRequest,
+} from '@/entities/schedule/model/schedule.model';
 
 export const scheduleQueries = {
   all: ['schedule'] as const,
@@ -29,9 +32,16 @@ export const scheduleQueries = {
         return res.data.result ?? [];
       },
     }),
-  getScheduleCalendarQuery: (crewId: number) =>
+  getScheduleCalendarQuery: (
+    crewId: number,
+    request?: CrewScheduleCalendarRequest
+  ) =>
     queryOptions({
       queryKey: [...scheduleQueries.all, 'getScheduleCalendar', crewId],
-      queryFn: () => getScheduleCalendar(crewId),
+      queryFn: async () => {
+        const res = await getScheduleCalendar(crewId, request);
+        if (!res.ok) return [];
+        return res.data.result ?? [];
+      },
     }),
 };
