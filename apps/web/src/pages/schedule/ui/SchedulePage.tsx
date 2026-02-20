@@ -1,22 +1,36 @@
 import { Header } from '@azit/design-system/header';
 import { PlusIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
-import { ScheduleList } from '@/widgets/schedule-list/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
-import { mockScheduleList } from '@/shared/mock/home';
+import { memberQueries } from '@/shared/queries/member';
+import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 
+import type { RunType } from '@/entities/schedule/model/types';
+import { ScheduleList } from '@/entities/schedule/ui';
+
 export function SchedulePage() {
-  const [activeFilter, setActiveFilter] = useState<
-    'all' | 'regular' | 'lightning'
-  >('all');
+  const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
+  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const { data: scheduleList = [], isLoading } = useQuery({
+    ...scheduleQueries.getScheduleListQuery(crewId, {
+      runType: activeFilter,
+      date: dayjs(selectedDate).format('YYYY-MM-DD'),
+    }),
+    enabled: crewId > 0,
+  });
 
   return (
     <AppScreen>
@@ -30,10 +44,8 @@ export function SchedulePage() {
           <ScheduleSectionLayout
             topSection={
               <ScheduleWeekCalendar
-                value={new Date()}
-                onChange={() => {}}
-                activeStartDate={new Date()}
-                onActiveStartDateChange={() => {}}
+                value={selectedDate}
+                onChange={setSelectedDate}
               />
             }
             scheduleContent={
@@ -42,7 +54,7 @@ export function SchedulePage() {
                   activeFilter={activeFilter}
                   onFilterChange={setActiveFilter}
                 />
-                <ScheduleList items={mockScheduleList} />
+                {!isLoading && <ScheduleList items={scheduleList} />}
               </>
             }
           />

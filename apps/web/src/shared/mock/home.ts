@@ -1,71 +1,50 @@
-export interface ScheduleItem {
-  id: string;
-  month: string;
-  day: string;
-  tags: {
-    label: string;
-    type: 'primary' | 'secondary';
-  }[];
-  title: string;
-  time: string;
-  location: string;
-  participants: {
-    current: number;
-    max: number;
-  };
-}
+import type { ScheduleList } from '@/entities/schedule/model/types';
 
-export const mockScheduleList: ScheduleItem[] = [
+export const mockScheduleList: ScheduleList = [
   {
-    id: '1',
-    month: '1월',
-    day: '21일',
-    tags: [
-      { label: '정기런', type: 'primary' },
-      { label: '5km', type: 'secondary' },
-      { label: '4\'30"/km', type: 'secondary' },
-    ],
+    scheduleId: 1,
     title: 'Run Title Run Title Run Title Run Title',
-    time: '19:30',
-    location: '반포 한강 공원',
-    participants: {
-      current: 12,
-      max: 20,
-    },
+    runType: 'REGULAR',
+    meetingAt: '2025-01-21T19:30:00.000Z',
+    placeName: '반포 한강 공원',
+    distance: 5,
+    pace: 4.5,
+    maxParticipants: 20,
+    currentParticipants: 12,
+    isMine: false,
+    isParticipating: false,
+    createdAt: '2025-01-15T09:00:00.000Z',
+    status: 'ACTIVE',
   },
   {
-    id: '2',
-    month: '1월',
-    day: '22일',
-    tags: [
-      { label: '정기런', type: 'primary' },
-      { label: '10km', type: 'secondary' },
-      { label: '5\'00"/km', type: 'secondary' },
-    ],
+    scheduleId: 2,
     title: 'Run Title Run Title Run Title Run Title',
-    time: '20:00',
-    location: '반포 한강 공원',
-    participants: {
-      current: 8,
-      max: 15,
-    },
+    runType: 'REGULAR',
+    meetingAt: '2025-01-22T20:00:00.000Z',
+    placeName: '반포 한강 공원',
+    distance: 10,
+    pace: 5,
+    maxParticipants: 15,
+    currentParticipants: 8,
+    isMine: false,
+    isParticipating: false,
+    createdAt: '2025-01-16T09:00:00.000Z',
+    status: 'ACTIVE',
   },
   {
-    id: '3',
-    month: '1월',
-    day: '23일',
-    tags: [
-      { label: '정기런', type: 'primary' },
-      { label: '3km', type: 'secondary' },
-      { label: '4\'00"/km', type: 'secondary' },
-    ],
+    scheduleId: 3,
     title: 'Run Title Run Title Run Title Run Title',
-    time: '18:30',
-    location: '반포 한강 공원',
-    participants: {
-      current: 15,
-      max: 20,
-    },
+    runType: 'REGULAR',
+    meetingAt: '2025-01-23T18:30:00.000Z',
+    placeName: '반포 한강 공원',
+    distance: 3,
+    pace: 4,
+    maxParticipants: 20,
+    currentParticipants: 15,
+    isMine: false,
+    isParticipating: false,
+    createdAt: '2025-01-17T09:00:00.000Z',
+    status: 'ACTIVE',
   },
 ];
 
