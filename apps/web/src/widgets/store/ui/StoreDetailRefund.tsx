@@ -1,4 +1,4 @@
-import * as styles from '@/features/store/styles/StoreDetailRefund.css';
+import * as styles from '@/widgets/store/styles/StoreDetailRefund.css';
 
 interface StoreDetailRefundProps {
   refundPolicy?: string;
