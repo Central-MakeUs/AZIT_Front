@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
@@ -60,7 +61,11 @@ export function SchedulePage() {
                   activeFilter={activeFilter}
                   onFilterChange={setActiveFilter}
                 />
-                {!isLoading && <ScheduleList items={scheduleList} />}
+                {isLoading ? (
+                  <ScheduleListSkeleton />
+                ) : (
+                  <ScheduleList items={scheduleList} />
+                )}
               </>
             }
           />
