@@ -1,8 +1,9 @@
 import { Dropdown, type DropdownOption } from '@azit/design-system/dropdown';
 import type { Dispatch, SetStateAction } from 'react';
 
-import type { DeliveryAddress } from '@/features/order/api/types';
 import * as styles from '@/features/order/styles/OrderAddressSection.css';
+
+import type { DeliveryAddress } from '@/entities/order/model';
 
 interface OrderAddressSectionProps {
   address: DeliveryAddress | null;

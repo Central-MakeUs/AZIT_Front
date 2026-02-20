@@ -1,7 +1,8 @@
-import type { OrderStatus } from '@/features/order-detail/api/types';
-import * as styles from '@/features/order-detail/styles/OrderDateSection.css';
+import * as styles from '@/widgets/order-detail/styles/OrderDateSection.css';
 
 import { ORDER_STATUS_MAP } from '@/shared/constants/order';
+
+import type { OrderStatus } from '@/entities/order/model';
 
 interface OrderDateSectionProps {
   orderDate: string;
