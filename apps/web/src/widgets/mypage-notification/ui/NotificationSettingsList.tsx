@@ -1,5 +1,5 @@
-import * as styles from '@/features/mypage-notification/styles/NotificationSettingsList.css';
-import { NotificationSettingItem } from '@/features/mypage-notification/ui/NotificationSettingItem';
+import * as styles from '@/widgets/mypage-notification/styles/NotificationSettingsList.css';
+import { NotificationSettingItem } from '@/widgets/mypage-notification/ui/NotificationSettingItem';
 
 import type { NotificationSettingItem as NotificationSettingItemType } from '@/shared/mock/mypage-notification';
 

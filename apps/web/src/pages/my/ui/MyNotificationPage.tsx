@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 
 import * as styles from '@/pages/my/styles/MyNotificationPage.css.ts';
 
-import { NotificationSettingsList } from '@/features/mypage-notification/ui';
+import { NotificationSettingsList } from '@/widgets/mypage-notification/ui';
 
 import {
   mockNotificationSettings,

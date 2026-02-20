@@ -1,7 +1,7 @@
 import { Button } from '@azit/design-system/button';
 import { ClockIcon, MarkerPinIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/mypage-attendance/styles/AttendanceRecordListItem.css';
+import * as styles from '@/widgets/mypage-attendance/styles/AttendanceRecordListItem.css';
 
 import type { AttendanceRecord } from '@/shared/mock/mypage-attendance';
 
