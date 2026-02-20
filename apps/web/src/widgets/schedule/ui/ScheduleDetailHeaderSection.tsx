@@ -1,6 +1,6 @@
 import { Chip } from '@azit/design-system/chip';
 
-import * as styles from '@/features/schedule/styles/ScheduleDetailHeaderSection.css';
+import * as styles from '@/widgets/schedule/styles/ScheduleDetailHeaderSection.css';
 
 interface ScheduleDetailHeaderSectionProps {
   runType: string;

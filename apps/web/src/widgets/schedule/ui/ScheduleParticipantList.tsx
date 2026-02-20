@@ -1,10 +1,8 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/schedule/styles/ScheduleParticipantList.css';
-import {
-  ScheduleParticipantListItem,
-  ScheduleParticipantTitle,
-} from '@/features/schedule/ui';
+import * as styles from '@/widgets/schedule/styles/ScheduleParticipantList.css';
+import { ScheduleParticipantListItem } from '@/widgets/schedule/ui/ScheduleParticipantListItem';
+import { ScheduleParticipantTitle } from '@/widgets/schedule/ui/ScheduleParticipantTitle';
 
 import type { ScheduleParticipant } from '@/shared/mock/schedule';
 
