@@ -51,5 +51,6 @@ export const END_POINT = {
   SCHEDULE: {
     LIST: (crewId: number) => `crews/${crewId}/schedules`,
     CALENDAR: (crewId: number) => `crews/${crewId}/schedules/calendar`,
+    MEMBER_LIST: 'members/me/schedules',
   },
 } as const;
