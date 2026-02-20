@@ -1,7 +1,7 @@
 import { Chip } from '@azit/design-system/chip';
 import { ClockIcon, MarkerPinIcon, UsersIcon } from '@azit/design-system/icon';
 
-import type { ScheduleListItem as ScheduleListItemType } from '@/entities/schedule/model/types';
+import type { ScheduleListItem as ScheduleListItemType } from '@/entities/schedule/model/schedule.types';
 import * as styles from '@/entities/schedule/styles/ScheduleListItem.css.ts';
 
 function formatMeetingAt(meetingAt: string | undefined) {

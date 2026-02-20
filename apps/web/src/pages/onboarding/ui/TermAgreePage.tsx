@@ -8,8 +8,9 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import * as styles from '@/pages/onboarding/styles/TermAgreePage.css';
 
-import { postTermAgree } from '@/features/onboarding/api/postTermAgree';
-import { TermAgreeItem } from '@/features/onboarding/ui';
+import { TermAgreeItem } from '@/widgets/onboarding/ui';
+
+import { postTermAgree } from '@/features/term-agree/api/postTermAgree';
 
 import { AppLayout } from '@/shared/ui/layout';
 

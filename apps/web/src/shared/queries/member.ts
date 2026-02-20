@@ -4,12 +4,12 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { getCrewMembers } from '@/pages/my/api/getCrewMembers';
-import { getJoinRequests } from '@/pages/my/api/getJoinRequests';
-import { getMyInfo } from '@/pages/my/api/getMyInfo';
+import { postApproveJoinRequest } from '@/features/crew-join-approval/api/postApproveJoinRequest';
+import { postRejectJoinRequest } from '@/features/crew-join-approval/api/postRejectJoinRequest';
 
-import { postApproveJoinRequest } from '@/features/my/api/postApproveJoinRequest';
-import { postRejectJoinRequest } from '@/features/my/api/postRejectJoinRequest';
+import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
+import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
+import { getMyInfo } from '@/entities/user/api/getMyInfo';
 
 export const memberQueries = {
   all: ['member'] as const,
@@ -40,7 +40,7 @@ export const memberQueries = {
   joinRequestsQuery: (crewId: number) =>
     queryOptions({
       queryKey: memberQueries.joinRequestsKey(crewId),
-      queryFn: () => getJoinRequests(crewId),
+      queryFn: () => getCrewJoinRequests(crewId),
       staleTime: 1000 * 60 * 5,
       refetchInterval: 1000 * 10,
       refetchIntervalInBackground: false, // 탭 포커스일 때만 refetch
