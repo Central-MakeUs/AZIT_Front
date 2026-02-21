@@ -42,25 +42,19 @@ export function MyCrewInfoSection({
       {inviteCode && (
         <div className={styles.cardFooter}>
           <div className={styles.copyContent}>
-            <span>{inviteCode}</span>
-            <button
-              type="button"
-              onClick={onCopyCode}
-              aria-label="초대 코드 복사"
-              className={styles.iconWrap}
-            >
-              <CopyIcon size={16} className={styles.copyIcon} />
+            <button onClick={onCopyCode} className={styles.tabButton}>
+              <span>{inviteCode}</span>
+              <span className={styles.iconWrap}>
+                <CopyIcon size={16} className={styles.copyIcon} />
+              </span>
             </button>
           </div>
           <div className={styles.shareContent}>
-            <span>공유하기</span>
-            <button
-              type="button"
-              onClick={onShare}
-              aria-label="크루 공유"
-              className={styles.iconWrap}
-            >
-              <UploadIcon size={16} className={styles.shareIcon} />
+            <button onClick={onShare} className={styles.tabButton}>
+              <span>공유하기</span>
+              <span className={styles.iconWrap}>
+                <UploadIcon size={16} className={styles.shareIcon} />
+              </span>
             </button>
           </div>
         </div>
