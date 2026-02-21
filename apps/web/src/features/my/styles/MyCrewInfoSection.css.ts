@@ -41,19 +41,27 @@ export const crewName = style([
 export const crewJoinInfo = style({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
+  height: 44,
+  gap: 6,
+});
+
+export const tabButton = style({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
   gap: 6,
 });
 
 export const copyContent = style([
+  crewJoinInfo,
   {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     borderRight: `1px solid ${vars.colors.gray10}`,
     color: vars.colors.gray70,
-    padding: '12px 0',
     flex: 1,
-    gap: 6,
   },
 ]);
 
@@ -69,11 +77,7 @@ export const copyIcon = style({
 export const shareContent = style([
   crewJoinInfo,
   {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     color: vars.colors.blue60,
-    padding: '12px 0',
     flex: 1,
   },
 ]);
