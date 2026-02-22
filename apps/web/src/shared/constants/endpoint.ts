@@ -55,5 +55,7 @@ export const END_POINT = {
     CALENDAR: (crewId: number) => `crews/${crewId}/schedules/calendar`,
     PARTICIPATE: (crewId: number, scheduleId: number) =>
       `crews/${crewId}/schedules/${scheduleId}/participate`,
+    PARTICIPANTS: (crewId: number, scheduleId: number) =>
+      `crews/${crewId}/schedules/${scheduleId}/participants`,
   },
 } as const;

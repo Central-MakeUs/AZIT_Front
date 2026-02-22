@@ -8,13 +8,17 @@ interface UseScheduleActionsProps {
   scheduleId: number;
 }
 
-export function useScheduleActions({
+export function useScheduleParticipateActions({
   crewId,
   scheduleId,
 }: UseScheduleActionsProps) {
   const queryClient = useQueryClient();
 
   const detailQueryKey = scheduleQueries.scheduleDetailQuery(
+    crewId,
+    scheduleId
+  ).queryKey;
+  const participantsQueryKey = scheduleQueries.scheduleParticipantsQuery(
     crewId,
     scheduleId
   ).queryKey;
@@ -25,6 +29,7 @@ export function useScheduleActions({
       // TODO: 토스트 메세지 스타일 변경
       toast.success('신청이 완료되었습니다');
       queryClient.invalidateQueries({ queryKey: detailQueryKey });
+      queryClient.invalidateQueries({ queryKey: participantsQueryKey });
     },
   });
 
@@ -34,6 +39,7 @@ export function useScheduleActions({
       // TODO: 토스트 메세지 스타일 변경
       toast.success('신청이 취소되었습니다');
       queryClient.invalidateQueries({ queryKey: detailQueryKey });
+      queryClient.invalidateQueries({ queryKey: participantsQueryKey });
     },
   });
 
