@@ -15,3 +15,8 @@ export type CrewScheduleCalendarResponse =
 export type CrewScheduleCalendarRequest = NonNullable<
   operations['getMonthlySchedulesForCalendar']['parameters']['query']
 >;
+export type ScheduleParticipantsResponse = RequiredDeep<
+  components['schemas']['SliceResponseParticipantResponse']
+>;
+export type ScheduleParticipantsRequest =
+  components['schemas']['CursorPageQuery'];
