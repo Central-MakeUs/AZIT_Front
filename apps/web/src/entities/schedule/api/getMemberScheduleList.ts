@@ -6,6 +6,6 @@ import type { CrewScheduleListResponse } from '../model/schedule.model';
 
 export const getMemberScheduleList = () => {
   return auth.get<ApiResponse<CrewScheduleListResponse[]>>(
-    END_POINT.SCHEDULE.MEMBER_LIST
+    END_POINT.SCHEDULE.JOINED_LIST
   );
 };
