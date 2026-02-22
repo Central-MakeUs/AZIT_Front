@@ -1,8 +1,9 @@
+import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { ShareIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -75,7 +76,8 @@ interface ScheduleDetailPageProps {
 export function ScheduleDetailPage({
   params: { id: scheduleId },
 }: ScheduleDetailPageProps) {
-  const { push } = useFlow();
+  const { push, replace } = useFlow();
+  const queryClient = useQueryClient();
 
   const { data: myInfoData, isLoading: myInfoLoading } = useQuery(
     memberQueries.myInfoQuery()
@@ -100,12 +102,35 @@ export function ScheduleDetailPage({
     scheduleId,
   });
 
+  const deleteScheduleMutation = useMutation({
+    ...scheduleQueries.deleteSchedule,
+    onSuccess: () => {
+      queryClient.removeQueries({
+        queryKey: scheduleQueries.detail(scheduleId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.all,
+        predicate: (query) => {
+          const [, type] = query.queryKey;
+          return type !== 'detail';
+        },
+      });
+      replace('SchedulePage', {});
+    },
+  });
+
   const handleEdit = () => {
-    // TODO: 수정하기 네비게이션
+    if (scheduleDetailViewData?.scheduleId != null) {
+      push('ScheduleEditPage', {
+        id: scheduleDetailViewData.scheduleId,
+      });
+    }
   };
 
   const handleDelete = () => {
-    // TODO: 삭제하기 네비게이션
+    if (crewId > 0 && scheduleId > 0) {
+      deleteScheduleMutation.mutate({ crewId, scheduleId });
+    }
   };
 
   const handleShare = () => {
@@ -202,16 +227,25 @@ export function ScheduleDetailPage({
             </Button>
           </Show>
           <Show when={isCreator}>
-            <div>
-              <Button size="large" state="outline" onClick={handleDelete}>
-                삭제하기
-              </Button>
+            <div className={styles.creatorButtonWrapper}>
+              <AlertDialog
+                trigger={
+                  <Button size="large" state="outline">
+                    삭제하기
+                  </Button>
+                }
+                title="일정을 삭제하시겠어요?"
+                description="삭제된 일정은 복구할 수 없어요"
+                actionText="삭제하기"
+                cancelText="취소하기"
+                onAction={handleDelete}
+              />
               <Button size="large" state="active" onClick={handleEdit}>
                 수정하기
               </Button>
             </div>
           </Show>
-          <Show when={isParticipating}>
+          <Show when={!isCreator && isParticipating}>
             <Button
               size="large"
               state="outline"
@@ -221,7 +255,7 @@ export function ScheduleDetailPage({
               취소하기
             </Button>
           </Show>
-          <Show when={!isParticipating}>
+          <Show when={!isCreator && !isParticipating}>
             <Button
               size="large"
               state="active"
