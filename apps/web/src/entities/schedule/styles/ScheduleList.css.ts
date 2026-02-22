@@ -6,7 +6,6 @@ export const listContainer = style({
   flexDirection: 'column',
   gap: '10px',
   width: '100%',
-  height: '100%',
 });
 
 export const emptyContainer = style({
@@ -15,8 +14,8 @@ export const emptyContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  height: '100px',
-  flex: 1,
+  height: '220px',
+  gap: '16px',
 });
 
 export const emptyText = style([
@@ -25,3 +24,8 @@ export const emptyText = style([
     color: vars.colors.gray60,
   },
 ]);
+
+export const addScheduleButton = style({
+  width: 'fit-content',
+  padding: '0 30px',
+});
