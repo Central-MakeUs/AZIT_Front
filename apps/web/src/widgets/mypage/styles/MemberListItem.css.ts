@@ -103,4 +103,5 @@ export const removeButton = style({
   border: 'none',
   background: 'none',
   cursor: 'pointer',
+  color: vars.colors.gray40,
 });
