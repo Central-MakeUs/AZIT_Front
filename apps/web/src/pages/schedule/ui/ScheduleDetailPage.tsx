@@ -19,7 +19,7 @@ import {
 } from '@/widgets/schedule/ui';
 import { ScheduleDetailSkeleton } from '@/widgets/skeleton/ui';
 
-import { useScheduleActions } from '@/features/schedule-participate/model/useScheduleActions';
+import { useScheduleParticipateActions } from '@/features/schedule-participate/model/useScheduleParticipateActions';
 
 import { bridge } from '@/shared/lib/bridge';
 import { memberQueries } from '@/shared/queries/member';
@@ -97,10 +97,11 @@ export function ScheduleDetailPage({
     return transformScheduleDetail(scheduleDetailData.data.result);
   }, [scheduleDetailData]);
 
-  const { participate, cancelParticipation, isPending } = useScheduleActions({
-    crewId,
-    scheduleId,
-  });
+  const { participate, cancelParticipation, isPending } =
+    useScheduleParticipateActions({
+      crewId,
+      scheduleId,
+    });
 
   const deleteScheduleMutation = useMutation({
     ...scheduleQueries.deleteSchedule,
