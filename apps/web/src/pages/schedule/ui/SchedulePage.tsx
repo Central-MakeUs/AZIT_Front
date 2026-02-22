@@ -5,10 +5,13 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
+import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
+// import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
+import { formatDate } from '@/shared/lib/formatters';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
@@ -21,13 +24,26 @@ import { ScheduleList } from '@/entities/schedule/ui';
 export function SchedulePage() {
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<string | undefined>(undefined);
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+    setDate(formatDate(date, 'YYYY-MM-DD'));
+  };
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
-      date: dayjs(selectedDate).format('YYYY-MM-DD'),
+      date,
+    }),
+    enabled: crewId > 0,
+  });
+
+  const { data: scheduleCalendarList = [] } = useQuery({
+    ...scheduleQueries.getScheduleCalendarQuery(crewId, {
+      yearMonth: formatDate(selectedDate, 'YYYY-MM'),
     }),
     enabled: crewId > 0,
   });
@@ -43,10 +59,15 @@ export function SchedulePage() {
         <div className={scrollContainer}>
           <ScheduleSectionLayout
             topSection={
-              <ScheduleWeekCalendar
+              <ScheduleCalendar
                 value={selectedDate}
-                onChange={setSelectedDate}
+                onChange={handleDateChange}
+                scheduleData={scheduleCalendarList}
               />
+              // <ScheduleWeekCalendar
+              //     value={selectedDate}
+              //     onChange={handleDateChange}
+              //   />
             }
             scheduleContent={
               <>
@@ -54,7 +75,15 @@ export function SchedulePage() {
                   activeFilter={activeFilter}
                   onFilterChange={setActiveFilter}
                 />
-                {!isLoading && <ScheduleList items={scheduleList} />}
+                {isLoading ? (
+                  <ScheduleListSkeleton />
+                ) : (
+                  <ScheduleList
+                    items={scheduleList.filter((item) =>
+                      dayjs(item.meetingAt).isAfter(dayjs(selectedDate))
+                    )}
+                  />
+                )}
               </>
             }
           />

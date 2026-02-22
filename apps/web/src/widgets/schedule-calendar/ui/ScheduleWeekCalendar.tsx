@@ -4,6 +4,8 @@ import Calendar from 'react-calendar';
 import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 import * as styles from '@/widgets/schedule-calendar/style/ScheduleWeekCalendar.css.ts';
 
+import { formatDate } from '@/shared/lib/formatters';
+
 interface ScheduleWeekCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
@@ -21,7 +23,7 @@ export function ScheduleWeekCalendar({
     <div className={styles.calendarContainer}>
       <div className={styles.calendarHeaderSection}>
         <span className={styles.calendarTitle}>
-          {dayjs(activeStartDate).format('YYYY년 M월')}
+          {formatDate(activeStartDate, 'YYYY년 M월')}
         </span>
       </div>
 
@@ -34,10 +36,8 @@ export function ScheduleWeekCalendar({
         onActiveStartDateChange={({ activeStartDate: nextStart }) => {
           if (nextStart) onChange(nextStart);
         }}
-        formatShortWeekday={(_, date) =>
-          dayjs(date).format('ddd').toUpperCase()
-        }
-        formatDay={(_, date) => dayjs(date).format('D')}
+        formatShortWeekday={(_, date) => formatDate(date, 'ddd').toUpperCase()}
+        formatDay={(_, date) => formatDate(date, 'D')}
         tileDisabled={({ date }) => date < startOfWeek || date > endOfWeek}
       />
     </div>
