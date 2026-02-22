@@ -25,6 +25,7 @@ import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { Show } from '@/shared/ui/show';
 
 import {
   formatDistance,
@@ -60,7 +61,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     participantCount: detail.currentParticipants,
     maxParticipants: detail.maxParticipants,
     scheduleId: detail.scheduleId,
-    isMine: detail.isMine,
+    isCreator: detail.isMine,
     isParticipating: detail.isParticipating,
     isFull: detail.currentParticipants === detail.maxParticipants,
     hasMoreParticipants: detail.hasMoreParticipants,
@@ -144,7 +145,7 @@ export function ScheduleDetailPage({
     return null;
   }
 
-  const isOwner = scheduleDetailViewData.isMine;
+  const isCreator = scheduleDetailViewData.isCreator;
   const isParticipating = scheduleDetailViewData.isParticipating;
   const isFull = scheduleDetailViewData.isFull;
 
@@ -195,7 +196,12 @@ export function ScheduleDetailPage({
           />
         </div>
         <div className={styles.footerWrapper}>
-          {isOwner ? (
+          <Show when={isFull}>
+            <Button size="large" state="disabled" disabled>
+              신청이 마감되었어요
+            </Button>
+          </Show>
+          <Show when={isCreator}>
             <div>
               <Button size="large" state="outline" onClick={handleDelete}>
                 삭제하기
@@ -204,7 +210,8 @@ export function ScheduleDetailPage({
                 수정하기
               </Button>
             </div>
-          ) : isParticipating ? (
+          </Show>
+          <Show when={isParticipating}>
             <Button
               size="large"
               state="outline"
@@ -213,7 +220,8 @@ export function ScheduleDetailPage({
             >
               취소하기
             </Button>
-          ) : (
+          </Show>
+          <Show when={!isParticipating}>
             <Button
               size="large"
               state="active"
@@ -222,7 +230,7 @@ export function ScheduleDetailPage({
             >
               신청하기
             </Button>
-          )}
+          </Show>
         </div>
       </AppLayout>
     </AppScreen>
