@@ -4,7 +4,7 @@ import { ClockIcon, MarkerPinIcon, UsersIcon } from '@azit/design-system/icon';
 import type { ScheduleListItem as ScheduleListItemType } from '@/entities/schedule/model/schedule.types';
 import * as styles from '@/entities/schedule/styles/ScheduleListItem.css.ts';
 
-function formatMeetingAt(meetingAt: string | undefined) {
+const formatMeetingAt = (meetingAt: string | undefined) => {
   if (!meetingAt) return { month: '', day: '', time: '' };
   try {
     const date = new Date(meetingAt);
@@ -20,30 +20,30 @@ function formatMeetingAt(meetingAt: string | undefined) {
   } catch {
     return { month: '', day: '', time: '' };
   }
-}
+};
 
-function buildTags(
+const buildTags = (
   item: ScheduleListItemType
-): { label: string; type: 'primary' | 'secondary' }[] {
-  const tags: { label: string; type: 'primary' | 'secondary' }[] = [];
+): { label: string; type: 'primary' | 'secondary' | 'gray' }[] => {
+  const tags: { label: string; type: 'primary' | 'secondary' | 'gray' }[] = [];
   if (item.runType) {
     tags.push({
       label: item.runType === 'REGULAR' ? '정기런' : '번개런',
-      type: 'primary',
+      type: item.runType === 'REGULAR' ? 'primary' : 'secondary',
     });
   }
   if (item.distance != null)
-    tags.push({ label: `${item.distance}km`, type: 'secondary' });
+    tags.push({ label: `${item.distance}km`, type: 'gray' });
   if (item.pace != null) {
     const min = Math.floor(item.pace);
     const sec = Math.round((item.pace - min) * 60);
     tags.push({
       label: `${min}'${sec.toString().padStart(2, '0')}"/km`,
-      type: 'secondary',
+      type: 'gray',
     });
   }
   return tags;
-}
+};
 
 interface ScheduleListItemProps {
   item: ScheduleListItemType;
@@ -77,10 +77,7 @@ export function ScheduleListItem({ item, handleClick }: ScheduleListItemProps) {
       <div className={styles.contentContainer}>
         <div className={styles.tagsContainer}>
           {tags.map((tag, index) => (
-            <Chip
-              key={index}
-              type={tag.type === 'primary' ? 'primary' : 'skyblue'}
-            >
+            <Chip key={index} type={tag.type}>
               {tag.label}
             </Chip>
           ))}
