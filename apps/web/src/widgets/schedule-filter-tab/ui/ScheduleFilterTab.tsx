@@ -23,7 +23,7 @@ export function ScheduleFilterTab({
     <div className={styles.tabsContainer}>
       {FILTERS.map((filter) => (
         <Button
-          key={filter.value}
+          key={filter.label}
           size="small"
           state={activeFilter === filter.value ? 'active' : 'disabled_outline'}
           onClick={() => onFilterChange(filter.value)}
