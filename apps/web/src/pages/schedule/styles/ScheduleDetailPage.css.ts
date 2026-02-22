@@ -17,6 +17,12 @@ export const mainContainer = style([
 
 export const footerWrapper = style([layoutStyles.footerWrapper]);
 
+export const creatorButtonWrapper = style({
+  display: 'flex',
+  gap: '12px',
+  width: '100%',
+});
+
 export const shareButton = style({
   background: 'none',
   border: 'none',

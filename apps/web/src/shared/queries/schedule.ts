@@ -1,11 +1,15 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 
+import { deleteSchedule } from '@/features/schedule-manage/api';
 import {
   deleteCancelParticipation,
+  postParticipateSchedule,
+} from '@/features/schedule-participate/api';
+
+import {
   getScheduleDetail,
   getScheduleCalendar,
   getScheduleList,
-  postParticipateSchedule,
 } from '@/entities/schedule/api';
 import type { CrewScheduleListRequest } from '@/entities/schedule/model/schedule.model';
 
@@ -50,5 +54,14 @@ export const scheduleQueries = {
       crewId: number;
       scheduleId: number;
     }) => deleteCancelParticipation(crewId, scheduleId),
+  }),
+  deleteSchedule: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+    }: {
+      crewId: number;
+      scheduleId: number;
+    }) => deleteSchedule(crewId, scheduleId),
   }),
 };
