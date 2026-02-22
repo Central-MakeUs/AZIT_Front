@@ -96,3 +96,20 @@ export const actionButton = style([
     fontFamily: vars.typography.fontFamily.primary,
   },
 ]);
+
+export const actionButtonFullWidth = style([
+  typography.body.b2,
+  {
+    width: '100%',
+    height: '44px',
+    borderRadius: '12px',
+    backgroundColor: vars.colors.blue80,
+    color: vars.colors.white,
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: vars.typography.fontFamily.primary,
+  },
+]);
