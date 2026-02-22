@@ -1,6 +1,11 @@
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useState } from 'react';
 
 import * as styles from '@/pages/mypage/styles/MemberManagePage.css';
@@ -80,6 +85,22 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
 
   const isLeader = myInfo?.crewMemberRole === MEMBER_ROLE.LEADER;
 
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    ...memberQueries.deleteCrewMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.crewMembersKey(crewId),
+      });
+    },
+  });
+
+  const handleDeleteMember = isLeader
+    ? (targetMemberId: number) =>
+        deleteMutation.mutate({ crewId, targetMemberId })
+    : undefined;
+
   return (
     <AppScreen>
       <AppLayout>
@@ -101,7 +122,12 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
             <MemberListView
               members={members}
               totalCount={totalCount}
-              isLeader={isLeader}
+              onDeleteMember={handleDeleteMember}
+              isDeletingMemberId={
+                deleteMutation.isPending
+                  ? deleteMutation.variables?.targetMemberId
+                  : undefined
+              }
               bottomSentinelRef={bottomSentinelRef}
             />
           )}
@@ -114,18 +140,24 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
 function MemberListView({
   members,
   totalCount,
-  isLeader,
+  onDeleteMember,
+  isDeletingMemberId,
   bottomSentinelRef,
 }: {
   members: MemberItem[];
   totalCount: number | undefined;
-  isLeader: boolean;
+  onDeleteMember?: (memberId: number) => void;
+  isDeletingMemberId?: number;
   bottomSentinelRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
     <>
       <p className={styles.totalCount}>총 {totalCount ?? members.length}명</p>
-      <MemberList members={members} />
+      <MemberList
+        members={members}
+        onDeleteMember={onDeleteMember}
+        isDeletingMemberId={isDeletingMemberId}
+      />
       <div ref={bottomSentinelRef} className={styles.sentinel} aria-hidden />
     </>
   );
