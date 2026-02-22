@@ -705,7 +705,7 @@ export interface paths {
      *     * '아지트 멤버십 할인'은 각 상품의 (정가 - 판매가) 총합으로 계산됩니다.
      *     * 포인트 '모두 사용' 클릭 시 응답의 availablePoints 값을 활용하여 100P 단위로 가공하시면 됩니다.
      */
-    get: operations['getOrderFromDirect'];
+    get: operations['getCheckoutInfoDirect'];
     put?: never;
     post?: never;
     delete?: never;
@@ -758,6 +758,66 @@ export interface paths {
      *     * 소속 크루가 없으면 null을 반환합니다.
      */
     get: operations['getMyInfo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/schedules': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 내 일정 목록 조회
+     * @description 현재 로그인한 사용자가 참여(신청) 중인 모든 크루의 일정 목록을 조회합니다. <br>
+     *     홈 탭에서 사용자가 앞으로 참여해야 할 일정들을 확인하는 데 사용됩니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 본인이 참여 신청을 완료한 일정만 반환됩니다.
+     *     * 취소(삭제)된 일정은 응답에서 제외됩니다.
+     *     * 오늘 현재 시간 이후의 일정만 반환됩니다. (지난 일정 제외)
+     *     * 모임 시간이 가장 가까운 순서대로 정렬됩니다.
+     */
+    get: operations['getMySchedules'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/check-in-status': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 오늘의 러닝 및 출석 현황 조회 (홈 위젯용)
+     * @description 홈 화면 최상단 위젯에 표시될 사용자의 실시간 러닝 및 출석 상태를 조회합니다. <br>
+     *     오늘 참여할 일정의 활성화 여부와 다음 일정까지의 남은 기간(D-Day) 정보를 포함합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 출석 가능 시간 (isAvailableTime): 일정 시작 1시간 전부터 1시간 후 사이인 경우 true를 반환합니다.
+     *     * 출석 완료 시점부터 최소 30분, 혹은 일정 시작 후 최대 3시간까지 출석 완료 화면을 유지합니다.
+     *     * 하루에 여러 일정이 있을 때, 앞선 일정 출석 완료 후 30분 동안은 다음 일정이 활성화되는 시간(1시간 전)이더라도 출석 완료 화면을 유지해야 합니다.
+     *     <br><br>
+     *
+     *     **[UI 설정 가이드]** <br>
+     *     * 출석하기 활성화: isCheckedIn == false && isAvailableTime == true && (GPS 거리 100m 이내) <br>
+     *     * 출석하기 비활성화: isCheckedIn == false && (isAvailableTime == false || GPS 거리 100m 밖) <br>
+     *     * 출석 완료: isCheckedIn == true <br>
+     *     * D-Day: hasScheduleToday == false 일 경우 daysLeft 필드 활용
+     */
+    get: operations['getCheckInStatus'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1876,6 +1936,56 @@ export interface components {
        * @enum {string}
        */
       status?: 'ACTIVE' | 'CANCELLED';
+    };
+    CheckInStatusResponse: {
+      /** @description 오늘 참여할 일정이 있는지 여부 */
+      hasScheduleToday?: boolean;
+      todayScheduleInfo?: components['schemas']['TodayScheduleResponse'];
+      nextScheduleInfo?: components['schemas']['NextScheduleResponse'];
+    };
+    CommonResponseCheckInStatusResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['CheckInStatusResponse'];
+    };
+    /** @description 다음 일정 정보 */
+    NextScheduleResponse: {
+      /** @description 다음 일정 제목 */
+      title?: string;
+      /**
+       * Format: int64
+       * @description 다음 일정까지 남은 일수
+       */
+      daysLeft?: number;
+    };
+    /** @description 오늘의 일정 정보 */
+    TodayScheduleResponse: {
+      /**
+       * Format: int64
+       * @description 일정 ID
+       */
+      scheduleId?: number;
+      /** @description 일정 제목 */
+      title?: string;
+      /**
+       * @description 러닝 타입
+       * @enum {string}
+       */
+      runType?: 'REGULAR' | 'LIGHTNING';
+      /**
+       * Format: double
+       * @description 집합 장소 위도
+       */
+      latitude?: number;
+      /**
+       * Format: double
+       * @description 집합 장소 경도
+       */
+      longitude?: number;
+      /** @description 출석 완료 여부 */
+      isCheckedIn?: boolean;
+      /** @description 출석 가능 시간 여부 (시작 1시간 전~후) */
+      isAvailableTime?: boolean;
     };
     CommonResponseCrewScheduleDetailResponse: {
       code?: string;
@@ -4398,7 +4508,7 @@ export interface operations {
       };
     };
   };
-  getOrderFromDirect: {
+  getCheckoutInfoDirect: {
     parameters: {
       query: {
         skuId: number;
@@ -4584,6 +4694,126 @@ export interface operations {
         };
       };
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getMySchedules: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListCrewScheduleListResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getCheckInStatus: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseCheckInStatusResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
         headers: {
           [name: string]: unknown;
         };

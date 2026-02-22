@@ -1,11 +1,17 @@
-import { queryOptions } from '@tanstack/react-query';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 
-import { getScheduleCalendar } from '@/entities/schedule/api/getScheduleCalendar';
-import { getScheduleList } from '@/entities/schedule/api/getScheduleList';
+import {
+  deleteCancelParticipation,
+  getScheduleDetail,
+  getScheduleCalendar,
+  getScheduleList,
+  postParticipateSchedule,
+} from '@/entities/schedule/api';
 import type { CrewScheduleListRequest } from '@/entities/schedule/model/schedule.model';
 
 export const scheduleQueries = {
   all: ['schedule'] as const,
+  detail: (scheduleId: number) => ['detail', scheduleId] as const,
   getScheduleListQuery: (crewId: number, request?: CrewScheduleListRequest) =>
     queryOptions({
       queryKey: [...scheduleQueries.all, 'getScheduleList', crewId, request],
@@ -20,4 +26,29 @@ export const scheduleQueries = {
       queryKey: [...scheduleQueries.all, 'getScheduleCalendar', crewId],
       queryFn: () => getScheduleCalendar(crewId),
     }),
+  scheduleDetailQuery: (crewId: number, scheduleId: number) =>
+    queryOptions({
+      queryKey: [...scheduleQueries.all, ...scheduleQueries.detail(scheduleId)],
+      queryFn: async () => getScheduleDetail(crewId, scheduleId),
+      enabled: crewId > 0 && scheduleId > 0,
+      staleTime: 1000 * 60 * 60 * 3,
+    }),
+  participateSchedule: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+    }: {
+      crewId: number;
+      scheduleId: number;
+    }) => postParticipateSchedule(crewId, scheduleId),
+  }),
+  cancelParticipation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+    }: {
+      crewId: number;
+      scheduleId: number;
+    }) => deleteCancelParticipation(crewId, scheduleId),
+  }),
 };
