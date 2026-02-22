@@ -12,29 +12,53 @@ import {
 
 import {
   getScheduleDetail,
-  getScheduleCalendar,
-  getScheduleList,
   getScheduleParticipants,
 } from '@/entities/schedule/api';
-import type { CrewScheduleListRequest } from '@/entities/schedule/model/schedule.model';
+import { getMemberScheduleList } from '@/entities/schedule/api/getMemberScheduleList';
+import { getScheduleCalendar } from '@/entities/schedule/api/getScheduleCalendar';
+import { getScheduleList } from '@/entities/schedule/api/getScheduleList';
+import type {
+  CrewScheduleCalendarRequest,
+  CrewScheduleListRequest,
+} from '@/entities/schedule/model/schedule.model';
 
 export const scheduleQueries = {
   all: ['schedule'] as const,
   detail: (scheduleId: number) => ['detail', scheduleId] as const,
   participants: (scheduleId: number) => ['participants', scheduleId] as const,
+  listKey: (crewId: number, request?: CrewScheduleListRequest) =>
+    [...scheduleQueries.all, 'getScheduleList', crewId, request] as const,
+  memberListKey: () =>
+    [...scheduleQueries.all, 'getMemberScheduleList'] as const,
   getScheduleListQuery: (crewId: number, request?: CrewScheduleListRequest) =>
     queryOptions({
-      queryKey: [...scheduleQueries.all, 'getScheduleList', crewId, request],
+      queryKey: scheduleQueries.listKey(crewId, request),
       queryFn: async () => {
         const res = await getScheduleList(crewId, request);
         if (!res.ok) return [];
         return res.data.result ?? [];
       },
     }),
-  getScheduleCalendarQuery: (crewId: number) =>
+  getMemberScheduleListQuery: () =>
+    queryOptions({
+      queryKey: scheduleQueries.memberListKey(),
+      queryFn: async () => {
+        const res = await getMemberScheduleList();
+        if (!res.ok) return [];
+        return res.data.result ?? [];
+      },
+    }),
+  getScheduleCalendarQuery: (
+    crewId: number,
+    request?: CrewScheduleCalendarRequest
+  ) =>
     queryOptions({
       queryKey: [...scheduleQueries.all, 'getScheduleCalendar', crewId],
-      queryFn: () => getScheduleCalendar(crewId),
+      queryFn: async () => {
+        const res = await getScheduleCalendar(crewId, request);
+        if (!res.ok) return [];
+        return res.data.result ?? [];
+      },
     }),
   scheduleDetailQuery: (crewId: number, scheduleId: number) =>
     queryOptions({

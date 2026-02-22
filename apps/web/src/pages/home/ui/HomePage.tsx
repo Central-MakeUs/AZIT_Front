@@ -1,13 +1,17 @@
 import { Header } from '@azit/design-system/header';
 import { BellIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useQuery } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
-import { mockActivityActivation, mockScheduleList } from '@/shared/mock/home';
+import { mockActivityActivation } from '@/shared/mock/home';
+import { memberQueries } from '@/shared/queries';
+import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { logo } from '@/shared/styles/logo.css';
 import { AppLayout } from '@/shared/ui/layout';
@@ -21,6 +25,14 @@ export function HomePage() {
   const handleClick = () => {
     push('AlertPage', {});
   };
+
+  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
+  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+
+  const { data: scheduleList = [], isLoading } = useQuery({
+    ...scheduleQueries.getMemberScheduleListQuery(),
+    enabled: crewId > 0,
+  });
 
   return (
     <AppScreen>
@@ -40,7 +52,13 @@ export function HomePage() {
               <ScheduleAttendanceSection activity={mockActivityActivation} />
             }
             scheduleTitle="내 일정"
-            scheduleContent={<ScheduleList items={mockScheduleList} />}
+            scheduleContent={
+              isLoading ? (
+                <ScheduleListSkeleton />
+              ) : (
+                <ScheduleList items={scheduleList} isHomePage />
+              )
+            }
           />
         </div>
       </AppLayout>
