@@ -5,6 +5,8 @@ import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 
 import * as styles from '@/widgets/schedule-calendar/style/ScheduleCalendar.css.ts';
 
+import { formatDate } from '@/shared/lib/formatters';
+
 import type { ScheduleCalendarList } from '@/entities/schedule/model/schedule.types';
 
 interface ScheduleCalendarProps {
@@ -31,7 +33,7 @@ export function ScheduleCalendar({
     <div className={styles.calendarContainer}>
       <div className={styles.calendarHeaderSection}>
         <span className={styles.calendarTitle}>
-          {dayjs(value).format('YYYY년 M월')}
+          {formatDate(value, 'YYYY년 M월')}
         </span>
         <div className={styles.calendarButtonWrapper}>
           <button
@@ -58,10 +60,8 @@ export function ScheduleCalendar({
         onChange={(value) => {
           if (value instanceof Date) onChange(value);
         }}
-        formatShortWeekday={(_, date) =>
-          dayjs(date).format('ddd').toUpperCase()
-        }
-        formatDay={(_, date) => dayjs(date).format('D')}
+        formatShortWeekday={(_, date) => formatDate(date, 'ddd').toUpperCase()}
+        formatDay={(_, date) => formatDate(date, 'D')}
         tileContent={({ date }: { date: Date }) => {
           const schedule = scheduleData?.find((item) =>
             dayjs(item.date).isSame(date, 'day')

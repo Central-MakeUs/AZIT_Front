@@ -11,6 +11,7 @@ import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
+import { formatDate } from '@/shared/lib/formatters';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
@@ -27,7 +28,7 @@ export function SchedulePage() {
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
-    setDate(dayjs(date).format('YYYY-MM-DD'));
+    setDate(formatDate(date, 'YYYY-MM-DD'));
   };
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
@@ -42,7 +43,7 @@ export function SchedulePage() {
 
   const { data: scheduleCalendarList = [] } = useQuery({
     ...scheduleQueries.getScheduleCalendarQuery(crewId, {
-      yearMonth: dayjs(selectedDate).format('YYYY-MM'),
+      yearMonth: formatDate(selectedDate, 'YYYY-MM'),
     }),
     enabled: crewId > 0,
   });
