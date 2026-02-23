@@ -67,7 +67,7 @@ export const scheduleQueries = {
       queryKey: scheduleQueries.detail(scheduleId),
       queryFn: async () => getScheduleDetail(crewId, scheduleId),
       enabled: crewId > 0 && scheduleId > 0,
-      staleTime: 1000 * 60 * 60 * 3,
+      staleTime: 1000 * 60 * 5,
       retry: 0,
     }),
   scheduleParticipantsQuery: (crewId: number, scheduleId: number) =>
@@ -81,7 +81,7 @@ export const scheduleQueries = {
         return hasNext && lastId ? lastId : undefined;
       },
       initialPageParam: undefined as number | undefined,
-      staleTime: 1000 * 60 * 60 * 3,
+      staleTime: 1000 * 60 * 5,
     }),
   participateSchedule: mutationOptions({
     mutationFn: ({
