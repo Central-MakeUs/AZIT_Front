@@ -70,33 +70,3 @@ p {
     'XROT' 0,
     'YROT' 0;
 }
-
-[data-sonner-toaster][data-x-position='center'][data-y-position='bottom'] {
-  left: 50% !important;
-  right: auto !important;
-  transform: translateX(-50%) !important;
-  width: auto !important;
-}
-
-@media (max-width: 600px) {
-  [data-sonner-toaster][data-x-position='center'][data-y-position='bottom'] {
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: auto !important;
-  }
-}
-
-.azit-toast {
-  left: 50% !important;
-  right: auto !important;
-  transform: translateX(-50%) var(--y) !important;
-  margin-bottom: 80px;
-  background-color: #363f4d !important;
-  border-radius: 8px !important;
-  border: none !important;
-  color: #ffffff !important;
-  width: fit-content !important;
-  padding: 8px 24px !important;
-  text-wrap: nowrap !important;
-}
