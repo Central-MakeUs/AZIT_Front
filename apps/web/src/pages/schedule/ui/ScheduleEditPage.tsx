@@ -17,6 +17,7 @@ import {
 import type { ScheduleFormValues } from '@/widgets/schedule-form/model/scheduleForm';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
+import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
@@ -29,6 +30,9 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
   const queryClient = useQueryClient();
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const isLeader =
+    myInfoData?.ok &&
+    myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
 
   const { data: detailData, isLoading } = useQuery({
     ...scheduleQueries.scheduleDetailQuery(crewId, scheduleId),
@@ -104,6 +108,7 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
               values={formValues}
               onValuesChange={setFormValues}
               onSubmit={handleSubmit}
+              isLeader={isLeader}
             />
           </div>
           <div className={styles.footerWrapper}>
