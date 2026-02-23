@@ -161,8 +161,38 @@ export interface paths {
     /**
      * 회원 탈퇴
      * @description 서비스 이용을 중단하고 회원의 소셜 연동 해제 및 탈퇴 처리를 진행합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 리더로 소속된 크루에 다른 멤버가 존재할 경우 탈퇴가 불가능합니다. (CANNOT_WITHDRAW_AS_LEADER)
      */
     post: operations['withdraw'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/schedules/{scheduleId}/check-in': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 일정 출석
+     * @description 사용자의 현재 위치와 시간을 검증하여 특정 일정에 대한 출석을 처리합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 일정 시작 시간 전후 1시간 이내여야 합니다. (NOT_CHECK_IN_TIME) <br>
+     *     * 사용자의 현재 위치가 일정 집결지로부터 100m 이내여야 합니다. (TOO_FAR_FROM_LOCATION) <br>
+     *     * 해당 일정에 참여 신청이 완료된 회원이어야 합니다. (NOT_PARTICIPATING_SCHEDULE) <br>
+     *     * 이미 출석을 완료한 일정은 다시 처리할 수 없습니다. (ALREADY_CHECKED_IN) <br>
+     *     * 출석 보상으로 100 포인트가 즉시 적립됩니다. <br><br>
+     */
+    post: operations['checkInSchedule'];
     delete?: never;
     options?: never;
     head?: never;
@@ -179,13 +209,13 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 가입 승인/거절 결과 확인
-     * @description 사용자가 가입 요청에 대한 승인 또는 거절 결과를 확인했음을 서버에 알립니다. <br><br>
+     * 가입 승인/거절 및 크루 방출 결과 확인
+     * @description 사용자가 가입 신청 결과(승인/거절) 또는 크루 방출 통보를 확인했음을 서버에 알립니다. <br><br>
      *
      *     **[참고 사항]** <br>
-     *     * APPROVED_PENDING_CONFIRM 또는 REJECTED_PENDING_CONFIRM 상태인 회원만 호출 가능합니다. (INVALID_MEMBER_STATUS)
-     *     * 가입 승인 완료 화면에서 '홈으로' 버튼 클릭 시 호출: 멤버 상태가 APPROVED_PENDING_CONFIRM -> ACTIVE로 변경됩니다.
-     *     * 가입 거절 안내 화면에서 '처음으로' 버튼 클릭 시 호출: 멤버 상태가 REJECTED_PENDING_CONFIRM -> PENDING_ONBOARDING으로 변경됩니다.
+     *     * APPROVED_PENDING_CONFIRM, REJECTED_PENDING_CONFIRM, KICKED_PENDING_CONFIRM 상태인 회원만 호출 가능합니다. (INVALID_MEMBER_STATUS)
+     *     * 가입 승인 확인 (APPROVED_PENDING_CONFIRM): 즉시 ACTIVE로 변경됩니다. <br>
+     *     * 가입 거절/크루 방출 확인 (REJECTED_PENDING_CONFIRM / KICKED_PENDING_CONFIRM): 가입되어 있는 다른 크루가 1개 이상 있는 경우 ACTIVE 상태가 유지되고, 가입되어 있는 다른 크루가 없는 경우 PENDING_ONBOARDING으로 변경됩니다.
      */
     post: operations['confirmMemberStatus'];
     delete?: never;
@@ -250,7 +280,6 @@ export interface paths {
      *
      *     **[입력 데이터]** <br>
      *     * 런 종류(runType): REGULAR(정기런), LIGHTNING(번개런) <br>
-     *     * 오전/오후(amPm): 오전, 오후 <br>
      *     * 준비물(supplies): 문자열 리스트 형식으로 전달 <br><br>
      *
      *     **[참고 사항]** <br>
@@ -705,7 +734,7 @@ export interface paths {
      *     * '아지트 멤버십 할인'은 각 상품의 (정가 - 판매가) 총합으로 계산됩니다.
      *     * 포인트 '모두 사용' 클릭 시 응답의 availablePoints 값을 활용하여 100P 단위로 가공하시면 됩니다.
      */
-    get: operations['getOrderFromDirect'];
+    get: operations['getCheckoutInfoDirect'];
     put?: never;
     post?: never;
     delete?: never;
@@ -758,6 +787,66 @@ export interface paths {
      *     * 소속 크루가 없으면 null을 반환합니다.
      */
     get: operations['getMyInfo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/schedules': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 내 일정 목록 조회
+     * @description 현재 로그인한 사용자가 참여(신청) 중인 모든 크루의 일정 목록을 조회합니다. <br>
+     *     홈 탭에서 사용자가 앞으로 참여해야 할 일정들을 확인하는 데 사용됩니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 본인이 참여 신청을 완료한 일정만 반환됩니다.
+     *     * 취소(삭제)된 일정은 응답에서 제외됩니다.
+     *     * 오늘 현재 시간 이후의 일정만 반환됩니다. (지난 일정 제외)
+     *     * 모임 시간이 가장 가까운 순서대로 정렬됩니다.
+     */
+    get: operations['getMySchedules'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/check-in-status': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 오늘의 러닝 및 출석 현황 조회 (홈 위젯용)
+     * @description 홈 화면 최상단 위젯에 표시될 사용자의 실시간 러닝 및 출석 상태를 조회합니다. <br>
+     *     오늘 참여할 일정의 활성화 여부와 다음 일정까지의 남은 기간(D-Day) 정보를 포함합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 출석 가능 시간 (isAvailableTime): 일정 시작 1시간 전부터 1시간 후 사이인 경우 true를 반환합니다.
+     *     * 출석 완료 시점부터 최소 30분, 혹은 일정 시작 후 최대 3시간까지 출석 완료 화면을 유지합니다.
+     *     * 하루에 여러 일정이 있을 때, 앞선 일정 출석 완료 후 30분 동안은 다음 일정이 활성화되는 시간(1시간 전)이더라도 출석 완료 화면을 유지해야 합니다.
+     *     <br><br>
+     *
+     *     **[UI 설정 가이드]** <br>
+     *     * 출석하기 활성화: isCheckedIn == false && isAvailableTime == true && (GPS 거리 100m 이내) <br>
+     *     * 출석하기 비활성화: isCheckedIn == false && (isAvailableTime == false || GPS 거리 100m 밖) <br>
+     *     * 출석 완료: isCheckedIn == true <br>
+     *     * D-Day: hasScheduleToday == false 일 경우 daysLeft 필드 활용
+     */
+    get: operations['getCheckInStatus'];
     put?: never;
     post?: never;
     delete?: never;
@@ -978,7 +1067,7 @@ export interface paths {
      *     * 해당 크루의 리더(LEADER)만 이 API를 호출할 수 있습니다. (NOT_CREW_LEADER)
      *     * 리더 본인은 스스로를 방출할 수 없습니다. (CANNOT_KICK_SELF)
      *     * 가입 완료(JOINED) 상태인 멤버만 방출 가능합니다. (NOT_A_CREW_MEMBER)
-     *     * 방출 후 해당 멤버가 더 이상 어떤 크루에도 가입되어 있지 않다면, 앱 사용 제한을 위해 PENDING_ONBOARDING 상태로 변경됩니다.
+     *     * 방출 직후 KICKED_PENDING_CONFIRM 상태로 변경됩니다.
      */
     delete: operations['deleteCrewMember'];
     options?: never;
@@ -999,25 +1088,10 @@ export interface components {
        */
       runType: 'REGULAR' | 'LIGHTNING';
       /**
-       * Format: date
-       * @description 모임 날짜
+       * Format: date-time
+       * @description 일정 일시 (yyyy-MM-dd HH:mm:ss)
        */
-      date: string;
-      /**
-       * @description 오전/오후 구분 (AM, PM)
-       * @enum {string}
-       */
-      amPm: 'AM' | 'PM';
-      /**
-       * Format: int32
-       * @description 시간 (1~12)
-       */
-      hour?: number;
-      /**
-       * Format: int32
-       * @description 분 (0~59)
-       */
-      minute?: number;
+      meetingAt: string;
       /** @description 집합 장소 명칭 */
       locationName: string;
       /** @description 집합 장소 주소 */
@@ -1193,6 +1267,18 @@ export interface components {
       /** @description 알림 수신 동의 여부 (선택) */
       notificationTermsAgreed?: boolean;
     };
+    CheckInRequest: {
+      /**
+       * Format: double
+       * @description 위도
+       */
+      latitude: number;
+      /**
+       * Format: double
+       * @description 경도
+       */
+      longitude: number;
+    };
     CreateCrewRequest: {
       /** @description 크루 이름 */
       name: string;
@@ -1221,25 +1307,10 @@ export interface components {
        */
       runType: 'REGULAR' | 'LIGHTNING';
       /**
-       * Format: date
-       * @description 모임 날짜
+       * Format: date-time
+       * @description 일정 일시 (yyyy-MM-dd HH:mm:ss)
        */
-      date: string;
-      /**
-       * @description 오전/오후 구분 (AM, PM)
-       * @enum {string}
-       */
-      amPm: 'AM' | 'PM';
-      /**
-       * Format: int32
-       * @description 시간 (1~12)
-       */
-      hour?: number;
-      /**
-       * Format: int32
-       * @description 분 (0~59)
-       */
-      minute?: number;
+      meetingAt: string;
       /** @description 집합 장소 명칭 */
       locationName: string;
       /** @description 집합 장소 주소 */
@@ -1331,7 +1402,8 @@ export interface components {
         | 'PENDING_ONBOARDING'
         | 'WAITING_FOR_APPROVE'
         | 'APPROVED_PENDING_CONFIRM'
-        | 'REJECTED_PENDING_CONFIRM';
+        | 'REJECTED_PENDING_CONFIRM'
+        | 'KICKED_PENDING_CONFIRM';
       /**
        * Format: int64
        * @description 가입한 크루 ID (없을 경우 null)
@@ -1876,6 +1948,56 @@ export interface components {
        * @enum {string}
        */
       status?: 'ACTIVE' | 'CANCELLED';
+    };
+    CheckInStatusResponse: {
+      /** @description 오늘 참여할 일정이 있는지 여부 */
+      hasScheduleToday?: boolean;
+      todayScheduleInfo?: components['schemas']['TodayScheduleResponse'];
+      nextScheduleInfo?: components['schemas']['NextScheduleResponse'];
+    };
+    CommonResponseCheckInStatusResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['CheckInStatusResponse'];
+    };
+    /** @description 다음 일정 정보 */
+    NextScheduleResponse: {
+      /** @description 다음 일정 제목 */
+      title?: string;
+      /**
+       * Format: int64
+       * @description 다음 일정까지 남은 일수
+       */
+      daysLeft?: number;
+    };
+    /** @description 오늘의 일정 정보 */
+    TodayScheduleResponse: {
+      /**
+       * Format: int64
+       * @description 일정 ID
+       */
+      scheduleId?: number;
+      /** @description 일정 제목 */
+      title?: string;
+      /**
+       * @description 러닝 타입
+       * @enum {string}
+       */
+      runType?: 'REGULAR' | 'LIGHTNING';
+      /**
+       * Format: double
+       * @description 집합 장소 위도
+       */
+      latitude?: number;
+      /**
+       * Format: double
+       * @description 집합 장소 경도
+       */
+      longitude?: number;
+      /** @description 출석 완료 여부 */
+      isCheckedIn?: boolean;
+      /** @description 출석 가능 시간 여부 (시작 1시간 전~후) */
+      isAvailableTime?: boolean;
     };
     CommonResponseCrewScheduleDetailResponse: {
       code?: string;
@@ -2832,6 +2954,81 @@ export interface operations {
         };
       };
       403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  checkInSchedule: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description 일정 ID */
+        scheduleId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CheckInRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -4398,7 +4595,7 @@ export interface operations {
       };
     };
   };
-  getOrderFromDirect: {
+  getCheckoutInfoDirect: {
     parameters: {
       query: {
         skuId: number;
@@ -4584,6 +4781,126 @@ export interface operations {
         };
       };
       404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getMySchedules: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListCrewScheduleListResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getCheckInStatus: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseCheckInStatusResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
         headers: {
           [name: string]: unknown;
         };
