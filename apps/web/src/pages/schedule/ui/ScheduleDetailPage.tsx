@@ -143,7 +143,7 @@ export function ScheduleDetailPage({
   const handleSeeMoreParticipants = () => {
     if (scheduleDetailViewData?.scheduleId != null) {
       push('ScheduleMembersPage', {
-        id: String(scheduleDetailViewData.scheduleId),
+        id: scheduleDetailViewData.scheduleId,
       });
     }
   };
