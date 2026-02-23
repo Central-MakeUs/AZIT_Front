@@ -24,8 +24,10 @@ import type {
 
 export const scheduleQueries = {
   all: ['schedule'] as const,
-  detail: (scheduleId: number) => ['detail', scheduleId] as const,
-  participants: (scheduleId: number) => ['participants', scheduleId] as const,
+  detail: (scheduleId: number) =>
+    [...scheduleQueries.all, 'detail', scheduleId] as const,
+  participants: (scheduleId: number) =>
+    [...scheduleQueries.all, 'participants', scheduleId] as const,
   listKey: (crewId: number, request?: CrewScheduleListRequest) =>
     [...scheduleQueries.all, 'getScheduleList', crewId, request] as const,
   memberListKey: () =>
@@ -62,7 +64,7 @@ export const scheduleQueries = {
     }),
   scheduleDetailQuery: (crewId: number, scheduleId: number) =>
     queryOptions({
-      queryKey: [...scheduleQueries.all, ...scheduleQueries.detail(scheduleId)],
+      queryKey: scheduleQueries.detail(scheduleId),
       queryFn: async () => getScheduleDetail(crewId, scheduleId),
       enabled: crewId > 0 && scheduleId > 0,
       staleTime: 1000 * 60 * 60 * 3,
@@ -70,10 +72,7 @@ export const scheduleQueries = {
     }),
   scheduleParticipantsQuery: (crewId: number, scheduleId: number) =>
     infiniteQueryOptions({
-      queryKey: [
-        ...scheduleQueries.all,
-        ...scheduleQueries.participants(scheduleId),
-      ],
+      queryKey: scheduleQueries.participants(scheduleId),
       queryFn: ({ pageParam }) =>
         getScheduleParticipants(crewId, scheduleId, { cursorId: pageParam }),
       getNextPageParam: (lastPage) => {

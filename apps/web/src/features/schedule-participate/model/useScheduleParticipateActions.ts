@@ -14,14 +14,8 @@ export function useScheduleParticipateActions({
 }: UseScheduleActionsProps) {
   const queryClient = useQueryClient();
 
-  const detailQueryKey = scheduleQueries.scheduleDetailQuery(
-    crewId,
-    scheduleId
-  ).queryKey;
-  const participantsQueryKey = scheduleQueries.scheduleParticipantsQuery(
-    crewId,
-    scheduleId
-  ).queryKey;
+  const detailQueryKey = scheduleQueries.detail(scheduleId);
+  const participantsQueryKey = scheduleQueries.participants(scheduleId);
 
   const participateMutation = useMutation({
     ...scheduleQueries.participateSchedule,
