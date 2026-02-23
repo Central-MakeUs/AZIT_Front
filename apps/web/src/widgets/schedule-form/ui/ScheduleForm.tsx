@@ -4,12 +4,12 @@ import { Input } from '@azit/design-system/input';
 import { useState } from 'react';
 
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
-import type { ScheduleCreateFormValues } from '@/widgets/schedule-form/model/scheduleCreateForm';
+import type { ScheduleFormValues } from '@/widgets/schedule-form/model/scheduleForm';
 import {
   TITLE_MAX_LENGTH,
   MAX_SUPPLIES,
   SUPPLY_MAX_LENGTH,
-} from '@/widgets/schedule-form/model/scheduleCreateForm';
+} from '@/widgets/schedule-form/model/scheduleForm';
 import * as styles from '@/widgets/schedule-form/styles/ScheduleCreateForm.css';
 import { ChipButton } from '@/widgets/schedule-form/ui/ChipButton';
 
@@ -18,46 +18,12 @@ import { BottomSheet } from '@/shared/ui/bottom-sheet';
 
 import { TimeField } from './TimeField';
 
-export interface ScheduleCreateFormProps {
+export interface ScheduleFormProps {
   formId: string;
-  values: ScheduleCreateFormValues;
-  onValuesChange: (values: ScheduleCreateFormValues) => void;
+  values: ScheduleFormValues;
+  onValuesChange: (values: ScheduleFormValues) => void;
   onMapSearchClick?: () => void;
   onSubmit: (e: React.FormEvent) => void;
-}
-
-function clampNum(value: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, value));
-}
-
-function parseHourWithAmPm(
-  raw: string,
-  prevAmPm: ScheduleCreateFormValues['amPm']
-) {
-  const digits = raw.replace(/\D/g, '');
-  if (!digits) {
-    return { hour: null as unknown as number, amPm: prevAmPm };
-  }
-
-  let n = parseInt(digits, 10);
-  if (Number.isNaN(n)) {
-    return { hour: null as unknown as number, amPm: prevAmPm };
-  }
-
-  let amPm = prevAmPm;
-
-  // 13~24 → 12시간 + AM/PM 자동 변환
-  if (n >= 13 && n <= 24) {
-    amPm = n === 24 ? 'AM' : 'PM';
-    n = n === 24 ? 12 : n - 12;
-  } else if (n > 24) {
-    n = clampNum(n, 1, 12);
-  } else {
-    // 1~12 그대로, 0 이하는 1로 클램프
-    n = clampNum(n, 1, 12);
-  }
-
-  return { hour: n as unknown as number, amPm };
 }
 
 export function ScheduleForm({
@@ -66,84 +32,14 @@ export function ScheduleForm({
   onValuesChange,
   onMapSearchClick,
   onSubmit,
-}: ScheduleCreateFormProps) {
+}: ScheduleFormProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  // 시간 입력용 로컬 문자열 상태
-  const [hourInput, setHourInput] = useState('');
-  const [minuteInput, setMinuteInput] = useState('');
-
-  const setValues = (next: Partial<ScheduleCreateFormValues>) =>
+  const setValues = (next: Partial<ScheduleFormValues>) =>
     onValuesChange({ ...values, ...next });
 
-  const handleRunTypeChange = (runType: ScheduleCreateFormValues['runType']) =>
+  const handleRunTypeChange = (runType: ScheduleFormValues['runType']) =>
     setValues({ runType });
-
-  const handleAmPmChange = (amPm: ScheduleCreateFormValues['amPm']) =>
-    setValues({ amPm });
-
-  // 시간 입력 중 (포커스 상태)에는 hourInput만 업데이트, blur에서 실제 값 반영
-  const handleHourChange = (v: string) => {
-    setHourInput(v);
-  };
-
-  const handleHourBlur = () => {
-    if (!hourInput.trim()) {
-      setValues({ hour: null as any });
-      setHourInput('');
-      return;
-    }
-
-    const { hour, amPm } = parseHourWithAmPm(hourInput, values.amPm);
-    if (!hour) {
-      setValues({ hour: null as any });
-      setHourInput('');
-      return;
-    }
-
-    setValues({ hour, amPm });
-    setHourInput(String(hour).padStart(2, '0'));
-  };
-
-  const handleHourFocus = () => {
-    if (values.hour == null) {
-      setHourInput('');
-      return;
-    }
-    setHourInput(String(values.hour));
-  };
-
-  const handleMinuteChange = (v: string) => {
-    setMinuteInput(v);
-  };
-
-  const handleMinuteBlur = () => {
-    const raw = minuteInput.replace(/\D/g, '');
-    if (!raw) {
-      setValues({ minute: null as any });
-      setMinuteInput('');
-      return;
-    }
-
-    let n = parseInt(raw, 10);
-    if (Number.isNaN(n)) {
-      setValues({ minute: null as any });
-      setMinuteInput('');
-      return;
-    }
-
-    n = clampNum(n, 0, 59);
-    setValues({ minute: n as any });
-    setMinuteInput(String(n).padStart(2, '0'));
-  };
-
-  const handleMinuteFocus = () => {
-    if (values.minute == null) {
-      setMinuteInput('');
-      return;
-    }
-    setMinuteInput(String(values.minute));
-  };
 
   const addSupply = () => {
     if (values.supplies.length >= MAX_SUPPLIES) return;
@@ -159,23 +55,6 @@ export function ScheduleForm({
   const dateDisplay = values.date
     ? formatDate(new Date(values.date + 'T00:00:00'), 'YYYY.MM.DD')
     : '선택하기';
-
-  // 인풋 표시값: 포커스 없으면 values 기준 0 패딩, 포커스 있으면 로컬 입력값
-  const displayHour =
-    document.activeElement &&
-    (document.activeElement as HTMLElement).id === 'schedule-hour'
-      ? hourInput
-      : values.hour == null
-        ? ''
-        : String(values.hour).padStart(2, '0');
-
-  const displayMinute =
-    document.activeElement &&
-    (document.activeElement as HTMLElement).id === 'schedule-minute'
-      ? minuteInput
-      : values.minute == null
-        ? ''
-        : String(values.minute).padStart(2, '0');
 
   return (
     <form id={formId} className={styles.form} onSubmit={onSubmit}>
