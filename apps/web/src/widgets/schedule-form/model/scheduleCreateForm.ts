@@ -42,9 +42,9 @@ export const defaultScheduleCreateFormValues: ScheduleCreateFormValues = {
   supplies: [''],
 };
 
-export function buildCreateSchedulePayload(
+export const buildCreateSchedulePayload = (
   values: ScheduleCreateFormValues
-): CreateScheduleRequest {
+): CreateScheduleRequest => {
   return {
     title: values.title.trim(),
     runType: values.runType,
@@ -66,14 +66,14 @@ export function buildCreateSchedulePayload(
         ? values.supplies.map((s) => s.trim()).filter(Boolean)
         : undefined,
   };
-}
+};
 
-export function isScheduleCreateFormValid(
+export const isScheduleCreateFormValid = (
   values: ScheduleCreateFormValues
-): boolean {
+): boolean => {
   return (
     values.title.trim().length > 0 &&
     values.date.length > 0 &&
     values.locationName.trim().length > 0
   );
-}
+};
