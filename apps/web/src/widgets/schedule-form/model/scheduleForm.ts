@@ -1,8 +1,12 @@
 import { z } from 'zod';
 
-import type { CreateScheduleRequest } from '@/entities/schedule/model/schedule.model';
+import type {
+  CreateScheduleRequest,
+  CrewScheduleDetailResponse,
+  UpdateScheduleRequest,
+} from '@/entities/schedule/model/schedule.model';
 
-export interface ScheduleCreateFormValues {
+export interface ScheduleFormValues {
   runType: CreateScheduleRequest['runType'];
   title: string;
   date: string;
@@ -25,7 +29,7 @@ export const TITLE_MAX_LENGTH = 15;
 export const SUPPLY_MAX_LENGTH = 15;
 export const MAX_SUPPLIES = 5;
 
-export const scheduleCreateFormSchema = z.object({
+export const scheduleFormSchema = z.object({
   runType: z.enum(['REGULAR', 'LIGHTNING']),
   title: z
     .string()
@@ -59,9 +63,9 @@ export const scheduleCreateFormSchema = z.object({
     ),
 });
 
-export type ScheduleCreateFormSchema = z.infer<typeof scheduleCreateFormSchema>;
+export type ScheduleFormSchema = z.infer<typeof scheduleFormSchema>;
 
-export const defaultScheduleCreateFormValues: ScheduleCreateFormValues = {
+const defaultScheduleFormValues: ScheduleFormValues = {
   runType: 'REGULAR',
   title: '',
   date: '',
@@ -80,24 +84,21 @@ export const defaultScheduleCreateFormValues: ScheduleCreateFormValues = {
   supplies: [''],
 };
 
-/** date(YYYY-MM-DD) + amPm + hour(1-12) + minute → 'yyyy-MM-dd HH:mm:ss' */
-function formatMeetingAt(
+const formatMeetingAt = (
   date: string,
-  amPm: ScheduleCreateFormValues['amPm'],
+  amPm: ScheduleFormValues['amPm'],
   hour: number,
   minute: number
-): string {
+): string => {
   const hour24 =
     amPm === 'AM' ? (hour === 12 ? 0 : hour) : hour === 12 ? 12 : hour + 12;
   const h = String(hour24).padStart(2, '0');
   const m = String(minute).padStart(2, '0');
   const s = '00';
   return `${date} ${h}:${m}:${s}`;
-}
+};
 
-export const buildCreateSchedulePayload = (
-  values: ScheduleCreateFormValues
-): CreateScheduleRequest => {
+const buildSchedulePayload = (values: ScheduleFormValues) => {
   return {
     title: values.title.trim(),
     runType: values.runType,
@@ -123,12 +124,61 @@ export const buildCreateSchedulePayload = (
   };
 };
 
-export const isScheduleCreateFormValid = (
-  values: ScheduleCreateFormValues
-): boolean => {
-  return scheduleCreateFormSchema.safeParse(values).success;
+export const buildCreateSchedulePayload = (
+  values: ScheduleFormValues
+): CreateScheduleRequest => buildSchedulePayload(values);
+
+export const buildUpdateSchedulePayload = (
+  values: ScheduleFormValues
+): UpdateScheduleRequest => buildSchedulePayload(values);
+
+export const isScheduleFormValid = (values: ScheduleFormValues): boolean => {
+  return scheduleFormSchema.safeParse(values).success;
 };
 
-/** 폼 값에 대한 Zod 런타임 검증 결과 (에러 메시지 활용 시 사용) */
-export const parseScheduleCreateForm = (values: ScheduleCreateFormValues) =>
-  scheduleCreateFormSchema.safeParse(values);
+const parseMeetingAt = (meetingAt: string) => {
+  const d = new Date(meetingAt);
+  const hour24 = d.getHours();
+  const minute = d.getMinutes();
+
+  const amPm: 'AM' | 'PM' = hour24 < 12 ? 'AM' : 'PM';
+  const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
+
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+
+  return {
+    date: `${yyyy}-${mm}-${dd}`,
+    amPm,
+    hour: hour12,
+    minute,
+  };
+};
+
+export const initializeScheduleFormValues = (
+  detail?: CrewScheduleDetailResponse
+): ScheduleFormValues => {
+  if (!detail) return { ...defaultScheduleFormValues };
+
+  const { date, amPm, hour, minute } = parseMeetingAt(detail.meetingAt);
+
+  return {
+    runType: detail.runType,
+    title: detail.title,
+    date,
+    amPm,
+    hour,
+    minute,
+    locationName: detail.locationInfo.placeName,
+    address: detail.locationInfo.address,
+    detailedLocation: detail.locationInfo.meetingSpot,
+    latitude: detail.locationInfo.latitude,
+    longitude: detail.locationInfo.longitude,
+    distance: detail.distance ?? null,
+    pace: detail.pace ?? null,
+    maxParticipants: detail.maxParticipants ?? null,
+    description: detail.description ?? '',
+    supplies: detail.supplies?.length ? detail.supplies : [''],
+  };
+};
