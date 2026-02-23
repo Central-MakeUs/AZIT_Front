@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import type { ScheduleCreateFormValues } from './scheduleCreateForm';
+import type { ScheduleFormValues } from './scheduleForm';
 import { clampNum, parseHourWithAmPm } from '../lib/time';
 
 interface UseTimeFieldParams {
-  values: Pick<ScheduleCreateFormValues, 'hour' | 'minute' | 'amPm'>;
-  onChange: (next: Partial<ScheduleCreateFormValues>) => void;
+  values: Pick<ScheduleFormValues, 'hour' | 'minute' | 'amPm'>;
+  onChange: (next: Partial<ScheduleFormValues>) => void;
 }
 
 export const useTimeField = ({ values, onChange }: UseTimeFieldParams) => {
@@ -14,9 +14,9 @@ export const useTimeField = ({ values, onChange }: UseTimeFieldParams) => {
   const [isHourFocused, setIsHourFocused] = useState(false);
   const [isMinuteFocused, setIsMinuteFocused] = useState(false);
 
-  const setValues = (next: Partial<ScheduleCreateFormValues>) => onChange(next);
+  const setValues = (next: Partial<ScheduleFormValues>) => onChange(next);
 
-  const handleAmPmChange = (amPm: ScheduleCreateFormValues['amPm']) =>
+  const handleAmPmChange = (amPm: ScheduleFormValues['amPm']) =>
     setValues({ amPm });
 
   const handleHourChange = (v: string) => {

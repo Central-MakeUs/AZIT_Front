@@ -1,4 +1,4 @@
-import type { ScheduleCreateFormValues } from '../model/scheduleCreateForm';
+import type { ScheduleFormValues } from '../model/scheduleForm';
 
 export const clampNum = (value: number, min: number, max: number): number => {
   return Math.min(max, Math.max(min, value));
@@ -6,7 +6,7 @@ export const clampNum = (value: number, min: number, max: number): number => {
 
 export const parseHourWithAmPm = (
   raw: string,
-  prevAmPm: ScheduleCreateFormValues['amPm']
+  prevAmPm: ScheduleFormValues['amPm']
 ) => {
   const digits = raw.replace(/\D/g, '');
   if (!digits) return { hour: null as number | null, amPm: prevAmPm };

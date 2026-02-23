@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 
 import { createSchedule } from '@/features/schedule-create/api/createSchedule';
+import { updateSchedule } from '@/features/schedule-edit/api/updateSchedule';
 import { deleteSchedule } from '@/features/schedule-manage/api';
 import {
   deleteCancelParticipation,
@@ -22,6 +23,7 @@ import type {
   CreateScheduleRequest,
   CrewScheduleCalendarRequest,
   CrewScheduleListRequest,
+  UpdateScheduleRequest,
 } from '@/entities/schedule/model/schedule.model';
 
 export const scheduleQueries = {
@@ -72,6 +74,17 @@ export const scheduleQueries = {
       crewId: number;
       payload: CreateScheduleRequest;
     }) => createSchedule(crewId, payload),
+  }),
+  updateScheduleMutation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+      payload,
+    }: {
+      crewId: number;
+      scheduleId: number;
+      payload: UpdateScheduleRequest;
+    }) => updateSchedule(crewId, scheduleId, payload),
   }),
   scheduleDetailQuery: (crewId: number, scheduleId: number) =>
     queryOptions({

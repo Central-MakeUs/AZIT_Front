@@ -1,13 +1,13 @@
 import { Input } from '@azit/design-system/input';
 
-import type { ScheduleCreateFormValues } from '../model/scheduleCreateForm';
+import type { ScheduleFormValues } from '../model/scheduleForm';
 import { useTimeField } from '../model/useTimeField';
 import * as styles from '../styles/TimeField.css';
 import { ChipButton } from '../ui/ChipButton';
 
 interface TimeFieldProps {
-  values: Pick<ScheduleCreateFormValues, 'hour' | 'minute' | 'amPm'>;
-  onChange: (next: Partial<ScheduleCreateFormValues>) => void;
+  values: Pick<ScheduleFormValues, 'hour' | 'minute' | 'amPm'>;
+  onChange: (next: Partial<ScheduleFormValues>) => void;
 }
 
 export function TimeField({ values, onChange }: TimeFieldProps) {
