@@ -4,7 +4,7 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { createSchedule } from '@/features/schedule-create/api/createSchedule';
+import { postSchedule } from '@/features/schedule-create/api/postSchedule';
 import { updateSchedule } from '@/features/schedule-edit/api/updateSchedule';
 import { deleteSchedule } from '@/features/schedule-manage/api';
 import {
@@ -73,7 +73,7 @@ export const scheduleQueries = {
     }: {
       crewId: number;
       payload: CreateScheduleRequest;
-    }) => createSchedule(crewId, payload),
+    }) => postSchedule(crewId, payload),
   }),
   updateScheduleMutation: mutationOptions({
     mutationFn: ({
