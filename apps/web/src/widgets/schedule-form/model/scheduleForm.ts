@@ -104,6 +104,11 @@ const formatMeetingAt = (
   return `${date} ${h}:${m}:${s}`;
 };
 
+const formatSupplies = (supplies: string[]) => {
+  const filteredSupplies = supplies.map((s) => s.trim()).filter(Boolean);
+  return filteredSupplies.length > 0 ? filteredSupplies : undefined;
+};
+
 const buildSchedulePayload = (values: ScheduleFormValues) => {
   return {
     title: values.title.trim(),
@@ -123,10 +128,7 @@ const buildSchedulePayload = (values: ScheduleFormValues) => {
     pace: values.pace ?? undefined,
     maxParticipants: values.maxParticipants ?? undefined,
     description: values.description.trim() || undefined,
-    supplies:
-      values.supplies.filter((s) => s.trim()).length > 0
-        ? values.supplies.map((s) => s.trim()).filter(Boolean)
-        : undefined,
+    supplies: formatSupplies(values.supplies),
   };
 };
 
