@@ -50,7 +50,13 @@ export const END_POINT = {
   },
   SCHEDULE: {
     LIST: (crewId: number) => `crews/${crewId}/schedules`,
+    DETAIL: (crewId: number, scheduleId: number) =>
+      `crews/${crewId}/schedules/${scheduleId}`,
     CALENDAR: (crewId: number) => `crews/${crewId}/schedules/calendar`,
+    PARTICIPATE: (crewId: number, scheduleId: number) =>
+      `crews/${crewId}/schedules/${scheduleId}/participate`,
+    PARTICIPANTS: (crewId: number, scheduleId: number) =>
+      `crews/${crewId}/schedules/${scheduleId}/participants`,
     JOINED_LIST: 'members/me/schedules',
   },
 } as const;
