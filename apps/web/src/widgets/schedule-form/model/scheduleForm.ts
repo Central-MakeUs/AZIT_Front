@@ -11,8 +11,8 @@ export interface ScheduleFormValues {
   title: string;
   date: string;
   amPm: 'AM' | 'PM';
-  hour: number;
-  minute: number;
+  hour: number | null;
+  minute: number | null;
   locationName: string;
   address: string;
   detailedLocation: string;
@@ -87,13 +87,19 @@ const defaultScheduleFormValues: ScheduleFormValues = {
 const formatMeetingAt = (
   date: string,
   amPm: ScheduleFormValues['amPm'],
-  hour: number,
-  minute: number
+  hour: number | null,
+  minute: number | null
 ): string => {
   const hour24 =
-    amPm === 'AM' ? (hour === 12 ? 0 : hour) : hour === 12 ? 12 : hour + 12;
+    amPm === 'AM'
+      ? hour === 12
+        ? 0
+        : (hour ?? 0)
+      : hour === 12
+        ? 12
+        : (hour ?? 0) + 12;
   const h = String(hour24).padStart(2, '0');
-  const m = String(minute).padStart(2, '0');
+  const m = String(minute ?? 0).padStart(2, '0');
   const s = '00';
   return `${date} ${h}:${m}:${s}`;
 };
