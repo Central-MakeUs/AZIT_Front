@@ -1,9 +1,12 @@
-import { queryOptions } from '@tanstack/react-query';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
+
+import { createSchedule } from '@/features/schedule-create/api/createSchedule';
 
 import { getMemberScheduleList } from '@/entities/schedule/api/getMemberScheduleList';
 import { getScheduleCalendar } from '@/entities/schedule/api/getScheduleCalendar';
 import { getScheduleList } from '@/entities/schedule/api/getScheduleList';
 import type {
+  CreateScheduleRequest,
   CrewScheduleCalendarRequest,
   CrewScheduleListRequest,
 } from '@/entities/schedule/model/schedule.model';
@@ -44,4 +47,13 @@ export const scheduleQueries = {
         return res.data.result ?? [];
       },
     }),
+  createScheduleMutation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      payload,
+    }: {
+      crewId: number;
+      payload: CreateScheduleRequest;
+    }) => createSchedule(crewId, payload),
+  }),
 };
