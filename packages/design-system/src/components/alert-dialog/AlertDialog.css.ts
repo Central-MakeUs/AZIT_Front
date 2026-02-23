@@ -96,3 +96,10 @@ export const actionButton = style([
     fontFamily: vars.typography.fontFamily.primary,
   },
 ]);
+
+export const actionButtonFullWidth = style([
+  actionButton,
+  {
+    width: '100%',
+  },
+]);

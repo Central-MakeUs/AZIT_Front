@@ -9,7 +9,6 @@ import { StaticMap } from '@/widgets/schedule/ui/StaticMap';
 
 interface ScheduleDetailInfoSectionProps {
   date: string;
-  dayOfWeek: string;
   time: string;
   locationName: string;
   address: string;
@@ -17,7 +16,7 @@ interface ScheduleDetailInfoSectionProps {
 
 export function ScheduleDetailInfoSection({
   date,
-  dayOfWeek,
+
   time,
   locationName,
   address,
@@ -29,9 +28,7 @@ export function ScheduleDetailInfoSection({
           <div className={styles.iconWrapper}>
             <CalendarIcon size={20} color="inherit" />
           </div>
-          <span className={styles.infoText}>
-            {date}({dayOfWeek})
-          </span>
+          <span className={styles.infoText}>{date}</span>
         </div>
         <div className={styles.infoItem}>
           <div className={styles.iconWrapper}>
