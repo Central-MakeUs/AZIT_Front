@@ -6,7 +6,7 @@ export interface ScheduleCreateFormValues {
   runType: CreateScheduleRequest['runType'];
   title: string;
   date: string;
-  amPm: CreateScheduleRequest['amPm'];
+  amPm: 'AM' | 'PM';
   hour: number;
   minute: number;
   locationName: string;
@@ -80,16 +80,33 @@ export const defaultScheduleCreateFormValues: ScheduleCreateFormValues = {
   supplies: [''],
 };
 
+/** date(YYYY-MM-DD) + amPm + hour(1-12) + minute → 'yyyy-MM-dd HH:mm:ss' */
+function formatMeetingAt(
+  date: string,
+  amPm: ScheduleCreateFormValues['amPm'],
+  hour: number,
+  minute: number
+): string {
+  const hour24 =
+    amPm === 'AM' ? (hour === 12 ? 0 : hour) : hour === 12 ? 12 : hour + 12;
+  const h = String(hour24).padStart(2, '0');
+  const m = String(minute).padStart(2, '0');
+  const s = '00';
+  return `${date} ${h}:${m}:${s}`;
+}
+
 export const buildCreateSchedulePayload = (
   values: ScheduleCreateFormValues
 ): CreateScheduleRequest => {
   return {
     title: values.title.trim(),
     runType: values.runType,
-    date: values.date,
-    amPm: values.amPm,
-    hour: values.hour,
-    minute: values.minute,
+    meetingAt: formatMeetingAt(
+      values.date,
+      values.amPm,
+      values.hour,
+      values.minute
+    ),
     locationName: values.locationName.trim(),
     address: values.address || values.locationName.trim(),
     detailedLocation: values.detailedLocation.trim(),
