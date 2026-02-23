@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
+import { useFlow } from '@/app/routes/stackflow';
+
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 // import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
@@ -22,6 +24,7 @@ import type { RunType } from '@/entities/schedule/model/schedule.types';
 import { ScheduleList } from '@/entities/schedule/ui';
 
 export function SchedulePage() {
+  const { push } = useFlow();
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [date, setDate] = useState<string | undefined>(undefined);
@@ -54,7 +57,15 @@ export function SchedulePage() {
         <Header
           sticky
           center="일정"
-          right={<PlusIcon size={24} color="primary" aria-hidden />}
+          right={
+            <button
+              type="button"
+              onClick={() => push('ScheduleCreatePage', {})}
+              aria-label="일정 등록"
+            >
+              <PlusIcon size={24} color="primary" aria-hidden />
+            </button>
+          }
         />
         <div className={scrollContainer}>
           <ScheduleSectionLayout
