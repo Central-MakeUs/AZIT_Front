@@ -4,7 +4,7 @@ import * as styles from '@/widgets/schedule/styles/ScheduleParticipantList.css';
 import { ScheduleParticipantListItem } from '@/widgets/schedule/ui/ScheduleParticipantListItem';
 import { ScheduleParticipantTitle } from '@/widgets/schedule/ui/ScheduleParticipantTitle';
 
-import type { ScheduleParticipant } from '@/shared/mock/schedule';
+import type { ScheduleParticipant } from '@/entities/schedule/model/schedule.types';
 
 interface ScheduleParticipantListProps {
   participants: ScheduleParticipant[];
