@@ -38,14 +38,14 @@ export const avatar = style({
   flexShrink: 0,
 });
 
-export const leaderInfo = style({
+export const creatorInfo = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   gap: 6,
 });
 
-export const leaderNickname = style([
+export const creatorName = style([
   typography.body.b3,
   {
     color: vars.colors.black,
