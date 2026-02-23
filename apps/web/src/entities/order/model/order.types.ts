@@ -18,9 +18,9 @@ export type OrderListItem = OrderListResponse;
 export type OrderStatus = NonNullable<OrderListItem['status']>;
 
 export type DirectOrderCheckoutRequest =
-  operations['getOrderFromDirect']['parameters']['query'];
+  operations['getCheckoutInfoDirect']['parameters']['query'];
 export type DirectOrderCheckoutResponse = NonNullable<
-  operations['getOrderFromDirect']['responses']['200']['content']['*/*']['result']
+  operations['getCheckoutInfoDirect']['responses']['200']['content']['*/*']['result']
 >;
 
 export type CartOrderCheckoutRequest =
