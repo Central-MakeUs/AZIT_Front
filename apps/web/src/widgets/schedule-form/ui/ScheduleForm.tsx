@@ -24,6 +24,7 @@ export interface ScheduleFormProps {
   onValuesChange: (values: ScheduleFormValues) => void;
   onMapSearchClick?: () => void;
   onSubmit: (e: React.FormEvent) => void;
+  isLeader?: boolean;
 }
 
 export function ScheduleForm({
@@ -32,6 +33,7 @@ export function ScheduleForm({
   onValuesChange,
   onMapSearchClick,
   onSubmit,
+  isLeader = true,
 }: ScheduleFormProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
@@ -62,14 +64,16 @@ export function ScheduleForm({
         <div className={styles.runTypeWrapper}>
           <label className={styles.label}>런 종류</label>
           <div className={styles.runTypeChipButton}>
-            <ChipButton
-              className={styles.runTypeChipButton}
-              variant="primary"
-              selected={values.runType === 'REGULAR'}
-              onClick={() => handleRunTypeChange('REGULAR')}
-            >
-              정기런
-            </ChipButton>
+            {isLeader && (
+              <ChipButton
+                className={styles.runTypeChipButton}
+                variant="primary"
+                selected={values.runType === 'REGULAR'}
+                onClick={() => handleRunTypeChange('REGULAR')}
+              >
+                정기런
+              </ChipButton>
+            )}
             <ChipButton
               className={styles.runTypeChipButton}
               variant="secondary"
