@@ -315,6 +315,7 @@ export interface paths {
      *     * 이미 취소된 일정에는 신청할 수 없습니다. (ALREADY_CANCELLED_SCHEDULE)
      *     * 이미 신청한 일정에 중복 신청은 불가합니다. (ALREADY_PARTICIPATED)
      *     * 모집 인원이 마감된(정원 초과) 일정에는 신청할 수 없습니다. (EXCEEDED_MAX_PARTICIPANTS)
+     *     * 이미 신청한 일정과 현재 신청하는 일정 간의 시간 차가 60분 미만일 경우 신청이 불가합니다. (SCHEDULE_INTERVAL_TOO_CLOSE)
      */
     post: operations['participateSchedule'];
     /**
@@ -855,6 +856,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/locations/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 장소 검색
+     * @description 네이버 지역 검색 API를 호출하여 입력한 키워드에 부합하는 장소 목록을 최대 5개 반환합니다. <br>
+     *     일정 등록 시 집합 장소를 검색하기 위한 용도로 사용됩니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 도로명 주소를 우선적으로 반환하며, 도로명 주소가 없을 경우 지번 주소를 반환합니다. <br>
+     */
+    get: operations['search'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/{crewId}/schedules/{scheduleId}/participants': {
     parameters: {
       query?: never;
@@ -1109,12 +1134,12 @@ export interface components {
        */
       longitude: number;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 거리 (km)
        */
       distance?: number;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 페이스 (분/km)
        */
       pace?: number;
@@ -1328,12 +1353,12 @@ export interface components {
        */
       longitude: number;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 거리 (km)
        */
       distance?: number;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 페이스 (분/km)
        */
       pace?: number;
@@ -1915,12 +1940,12 @@ export interface components {
       /** @description 집합 장소명 */
       placeName?: string;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 거리 (km)
        */
       distance?: number;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 페이스
        */
       pace?: number;
@@ -1999,6 +2024,29 @@ export interface components {
       /** @description 출석 가능 시간 여부 (시작 1시간 전~후) */
       isAvailableTime?: boolean;
     };
+    CommonResponseListLocationSearchResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['LocationSearchResponse'][];
+    };
+    LocationSearchResponse: {
+      /** @description 장소 명칭 */
+      placeName?: string;
+      /** @description 카테고리 */
+      category?: string;
+      /** @description 주소 */
+      address?: string;
+      /**
+       * Format: double
+       * @description 위도
+       */
+      latitude?: number;
+      /**
+       * Format: double
+       * @description 경도
+       */
+      longitude?: number;
+    };
     CommonResponseCrewScheduleDetailResponse: {
       code?: string;
       message?: string;
@@ -2026,12 +2074,12 @@ export interface components {
       /** @description 일정 설명 */
       description?: string;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 거리 (km)
        */
       distance?: number;
       /**
-       * Format: double
+       * Format: int32
        * @description 목표 페이스
        */
       pace?: number;
@@ -4882,6 +4930,68 @@ export interface operations {
         };
         content: {
           '*/*': components['schemas']['CommonResponseCheckInStatusResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  search: {
+    parameters: {
+      query: {
+        query: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListLocationSearchResponse'];
         };
       };
       400: {
