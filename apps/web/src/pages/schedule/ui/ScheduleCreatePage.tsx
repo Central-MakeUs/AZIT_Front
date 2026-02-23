@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '@/pages/schedule/styles/ScheduleCreatePage.css';
+import * as styles from '@/pages/schedule/styles/ScheduleCreateEditPage.css';
 
 import {
   initializeScheduleFormValues,
