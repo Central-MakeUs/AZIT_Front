@@ -45,7 +45,7 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     if (!detailData?.ok) return;
     if (formValues !== null) return;
     setFormValues(initializeScheduleFormValues(detailData.data.result));
-  }, [detailData, formValues]);
+  }, [detailData]);
 
   useEffect(() => {
     if (!isLoading && detailData && !detailData.ok) {
