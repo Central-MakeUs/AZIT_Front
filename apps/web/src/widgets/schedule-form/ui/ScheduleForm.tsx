@@ -16,6 +16,8 @@ import { ChipButton } from '@/widgets/schedule-form/ui/ChipButton';
 import { formatDate } from '@/shared/lib/formatters';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 
+import { TimeField } from './TimeField';
+
 export interface ScheduleCreateFormProps {
   formId: string;
   values: ScheduleCreateFormValues;
@@ -28,6 +30,36 @@ function clampNum(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+function parseHourWithAmPm(
+  raw: string,
+  prevAmPm: ScheduleCreateFormValues['amPm']
+) {
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) {
+    return { hour: null as unknown as number, amPm: prevAmPm };
+  }
+
+  let n = parseInt(digits, 10);
+  if (Number.isNaN(n)) {
+    return { hour: null as unknown as number, amPm: prevAmPm };
+  }
+
+  let amPm = prevAmPm;
+
+  // 13~24 → 12시간 + AM/PM 자동 변환
+  if (n >= 13 && n <= 24) {
+    amPm = n === 24 ? 'AM' : 'PM';
+    n = n === 24 ? 12 : n - 12;
+  } else if (n > 24) {
+    n = clampNum(n, 1, 12);
+  } else {
+    // 1~12 그대로, 0 이하는 1로 클램프
+    n = clampNum(n, 1, 12);
+  }
+
+  return { hour: n as unknown as number, amPm };
+}
+
 export function ScheduleForm({
   formId,
   values,
@@ -36,6 +68,10 @@ export function ScheduleForm({
   onSubmit,
 }: ScheduleCreateFormProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  // 시간 입력용 로컬 문자열 상태
+  const [hourInput, setHourInput] = useState('');
+  const [minuteInput, setMinuteInput] = useState('');
 
   const setValues = (next: Partial<ScheduleCreateFormValues>) =>
     onValuesChange({ ...values, ...next });
@@ -46,16 +82,67 @@ export function ScheduleForm({
   const handleAmPmChange = (amPm: ScheduleCreateFormValues['amPm']) =>
     setValues({ amPm });
 
+  // 시간 입력 중 (포커스 상태)에는 hourInput만 업데이트, blur에서 실제 값 반영
   const handleHourChange = (v: string) => {
-    const n = parseInt(v.replace(/\D/g, ''), 10);
-    if (Number.isNaN(n)) setValues({ hour: 0 });
-    else setValues({ hour: clampNum(n, 0, 12) });
+    setHourInput(v);
+  };
+
+  const handleHourBlur = () => {
+    if (!hourInput.trim()) {
+      setValues({ hour: null as any });
+      setHourInput('');
+      return;
+    }
+
+    const { hour, amPm } = parseHourWithAmPm(hourInput, values.amPm);
+    if (!hour) {
+      setValues({ hour: null as any });
+      setHourInput('');
+      return;
+    }
+
+    setValues({ hour, amPm });
+    setHourInput(String(hour).padStart(2, '0'));
+  };
+
+  const handleHourFocus = () => {
+    if (values.hour == null) {
+      setHourInput('');
+      return;
+    }
+    setHourInput(String(values.hour));
   };
 
   const handleMinuteChange = (v: string) => {
-    const n = parseInt(v.replace(/\D/g, ''), 10);
-    if (Number.isNaN(n)) setValues({ minute: 0 });
-    else setValues({ minute: clampNum(n, 0, 59) });
+    setMinuteInput(v);
+  };
+
+  const handleMinuteBlur = () => {
+    const raw = minuteInput.replace(/\D/g, '');
+    if (!raw) {
+      setValues({ minute: null as any });
+      setMinuteInput('');
+      return;
+    }
+
+    let n = parseInt(raw, 10);
+    if (Number.isNaN(n)) {
+      setValues({ minute: null as any });
+      setMinuteInput('');
+      return;
+    }
+
+    n = clampNum(n, 0, 59);
+    setValues({ minute: n as any });
+    setMinuteInput(String(n).padStart(2, '0'));
+  };
+
+  const handleMinuteFocus = () => {
+    if (values.minute == null) {
+      setMinuteInput('');
+      return;
+    }
+    setMinuteInput(String(values.minute));
   };
 
   const addSupply = () => {
@@ -72,6 +159,23 @@ export function ScheduleForm({
   const dateDisplay = values.date
     ? formatDate(new Date(values.date + 'T00:00:00'), 'YYYY.MM.DD')
     : '선택하기';
+
+  // 인풋 표시값: 포커스 없으면 values 기준 0 패딩, 포커스 있으면 로컬 입력값
+  const displayHour =
+    document.activeElement &&
+    (document.activeElement as HTMLElement).id === 'schedule-hour'
+      ? hourInput
+      : values.hour == null
+        ? ''
+        : String(values.hour).padStart(2, '0');
+
+  const displayMinute =
+    document.activeElement &&
+    (document.activeElement as HTMLElement).id === 'schedule-minute'
+      ? minuteInput
+      : values.minute == null
+        ? ''
+        : String(values.minute).padStart(2, '0');
 
   return (
     <form id={formId} className={styles.form} onSubmit={onSubmit}>
@@ -98,6 +202,7 @@ export function ScheduleForm({
           </div>
         </div>
       </div>
+
       <div className={styles.verticalSection}>
         <label className={styles.label} htmlFor="schedule-title">
           런 타이틀
@@ -118,6 +223,7 @@ export function ScheduleForm({
           </span>
         </div>
       </div>
+
       <div className={styles.horizontalSection}>
         <label className={styles.label}>날짜</label>
         <Button
@@ -132,53 +238,15 @@ export function ScheduleForm({
       </div>
       <div className={styles.horizontalSection}>
         <label className={styles.label}>시간</label>
-        <div className={styles.timeRow}>
-          <div className={styles.amPmRow}>
-            <ChipButton
-              variant="primary"
-              selected={values.amPm === 'AM'}
-              onClick={() => handleAmPmChange('AM')}
-            >
-              오전
-            </ChipButton>
-            <ChipButton
-              variant="primary"
-              selected={values.amPm === 'PM'}
-              onClick={() => handleAmPmChange('PM')}
-            >
-              오후
-            </ChipButton>
-          </div>
-          <div className={styles.timeInputsRow}>
-            <Input
-              type="number"
-              inputMode="numeric"
-              className={styles.timeInput}
-              value={values.hour ?? ''}
-              onChange={(e) => handleHourChange(e.target.value)}
-              placeholder="09"
-              min={1}
-              max={12}
-            />
-            <span className={styles.timeColon}>:</span>
-            <Input
-              type="number"
-              inputMode="numeric"
-              className={styles.timeInput}
-              value={
-                values.minute !== undefined && values.minute !== null
-                  ? String(values.minute)
-                  : ''
-              }
-              onChange={(e) => handleMinuteChange(e.target.value)}
-              placeholder="30"
-              min={0}
-              max={59}
-            />
-          </div>
-        </div>
+        <TimeField
+          values={{
+            hour: values.hour,
+            minute: values.minute,
+            amPm: values.amPm,
+          }}
+          onChange={setValues}
+        />
       </div>
-
       <div className={styles.verticalSection}>
         <label className={styles.label} htmlFor="schedule-location">
           집합 장소
