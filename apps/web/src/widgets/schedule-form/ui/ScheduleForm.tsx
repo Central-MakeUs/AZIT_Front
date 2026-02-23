@@ -293,12 +293,14 @@ export function ScheduleForm({
                 type="number"
                 inputMode="decimal"
                 className={styles.unitInput}
-                value={values.distance === 0 ? '' : values.distance}
-                onChange={(e) =>
+                value={values.distance ?? ''}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  const n = parseFloat(raw);
                   setValues({
-                    distance: parseFloat(e.target.value) || 0,
-                  })
-                }
+                    distance: raw === '' || Number.isNaN(n) ? null : n,
+                  });
+                }}
                 placeholder="0"
                 min={0}
                 step={0.1}
@@ -316,12 +318,14 @@ export function ScheduleForm({
                 type="number"
                 inputMode="decimal"
                 className={styles.unitInput}
-                value={values.pace === 0 ? '' : values.pace}
-                onChange={(e) =>
+                value={values.pace ?? ''}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  const n = parseFloat(raw);
                   setValues({
-                    pace: parseFloat(e.target.value) || 0,
-                  })
-                }
+                    pace: raw === '' || Number.isNaN(n) ? null : n,
+                  });
+                }}
                 placeholder="0"
                 min={0}
                 step={0.1}
@@ -342,14 +346,16 @@ export function ScheduleForm({
             type="number"
             inputMode="numeric"
             className={styles.unitInput}
-            value={values.maxParticipants === 0 ? '' : values.maxParticipants}
-            onChange={(e) =>
+            value={values.maxParticipants ?? ''}
+            onChange={(e) => {
+              const raw = e.target.value;
+              const n = parseInt(raw, 10);
               setValues({
-                maxParticipants: parseInt(e.target.value, 10) || 0,
-              })
-            }
+                maxParticipants: raw === '' || Number.isNaN(n) ? null : n,
+              });
+            }}
             placeholder="0"
-            min={0}
+            min={1}
           />
           <span className={styles.unitSuffix}>명</span>
         </div>

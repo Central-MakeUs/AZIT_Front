@@ -142,6 +142,11 @@ export const unitInput = style([
     backgroundColor: 'inherit',
     color: vars.colors.black,
     textAlign: 'right',
+    selectors: {
+      '&::placeholder': {
+        color: vars.colors.gray30,
+      },
+    },
   },
 ]);
 
