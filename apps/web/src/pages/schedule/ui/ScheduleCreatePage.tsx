@@ -10,10 +10,10 @@ import { useFlow } from '@/app/routes/stackflow';
 import * as styles from '@/pages/schedule/styles/ScheduleCreatePage.css';
 
 import {
-  defaultScheduleCreateFormValues,
+  initializeScheduleFormValues,
   buildCreateSchedulePayload,
-  isScheduleCreateFormValid,
-} from '@/widgets/schedule-form/model/scheduleCreateForm';
+  isScheduleFormValid,
+} from '@/widgets/schedule-form/model/scheduleForm';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
 import { memberQueries, scheduleQueries } from '@/shared/queries';
@@ -22,7 +22,7 @@ import { AppLayout } from '@/shared/ui/layout';
 
 export function ScheduleCreatePage() {
   const { pop } = useFlow();
-  const [formValues, setFormValues] = useState(defaultScheduleCreateFormValues);
+  const [formValues, setFormValues] = useState(initializeScheduleFormValues);
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
@@ -30,7 +30,7 @@ export function ScheduleCreatePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isScheduleCreateFormValid(formValues) || crewId <= 0) return;
+    if (!isScheduleFormValid(formValues) || crewId <= 0) return;
     const payload = buildCreateSchedulePayload(formValues);
     createMutation.mutate({ crewId, payload }, { onSuccess: () => pop() });
   };
@@ -60,10 +60,8 @@ export function ScheduleCreatePage() {
               type="submit"
               form="schedule-create-form"
               size="large"
-              disabled={!isScheduleCreateFormValid(formValues)}
-              state={
-                isScheduleCreateFormValid(formValues) ? 'active' : 'disabled'
-              }
+              disabled={!isScheduleFormValid(formValues)}
+              state={isScheduleFormValid(formValues) ? 'active' : 'disabled'}
             >
               등록하기
             </Button>
