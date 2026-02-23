@@ -3,7 +3,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -16,16 +16,30 @@ import {
 } from '@/widgets/schedule-form/model/scheduleForm';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
+import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 export function ScheduleCreatePage() {
   const { pop } = useFlow();
-  const [formValues, setFormValues] = useState(initializeScheduleFormValues);
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const isLeader =
+    myInfoData?.ok &&
+    myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
+
+  const [formValues, setFormValues] = useState(() =>
+    initializeScheduleFormValues()
+  );
+
+  useEffect(() => {
+    if (myInfoData?.ok && !isLeader) {
+      setFormValues((prev) => ({ ...prev, runType: 'LIGHTNING' }));
+    }
+  }, [myInfoData, isLeader]);
+
   const createMutation = useMutation(scheduleQueries.createScheduleMutation);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,6 +67,7 @@ export function ScheduleCreatePage() {
               values={formValues}
               onValuesChange={setFormValues}
               onSubmit={handleSubmit}
+              isLeader={isLeader}
             />
           </div>
           <div className={styles.footerWrapper}>
