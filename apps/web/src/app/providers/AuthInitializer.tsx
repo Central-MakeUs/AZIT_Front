@@ -62,6 +62,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
             case 'WAITING_FOR_APPROVE':
             case 'APPROVED_PENDING_CONFIRM':
             case 'REJECTED_PENDING_CONFIRM':
+            case 'KICKED_PENDING_CONFIRM':
               if (currentActivity !== 'CrewJoinStatusPage') {
                 redirectTargetRef.current = 'CrewJoinStatusPage';
                 replace('CrewJoinStatusPage', { crewId }, { animate: false });
