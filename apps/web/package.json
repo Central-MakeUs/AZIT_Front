@@ -50,6 +50,7 @@
     "eslint-plugin-import": "^2.29.1",
     "jsdom": "^27.4.0",
     "openapi-typescript": "^7.10.1",
+    "type-fest": "^5.4.4",
     "typescript": "catalog:",
     "vite": "^7.2.4",
     "vitest": "^4.0.16"

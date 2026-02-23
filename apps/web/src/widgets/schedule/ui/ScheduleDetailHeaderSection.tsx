@@ -7,7 +7,8 @@ interface ScheduleDetailHeaderSectionProps {
   distance: string;
   pace: string;
   title: string;
-  leaderNickname: string;
+  creatorName: string;
+  isCreatorLeader: boolean;
 }
 
 export function ScheduleDetailHeaderSection({
@@ -15,7 +16,8 @@ export function ScheduleDetailHeaderSection({
   distance,
   pace,
   title,
-  leaderNickname,
+  creatorName,
+  isCreatorLeader,
 }: ScheduleDetailHeaderSectionProps) {
   return (
     <div className={styles.section}>
@@ -27,8 +29,8 @@ export function ScheduleDetailHeaderSection({
       <h1 className={styles.title}>{title}</h1>
       <div className={styles.leaderRow}>
         <div className={styles.avatar} />
-        <div className={styles.leaderInfo}>
-          <span className={styles.leaderNickname}>{leaderNickname}</span>
+        <div className={styles.creatorInfo}>
+          <span className={styles.creatorName}>{creatorName}</span>
           <Chip type="skyblue">리더</Chip>
         </div>
       </div>
