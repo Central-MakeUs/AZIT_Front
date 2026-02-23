@@ -6,7 +6,7 @@ import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import { formatOrderDate } from '@/shared/lib/formatters';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { orderQueries } from '@/shared/queries/order';
-import { toastSuccess } from '@/shared/ui/toast';
+import { toastError, toastSuccess } from '@/shared/ui/toast';
 
 export interface UseOrderDetailOptions {
   onCancelSuccess?: () => void;
@@ -24,6 +24,10 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
       toastSuccess('주문 취소가 완료되었습니다.');
       onCancelSuccess?.();
     },
+    onError: (error) =>
+      toastError(
+        error instanceof Error ? error.message : '주문 취소에 실패했습니다.'
+      ),
   });
 
   const { data, isPending, isError } = useQuery({
