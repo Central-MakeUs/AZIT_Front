@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { scheduleQueries } from '@/shared/queries/schedule';
-import { toast } from '@/shared/ui/toast';
+import { toastSuccess } from '@/shared/ui/toast';
 
 interface UseScheduleActionsProps {
   crewId: number;
@@ -20,8 +20,7 @@ export function useScheduleParticipateActions({
   const participateMutation = useMutation({
     ...scheduleQueries.participateSchedule,
     onSuccess: () => {
-      // TODO: 토스트 메세지 스타일 변경
-      toast.success('신청이 완료되었습니다');
+      toastSuccess('신청이 완료되었습니다');
       queryClient.invalidateQueries({ queryKey: detailQueryKey });
       queryClient.invalidateQueries({ queryKey: participantsQueryKey });
     },
@@ -30,8 +29,7 @@ export function useScheduleParticipateActions({
   const cancelMutation = useMutation({
     ...scheduleQueries.cancelParticipation,
     onSuccess: () => {
-      // TODO: 토스트 메세지 스타일 변경
-      toast.success('신청이 취소되었습니다');
+      toastSuccess('신청이 취소되었습니다');
       queryClient.invalidateQueries({ queryKey: detailQueryKey });
       queryClient.invalidateQueries({ queryKey: participantsQueryKey });
     },
