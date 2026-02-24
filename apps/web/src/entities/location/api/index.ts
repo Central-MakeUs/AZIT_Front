@@ -1,0 +1,1 @@
+export { getLocationSearch } from './getLocationSearch';
