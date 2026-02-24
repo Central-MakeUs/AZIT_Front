@@ -6,7 +6,7 @@ import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import { formatOrderDate } from '@/shared/lib/formatters';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { orderQueries } from '@/shared/queries/order';
-import { toast } from '@/shared/ui/toast';
+import { toastError, toastSuccess } from '@/shared/ui/toast';
 
 export interface UseOrderDetailOptions {
   onCancelSuccess?: () => void;
@@ -21,9 +21,13 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
     ...orderQueries.cancelOrderMutation(orderNumber ?? ''),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: orderQueries.all });
-      toast.success('주문 취소가 완료되었습니다.');
+      toastSuccess('주문 취소가 완료되었습니다.');
       onCancelSuccess?.();
     },
+    onError: (error) =>
+      toastError(
+        error instanceof Error ? error.message : '주문 취소에 실패했습니다.'
+      ),
   });
 
   const { data, isPending, isError } = useQuery({
@@ -57,7 +61,7 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
     const trackingNumber = result?.shippingInfo?.trackingNumber;
     if (trackingNumber) {
       navigator.clipboard.writeText(trackingNumber);
-      toast.success('송장번호가 복사되었습니다.');
+      toastSuccess('송장번호가 복사되었습니다.');
     }
   };
 

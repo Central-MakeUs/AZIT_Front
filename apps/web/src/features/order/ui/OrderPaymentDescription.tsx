@@ -4,7 +4,7 @@ import { Input } from '@azit/design-system/input';
 
 import * as styles from '@/features/order/styles/OrderPaymentDescription.css';
 
-import { toast } from '@/shared/ui/toast';
+import { toastSuccess } from '@/shared/ui/toast';
 
 import type { DepositAccountInfo } from '@/entities/order/model';
 
@@ -23,7 +23,7 @@ export function OrderPaymentDescription({
 }: OrderPaymentDescriptionProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber!.replace(/-/g, ''));
-    toast.success('계좌번호가 복사되었습니다.');
+    toastSuccess('계좌번호가 복사되었습니다.');
   };
 
   return (
