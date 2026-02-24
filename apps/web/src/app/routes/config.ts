@@ -106,6 +106,10 @@ const MemberViewPage = lazyImport(
   () => import('@/pages/mypage/ui/MemberViewPage'),
   'MemberViewPage'
 );
+const ScheduleLocationPage = lazyImport(
+  () => import('@/pages/schedule/ui/ScheduleLocationPage'),
+  'ScheduleLocationPage'
+);
 
 export const routes = [
   {
@@ -280,6 +284,12 @@ export const routes = [
     name: 'MemberViewPage',
     path: '/crew/:id/members',
     element: MemberViewPage,
+    withAuth: true,
+  },
+  {
+    name: 'ScheduleLocationPage',
+    path: '/schedule/location/search',
+    element: ScheduleLocationPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];
