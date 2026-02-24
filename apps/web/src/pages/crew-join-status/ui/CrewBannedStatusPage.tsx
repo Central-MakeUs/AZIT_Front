@@ -33,7 +33,7 @@ export function CrewBannedStatusPage() {
     return null;
   }
 
-  const { crewName, profileImageUrl } = data;
+  const { crewName, crewImageUrl } = data;
   const content = STATUS_CONTENT['EXITED'];
 
   return (
@@ -41,7 +41,7 @@ export function CrewBannedStatusPage() {
       <AppLayout>
         <CrewJoinStatusSection
           name={crewName}
-          profileImageSrc={profileImageUrl ?? '/azit.png'}
+          profileImageSrc={crewImageUrl ?? '/azit.png'}
           primaryMessage={content.primaryMessage}
           secondaryMessage={content.secondaryMessage}
           buttonText={content.buttonText}
