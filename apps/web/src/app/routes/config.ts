@@ -54,6 +54,10 @@ const CrewJoinStatusPage = lazyImport(
   () => import('@/pages/crew-join-status/ui/CrewJoinStatusPage'),
   'CrewJoinStatusPage'
 );
+const CrewBannedStatusPage = lazyImport(
+  () => import('@/pages/crew-join-status/ui/CrewBannedStatusPage'),
+  'CrewBannedStatusPage'
+);
 const ScheduleDetailPage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleDetailPage'),
   'ScheduleDetailPage'
@@ -210,6 +214,12 @@ export const routes = [
     name: 'CrewJoinStatusPage',
     path: '/crew-join/status',
     element: CrewJoinStatusPage,
+    withAuth: true,
+  },
+  {
+    name: 'CrewBannedStatusPage',
+    path: '/crew-join/status/banned',
+    element: CrewBannedStatusPage,
     withAuth: true,
   },
   {
