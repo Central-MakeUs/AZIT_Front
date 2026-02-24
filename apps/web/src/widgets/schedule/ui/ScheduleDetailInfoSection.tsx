@@ -16,7 +16,6 @@ interface ScheduleDetailInfoSectionProps {
 
 export function ScheduleDetailInfoSection({
   date,
-
   time,
   locationName,
   address,
