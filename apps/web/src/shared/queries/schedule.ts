@@ -4,6 +4,8 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
+import { postSchedule } from '@/features/schedule-create/api/postSchedule';
+import { updateSchedule } from '@/features/schedule-edit/api/updateSchedule';
 import { deleteSchedule } from '@/features/schedule-manage/api';
 import {
   deleteCancelParticipation,
@@ -18,8 +20,10 @@ import { getMemberScheduleList } from '@/entities/schedule/api/getMemberSchedule
 import { getScheduleCalendar } from '@/entities/schedule/api/getScheduleCalendar';
 import { getScheduleList } from '@/entities/schedule/api/getScheduleList';
 import type {
+  CreateScheduleRequest,
   CrewScheduleCalendarRequest,
   CrewScheduleListRequest,
+  UpdateScheduleRequest,
 } from '@/entities/schedule/model/schedule.model';
 
 export const scheduleQueries = {
@@ -62,6 +66,26 @@ export const scheduleQueries = {
         return res.data.result ?? [];
       },
     }),
+  createScheduleMutation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      payload,
+    }: {
+      crewId: number;
+      payload: CreateScheduleRequest;
+    }) => postSchedule(crewId, payload),
+  }),
+  updateScheduleMutation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+      payload,
+    }: {
+      crewId: number;
+      scheduleId: number;
+      payload: UpdateScheduleRequest;
+    }) => updateSchedule(crewId, scheduleId, payload),
+  }),
   scheduleDetailQuery: (crewId: number, scheduleId: number) =>
     queryOptions({
       queryKey: scheduleQueries.detail(scheduleId),
