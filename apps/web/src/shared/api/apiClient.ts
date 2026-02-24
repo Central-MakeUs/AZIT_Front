@@ -47,12 +47,7 @@ export const authApi = baseApi.extend({
         }
 
         if (response.status === 403 && state.retryCount === 0) {
-          const body = (await response.json()) as { code: string };
-          const code = body.code;
-
-          if (code === 'INVALID_MEMBER_STATUS') {
-            window.location.href = '/crew-join/status';
-          }
+          window.location.href = '/crew-join/status/banned';
 
           return response;
         }

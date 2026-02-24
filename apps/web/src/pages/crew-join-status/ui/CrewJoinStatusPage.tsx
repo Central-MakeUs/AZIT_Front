@@ -1,14 +1,11 @@
 import { vars } from '@azit/design-system';
-import { Button } from '@azit/design-system/button';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
-import * as styles from '@/pages/crew-join-status/styles/CrewJoinStatusPage.css';
+import { CrewJoinStatusSection } from '@/widgets/crew-join-status/ui';
 
-import { RoundProfileImage } from '@/widgets/profile/ui';
-
-import { STATUS_CONTENT } from '@/features/crew-join/model/crewJoinStatus';
-import { useConfirmJoinStatus } from '@/features/crew-join-approval/hooks/useConfirmJoinStatus';
+import { useConfirmJoinStatus } from '@/features/crew-confirm-status/hooks/useConfirmJoinStatus';
+import { STATUS_CONTENT } from '@/features/crew-join-status/model/crewJoinStatus';
 
 import { crewQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
@@ -22,7 +19,7 @@ export function CrewJoinStatusPage({
   const { data } = useQuery({
     ...crewQueries.joinStatusQuery(crewId),
     refetchOnMount: true,
-    refetchInterval: 10000, // 해당 페이지에 있을 때 10초마다 리패치
+    refetchInterval: 10000,
     enabled: crewId > 0,
     gcTime: 0,
   });
@@ -36,41 +33,26 @@ export function CrewJoinStatusPage({
   }
 
   const { status, name } = data.data.result;
-  const content = STATUS_CONTENT[status];
 
-  if (!content) {
+  if (status === 'EXITED') {
     return null;
   }
+
+  const content = STATUS_CONTENT[status];
 
   return (
     <AppScreen backgroundColor={vars.colors.white}>
       <AppLayout>
-        <div className={styles.pageContainer}>
-          <div className={styles.contentWrapper}>
-            <div className={styles.crewInfoContainer}>
-              <RoundProfileImage src="/azit.png" />
-              <h1 className={styles.crewName}>{name}</h1>
-            </div>
-            <div className={styles.statusMessageContainer}>
-              <p className={styles.primaryStatusMessage}>
-                {content.primaryMessage}
-              </p>
-              <p className={styles.secondaryStatusMessage}>
-                {content.secondaryMessage}
-              </p>
-            </div>
-          </div>
-          <div className={styles.buttonWrapper}>
-            <Button
-              size="large"
-              state={content.buttonState}
-              onClick={handleJoinStatus}
-              disabled={content.buttonState === 'disabled'}
-            >
-              {content.buttonText}
-            </Button>
-          </div>
-        </div>
+        <CrewJoinStatusSection
+          name={name}
+          profileImageSrc="/azit.png"
+          primaryMessage={content.primaryMessage}
+          secondaryMessage={content.secondaryMessage}
+          buttonText={content.buttonText}
+          buttonState={content.buttonState}
+          buttonDisabled={content.buttonState === 'disabled'}
+          onButtonClick={handleJoinStatus}
+        />
       </AppLayout>
     </AppScreen>
   );
