@@ -28,6 +28,8 @@ export interface ScheduleFormValues {
 export const TITLE_MAX_LENGTH = 15;
 export const SUPPLY_MAX_LENGTH = 15;
 export const MAX_SUPPLIES = 5;
+export const DISTANCE_MAX = 999;
+export const PACE_MAX = 99;
 
 export const scheduleFormSchema = z.object({
   runType: z.enum(['REGULAR', 'LIGHTNING']),
@@ -72,11 +74,11 @@ const defaultScheduleFormValues: ScheduleFormValues = {
   amPm: 'AM',
   hour: 9,
   minute: 30,
-  locationName: '테스트 러닝 장소',
-  address: '서울특별시 강남구 테헤란로 123',
-  detailedLocation: '1층 로비 앞',
-  latitude: 37.5665,
-  longitude: 126.978,
+  locationName: '',
+  address: '',
+  detailedLocation: '',
+  latitude: 0,
+  longitude: 0,
   distance: null,
   pace: null,
   maxParticipants: null,
