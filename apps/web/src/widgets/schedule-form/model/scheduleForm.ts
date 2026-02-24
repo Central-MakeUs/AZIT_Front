@@ -47,13 +47,12 @@ export const scheduleFormSchema = z.object({
   detailedLocation: z.string().trim().min(1, '세부 장소를 입력해주세요'),
   latitude: z.number(),
   longitude: z.number(),
-  distance: z.number().min(0, '거리는 0 이상이어야 합니다').nullable(),
-  pace: z.number().min(0, '페이스는 0 이상이어야 합니다').nullable(),
+  distance: z.number().min(1, '거리는 1 이상이어야 합니다'),
+  pace: z.number().min(1, '페이스는 1 이상이어야 합니다'),
   maxParticipants: z
     .number()
     .int('최대 인원은 정수여야 합니다')
-    .min(1, '최대 인원은 1명 이상이어야 합니다')
-    .nullable(),
+    .min(1, '최대 인원은 1명 이상이어야 합니다'),
   description: z.string().trim(),
   supplies: z
     .array(z.string())
