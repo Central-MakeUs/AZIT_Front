@@ -19,11 +19,12 @@ import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
+import { useScheduleLocationSelectionStore } from '@/shared/store/scheduleLocationSelection';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 export function ScheduleEditPage({ params }: { params: { id: number } }) {
-  const { pop, replace } = useFlow();
+  const { pop, replace, push } = useFlow();
 
   const { id: scheduleId } = params;
 
@@ -39,6 +40,13 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     enabled: crewId > 0,
   });
 
+  const selectedLocation = useScheduleLocationSelectionStore(
+    (state) => state.selectedLocation
+  );
+  const clearLocation = useScheduleLocationSelectionStore(
+    (state) => state.clearLocation
+  );
+
   const [formValues, setFormValues] = useState<ScheduleFormValues | null>(null);
 
   useEffect(() => {
@@ -52,6 +60,24 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
       replace('NotFoundPage', {});
     }
   }, [isLoading, detailData, replace]);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      setFormValues((prev) =>
+        prev
+          ? {
+              ...prev,
+              address: selectedLocation.address,
+              locationName: selectedLocation.locationName,
+              detailedLocation: selectedLocation.detailedLocation,
+              latitude: selectedLocation.latitude,
+              longitude: selectedLocation.longitude,
+            }
+          : prev
+      );
+      clearLocation();
+    }
+  }, [selectedLocation, clearLocation]);
 
   const updateMutation = useMutation(scheduleQueries.updateScheduleMutation);
 
@@ -109,6 +135,7 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
               onValuesChange={setFormValues}
               onSubmit={handleSubmit}
               isLeader={isLeader}
+              onMapSearchClick={() => push('ScheduleLocationPage', {})}
             />
           </div>
           <div className={styles.footerWrapper}>

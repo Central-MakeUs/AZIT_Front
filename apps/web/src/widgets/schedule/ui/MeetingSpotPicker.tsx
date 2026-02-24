@@ -1,24 +1,22 @@
 import { Button } from '@azit/design-system/button';
-import { useState } from 'react';
 
 import * as styles from '@/widgets/schedule/styles/MeetingSpotPicker.css';
 
 import { NaverMap, type LatLng } from '@/shared/ui/naver-map/NaverMap';
 
 interface MeetingSpotPickerProps {
-  initialCoords: LatLng;
+  coords: LatLng;
   onOpenLocationNameSheet: () => void;
+  onCoordsChange: (coords: LatLng) => void;
 }
 
 export function MeetingSpotPicker({
-  initialCoords,
+  coords,
   onOpenLocationNameSheet,
+  onCoordsChange,
 }: MeetingSpotPickerProps) {
-  const [coordsState, setCoordsState] = useState<LatLng | null>(null);
-  const coords = coordsState ?? initialCoords;
-
   const handleChangePosition = (pos: LatLng) => {
-    setCoordsState(pos);
+    onCoordsChange(pos);
   };
   return (
     <div className={styles.mapContainer}>
