@@ -19,7 +19,7 @@ createRoot(document.getElementById('root')!).render(
           <Stack />
         </Suspense>
         <Toaster
-          richColors
+          position="bottom-center"
           toastOptions={{
             duration: 2500,
             className: 'azit-toast',
