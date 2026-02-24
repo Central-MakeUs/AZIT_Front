@@ -8,6 +8,8 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import * as styles from '@/pages/schedule/styles/ScheduleLocationPage.css';
 
+import { MeetingSpotPicker } from '@/widgets/schedule/ui/MeetingSpotPicker';
+
 import { LocationSearchResultItem } from '@/features/schedule/ui/LocationSearchResultItem';
 
 import type { LocationSearchResult } from '@/shared/mock/schedule-location';
@@ -82,21 +84,9 @@ export function ScheduleLocationPage() {
           </Show>
 
           <Show when={view === 'map'}>
-            <div className={styles.mapContainer}>
-              <p className={styles.mapDescription}>
-                {`지도를 움직여\n집합 장소를 지정해주세요`}
-              </p>
-              <div className={styles.mapArea} />
-              <div className={styles.footerWrapper}>
-                <Button
-                  size="large"
-                  state="active"
-                  onClick={handleOpenLocationNameSheet}
-                >
-                  장소명 입력하기
-                </Button>
-              </div>
-            </div>
+            <MeetingSpotPicker
+              onOpenLocationNameSheet={handleOpenLocationNameSheet}
+            />
           </Show>
         </div>
       </AppLayout>
