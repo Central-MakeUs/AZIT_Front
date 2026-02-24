@@ -2,6 +2,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { Input } from '@azit/design-system/input';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -12,12 +13,14 @@ import { MeetingSpotPicker } from '@/widgets/schedule/ui/MeetingSpotPicker';
 
 import { LocationSearchResultItem } from '@/features/schedule/ui/LocationSearchResultItem';
 
-import type { LocationSearchResult } from '@/shared/mock/schedule-location';
-import { mockLocationSearchResults } from '@/shared/mock/schedule-location';
+import { useDebounce } from '@/shared/lib/useDebounce';
+import { locationQueries } from '@/shared/queries/location';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { Show } from '@/shared/ui/show';
+
+import type { LocationSearchResponse } from '@/entities/location/model/location.model';
 
 type ViewState = 'search' | 'map';
 
@@ -25,13 +28,18 @@ export function ScheduleLocationPage() {
   const { pop } = useFlow();
   const [view, setView] = useState<ViewState>('search');
   const [searchQuery, setSearchQuery] = useState('');
-  const [, setSelectedLocation] = useState<LocationSearchResult | null>(null);
+  const [selectedLocation, setSelectedLocation] =
+    useState<LocationSearchResponse | null>(null);
   const [isLocationNameSheetOpen, setIsLocationNameSheetOpen] = useState(false);
   const [locationName, setLocationName] = useState('');
 
-  const handleSelectLocation = (location: LocationSearchResult) => {
+  const debouncedQuery = useDebounce(searchQuery, 500);
+
+  const { data } = useQuery(locationQueries.searchQuery(debouncedQuery));
+
+  const handleSelectLocation = (location: LocationSearchResponse) => {
     setSelectedLocation(location);
-    setSearchQuery(location.name);
+    setSearchQuery(location.placeName ?? '');
     setView('map');
   };
 
@@ -70,27 +78,28 @@ export function ScheduleLocationPage() {
           </div>
           <Show when={view === 'search'}>
             <div className={styles.searchResultList}>
-              {mockLocationSearchResults.map((result) => (
+              {(data ?? []).map((result, index) => (
                 <LocationSearchResultItem
-                  key={result.id}
-                  name={result.name}
+                  key={index}
+                  name={result.placeName ?? ''}
                   keyword={searchQuery}
-                  category={result.category}
-                  address={result.address}
+                  address={result.address ?? ''}
                   onClick={() => handleSelectLocation(result)}
                 />
               ))}
             </div>
           </Show>
-
           <Show when={view === 'map'}>
             <MeetingSpotPicker
+              initialCoords={{
+                lat: selectedLocation?.latitude ?? 37.52964580905185,
+                lng: selectedLocation?.longitude ?? 126.93366366931356,
+              }}
               onOpenLocationNameSheet={handleOpenLocationNameSheet}
             />
           </Show>
         </div>
       </AppLayout>
-
       <BottomSheet
         isOpen={isLocationNameSheetOpen}
         onOutsideClick={() => setIsLocationNameSheetOpen(false)}
