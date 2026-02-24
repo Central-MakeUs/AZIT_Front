@@ -40,7 +40,6 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
   });
 
   const handleJoinStatus = () => {
-    console.log(status);
     if (
       status === CREW_JOIN_STATUS.JOINED ||
       status === CREW_JOIN_STATUS.REJECTED ||
