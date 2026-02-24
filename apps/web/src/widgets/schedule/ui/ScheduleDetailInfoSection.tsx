@@ -11,6 +11,7 @@ interface ScheduleDetailInfoSectionProps {
   date: string;
   time: string;
   locationName: string;
+  detailedLocation: string;
   address: string;
   latitude: number;
   longitude: number;
@@ -20,6 +21,7 @@ export function ScheduleDetailInfoSection({
   date,
   time,
   locationName,
+  detailedLocation,
   address,
   latitude,
   longitude,
@@ -46,7 +48,9 @@ export function ScheduleDetailInfoSection({
             <MarkerPinIcon size={20} color="inherit" />
           </div>
           <div className={styles.locationTexts}>
-            <span className={styles.locationName}>{locationName}</span>
+            <span
+              className={styles.locationName}
+            >{`${locationName} ${detailedLocation}`}</span>
             <span className={styles.address}>{address}</span>
           </div>
         </div>
