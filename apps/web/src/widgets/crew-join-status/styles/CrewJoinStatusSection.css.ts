@@ -1,7 +1,7 @@
 import { vars, typography } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
-export const pageContainer = style({
+export const sectionContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

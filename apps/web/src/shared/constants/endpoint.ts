@@ -20,6 +20,8 @@ export const END_POINT = {
   },
   CREW: {
     MEMBERS: (crewId: number) => `crews/${crewId}/members`,
+    MEMBER: (crewId: number, targetMemberId: number) =>
+      `crews/${crewId}/members/${targetMemberId}`,
     JOIN_REQUESTS: (crewId: number) => `crews/${crewId}/join-requests`,
     APPROVE_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
       `crews/${crewId}/join-requests/${targetMemberId}/approve`,

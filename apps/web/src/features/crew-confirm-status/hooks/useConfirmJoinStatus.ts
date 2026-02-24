@@ -2,10 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { CREW_JOIN_STATUS } from '@/features/crew-join/model/crewJoinStatus';
-import type { CrewJoinStatus } from '@/features/crew-join/model/types';
-import { postConfirmJoinStatus } from '@/features/crew-join-approval/api/postConfirmJoinStatus';
-import type { ConfirmJoinStatusResult } from '@/features/crew-join-approval/api/postConfirmJoinStatus';
+import { postConfirmJoinStatus } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
+import type { ConfirmJoinStatusResult } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
+import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
+import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
 
 import { crewQueries } from '@/shared/queries';
 
@@ -42,7 +42,8 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
   const handleJoinStatus = () => {
     if (
       status === CREW_JOIN_STATUS.JOINED ||
-      status === CREW_JOIN_STATUS.REJECTED
+      status === CREW_JOIN_STATUS.REJECTED ||
+      status === CREW_JOIN_STATUS.EXITED
     ) {
       confirmJoinStatusMuation.mutate();
     }
