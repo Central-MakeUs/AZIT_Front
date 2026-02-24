@@ -14,6 +14,7 @@ export { default as CopyIcon } from './CopyIcon';
 export { default as FlagIcon } from './FlagIcon';
 export { default as HomeIcon } from './HomeIcon';
 export { default as MarkerPin04Icon } from './MarkerPin04Icon';
+export { default as MapIcon } from './MapIcon';
 export { default as MarkerPinIcon } from './MarkerPinIcon';
 export { default as MinusIcon } from './MinusIcon';
 export { default as PlusIcon } from './PlusIcon';
