@@ -18,17 +18,25 @@ import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
+import { useScheduleLocationSelectionStore } from '@/shared/store/scheduleLocationSelection';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 export function ScheduleCreatePage() {
-  const { pop } = useFlow();
+  const { pop, push } = useFlow();
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
   const isLeader =
     myInfoData?.ok &&
     myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
+
+  const selectedLocation = useScheduleLocationSelectionStore(
+    (state) => state.selectedLocation
+  );
+  const clearLocation = useScheduleLocationSelectionStore(
+    (state) => state.clearLocation
+  );
 
   const [formValues, setFormValues] = useState(() =>
     initializeScheduleFormValues()
@@ -39,6 +47,20 @@ export function ScheduleCreatePage() {
       setFormValues((prev) => ({ ...prev, runType: 'LIGHTNING' }));
     }
   }, [myInfoData, isLeader]);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      setFormValues((prev) => ({
+        ...prev,
+        address: selectedLocation.address,
+        locationName: selectedLocation.locationName,
+        detailedLocation: selectedLocation.detailedLocation,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
+      }));
+      clearLocation();
+    }
+  }, [selectedLocation, clearLocation]);
 
   const createMutation = useMutation(scheduleQueries.createScheduleMutation);
 
@@ -68,6 +90,7 @@ export function ScheduleCreatePage() {
               onValuesChange={setFormValues}
               onSubmit={handleSubmit}
               isLeader={isLeader}
+              onMapSearchClick={() => push('ScheduleLocationPage', {})}
             />
           </div>
           <div className={styles.footerWrapper}>

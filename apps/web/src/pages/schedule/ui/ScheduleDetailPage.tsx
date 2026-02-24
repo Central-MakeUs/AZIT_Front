@@ -52,6 +52,8 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     time,
     locationName: detail.locationInfo.placeName,
     address: detail.locationInfo.address,
+    latitude: detail.locationInfo.latitude,
+    longitude: detail.locationInfo.longitude,
     description: detail.description,
     preparationItems: detail.supplies,
     participants: detail.participants.map((p) => ({
@@ -211,6 +213,8 @@ export function ScheduleDetailPage({
             time={scheduleDetailViewData.time}
             locationName={scheduleDetailViewData.locationName}
             address={scheduleDetailViewData.address}
+            latitude={scheduleDetailViewData.latitude}
+            longitude={scheduleDetailViewData.longitude}
           />
           <ScheduleDetailDescriptionSection
             description={scheduleDetailViewData.description}

@@ -15,9 +15,11 @@ import { LocationSearchResultItem } from '@/features/schedule/ui/LocationSearchR
 
 import { useDebounce } from '@/shared/lib/useDebounce';
 import { locationQueries } from '@/shared/queries/location';
+import { useScheduleLocationSelectionStore } from '@/shared/store/scheduleLocationSelection';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import type { LatLng } from '@/shared/ui/naver-map/NaverMap';
 import { Show } from '@/shared/ui/show';
 
 import type { LocationSearchResponse } from '@/entities/location/model/location.model';
@@ -26,10 +28,14 @@ type ViewState = 'search' | 'map';
 
 export function ScheduleLocationPage() {
   const { pop } = useFlow();
+  const setSelectedScheduleLocation = useScheduleLocationSelectionStore(
+    (state) => state.setSelectedLocation
+  );
   const [view, setView] = useState<ViewState>('search');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] =
     useState<LocationSearchResponse | null>(null);
+  const [adjustedCoords, setAdjustedCoords] = useState<LatLng | null>(null);
   const [isLocationNameSheetOpen, setIsLocationNameSheetOpen] = useState(false);
   const [locationName, setLocationName] = useState('');
 
@@ -48,6 +54,14 @@ export function ScheduleLocationPage() {
   };
 
   const handleRegisterLocation = () => {
+    if (!selectedLocation) return;
+    setSelectedScheduleLocation({
+      address: selectedLocation.address ?? '',
+      locationName: selectedLocation.placeName ?? '',
+      detailedLocation: locationName,
+      latitude: adjustedCoords?.lat ?? selectedLocation.latitude ?? 0,
+      longitude: adjustedCoords?.lng ?? selectedLocation.longitude ?? 0,
+    });
     pop();
   };
 
@@ -91,11 +105,12 @@ export function ScheduleLocationPage() {
           </Show>
           <Show when={view === 'map'}>
             <MeetingSpotPicker
-              initialCoords={{
+              coords={{
                 lat: selectedLocation?.latitude ?? 37.52964580905185,
                 lng: selectedLocation?.longitude ?? 126.93366366931356,
               }}
               onOpenLocationNameSheet={handleOpenLocationNameSheet}
+              onCoordsChange={setAdjustedCoords}
             />
           </Show>
         </div>

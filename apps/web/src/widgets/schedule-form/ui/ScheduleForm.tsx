@@ -134,11 +134,7 @@ export function ScheduleForm({
         <label className={styles.label} htmlFor="schedule-location">
           집합 장소
         </label>
-        <div
-          id="schedule-location"
-          className={styles.fakeInputContainer}
-          onClick={onMapSearchClick}
-        >
+        <div id="schedule-location" className={styles.fakeInputContainer}>
           <div>
             <MarkerPinIcon size={20} color="inherit" />
           </div>
@@ -149,7 +145,9 @@ export function ScheduleForm({
                 : styles.fakeInputPlaceholder
             }
           >
-            {values.locationName || '장소를 지정해주세요'}
+            {values.locationName && values.detailedLocation
+              ? `${values.locationName} ${values.detailedLocation}`
+              : '장소를 지정해주세요'}
           </div>
         </div>
         <Button
