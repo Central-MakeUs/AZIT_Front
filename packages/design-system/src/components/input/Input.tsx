@@ -41,6 +41,7 @@ export function Input({
         type={type}
         className={input}
         disabled={disabled}
+        autoComplete="off"
         {...autoInputProps}
         {...props}
       />

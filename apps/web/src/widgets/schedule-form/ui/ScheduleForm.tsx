@@ -63,7 +63,12 @@ export function ScheduleForm({
     : '선택하기';
 
   return (
-    <form id={formId} className={styles.form} onSubmit={onSubmit}>
+    <form
+      id={formId}
+      className={styles.form}
+      onSubmit={onSubmit}
+      autoComplete="off"
+    >
       <div className={styles.topGroup}>
         <div className={styles.section}>
           <div className={styles.runTypeWrapper}>
@@ -186,20 +191,18 @@ export function ScheduleForm({
                 >
                   <input
                     id="schedule-distance"
-                    type="number"
-                    inputMode="decimal"
+                    type="text"
+                    inputMode="numeric"
                     className={styles.unitInput}
                     value={values.distance ?? ''}
                     onChange={(e) => {
-                      const raw = e.target.value;
-                      const n = parseFloat(raw);
+                      const raw = e.target.value.replace(/[^0-9]/g, '');
+                      const n = parseInt(raw, 10);
                       const value = raw === '' || Number.isNaN(n) ? null : n;
                       setDistanceError(value !== null && value > DISTANCE_MAX);
                       setValues({ distance: value });
                     }}
                     placeholder="0"
-                    min={0}
-                    step={0.1}
                   />
                   <span className={styles.unitSuffix}>km</span>
                 </div>
@@ -224,20 +227,18 @@ export function ScheduleForm({
                 >
                   <input
                     id="schedule-pace"
-                    type="number"
-                    inputMode="decimal"
+                    type="text"
+                    inputMode="numeric"
                     className={styles.unitInput}
                     value={values.pace ?? ''}
                     onChange={(e) => {
-                      const raw = e.target.value;
-                      const n = parseFloat(raw);
+                      const raw = e.target.value.replace(/[^0-9]/g, '');
+                      const n = parseInt(raw, 10);
                       const value = raw === '' || Number.isNaN(n) ? null : n;
                       setPaceError(value !== null && value > PACE_MAX);
                       setValues({ pace: value });
                     }}
                     placeholder="0"
-                    min={0}
-                    step={0.1}
                   />
                   <span className={styles.unitSuffix}>/km</span>
                 </div>
@@ -258,19 +259,18 @@ export function ScheduleForm({
           <div className={styles.unitInputWrapper}>
             <input
               id="schedule-max-participants"
-              type="number"
+              type="text"
               inputMode="numeric"
               className={styles.unitInput}
               value={values.maxParticipants ?? ''}
               onChange={(e) => {
-                const raw = e.target.value;
+                const raw = e.target.value.replace(/[^0-9]/g, '');
                 const n = parseInt(raw, 10);
                 setValues({
                   maxParticipants: raw === '' || Number.isNaN(n) ? null : n,
                 });
               }}
               placeholder="0"
-              min={1}
             />
             <span className={styles.unitSuffix}>명</span>
           </div>
