@@ -1,7 +1,7 @@
 import { RoundProfileImage } from '@/widgets/profile/ui';
 import * as styles from '@/widgets/schedule/styles/ScheduleParticipantListItem.css';
 
-import type { ScheduleParticipant } from '@/shared/mock/schedule';
+import type { ScheduleParticipant } from '@/entities/schedule/model/schedule.types';
 export type ScheduleParticipantOrientation = 'horizontal' | 'vertical';
 
 interface ScheduleParticipantListItemProps {
