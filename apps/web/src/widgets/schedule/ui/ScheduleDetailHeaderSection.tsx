@@ -1,5 +1,6 @@
 import { Chip } from '@azit/design-system/chip';
 
+import { RoundProfileImage } from '@/widgets/profile/ui/RoundProfileImage';
 import * as styles from '@/widgets/schedule/styles/ScheduleDetailHeaderSection.css';
 
 interface ScheduleDetailHeaderSectionProps {
@@ -8,6 +9,7 @@ interface ScheduleDetailHeaderSectionProps {
   pace: string;
   title: string;
   creatorName: string;
+  creatorProfileImageUrl?: string;
   isCreatorLeader: boolean;
 }
 
@@ -17,6 +19,7 @@ export function ScheduleDetailHeaderSection({
   pace,
   title,
   creatorName,
+  creatorProfileImageUrl,
   isCreatorLeader,
 }: ScheduleDetailHeaderSectionProps) {
   return (
@@ -28,10 +31,14 @@ export function ScheduleDetailHeaderSection({
       </div>
       <h1 className={styles.title}>{title}</h1>
       <div className={styles.leaderRow}>
-        <div className={styles.avatar} />
+        <RoundProfileImage
+          src={creatorProfileImageUrl}
+          alt={creatorName}
+          size={36}
+        />
         <div className={styles.creatorInfo}>
           <span className={styles.creatorName}>{creatorName}</span>
-          <Chip type="skyblue">리더</Chip>
+          {isCreatorLeader && <Chip type="skyblue">리더</Chip>}
         </div>
       </div>
     </div>
