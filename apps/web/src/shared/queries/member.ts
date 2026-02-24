@@ -4,9 +4,10 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { postApproveJoinRequest } from '@/features/crew-join-approval/api/postApproveJoinRequest';
-import { postRejectJoinRequest } from '@/features/crew-join-approval/api/postRejectJoinRequest';
+import { postApproveJoinRequest } from '@/features/crew-manage/api/postApproveJoinRequest';
+import { postRejectJoinRequest } from '@/features/crew-manage/api/postRejectJoinRequest';
 
+import { deleteCrewMember } from '@/entities/crew/api/deleteCrewMember';
 import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
 import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { getMyInfo } from '@/entities/user/api/getMyInfo';
@@ -62,5 +63,14 @@ export const memberQueries = {
       crewId: number;
       targetMemberId: number;
     }) => postRejectJoinRequest(crewId, targetMemberId),
+  }),
+  deleteCrewMember: mutationOptions({
+    mutationFn: ({
+      crewId,
+      targetMemberId,
+    }: {
+      crewId: number;
+      targetMemberId: number;
+    }) => deleteCrewMember(crewId, targetMemberId),
   }),
 };
