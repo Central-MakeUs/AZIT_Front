@@ -16,7 +16,7 @@ import {
   RequestListEmpty,
 } from '@/widgets/mypage/ui';
 
-import { RequestList } from '@/features/crew-join-approval/ui';
+import { RequestList } from '@/features/crew-manage/ui';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
