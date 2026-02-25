@@ -1,49 +1,89 @@
 import { vars } from '@azit/design-system';
-import { MarkerPinIcon } from '@azit/design-system/icon';
-import { useQuery } from '@tanstack/react-query';
+import { CheckIcon, MarkerPinIcon } from '@azit/design-system/icon';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import * as styles from '@/widgets/schedule-attendance/styles/ScheduleAttendanceSection.css';
+import { ScheduleAttendanceSkeleton } from '@/widgets/skeleton/ui';
 
 import { scheduleQueries } from '@/shared/queries';
 
 import { useWithinRadius } from '../model/useWithinRadius';
 
 export function ScheduleAttendanceSection() {
-  const { data: checkInStatus } = useQuery(
+  const queryClient = useQueryClient();
+  const { data: checkInStatus, isPending: isCheckInStatusPending } = useQuery(
     scheduleQueries.getScheduleCheckInStatusQuery()
   );
 
-  const isWithinRadius = useWithinRadius(
-    checkInStatus?.todayScheduleInfo?.latitude ?? 0,
-    checkInStatus?.todayScheduleInfo?.longitude ?? 0
+  const todayInfo = checkInStatus?.todayScheduleInfo;
+  const isCheckedIn = todayInfo?.isCheckedIn === true;
+  const isAvailableTime = todayInfo?.isAvailableTime === true;
+
+  const scheduleCheckInMutation = useMutation({
+    ...scheduleQueries.scheduleCheckInMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.checkInStatusKey(),
+      });
+    },
+  });
+
+  const { isWithinRadius, userPosition } = useWithinRadius(
+    todayInfo?.latitude ?? 0,
+    todayInfo?.longitude ?? 0
   );
 
+  const handleCheckIn = () => {
+    if (!todayInfo?.scheduleId) return;
+    scheduleCheckInMutation.mutate({
+      scheduleId: todayInfo.scheduleId,
+      payload: {
+        latitude: userPosition?.lat ?? 0,
+        longitude: userPosition?.lng ?? 0,
+      },
+    });
+  };
+
+  if (isCheckInStatusPending) return <ScheduleAttendanceSkeleton />;
   if (!checkInStatus) {
     return <ScheduleDisabledSection title="참여할 일정이 없어요" />;
   }
 
-  if (checkInStatus.hasScheduleToday) {
-    if (isWithinRadius) {
+  if (checkInStatus.hasScheduleToday && todayInfo) {
+    const canCheckIn = isWithinRadius && !isCheckedIn && isAvailableTime;
+    const showDisabledByTimeOrDistance =
+      !isCheckedIn && (!isAvailableTime || !isWithinRadius);
+
+    if (canCheckIn) {
       return (
         <ScheduleActivatedSection
-          runType={checkInStatus.todayScheduleInfo!.runType!}
-          title={checkInStatus.todayScheduleInfo!.title ?? ''}
+          isCheckedIn={false}
+          runType={todayInfo.runType ?? 'REGULAR'}
+          title={todayInfo.title ?? ''}
+          onCheckIn={handleCheckIn}
         />
       );
     }
-    return (
-      <ScheduleDisabledSection title={checkInStatus.todayScheduleInfo!.title} />
-    );
+    if (showDisabledByTimeOrDistance) {
+      return <ScheduleDisabledSection title={todayInfo.title} />;
+    }
+    if (isCheckedIn) {
+      return (
+        <ScheduleActivatedSection
+          isCheckedIn
+          runType={todayInfo.runType}
+          title={todayInfo.title ?? ''}
+          onCheckIn={() => {}}
+        />
+      );
+    }
   }
 
-  if (
-    checkInStatus.nextScheduleInfo?.daysLeft &&
-    checkInStatus.nextScheduleInfo.daysLeft > 0
-  ) {
+  const daysLeft = checkInStatus.nextScheduleInfo?.daysLeft;
+
+  if (typeof daysLeft === 'number' && daysLeft > 0) {
     return (
-      <ScheduleDisabledSection
-        title={`다음 일정까지 ${checkInStatus.nextScheduleInfo.daysLeft}일 남았어요`}
-      />
+      <ScheduleDisabledSection title={`다음 일정까지 ${daysLeft}일 남았어요`} />
     );
   }
 
@@ -53,9 +93,13 @@ export function ScheduleAttendanceSection() {
 function ScheduleActivatedSection({
   runType,
   title,
+  onCheckIn,
+  isCheckedIn,
 }: {
   runType: 'REGULAR' | 'LIGHTNING';
   title: string;
+  onCheckIn: () => void;
+  isCheckedIn: boolean;
 }) {
   const isLightningRun = runType === 'LIGHTNING';
 
@@ -78,12 +122,19 @@ function ScheduleActivatedSection({
                 isLightningRun ? styles.buttonLightning : styles.button
               }
               type="button"
+              onClick={onCheckIn}
             >
               <div className={styles.buttonContent}>
                 <div className={styles.iconWrapper}>
-                  <MarkerPinIcon size={48} style={{ color: 'white' }} />
+                  {isCheckedIn ? (
+                    <CheckIcon size={48} style={{ color: 'white' }} />
+                  ) : (
+                    <MarkerPinIcon size={48} style={{ color: 'white' }} />
+                  )}
                 </div>
-                <span className={styles.buttonText}>출석하기</span>
+                <span className={styles.buttonText}>
+                  {isCheckedIn ? '출석 완료' : '출석하기'}
+                </span>
               </div>
             </button>
           </div>
