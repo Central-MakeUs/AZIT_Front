@@ -55,7 +55,11 @@ export function ScheduleDetailInfoSection({
           </div>
         </div>
         <div className={styles.mapContainer}>
-          <StaticMap latitude={latitude} longitude={longitude} />
+          <StaticMap
+            address={address}
+            latitude={latitude}
+            longitude={longitude}
+          />
         </div>
       </div>
     </div>
