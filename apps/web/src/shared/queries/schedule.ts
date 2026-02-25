@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 
 import { getScheduleCheckInStatus } from '@/features/schedule-check-in/api/getScheduleCheckInStatus';
+import { postScheduleCheckIn } from '@/features/schedule-check-in/api/postScheduleCheckIn';
 import { postSchedule } from '@/features/schedule-create/api/postSchedule';
 import { updateSchedule } from '@/features/schedule-edit/api/updateSchedule';
 import { deleteSchedule } from '@/features/schedule-manage/api';
@@ -12,6 +13,8 @@ import {
   deleteCancelParticipation,
   postParticipateSchedule,
 } from '@/features/schedule-participate/api';
+
+import { toastSuccess } from '../ui/toast';
 
 import {
   getScheduleDetail,
@@ -24,6 +27,7 @@ import type {
   CreateScheduleRequest,
   CrewScheduleCalendarRequest,
   CrewScheduleListRequest,
+  ScheduleCheckInRequest,
   UpdateScheduleRequest,
 } from '@/entities/schedule/model/schedule.model';
 
@@ -97,6 +101,18 @@ export const scheduleQueries = {
       scheduleId: number;
       payload: UpdateScheduleRequest;
     }) => updateSchedule(crewId, scheduleId, payload),
+  }),
+  scheduleCheckInMutation: mutationOptions({
+    mutationFn: ({
+      scheduleId,
+      payload,
+    }: {
+      scheduleId: number;
+      payload: ScheduleCheckInRequest;
+    }) => postScheduleCheckIn(scheduleId, payload),
+    onSuccess: () => {
+      toastSuccess('출석이 완료되었습니다');
+    },
   }),
   scheduleDetailQuery: (crewId: number, scheduleId: number) =>
     queryOptions({
