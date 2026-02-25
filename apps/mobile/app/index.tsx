@@ -103,7 +103,7 @@ export default function App() {
         style={{
           flex: 1,
           backgroundColor: isHomePath ? 'transparent' : '#ffffff',
-          paddingBottom: Platform.OS === 'ios' ? -24 : 0,
+          // paddingBottom: Platform.OS === 'ios' ? -24 : 0,
         }}
       >
         {isHomePath && (
