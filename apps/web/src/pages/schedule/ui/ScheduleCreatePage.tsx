@@ -31,7 +31,7 @@ export function ScheduleCreatePage() {
     myInfoData?.ok &&
     myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
 
-  const { formValues, setFormValues, isValid } = useScheduleFormState(
+  const { formValues, setFormValues, validateForm } = useScheduleFormState(
     initializeScheduleFormValues()
   );
 
@@ -52,7 +52,7 @@ export function ScheduleCreatePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isValid || crewId <= 0) return;
+    if (!validateForm() || crewId <= 0) return;
     const payload = buildCreateSchedulePayload(formValues);
     createMutation.mutate({ crewId, payload });
   };

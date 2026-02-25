@@ -40,7 +40,7 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     enabled: crewId > 0,
   });
 
-  const { formValues, setFormValues, isValid } = useScheduleFormState(
+  const { formValues, setFormValues, validateForm } = useScheduleFormState(
     initializeScheduleFormValues(
       detailData?.ok ? detailData.data.result : undefined
     )
@@ -62,7 +62,7 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isValid || crewId <= 0) return;
+    if (!validateForm() || crewId <= 0) return;
 
     const payload = buildUpdateSchedulePayload(formValues);
     updateMutation.mutate({ crewId, scheduleId, payload });

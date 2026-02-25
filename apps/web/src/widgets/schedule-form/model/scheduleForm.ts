@@ -146,6 +146,19 @@ export const isScheduleFormValid = (values: ScheduleFormValues): boolean => {
   return scheduleFormSchema.safeParse(values).success;
 };
 
+export const isScheduleDateTimeInPast = (
+  date: string,
+  amPm: ScheduleFormValues['amPm'],
+  hour: number | null,
+  minute: number | null
+): boolean => {
+  if (!date || hour === null || minute === null) return false;
+
+  const meetingAtStr = formatMeetingAt(date, amPm, hour, minute);
+  const scheduled = new Date(meetingAtStr.replace(' ', 'T'));
+  return scheduled.getTime() < Date.now();
+};
+
 const parseMeetingAt = (meetingAt: string) => {
   const d = new Date(meetingAt);
   const hour24 = d.getHours();
