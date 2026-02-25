@@ -89,7 +89,8 @@ globalStyle('.react-calendar__tile', {
 });
 
 globalStyle('.react-calendar__tile:disabled', {
-  display: 'none',
+  // display: 'none',
+  pointerEvents: 'none',
 });
 
 globalStyle('.react-calendar__month-view__days__day--neighboringMonth', {
