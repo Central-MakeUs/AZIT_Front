@@ -110,9 +110,6 @@ export const scheduleQueries = {
       scheduleId: number;
       payload: ScheduleCheckInRequest;
     }) => postScheduleCheckIn(scheduleId, payload),
-    onSuccess: () => {
-      toastSuccess('출석이 완료되었습니다');
-    },
   }),
   scheduleDetailQuery: (crewId: number, scheduleId: number) =>
     queryOptions({

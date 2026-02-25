@@ -15,13 +15,14 @@ import { getMyInfo } from '@/entities/user/api/getMyInfo';
 export const memberQueries = {
   all: ['member'] as const,
   listKey: () => [...memberQueries.all] as const,
+  myInfoKey: () => [...memberQueries.all, 'my'] as const,
   crewMembersKey: (crewId: number) =>
     [...memberQueries.listKey(), 'crew-members', crewId] as const,
   joinRequestsKey: (crewId: number) =>
     [...memberQueries.listKey(), 'join-requests', crewId] as const,
   myInfoQuery: () =>
     queryOptions({
-      queryKey: [...memberQueries.listKey(), 'my'] as const,
+      queryKey: memberQueries.myInfoKey(),
       queryFn: () => getMyInfo(),
       staleTime: 1000 * 60 * 60 * 3,
     }),
