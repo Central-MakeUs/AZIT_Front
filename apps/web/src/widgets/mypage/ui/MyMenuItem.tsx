@@ -7,17 +7,24 @@ import type { MenuItem } from '@/shared/types/mypage-menu';
 interface MyMenuItemProps {
   item: MenuItem;
   onClick?: (item: MenuItem) => void;
+  statusLabel?: string | null;
 }
 
-export function MyMenuItem({ item, onClick }: MyMenuItemProps) {
+export function MyMenuItem({
+  item,
+  onClick,
+  statusLabel: statusLabelProp,
+}: MyMenuItemProps) {
   const handleClick = () => {
     onClick?.(item);
   };
 
+  const statusLabel = item.type === 'permission' ? statusLabelProp : null;
+
   return (
     <div
       className={`${styles.item} ${styles.itemClickable}`}
-      role={'button'}
+      role="button"
       tabIndex={0}
       onClick={handleClick}
       onKeyDown={(e) => {
@@ -28,7 +35,11 @@ export function MyMenuItem({ item, onClick }: MyMenuItemProps) {
       }}
     >
       <span className={styles.label}>{item.label}</span>
-      <ChevronRightIcon size={20} className={styles.pushIcon} />
+      {statusLabel != null && statusLabel !== '' ? (
+        <span className={styles.statusLabel}>{statusLabel}</span>
+      ) : (
+        <ChevronRightIcon size={20} className={styles.pushIcon} />
+      )}
     </div>
   );
 }
