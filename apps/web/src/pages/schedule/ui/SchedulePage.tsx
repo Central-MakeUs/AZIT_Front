@@ -17,10 +17,10 @@ import { formatDate } from '@/shared/lib/formatters';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
+import type { RunType } from '@/shared/types/schedule';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 
-import type { RunType } from '@/entities/schedule/model/schedule.types';
 import { ScheduleList } from '@/entities/schedule/ui';
 
 export function SchedulePage() {
@@ -36,6 +36,8 @@ export function SchedulePage() {
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const yearMonth = formatDate(selectedDate, 'YYYY-MM');
+
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
@@ -45,10 +47,8 @@ export function SchedulePage() {
   });
 
   const { data: scheduleCalendarList = [] } = useQuery({
-    ...scheduleQueries.getScheduleCalendarQuery(crewId, {
-      yearMonth: formatDate(selectedDate, 'YYYY-MM'),
-    }),
-    enabled: crewId > 0,
+    ...scheduleQueries.getScheduleCalendarQuery(crewId, { yearMonth }),
+    enabled: crewId > 0 && !!yearMonth,
   });
 
   return (
