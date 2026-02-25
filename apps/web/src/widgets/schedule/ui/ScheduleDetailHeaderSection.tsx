@@ -3,8 +3,10 @@ import { Chip } from '@azit/design-system/chip';
 import { RoundProfileImage } from '@/widgets/profile/ui/RoundProfileImage';
 import * as styles from '@/widgets/schedule/styles/ScheduleDetailHeaderSection.css';
 
+import type { RunType } from '@/shared/types/schedule';
+
 interface ScheduleDetailHeaderSectionProps {
-  runType: string;
+  runType: RunType;
   distance: string;
   pace: string;
   title: string;
@@ -25,7 +27,9 @@ export function ScheduleDetailHeaderSection({
   return (
     <div className={styles.section}>
       <div className={styles.tagRow}>
-        <Chip type="primary">{runType}</Chip>
+        <Chip type={runType === 'REGULAR' ? 'primary' : 'secondary'}>
+          {runType}
+        </Chip>
         <Chip type="gray">{distance}</Chip>
         <Chip type="gray">{pace}</Chip>
       </div>
