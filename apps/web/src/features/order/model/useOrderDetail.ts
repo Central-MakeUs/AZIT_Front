@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
+import { copyToClipboard } from '@/shared/lib/clipboard';
 import { formatOrderDate } from '@/shared/lib/formatters';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { orderQueries } from '@/shared/queries/order';
@@ -60,8 +61,7 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
   const handleCopyTrackingNumber = () => {
     const trackingNumber = result?.shippingInfo?.trackingNumber;
     if (trackingNumber) {
-      navigator.clipboard.writeText(trackingNumber);
-      toastSuccess('송장번호가 복사되었습니다.');
+      copyToClipboard(trackingNumber, '송장번호');
     }
   };
 
