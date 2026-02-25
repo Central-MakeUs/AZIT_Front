@@ -64,3 +64,8 @@ export const tileContainer = style({
   justifyContent: 'center',
   gap: '2px',
 });
+
+export const pastDateTile = style({
+  color: vars.colors.gray40,
+  cursor: 'not-allowed',
+});

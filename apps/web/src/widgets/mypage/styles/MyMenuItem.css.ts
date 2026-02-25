@@ -16,6 +16,15 @@ export const label = style([
   },
 ]);
 
+export const statusLabel = style([
+  typography.body.b4,
+  {
+    color: vars.colors.gray50,
+    marginLeft: 'auto',
+    marginRight: '8px',
+  },
+]);
+
 export const pushIcon = style({
   color: vars.colors.gray50,
 });
