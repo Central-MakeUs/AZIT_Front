@@ -9,6 +9,8 @@ export const END_POINT = {
   },
   MEMBER: {
     MY_INFO: 'members/me',
+    MY_ATTENDANCE: 'members/me/attendances',
+    MY_ATTENDANCE_CALENDAR: 'members/me/attendances/calendar',
   },
   ONBOARDING: {
     CREATE_CREW: 'crews',
@@ -49,6 +51,9 @@ export const END_POINT = {
     DETAIL: (orderNumber: string) => `orders/${orderNumber}`,
     CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
+  },
+  LOCATION: {
+    SEARCH: 'locations/search',
   },
   SCHEDULE: {
     LIST: (crewId: number) => `crews/${crewId}/schedules`,
