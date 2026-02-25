@@ -11,7 +11,7 @@ export const getScheduleCalendar = (
   crewId: number,
   request?: CrewScheduleCalendarRequest
 ) => {
-  return auth.get<ApiResponse<CrewScheduleCalendarResponse[]>>(
+  return auth.get<ApiResponse<CrewScheduleCalendarResponse>>(
     END_POINT.SCHEDULE.CALENDAR(crewId),
     request ? { searchParams: request } : undefined
   );

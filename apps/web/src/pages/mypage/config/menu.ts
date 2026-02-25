@@ -50,6 +50,12 @@ export const getMypageMenu: (
           type: 'page',
           pushParams: { id: crewId },
         },
+        {
+          id: 'my-attendance',
+          label: '출석 로그',
+          path: 'AttendancePage' as ActivityName,
+          type: 'page',
+        },
       ],
     },
     {
