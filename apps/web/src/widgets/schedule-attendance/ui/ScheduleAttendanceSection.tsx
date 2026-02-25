@@ -28,9 +28,15 @@ export function ScheduleAttendanceSection() {
     },
   });
 
+  const hasScheduleTodayWithLocation =
+    checkInStatus?.hasScheduleToday === true &&
+    typeof todayInfo?.latitude === 'number' &&
+    typeof todayInfo?.longitude === 'number';
+
   const { isWithinRadius, userPosition } = useWithinRadius(
     todayInfo?.latitude ?? 0,
-    todayInfo?.longitude ?? 0
+    todayInfo?.longitude ?? 0,
+    hasScheduleTodayWithLocation
   );
 
   const handleCheckIn = () => {
