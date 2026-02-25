@@ -1,19 +1,25 @@
 import { vars } from '@azit/design-system';
 import { CheckIcon, MarkerPinIcon } from '@azit/design-system/icon';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import * as styles from '@/widgets/schedule-attendance/styles/ScheduleAttendanceSection.css';
 import { ScheduleAttendanceSkeleton } from '@/widgets/skeleton/ui';
 
-import { scheduleQueries } from '@/shared/queries';
+import { memberQueries, scheduleQueries } from '@/shared/queries';
+import { toastSuccess } from '@/shared/ui/toast';
 
 import { useWithinRadius } from '../model/useWithinRadius';
 
-export function ScheduleAttendanceSection() {
+import type { ScheduleCheckInStatusResponse } from '@/entities/schedule/model/schedule.model';
+
+export function ScheduleAttendanceSection({
+  checkInStatus,
+  isCheckInStatusPending,
+}: {
+  checkInStatus: ScheduleCheckInStatusResponse | null | undefined;
+  isCheckInStatusPending: boolean;
+}) {
   const queryClient = useQueryClient();
-  const { data: checkInStatus, isPending: isCheckInStatusPending } = useQuery(
-    scheduleQueries.getScheduleCheckInStatusQuery()
-  );
 
   const todayInfo = checkInStatus?.todayScheduleInfo;
   const isCheckedIn = todayInfo?.isCheckedIn === true;
@@ -22,30 +28,29 @@ export function ScheduleAttendanceSection() {
   const scheduleCheckInMutation = useMutation({
     ...scheduleQueries.scheduleCheckInMutation,
     onSuccess: () => {
+      toastSuccess('출석이 완료되었습니다');
       queryClient.invalidateQueries({
         queryKey: scheduleQueries.checkInStatusKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.myInfoKey(),
       });
     },
   });
 
-  const hasScheduleTodayWithLocation =
-    checkInStatus?.hasScheduleToday === true &&
-    typeof todayInfo?.latitude === 'number' &&
-    typeof todayInfo?.longitude === 'number';
-
   const { isWithinRadius, userPosition } = useWithinRadius(
-    todayInfo?.latitude ?? 0,
-    todayInfo?.longitude ?? 0,
-    hasScheduleTodayWithLocation
+    todayInfo?.latitude,
+    todayInfo?.longitude
   );
 
   const handleCheckIn = () => {
     if (!todayInfo?.scheduleId) return;
+    if (!userPosition?.lat || !userPosition?.lng) return;
     scheduleCheckInMutation.mutate({
       scheduleId: todayInfo.scheduleId,
       payload: {
-        latitude: userPosition?.lat ?? 0,
-        longitude: userPosition?.lng ?? 0,
+        latitude: userPosition.lat,
+        longitude: userPosition.lng,
       },
     });
   };
