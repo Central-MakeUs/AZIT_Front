@@ -85,6 +85,7 @@ globalStyle('.react-calendar__tile', {
   borderRadius: '8px',
   width: '100%',
   height: '6vh',
+  border: `1px solid ${vars.colors.white} !important`,
 });
 
 globalStyle('.react-calendar__tile:disabled', {
