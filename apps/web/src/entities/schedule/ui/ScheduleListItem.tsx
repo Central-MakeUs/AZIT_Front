@@ -38,7 +38,7 @@ const buildTags = (
     const min = Math.floor(item.pace);
     const sec = Math.round((item.pace - min) * 60);
     tags.push({
-      label: `${min}'${sec.toString().padStart(2, '0')}"/km`,
+      label: `${min}'${sec.toString().padStart(2, '0')}"`,
       type: 'gray',
     });
   }
