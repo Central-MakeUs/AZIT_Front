@@ -15,6 +15,8 @@ export type AppBridge = {
   shareSchedule(scheduleId: string): Promise<void>;
   openNaverMap(address: string, lat: number, lng: number): Promise<void>;
   getCurrentPosition(): Promise<GeoPosition>;
+  getLocationPermissionStatus(): Promise<'granted' | 'denied' | 'undetermined'>;
+  openLocationSettings(): Promise<void>;
 };
 
 /**
