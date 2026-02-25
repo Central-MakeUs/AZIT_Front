@@ -13,10 +13,15 @@ export const mainContainer = style([
 ]);
 
 export const searchWrapper = style({
-  flexShrink: 0,
   width: '100%',
-  padding: '8px 20px',
+  padding: '0 20px',
   boxSizing: 'border-box',
+  height: 48,
+  marginTop: 8,
+});
+
+export const searchInput = style({
+  height: '100%',
 });
 
 export const searchResultList = style({
