@@ -4,7 +4,11 @@ import { bridge } from '@/shared/lib/bridge';
 import { getDistanceInMeters } from '@/shared/lib/geo';
 import { toastError } from '@/shared/ui/toast';
 
-export const useWithinRadius = (latitude: number, longitude: number) => {
+export const useWithinRadius = (
+  latitude: number,
+  longitude: number,
+  enabled: boolean
+) => {
   const ACTIVATION_RADIUS_METERS = 100;
 
   const [userPosition, setUserPosition] = useState<{
@@ -15,9 +19,15 @@ export const useWithinRadius = (latitude: number, longitude: number) => {
   const scheduleLat = latitude;
   const scheduleLng = longitude;
   const hasScheduleLocation =
-    typeof scheduleLat === 'number' && typeof scheduleLng === 'number';
+    enabled &&
+    typeof scheduleLat === 'number' &&
+    typeof scheduleLng === 'number';
 
   useEffect(() => {
+    if (!enabled) {
+      setUserPosition(null);
+      return;
+    }
     if (!hasScheduleLocation) return;
 
     const fetchPosition = async () => {
@@ -33,7 +43,7 @@ export const useWithinRadius = (latitude: number, longitude: number) => {
     };
 
     fetchPosition();
-  }, [hasScheduleLocation]);
+  }, [hasScheduleLocation, enabled]);
 
   const isWithinRadius =
     hasScheduleLocation &&
