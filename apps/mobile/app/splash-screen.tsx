@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Image, Animated } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as SplashScreen from 'expo-splash-screen';
 
 export default function CustomAnimatedSplash({
   onFinish,
@@ -9,20 +8,10 @@ export default function CustomAnimatedSplash({
   onFinish: () => void;
 }) {
   useEffect(() => {
-    const showSplash = async () => {
-      try {
-        await SplashScreen.hideAsync();
-      } catch (error) {
-        console.error('Failed to hide splash screen', error);
-      }
-
-      const timer = setTimeout(() => {
-        onFinish();
-      }, 1500);
-
-      return () => clearTimeout(timer);
-    };
-    showSplash();
+    const timer = setTimeout(() => {
+      onFinish();
+    }, 1500);
+    return () => clearTimeout(timer);
   }, [onFinish]);
 
   return (
