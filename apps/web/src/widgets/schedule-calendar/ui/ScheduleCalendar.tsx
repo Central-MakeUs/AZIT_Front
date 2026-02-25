@@ -46,7 +46,7 @@ export function ScheduleCalendar({
             className={styles.calendarHeaderButton}
             onClick={handleNextMonth}
           >
-            <ChevronRightIcon size={24} />
+            <ChevronRightIcon size={24} style={{ color: vars.colors.blue80 }} />
           </button>
         </div>
       </div>
