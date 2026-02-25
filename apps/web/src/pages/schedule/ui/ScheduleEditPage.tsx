@@ -3,7 +3,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -14,12 +14,11 @@ import {
   buildUpdateSchedulePayload,
   isScheduleFormValid,
 } from '@/widgets/schedule-form/model/scheduleForm';
-import type { ScheduleFormValues } from '@/widgets/schedule-form/model/scheduleForm';
+import { useScheduleFormState } from '@/widgets/schedule-form/model/useScheduleFormState';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
-import { useScheduleLocationSelectionStore } from '@/shared/store/scheduleLocationSelection';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
@@ -29,6 +28,7 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
   const { id: scheduleId } = params;
 
   const queryClient = useQueryClient();
+
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
   const isLeader =
@@ -40,20 +40,11 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     enabled: crewId > 0,
   });
 
-  const selectedLocation = useScheduleLocationSelectionStore(
-    (state) => state.selectedLocation
+  const { formValues, setFormValues, validateForm } = useScheduleFormState(
+    initializeScheduleFormValues(
+      detailData?.ok ? detailData.data.result : undefined
+    )
   );
-  const clearLocation = useScheduleLocationSelectionStore(
-    (state) => state.clearLocation
-  );
-
-  const [formValues, setFormValues] = useState<ScheduleFormValues | null>(null);
-
-  useEffect(() => {
-    if (!detailData?.ok) return;
-    if (formValues !== null) return;
-    setFormValues(initializeScheduleFormValues(detailData.data.result));
-  }, [detailData]);
 
   useEffect(() => {
     if (!isLoading && detailData && !detailData.ok) {
@@ -61,42 +52,20 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     }
   }, [isLoading, detailData, replace]);
 
-  useEffect(() => {
-    if (selectedLocation) {
-      setFormValues((prev) =>
-        prev
-          ? {
-              ...prev,
-              address: selectedLocation.address,
-              locationName: selectedLocation.locationName,
-              detailedLocation: selectedLocation.detailedLocation,
-              latitude: selectedLocation.latitude,
-              longitude: selectedLocation.longitude,
-            }
-          : prev
-      );
-      clearLocation();
-    }
-  }, [selectedLocation, clearLocation]);
-
-  const updateMutation = useMutation(scheduleQueries.updateScheduleMutation);
+  const updateMutation = useMutation({
+    ...scheduleQueries.updateScheduleMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: scheduleQueries.all });
+      pop();
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formValues || !isScheduleFormValid(formValues) || crewId <= 0) return;
+    if (!validateForm() || crewId <= 0) return;
 
     const payload = buildUpdateSchedulePayload(formValues);
-    updateMutation.mutate(
-      { crewId, scheduleId, payload },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: scheduleQueries.detail(scheduleId),
-          });
-          pop();
-        },
-      }
-    );
+    updateMutation.mutate({ crewId, scheduleId, payload });
   };
 
   if (isLoading || formValues === null) {

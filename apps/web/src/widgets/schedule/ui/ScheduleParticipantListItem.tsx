@@ -5,7 +5,7 @@ import type { ScheduleParticipant } from '@/entities/schedule/model/schedule.typ
 export type ScheduleParticipantOrientation = 'horizontal' | 'vertical';
 
 interface ScheduleParticipantListItemProps {
-  participant: ScheduleParticipant & { isLeader?: boolean };
+  participant: ScheduleParticipant;
   orientation?: ScheduleParticipantOrientation;
 }
 
@@ -21,9 +21,9 @@ export function ScheduleParticipantListItem({
     >
       <div className={styles.profileWrapper}>
         <RoundProfileImage src={participant.profileImageUrl} size={48} />
-        {participant.isLeader && (
-          <div className={styles.leaderBadge} aria-label="리더">
-            <LeaderStarIcon />
+        {participant.isCreator && (
+          <div className={styles.creatorBadge} aria-label="리더">
+            <CreatorStarIcon />
           </div>
         )}
       </div>
@@ -40,14 +40,14 @@ export function ScheduleParticipantListItem({
   );
 }
 
-function LeaderStarIcon() {
+function CreatorStarIcon() {
   return (
     <svg
       width="14"
       height="14"
       viewBox="0 0 14 14"
       xmlns="http://www.w3.org/2000/svg"
-      className={styles.leaderBadgeStar}
+      className={styles.creatorBadgeStar}
       aria-hidden
     >
       <path

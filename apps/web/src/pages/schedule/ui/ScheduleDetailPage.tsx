@@ -47,7 +47,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     pace: formatPace(detail.pace),
     title: detail.title,
     creatorName: creator.nickname,
-    isCreatorLeader: creator.role === 'LEADER',
+    creatorRole: creator.role,
     creatorProfileImageUrl: creator.profileImageUrl,
     date,
     time,
@@ -58,12 +58,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     longitude: detail.locationInfo.longitude,
     description: detail.description,
     preparationItems: detail.supplies,
-    participants: detail.participants.map((p) => ({
-      id: p.memberId,
-      nickname: p.nickname,
-      profileImageUrl: p.profileImageUrl,
-      isLeader: p.role === 'LEADER',
-    })),
+    participants: detail.participants,
     participantCount: detail.currentParticipants,
     maxParticipants: detail.maxParticipants,
     scheduleId: detail.scheduleId,
@@ -222,7 +217,7 @@ export function ScheduleDetailPage({
             creatorProfileImageUrl={
               scheduleDetailViewData.creatorProfileImageUrl
             }
-            isCreatorLeader={scheduleDetailViewData.isCreatorLeader}
+            creatorRole={scheduleDetailViewData.creatorRole}
           />
           <ScheduleDetailInfoSection
             date={scheduleDetailViewData.date}
@@ -251,7 +246,7 @@ export function ScheduleDetailPage({
           />
         </div>
         <div className={styles.footerWrapper}>
-          <Show when={isFull}>
+          <Show when={!isCreator && isFull && !isParticipating}>
             <Button size="large" state="disabled" disabled>
               신청이 마감되었어요
             </Button>
@@ -285,7 +280,7 @@ export function ScheduleDetailPage({
               취소하기
             </Button>
           </Show>
-          <Show when={!isCreator && !isParticipating}>
+          <Show when={!isCreator && !isFull && !isParticipating}>
             <Button
               size="large"
               state="active"
