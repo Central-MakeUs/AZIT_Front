@@ -1,5 +1,10 @@
 import { Button } from '@azit/design-system/button';
-import { MapIcon, MarkerPinIcon, PlusIcon } from '@azit/design-system/icon';
+import {
+  MapIcon,
+  MarkerPinIcon,
+  PlusIcon,
+  TrashIcon,
+} from '@azit/design-system/icon';
 import { Input } from '@azit/design-system/input';
 import { useState } from 'react';
 
@@ -12,7 +17,7 @@ import {
   DISTANCE_MAX,
   PACE_MAX,
 } from '@/widgets/schedule-form/model/scheduleForm';
-import * as styles from '@/widgets/schedule-form/styles/ScheduleCreateForm.css';
+import * as styles from '@/widgets/schedule-form/styles/ScheduleForm.css';
 import { ChipButton } from '@/widgets/schedule-form/ui/ChipButton';
 
 import { formatDate } from '@/shared/lib/formatters';
@@ -56,6 +61,10 @@ export function ScheduleForm({
     const next = [...values.supplies];
     next[index] = value.slice(0, SUPPLY_MAX_LENGTH);
     setValues({ supplies: next });
+  };
+
+  const removeSupply = (index: number) => {
+    setValues({ supplies: values.supplies.filter((_, i) => i !== index) });
   };
 
   const dateDisplay = values.date
@@ -294,15 +303,25 @@ export function ScheduleForm({
             준비물
           </label>
           {values.supplies.map((supply, index) => (
-            <Input
-              key={index}
-              id={index === 0 ? 'schedule-supply-0' : undefined}
-              className={styles.inputFull}
-              value={supply}
-              onChange={(e) => updateSupply(index, e.target.value)}
-              placeholder="준비물을 입력하세요"
-              maxLength={SUPPLY_MAX_LENGTH}
-            />
+            <div key={index} className={styles.supplyRow}>
+              <Input
+                className={styles.inputFull}
+                value={supply}
+                onChange={(e) => updateSupply(index, e.target.value)}
+                placeholder="준비물을 입력하세요"
+                maxLength={SUPPLY_MAX_LENGTH}
+              />
+              {index > 0 && (
+                <button
+                  type="button"
+                  className={styles.supplyDeleteButton}
+                  onClick={() => removeSupply(index)}
+                  aria-label="준비물 삭제"
+                >
+                  <TrashIcon size={24} color="primary" />
+                </button>
+              )}
+            </div>
           ))}
           {values.supplies.length < MAX_SUPPLIES && (
             <button
