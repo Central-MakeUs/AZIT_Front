@@ -2,7 +2,7 @@ import { vars } from '@azit/design-system';
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -62,13 +62,20 @@ export function ScheduleCreatePage() {
     }
   }, [selectedLocation, clearLocation]);
 
-  const createMutation = useMutation(scheduleQueries.createScheduleMutation);
+  const queryClient = useQueryClient();
+  const createMutation = useMutation({
+    ...scheduleQueries.createScheduleMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: scheduleQueries.all });
+      pop();
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isScheduleFormValid(formValues) || crewId <= 0) return;
     const payload = buildCreateSchedulePayload(formValues);
-    createMutation.mutate({ crewId, payload }, { onSuccess: () => pop() });
+    createMutation.mutate({ crewId, payload });
   };
 
   return (
