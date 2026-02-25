@@ -9,6 +9,7 @@ import {
   POST_MESSAGE_EVENT,
 } from '@azit/bridge';
 import * as Linking from 'expo-linking';
+import * as Location from 'expo-location';
 import { Platform, Share } from 'react-native';
 import { z } from 'zod';
 import {
@@ -54,6 +55,19 @@ export const appBridge = bridge<AppBridge>({
     } catch (error) {
       console.error('Naver Map app not found or not installed', error);
     }
+  },
+  async getCurrentPosition(): Promise<{ latitude: number; longitude: number }> {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      throw new Error('Location permission denied');
+    }
+    const position = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    });
+    return {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    };
   },
 });
 
