@@ -12,21 +12,23 @@ import { router } from 'expo-router';
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
   const [currentUrl, setCurrentUrl] = useState('');
-  const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
+  const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}`);
   const [showSplash, setShowSplash] = useState(true);
+  const [canGoBack, setCanGoBack] = useState(false);
 
   // 뒤로가기 처리
   useEffect(() => {
     const backAction = () => {
-      if (router.canGoBack()) {
-        router.back();
-        return true;
-      }
-      if (webViewRef.current) {
+      try {
+        if (router.canGoBack()) {
+          router.back();
+          return true;
+        }
+      } catch {}
+      if (canGoBack && webViewRef.current) {
         webViewRef.current.goBack();
         return true;
       }
-
       return false;
     };
 
@@ -36,7 +38,7 @@ export default function App() {
     );
 
     return () => backHandler.remove();
-  }, []);
+  }, [canGoBack]);
 
   useEffect(() => {
     // 앱이 종료된 상태에서 링크로 열릴 때의 초기 URL 처리
@@ -124,6 +126,7 @@ export default function App() {
           applicationNameForUserAgent={'azitwebview'}
           onNavigationStateChange={(navState) => {
             setCurrentUrl(navState.url);
+            setCanGoBack(navState.canGoBack);
           }}
         />
       </SafeAreaView>
