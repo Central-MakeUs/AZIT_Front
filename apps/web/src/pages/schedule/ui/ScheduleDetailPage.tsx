@@ -81,7 +81,7 @@ interface ScheduleDetailPageProps {
 export function ScheduleDetailPage({
   params: { id: scheduleId },
 }: ScheduleDetailPageProps) {
-  const { push, replace } = useFlow();
+  const { push, replace, pop } = useFlow();
   const queryClient = useQueryClient();
 
   const { data: myInfoData, isLoading: myInfoLoading } = useQuery(
@@ -169,12 +169,16 @@ export function ScheduleDetailPage({
     deleteScheduleMutation.isSuccess,
   ]);
 
+  const handleBack = () => {
+    pop();
+  };
+
   if (isLoading) {
     return (
       <AppScreen>
         <AppLayout>
           <div className={styles.headerWrapper}>
-            <Header left={<BackButton />} />
+            <Header left={<BackButton onClick={handleBack} />} />
           </div>
           <ScheduleDetailSkeleton />
         </AppLayout>
@@ -195,7 +199,7 @@ export function ScheduleDetailPage({
       <AppLayout>
         <div className={styles.headerWrapper}>
           <Header
-            left={<BackButton />}
+            left={<BackButton onClick={handleBack} />}
             right={
               <button
                 type="button"
