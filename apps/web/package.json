@@ -41,6 +41,7 @@
     "@azit/eslint": "workspace:*",
     "@azit/typescript": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",
+    "@types/navermaps": "^3.9.1",
     "@types/node": "^24.10.1",
     "@types/react": "catalog:react19.1",
     "@types/react-dom": "catalog:react19.1",
