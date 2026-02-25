@@ -9,7 +9,6 @@ import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
-import { mockActivityActivation } from '@/shared/mock/home';
 import { memberQueries } from '@/shared/queries';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
@@ -34,6 +33,10 @@ export function HomePage() {
     enabled: crewId > 0,
   });
 
+  const { data: checkInStatus, isPending: isCheckInStatusPending } = useQuery(
+    scheduleQueries.getScheduleCheckInStatusQuery()
+  );
+
   return (
     <AppScreen>
       <AppLayout>
@@ -49,7 +52,10 @@ export function HomePage() {
         <div className={scrollContainer}>
           <ScheduleSectionLayout
             topSection={
-              <ScheduleAttendanceSection activity={mockActivityActivation} />
+              <ScheduleAttendanceSection
+                checkInStatus={checkInStatus}
+                isCheckInStatusPending={isCheckInStatusPending}
+              />
             }
             scheduleTitle="내 일정"
             scheduleContent={
