@@ -8,6 +8,8 @@ import * as styles from '@/widgets/schedule-calendar/style/ScheduleCalendar.css.
 import { formatDate } from '@/shared/lib/formatters';
 import type { ScheduleCalendarItem } from '@/shared/types/schedule';
 
+import { vars } from '@azit/design-system';
+
 interface ScheduleCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
@@ -39,13 +41,13 @@ export function ScheduleCalendar({
             className={styles.calendarHeaderButton}
             onClick={handlePreviousMonth}
           >
-            <ChevronLeftIcon size={24} />
+            <ChevronLeftIcon size={24} style={{ color: vars.colors.blue80 }} />
           </button>
           <button
             className={styles.calendarHeaderButton}
             onClick={handleNextMonth}
           >
-            <ChevronRightIcon size={24} />
+            <ChevronRightIcon size={24} style={{ color: vars.colors.blue80 }} />
           </button>
         </div>
       </div>
