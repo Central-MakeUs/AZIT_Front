@@ -1,7 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import { bridge } from '@/shared/lib/bridge';
-import { reverseGeocode } from '@/shared/lib/naverGeocoding';
 
 const NCP_MAP_CLIENT_ID = import.meta.env.VITE_NCP_MAP_CLIENT_ID;
 
@@ -23,31 +22,21 @@ const getNaverMapUrlByAddress = (address: string) => {
 };
 
 export function StaticMap({
+  address,
   latitude,
   longitude,
 }: {
+  address: string;
   latitude: number;
   longitude: number;
 }) {
-  const [isLoading, setIsLoading] = useState(false);
-
   const handleMapClick = useCallback(async () => {
-    if (isLoading) return;
-    setIsLoading(true);
-    try {
-      const address = await reverseGeocode(latitude, longitude);
-
-      if (isAzitWebview) {
-        await bridge.openNaverMap(address, latitude, longitude);
-      } else {
-        window.open(getNaverMapUrlByAddress(address), '_blank');
-      }
-    } catch {
-      console.error('주소 변환에 실패했습니다.');
-    } finally {
-      setIsLoading(false);
+    if (isAzitWebview) {
+      await bridge.openNaverMap(address, latitude, longitude);
+    } else {
+      window.open(getNaverMapUrlByAddress(address), '_blank');
     }
-  }, [latitude, longitude, isLoading]);
+  }, [address, latitude, longitude]);
 
   return (
     <div onClick={handleMapClick} role="button" tabIndex={0}>
