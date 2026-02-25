@@ -15,7 +15,7 @@ interface Props {
   onChangePosition?: (pos: LatLng) => void;
 }
 
-export function NaverMap({ center, zoom = 14, onChangePosition }: Props) {
+export function NaverMap({ center, zoom = 17, onChangePosition }: Props) {
   const mapRef = useRef<naver.maps.Map | null>(null);
   const divRef = useRef<HTMLDivElement | null>(null);
 
