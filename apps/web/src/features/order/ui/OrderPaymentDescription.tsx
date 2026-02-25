@@ -4,6 +4,7 @@ import { Input } from '@azit/design-system/input';
 
 import * as styles from '@/features/order/styles/OrderPaymentDescription.css';
 
+import { copyToClipboard } from '@/shared/lib/clipboard';
 import { toastSuccess } from '@/shared/ui/toast';
 
 import type { DepositAccountInfo } from '@/entities/order/model';
@@ -22,8 +23,7 @@ export function OrderPaymentDescription({
   onDepositorNameChange,
 }: OrderPaymentDescriptionProps) {
   const handleCopy = () => {
-    navigator.clipboard.writeText(accountNumber!.replace(/-/g, ''));
-    toastSuccess('계좌번호가 복사되었습니다.');
+    copyToClipboard(accountNumber!.replace(/-/g, ''), '계좌번호');
   };
 
   return (

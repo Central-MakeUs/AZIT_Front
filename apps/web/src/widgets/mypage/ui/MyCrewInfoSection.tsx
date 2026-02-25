@@ -3,6 +3,7 @@ import { CopyIcon, UploadIcon } from '@azit/design-system/icon';
 import * as styles from '@/widgets/mypage/styles/MyCrewInfoSection.css';
 
 import { bridge } from '@/shared/lib/bridge';
+import { copyToClipboard } from '@/shared/lib/clipboard';
 
 export interface MyCrewInfoSectionProps {
   crewName: string;
@@ -17,7 +18,7 @@ export function MyCrewInfoSection({
 }: MyCrewInfoSectionProps) {
   const onCopyCode = () => {
     if (inviteCode) {
-      navigator.clipboard.writeText(inviteCode);
+      copyToClipboard(inviteCode, '초대 코드');
     }
   };
 
