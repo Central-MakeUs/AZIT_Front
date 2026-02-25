@@ -17,10 +17,10 @@ export const profileWrapper = style({
   flexShrink: 0,
 });
 
-export const leaderBadge = style({
+export const creatorBadge = style({
   position: 'absolute',
   right: 0,
-  bottom: 0,
+  bottom: 4,
   width: 20,
   height: 20,
   borderRadius: '50%',
@@ -28,10 +28,10 @@ export const leaderBadge = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  paddingLeft: 1.5,
 });
 
-export const leaderBadgeStar = style({
-  display: 'block',
+export const creatorBadgeStar = style({
   width: 14,
   height: 14,
   color: vars.colors.secondary,

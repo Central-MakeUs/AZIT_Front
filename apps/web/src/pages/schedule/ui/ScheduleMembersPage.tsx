@@ -55,14 +55,7 @@ export function ScheduleMembersPage({
 
   const members =
     participantsData?.pages.flatMap((page) =>
-      page.ok
-        ? page.data.result.content.map((participant) => ({
-            id: participant.memberId,
-            nickname: participant.nickname,
-            profileImageUrl: participant.profileImageUrl,
-            isLeader: participant.role === 'LEADER',
-          }))
-        : []
+      page.ok ? page.data.result.content : []
     ) ?? [];
 
   return (
@@ -77,7 +70,7 @@ export function ScheduleMembersPage({
           <div className={styles.memberList}>
             {members.map((member) => (
               <ScheduleParticipantListItem
-                key={member.id}
+                key={member.memberId}
                 participant={member}
                 orientation="horizontal"
               />

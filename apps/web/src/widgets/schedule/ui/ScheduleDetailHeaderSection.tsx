@@ -3,7 +3,13 @@ import { Chip } from '@azit/design-system/chip';
 import { RoundProfileImage } from '@/widgets/profile/ui/RoundProfileImage';
 import * as styles from '@/widgets/schedule/styles/ScheduleDetailHeaderSection.css';
 
+import {
+  MEMBER_ROLE_LABEL,
+  ROLE_CHIP_TYPE_MAP,
+} from '@/shared/constants/member-role';
 import type { RunType } from '@/shared/types/schedule';
+
+import type { MemberRole } from '@/entities/user/model';
 
 interface ScheduleDetailHeaderSectionProps {
   runType: RunType;
@@ -12,7 +18,7 @@ interface ScheduleDetailHeaderSectionProps {
   title: string;
   creatorName: string;
   creatorProfileImageUrl?: string;
-  isCreatorLeader: boolean;
+  creatorRole: MemberRole;
 }
 
 export function ScheduleDetailHeaderSection({
@@ -22,7 +28,7 @@ export function ScheduleDetailHeaderSection({
   title,
   creatorName,
   creatorProfileImageUrl,
-  isCreatorLeader,
+  creatorRole,
 }: ScheduleDetailHeaderSectionProps) {
   return (
     <div className={styles.section}>
@@ -42,7 +48,9 @@ export function ScheduleDetailHeaderSection({
         />
         <div className={styles.creatorInfo}>
           <span className={styles.creatorName}>{creatorName}</span>
-          {isCreatorLeader && <Chip type="skyblue">리더</Chip>}
+          <Chip type={ROLE_CHIP_TYPE_MAP[creatorRole]}>
+            {MEMBER_ROLE_LABEL[creatorRole]}
+          </Chip>
         </div>
       </div>
     </div>
