@@ -16,6 +16,7 @@ import {
   SUPPLY_MAX_LENGTH,
   DISTANCE_MAX,
   PACE_MAX,
+  PARTICIPANTS_MAX,
 } from '@/widgets/schedule-form/model/scheduleForm';
 import * as styles from '@/widgets/schedule-form/styles/ScheduleForm.css';
 import { ChipButton } from '@/widgets/schedule-form/ui/ChipButton';
@@ -45,6 +46,7 @@ export function ScheduleForm({
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [distanceError, setDistanceError] = useState(false);
   const [paceError, setPaceError] = useState(false);
+  const [participantsError, setParticipantsError] = useState(false);
 
   const setValues = (next: Partial<ScheduleFormValues>) =>
     onValuesChange({ ...values, ...next });
@@ -265,23 +267,38 @@ export function ScheduleForm({
           <label className={styles.label} htmlFor="schedule-max-participants">
             최대 인원
           </label>
-          <div className={styles.unitInputWrapper}>
-            <input
-              id="schedule-max-participants"
-              type="text"
-              inputMode="numeric"
-              className={styles.unitInput}
-              value={values.maxParticipants ?? ''}
-              onChange={(e) => {
-                const raw = e.target.value.replace(/[^0-9]/g, '');
-                const n = parseInt(raw, 10);
-                setValues({
-                  maxParticipants: raw === '' || Number.isNaN(n) ? null : n,
-                });
-              }}
-              placeholder="0"
-            />
-            <span className={styles.unitSuffix}>명</span>
+          <div className={styles.unitInputFieldWrapper}>
+            <div
+              className={
+                participantsError
+                  ? styles.unitInputWrapperError
+                  : styles.unitInputWrapper
+              }
+            >
+              <input
+                id="schedule-max-participants"
+                type="text"
+                inputMode="numeric"
+                className={styles.unitInput}
+                value={values.maxParticipants ?? ''}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/[^0-9]/g, '');
+                  const n = parseInt(raw, 10);
+                  const value = raw === '' || Number.isNaN(n) ? null : n;
+                  setParticipantsError(
+                    value !== null && value > PARTICIPANTS_MAX
+                  );
+                  setValues({ maxParticipants: value });
+                }}
+                placeholder="0"
+              />
+              <span className={styles.unitSuffix}>명</span>
+            </div>
+            {participantsError && (
+              <p className={styles.unitInputErrorMessage}>
+                최대 값 : {PARTICIPANTS_MAX}
+              </p>
+            )}
           </div>
         </div>
 
