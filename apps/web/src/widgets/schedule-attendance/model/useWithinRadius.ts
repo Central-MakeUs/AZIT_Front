@@ -5,9 +5,8 @@ import { getDistanceInMeters } from '@/shared/lib/geo';
 import { toastError } from '@/shared/ui/toast';
 
 export const useWithinRadius = (
-  latitude: number,
-  longitude: number,
-  enabled: boolean
+  latitude: number | undefined,
+  longitude: number | undefined
 ) => {
   const ACTIVATION_RADIUS_METERS = 100;
 
@@ -16,18 +15,10 @@ export const useWithinRadius = (
     lng: number;
   } | null>(null);
 
-  const scheduleLat = latitude;
-  const scheduleLng = longitude;
   const hasScheduleLocation =
-    enabled &&
-    typeof scheduleLat === 'number' &&
-    typeof scheduleLng === 'number';
+    typeof latitude === 'number' && typeof longitude === 'number';
 
   useEffect(() => {
-    if (!enabled) {
-      setUserPosition(null);
-      return;
-    }
     if (!hasScheduleLocation) return;
 
     const fetchPosition = async () => {
@@ -35,7 +26,6 @@ export const useWithinRadius = (
         if (typeof bridge.getCurrentPosition === 'function') {
           const coords = await bridge.getCurrentPosition();
           setUserPosition({ lat: coords.latitude, lng: coords.longitude });
-          return;
         }
       } catch {
         toastError('위치 정보를 가져오지 못했어요. 권한을 확인해주세요.');
@@ -43,7 +33,7 @@ export const useWithinRadius = (
     };
 
     fetchPosition();
-  }, [hasScheduleLocation, enabled]);
+  }, [hasScheduleLocation, latitude, longitude]);
 
   const isWithinRadius =
     hasScheduleLocation &&
@@ -51,8 +41,8 @@ export const useWithinRadius = (
     getDistanceInMeters(
       userPosition.lat,
       userPosition.lng,
-      scheduleLat as number,
-      scheduleLng as number
+      latitude,
+      longitude
     ) <= ACTIVATION_RADIUS_METERS;
 
   return { isWithinRadius, userPosition };
