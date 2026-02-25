@@ -62,5 +62,6 @@ export const END_POINT = {
     JOINED_LIST: 'members/me/schedules',
     CHECK_IN: (scheduleId: number) =>
       `members/me/schedules/${scheduleId}/check-in`,
+    CHECK_IN_STATUS: 'members/me/check-in-status',
   },
 } as const;
