@@ -23,6 +23,7 @@ export { default as ShareIcon } from './ShareIcon';
 export { default as ShareSheetIcon } from './ShareSheetIcon';
 export { default as ShoppingBagIcon } from './ShoppingBagIcon';
 export { default as ShoppingCartIcon } from './ShoppingCartIcon';
+export { default as TrashIcon } from './TrashIcon';
 export { default as TruckIcon } from './TruckIcon';
 export { default as UploadIcon } from './UploadIcon';
 export { default as UserIcon } from './UserIcon';
