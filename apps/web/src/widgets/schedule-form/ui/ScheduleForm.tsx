@@ -56,6 +56,7 @@ export function ScheduleForm({
 
   const addSupply = () => {
     if (values.supplies.length >= MAX_SUPPLIES) return;
+    if (values.supplies[values.supplies.length - 1] === '') return;
     setValues({ supplies: [...values.supplies, ''] });
   };
 
