@@ -10,7 +10,7 @@ import {
 } from '@azit/bridge';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
-import { Platform, Share } from 'react-native';
+import { Linking as RNLinking, Platform, Share } from 'react-native';
 import { z } from 'zod';
 import {
   AZIT_APP_NAME,
@@ -68,6 +68,15 @@ export const appBridge = bridge<AppBridge>({
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
     };
+  },
+  async getLocationPermissionStatus(): Promise<
+    'granted' | 'denied' | 'undetermined'
+  > {
+    const { status } = await Location.getForegroundPermissionsAsync();
+    return status;
+  },
+  async openLocationSettings(): Promise<void> {
+    await RNLinking.openSettings();
   },
 });
 
