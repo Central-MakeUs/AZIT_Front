@@ -27,7 +27,7 @@ export function Button({
       style={width ? { width } : undefined}
       onClick={onClick}
       {...props}
-      disabled={state === 'disabled' ? true : false}
+      disabled={state === 'disabled'}
     >
       {children}
     </button>
