@@ -153,10 +153,20 @@ export function ScheduleDetailPage({
   };
 
   useEffect(() => {
-    if (!isLoading && scheduleDetailViewData === null) {
+    if (
+      !isLoading &&
+      scheduleDetailViewData === null &&
+      !deleteScheduleMutation.isPending &&
+      !deleteScheduleMutation.isSuccess
+    ) {
       push('NotFoundPage', {});
     }
-  }, [isLoading, scheduleDetailViewData]);
+  }, [
+    isLoading,
+    scheduleDetailViewData,
+    deleteScheduleMutation.isPending,
+    deleteScheduleMutation.isSuccess,
+  ]);
 
   if (isLoading) {
     return (
