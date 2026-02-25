@@ -84,9 +84,10 @@ export function ScheduleLocationPage() {
             onClick={view === 'map' ? () => setView('search') : undefined}
           >
             <Input
+              className={styles.searchInput}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="장소를 검색해주세요"
+              placeholder="장소, 주소 검색"
               readOnly={view === 'map'}
             />
           </div>
