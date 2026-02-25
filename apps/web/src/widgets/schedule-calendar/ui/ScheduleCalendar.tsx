@@ -6,13 +6,12 @@ import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 import * as styles from '@/widgets/schedule-calendar/style/ScheduleCalendar.css.ts';
 
 import { formatDate } from '@/shared/lib/formatters';
-
-import type { ScheduleCalendarList } from '@/entities/schedule/model/schedule.types';
+import type { ScheduleCalendarItem } from '@/shared/types/schedule';
 
 interface ScheduleCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
-  scheduleData?: ScheduleCalendarList;
+  scheduleData?: ScheduleCalendarItem[];
 }
 
 export function ScheduleCalendar({
