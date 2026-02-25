@@ -33,6 +33,10 @@ export function HomePage() {
     enabled: crewId > 0,
   });
 
+  const { data: checkInStatus, isPending: isCheckInStatusPending } = useQuery(
+    scheduleQueries.getScheduleCheckInStatusQuery()
+  );
+
   return (
     <AppScreen>
       <AppLayout>
@@ -47,7 +51,12 @@ export function HomePage() {
         />
         <div className={scrollContainer}>
           <ScheduleSectionLayout
-            topSection={<ScheduleAttendanceSection />}
+            topSection={
+              <ScheduleAttendanceSection
+                checkInStatus={checkInStatus}
+                isCheckInStatusPending={isCheckInStatusPending}
+              />
+            }
             scheduleTitle="내 일정"
             scheduleContent={
               isLoading ? (
