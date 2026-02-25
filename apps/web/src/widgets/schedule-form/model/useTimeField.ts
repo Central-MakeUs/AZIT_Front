@@ -20,7 +20,7 @@ export const useTimeField = ({ values, onChange }: UseTimeFieldParams) => {
     setValues({ amPm });
 
   const handleHourChange = (v: string) => {
-    setHourInput(v);
+    setHourInput(v.replace(/[^0-9]/g, ''));
   };
 
   const handleHourBlur = () => {
@@ -28,15 +28,17 @@ export const useTimeField = ({ values, onChange }: UseTimeFieldParams) => {
 
     const raw = hourInput.trim();
     if (!raw) {
-      setValues({ hour: null as any });
-      setHourInput('');
+      setHourInput(
+        values.hour != null ? String(values.hour).padStart(2, '0') : ''
+      );
       return;
     }
 
     const { hour, amPm } = parseHourWithAmPm(raw, values.amPm);
     if (!hour) {
-      setValues({ hour: null as any });
-      setHourInput('');
+      setHourInput(
+        values.hour != null ? String(values.hour).padStart(2, '0') : ''
+      );
       return;
     }
 
@@ -55,7 +57,7 @@ export const useTimeField = ({ values, onChange }: UseTimeFieldParams) => {
   };
 
   const handleMinuteChange = (v: string) => {
-    setMinuteInput(v);
+    setMinuteInput(v.replace(/[^0-9]/g, ''));
   };
 
   const handleMinuteBlur = () => {
@@ -63,15 +65,17 @@ export const useTimeField = ({ values, onChange }: UseTimeFieldParams) => {
 
     const raw = minuteInput.replace(/\D/g, '');
     if (!raw) {
-      setValues({ minute: null as any });
-      setMinuteInput('');
+      setMinuteInput(
+        values.minute != null ? String(values.minute).padStart(2, '0') : ''
+      );
       return;
     }
 
     let n = parseInt(raw, 10);
     if (Number.isNaN(n)) {
-      setValues({ minute: null as any });
-      setMinuteInput('');
+      setMinuteInput(
+        values.minute != null ? String(values.minute).padStart(2, '0') : ''
+      );
       return;
     }
     n = clampNum(n, 0, 59);
