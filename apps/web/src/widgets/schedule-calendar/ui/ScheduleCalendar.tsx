@@ -32,7 +32,6 @@ export function ScheduleCalendar({
   };
 
   const activeStartDate = dayjs(value).startOf('month').toDate();
-  const today = dayjs().startOf('day');
 
   return (
     <div className={styles.calendarContainer}>
