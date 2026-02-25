@@ -31,11 +31,11 @@ export function ScheduleCreatePage() {
     myInfoData?.ok &&
     myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
 
-  const { selectedLocation, clearLocation } = useScheduleLocationSelectionStore(
-    (state) => ({
-      selectedLocation: state.selectedLocation,
-      clearLocation: state.clearLocation,
-    })
+  const selectedLocation = useScheduleLocationSelectionStore(
+    (state) => state.selectedLocation
+  );
+  const clearLocation = useScheduleLocationSelectionStore(
+    (state) => state.clearLocation
   );
 
   const [formValues, setFormValues] = useState(() =>
