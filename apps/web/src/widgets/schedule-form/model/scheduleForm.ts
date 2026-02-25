@@ -108,8 +108,7 @@ const formatMeetingAt = (
 };
 
 const formatSupplies = (supplies: string[]) => {
-  const filteredSupplies = supplies.map((s) => s.trim()).filter(Boolean);
-  return filteredSupplies.length > 0 ? filteredSupplies : undefined;
+  return supplies.map((s) => s.trim()).filter(Boolean);
 };
 
 const buildSchedulePayload = (values: ScheduleFormValues) => {
@@ -190,6 +189,6 @@ export const initializeScheduleFormValues = (
     pace: detail.pace ?? null,
     maxParticipants: detail.maxParticipants ?? null,
     description: detail.description ?? '',
-    supplies: detail.supplies?.length ? detail.supplies : [''],
+    supplies: detail.supplies.length > 0 ? detail.supplies : [''],
   };
 };
