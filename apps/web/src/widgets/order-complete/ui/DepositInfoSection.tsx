@@ -3,6 +3,7 @@ import { CopyIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/widgets/order-complete/styles/DepositInfoSection.css';
 
+import { copyToClipboard } from '@/shared/lib/clipboard';
 import { toastSuccess } from '@/shared/ui/toast';
 
 import type { DepositAccountInfo } from '@/entities/order/model';
@@ -19,8 +20,7 @@ export function DepositInfoSection({
   depositorName,
 }: DepositInfoSectionProps) {
   const handleCopy = () => {
-    navigator.clipboard.writeText(accountNumber?.replace(/-/g, '') ?? '');
-    toastSuccess('계좌번호가 복사되었습니다.');
+    copyToClipboard(accountNumber?.replace(/-/g, '') ?? '', '계좌번호');
   };
 
   return (
