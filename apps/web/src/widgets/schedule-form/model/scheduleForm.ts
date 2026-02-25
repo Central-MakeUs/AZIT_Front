@@ -29,6 +29,7 @@ export const TITLE_MAX_LENGTH = 15;
 export const SUPPLY_MAX_LENGTH = 15;
 export const MAX_SUPPLIES = 5;
 export const DISTANCE_MAX = 999;
+export const PARTICIPANTS_MAX = 999;
 export const PACE_MAX = 99;
 
 export const scheduleFormSchema = z.object({
@@ -47,13 +48,14 @@ export const scheduleFormSchema = z.object({
   detailedLocation: z.string().trim().min(1, '세부 장소를 입력해주세요'),
   latitude: z.number(),
   longitude: z.number(),
-  distance: z.number().min(1, '거리는 1 이상이어야 합니다'),
-  pace: z.number().min(1, '페이스는 1 이상이어야 합니다'),
+  distance: z.number().min(1, '거리는 1 이상이어야 합니다').max(DISTANCE_MAX),
+  pace: z.number().min(1, '페이스는 1 이상이어야 합니다').max(PACE_MAX),
   maxParticipants: z
     .number()
     .int('최대 인원은 정수여야 합니다')
-    .min(1, '최대 인원은 1명 이상이어야 합니다'),
-  description: z.string().trim(),
+    .min(1, '최대 인원은 1명 이상이어야 합니다')
+    .max(PARTICIPANTS_MAX),
+  description: z.string().trim().min(1, '상세 설명을 입력해주세요'),
   supplies: z
     .array(z.string())
     .max(MAX_SUPPLIES, `준비물은 최대 ${MAX_SUPPLIES}개까지 입력 가능합니다`)
