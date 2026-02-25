@@ -50,6 +50,9 @@ export const END_POINT = {
     CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
   },
+  LOCATION: {
+    SEARCH: 'locations/search',
+  },
   SCHEDULE: {
     LIST: (crewId: number) => `crews/${crewId}/schedules`,
     DETAIL: (crewId: number, scheduleId: number) =>
