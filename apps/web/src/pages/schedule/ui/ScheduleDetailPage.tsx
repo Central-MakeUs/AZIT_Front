@@ -47,7 +47,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     pace: formatPace(detail.pace),
     title: detail.title,
     creatorName: creator.nickname,
-    isCreatorLeader: creator.role === 'LEADER',
+    creatorRole: creator.role,
     creatorProfileImageUrl: creator.profileImageUrl,
     date,
     time,
@@ -222,7 +222,7 @@ export function ScheduleDetailPage({
             creatorProfileImageUrl={
               scheduleDetailViewData.creatorProfileImageUrl
             }
-            isCreatorLeader={scheduleDetailViewData.isCreatorLeader}
+            creatorRole={scheduleDetailViewData.creatorRole}
           />
           <ScheduleDetailInfoSection
             date={scheduleDetailViewData.date}

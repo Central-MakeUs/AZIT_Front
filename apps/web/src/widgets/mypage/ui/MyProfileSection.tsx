@@ -1,22 +1,18 @@
 import { Chip } from '@azit/design-system/chip';
-import type { ChipType } from '@azit/design-system/components/chip/Chip.css';
 
 import * as styles from '@/widgets/mypage/styles/MyProfileSection.css';
 import { MypageStatCard } from '@/widgets/mypage/ui/MypageStatCard';
 
-import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/constants/member-role';
+import {
+  MEMBER_ROLE_LABEL,
+  ROLE_CHIP_TYPE_MAP,
+} from '@/shared/constants/member-role';
 
-import type { MemberRole } from '@/entities/user/model';
 import type { MyInfoResult } from '@/entities/user/model';
 
 interface MyProfileSectionProps {
   profile: MyInfoResult;
 }
-
-const ROLE_CHIP_TYPE_MAP: Record<MemberRole, ChipType> = {
-  [MEMBER_ROLE.LEADER]: 'skyblue',
-  [MEMBER_ROLE.MEMBER]: 'green',
-};
 
 export function MyProfileSection({ profile }: MyProfileSectionProps) {
   return (
