@@ -1,26 +1,14 @@
 import { Chip } from '@azit/design-system/chip';
 import { ClockIcon, MarkerPinIcon, UsersIcon } from '@azit/design-system/icon';
 
+import {
+  formatDistance,
+  formatMeetingListDate,
+  formatPace,
+  formatRunType,
+} from '@/entities/schedule/lib/formatter';
 import type { ScheduleListItem as ScheduleListItemType } from '@/entities/schedule/model/schedule.types';
 import * as styles from '@/entities/schedule/styles/ScheduleListItem.css.ts';
-
-const formatMeetingAt = (meetingAt: string | undefined) => {
-  if (!meetingAt) return { month: '', day: '', time: '' };
-  try {
-    const date = new Date(meetingAt);
-    return {
-      month: `${date.getMonth() + 1}월`,
-      day: `${date.getDate()}일`,
-      time: date.toLocaleTimeString('ko-KR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      }),
-    };
-  } catch {
-    return { month: '', day: '', time: '' };
-  }
-};
 
 const buildTags = (
   item: ScheduleListItemType
@@ -28,19 +16,14 @@ const buildTags = (
   const tags: { label: string; type: 'primary' | 'secondary' | 'gray' }[] = [];
   if (item.runType) {
     tags.push({
-      label: item.runType === 'REGULAR' ? '정기런' : '번개런',
+      label: formatRunType(item.runType),
       type: item.runType === 'REGULAR' ? 'primary' : 'secondary',
     });
   }
   if (item.distance != null)
-    tags.push({ label: `${item.distance}km`, type: 'gray' });
+    tags.push({ label: formatDistance(item.distance), type: 'gray' });
   if (item.pace != null) {
-    const min = Math.floor(item.pace);
-    const sec = Math.round((item.pace - min) * 60);
-    tags.push({
-      label: `${min}'${sec.toString().padStart(2, '0')}"`,
-      type: 'gray',
-    });
+    tags.push({ label: formatPace(item.pace), type: 'gray' });
   }
   return tags;
 };
@@ -51,7 +34,7 @@ interface ScheduleListItemProps {
 }
 
 export function ScheduleListItem({ item, handleClick }: ScheduleListItemProps) {
-  const { month, day, time } = formatMeetingAt(item.meetingAt);
+  const { month, day, time } = formatMeetingListDate(item.meetingAt);
   const tags = buildTags(item);
 
   const current = item.currentParticipants ?? 0;
