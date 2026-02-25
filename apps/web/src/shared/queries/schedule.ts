@@ -14,8 +14,6 @@ import {
   postParticipateSchedule,
 } from '@/features/schedule-participate/api';
 
-import { toastSuccess } from '../ui/toast';
-
 import {
   getScheduleDetail,
   getScheduleParticipants,
