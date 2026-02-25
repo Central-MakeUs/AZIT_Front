@@ -28,21 +28,8 @@ export const useWithinRadius = (latitude: number, longitude: number) => {
           return;
         }
       } catch {
-        toastError(
-          '위치 정보를 가져오는데 실패했어요.\n설정에서 위치 권한 허용 여부를 확인해주세요.'
-        );
+        toastError('위치 정보를 가져오지 못했어요. 권한을 확인해주세요.');
       }
-      if (!navigator?.geolocation) return;
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserPosition({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        () => setUserPosition(null),
-        { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
-      );
     };
 
     fetchPosition();
@@ -58,5 +45,5 @@ export const useWithinRadius = (latitude: number, longitude: number) => {
       scheduleLng as number
     ) <= ACTIVATION_RADIUS_METERS;
 
-  return isWithinRadius;
+  return { isWithinRadius, userPosition };
 };
