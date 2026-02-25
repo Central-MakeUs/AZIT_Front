@@ -33,6 +33,8 @@ export function SchedulePage() {
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const yearMonth = formatDate(selectedDate, 'YYYY-MM');
+
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
@@ -42,10 +44,8 @@ export function SchedulePage() {
   });
 
   const { data: scheduleCalendarList = [] } = useQuery({
-    ...scheduleQueries.getScheduleCalendarQuery(crewId, {
-      yearMonth: formatDate(selectedDate, 'YYYY-MM'),
-    }),
-    enabled: crewId > 0,
+    ...scheduleQueries.getScheduleCalendarQuery(crewId, { yearMonth }),
+    enabled: crewId > 0 && !!yearMonth,
   });
 
   return (

@@ -32,6 +32,8 @@ export const scheduleQueries = {
     [...scheduleQueries.all, 'getScheduleList', crewId, request] as const,
   memberListKey: () =>
     [...scheduleQueries.all, 'getMemberScheduleList'] as const,
+  calendarKey: (crewId: number, request?: CrewScheduleCalendarRequest) =>
+    [...scheduleQueries.all, 'getScheduleCalendar', crewId, request] as const,
   getScheduleListQuery: (crewId: number, request?: CrewScheduleListRequest) =>
     queryOptions({
       queryKey: scheduleQueries.listKey(crewId, request),
@@ -55,7 +57,7 @@ export const scheduleQueries = {
     request?: CrewScheduleCalendarRequest
   ) =>
     queryOptions({
-      queryKey: [...scheduleQueries.all, 'getScheduleCalendar', crewId],
+      queryKey: scheduleQueries.calendarKey(crewId, request),
       queryFn: async () => {
         const res = await getScheduleCalendar(crewId, request);
         if (!res.ok) return [];
