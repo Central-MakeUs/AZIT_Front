@@ -4,6 +4,7 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
+import { getScheduleCheckInStatus } from '@/features/schedule-check-in/api/getScheduleCheckInStatus';
 import { postSchedule } from '@/features/schedule-create/api/postSchedule';
 import { updateSchedule } from '@/features/schedule-edit/api/updateSchedule';
 import { deleteSchedule } from '@/features/schedule-manage/api';
@@ -36,6 +37,8 @@ export const scheduleQueries = {
     [...scheduleQueries.all, 'getScheduleList', crewId, request] as const,
   memberListKey: () =>
     [...scheduleQueries.all, 'getMemberScheduleList'] as const,
+  checkInStatusKey: () =>
+    [...scheduleQueries.all, 'getScheduleCheckInStatus'] as const,
   getScheduleListQuery: (crewId: number, request?: CrewScheduleListRequest) =>
     queryOptions({
       queryKey: scheduleQueries.listKey(crewId, request),
@@ -52,6 +55,15 @@ export const scheduleQueries = {
         const res = await getMemberScheduleList();
         if (!res.ok) return [];
         return res.data.result ?? [];
+      },
+    }),
+  getScheduleCheckInStatusQuery: () =>
+    queryOptions({
+      queryKey: scheduleQueries.checkInStatusKey(),
+      queryFn: async () => {
+        const res = await getScheduleCheckInStatus();
+        if (!res.ok) return null;
+        return res.data.result ?? null;
       },
     }),
   getScheduleCalendarQuery: (
