@@ -5,7 +5,6 @@ import { Input } from '@azit/design-system/input';
 import * as styles from '@/features/order/styles/OrderPaymentDescription.css';
 
 import { copyToClipboard } from '@/shared/lib/clipboard';
-import { toastSuccess } from '@/shared/ui/toast';
 
 import type { DepositAccountInfo } from '@/entities/order/model';
 
