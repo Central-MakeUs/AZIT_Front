@@ -14,6 +14,18 @@ export const getMypageMenu: (
 ) => MypageMenuGroup[] = (role, crewId) => {
   return [
     {
+      id: 'authority',
+      title: '권한 관리',
+      items: [
+        {
+          id: 'location-permission',
+          label: '위치 권한 설정',
+          type: 'permission',
+          permission: 'location',
+        },
+      ],
+    },
+    {
       id: 'shopping',
       title: '쇼핑 관리',
       items: [
@@ -49,6 +61,12 @@ export const getMypageMenu: (
             : 'MemberViewPage') as ActivityName,
           type: 'page',
           pushParams: { id: crewId },
+        },
+        {
+          id: 'my-attendance',
+          label: '출석 로그',
+          path: 'AttendancePage' as ActivityName,
+          type: 'page',
         },
       ],
     },
