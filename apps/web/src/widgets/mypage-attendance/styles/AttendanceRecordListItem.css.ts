@@ -15,7 +15,7 @@ export const itemContainer = style({
 export const dateContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
 });
@@ -24,6 +24,7 @@ export const date = style([
   typography.body.b2,
   {
     color: vars.colors.black,
+    textWrap: 'wrap',
   },
 ]);
 

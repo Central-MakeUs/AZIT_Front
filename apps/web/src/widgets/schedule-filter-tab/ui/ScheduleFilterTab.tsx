@@ -2,7 +2,7 @@ import { Button } from '@azit/design-system/button';
 
 import * as styles from '@/widgets/schedule-filter-tab/styles/ScheduleFilterTab.css';
 
-import type { RunType } from '@/entities/schedule/model/schedule.types';
+import type { RunType } from '@/shared/types/schedule';
 
 interface ScheduleFilterTabProps {
   activeFilter: RunType;
