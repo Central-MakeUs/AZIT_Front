@@ -152,12 +152,13 @@ export const mapSearchButton = style([
 
 export const gridRow = style({
   display: 'flex',
+  width: 'calc(50% - 5.5px)',
   gap: 11,
-  width: '100%',
 });
 
 export const gridCell = style({
-  width: '50%',
+  width: '100%',
+  flex: 1,
   display: 'flex',
   flexDirection: 'column',
   gap: 8,
