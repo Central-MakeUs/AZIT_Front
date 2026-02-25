@@ -249,7 +249,7 @@ export function ScheduleForm({
                     }}
                     placeholder="0"
                   />
-                  <span className={styles.unitSuffix}>/km</span>
+                  <span className={styles.unitSuffix}>분/km</span>
                 </div>
                 {paceError && (
                   <p className={styles.unitInputErrorMessage}>
