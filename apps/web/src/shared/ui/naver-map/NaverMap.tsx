@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 
 import { NAVER_MAP_MARKER_ICON_URL } from '@/shared/constants/url';
 
+import * as styles from './NaverMap.css';
+
 export type LatLng = { lat: number; lng: number };
 
 export interface MarkerData {
@@ -51,17 +53,13 @@ export function NaverMap({ center, zoom = 17, onChangePosition }: Props) {
       }}
     >
       <div ref={divRef} style={{ width: '100%', height: '100%' }} />
-      <div
-        style={{
-          pointerEvents: 'none',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -100%)',
-          zIndex: 10,
-        }}
-      >
-        <img src={NAVER_MAP_MARKER_ICON_URL} alt="marker" />
+      <div className={styles.MarkerIconWrapper}>
+        <img
+          src={NAVER_MAP_MARKER_ICON_URL}
+          alt="marker"
+          width={48}
+          height={48}
+        />
       </div>
     </div>
   );
