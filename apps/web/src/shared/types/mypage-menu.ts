@@ -16,7 +16,14 @@ export interface ExternalLinkMenuItem extends BaseMenuItem {
   path?: never;
 }
 
-export type MenuItem = PageMenuItem | ExternalLinkMenuItem;
+export interface PermissionMenuItem extends BaseMenuItem {
+  type: 'permission';
+  permission: string;
+  path?: never;
+  url?: never;
+}
+
+export type MenuItem = PageMenuItem | ExternalLinkMenuItem | PermissionMenuItem;
 
 export interface MypageMenuGroup {
   id: string;
