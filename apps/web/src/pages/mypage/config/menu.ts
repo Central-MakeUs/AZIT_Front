@@ -14,6 +14,18 @@ export const getMypageMenu: (
 ) => MypageMenuGroup[] = (role, crewId) => {
   return [
     {
+      id: 'authority',
+      title: '권한 관리',
+      items: [
+        {
+          id: 'location-permission',
+          label: '위치 권한 설정',
+          type: 'permission',
+          permission: 'location',
+        },
+      ],
+    },
+    {
       id: 'shopping',
       title: '쇼핑 관리',
       items: [
