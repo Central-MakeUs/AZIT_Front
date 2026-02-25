@@ -94,7 +94,7 @@ export function ScheduleLocationPage() {
             <div className={styles.searchResultList}>
               {(data ?? []).map((result, index) => (
                 <LocationSearchResultItem
-                  key={index}
+                  key={`${result.placeName}-${index}`}
                   name={result.placeName ?? ''}
                   keyword={searchQuery}
                   address={result.address ?? ''}
