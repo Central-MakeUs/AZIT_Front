@@ -40,11 +40,11 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     enabled: crewId > 0,
   });
 
-  const selectedLocation = useScheduleLocationSelectionStore(
-    (state) => state.selectedLocation
-  );
-  const clearLocation = useScheduleLocationSelectionStore(
-    (state) => state.clearLocation
+  const { selectedLocation, clearLocation } = useScheduleLocationSelectionStore(
+    (state) => ({
+      selectedLocation: state.selectedLocation,
+      clearLocation: state.clearLocation,
+    })
   );
 
   const [formValues, setFormValues] = useState<ScheduleFormValues | null>(null);
