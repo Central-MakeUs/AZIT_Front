@@ -29,6 +29,7 @@ export const TITLE_MAX_LENGTH = 15;
 export const SUPPLY_MAX_LENGTH = 15;
 export const MAX_SUPPLIES = 5;
 export const DISTANCE_MAX = 999;
+export const PARTICIPANTS_MAX = 999;
 export const PACE_MAX = 99;
 
 export const scheduleFormSchema = z.object({
@@ -47,13 +48,14 @@ export const scheduleFormSchema = z.object({
   detailedLocation: z.string().trim().min(1, '세부 장소를 입력해주세요'),
   latitude: z.number(),
   longitude: z.number(),
-  distance: z.number().min(1, '거리는 1 이상이어야 합니다'),
-  pace: z.number().min(1, '페이스는 1 이상이어야 합니다'),
+  distance: z.number().min(1, '거리는 1 이상이어야 합니다').max(DISTANCE_MAX),
+  pace: z.number().min(1, '페이스는 1 이상이어야 합니다').max(PACE_MAX),
   maxParticipants: z
     .number()
     .int('최대 인원은 정수여야 합니다')
-    .min(1, '최대 인원은 1명 이상이어야 합니다'),
-  description: z.string().trim(),
+    .min(1, '최대 인원은 1명 이상이어야 합니다')
+    .max(PARTICIPANTS_MAX),
+  description: z.string().trim().min(1, '상세 설명을 입력해주세요'),
   supplies: z
     .array(z.string())
     .max(MAX_SUPPLIES, `준비물은 최대 ${MAX_SUPPLIES}개까지 입력 가능합니다`)
@@ -106,8 +108,7 @@ const formatMeetingAt = (
 };
 
 const formatSupplies = (supplies: string[]) => {
-  const filteredSupplies = supplies.map((s) => s.trim()).filter(Boolean);
-  return filteredSupplies.length > 0 ? filteredSupplies : undefined;
+  return supplies.map((s) => s.trim()).filter(Boolean);
 };
 
 const buildSchedulePayload = (values: ScheduleFormValues) => {
@@ -143,6 +144,19 @@ export const buildUpdateSchedulePayload = (
 
 export const isScheduleFormValid = (values: ScheduleFormValues): boolean => {
   return scheduleFormSchema.safeParse(values).success;
+};
+
+export const isScheduleDateTimeInPast = (
+  date: string,
+  amPm: ScheduleFormValues['amPm'],
+  hour: number | null,
+  minute: number | null
+): boolean => {
+  if (!date || hour === null || minute === null) return false;
+
+  const meetingAtStr = formatMeetingAt(date, amPm, hour, minute);
+  const scheduled = new Date(meetingAtStr.replace(' ', 'T'));
+  return scheduled.getTime() < Date.now();
 };
 
 const parseMeetingAt = (meetingAt: string) => {
@@ -188,6 +202,6 @@ export const initializeScheduleFormValues = (
     pace: detail.pace ?? null,
     maxParticipants: detail.maxParticipants ?? null,
     description: detail.description ?? '',
-    supplies: detail.supplies?.length ? detail.supplies : [''],
+    supplies: detail.supplies.length > 0 ? detail.supplies : [''],
   };
 };

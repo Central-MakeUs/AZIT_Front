@@ -10,7 +10,9 @@ export const formatDistance = (distance: number) => {
 };
 
 export const formatPace = (pace: number) => {
-  return `${pace}/km`;
+  const min = Math.floor(pace);
+  const sec = Math.round((pace - min) * 60);
+  return `${min}'${sec.toString().padStart(2, '0')}"`;
 };
 
 export const formatMeetTime = (meetingAt: string) => {
@@ -22,6 +24,22 @@ export const formatMeetTime = (meetingAt: string) => {
 
   return {
     date: d.locale('ko').format('YYYY.M.D(ddd)'),
+    time: d.format('HH:mm'),
+  };
+};
+
+export const formatMeetingListDate = (meetingAt?: string) => {
+  if (!meetingAt) return { month: '', day: '', time: '' };
+
+  const d = dayjs(meetingAt);
+
+  if (!d.isValid()) {
+    return { month: '', day: '', time: '' };
+  }
+
+  return {
+    month: `${d.month() + 1}월`,
+    day: `${d.date()}일`,
     time: d.format('HH:mm'),
   };
 };
