@@ -1,7 +1,4 @@
-import type {
-  CrewScheduleCalendarResponse,
-  CrewScheduleListResponse,
-} from './schedule.model';
+import type { CrewScheduleListResponse } from './schedule.model';
 
 export type ScheduleListItem = CrewScheduleListResponse;
 export type ScheduleList = ScheduleListItem[];
@@ -11,5 +8,3 @@ export type ScheduleParticipant = {
   profileImageUrl: string;
   isLeader: boolean;
 };
-export type ScheduleCalendarItem = CrewScheduleCalendarResponse;
-export type ScheduleCalendarList = ScheduleCalendarItem[];
