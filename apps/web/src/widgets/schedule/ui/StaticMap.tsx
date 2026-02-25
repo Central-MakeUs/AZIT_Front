@@ -1,17 +1,32 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { NAVER_MAP_MARKER_ICON_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';
 
 const NCP_MAP_CLIENT_ID = import.meta.env.VITE_NCP_MAP_CLIENT_ID;
 
 const isAzitWebview = navigator.userAgent.toLowerCase().includes('azitwebview');
 
-const getStaticMapUrl = (lat: number, lng: number) => {
+const getStaticMapUrl = (
+  lat: number,
+  lng: number,
+  width: number,
+  height: number
+) => {
   const center = `${lng},${lat}`;
-  const params = `w=335&h=160&center=${center}&level=14&X-NCP-APIGW-API-KEY-ID=${NCP_MAP_CLIENT_ID}`;
-  const url = `https://maps.apigw.ntruss.com/map-static/v2/raster-cors?${params.toString()}`;
+  const markers = {
+    type: 'e',
+    pos: `${lng} ${lat}`,
+    icon: NAVER_MAP_MARKER_ICON_URL,
+    anchor: 'center',
+  };
+  const markersParams = Object.entries(markers)
+    .map(([key, value]) => `${key}:${value}`)
+    .join('|');
 
-  return url;
+  const params = `w=${width}&h=${height}&center=${center}&level=17&markers=${markersParams}&X-NCP-APIGW-API-KEY-ID=${NCP_MAP_CLIENT_ID}`;
+
+  return `https://maps.apigw.ntruss.com/map-static/v2/raster-cors?${params}`;
 };
 
 const getNaverMapUrlByAddress = (address: string) => {
@@ -30,6 +45,20 @@ export function StaticMap({
   latitude: number;
   longitude: number;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [mapUrl, setMapUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const { width } = ref.current.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const pixelWidth = Math.round(width * dpr);
+    const pixelHeight = Math.round(160 * dpr);
+
+    setMapUrl(getStaticMapUrl(latitude, longitude, pixelWidth, pixelHeight));
+  }, [latitude, longitude]);
+
   const handleMapClick = useCallback(async () => {
     if (isAzitWebview) {
       await bridge.openNaverMap(address, latitude, longitude);
@@ -39,12 +68,14 @@ export function StaticMap({
   }, [address, latitude, longitude]);
 
   return (
-    <div onClick={handleMapClick} role="button" tabIndex={0}>
-      <img
-        src={getStaticMapUrl(latitude, longitude)}
-        alt="Static Map"
-        style={{ width: '100%', height: '100%' }}
-      />
+    <div ref={ref} onClick={handleMapClick} role="button" tabIndex={0}>
+      {mapUrl && (
+        <img
+          src={mapUrl}
+          alt="Static Map"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      )}
     </div>
   );
 }

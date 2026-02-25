@@ -30,7 +30,6 @@ export function ScheduleDetailHeaderSection({
   creatorProfileImageUrl,
   creatorRole,
 }: ScheduleDetailHeaderSectionProps) {
-  console.log(creatorRole);
   return (
     <div className={styles.section}>
       <div className={styles.tagRow}>
