@@ -343,12 +343,14 @@ export function ScheduleForm({
         contentClassName={styles.bottomSheetContent}
       >
         <ScheduleCalendar
-          disablePastDates
-          notChangeDate
+          isPastDateDisabled
           value={values.date ? new Date(values.date + 'T00:00:00') : new Date()}
           onChange={(date) => {
             setValues({ date: formatDate(date, 'YYYY-MM-DD') });
             setIsCalendarOpen(false);
+          }}
+          onMonthChange={(date) => {
+            setValues({ date: formatDate(date, 'YYYY-MM-DD') });
           }}
         />
       </BottomSheet>

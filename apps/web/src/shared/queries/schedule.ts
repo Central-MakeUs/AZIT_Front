@@ -4,6 +4,8 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
+import { getScheduleCheckInStatus } from '@/features/schedule-check-in/api/getScheduleCheckInStatus';
+import { postScheduleCheckIn } from '@/features/schedule-check-in/api/postScheduleCheckIn';
 import { postSchedule } from '@/features/schedule-create/api/postSchedule';
 import { updateSchedule } from '@/features/schedule-edit/api/updateSchedule';
 import { deleteSchedule } from '@/features/schedule-manage/api';
@@ -23,6 +25,7 @@ import type {
   CreateScheduleRequest,
   CrewScheduleCalendarRequest,
   CrewScheduleListRequest,
+  ScheduleCheckInRequest,
   UpdateScheduleRequest,
 } from '@/entities/schedule/model/schedule.model';
 
@@ -36,6 +39,10 @@ export const scheduleQueries = {
     [...scheduleQueries.all, 'getScheduleList', crewId, request] as const,
   memberListKey: () =>
     [...scheduleQueries.all, 'getMemberScheduleList'] as const,
+  checkInStatusKey: () =>
+    [...scheduleQueries.all, 'getScheduleCheckInStatus'] as const,
+  calendarKey: (crewId: number, request?: CrewScheduleCalendarRequest) =>
+    [...scheduleQueries.all, 'getScheduleCalendar', crewId, request] as const,
   getScheduleListQuery: (crewId: number, request?: CrewScheduleListRequest) =>
     queryOptions({
       queryKey: scheduleQueries.listKey(crewId, request),
@@ -54,12 +61,21 @@ export const scheduleQueries = {
         return res.data.result ?? [];
       },
     }),
+  getScheduleCheckInStatusQuery: () =>
+    queryOptions({
+      queryKey: scheduleQueries.checkInStatusKey(),
+      queryFn: async () => {
+        const res = await getScheduleCheckInStatus();
+        if (!res.ok) return null;
+        return res.data.result ?? null;
+      },
+    }),
   getScheduleCalendarQuery: (
     crewId: number,
     request?: CrewScheduleCalendarRequest
   ) =>
     queryOptions({
-      queryKey: [...scheduleQueries.all, 'getScheduleCalendar', crewId],
+      queryKey: scheduleQueries.calendarKey(crewId, request),
       queryFn: async () => {
         const res = await getScheduleCalendar(crewId, request);
         if (!res.ok) return [];
@@ -85,6 +101,15 @@ export const scheduleQueries = {
       scheduleId: number;
       payload: UpdateScheduleRequest;
     }) => updateSchedule(crewId, scheduleId, payload),
+  }),
+  scheduleCheckInMutation: mutationOptions({
+    mutationFn: ({
+      scheduleId,
+      payload,
+    }: {
+      scheduleId: number;
+      payload: ScheduleCheckInRequest;
+    }) => postScheduleCheckIn(scheduleId, payload),
   }),
   scheduleDetailQuery: (crewId: number, scheduleId: number) =>
     queryOptions({

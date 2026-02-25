@@ -2,18 +2,15 @@ import { BellIcon } from '@azit/design-system/icon';
 import { useState, useMemo } from 'react';
 
 import * as styles from '@/widgets/home-alert/styles/HomeAlertList.css.ts';
-import {
-  ScheduleFilterTab,
-  type ScheduleFilterType,
-} from '@/widgets/schedule-filter-tab/ui';
+import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 
 import { mockHomeAlertList } from '@/shared/mock/home-alert';
+import type { RunType } from '@/shared/types/schedule';
 
 import { HomeAlertListItem } from './HomeAlertListItem';
 
 export function HomeAlertList() {
-  const [activeFilter, setActiveFilter] =
-    useState<ScheduleFilterType>(undefined);
+  const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
 
   const filteredAlerts = useMemo(() => {
     if (activeFilter === undefined) {

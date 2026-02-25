@@ -1,9 +1,5 @@
 import { Chip } from '@azit/design-system/chip';
 import type { ChipType } from '@azit/design-system/components/chip/Chip.css';
-import {
-  CheckCircleBrokenIcon,
-  CoinsStackedIcon,
-} from '@azit/design-system/icon';
 
 import * as styles from '@/widgets/mypage/styles/MyProfileSection.css';
 import { MypageStatCard } from '@/widgets/mypage/ui/MypageStatCard';
@@ -47,13 +43,8 @@ export function MyProfileSection({ profile }: MyProfileSectionProps) {
         </div>
       </div>
       <div className={styles.statGrid}>
+        <MypageStatCard label="출석" value={profile.totalAttendanceCount} />
         <MypageStatCard
-          icon={<CheckCircleBrokenIcon size={24} strokeWidth={1.25} />}
-          label="출석"
-          value={profile.totalAttendanceCount}
-        />
-        <MypageStatCard
-          icon={<CoinsStackedIcon size={24} strokeWidth={1.25} />}
           label="포인트"
           value={profile.totalPoints.toLocaleString('ko-KR')}
         />

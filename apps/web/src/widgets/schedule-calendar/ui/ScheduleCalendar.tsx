@@ -1,3 +1,4 @@
+import { vars } from '@azit/design-system';
 import { ChevronLeftIcon, ChevronRightIcon } from '@azit/design-system/icon';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
@@ -6,28 +7,28 @@ import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 import * as styles from '@/widgets/schedule-calendar/style/ScheduleCalendar.css.ts';
 
 import { formatDate } from '@/shared/lib/formatters';
-
-import type { ScheduleCalendarList } from '@/entities/schedule/model/schedule.types';
+import type { ScheduleCalendarItem } from '@/shared/types/schedule';
 
 interface ScheduleCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
-  scheduleData?: ScheduleCalendarList;
-  disablePastDates?: boolean;
-  notChangeDate?: boolean;
+  scheduleData?: ScheduleCalendarItem[];
+  isPastDateDisabled?: boolean;
+  onMonthChange?: (date: Date) => void;
 }
 
 export function ScheduleCalendar({
   value,
   onChange,
   scheduleData,
-  disablePastDates = false,
+  isPastDateDisabled = false,
+  onMonthChange,
 }: ScheduleCalendarProps) {
   const handlePreviousMonth = () => {
-    onChange(dayjs(value).subtract(1, 'month').toDate());
+    onMonthChange?.(dayjs(value).subtract(1, 'month').toDate());
   };
   const handleNextMonth = () => {
-    onChange(dayjs(value).add(1, 'month').toDate());
+    onMonthChange?.(dayjs(value).add(1, 'month').toDate());
   };
 
   const activeStartDate = dayjs(value).startOf('month').toDate();
@@ -43,14 +44,16 @@ export function ScheduleCalendar({
           <button
             className={styles.calendarHeaderButton}
             onClick={handlePreviousMonth}
+            type="button"
           >
-            <ChevronLeftIcon size={24} />
+            <ChevronLeftIcon size={24} style={{ color: vars.colors.blue80 }} />
           </button>
           <button
             className={styles.calendarHeaderButton}
             onClick={handleNextMonth}
+            type="button"
           >
-            <ChevronRightIcon size={24} />
+            <ChevronRightIcon size={24} style={{ color: vars.colors.blue80 }} />
           </button>
         </div>
       </div>
@@ -66,9 +69,18 @@ export function ScheduleCalendar({
         }}
         formatShortWeekday={(_, date) => formatDate(date, 'ddd').toUpperCase()}
         formatDay={(_, date) => formatDate(date, 'D')}
-        tileDisabled={({ date }) =>
-          disablePastDates && dayjs(date).isBefore(today, 'day')
-        }
+        tileClassName={({ date }) => {
+          if (dayjs(date).isBefore(dayjs().startOf('day'))) {
+            return isPastDateDisabled ? styles.pastDateTile : '';
+          }
+          return '';
+        }}
+        tileDisabled={({ date }) => {
+          if (isPastDateDisabled) {
+            return dayjs(date).isBefore(dayjs().startOf('day'));
+          }
+          return false;
+        }}
         tileContent={({ date }: { date: Date }) => {
           const schedule = scheduleData?.find((item) =>
             dayjs(item.date).isSame(date, 'day')
