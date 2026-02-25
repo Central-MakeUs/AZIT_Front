@@ -15,10 +15,10 @@ import { formatDate } from '@/shared/lib/formatters';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
+import type { RunType } from '@/shared/types/schedule';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 
-import type { RunType } from '@/entities/schedule/model/schedule.types';
 import { ScheduleList } from '@/entities/schedule/ui';
 
 export function SchedulePage() {
