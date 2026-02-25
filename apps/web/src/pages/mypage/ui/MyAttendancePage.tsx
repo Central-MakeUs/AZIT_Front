@@ -1,6 +1,7 @@
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -11,23 +12,40 @@ import { AttendanceRecordList } from '@/widgets/mypage-attendance/ui';
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
-import { mockAttendanceRecords } from '@/shared/mock/mypage-attendance';
+import { formatDate } from '@/shared/lib/formatters';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 export function MyAttendancePage() {
   const { pop } = useFlow();
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const handleBack = () => {
     pop();
   };
 
-  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const totalAttendanceCount = myInfoData?.ok
-    ? myInfoData.data.result.totalAttendanceCount
+  const yearMonth = formatDate(selectedDate, 'YYYY-MM');
+
+  const { data: myAttendanceCalendarData = [] } = useQuery({
+    ...memberQueries.getMyAttendanceCalendarQuery({ yearMonth }),
+    enabled: !!yearMonth,
+  });
+
+  const { data: myAttendanceData } = useQuery({
+    ...memberQueries.getMyAttendanceQuery({ yearMonth }),
+    enabled: !!yearMonth,
+  });
+
+  const totalAttendanceCount = myAttendanceData
+    ? (myAttendanceData.totalAttendanceCount ?? 0)
     : 0;
-  const totalPoints = myInfoData?.ok ? myInfoData.data.result.totalPoints : 0;
+  const totalPoints = myAttendanceData
+    ? (myAttendanceData.totalPoints ?? 0)
+    : 0;
+  const totalAttendanceLogs = myAttendanceData
+    ? (myAttendanceData.attendanceLogs ?? [])
+    : [];
 
   return (
     <AppScreen>
@@ -39,7 +57,11 @@ export function MyAttendancePage() {
         />
         <ScheduleSectionLayout
           topSection={
-            <ScheduleCalendar value={new Date()} onChange={() => {}} />
+            <ScheduleCalendar
+              value={selectedDate}
+              onChange={setSelectedDate}
+              scheduleData={myAttendanceCalendarData}
+            />
           }
           scheduleContent={
             <>
@@ -53,7 +75,7 @@ export function MyAttendancePage() {
                   value={totalPoints.toLocaleString('ko-KR')}
                 />
               </div>
-              <AttendanceRecordList records={mockAttendanceRecords} />
+              <AttendanceRecordList records={totalAttendanceLogs} />
             </>
           }
         />
