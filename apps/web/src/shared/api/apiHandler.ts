@@ -3,6 +3,18 @@ import { HTTPError } from 'ky';
 
 import type { ApiResponseWithoutResult } from '@/shared/api/baseTypes';
 
+export class ApiError extends Error {
+  readonly code: string;
+  readonly status: number;
+
+  constructor(message: string, code: string, status: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.code = code;
+    this.status = status;
+  }
+}
+
 interface BaseResult {
   status: number;
 }
@@ -49,7 +61,16 @@ export async function apiHandler<T, E = ApiResponseWithoutResult>(
         typeof (body as { message?: unknown }).message === 'string'
           ? (body as { message: string }).message
           : '요청에 실패했습니다';
-      throw new Error(message);
+
+      const code =
+        typeof body === 'object' &&
+        body !== null &&
+        'code' in body &&
+        typeof (body as { code?: unknown }).code === 'string'
+          ? (body as { code: string }).code
+          : '';
+
+      throw new ApiError(message, code, res.status);
     }
 
     throw error;
