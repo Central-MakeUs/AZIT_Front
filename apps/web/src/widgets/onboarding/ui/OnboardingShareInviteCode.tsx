@@ -5,6 +5,7 @@ import * as styles from '@/widgets/onboarding/styles/OnboardingShareInviteCode.c
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
 import { bridge } from '@/shared/lib/bridge';
+import { copyToClipboard } from '@/shared/lib/clipboard';
 
 export interface OnboardingShareInviteCodeProps {
   crewName: string;
@@ -20,7 +21,7 @@ export function OnboardingShareInviteCode({
   onNext,
 }: OnboardingShareInviteCodeProps) {
   const onCopyCode = () => {
-    navigator.clipboard.writeText(inviteCode);
+    copyToClipboard(inviteCode, '초대 코드');
   };
 
   const onShare = async () => {
