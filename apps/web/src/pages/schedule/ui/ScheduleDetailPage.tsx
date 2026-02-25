@@ -58,12 +58,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     longitude: detail.locationInfo.longitude,
     description: detail.description,
     preparationItems: detail.supplies,
-    participants: detail.participants.map((p) => ({
-      id: p.memberId,
-      nickname: p.nickname,
-      profileImageUrl: p.profileImageUrl,
-      isLeader: p.role === 'LEADER',
-    })),
+    participants: detail.participants,
     participantCount: detail.currentParticipants,
     maxParticipants: detail.maxParticipants,
     scheduleId: detail.scheduleId,

@@ -41,7 +41,7 @@ export function ScheduleParticipantList({
       <div className={styles.participantList}>
         {participants.map((participant) => (
           <ScheduleParticipantListItem
-            key={participant.id}
+            key={participant.memberId}
             participant={participant}
           />
         ))}
