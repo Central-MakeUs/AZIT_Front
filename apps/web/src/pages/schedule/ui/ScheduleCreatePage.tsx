@@ -3,7 +3,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -14,11 +14,11 @@ import {
   buildCreateSchedulePayload,
   isScheduleFormValid,
 } from '@/widgets/schedule-form/model/scheduleForm';
+import { useScheduleFormState } from '@/widgets/schedule-form/model/useScheduleFormState';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
-import { useScheduleLocationSelectionStore } from '@/shared/store/scheduleLocationSelection';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
@@ -31,14 +31,7 @@ export function ScheduleCreatePage() {
     myInfoData?.ok &&
     myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
 
-  const selectedLocation = useScheduleLocationSelectionStore(
-    (state) => state.selectedLocation
-  );
-  const clearLocation = useScheduleLocationSelectionStore(
-    (state) => state.clearLocation
-  );
-
-  const [formValues, setFormValues] = useState(() =>
+  const { formValues, setFormValues, isValid } = useScheduleFormState(
     initializeScheduleFormValues()
   );
 
@@ -47,20 +40,6 @@ export function ScheduleCreatePage() {
       setFormValues((prev) => ({ ...prev, runType: 'LIGHTNING' }));
     }
   }, [myInfoData, isLeader]);
-
-  useEffect(() => {
-    if (selectedLocation) {
-      setFormValues((prev) => ({
-        ...prev,
-        address: selectedLocation.address,
-        locationName: selectedLocation.locationName,
-        detailedLocation: selectedLocation.detailedLocation,
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
-      }));
-      clearLocation();
-    }
-  }, [selectedLocation, clearLocation]);
 
   const queryClient = useQueryClient();
   const createMutation = useMutation({
@@ -73,7 +52,7 @@ export function ScheduleCreatePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isScheduleFormValid(formValues) || crewId <= 0) return;
+    if (!isValid || crewId <= 0) return;
     const payload = buildCreateSchedulePayload(formValues);
     createMutation.mutate({ crewId, payload });
   };
