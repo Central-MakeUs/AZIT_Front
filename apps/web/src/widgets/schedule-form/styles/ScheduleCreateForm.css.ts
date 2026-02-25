@@ -65,6 +65,7 @@ export const label = style([
 export const inputFull = style({
   width: '100%',
   minHeight: 48,
+  backgroundColor: vars.colors.white,
 });
 
 export const fakeInputContainer = style({
