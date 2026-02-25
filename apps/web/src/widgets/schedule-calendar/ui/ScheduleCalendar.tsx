@@ -13,12 +13,15 @@ interface ScheduleCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
   scheduleData?: ScheduleCalendarList;
+  disablePastDates?: boolean;
+  notChangeDate?: boolean;
 }
 
 export function ScheduleCalendar({
   value,
   onChange,
   scheduleData,
+  disablePastDates = false,
 }: ScheduleCalendarProps) {
   const handlePreviousMonth = () => {
     onChange(dayjs(value).subtract(1, 'month').toDate());
@@ -28,6 +31,7 @@ export function ScheduleCalendar({
   };
 
   const activeStartDate = dayjs(value).startOf('month').toDate();
+  const today = dayjs().startOf('day');
 
   return (
     <div className={styles.calendarContainer}>
@@ -62,6 +66,9 @@ export function ScheduleCalendar({
         }}
         formatShortWeekday={(_, date) => formatDate(date, 'ddd').toUpperCase()}
         formatDay={(_, date) => formatDate(date, 'D')}
+        tileDisabled={({ date }) =>
+          disablePastDates && dayjs(date).isBefore(today, 'day')
+        }
         tileContent={({ date }: { date: Date }) => {
           const schedule = scheduleData?.find((item) =>
             dayjs(item.date).isSame(date, 'day')

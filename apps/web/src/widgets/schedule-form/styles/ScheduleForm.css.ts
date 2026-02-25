@@ -250,6 +250,25 @@ export const textarea = style([
   },
 ]);
 
+export const supplyRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  width: '100%',
+});
+
+export const supplyDeleteButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  padding: 0,
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  color: vars.colors.blue80,
+});
+
 export const addSupplyButton = style([
   typography.body.b3,
   {
