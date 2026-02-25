@@ -13,6 +13,7 @@ import { MeetingSpotPicker } from '@/widgets/schedule/ui/MeetingSpotPicker';
 
 import { LocationSearchResultItem } from '@/features/schedule/ui/LocationSearchResultItem';
 
+import { reverseGeocode } from '@/shared/lib/naverGeocoding';
 import { useDebounce } from '@/shared/lib/useDebounce';
 import { locationQueries } from '@/shared/queries/location';
 import { useScheduleLocationSelectionStore } from '@/shared/store/scheduleLocationSelection';
@@ -53,15 +54,27 @@ export function ScheduleLocationPage() {
     setIsLocationNameSheetOpen(true);
   };
 
-  const handleRegisterLocation = () => {
+  const handleRegisterLocation = async () => {
     if (!selectedLocation) return;
-    setSelectedScheduleLocation({
+
+    const newLocation = {
       address: selectedLocation.address ?? '',
       locationName: selectedLocation.placeName ?? '',
       detailedLocation: locationName,
-      latitude: adjustedCoords?.lat ?? selectedLocation.latitude ?? 0,
-      longitude: adjustedCoords?.lng ?? selectedLocation.longitude ?? 0,
-    });
+      latitude: selectedLocation.latitude ?? 0,
+      longitude: selectedLocation.longitude ?? 0,
+    };
+
+    if (adjustedCoords) {
+      newLocation.address = await reverseGeocode(
+        adjustedCoords.lat,
+        adjustedCoords.lng
+      );
+      newLocation.latitude = adjustedCoords.lat;
+      newLocation.longitude = adjustedCoords.lng;
+    }
+
+    setSelectedScheduleLocation(newLocation);
     pop();
   };
 
