@@ -79,7 +79,13 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     }
   }, [selectedLocation, clearLocation]);
 
-  const updateMutation = useMutation(scheduleQueries.updateScheduleMutation);
+  const updateMutation = useMutation({
+    ...scheduleQueries.updateScheduleMutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: scheduleQueries.all });
+      pop();
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
