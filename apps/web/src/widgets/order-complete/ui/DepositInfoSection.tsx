@@ -4,7 +4,6 @@ import { CopyIcon } from '@azit/design-system/icon';
 import * as styles from '@/widgets/order-complete/styles/DepositInfoSection.css';
 
 import { copyToClipboard } from '@/shared/lib/clipboard';
-import { toastSuccess } from '@/shared/ui/toast';
 
 import type { DepositAccountInfo } from '@/entities/order/model';
 
