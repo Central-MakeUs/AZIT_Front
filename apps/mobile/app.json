@@ -58,7 +58,6 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-splash-screen",
       ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }]
     ],
     "experiments": {
