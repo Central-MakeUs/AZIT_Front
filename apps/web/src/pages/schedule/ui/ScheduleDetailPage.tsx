@@ -246,7 +246,7 @@ export function ScheduleDetailPage({
           />
         </div>
         <div className={styles.footerWrapper}>
-          <Show when={isFull}>
+          <Show when={!isCreator && isFull}>
             <Button size="large" state="disabled" disabled>
               신청이 마감되었어요
             </Button>
@@ -270,7 +270,7 @@ export function ScheduleDetailPage({
               </Button>
             </div>
           </Show>
-          <Show when={!isCreator && isParticipating}>
+          <Show when={!isCreator && !isFull && isParticipating}>
             <Button
               size="large"
               state="outline"
@@ -280,7 +280,7 @@ export function ScheduleDetailPage({
               취소하기
             </Button>
           </Show>
-          <Show when={!isCreator && !isParticipating}>
+          <Show when={!isCreator && !isFull && !isParticipating}>
             <Button
               size="large"
               state="active"
