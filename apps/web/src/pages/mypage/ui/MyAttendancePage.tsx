@@ -1,7 +1,6 @@
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -13,13 +12,14 @@ import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalenda
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
 import { formatDate } from '@/shared/lib/formatters';
+import { useCalendar } from '@/shared/lib/useCalendar';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 export function MyAttendancePage() {
   const { pop } = useFlow();
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const { selectedDate, setSelectedDate } = useCalendar();
 
   const handleBack = () => {
     pop();

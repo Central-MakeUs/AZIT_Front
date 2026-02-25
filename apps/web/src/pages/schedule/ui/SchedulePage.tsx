@@ -14,6 +14,7 @@ import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
 import { formatDate } from '@/shared/lib/formatters';
+import { useCalendar } from '@/shared/lib/useCalendar';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
@@ -26,13 +27,12 @@ import { ScheduleList } from '@/entities/schedule/ui';
 export function SchedulePage() {
   const { push } = useFlow();
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [date, setDate] = useState<string | undefined>(undefined);
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
-    setDate(formatDate(date, 'YYYY-MM-DD'));
   };
+
+  const { selectedDate, setSelectedDate } = useCalendar();
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
@@ -41,7 +41,7 @@ export function SchedulePage() {
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
-      date,
+      date: formatDate(selectedDate, 'YYYY-MM-DD'),
     }),
     enabled: crewId > 0,
   });

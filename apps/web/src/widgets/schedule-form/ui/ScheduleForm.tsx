@@ -349,9 +349,6 @@ export function ScheduleForm({
             setValues({ date: formatDate(date, 'YYYY-MM-DD') });
             setIsCalendarOpen(false);
           }}
-          onMonthChange={(date) => {
-            setValues({ date: formatDate(date, 'YYYY-MM-DD') });
-          }}
         />
       </BottomSheet>
     </form>

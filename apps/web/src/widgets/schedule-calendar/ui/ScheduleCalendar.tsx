@@ -7,6 +7,7 @@ import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 import * as styles from '@/widgets/schedule-calendar/style/ScheduleCalendar.css.ts';
 
 import { formatDate } from '@/shared/lib/formatters';
+import { useCalendar } from '@/shared/lib/useCalendar';
 import type { ScheduleCalendarItem } from '@/shared/types/schedule';
 
 interface ScheduleCalendarProps {
@@ -14,7 +15,6 @@ interface ScheduleCalendarProps {
   onChange: (date: Date) => void;
   scheduleData?: ScheduleCalendarItem[];
   isPastDateDisabled?: boolean;
-  onMonthChange?: (date: Date) => void;
 }
 
 export function ScheduleCalendar({
@@ -22,22 +22,23 @@ export function ScheduleCalendar({
   onChange,
   scheduleData,
   isPastDateDisabled = false,
-  onMonthChange,
 }: ScheduleCalendarProps) {
   const handlePreviousMonth = () => {
-    onMonthChange?.(dayjs(value).subtract(1, 'month').toDate());
+    setViewDate(dayjs(viewDate).subtract(1, 'month').toDate());
   };
   const handleNextMonth = () => {
-    onMonthChange?.(dayjs(value).add(1, 'month').toDate());
+    setViewDate(dayjs(viewDate).add(1, 'month').toDate());
   };
 
-  const activeStartDate = dayjs(value).startOf('month').toDate();
+  const { viewDate, setViewDate } = useCalendar();
+
+  const activeStartDate = dayjs(viewDate).startOf('month').toDate();
 
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendarHeaderSection}>
         <span className={styles.calendarTitle}>
-          {formatDate(value, 'YYYY년 M월')}
+          {formatDate(viewDate, 'YYYY년 M월')}
         </span>
         <div className={styles.calendarButtonWrapper}>
           <button
