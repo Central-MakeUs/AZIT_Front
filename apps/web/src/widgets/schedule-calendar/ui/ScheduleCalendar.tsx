@@ -1,3 +1,4 @@
+import { vars } from '@azit/design-system';
 import { ChevronLeftIcon, ChevronRightIcon } from '@azit/design-system/icon';
 import dayjs from 'dayjs';
 import Calendar from 'react-calendar';
@@ -7,8 +8,6 @@ import * as styles from '@/widgets/schedule-calendar/style/ScheduleCalendar.css.
 
 import { formatDate } from '@/shared/lib/formatters';
 import type { ScheduleCalendarItem } from '@/shared/types/schedule';
-
-import { vars } from '@azit/design-system';
 
 interface ScheduleCalendarProps {
   value: Date;
@@ -47,7 +46,7 @@ export function ScheduleCalendar({
             className={styles.calendarHeaderButton}
             onClick={handleNextMonth}
           >
-            <ChevronRightIcon size={24} style={{ color: vars.colors.blue80 }} />
+            <ChevronRightIcon size={24} />
           </button>
         </div>
       </div>
