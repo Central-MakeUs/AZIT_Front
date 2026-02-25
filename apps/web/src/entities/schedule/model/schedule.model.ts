@@ -27,3 +27,7 @@ export type ScheduleParticipantsRequest =
   components['schemas']['CursorPageQuery'];
 
 export type ScheduleCheckInRequest = components['schemas']['CheckInRequest'];
+
+export type ScheduleCheckInStatusResponse = RequiredDeep<
+  components['schemas']['CheckInStatusResponse']
+>;
