@@ -30,10 +30,7 @@ export const authApi = baseApi.extend({
     afterResponse: [
       // 401 에러 발생시, 새 토큰으로 재시도
       async (request, _options, response, state) => {
-        if (
-          (response.status === 403 || response.status === 401) &&
-          state.retryCount === 0
-        ) {
+        if (response.status === 401 && state.retryCount === 0) {
           const tokenResponse = await postReissueToken();
 
           if (tokenResponse.ok) {
@@ -48,6 +45,14 @@ export const authApi = baseApi.extend({
 
           return response;
         }
+
+        if (response.status === 403 && state.retryCount === 0) {
+          window.location.href = '/crew-join/status/banned';
+
+          return response;
+        }
+
+        return response;
       },
     ],
   },

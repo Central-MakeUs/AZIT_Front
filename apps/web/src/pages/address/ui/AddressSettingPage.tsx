@@ -21,6 +21,7 @@ import {
 import { orderQueries } from '@/shared/queries/order';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { toastError } from '@/shared/ui/toast';
 
 export function AddressSettingPage() {
   const { push, pop } = useFlow();
@@ -47,7 +48,7 @@ export function AddressSettingPage() {
     const response = await deleteMutation.mutateAsync(id);
     if (!response.ok) {
       console.error(response.error);
-      // TODO: 토스트 처리 (배송지 삭제에 실패했습니다.)
+      toastError('배송지 삭제에 실패했습니다.');
     }
   };
 
@@ -73,7 +74,7 @@ export function AddressSettingPage() {
     });
 
     if (!response.ok) {
-      // TODO: 토스트 처리 (배송지 변경에 실패했습니다.)
+      toastError('배송지 변경에 실패했습니다.');
       return;
     }
 

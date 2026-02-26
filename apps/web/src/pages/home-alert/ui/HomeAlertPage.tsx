@@ -4,7 +4,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import * as styles from '@/pages/home-alert/styles/HomeAlertPage.css.ts';
 
-import { HomeAlertList } from '@/features/home-alert/ui';
+import { HomeAlertList } from '@/widgets/home-alert/ui';
 
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
