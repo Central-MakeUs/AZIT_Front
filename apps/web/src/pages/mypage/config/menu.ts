@@ -87,6 +87,12 @@ export const getMypageMenu: (
           type: 'page',
         },
         {
+          id: 'location-service-agreement',
+          label: '위치 기반 서비스 이용약관',
+          path: 'TermDetailPage' as ActivityName,
+          type: 'page',
+        },
+        {
           id: 'third-party-info-agreement',
           label: '제 3자 정보제공 동의 내역',
           path: 'TermDetailPage' as ActivityName,
