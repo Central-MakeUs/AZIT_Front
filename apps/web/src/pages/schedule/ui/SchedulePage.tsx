@@ -26,7 +26,6 @@ import { ScheduleList } from '@/entities/schedule/ui';
 export function SchedulePage() {
   const { push } = useFlow();
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
-  const [searchDate, setSearchDate] = useState<string | undefined>(undefined);
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
@@ -34,6 +33,10 @@ export function SchedulePage() {
 
   const { selectedDate, setSelectedDate, viewDate, setViewDate } =
     useCalendar();
+
+  const [searchDate, setSearchDate] = useState<string>(
+    formatDate(viewDate, 'YYYY-MM')
+  );
 
   useEffect(() => {
     setSearchDate(formatDate(selectedDate, 'YYYY-MM-DD'));
@@ -50,7 +53,8 @@ export function SchedulePage() {
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
-      date: searchDate,
+      yearMonth: searchDate.split('-').length === 2 ? searchDate : undefined,
+      date: searchDate.split('-').length === 3 ? searchDate : undefined,
     }),
     enabled: crewId > 0,
   });
