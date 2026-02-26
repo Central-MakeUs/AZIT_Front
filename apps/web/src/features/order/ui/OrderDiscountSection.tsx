@@ -13,25 +13,45 @@ export function OrderDiscountSection({
   usedPoints = 0,
   onPointsChange,
 }: OrderDiscountSectionProps) {
-  const [pointsToUse, setPointsToUse] = useState(usedPoints);
+  const [inputValue, setInputValue] = useState(
+    usedPoints ? String(usedPoints) : ''
+  );
 
   useEffect(() => {
     if (onPointsChange !== undefined) {
-      setPointsToUse(usedPoints);
+      setInputValue(usedPoints ? String(usedPoints) : '');
     }
-  }, [usedPoints]);
+  }, [usedPoints, onPointsChange]);
 
-  const handlePointsChange = (value: number) => {
-    setPointsToUse(value);
-    onPointsChange?.(value);
+  const commitPoints = (raw: number) => {
+    if (isNaN(raw) || raw < 0) {
+      setInputValue('');
+      onPointsChange?.(0);
+      return;
+    }
+    const inThousands = Math.floor(raw / 1000) * 1000;
+    const clamped = Math.min(inThousands, availablePoints);
+    setInputValue(clamped ? String(clamped) : '');
+    onPointsChange?.(clamped);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = e.target.value.replace(/\D/g, '');
+    setInputValue(v);
+  };
+
+  const handleInputBlur = () => {
+    commitPoints(Number(inputValue) || 0);
   };
 
   const handleUseAllPoints = () => {
     if (availablePoints >= 1000) {
-      setPointsToUse(availablePoints);
+      setInputValue(String(availablePoints));
       onPointsChange?.(availablePoints);
     }
   };
+
+  const isPointsDisabled = availablePoints < 1000;
 
   return (
     <div className={styles.discountSection}>
@@ -52,20 +72,37 @@ export function OrderDiscountSection({
           </div>
         </div>
         <div className={styles.pointsInputSection}>
-          <div className={styles.pointsInputContainer}>
+          <div
+            className={
+              isPointsDisabled
+                ? styles.pointsInputContainerDisabled
+                : styles.pointsInputContainer
+            }
+          >
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               className={styles.pointsInput}
-              value={pointsToUse || ''}
-              onChange={(e) => handlePointsChange(Number(e.target.value))}
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
               placeholder="0"
+              disabled={isPointsDisabled}
+              aria-disabled={isPointsDisabled}
             />
             <p className={styles.pointsUnit}>P</p>
           </div>
           <button
             type="button"
-            className={styles.useAllButton}
+            className={
+              isPointsDisabled
+                ? styles.useAllButtonDisabled
+                : styles.useAllButton
+            }
             onClick={handleUseAllPoints}
+            disabled={isPointsDisabled}
+            aria-disabled={isPointsDisabled}
           >
             <p className={styles.useAllButtonText}>모두 사용</p>
           </button>
