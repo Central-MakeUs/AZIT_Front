@@ -15,8 +15,6 @@ import {
   OrderPolicyFooter,
 } from '@/widgets/order-policy/ui';
 import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
-
-import { useStoreDetail } from '@/features/store/model/useStoreDetail';
 import {
   StoreDetailImageSlider,
   StoreDetailInfo,
@@ -25,7 +23,9 @@ import {
   StoreDetailRefund,
   StoreDetailDescription,
   StoreDetailItem,
-} from '@/features/store/ui';
+} from '@/widgets/store/ui';
+
+import { useStoreDetail } from '@/features/store/model/useStoreDetail';
 
 import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';

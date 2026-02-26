@@ -2,20 +2,43 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { WebView } from '@/shared/lib/bridge';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
-import { Platform, StyleSheet } from 'react-native';
+import { BackHandler, StyleSheet } from 'react-native';
 import * as Linking from 'expo-linking';
 import { WEBVIEW_URL } from '@/shared/constants/url';
 import CustomAnimatedSplash from './splash-screen';
-import * as SplashScreen from 'expo-splash-screen';
 import { LinearGradient } from 'expo-linear-gradient';
-
-SplashScreen.preventAutoHideAsync();
+import { router } from 'expo-router';
 
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
   const [currentUrl, setCurrentUrl] = useState('');
-  const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}/store`);
+  const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}`);
   const [showSplash, setShowSplash] = useState(true);
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  // 뒤로가기 처리
+  useEffect(() => {
+    const backAction = () => {
+      try {
+        if (router.canGoBack()) {
+          router.back();
+          return true;
+        }
+      } catch {}
+      if (canGoBack && webViewRef.current) {
+        webViewRef.current.goBack();
+        return true;
+      }
+      return false;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [canGoBack]);
 
   useEffect(() => {
     // 앱이 종료된 상태에서 링크로 열릴 때의 초기 URL 처리
@@ -80,7 +103,7 @@ export default function App() {
         style={{
           flex: 1,
           backgroundColor: isHomePath ? 'transparent' : '#ffffff',
-          paddingBottom: Platform.OS === 'ios' ? -24 : 0,
+          // paddingBottom: Platform.OS === 'ios' ? -24 : 0,
         }}
       >
         {isHomePath && (
@@ -103,6 +126,7 @@ export default function App() {
           applicationNameForUserAgent={'azitwebview'}
           onNavigationStateChange={(navState) => {
             setCurrentUrl(navState.url);
+            setCanGoBack(navState.canGoBack);
           }}
         />
       </SafeAreaView>
