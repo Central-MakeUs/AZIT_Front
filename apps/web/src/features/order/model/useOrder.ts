@@ -29,6 +29,7 @@ export function useOrder(options: UseOrderOptions = {}) {
   >();
   const [deliveryMessage, setDeliveryMessage] = useState<string | undefined>();
   const [depositorName, setDepositorName] = useState('');
+  const [usedPoints, setUsedPoints] = useState(0);
 
   const createOrderMutation = useMutation(orderQueries.createOrderMutation());
 
@@ -80,7 +81,7 @@ export function useOrder(options: UseOrderOptions = {}) {
       baseAddress: delivery.baseAddress ?? '',
       detailAddress: delivery.detailAddress ?? '',
       ...(deliveryMessage && { shippingInstruction: deliveryMessage }),
-      usedPoints: 0,
+      usedPoints,
       paymentMethod: selectedPaymentCode ?? '',
       ...(selectedPaymentCode === BANK_TRANSFER_CODE && {
         depositorName: depositorName.trim(),
@@ -125,6 +126,8 @@ export function useOrder(options: UseOrderOptions = {}) {
     depositorName,
     setDepositorName,
     createOrderMutation,
+    usedPoints,
+    setUsedPoints,
     handlers: {
       handlePaymentSelect,
       handlePayment,
