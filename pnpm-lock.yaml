@@ -111,12 +111,6 @@ importers:
       expo-router:
         specifier: ~6.0.21
         version: 6.0.21(e1f73c9f735da8d4cb5584d42d43440c)
-<<<<<<< HEAD
-      expo-splash-screen:
-        specifier: ~31.0.13
-        version: 31.0.13(expo@54.0.30)
-=======
->>>>>>> release/v1.1.0
       expo-status-bar:
         specifier: ~3.0.9
         version: 3.0.9(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
