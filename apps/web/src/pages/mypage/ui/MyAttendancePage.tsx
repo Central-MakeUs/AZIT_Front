@@ -20,13 +20,14 @@ import { AppLayout } from '@/shared/ui/layout';
 
 export function MyAttendancePage() {
   const { pop } = useFlow();
-  const { selectedDate, setSelectedDate } = useCalendar();
+
+  const { viewDate, setViewDate } = useCalendar();
 
   const handleBack = () => {
     pop();
   };
 
-  const yearMonth = formatDate(selectedDate, 'YYYY-MM');
+  const yearMonth = formatDate(viewDate, 'YYYY-MM');
 
   const { data: myAttendanceCalendarData = [] } = useQuery({
     ...memberQueries.getMyAttendanceCalendarQuery({ yearMonth }),
@@ -60,9 +61,9 @@ export function MyAttendancePage() {
           <ScheduleSectionLayout
             topSection={
               <ScheduleCalendar
-                value={selectedDate}
-                onChange={setSelectedDate}
                 scheduleData={myAttendanceCalendarData}
+                explicitViewDate={viewDate}
+                onChangeExplicitViewDate={setViewDate}
               />
             }
             scheduleContent={
