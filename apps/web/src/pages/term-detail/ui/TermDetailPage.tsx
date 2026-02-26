@@ -6,6 +6,7 @@ import Markdown from 'react-markdown';
 import * as styles from '@/pages/term-detail/styles/TermDetailPage.css';
 
 import {
+  LOCATION_SERVICE_AGREEMENT,
   PRIVACY_POLICY,
   TERMS_OF_SERVICE,
   THIRD_PARTY_INFO_AGREEMENT,
@@ -25,6 +26,10 @@ const TERM_CONTENT_MAP: Record<string, { title: string; content: string }> = {
   'third-party-info-agreement': {
     title: '제3자 정보제공 동의',
     content: THIRD_PARTY_INFO_AGREEMENT,
+  },
+  'location-service-agreement': {
+    title: '위치 기반 서비스 이용약관',
+    content: LOCATION_SERVICE_AGREEMENT,
   },
 };
 

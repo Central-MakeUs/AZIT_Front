@@ -1347,11 +1347,11 @@ export interface components {
       /** @description 개인정보 처리방침 동의 여부 (필수) */
       privacyPolicyAgreed: boolean;
       /** @description 위치기반 서비스 이용약관 동의 여부 (필수) */
-      locationServiceAgreed?: boolean;
+      locationServiceAgreed: boolean;
       /** @description 제3자 정보제공 동의 여부 (필수) */
       thirdPartyInfoAgreed: boolean;
       /** @description 마케팅 정보 수신 동의 여부 (선택) */
-      marketingTermsAgreed?: boolean;
+      marketingTermsAgreed: boolean;
       /** @description 알림 수신 동의 여부 (선택) */
       notificationTermsAgreed?: boolean;
     };
