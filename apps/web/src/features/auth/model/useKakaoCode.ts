@@ -48,8 +48,7 @@ export const useKakaoCode = () => {
           replace('OnboardingPage', {}, { animate: false });
           break;
         case 'ACTIVE':
-          replace('StorePage', {}, { animate: false });
-          // 심사 위해 임시로 스토어 페이지를 홈페이지로 사용
+          replace('HomePage', {}, { animate: false });
           break;
       }
     } catch (err) {
