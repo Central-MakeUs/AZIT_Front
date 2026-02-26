@@ -10,6 +10,11 @@ export const itemContainer = style({
   borderRadius: '16px',
   border: `1px solid ${vars.colors.gray10}`,
   alignItems: 'center',
+  selectors: {
+    '&:last-child': {
+      marginBottom: '100px',
+    },
+  },
 });
 
 export const dateContainer = style({
@@ -66,17 +71,39 @@ export const detailText = style([
   },
 ]);
 
+const statusButtonBase = style([
+  typography.body.b3,
+  {
+    width: '48px',
+    height: '48px',
+    borderRadius: '12px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textWrap: 'nowrap',
+  },
+]);
+
 export const statusButton = {
-  attended: style({
-    backgroundColor: vars.colors.blue80,
-    color: vars.colors.white,
-  }),
-  attendedAlt: style({
-    backgroundColor: vars.colors.secondary,
-    color: vars.colors.black,
-  }),
-  absent: style({
-    backgroundColor: vars.colors.gray10,
-    color: vars.colors.black,
-  }),
+  attended: style([
+    statusButtonBase,
+    {
+      backgroundColor: vars.colors.blue60,
+      color: vars.colors.white,
+    },
+  ]),
+  attendedLightning: style([
+    statusButtonBase,
+    {
+      backgroundColor: vars.colors.secondary,
+      color: vars.colors.black,
+    },
+  ]),
+  absent: style([
+    statusButtonBase,
+    {
+      backgroundColor: vars.colors.gray10,
+      color: vars.colors.gray60,
+    },
+  ]),
 };
