@@ -25,7 +25,6 @@ import { bridge } from '@/shared/lib/bridge';
 import { useStack } from '@/shared/lib/stackflow/useStack';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
-import type { RunType } from '@/shared/types/schedule';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { Show } from '@/shared/ui/show';
@@ -211,7 +210,7 @@ export function ScheduleDetailPage({
         </div>
         <div className={styles.mainContainer}>
           <ScheduleDetailHeaderSection
-            runType={scheduleDetailViewData.runType as RunType}
+            runType={scheduleDetailViewData.runType}
             distance={scheduleDetailViewData.distance}
             pace={scheduleDetailViewData.pace}
             title={scheduleDetailViewData.title}
