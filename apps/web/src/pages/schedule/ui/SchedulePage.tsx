@@ -3,12 +3,11 @@ import { PlusIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
-// import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
@@ -27,21 +26,31 @@ import { ScheduleList } from '@/entities/schedule/ui';
 export function SchedulePage() {
   const { push } = useFlow();
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
+  const [searchDate, setSearchDate] = useState<string | undefined>(undefined);
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
   };
 
-  const { selectedDate, setSelectedDate } = useCalendar();
+  const { selectedDate, setSelectedDate, viewDate, setViewDate } =
+    useCalendar();
+
+  useEffect(() => {
+    setSearchDate(formatDate(selectedDate, 'YYYY-MM-DD'));
+  }, [selectedDate]);
+
+  useEffect(() => {
+    setSearchDate(formatDate(viewDate, 'YYYY-MM'));
+  }, [viewDate]);
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
-  const yearMonth = formatDate(selectedDate, 'YYYY-MM');
+  const yearMonth = formatDate(viewDate, 'YYYY-MM');
 
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
-      date: formatDate(selectedDate, 'YYYY-MM-DD'),
+      date: searchDate,
     }),
     enabled: crewId > 0,
   });
@@ -71,14 +80,12 @@ export function SchedulePage() {
           <ScheduleSectionLayout
             topSection={
               <ScheduleCalendar
+                explicitViewDate={viewDate}
+                onChangeExplicitViewDate={setViewDate}
                 value={selectedDate}
                 onChange={handleDateChange}
                 scheduleData={scheduleCalendarList}
               />
-              // <ScheduleWeekCalendar
-              //     value={selectedDate}
-              //     onChange={handleDateChange}
-              //   />
             }
             scheduleContent={
               <>
