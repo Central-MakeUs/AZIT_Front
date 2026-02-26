@@ -15,15 +15,13 @@ export function useScheduleParticipateActions({
 }: UseScheduleActionsProps) {
   const queryClient = useQueryClient();
 
-  const detailQueryKey = scheduleQueries.detail(scheduleId);
-  const participantsQueryKey = scheduleQueries.participants(scheduleId);
+  const scheduleAllQueryKey = scheduleQueries.all;
 
   const participateMutation = useMutation({
     ...scheduleQueries.participateSchedule,
     onSuccess: () => {
       toastSuccess('신청이 완료되었습니다');
-      queryClient.invalidateQueries({ queryKey: detailQueryKey });
-      queryClient.invalidateQueries({ queryKey: participantsQueryKey });
+      queryClient.invalidateQueries({ queryKey: scheduleAllQueryKey });
     },
     onError: (error) => {
       if (
@@ -41,8 +39,7 @@ export function useScheduleParticipateActions({
     ...scheduleQueries.cancelParticipation,
     onSuccess: () => {
       toastSuccess('신청이 취소되었습니다');
-      queryClient.invalidateQueries({ queryKey: detailQueryKey });
-      queryClient.invalidateQueries({ queryKey: participantsQueryKey });
+      queryClient.invalidateQueries({ queryKey: scheduleAllQueryKey });
     },
   });
 
