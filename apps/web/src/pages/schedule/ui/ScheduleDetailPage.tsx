@@ -167,7 +167,6 @@ export function ScheduleDetailPage({
   ]);
 
   const handleBack = () => {
-    console.log('handleBack');
     pop('SchedulePage');
   };
 
