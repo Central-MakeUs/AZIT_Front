@@ -10,6 +10,11 @@ export const itemContainer = style({
   borderRadius: '16px',
   border: `1px solid ${vars.colors.gray10}`,
   alignItems: 'center',
+  selectors: {
+    '&:last-child': {
+      marginBottom: '100px',
+    },
+  },
 });
 
 export const dateContainer = style({

@@ -5,5 +5,5 @@ export const statCardsContainer = style({
   gridTemplateColumns: '1fr 1fr',
   gap: '10px',
   width: '100%',
-  marginBottom: '20px',
+  marginBottom: '6px',
 });
