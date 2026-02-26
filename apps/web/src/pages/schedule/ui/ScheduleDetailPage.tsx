@@ -22,6 +22,7 @@ import { ScheduleDetailSkeleton } from '@/widgets/skeleton/ui';
 import { useScheduleParticipateActions } from '@/features/schedule-participate/model/useScheduleParticipateActions';
 
 import { bridge } from '@/shared/lib/bridge';
+import { useStack } from '@/shared/lib/stackflow/useStack';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import type { RunType } from '@/shared/types/schedule';
@@ -76,7 +77,8 @@ interface ScheduleDetailPageProps {
 export function ScheduleDetailPage({
   params: { id: scheduleId },
 }: ScheduleDetailPageProps) {
-  const { push, replace, pop } = useFlow();
+  const { push, replace } = useFlow();
+  const { pop } = useStack();
   const queryClient = useQueryClient();
 
   const { data: myInfoData, isLoading: myInfoLoading } = useQuery(
@@ -165,7 +167,7 @@ export function ScheduleDetailPage({
   ]);
 
   const handleBack = () => {
-    pop();
+    pop('SchedulePage');
   };
 
   if (isLoading) {
