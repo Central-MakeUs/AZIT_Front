@@ -92,16 +92,39 @@ export const pointsInputContainer = style({
   flex: 1,
 });
 
+export const pointsInputContainerDisabled = style([
+  pointsInputContainer,
+  {
+    backgroundColor: vars.colors.gray10,
+    opacity: 0.8,
+    cursor: 'not-allowed',
+  },
+]);
+
 export const pointsInput = style({
   fontSize: vars.typography.body.b3.fontSize,
   fontWeight: vars.typography.body.b3.fontWeight,
   lineHeight: vars.typography.body.b3.lineHeight,
-  color: vars.colors.gray30,
+  color: vars.colors.black,
   border: 'none',
   outline: 'none',
   textAlign: 'right',
   width: '100%',
   background: 'transparent',
+  MozAppearance: 'textfield',
+  selectors: {
+    '&::-webkit-inner-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0,
+    },
+    '&::-webkit-outer-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0,
+    },
+    '&:disabled': {
+      color: vars.colors.gray30,
+    },
+  },
 });
 
 export const pointsUnit = style({
@@ -125,12 +148,32 @@ export const useAllButton = style({
   flexShrink: 0,
 });
 
+export const useAllButtonDisabled = style({
+  border: `0.5px solid ${vars.colors.gray30}`,
+  borderRadius: '8px',
+  display: 'flex',
+  height: '36px',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '4px 12px',
+  minWidth: '64px',
+  background: vars.colors.gray10,
+  opacity: 0.8,
+  cursor: 'not-allowed',
+  flexShrink: 0,
+});
+
 export const useAllButtonText = style({
   fontSize: vars.typography.body.b4.fontSize,
   fontWeight: vars.typography.body.b4.fontWeight,
   lineHeight: vars.typography.body.b4.lineHeight,
   color: vars.colors.blue80,
   textWrap: 'nowrap',
+  selectors: {
+    [`${useAllButtonDisabled} &`]: {
+      color: vars.colors.gray50,
+    },
+  },
 });
 
 export const pointsNotice = style({

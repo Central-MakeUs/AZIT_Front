@@ -41,7 +41,8 @@ export function ScheduleAttendanceSection({
 
   const { isWithinRadius, userPosition } = useWithinRadius(
     todayInfo?.latitude,
-    todayInfo?.longitude
+    todayInfo?.longitude,
+    !!todayInfo && isAvailableTime
   );
 
   const handleCheckIn = () => {
