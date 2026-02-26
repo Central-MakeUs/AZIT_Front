@@ -1,7 +1,7 @@
 import { vars } from '@azit/design-system';
 import { ChevronLeftIcon, ChevronRightIcon } from '@azit/design-system/icon';
 import dayjs from 'dayjs';
-import { useEffect, type Dispatch, type SetStateAction } from 'react';
+import { type Dispatch, type SetStateAction } from 'react';
 import Calendar from 'react-calendar';
 import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 
@@ -82,6 +82,7 @@ export function ScheduleCalendar({
         formatShortWeekday={(_, date) => formatDate(date, 'ddd').toUpperCase()}
         formatDay={(_, date) => formatDate(date, 'D')}
         tileClassName={({ date }) => {
+          if (!value) return styles.calendarTitleDisabled;
           if (dayjs(date).isBefore(dayjs().startOf('day'))) {
             return isPastDateDisabled ? styles.pastDateTile : '';
           }

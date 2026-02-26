@@ -15,6 +15,11 @@ export const calendarTitle = style([
   },
 ]);
 
+export const calendarTitleDisabled = style({
+  cursor: 'not-allowed',
+  pointerEvents: 'none',
+});
+
 export const calendarHeaderSection = style({
   width: '100%',
   display: 'flex',
