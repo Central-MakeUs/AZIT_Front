@@ -3,7 +3,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -45,12 +45,21 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
       detailData?.ok ? detailData.data.result : undefined
     )
   );
+  const initializedScheduleIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isLoading && detailData && !detailData.ok) {
       replace('NotFoundPage', {});
     }
   }, [isLoading, detailData, replace]);
+
+  useEffect(() => {
+    if (!detailData?.ok) return;
+    if (initializedScheduleIdRef.current === scheduleId) return;
+
+    setFormValues(initializeScheduleFormValues(detailData.data.result));
+    initializedScheduleIdRef.current = scheduleId;
+  }, [detailData, scheduleId, setFormValues]);
 
   const updateMutation = useMutation({
     ...scheduleQueries.updateScheduleMutation,
