@@ -1,7 +1,7 @@
 import { vars } from '@azit/design-system';
 import { ChevronLeftIcon, ChevronRightIcon } from '@azit/design-system/icon';
 import dayjs from 'dayjs';
-import type { Dispatch, SetStateAction } from 'react';
+import { useEffect, type Dispatch, type SetStateAction } from 'react';
 import Calendar from 'react-calendar';
 import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 
@@ -35,24 +35,16 @@ export function ScheduleCalendar({
     else setViewDate(date);
   };
 
+  const currentViewDate = dayjs(explicitViewDate ?? viewDate);
+
   const handlePreviousMonth = () => {
-    handleViewDateChange(
-      dayjs(explicitViewDate ?? viewDate)
-        .subtract(1, 'month')
-        .toDate()
-    );
+    handleViewDateChange(currentViewDate.subtract(1, 'month').toDate());
   };
   const handleNextMonth = () => {
-    handleViewDateChange(
-      dayjs(explicitViewDate ?? viewDate)
-        .add(1, 'month')
-        .toDate()
-    );
+    handleViewDateChange(currentViewDate.add(1, 'month').toDate());
   };
 
-  const activeStartDate = dayjs(explicitViewDate ?? viewDate)
-    .startOf('month')
-    .toDate();
+  const activeStartDate = currentViewDate.startOf('month').toDate();
 
   return (
     <div className={styles.calendarContainer}>
@@ -79,7 +71,7 @@ export function ScheduleCalendar({
       </div>
 
       <Calendar
-        value={value ?? undefined}
+        value={value}
         activeStartDate={activeStartDate}
         onActiveStartDateChange={({ activeStartDate: nextStart }) => {
           if (nextStart && onChange) onChange(nextStart);
