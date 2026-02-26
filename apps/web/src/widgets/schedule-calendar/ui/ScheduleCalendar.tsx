@@ -69,6 +69,7 @@ export function ScheduleCalendar({
         }}
         formatShortWeekday={(_, date) => formatDate(date, 'ddd').toUpperCase()}
         formatDay={(_, date) => formatDate(date, 'D')}
+        calendarType="gregory"
         tileClassName={({ date }) => {
           if (dayjs(date).isBefore(dayjs().startOf('day'))) {
             return isPastDateDisabled ? styles.pastDateTile : '';
