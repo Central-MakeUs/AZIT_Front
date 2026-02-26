@@ -66,6 +66,7 @@ export function ScheduleCreatePage() {
     e.preventDefault();
     if (!validateForm() || crewId <= 0) return;
     const payload = buildCreateSchedulePayload(formValues);
+    if (!payload) return;
     createMutation.mutate({ crewId, payload });
   };
 
