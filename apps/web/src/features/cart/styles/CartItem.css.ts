@@ -50,7 +50,7 @@ export const soldOutOverlay = style({
 export const soldOutText = style([
   typography.body.b3,
   {
-    color: vars.colors.black,
+    color: vars.colors.white,
   },
 ]);
 
