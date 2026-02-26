@@ -1,9 +1,9 @@
 import { Header } from '@azit/design-system/header';
-import { BellIcon } from '@azit/design-system/icon';
+// import { BellIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
-import { useFlow } from '@/app/routes/stackflow';
+// import { useFlow } from '@/app/routes/stackflow';
 
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
@@ -19,11 +19,11 @@ import { BottomNavigation } from '@/shared/ui/navigation';
 import { ScheduleList } from '@/entities/schedule/ui/ScheduleList';
 
 export function HomePage() {
-  const { push } = useFlow();
+  // const { push } = useFlow();
 
-  const handleClick = () => {
-    push('AlertPage', {});
-  };
+  // const handleClick = () => {
+  //   push('AlertPage', {});
+  // };
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
@@ -43,11 +43,11 @@ export function HomePage() {
         <Header
           sticky
           left={<h1 className={logo}>AZIT</h1>}
-          right={
-            <button onClick={handleClick}>
-              <BellIcon size={24} color="default" />
-            </button>
-          }
+          // right={
+          //   <button onClick={handleClick}>
+          //     <BellIcon size={24} color="default" />
+          //   </button>
+          // }
         />
         <div className={scrollContainer}>
           <ScheduleSectionLayout
