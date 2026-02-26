@@ -6,6 +6,7 @@ import * as styles from '@/pages/mypage/styles/MemberViewPage.css';
 
 import { MemberList } from '@/widgets/mypage/ui';
 
+import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
@@ -13,10 +14,26 @@ import { AppLayout } from '@/shared/ui/layout';
 export function MemberViewPage({ params }: { params?: { id?: string } }) {
   const crewId = Number(params?.id) || 0;
 
-  const { data: membersData, isLoading } = useInfiniteQuery({
+  const {
+    data: membersData,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     ...memberQueries.crewMembersQuery(crewId),
     enabled: crewId > 0,
   });
+
+  const { scrollRef, bottomSentinelRef } = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
+
+  const totalCount = membersData?.pages[0]?.ok
+    ? membersData.pages[0].data.result.totalCount
+    : 0;
 
   const members =
     membersData?.pages.flatMap((page) =>
@@ -38,15 +55,16 @@ export function MemberViewPage({ params }: { params?: { id?: string } }) {
         <div className={styles.headerWrapper}>
           <Header left={<BackButton />} center="멤버 목록" />
         </div>
-        <div className={styles.mainContainer}>
-          {members?.length === 0 || isLoading ? (
+        <div className={styles.mainContainer} ref={scrollRef}>
+          {members.length === 0 || isLoading ? (
             <></>
           ) : (
             <>
-              <p className={styles.totalCount}>총 {members.length}명</p>
+              <p className={styles.totalCount}>총 {totalCount}명</p>
               <MemberList members={members} />
             </>
           )}
+          <div ref={bottomSentinelRef} aria-hidden />
         </div>
       </AppLayout>
     </AppScreen>
