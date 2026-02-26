@@ -77,7 +77,7 @@ interface ScheduleDetailPageProps {
 export function ScheduleDetailPage({
   params: { id: scheduleId },
 }: ScheduleDetailPageProps) {
-  const { push, replace } = useFlow();
+  const { push } = useFlow();
   const { pop } = useStack();
   const queryClient = useQueryClient();
 
@@ -108,6 +108,8 @@ export function ScheduleDetailPage({
   const deleteScheduleMutation = useMutation({
     ...scheduleQueries.deleteSchedule,
     onSuccess: () => {
+      pop('SchedulePage');
+
       queryClient.removeQueries({
         queryKey: scheduleQueries.detail(scheduleId),
       });
@@ -118,7 +120,6 @@ export function ScheduleDetailPage({
           return type !== 'detail';
         },
       });
-      replace('SchedulePage', {});
     },
   });
 
