@@ -9,6 +9,8 @@ export const END_POINT = {
   },
   MEMBER: {
     MY_INFO: 'members/me',
+    MY_ATTENDANCE: 'members/me/attendances',
+    MY_ATTENDANCE_CALENDAR: 'members/me/attendances/calendar',
   },
   ONBOARDING: {
     CREATE_CREW: 'crews',
@@ -20,6 +22,8 @@ export const END_POINT = {
   },
   CREW: {
     MEMBERS: (crewId: number) => `crews/${crewId}/members`,
+    MEMBER: (crewId: number, targetMemberId: number) =>
+      `crews/${crewId}/members/${targetMemberId}`,
     JOIN_REQUESTS: (crewId: number) => `crews/${crewId}/join-requests`,
     APPROVE_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
       `crews/${crewId}/join-requests/${targetMemberId}/approve`,
@@ -47,5 +51,22 @@ export const END_POINT = {
     DETAIL: (orderNumber: string) => `orders/${orderNumber}`,
     CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
+  },
+  LOCATION: {
+    SEARCH: 'locations/search',
+  },
+  SCHEDULE: {
+    LIST: (crewId: number) => `crews/${crewId}/schedules`,
+    DETAIL: (crewId: number, scheduleId: number) =>
+      `crews/${crewId}/schedules/${scheduleId}`,
+    CALENDAR: (crewId: number) => `crews/${crewId}/schedules/calendar`,
+    PARTICIPATE: (crewId: number, scheduleId: number) =>
+      `crews/${crewId}/schedules/${scheduleId}/participate`,
+    PARTICIPANTS: (crewId: number, scheduleId: number) =>
+      `crews/${crewId}/schedules/${scheduleId}/participants`,
+    JOINED_LIST: 'members/me/schedules',
+    CHECK_IN: (scheduleId: number) =>
+      `members/me/schedules/${scheduleId}/check-in`,
+    CHECK_IN_STATUS: 'members/me/check-in-status',
   },
 } as const;

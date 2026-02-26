@@ -4,27 +4,26 @@ import Calendar from 'react-calendar';
 import '@/widgets/schedule-calendar/style/ScheduleCalendarBase.css.ts';
 import * as styles from '@/widgets/schedule-calendar/style/ScheduleWeekCalendar.css.ts';
 
+import { formatDate } from '@/shared/lib/formatters';
+
 interface ScheduleWeekCalendarProps {
   value: Date;
   onChange: (date: Date) => void;
-  activeStartDate: Date;
-  onActiveStartDateChange: (date: Date) => void;
 }
 
 export function ScheduleWeekCalendar({
   value,
   onChange,
-  activeStartDate,
-  onActiveStartDateChange,
 }: ScheduleWeekCalendarProps) {
-  const startOfWeek = dayjs(activeStartDate).startOf('week').toDate();
-  const endOfWeek = dayjs(activeStartDate).endOf('week').toDate();
+  const activeStartDate = dayjs(value).startOf('week').toDate();
+  const startOfWeek = dayjs(value).startOf('week').toDate();
+  const endOfWeek = dayjs(value).endOf('week').toDate();
 
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendarHeaderSection}>
         <span className={styles.calendarTitle}>
-          {dayjs(activeStartDate).format('YYYY년 M월')}
+          {formatDate(activeStartDate, 'YYYY년 M월')}
         </span>
       </div>
 
@@ -34,13 +33,11 @@ export function ScheduleWeekCalendar({
           if (date instanceof Date) onChange(date);
         }}
         activeStartDate={activeStartDate}
-        onActiveStartDateChange={({ activeStartDate }) => {
-          if (activeStartDate) onActiveStartDateChange(activeStartDate);
+        onActiveStartDateChange={({ activeStartDate: nextStart }) => {
+          if (nextStart) onChange(nextStart);
         }}
-        formatShortWeekday={(_, date) =>
-          dayjs(date).format('ddd').toUpperCase()
-        }
-        formatDay={(_, date) => dayjs(date).format('D')}
+        formatShortWeekday={(_, date) => formatDate(date, 'ddd').toUpperCase()}
+        formatDay={(_, date) => formatDate(date, 'D')}
         tileDisabled={({ date }) => date < startOfWeek || date > endOfWeek}
       />
     </div>

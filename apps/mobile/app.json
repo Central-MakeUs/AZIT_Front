@@ -17,6 +17,7 @@
           "NSAllowsArbitraryLoads": true,
           "NSAllowsArbitraryLoadsInWebContent": true
         },
+        "LSApplicationQueriesSchemes": ["nmap"],
         "ITSAppUsesNonExemptEncryption": false
       },
       "appleTeamId": "4U9PQRRKLB"
@@ -57,7 +58,6 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-splash-screen",
       ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }]
     ],
     "experiments": {

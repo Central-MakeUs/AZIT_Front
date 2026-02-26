@@ -9,21 +9,21 @@ import {
   POST_MESSAGE_EVENT,
 } from '@azit/bridge';
 import * as Linking from 'expo-linking';
-import { Share } from 'react-native';
+import * as Location from 'expo-location';
+import { Linking as RNLinking, Platform, Share } from 'react-native';
 import { z } from 'zod';
-import { WEBVIEW_URL } from '@/shared/constants/url';
+import {
+  AZIT_APP_NAME,
+  NAVER_MAP_ANDROID_APP_STORE_URL,
+  NAVER_MAP_APP_STORE_URL,
+  WEBVIEW_URL,
+} from '@/shared/constants/url';
 
 /**
  * Web -> Native 브릿지 설정
  * Web 앱에서 호출할 수 있는 Native 메서드들을 정의
  */
 export const appBridge = bridge<AppBridge>({
-  async getMessage() {
-    return "I'm from native";
-  },
-  async openInAppBrowser(url: string) {
-    return;
-  },
   async openExternalBrowser(url: string) {
     await Linking.openURL(url);
   },
@@ -37,6 +37,46 @@ export const appBridge = bridge<AppBridge>({
       message: `[AZIT 일정] 이번 주 정기런/번개런 일정 확정!
 상세 일정을 확인하고, 지금 바로 AZIT 앱에서 신청해 주세요.\n${WEBVIEW_URL}/schedule/${scheduleId}`,
     });
+  },
+  async openNaverMap(address: string, lat: number, lng: number) {
+    const naverMapAppURL = `nmap://place?lat=${lat}&lng=${lng}&name=${encodeURIComponent(address)}&appname=${AZIT_APP_NAME}`;
+
+    try {
+      const supported = await Linking.canOpenURL(naverMapAppURL);
+      if (supported) {
+        await Linking.openURL(naverMapAppURL);
+      } else {
+        await Linking.openURL(
+          Platform.OS === 'ios'
+            ? NAVER_MAP_APP_STORE_URL
+            : NAVER_MAP_ANDROID_APP_STORE_URL
+        );
+      }
+    } catch (error) {
+      console.error('Naver Map app not found or not installed', error);
+    }
+  },
+  async getCurrentPosition(): Promise<{ latitude: number; longitude: number }> {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      throw new Error('Location permission denied');
+    }
+    const position = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    });
+    return {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    };
+  },
+  async getLocationPermissionStatus(): Promise<
+    'granted' | 'denied' | 'undetermined'
+  > {
+    const { status } = await Location.getForegroundPermissionsAsync();
+    return status;
+  },
+  async openLocationSettings(): Promise<void> {
+    await RNLinking.openSettings();
   },
 });
 

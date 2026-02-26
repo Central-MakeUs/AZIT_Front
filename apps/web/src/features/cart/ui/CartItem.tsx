@@ -3,12 +3,13 @@ import { XIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 
-import type { CartProductItem } from '@/features/cart/api/types';
 import { useCartContext } from '@/features/cart/context/CartContext';
 import * as styles from '@/features/cart/styles/CartItem.css';
 import { QuantitySelector } from '@/features/cart/ui/QuantitySelector';
 
 import { formatPrice } from '@/shared/lib/formatters';
+
+import type { CartProductItem } from '@/entities/cart/model';
 
 interface CartItemProps {
   item: CartProductItem;

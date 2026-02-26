@@ -8,8 +8,9 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import * as styles from '@/pages/onboarding/styles/TermAgreePage.css';
 
-import { postTermAgree } from '@/features/onboarding/api/postTermAgree';
-import { TermAgreeItem } from '@/features/onboarding/ui';
+import { TermAgreeItem } from '@/widgets/onboarding/ui';
+
+import { postTermAgree } from '@/features/term-agree/api/postTermAgree';
 
 import { AppLayout } from '@/shared/ui/layout';
 
@@ -33,11 +34,11 @@ const TERM_LIST = [
     label: '개인정보 처리방침',
     required: true,
   },
-  // {
-  //   id: 'locationServiceAgreed',
-  //   label: '위치 기반 서비스 이용약관',
-  //   required: true,
-  // },
+  {
+    id: 'locationServiceAgreed',
+    label: '위치 기반 서비스 이용약관',
+    required: true,
+  },
   {
     id: 'thirdPartyInfoAgreed',
     label: '제 3자 정보제공 동의',
@@ -59,10 +60,11 @@ const TERM_ID_TO_TERM_TYPE: Record<string, string> = {
   serviceTermsAgreed: 'terms-of-service',
   privacyPolicyAgreed: 'privacy-policy',
   thirdPartyInfoAgreed: 'third-party-info-agreement',
+  locationServiceAgreed: 'location-service-agreement',
 };
 
 export function TermAgreePage() {
-  const { replace, push } = useFlow();
+  const { push, replace } = useFlow();
   const [terms, setTerms] = useState<TermsState>(
     () =>
       Object.fromEntries(
@@ -71,7 +73,7 @@ export function TermAgreePage() {
   );
 
   const isAllChecked = useMemo(() => {
-    return Object.values(terms).every((value) => value === true);
+    return TERM_LIST.every((term) => terms[term.id] === true);
   }, [terms]);
 
   const isRequiredChecked = useMemo(() => {
@@ -96,7 +98,13 @@ export function TermAgreePage() {
   };
 
   const handleTermAgree = async () => {
-    const response = await postTermAgree(terms);
+    const requestPayload = {
+      ...terms,
+      marketingTermsAgreed: false,
+      notificationTermsAgreed: false,
+    };
+
+    const response = await postTermAgree(requestPayload);
 
     if (response.ok) {
       replace('OnboardingPage', {}, { animate: false });

@@ -3,8 +3,10 @@ import { useCallback } from 'react';
 
 import { showCartError } from '@/features/cart/lib/showCartError';
 
-import type { CartProductAddRequest } from '@/shared/api/models/cart';
 import { cartQueries } from '@/shared/queries/cart';
+import { toastError } from '@/shared/ui/toast';
+
+import type { CartProductAddRequest } from '@/entities/cart/model';
 
 interface HandleAddItemOptions {
   onSuccess?: () => void;
@@ -50,9 +52,12 @@ export function useCartAction({
         { cartItemId, data: { quantity } },
         {
           onSuccess: () => {},
-          onError: () => {
-            // TODO: 토스트 메시지로 에러 처리하기
-          },
+          onError: (error) =>
+            toastError(
+              error instanceof Error
+                ? error.message
+                : '장바구니 수량 변경에 실패했습니다.'
+            ),
         }
       );
     },

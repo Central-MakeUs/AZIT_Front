@@ -1,6 +1,6 @@
 import type { ButtonProps } from '@azit/design-system/button';
 
-import type { CrewJoinStatusResult } from '@/shared/api/models/crew';
+import type { CrewJoinStatusResult } from '@/entities/crew/model';
 
 export type CrewJoinStatus = CrewJoinStatusResult['status'];
 
@@ -38,10 +38,9 @@ export const STATUS_CONTENT: Record<
     buttonText: '처음으로',
     buttonState: 'active',
   },
-  // TODO: EXITED 관련 요구사항 반영
   EXITED: {
-    primaryMessage: '크루를 탈퇴했어요',
-    secondaryMessage: '크루 초대코드를 다시 확인해주세요',
+    primaryMessage: '리더에 의해 해당 크루에서 방출되었습니다',
+    secondaryMessage: '다시 가입을 원하시면 초대 코드를 새로 확인해 주세요',
     buttonText: '처음으로',
     buttonState: 'active',
   },

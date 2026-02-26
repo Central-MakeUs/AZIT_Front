@@ -30,7 +30,7 @@ globalStyle('.react-calendar__navigation', {
 });
 
 globalStyle(
-  '.react-calendar__month-view__days__day--neighboringMonth, .react-calendar__decade-view__years__year--neighboringDecade, .react-calendar__century-view__decades__decade--neighboringCentury',
+  '.react-calendar__decade-view__years__year--neighboringDecade, .react-calendar__century-view__decades__decade--neighboringCentury',
   {
     display: 'none',
   }
@@ -85,14 +85,17 @@ globalStyle('.react-calendar__tile', {
   borderRadius: '8px',
   width: '100%',
   height: '6vh',
+  border: `1px solid ${vars.colors.white} !important`,
 });
 
 globalStyle('.react-calendar__tile:disabled', {
-  display: 'none',
+  // display: 'none',
+  pointerEvents: 'none',
 });
 
 globalStyle('.react-calendar__month-view__days__day--neighboringMonth', {
-  display: 'none',
+  visibility: 'hidden',
+  pointerEvents: 'none',
 });
 
 globalStyle('.react-calendar__tile--hasActive', {
@@ -106,5 +109,5 @@ globalStyle('.react-calendar__tile--active', {
 });
 
 globalStyle('.react-calendar__tile--now', {
-  border: `1px solid ${vars.colors.blue80} !important`,
+  // border: `1px solid ${vars.colors.blue80} !important`,
 });

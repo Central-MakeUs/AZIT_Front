@@ -2,13 +2,13 @@ import { useActivityParams } from '@stackflow/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import type { CreateOrderResponse } from '@/features/order/api/types';
-
 import { PAYMENT_METHOD_MAP } from '@/shared/constants/order';
 import { parseOrderParams } from '@/shared/lib/orderParams';
 import type { OrderPageParams } from '@/shared/lib/orderParams';
 import { orderQueries } from '@/shared/queries/order';
-import { toast } from '@/shared/ui/toast';
+import { toastError } from '@/shared/ui/toast';
+
+import type { CreateOrderResponse } from '@/entities/order/model';
 
 const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
 
@@ -65,11 +65,11 @@ export function useOrder(options: UseOrderOptions = {}) {
     if (!result) return;
     const delivery = result.deliveryInfo;
     if (!delivery) {
-      toast.error('배송지를 선택해주세요');
+      toastError('배송지를 선택해주세요');
       return;
     }
     if (selectedPaymentCode === BANK_TRANSFER_CODE && !depositorName.trim()) {
-      toast.error('입금자명을 입력해주세요');
+      toastError('입금자명을 입력해주세요');
       return;
     }
 
@@ -93,10 +93,10 @@ export function useOrder(options: UseOrderOptions = {}) {
         onOrderSuccess?.(response.data.result);
       }
       if (!response.ok) {
-        toast.error('주문에 실패했어요');
+        toastError('주문에 실패했어요');
       }
     } catch {
-      toast.error('주문에 실패했어요');
+      toastError('주문에 실패했어요');
     }
   };
 

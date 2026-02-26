@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'] as const;
 
 export const formatOrderDate = (dateString: string | undefined) => {
@@ -41,4 +43,12 @@ export const formatExpectedShippingDate = (dateStr: string) => {
   const day = date.getDate();
   const weekday = date.toLocaleDateString('ko-KR', { weekday: 'short' });
   return `${month}월 ${day}일 (${weekday}) 이내 판매자 발송 예정`;
+};
+
+export const formatDate = (date: Date, format: string) => {
+  return dayjs(date).format(format);
+};
+
+export const normalizeStr = (str: string) => {
+  return str.replace(/\s+/g, '');
 };

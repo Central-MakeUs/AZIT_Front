@@ -1,5 +1,10 @@
 import { useEffect } from 'react';
 
+const androidStoreUrl =
+  'https://play.google.com/store/apps/details?id=com.azitcrew.app';
+const iosStoreUrl =
+  'https://apps.apple.com/kr/app/%EC%95%84%EC%A7%80%ED%8A%B8-azit/id6758881115';
+
 export function KakaoDeeplinkProvider({
   children,
 }: {
@@ -12,20 +17,24 @@ export function KakaoDeeplinkProvider({
 
     if (!isKakao || isAzitWebview) return;
 
+    const isAndroid = ua.includes('android');
+    const isIos = /iphone|ipad|ipod/.test(ua);
+
+    const storeUrl = isAndroid ? androidStoreUrl : isIos ? iosStoreUrl : null;
+
     const targetPath = window.location.pathname + window.location.search;
     const deeplink = `azit://host${targetPath}`;
-    // TODO: android, apple 스토어 리다이렉팅
-    // const storeUrl =
-    //   'https://apps.apple.com/kr/app/%EB%84%A4%EC%9D%B4%EB%B2%84-naver/id393499958';
 
-    // const now = Date.now();
+    const now = Date.now();
     window.location.href = deeplink;
 
-    // setTimeout(() => {
-    //   if (Date.now() - now < 1500) {
-    //     window.location.href = storeUrl;
-    //   }
-    // }, 1200);
+    if (storeUrl) {
+      setTimeout(() => {
+        if (Date.now() - now < 1500) {
+          window.location.href = storeUrl;
+        }
+      }, 1200);
+    }
   }, []);
 
   return <>{children}</>;

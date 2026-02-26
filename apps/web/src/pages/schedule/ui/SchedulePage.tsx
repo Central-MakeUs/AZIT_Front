@@ -1,22 +1,64 @@
 import { Header } from '@azit/design-system/header';
 import { PlusIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 
-import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
+import { useFlow } from '@/app/routes/stackflow';
+
+import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
-import { ScheduleList } from '@/widgets/schedule-list/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
-import { mockScheduleList } from '@/shared/mock/home';
+import { formatDate } from '@/shared/lib/formatters';
+import { useCalendar } from '@/shared/lib/useCalendar';
+import { memberQueries } from '@/shared/queries/member';
+import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
+import type { RunType } from '@/shared/types/schedule';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation';
 
+import { ScheduleList } from '@/entities/schedule/ui';
+
 export function SchedulePage() {
-  const [activeFilter, setActiveFilter] = useState<
-    'all' | 'regular' | 'lightning'
-  >('all');
+  const { push } = useFlow();
+  const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
+  const [searchDate, setSearchDate] = useState<string | undefined>(undefined);
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
+
+  const { selectedDate, setSelectedDate, viewDate, setViewDate } =
+    useCalendar();
+
+  useEffect(() => {
+    setSearchDate(formatDate(selectedDate, 'YYYY-MM-DD'));
+  }, [selectedDate]);
+
+  useEffect(() => {
+    setSearchDate(formatDate(viewDate, 'YYYY-MM'));
+  }, [viewDate]);
+
+  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
+  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const yearMonth = formatDate(viewDate, 'YYYY-MM');
+
+  const { data: scheduleList = [], isLoading } = useQuery({
+    ...scheduleQueries.getScheduleListQuery(crewId, {
+      runType: activeFilter,
+      date: searchDate,
+    }),
+    enabled: crewId > 0,
+  });
+
+  const { data: scheduleCalendarList = [] } = useQuery({
+    ...scheduleQueries.getScheduleCalendarQuery(crewId, { yearMonth }),
+    enabled: crewId > 0 && !!yearMonth,
+  });
 
   return (
     <AppScreen>
@@ -24,16 +66,25 @@ export function SchedulePage() {
         <Header
           sticky
           center="일정"
-          right={<PlusIcon size={24} color="primary" aria-hidden />}
+          right={
+            <button
+              type="button"
+              onClick={() => push('ScheduleCreatePage', {})}
+              aria-label="일정 등록"
+            >
+              <PlusIcon size={24} color="primary" aria-hidden />
+            </button>
+          }
         />
         <div className={scrollContainer}>
           <ScheduleSectionLayout
             topSection={
-              <ScheduleWeekCalendar
-                value={new Date()}
-                onChange={() => {}}
-                activeStartDate={new Date()}
-                onActiveStartDateChange={() => {}}
+              <ScheduleCalendar
+                explicitViewDate={viewDate}
+                onChangeExplicitViewDate={setViewDate}
+                value={selectedDate}
+                onChange={handleDateChange}
+                scheduleData={scheduleCalendarList}
               />
             }
             scheduleContent={
@@ -42,7 +93,15 @@ export function SchedulePage() {
                   activeFilter={activeFilter}
                   onFilterChange={setActiveFilter}
                 />
-                <ScheduleList items={mockScheduleList} />
+                {isLoading ? (
+                  <ScheduleListSkeleton />
+                ) : (
+                  <ScheduleList
+                    items={scheduleList.filter((item) =>
+                      dayjs(item.meetingAt).isAfter(dayjs(selectedDate))
+                    )}
+                  />
+                )}
               </>
             }
           />

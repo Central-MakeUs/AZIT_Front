@@ -2,9 +2,9 @@ import { Description } from '@azit/design-system/description';
 
 import * as styles from '@/widgets/order-product-list/styles/OrderProductItem.css.ts';
 
-import type { OrderItem, OrderItemResponse } from '@/features/order/api/types';
-
 import { formatPrice } from '@/shared/lib/formatters';
+
+import type { OrderItem, OrderItemResponse } from '@/entities/order/model';
 
 type OrderProductListItem = OrderItem | OrderItemResponse;
 

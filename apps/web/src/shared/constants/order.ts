@@ -1,5 +1,4 @@
-import type { PaymentMethod } from '@/features/order/api/types';
-import type { OrderStatus } from '@/features/order-detail/api/types';
+import type { OrderStatus, PaymentMethod } from '@/entities/order/model';
 
 export const PAYMENT_METHOD_MAP: Record<string, PaymentMethod> = {
   BANK_TRANSFER: {
