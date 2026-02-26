@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { toastError } from '@/shared/ui/toast';
+
 import type {
   CreateScheduleRequest,
   CrewScheduleDetailResponse,
@@ -136,7 +138,31 @@ const buildSchedulePayload = (values: ScheduleFormValues) => {
 
 export const buildCreateSchedulePayload = (
   values: ScheduleFormValues
-): CreateScheduleRequest => buildSchedulePayload(values);
+): CreateScheduleRequest | null => {
+  const payload = buildSchedulePayload(values);
+  const { distance, pace, maxParticipants, description } = payload;
+  const missing: string[] = [];
+  if (distance == null) missing.push('거리');
+  if (pace == null) missing.push('페이스');
+  if (maxParticipants == null) missing.push('최대 인원');
+  if (!description?.trim()) missing.push('상세 설명');
+  if (
+    distance == null ||
+    pace == null ||
+    maxParticipants == null ||
+    !description?.trim()
+  ) {
+    toastError(`필수 항목을 입력해주세요: ${missing.join(', ')}`);
+    return null;
+  }
+  return {
+    ...payload,
+    distance,
+    pace,
+    maxParticipants,
+    description,
+  };
+};
 
 export const buildUpdateSchedulePayload = (
   values: ScheduleFormValues

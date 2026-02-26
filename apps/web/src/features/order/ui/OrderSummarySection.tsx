@@ -11,7 +11,7 @@ interface OrderSummarySectionProps {
 export function OrderSummarySection({
   totalProductPrice,
   membershipDiscount,
-  // pointsDiscount,
+  pointsDiscount,
   shippingFee,
   totalPayment,
 }: OrderSummarySectionProps) {
@@ -32,12 +32,12 @@ export function OrderSummarySection({
               -{membershipDiscount.toLocaleString()}원
             </p>
           </div>
-          {/* <div className={styles.discountItem}>
+          <div className={styles.discountItem}>
             <p className={styles.discountLabel}>아지트 포인트 할인</p>
             <p className={styles.discountValue}>
               {pointsDiscount.toLocaleString()}원
             </p>
-          </div> */}
+          </div>
           <div className={styles.priceItem}>
             <p className={styles.priceLabel}>배송비</p>
             <p className={styles.priceValue}>
