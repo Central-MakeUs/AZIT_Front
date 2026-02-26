@@ -12,6 +12,7 @@ import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 import { useOrder } from '@/features/order/model/useOrder';
 import {
   OrderAddressSection,
+  OrderDiscountSection,
   OrderPaymentDescription,
   OrderPaymentMethodSection,
   OrderSummarySection,
@@ -38,6 +39,8 @@ export function OrderPage() {
     depositorName,
     setDepositorName,
     createOrderMutation,
+    usedPoints,
+    setUsedPoints,
     handlers: {
       handlePaymentSelect,
       handlePayment,
@@ -107,7 +110,12 @@ export function OrderPage() {
             title={`주문 상품 총 ${products.length}개`}
             showDivider={false}
           />
-
+          <Divider />
+          <OrderDiscountSection
+            availablePoints={result.pointInfo?.availablePoints ?? 0}
+            usedPoints={usedPoints}
+            onPointsChange={setUsedPoints}
+          />
           <Divider />
           <OrderPaymentMethodSection
             paymentMethods={result.paymentMethods ?? [DEFAULT_PAYMENT_METHOD]}
@@ -125,9 +133,9 @@ export function OrderPage() {
           <OrderSummarySection
             totalProductPrice={totalProductPrice}
             membershipDiscount={membershipDiscount}
-            pointsDiscount={0}
+            pointsDiscount={usedPoints}
             shippingFee={shippingFee}
-            totalPayment={totalPayment}
+            totalPayment={totalPayment - usedPoints}
           />
         </div>
         <div className={footerWrapper}>
@@ -143,7 +151,7 @@ export function OrderPage() {
           >
             {createOrderMutation.isPending
               ? '결제 중...'
-              : `${totalPayment.toLocaleString()}원 결제하기`}
+              : `${(totalPayment - usedPoints).toLocaleString()}원 결제하기`}
           </Button>
         </div>
       </AppLayout>

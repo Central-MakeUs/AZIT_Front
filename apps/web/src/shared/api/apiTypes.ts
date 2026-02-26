@@ -35,9 +35,10 @@ export interface paths {
      *     * 해당 크루의 정회원(JOINED)이어야 합니다. (NOT_A_CREW_MEMBER)
      *     * 정기런으로 수정하거나 정기런을 수정할 경우, 반드시 리더 권한이 있어야 합니다. (ONLY_LEADER_CAN_CREATE_REGULAR_RUN)
      *     * 존재하지 않는 일정 ID를 입력할 경우 수정이 불가합니다. (SCHEDULE_NOT_FOUND)
+     *     * 이미 신청한 일정과 현재 신청하는 일정 간의 시간 차가 60분 미만일 경우 수정이 불가합니다. (SCHEDULE_INTERVAL_TOO_CLOSE)
      *     * 일정 제목: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
      *     * 세부 장소: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
-     *     * 준비물: 최대 5개까지 등록 가능하며, 각 항목은 15자 이내여야 합니다. (INVALID_INPUT_VALUE)
+     *     * 준비물(선택): 최대 5개까지 등록 가능하며, 각 항목은 15자 이내여야 합니다. (INVALID_INPUT_VALUE)
      *     * 모임 시간: 현재 시간보다 과거의 시간으로 수정할 수 없습니다. (INVALID_SCHEDULE_TIME) <br><br>
      */
     put: operations['updateSchedule'];
@@ -266,7 +267,8 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * date (선택): 특정 날짜(yyyy-MM-dd)의 일정만 조회하고 싶을 때 사용합니다. 미입력 시 전체 기간을 조회합니다.
-     *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다. <br><br>
+     *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다.
+     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 기준으로, 출석 가능한 일정부터 조회합니다. <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 해당 크루의 정회원(JOINED)만 조회가 가능합니다. (NOT_A_CREW_MEMBER)
@@ -285,9 +287,10 @@ export interface paths {
      *     **[참고 사항]** <br>
      *     * 해당 크루의 정회원(JOINED)만 일정을 생성할 수 있습니다. (NOT_A_CREW_MEMBER)
      *     * 정기런은 크루의 리더만 생성 가능합니다. (ONLY_LEADER_CAN_CREATE_REGULAR_RUN)
+     *     * 이미 신청한 일정과 현재 신청하는 일정 간의 시간 차가 60분 미만일 경우 생성이 불가합니다. (SCHEDULE_INTERVAL_TOO_CLOSE)
      *     * 일정 제목: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
      *     * 세부 장소: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
-     *     * 준비물: 최대 5개까지 등록 가능하며, 각 항목은 15자 이내여야 합니다. (INVALID_INPUT_VALUE)
+     *     * 준비물(선택): 최대 5개까지 등록 가능하며, 각 항목은 15자 이내여야 합니다. (INVALID_INPUT_VALUE)
      *     * 모임 시간: 현재 시간보다 과거의 시간으로 생성할 수 없습니다. (INVALID_SCHEDULE_TIME)
      */
     post: operations['createSchedule'];
@@ -1419,19 +1422,19 @@ export interface components {
        * Format: int32
        * @description 목표 거리 (km)
        */
-      distance?: number;
+      distance: number;
       /**
        * Format: int32
        * @description 목표 페이스 (분/km)
        */
-      pace?: number;
+      pace: number;
       /**
        * Format: int32
        * @description 최대 모집 인원
        */
-      maxParticipants?: number;
+      maxParticipants: number;
       /** @description 상세 설명 */
-      description?: string;
+      description: string;
       /**
        * @description 준비물 리스트 (각 최대 15자, 최대 5개)
        * @example [
@@ -3384,6 +3387,8 @@ export interface operations {
       query?: {
         /** @description 조회 날짜 (yyyy-MM-dd) */
         date?: string;
+        /** @description 조회 연월 (yyyy-MM) */
+        yearMonth?: string;
         /** @description 러닝 타입 */
         runType?: 'REGULAR' | 'LIGHTNING';
       };
