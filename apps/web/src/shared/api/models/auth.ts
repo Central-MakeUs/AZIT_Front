@@ -9,4 +9,6 @@ export type SocialLoginResult = Required<
 export type ReissueTokenResult = Required<
   components['schemas']['SocialLoginResponse']
 >;
-export type TermAgreeRequest = components['schemas']['AgreeToTermsRequest'];
+export type TermAgreeRequest = Required<
+  components['schemas']['AgreeToTermsRequest']
+>;
