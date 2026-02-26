@@ -34,33 +34,45 @@ const OrderPage = lazyImport(
   'OrderPage'
 );
 const OrderCompletePage = lazyImport(
-  () => import('@/pages/order-complete/ui/OrderCompletePage'),
+  () => import('@/pages/order/ui/OrderCompletePage'),
   'OrderCompletePage'
 );
 const OrderDetailPage = lazyImport(
-  () => import('@/pages/order-detail/ui/OrderDetailPage'),
+  () => import('@/pages/order/ui/OrderDetailPage'),
   'OrderDetailPage'
 );
-const MyPage = lazyImport(() => import('@/pages/my/ui/MyPage'), 'MyPage');
+const MyPage = lazyImport(() => import('@/pages/mypage/ui/MyPage'), 'MyPage');
 const OrderHistory = lazyImport(
-  () => import('@/pages/order-history/ui/OrderHistoryPage'),
+  () => import('@/pages/order/ui/OrderHistoryPage'),
   'OrderHistoryPage'
 );
 const NotificationSettingsPage = lazyImport(
-  () => import('@/pages/mypage-notification/ui/NotificationSettingsPage'),
-  'NotificationSettingsPage'
+  () => import('@/pages/mypage/ui/MyNotificationPage'),
+  'MyNotificationPage'
 );
 const CrewJoinStatusPage = lazyImport(
   () => import('@/pages/crew-join-status/ui/CrewJoinStatusPage'),
   'CrewJoinStatusPage'
 );
+const CrewBannedStatusPage = lazyImport(
+  () => import('@/pages/crew-join-status/ui/CrewBannedStatusPage'),
+  'CrewBannedStatusPage'
+);
 const ScheduleDetailPage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleDetailPage'),
   'ScheduleDetailPage'
 );
+const ScheduleEditPage = lazyImport(
+  () => import('@/pages/schedule/ui/ScheduleEditPage'),
+  'ScheduleEditPage'
+);
 const ScheduleMembersPage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleMembersPage'),
   'ScheduleMembersPage'
+);
+const ScheduleCreatePage = lazyImport(
+  () => import('@/pages/schedule/ui/ScheduleCreatePage'),
+  'ScheduleCreatePage'
 );
 const HomeAlertPage = lazyImport(
   () => import('@/pages/home-alert/ui/HomeAlertPage'),
@@ -71,8 +83,8 @@ const SchedulePage = lazyImport(
   'SchedulePage'
 );
 const AttendancePage = lazyImport(
-  () => import('@/pages/mypage-attendance/ui/AttendancePage'),
-  'AttendancePage'
+  () => import('@/pages/mypage/ui/MyAttendancePage'),
+  'MyAttendancePage'
 );
 const AddressSettingPage = lazyImport(
   () => import('@/pages/address/ui/AddressSettingPage'),
@@ -95,12 +107,16 @@ const TermDetailPage = lazyImport(
   'TermDetailPage'
 );
 const MemberManagePage = lazyImport(
-  () => import('@/pages/my/ui/MemberManagePage'),
+  () => import('@/pages/mypage/ui/MemberManagePage'),
   'MemberManagePage'
 );
 const MemberViewPage = lazyImport(
-  () => import('@/pages/my/ui/MemberViewPage'),
+  () => import('@/pages/mypage/ui/MemberViewPage'),
   'MemberViewPage'
+);
+const ScheduleLocationPage = lazyImport(
+  () => import('@/pages/schedule/ui/ScheduleLocationPage'),
+  'ScheduleLocationPage'
 );
 
 export const routes = [
@@ -145,6 +161,12 @@ export const routes = [
     path: '/schedule',
     element: SchedulePage,
     withAuth: false,
+  },
+  {
+    name: 'ScheduleCreatePage',
+    path: '/schedule/create',
+    element: ScheduleCreatePage,
+    withAuth: true,
   },
   {
     name: 'StorePage',
@@ -213,9 +235,21 @@ export const routes = [
     withAuth: true,
   },
   {
+    name: 'CrewBannedStatusPage',
+    path: '/crew-join/status/banned',
+    element: CrewBannedStatusPage,
+    withAuth: true,
+  },
+  {
     name: 'ScheduleDetailPage',
     path: '/schedule/:id',
     element: ScheduleDetailPage,
+    withAuth: true,
+  },
+  {
+    name: 'ScheduleEditPage',
+    path: '/schedule/:id/edit',
+    element: ScheduleEditPage,
     withAuth: true,
   },
   {
@@ -270,6 +304,12 @@ export const routes = [
     name: 'MemberViewPage',
     path: '/crew/:id/members',
     element: MemberViewPage,
+    withAuth: true,
+  },
+  {
+    name: 'ScheduleLocationPage',
+    path: '/schedule/location/search',
+    element: ScheduleLocationPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];

@@ -2,11 +2,11 @@ import { Button } from '@azit/design-system/button';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { StoreSkeleton } from '@/widgets/skeleton/ui';
+import { StoreGrid } from '@/widgets/store/ui/StoreGrid';
 
 import { useStoreGrid } from '@/features/store/model/useStoreGrid';
 import * as styles from '@/features/store/styles/StoreGridView.css.ts';
 // import { StoreBanner } from '@/features/store/ui/StoreBanner';
-import { StoreGrid } from '@/features/store/ui/StoreGrid';
 
 import { storeQueries } from '@/shared/queries';
 import { scrollContainer } from '@/shared/styles/container.css';
