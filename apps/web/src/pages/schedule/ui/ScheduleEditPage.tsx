@@ -3,7 +3,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -17,10 +17,12 @@ import {
 import { useScheduleFormState } from '@/widgets/schedule-form/model/useScheduleFormState';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
+import { ApiError } from '@/shared/api/apiHandler';
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { toastError } from '@/shared/ui/toast';
 
 export function ScheduleEditPage({ params }: { params: { id: number } }) {
   const { pop, replace, push } = useFlow();
@@ -45,6 +47,7 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
       detailData?.ok ? detailData.data.result : undefined
     )
   );
+  const initializedScheduleIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isLoading && detailData && !detailData.ok) {
@@ -52,11 +55,29 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     }
   }, [isLoading, detailData, replace]);
 
+  useEffect(() => {
+    if (!detailData?.ok) return;
+    if (initializedScheduleIdRef.current === scheduleId) return;
+
+    setFormValues(initializeScheduleFormValues(detailData.data.result));
+    initializedScheduleIdRef.current = scheduleId;
+  }, [detailData, scheduleId, setFormValues]);
+
   const updateMutation = useMutation({
     ...scheduleQueries.updateScheduleMutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: scheduleQueries.all });
       pop();
+    },
+    onError: (error) => {
+      if (
+        error instanceof ApiError &&
+        error.code === 'SCHEDULE_INTERVAL_TOO_CLOSE'
+      ) {
+        toastError('이전 일정과 시작 시간이 너무 가깝습니다');
+        return;
+      }
+      toastError('일정 수정에 실패했습니다.');
     },
   });
 
