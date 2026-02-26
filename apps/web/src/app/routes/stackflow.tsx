@@ -11,7 +11,7 @@ import { transformRoutes } from '@/app/routes/utils';
 
 const { activities, routeMap } = transformRoutes(routes);
 
-export const { Stack, useFlow } = stackflow({
+export const { Stack, useFlow, actions } = stackflow({
   transitionDuration: 350,
   plugins: [
     basicRendererPlugin(),
