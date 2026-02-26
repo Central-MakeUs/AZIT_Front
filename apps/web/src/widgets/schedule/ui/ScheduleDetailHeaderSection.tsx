@@ -7,12 +7,11 @@ import {
   MEMBER_ROLE_LABEL,
   ROLE_CHIP_TYPE_MAP,
 } from '@/shared/constants/member-role';
-import type { RunType } from '@/shared/types/schedule';
 
 import type { MemberRole } from '@/entities/user/model';
 
 interface ScheduleDetailHeaderSectionProps {
-  runType: RunType;
+  runType: string;
   distance: string;
   pace: string;
   title: string;
@@ -30,12 +29,12 @@ export function ScheduleDetailHeaderSection({
   creatorProfileImageUrl,
   creatorRole,
 }: ScheduleDetailHeaderSectionProps) {
+  const runTypeChipType = runType === '정기런' ? 'primary' : 'secondary';
+
   return (
     <div className={styles.section}>
       <div className={styles.tagRow}>
-        <Chip type={runType === 'REGULAR' ? 'primary' : 'secondary'}>
-          {runType}
-        </Chip>
+        <Chip type={runTypeChipType}>{runType}</Chip>
         <Chip type="gray">{distance}</Chip>
         <Chip type="gray">{pace}</Chip>
       </div>
