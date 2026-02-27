@@ -24,7 +24,7 @@ export const formatMeetTime = (meetingAt: string) => {
 
   return {
     date: d.locale('ko').format('YYYY.M.D(ddd)'),
-    time: d.format('HH:mm'),
+    time: d.locale('ko').format('A h:mm'),
   };
 };
 
@@ -40,6 +40,6 @@ export const formatMeetingListDate = (meetingAt?: string) => {
   return {
     month: `${d.month() + 1}월`,
     day: `${d.date()}일`,
-    time: d.format('HH:mm'),
+    time: d.locale('ko').format('A h:mm'),
   };
 };
