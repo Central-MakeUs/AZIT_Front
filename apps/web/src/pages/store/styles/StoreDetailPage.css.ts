@@ -182,6 +182,7 @@ export const selectedOptionContainer = style({
   position: 'absolute',
   bottom: '0px',
   width: '100%',
+  height: 'fit-content',
 });
 
 export const selectedOptionList = style({
