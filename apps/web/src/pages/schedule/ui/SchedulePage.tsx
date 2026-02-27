@@ -34,7 +34,7 @@ export function SchedulePage() {
   const { selectedDate, setSelectedDate, viewDate, setViewDate } =
     useCalendar();
   const [searchDate, setSearchDate] = useState<string>(
-    formatDate(viewDate, 'YYYY-MM')
+    formatDate(selectedDate, 'YYYY-MM-DD')
   );
 
   useEffect(() => {
