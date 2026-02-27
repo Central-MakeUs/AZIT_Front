@@ -17,7 +17,7 @@ export const headerWrapper = style([layoutStyles.headerWrapper]);
 export const markdownContainer = style([
   layoutStyles.mainContainer,
   {
-    backgroundColor: vars.colors.background_sub,
+    backgroundColor: vars.colors.background,
     padding: 20,
     fontFamily: vars.typography.fontFamily.primary,
     color: vars.colors.gray100,
