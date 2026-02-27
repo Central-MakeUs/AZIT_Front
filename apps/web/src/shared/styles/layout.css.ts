@@ -23,6 +23,6 @@ export const layoutStyles = {
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: vars.colors.white,
-    padding: '20px',
+    padding: '20px 20px 0px 20px',
   }),
 };
