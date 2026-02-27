@@ -1,5 +1,5 @@
 import { vars } from '@azit/design-system';
-import { CheckIcon, MarkerPinIcon } from '@azit/design-system/icon';
+import { CheckCircleBrokenIcon, MarkerPinIcon } from '@azit/design-system/icon';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'motion/react';
 
@@ -173,7 +173,10 @@ function ScheduleActivatedSection({
               <div className={styles.buttonContent}>
                 <div className={styles.iconWrapper}>
                   {isCheckedIn ? (
-                    <CheckIcon size={48} style={{ color: 'white' }} />
+                    <CheckCircleBrokenIcon
+                      size={48}
+                      style={{ color: 'white' }}
+                    />
                   ) : (
                     <MarkerPinIcon size={48} style={{ color: 'white' }} />
                   )}
