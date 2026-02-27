@@ -7,7 +7,8 @@ const pulse = keyframes({
 });
 
 const skeletonBase = style({
-  backgroundColor: vars.colors.gray20,
+  backgroundColor: vars.colors.gray10,
+  opacity: 0.2,
   borderRadius: '4px',
   animation: `${pulse} 1.5s ease-in-out infinite`,
 });

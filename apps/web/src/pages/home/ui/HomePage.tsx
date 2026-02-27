@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
-import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
 import { memberQueries } from '@/shared/queries';
 import { scheduleQueries } from '@/shared/queries/schedule';
@@ -59,11 +58,11 @@ export function HomePage() {
             }
             scheduleTitle="내 일정"
             scheduleContent={
-              isLoading ? (
-                <ScheduleListSkeleton />
-              ) : (
-                <ScheduleList items={scheduleList} isHomePage />
-              )
+              <ScheduleList
+                items={scheduleList}
+                isHomePage
+                isLoading={isLoading}
+              />
             }
           />
         </div>
