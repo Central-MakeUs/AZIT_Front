@@ -26,3 +26,8 @@ export const value = style([
     color: vars.colors.blue80,
   },
 ]);
+
+export const icon = style({
+  width: 20,
+  height: 20,
+});
