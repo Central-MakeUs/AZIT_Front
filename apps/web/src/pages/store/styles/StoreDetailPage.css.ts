@@ -180,7 +180,7 @@ export const selectedOptionContainer = style({
   gap: '16px',
   alignItems: 'center',
   position: 'absolute',
-  bottom: '20px',
+  bottom: '0px',
   width: '100%',
 });
 
