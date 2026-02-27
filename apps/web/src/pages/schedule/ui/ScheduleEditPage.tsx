@@ -43,9 +43,9 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
   });
 
   const { formValues, setFormValues, validateForm } = useScheduleFormState(
-    initializeScheduleFormValues(
-      detailData?.ok ? detailData.data.result : undefined
-    )
+    initializeScheduleFormValues({
+      initialValues: detailData?.ok ? detailData.data.result : undefined,
+    })
   );
   const initializedScheduleIdRef = useRef<number | null>(null);
 
@@ -59,7 +59,9 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
     if (!detailData?.ok) return;
     if (initializedScheduleIdRef.current === scheduleId) return;
 
-    setFormValues(initializeScheduleFormValues(detailData.data.result));
+    setFormValues(
+      initializeScheduleFormValues({ initialValues: detailData.data.result })
+    );
     initializedScheduleIdRef.current = scheduleId;
   }, [detailData, scheduleId, setFormValues]);
 

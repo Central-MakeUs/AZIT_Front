@@ -24,7 +24,7 @@ import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { toastError } from '@/shared/ui/toast';
 
-export function ScheduleCreatePage() {
+export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   const { pop, push } = useFlow();
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
@@ -34,7 +34,7 @@ export function ScheduleCreatePage() {
     myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
 
   const { formValues, setFormValues, validateForm } = useScheduleFormState(
-    initializeScheduleFormValues()
+    initializeScheduleFormValues({ params })
   );
 
   useEffect(() => {

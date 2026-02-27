@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { formatDate } from '@/shared/lib/formatters';
 import { toastError } from '@/shared/ui/toast';
 
 import type {
@@ -75,8 +76,8 @@ const defaultScheduleFormValues: ScheduleFormValues = {
   title: '',
   date: '',
   amPm: 'AM',
-  hour: 9,
-  minute: 30,
+  hour: null,
+  minute: null,
   locationName: '',
   address: '',
   detailedLocation: '',
@@ -205,29 +206,35 @@ const parseMeetingAt = (meetingAt: string) => {
   };
 };
 
-export const initializeScheduleFormValues = (
-  detail?: CrewScheduleDetailResponse
-): ScheduleFormValues => {
-  if (!detail) return { ...defaultScheduleFormValues };
+export const initializeScheduleFormValues = (options?: {
+  initialValues?: CrewScheduleDetailResponse;
+  params?: { date?: Date };
+}) => {
+  const { initialValues, params } = options ?? {};
 
-  const { date, amPm, hour, minute } = parseMeetingAt(detail.meetingAt);
+  if (params && params.date) {
+    const dateStr = formatDate(params.date, 'YYYY-MM-DD');
+    return { ...defaultScheduleFormValues, date: dateStr };
+  }
+
+  if (!initialValues) return { ...defaultScheduleFormValues };
 
   return {
-    runType: detail.runType,
-    title: detail.title,
-    date,
-    amPm,
-    hour,
-    minute,
-    locationName: detail.locationInfo.placeName,
-    address: detail.locationInfo.address,
-    detailedLocation: detail.locationInfo.meetingSpot,
-    latitude: detail.locationInfo.latitude,
-    longitude: detail.locationInfo.longitude,
-    distance: detail.distance ?? null,
-    pace: detail.pace ?? null,
-    maxParticipants: detail.maxParticipants ?? null,
-    description: detail.description ?? '',
-    supplies: detail.supplies.length > 0 ? detail.supplies : [''],
+    runType: initialValues.runType,
+    title: initialValues.title,
+    locationName: initialValues.locationInfo.placeName,
+    address: initialValues.locationInfo.address,
+    detailedLocation: initialValues.locationInfo.meetingSpot,
+    latitude: initialValues.locationInfo.latitude,
+    longitude: initialValues.locationInfo.longitude,
+    distance: initialValues.distance ?? null,
+    pace: initialValues.pace ?? null,
+    maxParticipants: initialValues.maxParticipants ?? null,
+    description: initialValues.description ?? '',
+    supplies:
+      initialValues.supplies && initialValues.supplies.length > 0
+        ? initialValues.supplies
+        : [''],
+    ...parseMeetingAt(initialValues.meetingAt),
   };
 };
