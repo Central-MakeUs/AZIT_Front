@@ -129,7 +129,6 @@ export const bottomSheetContent = style({
   flexDirection: 'column',
   gap: '12px',
   alignItems: 'center',
-  paddingBottom: '80px',
   width: '100%',
 });
 
