@@ -14,7 +14,9 @@ export const emptyContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  height: '220px',
+  height: 'fit-content',
+  minHeight: '220px',
+  padding: '10px 0px 100px 0px',
   gap: '16px',
 });
 
