@@ -2,7 +2,6 @@ import { Header } from '@azit/design-system/header';
 import { PlusIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -38,12 +37,18 @@ export function SchedulePage() {
   );
 
   useEffect(() => {
-    setSearchDate(formatDate(selectedDate, 'YYYY-MM-DD'));
-  }, [selectedDate]);
+    if (selectedDate.getMonth() !== viewDate.getMonth()) {
+      setSearchDate(formatDate(viewDate, 'YYYY-MM'));
+    } else {
+      setSearchDate(formatDate(selectedDate, 'YYYY-MM-DD'));
+    }
+    setActiveFilter(undefined);
+  }, [viewDate]);
 
   useEffect(() => {
-    setSearchDate(formatDate(viewDate, 'YYYY-MM'));
-  }, [viewDate]);
+    setSearchDate(formatDate(selectedDate, 'YYYY-MM-DD'));
+    setActiveFilter(undefined);
+  }, [selectedDate]);
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
@@ -102,11 +107,7 @@ export function SchedulePage() {
                 {isLoading ? (
                   <ScheduleListSkeleton />
                 ) : (
-                  <ScheduleList
-                    items={scheduleList.filter((item) =>
-                      dayjs(item.meetingAt).isAfter(dayjs(selectedDate))
-                    )}
-                  />
+                  <ScheduleList items={scheduleList} />
                 )}
               </>
             }
