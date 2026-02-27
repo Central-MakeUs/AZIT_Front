@@ -33,9 +33,8 @@ export function SchedulePage() {
 
   const { selectedDate, setSelectedDate, viewDate, setViewDate } =
     useCalendar();
-
   const [searchDate, setSearchDate] = useState<string>(
-    formatDate(viewDate, 'YYYY-MM')
+    formatDate(selectedDate, 'YYYY-MM-DD')
   );
 
   useEffect(() => {
@@ -73,7 +72,10 @@ export function SchedulePage() {
           right={
             <button
               type="button"
-              onClick={() => push('ScheduleCreatePage', {})}
+              onClick={() => {
+                const params = selectedDate ? { date: selectedDate } : {};
+                push('ScheduleCreatePage', params);
+              }}
               aria-label="일정 등록"
             >
               <PlusIcon size={24} color="primary" aria-hidden />
