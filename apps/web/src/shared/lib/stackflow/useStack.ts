@@ -6,9 +6,11 @@ export const useStack = () => {
 
   const pop = (fallback?: ActivityName) => {
     const stack = actions.getStack();
-    const stackSize = stack.activities.length;
+    const currentActivityIdx = stack.activities.findIndex(
+      (activity) => activity.isActive
+    );
 
-    if (stackSize === 1 && fallback) {
+    if (currentActivityIdx === 0 && fallback) {
       push(fallback, {}, { animate: false });
       return;
     }
