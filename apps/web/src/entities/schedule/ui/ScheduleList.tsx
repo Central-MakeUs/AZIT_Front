@@ -10,9 +10,14 @@ import { ScheduleListItem } from '@/entities/schedule/ui/ScheduleListItem';
 interface ScheduleListProps {
   items: ScheduleListItemType[];
   isHomePage?: boolean;
+  isLoading?: boolean;
 }
 
-export function ScheduleList({ items, isHomePage = false }: ScheduleListProps) {
+export function ScheduleList({
+  items,
+  isHomePage = false,
+  isLoading,
+}: ScheduleListProps) {
   const { push } = useFlow();
 
   const handleClickItem = (item: ScheduleListItemType) => {
@@ -20,6 +25,14 @@ export function ScheduleList({ items, isHomePage = false }: ScheduleListProps) {
   };
 
   const renderItem = () => {
+    if (isLoading) {
+      return (
+        <div className={styles.emptyContainer}>
+          <p className={styles.emptyText}>등록된 일정이 없어요</p>
+        </div>
+      );
+    }
+
     if (items.length === 0) {
       if (isHomePage) {
         return (

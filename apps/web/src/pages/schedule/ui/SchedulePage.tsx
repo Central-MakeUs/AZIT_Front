@@ -9,7 +9,6 @@ import { useFlow } from '@/app/routes/stackflow';
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
-import { ScheduleListSkeleton } from '@/widgets/skeleton/ui';
 
 import { formatDate } from '@/shared/lib/formatters';
 import { useCalendar } from '@/shared/lib/useCalendar';
@@ -104,11 +103,7 @@ export function SchedulePage() {
                   activeFilter={activeFilter}
                   onFilterChange={setActiveFilter}
                 />
-                {isLoading ? (
-                  <ScheduleListSkeleton />
-                ) : (
-                  <ScheduleList items={scheduleList} />
-                )}
+                <ScheduleList items={scheduleList} isLoading={isLoading} />
               </>
             }
           />
