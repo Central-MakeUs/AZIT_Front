@@ -41,7 +41,6 @@ export function TermDetailPage() {
       <AppLayout>
         <div className={styles.headerWrapper}>
           <Header
-            color="sub"
             sticky
             left={<BackButton />}
             center={TERM_CONTENT_MAP[termType].title}
