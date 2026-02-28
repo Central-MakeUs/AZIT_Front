@@ -16,7 +16,7 @@ export function AttendanceRecordList({ records }: AttendanceRecordListProps) {
         <CalendarIcon
           size={64}
           color="secondary"
-          strokeWidth={0.5}
+          strokeWidth={1.2}
           aria-hidden
         />
         <p className={styles.emptyText}>이번 달에는 참여한 일정이 없어요!</p>

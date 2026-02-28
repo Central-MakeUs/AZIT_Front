@@ -37,7 +37,7 @@ export function ScheduleList({
       if (isHomePage) {
         return (
           <div className={styles.emptyContainer}>
-            <CalendarIcon size={64} color="secondary" strokeWidth={0.5} />
+            <CalendarIcon size={64} color="secondary" strokeWidth={1.2} />
             <p className={styles.emptyText}>일정 탭에서 일정을 추가해보세요!</p>
             <Button
               size="medium"
