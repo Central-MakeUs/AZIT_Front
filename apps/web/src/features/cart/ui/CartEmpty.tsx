@@ -15,7 +15,7 @@ export function CartEmpty() {
   return (
     <div className={styles.container}>
       <div className={styles.iconTextContainer}>
-        <ShoppingBagIcon size={64} color="secondary" />
+        <ShoppingBagIcon size={64} color="secondary" strokeWidth={1.2} />
         <p className={styles.emptyText}>장바구니가 비어있어요</p>
       </div>
       <Button state="outline" onClick={handleClick}>
