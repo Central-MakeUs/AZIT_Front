@@ -116,7 +116,7 @@ export const scheduleQueries = {
       queryKey: scheduleQueries.detail(scheduleId),
       queryFn: async () => getScheduleDetail(crewId, scheduleId),
       enabled: crewId > 0 && scheduleId > 0,
-      staleTime: 1000 * 60 * 5,
+      staleTime: 0,
       retry: 0,
     }),
   scheduleParticipantsQuery: (crewId: number, scheduleId: number) =>
