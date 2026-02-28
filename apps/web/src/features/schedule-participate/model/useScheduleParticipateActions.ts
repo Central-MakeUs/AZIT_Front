@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { ApiError } from '@/shared/api/apiHandler';
+import { memberQueries } from '@/shared/queries';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { toastError, toastSuccess } from '@/shared/ui/toast';
 
@@ -22,6 +23,10 @@ export function useScheduleParticipateActions({
     onSuccess: () => {
       toastSuccess('신청이 완료되었습니다');
       queryClient.invalidateQueries({ queryKey: scheduleAllQueryKey });
+      queryClient.invalidateQueries({ queryKey: memberQueries.myInfoKey() });
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.checkInStatusKey(),
+      });
     },
     onError: (error) => {
       if (
@@ -40,6 +45,10 @@ export function useScheduleParticipateActions({
     onSuccess: () => {
       toastSuccess('신청이 취소되었습니다');
       queryClient.invalidateQueries({ queryKey: scheduleAllQueryKey });
+      queryClient.invalidateQueries({ queryKey: memberQueries.myInfoKey() });
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.checkInStatusKey(),
+      });
     },
   });
 
