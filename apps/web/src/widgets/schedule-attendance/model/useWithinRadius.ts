@@ -32,10 +32,21 @@ export const useWithinRadius = (
       if (isFetchingRef.current) return;
       isFetchingRef.current = true;
       try {
-        if (typeof bridge.getCurrentPosition === 'function') {
-          const coords = await bridge.getCurrentPosition();
-          setUserPosition({ lat: coords.latitude, lng: coords.longitude });
+        const getPosition = bridge.getCurrentPosition;
+        if (typeof getPosition !== 'function') {
+          isFetchingRef.current = false;
+          return;
         }
+        const getPermissionStatus = bridge.getLocationPermissionStatus;
+        if (typeof getPermissionStatus === 'function') {
+          const status = await getPermissionStatus();
+          if (status !== 'granted') {
+            isFetchingRef.current = false;
+            return;
+          }
+        }
+        const coords = await getPosition();
+        setUserPosition({ lat: coords.latitude, lng: coords.longitude });
       } catch {
         toastError('위치 정보를 가져오지 못했어요. 권한을 확인해주세요.');
       } finally {
