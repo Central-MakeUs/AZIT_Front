@@ -37,14 +37,6 @@ export const useWithinRadius = (
           isFetchingRef.current = false;
           return;
         }
-        const getPermissionStatus = bridge.getLocationPermissionStatus;
-        if (typeof getPermissionStatus === 'function') {
-          const status = await getPermissionStatus();
-          if (status !== 'granted') {
-            isFetchingRef.current = false;
-            return;
-          }
-        }
         const coords = await getPosition();
         setUserPosition({ lat: coords.latitude, lng: coords.longitude });
       } catch {
