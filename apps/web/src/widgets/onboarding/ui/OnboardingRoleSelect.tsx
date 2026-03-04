@@ -16,6 +16,7 @@ export interface OnboardingRoleCardItemProps {
   icon: ReactNode;
   label: string;
   isSelected: boolean;
+  disabled?: boolean;
   onClick: () => void;
 }
 
@@ -23,6 +24,7 @@ export function OnboardingRoleCardItem({
   icon,
   label,
   isSelected,
+  disabled = false,
   onClick,
 }: OnboardingRoleCardItemProps) {
   return (
@@ -30,6 +32,11 @@ export function OnboardingRoleCardItem({
       type="button"
       className={clsx(styles.roleCard, isSelected && styles.roleCardSelected)}
       onClick={onClick}
+      disabled={disabled}
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+      }}
     >
       <div className={styles.roleCardIcon}>{icon}</div>
       <span className={styles.roleCardLabel}>{label}</span>
@@ -68,6 +75,7 @@ export function OnboardingRoleSelect({
             label="크루 만들기"
             isSelected={selectedRole === 'leader'}
             onClick={() => handleRoleSelect('leader')}
+            disabled
           />
           <OnboardingRoleCardItem
             icon={<UsersIcon size={36} color="primary" />}
