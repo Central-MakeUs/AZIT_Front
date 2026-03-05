@@ -4,9 +4,5 @@ export const getQueryParam = (
 ): string | undefined => {
   const value = new URLSearchParams(search).get(key);
 
-  if (!value) {
-    return undefined;
-  }
-
-  return value;
+  return value ?? undefined;
 };
