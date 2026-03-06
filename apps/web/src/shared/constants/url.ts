@@ -6,3 +6,5 @@ export const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 export const NAVER_MAP_MARKER_ICON_URL = import.meta.env
   .VITE_NAVER_MAP_MARKER_ICON_URL;
 export const KAKAO_INQUIRY_CHAT_URL = 'http://pf.kakao.com/_uxlqgn/chat';
+export const GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSfJzLCp1qSB7ced8F9WtaXbojCSeFUikb6cDDXucnL6v4pMJQ/viewform?usp=header';
