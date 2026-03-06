@@ -8,6 +8,8 @@ import { StoreGrid } from '@/widgets/store/ui/StoreGrid';
 import { useStoreGrid } from '@/features/store/model/useStoreGrid';
 import * as styles from '@/features/store/styles/StoreGridView.css.ts';
 
+import { GOOGLE_FORM_URL } from '@/shared/constants/url';
+import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { storeQueries } from '@/shared/queries';
 import { scrollContainer } from '@/shared/styles/container.css';
 
@@ -29,7 +31,7 @@ export function StoreGridView() {
     <div ref={scrollRef} className={scrollContainer}>
       <div className={styles.mainContainer}>
         <div className={styles.bannerSection}>
-          <StoreBanner>
+          <StoreBanner handleClick={() => openExternalUrl(GOOGLE_FORM_URL)}>
             <StoreBanner.Title>
               <span>[구글폼] AZIT에게 한마디 하기</span>
             </StoreBanner.Title>
