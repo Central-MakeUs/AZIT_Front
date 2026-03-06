@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 import { useKakaoLogin } from '@/features/auth/model';
 
@@ -28,8 +28,25 @@ export const useSocialLogin = () => {
     }
   };
 
+  const isDisabledRef = useRef(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  const preventMultipleClicks = (ms: number) => {
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current);
+    }
+
+    isDisabledRef.current = true;
+    timeoutRef.current = window.setTimeout(() => {
+      isDisabledRef.current = false;
+      timeoutRef.current = null;
+    }, ms);
+  };
+
   const loginWithApple = () => {
-    window.location.href = `${APPLE_AUTHORIZE_URL}&state=${window.location.origin}/store`;
+    if (isDisabledRef.current) return;
+    preventMultipleClicks(2000);
+    window.location.href = `${APPLE_AUTHORIZE_URL}&state=${window.location.origin}`;
   };
 
   const loginWith = useCallback(async (provider: AuthProvider) => {
