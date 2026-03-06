@@ -18,6 +18,11 @@ export const bannerSection = style({
   width: '100%',
 });
 
+export const bannerDescriptionText = style({
+  width: '100%',
+  textAlign: 'end',
+});
+
 export const productsSection = style({
   display: 'flex',
   flexDirection: 'column',
