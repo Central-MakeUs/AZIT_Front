@@ -14,6 +14,7 @@ import { OnboardingRoleSelect } from '@/widgets/onboarding/ui/OnboardingRoleSele
 import { postCreateCrew } from '@/features/crew-create/api/postCreateCrew';
 import { postJoinCrew } from '@/features/crew-join/api/postJoinCrew';
 
+import { getQueryParam } from '@/shared/lib/url';
 import { useFunnel } from '@/shared/lib/useFunnel';
 import { AppLayout } from '@/shared/ui/layout';
 
@@ -46,6 +47,7 @@ type OnboardingState = {
 export function OnboardingPage() {
   const { replace } = useFlow();
   const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
+  const defaultInviteCode = getQueryParam('inviteCode');
 
   const [onboardingState, setOnboardingState] = useState<OnboardingState>(
     () => {
@@ -144,6 +146,7 @@ export function OnboardingPage() {
             name="enter-invite-code"
             render={(context) => (
               <OnboardingCrewJoin
+                defaultValue={defaultInviteCode}
                 onNext={async (inviteCode, crewId) => {
                   const response = await postJoinCrew({
                     invitationCode: inviteCode,

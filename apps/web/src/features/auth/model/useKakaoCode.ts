@@ -4,6 +4,7 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { postSocialLogin } from '@/features/auth/api/postSocialLogin';
 
+import { getQueryParam } from '@/shared/lib/url';
 import { useAuthStore } from '@/shared/store/auth';
 
 export const useKakaoCode = () => {
@@ -15,7 +16,7 @@ export const useKakaoCode = () => {
   const { replace } = useFlow();
 
   useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get('code');
+    const code = getQueryParam('code');
 
     if (code) {
       login(code);
