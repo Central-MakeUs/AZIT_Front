@@ -32,9 +32,7 @@ export function StoreGridView() {
       <div className={styles.mainContainer}>
         <div className={styles.bannerSection}>
           <StoreBanner handleClick={() => openExternalUrl(GOOGLE_FORM_URL)}>
-            <StoreBanner.Title>
-              <span>[구글폼] AZIT에게 한마디 하기</span>
-            </StoreBanner.Title>
+            <StoreBanner.Title>[구글폼] AZIT에게 한마디 하기</StoreBanner.Title>
             <StoreBanner.Description>
               <p>정성 가득 피드백 주시면</p>
               <p className={styles.bannerDescriptionText}>
