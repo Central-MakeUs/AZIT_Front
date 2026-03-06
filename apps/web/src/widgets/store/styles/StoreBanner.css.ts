@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 
 export const banner = style({
   width: '100%',
-  minHeight: '130px',
+  minHeight: '100px',
   borderRadius: '12px',
   padding: 20,
   background:
@@ -12,7 +12,7 @@ export const banner = style({
 });
 
 export const bannerTitle = style([
-  typography.heading.h2,
+  typography.heading.h3,
   {
     color: vars.colors.white,
     marginBottom: 3,
@@ -20,7 +20,7 @@ export const bannerTitle = style([
 ]);
 
 export const bannerDescription = style([
-  typography.body.b1,
+  typography.body.b2,
   {
     width: '100%',
     color: vars.colors.white,
