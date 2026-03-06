@@ -3,30 +3,26 @@ import { style } from '@vanilla-extract/css';
 
 export const banner = style({
   width: '100%',
-  height: '130px',
+  minHeight: '130px',
   borderRadius: '12px',
+  padding: 20,
   background:
     'linear-gradient(110.083deg, rgba(0, 94, 237, 0.6) 2.3182%, rgba(0, 94, 237, 0.48) 34.31%, rgba(150, 201, 101, 0.48) 66.765%, rgba(216, 249, 41, 0.6) 96.439%)',
-  position: 'relative',
   overflow: 'hidden',
 });
 
 export const bannerTitle = style([
   typography.heading.h2,
   {
-    position: 'absolute',
-    left: '24px',
-    top: '24px',
     color: vars.colors.white,
+    marginBottom: 3,
   },
 ]);
 
 export const bannerDescription = style([
   typography.body.b1,
   {
-    position: 'absolute',
-    left: '24px',
-    top: '64px',
+    width: '100%',
     color: vars.colors.white,
   },
 ]);

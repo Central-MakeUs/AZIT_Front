@@ -22,12 +22,12 @@ export interface OnboardingCrewJoinProps {
 const INVITE_CODE_LENGTH = 6;
 
 export function OnboardingCrewJoin({
-  defaultValue,
+  defaultValue = '',
   onNext,
   onPrev,
 }: OnboardingCrewJoinProps) {
   const [hasValidationError, setHasValidationError] = useState(false);
-  const [inviteCode, setInviteCode] = useState(defaultValue ?? '');
+  const [inviteCode, setInviteCode] = useState(defaultValue);
   const [crewInfo, setCrewInfo] = useState<CrewInfoResult | null>(null);
   const isActive = inviteCode.length === INVITE_CODE_LENGTH;
 
