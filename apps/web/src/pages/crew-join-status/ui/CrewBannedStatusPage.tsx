@@ -20,7 +20,7 @@ export function CrewBannedStatusPage() {
       if (!data.ok) return null;
       const result = data.data.result;
       if (result.status === 'KICKED_PENDING_CONFIRM') {
-        return { ...result, status: CREW_JOIN_STATUS.EXITED };
+        return { ...result, status: CREW_JOIN_STATUS.EXPELLED };
       }
 
       return result;
@@ -34,7 +34,7 @@ export function CrewBannedStatusPage() {
   }
 
   const { crewName, crewImageUrl } = data;
-  const content = STATUS_CONTENT['EXITED'];
+  const content = STATUS_CONTENT['EXPELLED'];
 
   return (
     <AppScreen backgroundColor={vars.colors.white}>
