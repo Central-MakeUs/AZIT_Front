@@ -8,9 +8,31 @@ export type CrewScheduleListResponse =
 export type CrewScheduleListRequest = NonNullable<
   operations['getCrewSchedules']['parameters']['query']
 >;
-export type CrewScheduleDetailResponse = RequiredDeep<
-  components['schemas']['CrewScheduleDetailResponse']
->;
+
+// TODO: OAS 변경 후 타입 가드 제거
+export type ScheduleParticipantDetail = Omit<
+  RequiredDeep<components['schemas']['ParticipantResponse']>,
+  'nickname' | 'profileImageUrl'
+> & {
+  nickname: string | null;
+  profileImageUrl: string | null;
+};
+
+export type CrewScheduleDetailResponse = Omit<
+  RequiredDeep<components['schemas']['CrewScheduleDetailResponse']>,
+  | 'creatorId'
+  | 'creatorNickname'
+  | 'creatorProfileImageUrl'
+  | 'creatorRole'
+  | 'participants'
+> & {
+  creatorId: number | null;
+  creatorNickname: string | null;
+  creatorProfileImageUrl: string | null;
+  creatorRole: 'LEADER' | 'MEMBER' | null;
+  participants: ScheduleParticipantDetail[];
+};
+
 export type CrewScheduleCalendarResponse = ScheduleCalendarItem[];
 export type CrewScheduleCalendarRequest = NonNullable<
   operations['getMonthlySchedulesForCalendar']['parameters']['query']
