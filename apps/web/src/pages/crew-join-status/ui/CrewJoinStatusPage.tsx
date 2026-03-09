@@ -33,11 +33,6 @@ export function CrewJoinStatusPage({
   }
 
   const { status, name } = data.data.result;
-
-  if (status === 'EXITED') {
-    return null;
-  }
-
   const content = STATUS_CONTENT[status];
 
   return (
