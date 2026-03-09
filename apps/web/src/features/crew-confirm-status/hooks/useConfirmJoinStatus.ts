@@ -43,7 +43,7 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
     if (
       status === CREW_JOIN_STATUS.JOINED ||
       status === CREW_JOIN_STATUS.REJECTED ||
-      status === CREW_JOIN_STATUS.EXITED
+      status === CREW_JOIN_STATUS.EXPELLED
     ) {
       confirmJoinStatusMuation.mutate();
     }
