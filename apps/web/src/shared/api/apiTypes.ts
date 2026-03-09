@@ -268,7 +268,7 @@ export interface paths {
      *     **[쿼리 파라미터]** <br>
      *     * date (선택): 특정 날짜(yyyy-MM-dd)의 일정만 조회하고 싶을 때 사용합니다. 미입력 시 전체 기간을 조회합니다.
      *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다.
-     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 기준으로, 출석 가능한 일정부터 조회합니다. <br><br>
+     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 기준으로 조회합니다. <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 해당 크루의 정회원(JOINED)만 조회가 가능합니다. (NOT_A_CREW_MEMBER)
@@ -848,8 +848,8 @@ export interface paths {
      *
      *     **[참고 사항]** <br>
      *     * 출석 가능 시간 (isAvailableTime): 일정 시작 1시간 전부터 1시간 후 사이인 경우 true를 반환합니다.
-     *     * 출석 완료 시점부터 최소 30분, 혹은 일정 시작 후 최대 3시간까지 출석 완료 화면을 유지합니다.
-     *     * 하루에 여러 일정이 있을 때, 앞선 일정 출석 완료 후 30분 동안은 다음 일정이 활성화되는 시간(1시간 전)이더라도 출석 완료 화면을 유지해야 합니다.
+     *     * 일정 시작 시점부터 최소 1시간, 혹은 일정 시작 후 최대 3시간까지 출석 완료 화면을 유지합니다.
+     *     * 하루에 여러 일정이 있을 때, 앞선 일정 시작 이후 1시간 동안은 다음 일정이 활성화되는 시간(1시간 전)이더라도 출석 완료를 유지합니다.
      *     <br><br>
      *
      *     **[UI 설정 가이드]** <br>
@@ -2241,6 +2241,20 @@ export interface components {
       currentParticipants?: number;
       /** @description 준비물 리스트 */
       supplies?: string[];
+      /**
+       * Format: int64
+       * @description 생성자 ID
+       */
+      creatorId?: number;
+      /** @description 생성자 닉네임 */
+      creatorNickname?: string;
+      /** @description 생성자 프로필 이미지 */
+      creatorProfileImageUrl?: string;
+      /**
+       * @description 생성자 크루 내 역할
+       * @enum {string}
+       */
+      creatorRole?: 'LEADER' | 'MEMBER';
       /** @description 내가 생성한 일정인지 여부 */
       isMine?: boolean;
       /** @description 내가 참여 중인 일정인지 여부 */
@@ -2402,7 +2416,7 @@ export interface components {
        * @description 멤버 상태
        * @enum {string}
        */
-      status?: 'REQUESTED' | 'JOINED' | 'REJECTED' | 'EXITED';
+      status?: 'REQUESTED' | 'JOINED' | 'REJECTED' | 'EXITED' | 'EXPELLED';
     };
     CommonResponseListJoinRequestMemberResponse: {
       code?: string;
