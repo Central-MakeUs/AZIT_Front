@@ -64,6 +64,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     scheduleId: detail.scheduleId,
     isCreator: detail.isMine,
     isParticipating: detail.isParticipating,
+    isCheckedIn: detail.isCheckedIn,
     isFull: detail.currentParticipants === detail.maxParticipants,
     hasMoreParticipants: detail.hasMoreParticipants,
   };
@@ -189,6 +190,7 @@ export function ScheduleDetailPage({
 
   const isCreator = scheduleDetailViewData.isCreator;
   const isParticipating = scheduleDetailViewData.isParticipating;
+  const isCheckedIn = scheduleDetailViewData.isCheckedIn;
   const isFull = scheduleDetailViewData.isFull;
 
   return (
@@ -248,12 +250,17 @@ export function ScheduleDetailPage({
           />
         </div>
         <div className={styles.footerWrapper}>
-          <Show when={!isCreator && isFull && !isParticipating}>
+          <Show when={!!isCheckedIn}>
+            <Button size="large" state="disabled" disabled>
+              이미 참여한 일정이에요
+            </Button>
+          </Show>
+          <Show when={!isCheckedIn && !isCreator && isFull && !isParticipating}>
             <Button size="large" state="disabled" disabled>
               신청이 마감되었어요
             </Button>
           </Show>
-          <Show when={isCreator}>
+          <Show when={!isCheckedIn && isCreator}>
             <div className={styles.creatorButtonWrapper}>
               <AlertDialog
                 trigger={
@@ -272,7 +279,7 @@ export function ScheduleDetailPage({
               </Button>
             </div>
           </Show>
-          <Show when={!isCreator && isParticipating}>
+          <Show when={!isCheckedIn && !isCreator && isParticipating}>
             <Button
               size="large"
               state="outline"
@@ -282,7 +289,9 @@ export function ScheduleDetailPage({
               취소하기
             </Button>
           </Show>
-          <Show when={!isCreator && !isFull && !isParticipating}>
+          <Show
+            when={!isCheckedIn && !isCreator && !isFull && !isParticipating}
+          >
             <Button
               size="large"
               state="active"
