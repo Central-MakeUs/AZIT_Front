@@ -327,7 +327,8 @@ export interface paths {
      *
      *     **[참고 사항]** <br>
      *     * 일정 생성자는 본인의 일정 참여를 취소할 수 없습니다. (CREATOR_CANNOT_CANCEL_PARTICIPATION)
-     *     * 참여하지 않은 일정에 대해 취소 요청을 할 수 없습니다. (NOT_PARTICIPATING_SCHEDULE)
+     *     * 참여하지 않은 일정은 취소할 수 없습니다. (NOT_PARTICIPATING_SCHEDULE)
+     *     * 이미 출석한 일정은 취소할 수 없습니다. (CANNOT_CANCEL_AFTER_CHECK_IN)
      */
     delete: operations['cancelParticipation'];
     options?: never;
@@ -2259,6 +2260,8 @@ export interface components {
       isMine?: boolean;
       /** @description 내가 참여 중인 일정인지 여부 */
       isParticipating?: boolean;
+      /** @description 출석 완료 여부 */
+      isCheckedIn?: boolean;
       /** @description 참여 멤버 미리보기 리스트(최대 10명) */
       participants?: components['schemas']['ParticipantResponse'][];
       /** @description 참여자 명단이 더 있는지 여부 (10명 초과 시 true) */
