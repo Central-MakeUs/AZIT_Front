@@ -9,6 +9,7 @@ import { useFlow } from '@/app/routes/stackflow';
 import * as styles from '@/pages/onboarding/styles/TermAgreePage.css';
 
 import { TermAgreeItem } from '@/widgets/onboarding/ui';
+import { fetchUserPosition } from '@/widgets/schedule-attendance/model/location';
 
 import { postTermAgree } from '@/features/term-agree/api/postTermAgree';
 
@@ -98,6 +99,8 @@ export function TermAgreePage() {
   };
 
   const handleTermAgree = async () => {
+    await fetchUserPosition({ showErrorToast: false });
+
     const requestPayload = {
       ...terms,
       marketingTermsAgreed: false,
