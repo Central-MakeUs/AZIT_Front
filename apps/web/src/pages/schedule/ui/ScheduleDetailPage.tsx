@@ -39,16 +39,15 @@ import type { CrewScheduleDetailResponse } from '@/entities/schedule/model/sched
 
 const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
   const { date, time } = formatMeetTime(detail.meetingAt);
-  const creator = detail.participants.find((p) => p.isCreator)!;
 
   return {
     runType: formatRunType(detail.runType),
     distance: formatDistance(detail.distance),
     pace: formatPace(detail.pace),
     title: detail.title,
-    creatorName: creator.nickname,
-    creatorRole: creator.role,
-    creatorProfileImageUrl: creator.profileImageUrl,
+    creatorName: detail.creatorNickname,
+    creatorRole: detail.creatorRole,
+    creatorProfileImageUrl: detail.creatorProfileImageUrl,
     date,
     time,
     locationName: detail.locationInfo.placeName,
