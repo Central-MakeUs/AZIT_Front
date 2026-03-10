@@ -1,61 +1,25 @@
 import { vars } from '@azit/design-system';
 import { CheckCircleBrokenIcon, MarkerPinIcon } from '@azit/design-system/icon';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'motion/react';
 
 import * as styles from '@/widgets/schedule-attendance/styles/ScheduleAttendanceSection.css';
 import { ScheduleAttendanceSkeleton } from '@/widgets/skeleton/ui';
-
-import { memberQueries, scheduleQueries } from '@/shared/queries';
-import { toastSuccess } from '@/shared/ui/toast';
-
-import { useWithinRadius } from '../model/useWithinRadius';
 
 import type { ScheduleCheckInStatusResponse } from '@/entities/schedule/model/schedule.model';
 
 export function ScheduleAttendanceSection({
   checkInStatus,
   isCheckInStatusPending,
+  canCheckIn,
+  onCheckIn,
 }: {
   checkInStatus: ScheduleCheckInStatusResponse | null | undefined;
   isCheckInStatusPending: boolean;
+  canCheckIn: boolean;
+  onCheckIn: () => void;
 }) {
-  const queryClient = useQueryClient();
-
   const todayInfo = checkInStatus?.todayScheduleInfo;
   const isCheckedIn = todayInfo?.isCheckedIn === true;
-  const isAvailableTime = todayInfo?.isAvailableTime === true;
-
-  const scheduleCheckInMutation = useMutation({
-    ...scheduleQueries.scheduleCheckInMutation,
-    onSuccess: () => {
-      toastSuccess('출석이 완료되었습니다');
-      queryClient.invalidateQueries({
-        queryKey: scheduleQueries.checkInStatusKey(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: memberQueries.myInfoKey(),
-      });
-    },
-  });
-
-  const { isWithinRadius, userPosition } = useWithinRadius(
-    todayInfo?.latitude,
-    todayInfo?.longitude,
-    !!todayInfo && isAvailableTime
-  );
-
-  const handleCheckIn = () => {
-    if (!todayInfo?.scheduleId) return;
-    if (!userPosition?.lat || !userPosition?.lng) return;
-    scheduleCheckInMutation.mutate({
-      scheduleId: todayInfo.scheduleId,
-      payload: {
-        latitude: userPosition.lat,
-        longitude: userPosition.lng,
-      },
-    });
-  };
 
   if (isCheckInStatusPending) return <ScheduleAttendanceSkeleton />;
   if (!checkInStatus) {
@@ -63,9 +27,7 @@ export function ScheduleAttendanceSection({
   }
 
   if (checkInStatus.hasScheduleToday && todayInfo) {
-    const canCheckIn = isWithinRadius && !isCheckedIn && isAvailableTime;
-    const showDisabledByTimeOrDistance =
-      !isCheckedIn && (!isAvailableTime || !isWithinRadius);
+    const showDisabledByTimeOrDistance = !isCheckedIn && !canCheckIn;
 
     if (canCheckIn) {
       return (
@@ -73,7 +35,7 @@ export function ScheduleAttendanceSection({
           isCheckedIn={false}
           runType={todayInfo.runType ?? 'REGULAR'}
           title={todayInfo.title ?? ''}
-          onCheckIn={handleCheckIn}
+          onCheckIn={onCheckIn}
         />
       );
     }
