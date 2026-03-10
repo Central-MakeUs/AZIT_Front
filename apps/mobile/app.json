@@ -23,7 +23,7 @@
       "appleTeamId": "4U9PQRRKLB"
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 6,
       "intentFilters": [
         {
           "action": "VIEW",
@@ -41,6 +41,13 @@
           "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
+      "manifest": {
+        "queries": [
+          {
+            "package": "com.kakao.talk"
+          }
+        ]
+      },
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/icon.png",
