@@ -15,8 +15,8 @@ interface ScheduleDetailHeaderSectionProps {
   distance: string;
   pace: string;
   title: string;
-  creatorName: string;
-  creatorProfileImageUrl?: string;
+  creatorName: string | null;
+  creatorProfileImageUrl: string;
   creatorRole: MemberRole;
 }
 
@@ -30,6 +30,7 @@ export function ScheduleDetailHeaderSection({
   creatorRole,
 }: ScheduleDetailHeaderSectionProps) {
   const runTypeChipType = runType === '정기런' ? 'primary' : 'secondary';
+  const name = creatorName ?? '알수 없는 사용자';
 
   return (
     <div className={styles.section}>
@@ -40,13 +41,9 @@ export function ScheduleDetailHeaderSection({
       </div>
       <h1 className={styles.title}>{title}</h1>
       <div className={styles.leaderRow}>
-        <RoundProfileImage
-          src={creatorProfileImageUrl}
-          alt={creatorName}
-          size={36}
-        />
+        <RoundProfileImage src={creatorProfileImageUrl} alt={name} size={36} />
         <div className={styles.creatorInfo}>
-          <span className={styles.creatorName}>{creatorName}</span>
+          <span className={styles.creatorName}>{name}</span>
           <Chip type={ROLE_CHIP_TYPE_MAP[creatorRole]}>
             {MEMBER_ROLE_LABEL[creatorRole]}
           </Chip>
