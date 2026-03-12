@@ -39,7 +39,8 @@ export interface paths {
      *     * 일정 제목: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
      *     * 세부 장소: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
      *     * 준비물(선택): 최대 5개까지 등록 가능하며, 각 항목은 15자 이내여야 합니다. (INVALID_INPUT_VALUE)
-     *     * 모임 시간: 현재 시간보다 과거의 시간으로 수정할 수 없습니다. (INVALID_SCHEDULE_TIME) <br><br>
+     *     * 모임 시간: 현재 시간보다 과거의 시간으로 수정할 수 없습니다. (INVALID_SCHEDULE_TIME)
+     *     * 출석을 시작한 일정은 수정이 불가능합니다. (SCHEDULE_MODIFICATION_NOT_ALLOWED_TIME) <br><br>
      */
     put: operations['updateSchedule'];
     post?: never;
@@ -51,6 +52,7 @@ export interface paths {
      *     * 해당 일정을 생성한 본인만 취소할 수 있습니다. (FORBIDDEN_ERROR)
      *     * 해당 크루의 정회원(JOINED 상태)이어야 합니다. (NOT_A_CREW_MEMBER)
      *     * 이미 취소된 일정은 다시 취소할 수 없습니다. (ALREADY_CANCELLED_SCHEDULE)
+     *     * 출석을 시작한 일정은 삭제가 불가능합니다. (SCHEDULE_MODIFICATION_NOT_ALLOWED_TIME)
      */
     delete: operations['cancelSchedule'];
     options?: never;
@@ -2262,6 +2264,8 @@ export interface components {
       isParticipating?: boolean;
       /** @description 출석 완료 여부 */
       isCheckedIn?: boolean;
+      /** @description 수정 및 삭제 가능 여부 */
+      isModifiable?: boolean;
       /** @description 참여 멤버 미리보기 리스트(최대 10명) */
       participants?: components['schemas']['ParticipantResponse'][];
       /** @description 참여자 명단이 더 있는지 여부 (10명 초과 시 true) */
