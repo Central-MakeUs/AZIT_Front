@@ -64,6 +64,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     isCreator: detail.isMine,
     isParticipating: detail.isParticipating,
     isCheckedIn: detail.isCheckedIn,
+    isModifiable: detail.isModifiable ?? true,
     isFull: detail.currentParticipants === detail.maxParticipants,
     hasMoreParticipants: detail.hasMoreParticipants,
   };
@@ -190,6 +191,7 @@ export function ScheduleDetailPage({
   const isCreator = scheduleDetailViewData.isCreator;
   const isParticipating = scheduleDetailViewData.isParticipating;
   const isCheckedIn = scheduleDetailViewData.isCheckedIn;
+  const isModifiable = scheduleDetailViewData.isModifiable;
   const isFull = scheduleDetailViewData.isFull;
 
   return (
@@ -263,7 +265,10 @@ export function ScheduleDetailPage({
             <div className={styles.creatorButtonWrapper}>
               <AlertDialog
                 trigger={
-                  <Button size="large" state="outline">
+                  <Button
+                    size="large"
+                    state={isModifiable ? 'outline' : 'disabled'}
+                  >
                     삭제하기
                   </Button>
                 }
@@ -273,7 +278,11 @@ export function ScheduleDetailPage({
                 cancelText="취소하기"
                 onAction={handleDelete}
               />
-              <Button size="large" state="active" onClick={handleEdit}>
+              <Button
+                size="large"
+                state={isModifiable ? 'active' : 'disabled'}
+                onClick={handleEdit}
+              >
                 수정하기
               </Button>
             </div>
