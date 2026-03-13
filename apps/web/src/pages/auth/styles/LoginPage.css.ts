@@ -6,20 +6,20 @@ export const loginContainer = composeStyles(
   container,
   style({
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     position: 'relative',
+    minHeight: '100%',
   })
 );
 
 export const logoWrapper = style({
-  position: 'absolute',
-  top: 280,
+  position: 'fixed',
+  top: 240,
+  left: 0,
+  right: 0,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'flex-start',
 });
 
 export const logoImage = style({
@@ -37,7 +37,7 @@ export const statusText = style({
 });
 
 export const buttonWrapper = style({
-  position: 'absolute',
+  position: 'fixed',
   left: 20,
   right: 20,
   bottom: 100,
@@ -45,7 +45,6 @@ export const buttonWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: 12,
-  marginTop: 185,
 });
 
 export const textWrapper = style({
