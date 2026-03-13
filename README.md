@@ -1,7 +1,6 @@
 # 🏃‍♂️ AZIT (아지트) - 러닝 크루를 위한 운영 및 제휴 서비스
 ![](https://img.shields.io/badge/CMC_18th-청춘탐험대-blue) ![](https://img.shields.io/github/contributors/Central-MakeUs/AZIT_Front) ![](https://img.shields.io/github/last-commit/Central-MakeUs/AZIT_Front)
-<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/447349c4-98e3-447d-8d09-1e6d7b23c9ca" />
-
+<img width="1920" height="1080" alt="azit_ppt" src="https://github.com/user-attachments/assets/9f771a69-1f18-42d4-9948-20c80396a81c" />
 
 **"크루원과 함께하는 실시간 출석 인증부터 아지트 전용 스토어까지"**
 
@@ -123,9 +122,7 @@ pnpm dev:mobile
 # 전체 빌드
 pnpm build
 
+
 # Web만
 pnpm build:web
 ```
-
-
-- 프로젝트 구조는 [위키](https://github.com/Central-MakeUs/AZIT_Front/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0)를 참고해주세요!
