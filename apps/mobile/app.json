@@ -23,7 +23,7 @@
       "appleTeamId": "4U9PQRRKLB"
     },
     "android": {
-      "versionCode": 6,
+      "versionCode": 9,
       "intentFilters": [
         {
           "action": "VIEW",
@@ -45,6 +45,14 @@
         "queries": [
           {
             "package": "com.kakao.talk"
+          },
+          {
+            "intent": {
+              "action": "android.intent.action.VIEW",
+              "data": {
+                "scheme": "kakaotalk"
+              }
+            }
           }
         ]
       },
