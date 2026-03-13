@@ -2,6 +2,11 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+const COLORS = {
+  gradientStart: '#003483',
+  gradientEnd: '#000b1d',
+} as const;
+
 export default function CustomAnimatedSplash({
   onFinish,
 }: {
@@ -17,7 +22,7 @@ export default function CustomAnimatedSplash({
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={['#003483', '#000b1d']}
+        colors={[COLORS.gradientStart, COLORS.gradientEnd]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={StyleSheet.absoluteFill}
@@ -27,7 +32,7 @@ export default function CustomAnimatedSplash({
         style={styles.symbolImage}
         resizeMode="stretch"
       />
-      <View style={styles.logoContainer}>
+      <View style={styles.logoWrapper}>
         <Image
           source={require('../assets/images/splash-icon.png')}
           style={styles.logoImage}
@@ -46,11 +51,13 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     zIndex: 9999,
   },
-  logoContainer: {
+  logoWrapper: {
+    position: 'absolute',
+    top: 280,
+    left: 0,
+    right: 0,
     alignItems: 'center',
     zIndex: 10,
   },
@@ -63,6 +70,6 @@ const styles = StyleSheet.create({
     width: 470,
     height: 470,
     bottom: -150,
-    right: -30,
+    right: -100,
   },
 });

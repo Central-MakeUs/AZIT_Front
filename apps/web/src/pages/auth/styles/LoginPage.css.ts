@@ -1,4 +1,3 @@
-import { typography, vars } from '@azit/design-system';
 import { composeStyles, style } from '@vanilla-extract/css';
 
 import { container } from '@/shared/styles/container.css';
@@ -15,7 +14,7 @@ export const loginContainer = composeStyles(
   })
 );
 
-export const titleWrapper = style({
+export const logoWrapper = style({
   position: 'absolute',
   top: 280,
   display: 'flex',
@@ -23,21 +22,19 @@ export const titleWrapper = style({
   alignItems: 'center',
 });
 
-export const title = style({
-  fontSize: 64,
-  fontWeight: 400,
-  lineHeight: 1.4,
-  color: vars.colors.white,
-  fontFamily: 'Tilt Warp',
-  letterSpacing: '2.5px',
+export const logoImage = style({
+  width: 182,
+  height: 112,
+  objectFit: 'contain',
 });
 
-export const description = style([
-  typography.body.b2,
-  {
-    color: vars.colors.white,
-  },
-]);
+export const statusText = style({
+  marginTop: 8,
+  fontSize: 16,
+  fontWeight: 500,
+  lineHeight: 1.4,
+  color: '#FFFFFF',
+});
 
 export const buttonWrapper = style({
   position: 'absolute',
