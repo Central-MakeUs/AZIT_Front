@@ -53,6 +53,17 @@
                 "scheme": "kakaotalk"
               }
             }
+          },
+          {
+            "package": "com.nhn.android.nmap"
+          },
+          {
+            "intent": {
+              "action": "android.intent.action.VIEW",
+              "data": {
+                "scheme": "nmap"
+              }
+            }
           }
         ]
       },
