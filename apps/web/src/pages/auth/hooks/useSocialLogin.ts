@@ -6,8 +6,8 @@ import type { AuthProvider } from '@/shared/api/models/auth';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
 import {
   APPLE_AUTHORIZE_URL,
-  KAKAO_AUTHORIZE_URL,
-  KAKAO_REST_API_KEY,
+  // KAKAO_AUTHORIZE_URL,
+  // KAKAO_REST_API_KEY,
 } from '@/shared/constants/url';
 
 export const useSocialLogin = () => {
@@ -19,13 +19,15 @@ export const useSocialLogin = () => {
   });
 
   const loginWithKakao = () => {
-    const isAndroid = /Android/i.test(navigator.userAgent);
+    handleKakaoLogin();
 
-    if (isAndroid) {
-      window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_AUTHORIZE_URL}`;
-    } else {
-      handleKakaoLogin();
-    }
+    // const isAndroid = /Android/i.test(navigator.userAgent);
+
+    // if (isAndroid) {
+    //   window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_AUTHORIZE_URL}`;
+    // } else {
+    //   handleKakaoLogin();
+    // }
   };
 
   const isDisabledRef = useRef(false);
