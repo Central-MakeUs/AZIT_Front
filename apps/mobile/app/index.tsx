@@ -96,14 +96,16 @@ export default function App() {
 
   const isHomePath = currentUrl.includes('/auth');
 
+  const safeAreaEdges = isHomePath ? (['top'] as const) : undefined;
+
   return (
     <SafeAreaProvider>
       {showSplash && <CustomAnimatedSplash onFinish={handleSplashFinish} />}
       <SafeAreaView
+        edges={safeAreaEdges}
         style={{
           flex: 1,
           backgroundColor: isHomePath ? 'transparent' : '#ffffff',
-          // paddingBottom: Platform.OS === 'ios' ? -24 : 0,
         }}
       >
         {isHomePath && (
