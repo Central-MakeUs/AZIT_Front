@@ -23,11 +23,12 @@ export function LoginPage() {
       backgroundImage={`linear-gradient(180deg, ${vars.colors.blue90} 0%, #000b1d 100%)`}
     >
       <section className={styles.loginContainer}>
-        <div className={styles.titleWrapper}>
-          <h2 className={styles.title}>AZIT</h2>
-          <p className={styles.description}>
-            러닝 크루를 위한 운영 및 제휴 서비스
-          </p>
+        <div className={styles.logoWrapper}>
+          <img
+            src="/icons/icon-splash-logo.png"
+            alt="AZIT"
+            className={styles.logoImage}
+          />
         </div>
         <img
           src="/icons/icon-splash-symbol.svg"

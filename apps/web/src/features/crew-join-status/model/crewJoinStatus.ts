@@ -9,6 +9,7 @@ export const CREW_JOIN_STATUS = {
   JOINED: 'JOINED',
   REJECTED: 'REJECTED',
   EXITED: 'EXITED',
+  EXPELLED: 'EXPELLED',
 } as const;
 
 export const STATUS_CONTENT: Record<
@@ -38,7 +39,14 @@ export const STATUS_CONTENT: Record<
     buttonText: '처음으로',
     buttonState: 'active',
   },
+  // TODO: 크루 직접 탈퇴 관련 메시지 재정의
   EXITED: {
+    primaryMessage: '리더에 의해 해당 크루에서 방출되었습니다',
+    secondaryMessage: '다시 가입을 원하시면 초대 코드를 새로 확인해 주세요',
+    buttonText: '처음으로',
+    buttonState: 'active',
+  },
+  EXPELLED: {
     primaryMessage: '리더에 의해 해당 크루에서 방출되었습니다',
     secondaryMessage: '다시 가입을 원하시면 초대 코드를 새로 확인해 주세요',
     buttonText: '처음으로',

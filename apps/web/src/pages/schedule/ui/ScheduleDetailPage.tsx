@@ -39,16 +39,15 @@ import type { CrewScheduleDetailResponse } from '@/entities/schedule/model/sched
 
 const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
   const { date, time } = formatMeetTime(detail.meetingAt);
-  const creator = detail.participants.find((p) => p.isCreator)!;
 
   return {
     runType: formatRunType(detail.runType),
     distance: formatDistance(detail.distance),
     pace: formatPace(detail.pace),
     title: detail.title,
-    creatorName: creator.nickname,
-    creatorRole: creator.role,
-    creatorProfileImageUrl: creator.profileImageUrl,
+    creatorName: detail.creatorNickname,
+    creatorRole: detail.creatorRole,
+    creatorProfileImageUrl: detail.creatorProfileImageUrl,
     date,
     time,
     locationName: detail.locationInfo.placeName,
@@ -64,6 +63,8 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     scheduleId: detail.scheduleId,
     isCreator: detail.isMine,
     isParticipating: detail.isParticipating,
+    isCheckedIn: detail.isCheckedIn,
+    isModifiable: detail.isModifiable ?? true,
     isFull: detail.currentParticipants === detail.maxParticipants,
     hasMoreParticipants: detail.hasMoreParticipants,
   };
@@ -189,6 +190,8 @@ export function ScheduleDetailPage({
 
   const isCreator = scheduleDetailViewData.isCreator;
   const isParticipating = scheduleDetailViewData.isParticipating;
+  const isCheckedIn = scheduleDetailViewData.isCheckedIn;
+  const isModifiable = scheduleDetailViewData.isModifiable;
   const isFull = scheduleDetailViewData.isFull;
 
   return (
@@ -248,16 +251,24 @@ export function ScheduleDetailPage({
           />
         </div>
         <div className={styles.footerWrapper}>
-          <Show when={!isCreator && isFull && !isParticipating}>
+          <Show when={!!isCheckedIn}>
+            <Button size="large" state="disabled" disabled>
+              이미 참여한 일정이에요
+            </Button>
+          </Show>
+          <Show when={!isCheckedIn && !isCreator && isFull && !isParticipating}>
             <Button size="large" state="disabled" disabled>
               신청이 마감되었어요
             </Button>
           </Show>
-          <Show when={isCreator}>
+          <Show when={!isCheckedIn && isCreator}>
             <div className={styles.creatorButtonWrapper}>
               <AlertDialog
                 trigger={
-                  <Button size="large" state="outline">
+                  <Button
+                    size="large"
+                    state={isModifiable ? 'outline' : 'disabled'}
+                  >
                     삭제하기
                   </Button>
                 }
@@ -267,12 +278,16 @@ export function ScheduleDetailPage({
                 cancelText="취소하기"
                 onAction={handleDelete}
               />
-              <Button size="large" state="active" onClick={handleEdit}>
+              <Button
+                size="large"
+                state={isModifiable ? 'active' : 'disabled'}
+                onClick={handleEdit}
+              >
                 수정하기
               </Button>
             </div>
           </Show>
-          <Show when={!isCreator && isParticipating}>
+          <Show when={!isCheckedIn && !isCreator && isParticipating}>
             <Button
               size="large"
               state="outline"
@@ -282,7 +297,9 @@ export function ScheduleDetailPage({
               취소하기
             </Button>
           </Show>
-          <Show when={!isCreator && !isFull && !isParticipating}>
+          <Show
+            when={!isCheckedIn && !isCreator && !isFull && !isParticipating}
+          >
             <Button
               size="large"
               state="active"

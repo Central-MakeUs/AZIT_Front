@@ -19,18 +19,26 @@ export function RedirectPage() {
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className={styles.titleWrapper}>
-          <h2 className={styles.title}>AZIT</h2>
-          <p className={styles.description}>로그인 중입니다...</p>
+        <div className={styles.logoWrapper}>
+          <img
+            src="/icons/icon-splash-logo.png"
+            alt="AZIT"
+            className={styles.logoImage}
+          />
+          <p className={styles.statusText}>로그인 중입니다...</p>
         </div>
       );
     }
 
     if (error) {
       return (
-        <div className={styles.titleWrapper}>
-          <h2 className={styles.title}>AZIT</h2>
-          <p className={styles.description}>로그인에 실패했습니다</p>
+        <div className={styles.logoWrapper}>
+          <img
+            src="/icons/icon-splash-logo.png"
+            alt="AZIT"
+            className={styles.logoImage}
+          />
+          <p className={styles.statusText}>로그인에 실패했습니다</p>
           <Button onClick={handleRetry}>다시 시도</Button>
         </div>
       );
@@ -38,9 +46,13 @@ export function RedirectPage() {
 
     if (invalidAccess) {
       return (
-        <div className={styles.titleWrapper}>
-          <h2 className={styles.title}>AZIT</h2>
-          <p className={styles.description}>잘못된 접근입니다</p>
+        <div className={styles.logoWrapper}>
+          <img
+            src="/icons/icon-splash-logo.png"
+            alt="AZIT"
+            className={styles.logoImage}
+          />
+          <p className={styles.statusText}>잘못된 접근입니다</p>
         </div>
       );
     }

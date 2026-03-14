@@ -1,4 +1,3 @@
-import { typography, vars } from '@azit/design-system';
 import { composeStyles, style } from '@vanilla-extract/css';
 
 import { container } from '@/shared/styles/container.css';
@@ -7,40 +6,38 @@ export const loginContainer = composeStyles(
   container,
   style({
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     position: 'relative',
+    minHeight: '100%',
   })
 );
 
-export const titleWrapper = style({
-  position: 'absolute',
-  top: 280,
+export const logoWrapper = style({
+  position: 'fixed',
+  top: 240,
+  left: 0,
+  right: 0,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'flex-start',
 });
 
-export const title = style({
-  fontSize: 64,
-  fontWeight: 400,
+export const logoImage = style({
+  width: 182,
+  height: 112,
+  objectFit: 'contain',
+});
+
+export const statusText = style({
+  marginTop: 8,
+  fontSize: 16,
+  fontWeight: 500,
   lineHeight: 1.4,
-  color: vars.colors.white,
-  fontFamily: 'Tilt Warp',
-  letterSpacing: '2.5px',
+  color: '#FFFFFF',
 });
-
-export const description = style([
-  typography.body.b2,
-  {
-    color: vars.colors.white,
-  },
-]);
 
 export const buttonWrapper = style({
-  position: 'absolute',
+  position: 'fixed',
   left: 20,
   right: 20,
   bottom: 100,
@@ -48,7 +45,6 @@ export const buttonWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: 12,
-  marginTop: 185,
 });
 
 export const textWrapper = style({

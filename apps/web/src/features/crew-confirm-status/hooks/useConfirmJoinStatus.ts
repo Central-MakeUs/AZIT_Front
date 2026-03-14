@@ -7,7 +7,7 @@ import type { ConfirmJoinStatusResult } from '@/features/crew-confirm-status/api
 import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
 import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
 
-import { crewQueries } from '@/shared/queries';
+import { crewQueries, memberQueries } from '@/shared/queries';
 
 export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
   const { replace } = useFlow();
@@ -24,10 +24,13 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
       queryClient.removeQueries({
         queryKey: crewQueries.defaultKey,
       });
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.myInfoKey(),
+      });
 
       if (data.ok) {
         const redirectActivity =
-          status === CREW_JOIN_STATUS.JOINED ? 'StorePage' : 'OnboardingPage';
+          status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
         replace(redirectActivity, {}, { animate: false });
       } else {
         // TODO: 토스트 처리
@@ -43,7 +46,7 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
     if (
       status === CREW_JOIN_STATUS.JOINED ||
       status === CREW_JOIN_STATUS.REJECTED ||
-      status === CREW_JOIN_STATUS.EXITED
+      status === CREW_JOIN_STATUS.EXPELLED
     ) {
       confirmJoinStatusMuation.mutate();
     }
