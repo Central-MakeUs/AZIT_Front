@@ -120,13 +120,13 @@ export default function App() {
           try {
             const fallbackUrl = decodeURIComponent(encodedValue);
 
-            Linking.openURL(fallbackUrl).catch((error) => {
-              console.warn(
-                'Failed to open intent fallback url from WebView',
-                error,
-                fallbackUrl
-              );
-            });
+            // 웹뷰 내에서 window.location으로 이동
+            if (webViewRef.current) {
+              webViewRef.current.injectJavaScript(`
+                window.location.href = ${JSON.stringify(fallbackUrl)};
+                true;
+              `);
+            }
           } catch (error) {
             console.warn(
               'Failed to decode intent fallback url from WebView',
