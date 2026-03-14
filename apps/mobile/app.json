@@ -23,7 +23,7 @@
       "appleTeamId": "4U9PQRRKLB"
     },
     "android": {
-      "versionCode": 9,
+      "versionCode": 10,
       "intentFilters": [
         {
           "action": "VIEW",
