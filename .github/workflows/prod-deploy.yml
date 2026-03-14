@@ -43,6 +43,9 @@ jobs:
           VITE_NAVER_MAP_MARKER_ICON_URL: ${{ secrets.VITE_NAVER_MAP_MARKER_ICON_URL_PROD }}
           VITE_KAKAO_REST_API_KEY: ${{ secrets.VITE_KAKAO_REST_API_KEY_PROD }}
           VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN_PROD }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
