@@ -42,6 +42,7 @@ jobs:
           VITE_NCP_MAP_CLIENT_ID: ${{ secrets.VITE_NCP_MAP_CLIENT_ID_PROD }}
           VITE_NAVER_MAP_MARKER_ICON_URL: ${{ secrets.VITE_NAVER_MAP_MARKER_ICON_URL_PROD }}
           VITE_KAKAO_REST_API_KEY: ${{ secrets.VITE_KAKAO_REST_API_KEY_PROD }}
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN_PROD }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
