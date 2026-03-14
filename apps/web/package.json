@@ -41,6 +41,7 @@
     "@azit/design-system": "workspace:*",
     "@azit/eslint": "workspace:*",
     "@azit/typescript": "workspace:*",
+    "@sentry/vite-plugin": "^5.1.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/navermaps": "^3.9.1",
     "@types/node": "^24.10.1",
