@@ -1,10 +1,11 @@
 # 🏃‍♂️ AZIT (아지트) - 러닝 크루를 위한 운영 및 제휴 서비스
+
 ![](https://img.shields.io/badge/CMC_18th-청춘탐험대-blue) ![](https://img.shields.io/github/contributors/Central-MakeUs/AZIT_Front) ![](https://img.shields.io/github/last-commit/Central-MakeUs/AZIT_Front)
 <img width="1920" height="1080" alt="azit_ppt" src="https://github.com/user-attachments/assets/9f771a69-1f18-42d4-9948-20c80396a81c" />
 
 **"크루원과 함께하는 실시간 출석 인증부터 아지트 전용 스토어까지"**
 
-AZIT는 러닝 크루의 일정을 체계적으로 관리하고, 위치 기반 출석 체크 및 포인트 적립을 통해 크루원들의 참여도를 높이는 러닝 크루 전용 플랫폼입니다.   
+AZIT는 러닝 크루의 일정을 체계적으로 관리하고, 위치 기반 출석 체크 및 포인트 적립을 통해 크루원들의 참여도를 높이는 러닝 크루 전용 플랫폼입니다.  
 React Native와 React WebView를 결합한 하이브리드 앱을 개발 및 운영합니다.
 
 <br>
@@ -19,6 +20,7 @@ React Native와 React WebView를 결합한 하이브리드 앱을 개발 및 운
 <br>
 
 ## ✨ 핵심 기능
+
 <div align="center">
   <img src="https://github.com/user-attachments/assets/d9faf147-acce-4c12-b06c-963053ac7d39" alt="스크린샷1" width="19%">
   <img src="https://github.com/user-attachments/assets/431a3f81-ac53-4280-ad90-e195c3749731" alt="스크린샷2" width="19%">
@@ -29,41 +31,46 @@ React Native와 React WebView를 결합한 하이브리드 앱을 개발 및 운
 <br>
 
 ### 1. 📍 실시간 위치 기반 출석 체크
-* **GPS 기반 인증**: 모임 장소 반경 100m 이내에서만 출석하기 버튼이 활성화되어 정확한 출석을 유도합니다.
-* **스마트 타임 윈도우**: 모임 시간 1시간 전부터 1시간 후까지만 출석이 가능하도록 제한하여 운영의 신뢰성을 높였습니다.
-* **홈 위젯**: 앱 진입 시 가장 가까운 일정의 출석 가능 상태(D-Day, 남은 시간)를 직관적으로 확인할 수 있습니다.
+
+- **GPS 기반 인증**: 모임 장소 반경 100m 이내에서만 출석하기 버튼이 활성화되어 정확한 출석을 유도합니다.
+- **스마트 타임 윈도우**: 모임 시간 1시간 전부터 1시간 후까지만 출석이 가능하도록 제한하여 운영의 신뢰성을 높였습니다.
+- **홈 위젯**: 앱 진입 시 가장 가까운 일정의 출석 가능 상태(D-Day, 남은 시간)를 직관적으로 확인할 수 있습니다.
 
 ### 2. 📅 캘린더 기반 러닝 참여 및 생성
-* **월별 일정 조회**: 정기런과 번개런을 캘린더에 색상 점(Dot)으로 구분하여 한눈에 크루 일정을 파악할 수 있습니다.
-* **충돌 방지 로직**: 내가 이미 참여 중인 일정과 시간이 겹치는 새로운 일정에는 참여할 수 없도록 검증 로직이 적용되어 있습니다.
+
+- **월별 일정 조회**: 정기런과 번개런을 캘린더에 색상 점(Dot)으로 구분하여 한눈에 크루 일정을 파악할 수 있습니다.
+- **충돌 방지 로직**: 내가 이미 참여 중인 일정과 시간이 겹치는 새로운 일정에는 참여할 수 없도록 검증 로직이 적용되어 있습니다.
 
 ### 3. 🎁 출석 보상 및 전용 스토어
-* **포인트 적립**: 출석을 완료할 때마다 자동으로 100 포인트가 즉시 적립됩니다.
-* **아지트 크루 전용 스토어**: 모은 포인트를 활용해 러닝 용품 등 아지트만의 특별한 상품을 합리적인 가격에 주문할 수 있습니다.
+
+- **포인트 적립**: 출석을 완료할 때마다 자동으로 100 포인트가 즉시 적립됩니다.
+- **아지트 크루 전용 스토어**: 모은 포인트를 활용해 러닝 용품 등 아지트만의 특별한 상품을 합리적인 가격에 주문할 수 있습니다.
 
 ### 4. 👥 크루 관리
-* 운영진을 위한 가입 승인/거절, 멤버 방출 등의 원스톱 멤버 관리가 가능합니다.
+
+- 운영진을 위한 가입 승인/거절, 멤버 방출 등의 원스톱 멤버 관리가 가능합니다.
 
 <br>
 
 ## 🛠 기술 스택
-| 영역 | 기술 |
-|------|------|
-| **Web Framework** | React 19.1, TypeScript, Vite |
-| **Mobile** | React Native 0.81, Expo 54, TypeScript |
-| **Routing** | Stackflow |
-| **State Management** | Zustand, TanStack Query |
-| **Styling** | Vanilla Extract |
-| **Design System** | Radix UI, Storybook |
-| **Validation** | Zod |
-| **HTTP Client** | Ky |
-| **Bridge** | webview-bridge |
-| **Package Manager** | pnpm |
-| **Monorepo** | Turborepo |
-| **Linting / Formatting** | ESLint, Prettier, commitlint |
-| **Git Hooks** | Lefthook |
-| **CI/CD** | GitHub Actions, Vercel, AWS |
-| **Code Review** | Gemini Code Assist |
+
+| 영역                     | 기술                                   |
+| ------------------------ | -------------------------------------- |
+| **Web Framework**        | React 19.1, TypeScript, Vite           |
+| **Mobile**               | React Native 0.81, Expo 54, TypeScript |
+| **Routing**              | Stackflow                              |
+| **State Management**     | Zustand, TanStack Query                |
+| **Styling**              | Vanilla Extract                        |
+| **Design System**        | Radix UI, Storybook                    |
+| **Validation**           | Zod                                    |
+| **HTTP Client**          | Ky                                     |
+| **Bridge**               | webview-bridge                         |
+| **Package Manager**      | pnpm                                   |
+| **Monorepo**             | Turborepo                              |
+| **Linting / Formatting** | ESLint, Prettier, commitlint           |
+| **Git Hooks**            | Lefthook                               |
+| **CI/CD**                | GitHub Actions, Vercel, AWS            |
+| **Code Review**          | Gemini Code Assist                     |
 
 <br>
 
