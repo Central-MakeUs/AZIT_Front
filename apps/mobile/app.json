@@ -23,7 +23,7 @@
       "appleTeamId": "4U9PQRRKLB"
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 9,
       "intentFilters": [
         {
           "action": "VIEW",
@@ -41,6 +41,32 @@
           "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
+      "manifest": {
+        "queries": [
+          {
+            "package": "com.kakao.talk"
+          },
+          {
+            "intent": {
+              "action": "android.intent.action.VIEW",
+              "data": {
+                "scheme": "kakaotalk"
+              }
+            }
+          },
+          {
+            "package": "com.nhn.android.nmap"
+          },
+          {
+            "intent": {
+              "action": "android.intent.action.VIEW",
+              "data": {
+                "scheme": "nmap"
+              }
+            }
+          }
+        ]
+      },
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/icon.png",

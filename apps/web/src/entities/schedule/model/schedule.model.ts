@@ -8,9 +8,14 @@ export type CrewScheduleListResponse =
 export type CrewScheduleListRequest = NonNullable<
   operations['getCrewSchedules']['parameters']['query']
 >;
-export type CrewScheduleDetailResponse = RequiredDeep<
-  components['schemas']['CrewScheduleDetailResponse']
->;
+
+export type CrewScheduleDetailResponse = Omit<
+  RequiredDeep<components['schemas']['CrewScheduleDetailResponse']>,
+  'creatorNickname'
+> & {
+  creatorNickname: string | null;
+};
+
 export type CrewScheduleCalendarResponse = ScheduleCalendarItem[];
 export type CrewScheduleCalendarRequest = NonNullable<
   operations['getMonthlySchedulesForCalendar']['parameters']['query']
