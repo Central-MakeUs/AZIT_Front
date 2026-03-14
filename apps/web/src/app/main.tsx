@@ -5,11 +5,14 @@ import { KakaoDeeplinkProvider } from '@/app/providers/KakaoDeeplinkProvider';
 import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
 import { Stack } from '@/app/routes/stackflow';
 
+import { initSentry } from '@/shared/lib/sentry';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { Toaster } from '@/shared/ui/toast';
 
 import '@/app/styles/globals.css';
 import '@/app/styles/index.css';
+
+initSentry();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
