@@ -287,7 +287,7 @@ export function ScheduleDetailPage({
               }
               onClick={cancelParticipation}
             >
-              {isPending ? '취소 처리 중...' : '취소하기'}
+              취소하기
             </Button>
           </Show>
           <Show
