@@ -60,11 +60,11 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
     participants: detail.participants,
     participantCount: detail.currentParticipants,
     maxParticipants: detail.maxParticipants,
-    scheduleId: detail.scheduleId,
     isCreator: detail.isMine,
     isParticipating: detail.isParticipating,
     isCheckedIn: detail.isCheckedIn,
     isModifiable: detail.isModifiable ?? true,
+    isParticipationModifiable: detail.isParticipationModifiable ?? true,
     isFull: detail.currentParticipants === detail.maxParticipants,
     hasMoreParticipants: detail.hasMoreParticipants,
   };
@@ -124,11 +124,7 @@ export function ScheduleDetailPage({
   });
 
   const handleEdit = () => {
-    if (scheduleDetailViewData?.scheduleId != null) {
-      push('ScheduleEditPage', {
-        id: scheduleDetailViewData.scheduleId,
-      });
-    }
+    push('ScheduleEditPage', { id: scheduleId });
   };
 
   const handleDelete = () => {
@@ -138,17 +134,11 @@ export function ScheduleDetailPage({
   };
 
   const handleShare = () => {
-    if (scheduleDetailViewData?.scheduleId != null) {
-      bridge.shareSchedule(String(scheduleDetailViewData.scheduleId));
-    }
+    bridge.shareSchedule(String(scheduleId));
   };
 
   const handleSeeMoreParticipants = () => {
-    if (scheduleDetailViewData?.scheduleId != null) {
-      push('ScheduleMembersPage', {
-        id: scheduleDetailViewData.scheduleId,
-      });
-    }
+    push('ScheduleMembersPage', { id: scheduleId });
   };
 
   useEffect(() => {
@@ -192,6 +182,8 @@ export function ScheduleDetailPage({
   const isParticipating = scheduleDetailViewData.isParticipating;
   const isCheckedIn = scheduleDetailViewData.isCheckedIn;
   const isModifiable = scheduleDetailViewData.isModifiable;
+  const isParticipationModifiable =
+    scheduleDetailViewData.isParticipationModifiable;
   const isFull = scheduleDetailViewData.isFull;
 
   return (
@@ -252,12 +244,12 @@ export function ScheduleDetailPage({
         </div>
         <div className={styles.footerWrapper}>
           <Show when={!!isCheckedIn}>
-            <Button size="large" state="disabled" disabled>
+            <Button size="large" state="disabled">
               이미 참여한 일정이에요
             </Button>
           </Show>
           <Show when={!isCheckedIn && !isCreator && isFull && !isParticipating}>
-            <Button size="large" state="disabled" disabled>
+            <Button size="large" state="disabled">
               신청이 마감되었어요
             </Button>
           </Show>
@@ -290,11 +282,12 @@ export function ScheduleDetailPage({
           <Show when={!isCheckedIn && !isCreator && isParticipating}>
             <Button
               size="large"
-              state="outline"
+              state={
+                isPending || !isParticipationModifiable ? 'disabled' : 'outline'
+              }
               onClick={cancelParticipation}
-              disabled={isPending}
             >
-              취소하기
+              {isPending ? '취소 처리 중...' : '취소하기'}
             </Button>
           </Show>
           <Show
@@ -302,9 +295,10 @@ export function ScheduleDetailPage({
           >
             <Button
               size="large"
-              state="active"
               onClick={participate}
-              disabled={isPending}
+              state={
+                isPending || !isParticipationModifiable ? 'disabled' : 'active'
+              }
             >
               신청하기
             </Button>
