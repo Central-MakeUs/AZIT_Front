@@ -321,6 +321,7 @@ export interface paths {
      *     * 이미 신청한 일정에 중복 신청은 불가합니다. (ALREADY_PARTICIPATED)
      *     * 모집 인원이 마감된(정원 초과) 일정에는 신청할 수 없습니다. (EXCEEDED_MAX_PARTICIPANTS)
      *     * 이미 신청한 일정과 현재 신청하는 일정 간의 시간 차가 60분 미만일 경우 신청이 불가합니다. (SCHEDULE_INTERVAL_TOO_CLOSE)
+     *     * 출석 가능한 시간이 지난 일정은 참여 신청 및 취소가 불가능합니다.(PARTICIPATION_AND_CANCEL_CLOSED)
      */
     post: operations['participateSchedule'];
     /**
@@ -331,6 +332,7 @@ export interface paths {
      *     * 일정 생성자는 본인의 일정 참여를 취소할 수 없습니다. (CREATOR_CANNOT_CANCEL_PARTICIPATION)
      *     * 참여하지 않은 일정은 취소할 수 없습니다. (NOT_PARTICIPATING_SCHEDULE)
      *     * 이미 출석한 일정은 취소할 수 없습니다. (CANNOT_CANCEL_AFTER_CHECK_IN)
+     *     * 출석 가능한 시간이 지난 일정은 참여 신청 및 취소가 불가능합니다.(PARTICIPATION_AND_CANCEL_CLOSED)
      */
     delete: operations['cancelParticipation'];
     options?: never;
@@ -2266,6 +2268,8 @@ export interface components {
       isCheckedIn?: boolean;
       /** @description 수정 및 삭제 가능 여부 */
       isModifiable?: boolean;
+      /** @description 참여 및 참여 취소 가능 여부 */
+      isParticipationModifiable?: boolean;
       /** @description 참여 멤버 미리보기 리스트(최대 10명) */
       participants?: components['schemas']['ParticipantResponse'][];
       /** @description 참여자 명단이 더 있는지 여부 (10명 초과 시 true) */
