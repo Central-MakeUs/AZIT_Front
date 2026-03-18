@@ -146,6 +146,8 @@ export default function App() {
       if (
         url.startsWith('kakaotalk://') ||
         url.startsWith('kakaokompass://') ||
+        url.startsWith('kakaolink://') ||
+        url.startsWith('kakaokompassauth://') ||
         url.startsWith('kakao:') ||
         url.startsWith('talk:')
       ) {
