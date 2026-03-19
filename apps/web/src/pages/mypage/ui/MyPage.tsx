@@ -17,7 +17,7 @@ import { WithdrawButton } from '@/features/auth/ui';
 import { crewQueries, memberQueries } from '@/shared/queries';
 import { useAuthStore } from '@/shared/store/auth';
 import { AppLayout } from '@/shared/ui/layout';
-import { BottomNavigation } from '@/shared/ui/navigation';
+import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 export function MyPage() {
   const { logout } = useAuthStore();
