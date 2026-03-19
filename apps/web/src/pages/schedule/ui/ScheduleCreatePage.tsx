@@ -28,17 +28,15 @@ export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   const { pop, push } = useFlow();
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
-  const isLeader =
-    myInfoData?.ok &&
-    myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
+  const crewId = myInfoData?.result.crewId ?? 0;
+  const isLeader = myInfoData?.result.crewMemberRole === MEMBER_ROLE.LEADER;
 
   const { formValues, setFormValues, validateForm } = useScheduleFormState(
     initializeScheduleFormValues({ params })
   );
 
   useEffect(() => {
-    if (myInfoData?.ok && !isLeader) {
+    if (myInfoData?.result && !isLeader) {
       setFormValues((prev) => ({ ...prev, runType: 'LIGHTNING' }));
     }
   }, [myInfoData, isLeader]);

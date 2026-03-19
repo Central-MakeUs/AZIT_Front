@@ -34,11 +34,7 @@ export const useKakaoCode = () => {
         authorizationCode: code,
       });
 
-      if (!response.ok) {
-        throw response.error;
-      }
-
-      const { accessToken, status } = response.data.result;
+      const { accessToken, status } = response.result;
       setAccessToken(accessToken);
 
       switch (status) {
