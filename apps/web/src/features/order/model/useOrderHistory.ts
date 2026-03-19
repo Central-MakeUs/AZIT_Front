@@ -27,9 +27,7 @@ export function useOrderHistory(options: UseOrderHistoryOptions = {}) {
   });
 
   const orders: OrderListItem[] =
-    orderHistoryData?.pages.flatMap((page) =>
-      page.ok && page.data?.result?.content ? page.data.result.content : []
-    ) ?? [];
+    orderHistoryData?.pages.flatMap((page) => page.result?.content ?? []) ?? [];
 
   const isEmpty = !isPending && orders.length === 0;
 

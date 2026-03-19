@@ -4,7 +4,7 @@ import { Header } from '@azit/design-system/header';
 import { ShareIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -84,7 +84,7 @@ export function ScheduleDetailPage({
   const { data: myInfoData, isLoading: myInfoLoading } = useQuery(
     memberQueries.myInfoQuery()
   );
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const crewId = myInfoData?.result.crewId ?? 0;
 
   const { data: scheduleDetailData, isLoading: scheduleDetailLoading } =
     useQuery({
@@ -95,8 +95,8 @@ export function ScheduleDetailPage({
   const isLoading = myInfoLoading || scheduleDetailLoading;
 
   const scheduleDetailViewData = useMemo(() => {
-    if (!scheduleDetailData?.ok) return null;
-    return transformScheduleDetail(scheduleDetailData.data.result);
+    if (!scheduleDetailData?.result) return null;
+    return transformScheduleDetail(scheduleDetailData.result);
   }, [scheduleDetailData]);
 
   const { participate, cancelParticipation, isPending } =
@@ -140,22 +140,6 @@ export function ScheduleDetailPage({
   const handleSeeMoreParticipants = () => {
     push('ScheduleMembersPage', { id: scheduleId });
   };
-
-  useEffect(() => {
-    if (
-      !isLoading &&
-      scheduleDetailViewData === null &&
-      !deleteScheduleMutation.isPending &&
-      !deleteScheduleMutation.isSuccess
-    ) {
-      push('NotFoundPage', {});
-    }
-  }, [
-    isLoading,
-    scheduleDetailViewData,
-    deleteScheduleMutation.isPending,
-    deleteScheduleMutation.isSuccess,
-  ]);
 
   const handleBack = () => {
     pop('SchedulePage');

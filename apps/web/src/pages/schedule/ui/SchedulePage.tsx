@@ -50,7 +50,7 @@ export function SchedulePage() {
   }, [selectedDate]);
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const crewId = myInfoData?.result.crewId ?? 0;
   const yearMonth = formatDate(viewDate, 'YYYY-MM');
 
   const { data: scheduleList = [], isLoading } = useQuery({

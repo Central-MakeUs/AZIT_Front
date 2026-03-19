@@ -35,7 +35,7 @@ export function HomePage() {
   const queryClient = useQueryClient();
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const crewId = myInfoData?.result.crewId ?? 0;
 
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getMemberScheduleListQuery(),

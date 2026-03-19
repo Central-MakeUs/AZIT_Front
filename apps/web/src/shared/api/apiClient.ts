@@ -33,9 +33,10 @@ export const authApi = baseApi.extend({
         if (response.status === 401 && state.retryCount === 0) {
           const tokenResponse = await postReissueToken();
 
-          if (tokenResponse.ok) {
-            const accessToken = tokenResponse.data.result.accessToken;
-            useAuthStore.getState().setAccessToken(accessToken);
+          if (tokenResponse.result?.accessToken) {
+            useAuthStore
+              .getState()
+              .setAccessToken(tokenResponse.result.accessToken);
 
             return ky.retry({
               request: new Request(request),

@@ -24,7 +24,7 @@ export function MyPage() {
 
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
 
-  const myInfo = myInfoData?.ok ? myInfoData.data.result : undefined;
+  const myInfo = myInfoData?.result;
   const isLeader = myInfo?.crewMemberRole === 'LEADER';
 
   const { data: crewInfoData } = useQuery({
@@ -32,13 +32,11 @@ export function MyPage() {
     enabled: !!myInfo?.invitationCode,
   });
 
-  if (isLoading || !myInfoData?.ok || !myInfo) {
+  if (isLoading || !myInfo) {
     return <></>;
   }
 
-  const memberCount = crewInfoData?.ok
-    ? (crewInfoData.data.result.memberCount ?? 0)
-    : 0;
+  const memberCount = crewInfoData?.result.memberCount ?? 0;
   const cannotWithdraw = isLeader && memberCount !== 1;
 
   const filteredMenu = getMypageMenu(myInfo.crewMemberRole, myInfo.crewId);

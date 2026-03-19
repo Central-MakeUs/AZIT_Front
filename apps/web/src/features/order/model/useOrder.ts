@@ -50,10 +50,7 @@ export function useOrder(options: UseOrderOptions = {}) {
   const checkoutInfo = isDirectOrder ? checkoutInfoDirect : checkoutInfoCart;
   const isPending = isDirectOrder ? isDirectPending : isCartPending;
 
-  const result =
-    !checkoutInfo?.ok || !checkoutInfo.data?.result
-      ? null
-      : checkoutInfo.data.result;
+  const result = checkoutInfo?.result ?? null;
 
   const products = result?.items ?? [];
   const summary = result?.summary;
@@ -90,11 +87,8 @@ export function useOrder(options: UseOrderOptions = {}) {
 
     try {
       const response = await createOrderMutation.mutateAsync(payload);
-      if (response.ok && response.data?.result) {
-        onOrderSuccess?.(response.data.result);
-      }
-      if (!response.ok) {
-        toastError('주문에 실패했어요');
+      if (response.result) {
+        onOrderSuccess?.(response.result);
       }
     } catch {
       toastError('주문에 실패했어요');
