@@ -41,8 +41,8 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
   });
 
   const result = useMemo(() => {
-    if (!data?.data?.result) return null;
-    return data.data.result;
+    if (!data?.result) return null;
+    return data.result;
   }, [data]);
 
   const { orderDate, orderDayOfWeek } = useMemo(
