@@ -41,14 +41,14 @@ export const memberQueries = {
       queryKey: memberQueries.calendarKey(request),
       queryFn: () => getMyAttendanceCalendar(request),
       staleTime: 1000 * 60 * 60 * 3,
-      select: (data) => (data.ok ? data.data.result : []),
+      select: (data) => data.result ?? [],
     }),
   getMyAttendanceQuery: (request?: MyAttendanceRequest) =>
     queryOptions({
       queryKey: memberQueries.attendanceKey(request),
       queryFn: () => getMyAttendance(request),
       staleTime: 1000 * 60 * 60 * 3,
-      select: (data) => (data.ok ? data.data.result : undefined),
+      select: (data) => data.result,
     }),
   crewMembersQuery: (crewId: number) =>
     infiniteQueryOptions({
@@ -56,8 +56,8 @@ export const memberQueries = {
       queryFn: ({ pageParam }) =>
         getCrewMembers(crewId, { cursorId: pageParam }),
       getNextPageParam: (lastPage) => {
-        if (!lastPage.ok) return undefined;
-        const { hasNext, lastId } = lastPage.data.result;
+        if (!lastPage.result) return undefined;
+        const { hasNext, lastId } = lastPage.result;
         return hasNext && lastId ? lastId : undefined;
       },
       initialPageParam: undefined as number | undefined,
