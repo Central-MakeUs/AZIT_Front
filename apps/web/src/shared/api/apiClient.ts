@@ -43,6 +43,8 @@ export const authApi = baseApi.extend({
             });
           }
 
+          // 재발급 실패 — 세션 만료 처리
+          useAuthStore.getState().setAccessToken(undefined);
           return response;
         }
 

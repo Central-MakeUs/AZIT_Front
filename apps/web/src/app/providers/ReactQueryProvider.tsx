@@ -1,10 +1,18 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { lazy, type ReactNode, Suspense } from 'react';
 
+import { BusinessError } from '@/shared/api/apiHandler';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      throwOnError: (error) => !(error instanceof BusinessError),
+      retry: (failureCount, error) =>
+        error instanceof BusinessError ? false : failureCount < 2,
+    },
+    mutations: {
+      throwOnError: (error) => !(error instanceof BusinessError),
     },
   },
 });
