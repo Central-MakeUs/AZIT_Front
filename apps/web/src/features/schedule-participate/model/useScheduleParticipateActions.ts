@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { ApiError } from '@/shared/api/apiHandler';
+import { BusinessError } from '@/shared/api/apiHandler';
 import { memberQueries } from '@/shared/queries';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { toastError, toastSuccess } from '@/shared/ui/toast';
@@ -30,7 +30,7 @@ export function useScheduleParticipateActions({
     },
     onError: (error) => {
       if (
-        error instanceof ApiError &&
+        error instanceof BusinessError &&
         error.code === 'SCHEDULE_INTERVAL_TOO_CLOSE'
       ) {
         toastError('이전 일정과 시작 시간이 너무 가깝습니다');

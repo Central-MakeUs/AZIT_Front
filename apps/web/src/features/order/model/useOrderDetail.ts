@@ -2,6 +2,7 @@ import { useActivityParams } from '@stackflow/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+import { BusinessError } from '@/shared/api/apiHandler';
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import { copyToClipboard } from '@/shared/lib/clipboard';
 import { formatOrderDate } from '@/shared/lib/formatters';
@@ -25,19 +26,22 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
       toastSuccess('주문 취소가 완료되었습니다.');
       onCancelSuccess?.();
     },
-    onError: (error) =>
-      toastError(
-        error instanceof Error ? error.message : '주문 취소에 실패했습니다.'
-      ),
+    onError: (error) => {
+      if (error instanceof BusinessError) {
+        toastError(error.message);
+      } else {
+        toastError('주문 취소에 실패했습니다.');
+      }
+    },
   });
 
-  const { data, isPending, isError } = useQuery({
+  const { data, isPending } = useQuery({
     ...orderQueries.getOrderDetailQuery(orderNumber ?? ''),
     enabled: !!orderNumber,
   });
 
   const result = useMemo(() => {
-    if (!data?.ok || !data.data?.result) return null;
+    if (!data?.data?.result) return null;
     return data.data.result;
   }, [data]);
 
@@ -69,7 +73,6 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
     orderNumber,
     result,
     isPending,
-    isError,
     orderDate,
     orderDayOfWeek,
     cancelOrderMutation,

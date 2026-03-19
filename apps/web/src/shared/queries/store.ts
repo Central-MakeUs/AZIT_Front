@@ -28,6 +28,6 @@ export const storeQueries = {
     queryOptions({
       queryKey: [...storeQueries.detailKey(), id],
       queryFn: () => getStoreProductDetail(id),
-      select: (data) => (data.ok ? data.data.result : undefined),
+      select: (data) => data.data.result,
     }),
 };

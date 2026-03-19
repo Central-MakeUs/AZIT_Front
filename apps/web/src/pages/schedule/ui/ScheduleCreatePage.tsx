@@ -17,7 +17,7 @@ import {
 import { useScheduleFormState } from '@/widgets/schedule-form/model/useScheduleFormState';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
-import { ApiError } from '@/shared/api/apiHandler';
+import { BusinessError } from '@/shared/api/apiHandler';
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
@@ -52,7 +52,7 @@ export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
     },
     onError: (error) => {
       if (
-        error instanceof ApiError &&
+        error instanceof BusinessError &&
         error.code === 'SCHEDULE_INTERVAL_TOO_CLOSE'
       ) {
         toastError('이전 일정과 시작 시간이 너무 가깝습니다');

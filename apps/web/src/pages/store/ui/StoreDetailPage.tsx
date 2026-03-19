@@ -42,7 +42,6 @@ export function StoreDetailPage() {
   const {
     product,
     isPending,
-    isError,
     isBottomSheetOpen,
     selectedItems,
     options,
@@ -99,7 +98,7 @@ export function StoreDetailPage() {
     );
   }
 
-  if (isError || !product) {
+  if (!product) {
     return <div>상품 정보를 찾을 수 없습니다.</div>;
   }
 
