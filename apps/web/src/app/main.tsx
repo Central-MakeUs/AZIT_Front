@@ -1,6 +1,7 @@
 import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import { GlobalErrorBoundary } from '@/app/providers/GlobalErrorBoundary';
 import { KakaoDeeplinkProvider } from '@/app/providers/KakaoDeeplinkProvider';
 import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
 import { Stack } from '@/app/routes/stackflow';
@@ -16,19 +17,21 @@ initSentry();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ReactQueryProvider>
-      <KakaoDeeplinkProvider>
-        <Suspense fallback={<PageLoader />}>
-          <Stack />
-        </Suspense>
-        <Toaster
-          position="bottom-center"
-          toastOptions={{
-            duration: 2500,
-            className: 'azit-toast',
-          }}
-        />
-      </KakaoDeeplinkProvider>
-    </ReactQueryProvider>
+    <GlobalErrorBoundary>
+      <ReactQueryProvider>
+        <KakaoDeeplinkProvider>
+          <Suspense fallback={<PageLoader />}>
+            <Stack />
+          </Suspense>
+          <Toaster
+            position="bottom-center"
+            toastOptions={{
+              duration: 2500,
+              className: 'azit-toast',
+            }}
+          />
+        </KakaoDeeplinkProvider>
+      </ReactQueryProvider>
+    </GlobalErrorBoundary>
   </StrictMode>
 );
