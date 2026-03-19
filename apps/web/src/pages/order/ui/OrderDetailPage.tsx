@@ -72,7 +72,7 @@ export function OrderDetailPage() {
         <AppLayout>
           <Header left={<BackButton />} center="주문 상세" />
           <div className={styles.mainContainer}>
-            주문 정보를 찾을 수 없습니다.
+            주문 정보를 불러올 수 없습니다.
           </div>
         </AppLayout>
       </AppScreen>
