@@ -7,7 +7,7 @@ import type { ConfirmJoinStatusResult } from '@/features/crew-confirm-status/api
 import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
 import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
 
-import { crewQueries, memberQueries } from '@/shared/queries';
+import { crewQueries, memberQueries, scheduleQueries } from '@/shared/queries';
 
 export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
   const { replace } = useFlow();
@@ -26,6 +26,9 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
       });
       queryClient.invalidateQueries({
         queryKey: memberQueries.myInfoKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.all,
       });
 
       if (data.ok) {
