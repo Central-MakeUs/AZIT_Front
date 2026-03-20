@@ -15,6 +15,7 @@ export const itemHorizontal = style({
 export const profileWrapper = style({
   position: 'relative',
   flexShrink: 0,
+  height: 48,
 });
 
 export const creatorBadge = style({
