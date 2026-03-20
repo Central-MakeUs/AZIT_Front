@@ -30,12 +30,12 @@ export function ScheduleParticipantListItem({
       {isHorizontal ? (
         <div className={styles.infoRow}>
           <span className={styles.nicknameHorizontal}>
-            {participant.nickname ?? '정보없음'}
+            {participant.nickname ?? '알수없음'}
           </span>
         </div>
       ) : (
         <span className={styles.nicknameVertical}>
-          {participant.nickname ?? '정보없음'}
+          {participant.nickname ?? '알수없음'}
         </span>
       )}
     </div>
