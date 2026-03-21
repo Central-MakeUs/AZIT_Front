@@ -35,3 +35,30 @@ export const sentinel = style({
   height: 1,
   width: '100%',
 });
+
+export const pullIndicator = style({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  paddingTop: 8,
+  paddingBottom: 8,
+  gap: 4,
+});
+
+export const pullHint = style([
+  typography.body.b2,
+  {
+    color: vars.colors.gray70,
+    textAlign: 'center',
+  },
+]);
+
+export const pullText = style([
+  typography.body.b2,
+  {
+    color: vars.colors.gray70,
+    textAlign: 'center',
+  },
+]);
