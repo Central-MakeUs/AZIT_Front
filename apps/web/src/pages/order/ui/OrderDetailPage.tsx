@@ -2,6 +2,7 @@ import { Button } from '@azit/design-system/button';
 import { Divider } from '@azit/design-system/divider';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { Suspense } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -21,15 +22,15 @@ import { useOrderDetail } from '@/features/order/model/useOrderDetail';
 import { BackButton } from '@/shared/ui/button';
 import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
+import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
 import type { OrderStatus } from '@/entities/order/model';
 
-function OrderDetailPageInner() {
+function OrderDetailContent() {
   const { replace } = useFlow();
   const {
     orderNumber,
     result,
-    isPending,
     orderDate,
     orderDayOfWeek,
     cancelOrderMutation,
@@ -43,32 +44,6 @@ function OrderDetailPageInner() {
     onCancelSuccess: () => replace('OrderHistory', {}),
   });
 
-  if (!orderNumber) {
-    return (
-      <AppScreen>
-        <AppLayout>
-          <Header left={<BackButton />} center="주문 상세" />
-          <div className={styles.mainContainer}>
-            주문 정보를 찾을 수 없습니다.
-          </div>
-        </AppLayout>
-      </AppScreen>
-    );
-  }
-
-  if (isPending) {
-    return (
-      <AppScreen>
-        <AppLayout>
-          <Header left={<BackButton />} center="주문 상세" />
-          <div className={styles.mainContainer}>로딩 중...</div>
-        </AppLayout>
-      </AppScreen>
-    );
-  }
-
-  if (!result) return null;
-
   const deliveryInfo = result.deliveryInfo;
   const shippingInfo = result.shippingInfo;
   const depositAccountInfo = result.depositAccountInfo;
@@ -76,83 +51,80 @@ function OrderDetailPageInner() {
   const summary = result.summary;
 
   return (
-    <AppScreen>
-      <AppLayout>
-        <div className={styles.headerWrapper}>
-          <Header left={<BackButton />} center="주문 상세" />
-        </div>
-        <div className={styles.mainContainer}>
-          <OrderDateSection
-            orderDate={orderDate}
-            orderDayOfWeek={orderDayOfWeek}
-            orderNumber={result.orderNumber ?? orderNumber}
-            orderStatus={result.status as OrderStatus}
+    <div className={styles.mainContainer}>
+      <OrderDateSection
+        orderDate={orderDate}
+        orderDayOfWeek={orderDayOfWeek}
+        orderNumber={result.orderNumber ?? orderNumber}
+        orderStatus={result.status as OrderStatus}
+      />
+      <Divider />
+      {deliveryInfo && (
+        <>
+          <OrderDeliveryAddressSection deliveryInfo={deliveryInfo} />
+          <Divider />
+        </>
+      )}
+      {depositAccountInfo && (
+        <>
+          <DepositInfoSection
+            {...depositAccountInfo}
+            depositorName={depositAccountInfo.depositorName ?? ''}
           />
           <Divider />
-          {deliveryInfo && (
-            <>
-              <OrderDeliveryAddressSection deliveryInfo={deliveryInfo} />
-              <Divider />
-            </>
-          )}
-          {depositAccountInfo && (
-            <>
-              <DepositInfoSection
-                {...depositAccountInfo}
-                depositorName={depositAccountInfo.depositorName ?? ''}
-              />
-              <Divider />
-            </>
-          )}
-          <OrderDeliveryInfoSection
-            deliveryStatus={result.status as OrderStatus}
-            deliveryCompany={shippingInfo?.courier ?? '배송 준비 중'}
-            trackingNumber={shippingInfo?.trackingNumber ?? '-'}
-            onCheckDelivery={handleCheckDelivery}
-            onCopyTrackingNumber={handleCopyTrackingNumber}
-          />
-          <Divider />
-          <OrderProductListSection products={items} showOriginalPrice={false} />
-          {summary && (
-            <PaymentInfoSection
-              totalProductPrice={summary.totalProductPrice ?? 0}
-              membershipDiscount={summary.membershipDiscount ?? 0}
-              pointDiscount={summary.pointDiscount ?? 0}
-              shippingFee={summary.shippingFee ?? 0}
-              totalPayment={summary.totalPaymentPrice ?? 0}
-            />
-          )}
-          <div className={styles.buttonContainer}>
-            <Button
-              state="outline"
-              onClick={handleCancelOrder}
-              disabled={cancelOrderMutation.isPending}
-            >
-              {cancelOrderMutation.isPending ? '취소 처리 중...' : '주문 취소'}
-            </Button>
-            <Button state="outline" onClick={handleInquiry}>
-              1:1 문의하기
-            </Button>
-          </div>
-        </div>
-      </AppLayout>
-    </AppScreen>
+        </>
+      )}
+      <OrderDeliveryInfoSection
+        deliveryStatus={result.status as OrderStatus}
+        deliveryCompany={shippingInfo?.courier ?? '배송 준비 중'}
+        trackingNumber={shippingInfo?.trackingNumber ?? '-'}
+        onCheckDelivery={handleCheckDelivery}
+        onCopyTrackingNumber={handleCopyTrackingNumber}
+      />
+      <Divider />
+      <OrderProductListSection products={items} showOriginalPrice={false} />
+      {summary && (
+        <PaymentInfoSection
+          totalProductPrice={summary.totalProductPrice ?? 0}
+          membershipDiscount={summary.membershipDiscount ?? 0}
+          pointDiscount={summary.pointDiscount ?? 0}
+          shippingFee={summary.shippingFee ?? 0}
+          totalPayment={summary.totalPaymentPrice ?? 0}
+        />
+      )}
+      <div className={styles.buttonContainer}>
+        <Button
+          state="outline"
+          onClick={handleCancelOrder}
+          disabled={cancelOrderMutation.isPending}
+        >
+          {cancelOrderMutation.isPending ? '취소 처리 중...' : '주문 취소'}
+        </Button>
+        <Button state="outline" onClick={handleInquiry}>
+          1:1 문의하기
+        </Button>
+      </div>
+    </div>
   );
 }
 
 export function OrderDetailPage() {
   return (
-    <DomainErrorBoundary
-      fallback={({ error, reset }) => (
-        <AppScreen>
-          <AppLayout>
-            <Header left={<BackButton />} center="주문 상세" />
+    <AppScreen>
+      <AppLayout>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="주문 상세" />
+        </div>
+        <DomainErrorBoundary
+          fallback={({ error, reset }) => (
             <BusinessErrorFallback error={error} onReset={reset} />
-          </AppLayout>
-        </AppScreen>
-      )}
-    >
-      <OrderDetailPageInner />
-    </DomainErrorBoundary>
+          )}
+        >
+          <Suspense fallback={<PageLoader />}>
+            <OrderDetailContent />
+          </Suspense>
+        </DomainErrorBoundary>
+      </AppLayout>
+    </AppScreen>
   );
 }
