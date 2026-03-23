@@ -1,5 +1,9 @@
 import { useActivityParams } from '@stackflow/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { BusinessError } from '@/shared/api/apiHandler';
@@ -16,11 +20,11 @@ export interface UseOrderDetailOptions {
 
 export function useOrderDetail(options: UseOrderDetailOptions = {}) {
   const { onCancelSuccess } = options;
-  const { id: orderNumber } = useActivityParams<{ id?: string }>();
+  const { id: orderNumber } = useActivityParams<{ id: string }>();
   const queryClient = useQueryClient();
 
   const cancelOrderMutation = useMutation({
-    ...orderQueries.cancelOrderMutation(orderNumber ?? ''),
+    ...orderQueries.cancelOrderMutation(orderNumber),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: orderQueries.all });
       toastSuccess('주문 취소가 완료되었습니다.');
@@ -35,20 +39,15 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
     },
   });
 
-  const { data, isPending } = useQuery({
-    ...orderQueries.getOrderDetailQuery(orderNumber ?? ''),
-    enabled: !!orderNumber,
-    throwOnError: true,
-  });
+  const { data } = useSuspenseQuery(
+    orderQueries.getOrderDetailQuery(orderNumber)
+  );
 
-  const result = useMemo(() => {
-    if (!data?.result) return null;
-    return data.result;
-  }, [data]);
+  const result = useMemo(() => data.result, [data]);
 
   const { orderDate, orderDayOfWeek } = useMemo(
-    () => formatOrderDate(result?.orderDate),
-    [result?.orderDate]
+    () => formatOrderDate(result.orderDate),
+    [result.orderDate]
   );
 
   const handleCheckDelivery = () => {
@@ -64,7 +63,7 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
   };
 
   const handleCopyTrackingNumber = () => {
-    const trackingNumber = result?.shippingInfo?.trackingNumber;
+    const trackingNumber = result.shippingInfo?.trackingNumber;
     if (trackingNumber) {
       copyToClipboard(trackingNumber, '송장번호');
     }
@@ -73,7 +72,6 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
   return {
     orderNumber,
     result,
-    isPending,
     orderDate,
     orderDayOfWeek,
     cancelOrderMutation,
