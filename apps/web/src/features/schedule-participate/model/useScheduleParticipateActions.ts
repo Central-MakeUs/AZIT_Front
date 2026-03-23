@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { BusinessError } from '@/shared/api/apiHandler';
 import { memberQueries } from '@/shared/queries';
 import { scheduleQueries } from '@/shared/queries/schedule';
-import { toastError, toastSuccess } from '@/shared/ui/toast';
+import { toastSuccess } from '@/shared/ui/toast';
 
 interface UseScheduleActionsProps {
   crewId: number;
@@ -20,6 +19,11 @@ export function useScheduleParticipateActions({
 
   const participateMutation = useMutation({
     ...scheduleQueries.participateSchedule,
+    meta: {
+      errorMessages: {
+        SCHEDULE_INTERVAL_TOO_CLOSE: '이전 일정과 시작 시간이 너무 가깝습니다',
+      },
+    },
     onSuccess: () => {
       toastSuccess('신청이 완료되었습니다');
       queryClient.invalidateQueries({ queryKey: scheduleAllQueryKey });
@@ -27,16 +31,6 @@ export function useScheduleParticipateActions({
       queryClient.invalidateQueries({
         queryKey: scheduleQueries.checkInStatusKey(),
       });
-    },
-    onError: (error) => {
-      if (
-        error instanceof BusinessError &&
-        error.code === 'SCHEDULE_INTERVAL_TOO_CLOSE'
-      ) {
-        toastError('이전 일정과 시작 시간이 너무 가깝습니다');
-        return;
-      }
-      toastError('일정 참여에 실패했습니다.');
     },
   });
 
