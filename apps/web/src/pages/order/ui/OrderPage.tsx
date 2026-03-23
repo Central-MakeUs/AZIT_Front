@@ -21,9 +21,10 @@ import {
 import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BackButton } from '@/shared/ui/button';
+import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 
-export function OrderPage() {
+function OrderPageInner() {
   const { pop, push, replace } = useFlow();
   const {
     result,
@@ -70,23 +71,7 @@ export function OrderPage() {
     );
   }
 
-  if (!result) {
-    return (
-      <AppScreen>
-        <AppLayout>
-          <div className={styles.headerWrapper}>
-            <Header
-              left={<BackButton onClick={handleBack} />}
-              center="주문하기"
-            />
-          </div>
-          <div className={styles.mainContainer}>
-            주문 정보를 불러올 수 없습니다.
-          </div>
-        </AppLayout>
-      </AppScreen>
-    );
-  }
+  if (!result) return null;
 
   return (
     <AppScreen>
@@ -156,5 +141,29 @@ export function OrderPage() {
         </div>
       </AppLayout>
     </AppScreen>
+  );
+}
+
+export function OrderPage() {
+  const { pop } = useFlow();
+
+  return (
+    <DomainErrorBoundary
+      fallback={({ error, reset }) => (
+        <AppScreen>
+          <AppLayout>
+            <div className={styles.headerWrapper}>
+              <Header
+                left={<BackButton onClick={() => pop()} />}
+                center="주문하기"
+              />
+            </div>
+            <BusinessErrorFallback error={error} onReset={reset} />
+          </AppLayout>
+        </AppScreen>
+      )}
+    >
+      <OrderPageInner />
+    </DomainErrorBoundary>
   );
 }

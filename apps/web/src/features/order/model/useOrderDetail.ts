@@ -38,6 +38,7 @@ export function useOrderDetail(options: UseOrderDetailOptions = {}) {
   const { data, isPending } = useQuery({
     ...orderQueries.getOrderDetailQuery(orderNumber ?? ''),
     enabled: !!orderNumber,
+    throwOnError: true,
   });
 
   const result = useMemo(() => {

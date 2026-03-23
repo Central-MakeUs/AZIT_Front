@@ -26,6 +26,7 @@ import { useStack } from '@/shared/lib/stackflow/useStack';
 import { memberQueries } from '@/shared/queries/member';
 import { scheduleQueries } from '@/shared/queries/schedule';
 import { BackButton } from '@/shared/ui/button';
+import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 import { Show } from '@/shared/ui/show';
 
@@ -74,7 +75,7 @@ interface ScheduleDetailPageProps {
   params: { id: number };
 }
 
-export function ScheduleDetailPage({
+function ScheduleDetailPageInner({
   params: { id: scheduleId },
 }: ScheduleDetailPageProps) {
   const { push } = useFlow();
@@ -90,6 +91,7 @@ export function ScheduleDetailPage({
     useQuery({
       ...scheduleQueries.scheduleDetailQuery(crewId, scheduleId),
       enabled: !!crewId,
+      throwOnError: true,
     });
 
   const isLoading = myInfoLoading || scheduleDetailLoading;
@@ -158,9 +160,7 @@ export function ScheduleDetailPage({
     );
   }
 
-  if (scheduleDetailViewData === null) {
-    return null;
-  }
+  if (!scheduleDetailViewData) return null;
 
   const isCreator = scheduleDetailViewData.isCreator;
   const isParticipating = scheduleDetailViewData.isParticipating;
@@ -290,5 +290,28 @@ export function ScheduleDetailPage({
         </div>
       </AppLayout>
     </AppScreen>
+  );
+}
+
+export function ScheduleDetailPage({ params }: ScheduleDetailPageProps) {
+  const { pop } = useStack();
+
+  return (
+    <DomainErrorBoundary
+      fallback={({ error, reset }) => (
+        <AppScreen>
+          <AppLayout>
+            <div className={styles.headerWrapper}>
+              <Header
+                left={<BackButton onClick={() => pop('SchedulePage')} />}
+              />
+            </div>
+            <BusinessErrorFallback error={error} onReset={reset} />
+          </AppLayout>
+        </AppScreen>
+      )}
+    >
+      <ScheduleDetailPageInner params={params} />
+    </DomainErrorBoundary>
   );
 }
