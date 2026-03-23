@@ -36,8 +36,42 @@ import { CartIconButton } from '@/shared/ui/cart-icon-button';
 import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 
-function StoreDetailContent({ id }: { id: string }) {
+function StoreDetailHeader({ handleShare }: { handleShare?: () => void }) {
   const { pop, push } = useFlow();
+
+  return (
+    <div className={styles.headerWrapper}>
+      <Header
+        left={
+          <button
+            className={styles.iconButton}
+            type="button"
+            onClick={() => pop()}
+          >
+            <ChevronLeftIcon size={24} />
+          </button>
+        }
+        right={
+          <div className={styles.headerIconWrapper}>
+            <button
+              className={styles.iconButton}
+              type="button"
+              id="kakaotalk-sharing-btn"
+              onClick={handleShare}
+              aria-label="카카오 공유"
+            >
+              <ShareIcon size={24} />
+            </button>
+            <CartIconButton onClick={() => push('CartPage', {})} />
+          </div>
+        }
+      />
+    </div>
+  );
+}
+
+function StoreDetailContent({ id }: { id: string }) {
+  const { push } = useFlow();
   const { share: shareWithKakao } = useKakaoShare();
 
   const {
@@ -65,6 +99,7 @@ function StoreDetailContent({ id }: { id: string }) {
 
   return (
     <>
+      <StoreDetailHeader handleShare={handleShare} />
       <div className={styles.mainContainer}>
         <StoreDetailImageSlider slideImageUrls={product.slideImageUrls} />
         <div className={styles.contentWrapper}>
@@ -163,7 +198,6 @@ function StoreDetailContent({ id }: { id: string }) {
 }
 
 export function StoreDetailPage() {
-  const { pop, push } = useFlow();
   const { id } = useActivityParams<{ id: string }>();
 
   return (
@@ -174,25 +208,14 @@ export function StoreDetailPage() {
             <BusinessErrorFallback error={error} onReset={reset} />
           )}
         >
-          <div className={styles.headerWrapper}>
-            <Header
-              left={
-                <button
-                  className={styles.iconButton}
-                  type="button"
-                  onClick={() => pop()}
-                >
-                  <ChevronLeftIcon size={24} />
-                </button>
-              }
-              right={
-                <div className={styles.headerIconWrapper}>
-                  <CartIconButton onClick={() => push('CartPage', {})} />
-                </div>
-              }
-            />
-          </div>
-          <Suspense fallback={<StoreDetailSkeleton />}>
+          <Suspense
+            fallback={
+              <>
+                <StoreDetailHeader />
+                <StoreDetailSkeleton />
+              </>
+            }
+          >
             <StoreDetailContent id={id} />
           </Suspense>
         </DomainErrorBoundary>
