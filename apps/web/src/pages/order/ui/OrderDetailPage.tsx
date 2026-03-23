@@ -19,11 +19,12 @@ import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 import { useOrderDetail } from '@/features/order/model/useOrderDetail';
 
 import { BackButton } from '@/shared/ui/button';
+import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 
 import type { OrderStatus } from '@/entities/order/model';
 
-export function OrderDetailPage() {
+function OrderDetailPageInner() {
   const { replace } = useFlow();
   const {
     orderNumber,
@@ -66,18 +67,7 @@ export function OrderDetailPage() {
     );
   }
 
-  if (!result) {
-    return (
-      <AppScreen>
-        <AppLayout>
-          <Header left={<BackButton />} center="주문 상세" />
-          <div className={styles.mainContainer}>
-            주문 정보를 불러올 수 없습니다.
-          </div>
-        </AppLayout>
-      </AppScreen>
-    );
-  }
+  if (!result) return null;
 
   const deliveryInfo = result.deliveryInfo;
   const shippingInfo = result.shippingInfo;
@@ -147,5 +137,22 @@ export function OrderDetailPage() {
         </div>
       </AppLayout>
     </AppScreen>
+  );
+}
+
+export function OrderDetailPage() {
+  return (
+    <DomainErrorBoundary
+      fallback={({ error, reset }) => (
+        <AppScreen>
+          <AppLayout>
+            <Header left={<BackButton />} center="주문 상세" />
+            <BusinessErrorFallback error={error} onReset={reset} />
+          </AppLayout>
+        </AppScreen>
+      )}
+    >
+      <OrderDetailPageInner />
+    </DomainErrorBoundary>
   );
 }

@@ -32,9 +32,7 @@ export function MyPage() {
     enabled: !!myInfo?.invitationCode,
   });
 
-  if (isLoading || !myInfo) {
-    return <></>;
-  }
+  if (isLoading || !myInfo) return null;
 
   const memberCount = crewInfoData?.result.memberCount ?? 0;
   const cannotWithdraw = isLeader && memberCount !== 1;
