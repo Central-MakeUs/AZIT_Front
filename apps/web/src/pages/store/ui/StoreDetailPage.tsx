@@ -5,6 +5,7 @@ import { Header } from '@azit/design-system/header';
 import { ChevronLeftIcon, ShareIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useActivityParams } from '@stackflow/react';
+import { Suspense } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -32,16 +33,15 @@ import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { CartIconButton } from '@/shared/ui/cart-icon-button';
+import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 
-export function StoreDetailPage() {
+function StoreDetailContent({ id }: { id: string }) {
   const { pop, push } = useFlow();
-  const { id } = useActivityParams<{ id: string }>();
   const { share: shareWithKakao } = useKakaoShare();
 
   const {
     product,
-    isPending,
     isBottomSheetOpen,
     selectedItems,
     options,
@@ -57,106 +57,42 @@ export function StoreDetailPage() {
     setItemQuantity,
     removeItem,
   } = useStoreDetail({
-    productId: id ?? '',
+    productId: id,
     shareWithKakao,
     onPurchase: ({ skuId, quantity }) => push('OrderPage', { skuId, quantity }),
     onPurchaseMultiple: () => push('CartPage', {}),
   });
 
-  if (!id) {
-    return <div>상품 정보를 찾을 수 없습니다.</div>;
-  }
-
-  if (isPending) {
-    return (
-      <AppScreen>
-        <AppLayout>
-          <div className={styles.headerWrapper}>
-            <Header
-              left={
-                <button
-                  className={styles.iconButton}
-                  type="button"
-                  onClick={() => pop()}
-                >
-                  <ChevronLeftIcon size={24} />
-                </button>
-              }
-              right={
-                <div className={styles.headerIconWrapper}>
-                  <button className={styles.iconButton} type="button">
-                    <ShareIcon size={24} />
-                  </button>
-                  <CartIconButton onClick={() => push('CartPage', {})} />
-                </div>
-              }
-            />
-          </div>
-          <StoreDetailSkeleton />
-        </AppLayout>
-      </AppScreen>
-    );
-  }
-
-  if (!product) {
-    return <div>상품 정보를 찾을 수 없습니다.</div>;
-  }
-
   return (
-    <AppScreen>
-      <AppLayout>
-        <div className={styles.headerWrapper}>
-          <Header
-            left={
-              <button className={styles.iconButton} onClick={() => pop()}>
-                <ChevronLeftIcon size={24} />
-              </button>
-            }
-            right={
-              <div className={styles.headerIconWrapper}>
-                <button
-                  className={styles.iconButton}
-                  type="button"
-                  id="kakaotalk-sharing-btn"
-                  onClick={handleShare}
-                  aria-label="카카오 공유"
-                >
-                  <ShareIcon size={24} />
-                </button>
-                <CartIconButton onClick={() => push('CartPage', {})} />
-              </div>
-            }
+    <>
+      <div className={styles.mainContainer}>
+        <StoreDetailImageSlider slideImageUrls={product.slideImageUrls} />
+        <div className={styles.contentWrapper}>
+          <StoreDetailInfo product={product} />
+          <Divider />
+          <div className={styles.detailsSection}>
+            <StoreDetailBanner />
+            <StoreDetailShipping
+              shippingFee={product.shippingFee}
+              expectedShippingDate={product.expectedShippingDate}
+            />
+            <StoreDetailRefund refundPolicy={product.refundPolicy} />
+          </div>
+          <Divider />
+          <StoreDetailDescription
+            description={product.description}
+            detailImageUrls={product.detailImageUrls}
           />
         </div>
-        <div className={styles.mainContainer}>
-          <StoreDetailImageSlider slideImageUrls={product.slideImageUrls} />
-          <div className={styles.contentWrapper}>
-            <StoreDetailInfo product={product} />
-            <Divider />
-            <div className={styles.detailsSection}>
-              <StoreDetailBanner />
-              <StoreDetailShipping
-                shippingFee={product.shippingFee}
-                expectedShippingDate={product.expectedShippingDate}
-              />
-              <StoreDetailRefund refundPolicy={product.refundPolicy} />
-            </div>
-            <Divider />
-            <StoreDetailDescription
-              description={product.description}
-              detailImageUrls={product.detailImageUrls}
-            />
-          </div>
-          <Divider className={styles.divider} />
-          <OrderPolicyDropdown />
-          <OrderPolicyFooter />
-        </div>
-        <div className={footerWrapper}>
-          <Button size="large" state="active" onClick={handleOptionSelectClick}>
-            구매하기
-          </Button>
-        </div>
-      </AppLayout>
+        <Divider className={styles.divider} />
+        <OrderPolicyDropdown />
+        <OrderPolicyFooter />
+      </div>
+      <div className={footerWrapper}>
+        <Button size="large" state="active" onClick={handleOptionSelectClick}>
+          구매하기
+        </Button>
+      </div>
       <BottomSheet
         isOpen={isBottomSheetOpen}
         onOutsideClick={closeBottomSheetAndResetOption}
@@ -222,6 +158,45 @@ export function StoreDetailPage() {
           )}
         </div>
       </BottomSheet>
+    </>
+  );
+}
+
+export function StoreDetailPage() {
+  const { pop, push } = useFlow();
+  const { id } = useActivityParams<{ id: string }>();
+
+  return (
+    <AppScreen>
+      <AppLayout>
+        <DomainErrorBoundary
+          fallback={({ error, reset }) => (
+            <BusinessErrorFallback error={error} onReset={reset} />
+          )}
+        >
+          <div className={styles.headerWrapper}>
+            <Header
+              left={
+                <button
+                  className={styles.iconButton}
+                  type="button"
+                  onClick={() => pop()}
+                >
+                  <ChevronLeftIcon size={24} />
+                </button>
+              }
+              right={
+                <div className={styles.headerIconWrapper}>
+                  <CartIconButton onClick={() => push('CartPage', {})} />
+                </div>
+              }
+            />
+          </div>
+          <Suspense fallback={<StoreDetailSkeleton />}>
+            <StoreDetailContent id={id} />
+          </Suspense>
+        </DomainErrorBoundary>
+      </AppLayout>
     </AppScreen>
   );
 }

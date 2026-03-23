@@ -18,6 +18,12 @@ export const ERROR_FALLBACK_MAP: Record<string, FallbackConfig> = {
     action: 'replace',
     navigateTo: 'HomePage',
   },
+  PRODUCT_NOT_FOUND: {
+    message: '존재하지 않는 상품이에요',
+    label: '다른 상품 보러가기',
+    action: 'replace',
+    navigateTo: 'StorePage',
+  },
 };
 
 export const DEFAULT_FALLBACK: FallbackConfig = {
