@@ -21,10 +21,9 @@ import {
 import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BackButton } from '@/shared/ui/button';
-import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 
-function OrderPageInner() {
+export function OrderPage() {
   const { pop, push, replace } = useFlow();
   const {
     result,
@@ -141,29 +140,5 @@ function OrderPageInner() {
         </div>
       </AppLayout>
     </AppScreen>
-  );
-}
-
-export function OrderPage() {
-  const { pop } = useFlow();
-
-  return (
-    <DomainErrorBoundary
-      fallback={({ error, reset }) => (
-        <AppScreen>
-          <AppLayout>
-            <div className={styles.headerWrapper}>
-              <Header
-                left={<BackButton onClick={() => pop()} />}
-                center="주문하기"
-              />
-            </div>
-            <BusinessErrorFallback error={error} onReset={reset} />
-          </AppLayout>
-        </AppScreen>
-      )}
-    >
-      <OrderPageInner />
-    </DomainErrorBoundary>
   );
 }
