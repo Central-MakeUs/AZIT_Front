@@ -112,14 +112,14 @@ export function OrderDetailPage() {
   return (
     <AppScreen>
       <AppLayout>
-        <div className={styles.headerWrapper}>
-          <Header left={<BackButton />} center="주문 상세" />
-        </div>
         <DomainErrorBoundary
           fallback={({ error, reset }) => (
             <BusinessErrorFallback error={error} onReset={reset} />
           )}
         >
+          <div className={styles.headerWrapper}>
+            <Header left={<BackButton />} center="주문 상세" />
+          </div>
           <Suspense fallback={<PageLoader />}>
             <OrderDetailContent />
           </Suspense>
