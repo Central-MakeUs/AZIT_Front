@@ -40,11 +40,13 @@ export function useOrder(options: UseOrderOptions = {}) {
   const { data: checkoutInfoDirect, isPending: isDirectPending } = useQuery({
     ...orderQueries.checkoutDirectQuery({ skuId, quantity }),
     enabled: isDirectOrder && skuId > 0 && quantity > 0,
+    throwOnError: true,
   });
 
   const { data: checkoutInfoCart, isPending: isCartPending } = useQuery({
     ...orderQueries.checkoutCartQuery({ cartItemIds }),
     enabled: !isDirectOrder && cartItemIds.length > 0,
+    throwOnError: true,
   });
 
   const checkoutInfo = isDirectOrder ? checkoutInfoDirect : checkoutInfoCart;
