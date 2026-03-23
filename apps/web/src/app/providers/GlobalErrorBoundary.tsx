@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react';
+import { ErrorBoundary } from '@sentry/react';
 import type { ReactNode } from 'react';
 
 import { ServerError } from '@/shared/api/apiHandler';
@@ -31,7 +31,7 @@ function ErrorFallback({ error, resetError }: FallbackProps) {
 
 export function GlobalErrorBoundary({ children }: { children: ReactNode }) {
   return (
-    <Sentry.ErrorBoundary
+    <ErrorBoundary
       fallback={({ error, resetError }) => (
         <ErrorFallback error={error} resetError={resetError} />
       )}
@@ -40,6 +40,6 @@ export function GlobalErrorBoundary({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </Sentry.ErrorBoundary>
+    </ErrorBoundary>
   );
 }
