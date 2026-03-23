@@ -12,6 +12,12 @@ export const ERROR_FALLBACK_MAP: Record<string, FallbackConfig> = {
     action: 'replace',
     navigateTo: 'SchedulePage',
   },
+  FORBIDDEN_ERROR: {
+    message: '접근 권한이 없어요',
+    label: '홈으로 가기',
+    action: 'replace',
+    navigateTo: 'HomePage',
+  },
 };
 
 export const DEFAULT_FALLBACK: FallbackConfig = {
