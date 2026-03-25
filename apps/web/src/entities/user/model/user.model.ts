@@ -1,3 +1,5 @@
+import type { RequiredDeep } from 'type-fest';
+
 import type { components, operations } from '@/shared/api/apiTypes';
 import type { ScheduleCalendarItem } from '@/shared/types/schedule';
 
@@ -6,8 +8,9 @@ import type { ScheduleCalendarItem } from '@/shared/types/schedule';
 export type MyInfoResponse = components['schemas']['MyInfoResponse'];
 export type CrewMemberListResponse =
   components['schemas']['CrewMemberListResponse'];
-export type CrewMemberDetailResponse =
-  components['schemas']['CrewMemberDetailResponse'];
+export type CrewMemberDetailResponse = RequiredDeep<
+  components['schemas']['CrewMemberDetailResponse']
+>;
 
 export type MyAttendanceCalendarResponse = ScheduleCalendarItem[];
 export type MyAttendanceCalendarRequest = NonNullable<
