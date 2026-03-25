@@ -17,7 +17,7 @@ import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
 import type { RunType } from '@/shared/types/schedule';
 import { AppLayout } from '@/shared/ui/layout';
-import { BottomNavigation } from '@/shared/ui/navigation';
+import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 import { ScheduleList } from '@/entities/schedule/ui';
 
@@ -50,7 +50,7 @@ export function SchedulePage() {
   }, [selectedDate]);
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const crewId = myInfoData?.result.crewId ?? 0;
   const yearMonth = formatDate(viewDate, 'YYYY-MM');
 
   const { data: scheduleList = [], isLoading } = useQuery({

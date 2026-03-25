@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import * as styles from '@/widgets/onboarding/styles/OnboardingCrewJoin.css';
 
+import { BusinessError } from '@/shared/api/apiHandler';
 import { BottomSheet } from '@/shared/ui/bottom-sheet/BottomSheet';
 import { BackButton } from '@/shared/ui/button';
 
@@ -41,17 +42,15 @@ export function OnboardingCrewJoin({
   };
 
   const handleSubmit = async () => {
-    const response = await getCrewInfo(inviteCode);
-
-    if (!response.ok) {
-      if (response.status === 404) {
+    try {
+      const response = await getCrewInfo(inviteCode);
+      setCrewInfo(response.result);
+      setIsBottomSheetOpen(true);
+    } catch (error) {
+      if (error instanceof BusinessError && error.status === 404) {
         setHasValidationError(true);
       }
-      return;
     }
-
-    setCrewInfo(response.data.result);
-    setIsBottomSheetOpen(true);
   };
 
   return (
