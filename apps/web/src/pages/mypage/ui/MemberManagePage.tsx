@@ -57,17 +57,16 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
   );
 
   const members: MemberItem[] =
-    membersData?.pages.flatMap((page) =>
-      page.ok
-        ? page.data.result.content.map((member) => ({
-            id: member.id!,
-            memberId: member.memberId!,
-            nickname: member.nickname!,
-            profileImageUrl: member.profileImageUrl!,
-            role: member.role!,
-            joinedDate: member.joinedDate!,
-          }))
-        : []
+    membersData?.pages.flatMap(
+      (page) =>
+        page.result.content?.map((member) => ({
+          id: member.id!,
+          memberId: member.memberId!,
+          nickname: member.nickname!,
+          profileImageUrl: member.profileImageUrl!,
+          role: member.role!,
+          joinedDate: member.joinedDate!,
+        })) ?? []
     ) ?? [];
 
   const totalCount = membersData?.pages[0]?.result?.totalCount;
@@ -115,7 +114,7 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
     },
   });
 
-  if (isLoading || !myInfoData?.ok) {
+  if (isLoading || !myInfoData?.result) {
     return <></>;
   }
 
