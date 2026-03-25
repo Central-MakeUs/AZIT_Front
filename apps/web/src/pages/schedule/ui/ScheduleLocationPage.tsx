@@ -28,8 +28,7 @@ import type { LocationSearchResponse } from '@/entities/location/model/location.
 
 type ViewState = 'search' | 'map';
 
-const TOAST_MESSAGE =
-  '주소 변환에 실패했습니다. 최초 검색한 주소로 등록됩니다.';
+const TOAST_MESSAGE = '주소 변환에 실패해 검색한 주소로 등록됩니다.';
 
 export function ScheduleLocationPage() {
   const { pop } = useFlow();
