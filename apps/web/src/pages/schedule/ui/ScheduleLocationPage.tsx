@@ -28,6 +28,9 @@ import type { LocationSearchResponse } from '@/entities/location/model/location.
 
 type ViewState = 'search' | 'map';
 
+const TOAST_MESSAGE =
+  '주소 변환에 실패했습니다. 최초 검색한 주소로 등록됩니다.';
+
 export function ScheduleLocationPage() {
   const { pop } = useFlow();
   const setSelectedScheduleLocation = useScheduleLocationSelectionStore(
@@ -68,15 +71,19 @@ export function ScheduleLocationPage() {
 
     if (adjustedCoords) {
       try {
-        newLocation.address = await reverseGeocode(
+        const newAddress = await reverseGeocode(
           adjustedCoords.lat,
           adjustedCoords.lng
         );
+
+        if (newAddress.length > 0) {
+          newLocation.address = newAddress;
+        } else {
+          toastError(TOAST_MESSAGE);
+        }
       } catch {
-        toastError('주소 변환에 실패했습니다. 기존 주소로 등록됩니다.');
+        toastError(TOAST_MESSAGE);
       }
-      newLocation.latitude = adjustedCoords.lat;
-      newLocation.longitude = adjustedCoords.lng;
     }
 
     setSelectedScheduleLocation(newLocation);
