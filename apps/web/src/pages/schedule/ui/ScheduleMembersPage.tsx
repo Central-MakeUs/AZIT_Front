@@ -23,19 +23,15 @@ export function ScheduleMembersPage({
   params: { id: scheduleId },
 }: ScheduleMembersPageProps) {
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const crewId = myInfoData?.result.crewId ?? 0;
 
   const { data: scheduleDetailData } = useQuery({
     ...scheduleQueries.scheduleDetailQuery(crewId, scheduleId),
     enabled: crewId > 0 && scheduleId > 0,
   });
 
-  const participantCount = scheduleDetailData?.ok
-    ? scheduleDetailData.data.result.currentParticipants
-    : 0;
-  const maxParticipants = scheduleDetailData?.ok
-    ? scheduleDetailData.data.result.maxParticipants
-    : 0;
+  const participantCount = scheduleDetailData?.result.currentParticipants ?? 0;
+  const maxParticipants = scheduleDetailData?.result.maxParticipants ?? 0;
 
   const {
     data: participantsData,
@@ -54,9 +50,7 @@ export function ScheduleMembersPage({
   });
 
   const members =
-    participantsData?.pages.flatMap((page) =>
-      page.ok ? page.data.result.content : []
-    ) ?? [];
+    participantsData?.pages.flatMap((page) => page.result?.content ?? []) ?? [];
 
   return (
     <AppScreen>

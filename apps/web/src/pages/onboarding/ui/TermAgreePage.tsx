@@ -107,11 +107,8 @@ export function TermAgreePage() {
       notificationTermsAgreed: false,
     };
 
-    const response = await postTermAgree(requestPayload);
-
-    if (response.ok) {
-      replace('OnboardingPage', {}, { animate: false });
-    }
+    await postTermAgree(requestPayload);
+    replace('OnboardingPage', {}, { animate: false });
   };
 
   const handleDetailClick = (id: string) => {

@@ -10,7 +10,7 @@ import { StoreGridView } from '@/features/store/ui';
 import { logo } from '@/shared/styles/logo.css';
 import { CartIconButton } from '@/shared/ui/cart-icon-button';
 import { AppLayout } from '@/shared/ui/layout';
-import { BottomNavigation } from '@/shared/ui/navigation';
+import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 export function StorePage() {
   const { push } = useFlow();

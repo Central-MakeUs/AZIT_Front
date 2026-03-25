@@ -17,28 +17,24 @@ import {
 import { useScheduleFormState } from '@/widgets/schedule-form/model/useScheduleFormState';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
-import { ApiError } from '@/shared/api/apiHandler';
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-import { toastError } from '@/shared/ui/toast';
 
 export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   const { pop, push } = useFlow();
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
-  const isLeader =
-    myInfoData?.ok &&
-    myInfoData.data.result.crewMemberRole === MEMBER_ROLE.LEADER;
+  const crewId = myInfoData?.result.crewId ?? 0;
+  const isLeader = myInfoData?.result.crewMemberRole === MEMBER_ROLE.LEADER;
 
   const { formValues, setFormValues, validateForm } = useScheduleFormState(
     initializeScheduleFormValues({ params })
   );
 
   useEffect(() => {
-    if (myInfoData?.ok && !isLeader) {
+    if (myInfoData?.result && !isLeader) {
       setFormValues((prev) => ({ ...prev, runType: 'LIGHTNING' }));
     }
   }, [myInfoData, isLeader]);
@@ -46,19 +42,14 @@ export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   const queryClient = useQueryClient();
   const createMutation = useMutation({
     ...scheduleQueries.createScheduleMutation,
+    meta: {
+      errorMessages: {
+        SCHEDULE_INTERVAL_TOO_CLOSE: '이전 일정과 시작 시간이 너무 가깝습니다',
+      },
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: scheduleQueries.all });
       pop();
-    },
-    onError: (error) => {
-      if (
-        error instanceof ApiError &&
-        error.code === 'SCHEDULE_INTERVAL_TOO_CLOSE'
-      ) {
-        toastError('이전 일정과 시작 시간이 너무 가깝습니다');
-        return;
-      }
-      toastError('일정 등록에 실패했습니다.');
     },
   });
 

@@ -17,14 +17,14 @@ import { WithdrawButton } from '@/features/auth/ui';
 import { crewQueries, memberQueries } from '@/shared/queries';
 import { useAuthStore } from '@/shared/store/auth';
 import { AppLayout } from '@/shared/ui/layout';
-import { BottomNavigation } from '@/shared/ui/navigation';
+import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 export function MyPage() {
   const { logout } = useAuthStore();
 
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
 
-  const myInfo = myInfoData?.ok ? myInfoData.data.result : undefined;
+  const myInfo = myInfoData?.result;
   const isLeader = myInfo?.crewMemberRole === 'LEADER';
 
   const { data: crewInfoData } = useQuery({
@@ -32,13 +32,9 @@ export function MyPage() {
     enabled: !!myInfo?.invitationCode,
   });
 
-  if (isLoading || !myInfoData?.ok || !myInfo) {
-    return <></>;
-  }
+  if (isLoading || !myInfo) return null;
 
-  const memberCount = crewInfoData?.ok
-    ? (crewInfoData.data.result.memberCount ?? 0)
-    : 0;
+  const memberCount = crewInfoData?.result.memberCount ?? 0;
   const cannotWithdraw = isLeader && memberCount !== 1;
 
   const filteredMenu = getMypageMenu(myInfo.crewMemberRole, myInfo.crewId);
