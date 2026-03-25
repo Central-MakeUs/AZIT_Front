@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 
 import * as styles from '@/widgets/profile/styles/RoundProfileImage.css';
 
@@ -15,7 +16,13 @@ export function RoundProfileImage({
   size = 96,
   className,
 }: RoundProfileImageProps) {
-  if (!src) {
+  const [hasLoadError, setHasLoadError] = useState(false);
+
+  useEffect(() => {
+    setHasLoadError(false);
+  }, [src]);
+
+  if (!src || hasLoadError) {
     return (
       <div
         className={clsx(styles.placeholderContainer, className)}
@@ -33,6 +40,7 @@ export function RoundProfileImage({
       width={size}
       height={size}
       className={clsx(styles.profileImage, className)}
+      onError={() => setHasLoadError(true)}
     />
   );
 }
