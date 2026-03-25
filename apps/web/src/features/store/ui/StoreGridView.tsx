@@ -18,8 +18,7 @@ export function StoreGridView() {
     useInfiniteQuery(storeQueries.productsInfiniteQuery());
 
   const products =
-    data?.pages.flatMap((page) => (page.ok ? page.data.result.content : [])) ??
-    [];
+    data?.pages.flatMap((page) => page.result?.content ?? []) ?? [];
 
   const { scrollRef, bottomSentinelRef } = useStoreGrid({
     hasNextPage: hasNextPage ?? false,
