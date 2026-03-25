@@ -219,7 +219,7 @@ function ScheduleDisabledSection({ title }: { title: string }) {
           </div>
         </div>
       </div>
-      <p className={styles.distanceTextDisabled}>100m이내에서 활성화</p>
+      <p className={styles.distanceTextDisabled}>1km이내에서 활성화</p>
     </div>
   );
 }
