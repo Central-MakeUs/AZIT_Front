@@ -1,11 +1,10 @@
 import { useActivityParams } from '@stackflow/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { PAYMENT_METHOD_MAP } from '@/shared/constants/order';
 import { parseOrderParams } from '@/shared/lib/orderParams';
 import type { OrderPageParams } from '@/shared/lib/orderParams';
-import { memberQueries } from '@/shared/queries';
 import { orderQueries } from '@/shared/queries/order';
 import { toastError } from '@/shared/ui/toast';
 
@@ -24,7 +23,6 @@ export function useOrder(options: UseOrderOptions = {}) {
   const params = useActivityParams<OrderPageParams>();
   const { skuId, quantity, cartItemIds } = parseOrderParams(params);
   const isDirectOrder = skuId > 0;
-  const queryClient = useQueryClient();
 
   const [selectedPaymentCode, setSelectedPaymentCode] = useState<
     string | undefined
