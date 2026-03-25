@@ -14,7 +14,7 @@ export function CartIconButton({
   'aria-label': ariaLabel,
 }: CartIconButtonProps) {
   const { data } = useQuery(cartQueries.countQuery());
-  const count = data?.ok ? (data.data.result?.count ?? 0) : 0;
+  const count = data?.result?.count ?? 0;
 
   return (
     <button
