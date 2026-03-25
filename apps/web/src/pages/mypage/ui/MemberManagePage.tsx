@@ -59,13 +59,13 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
   const members: MemberItem[] =
     membersData?.pages.flatMap((page) =>
       page.ok
-        ? page.data.result.content.map((member: MemberItem) => ({
-            id: member.id ?? 0,
-            memberId: member.memberId ?? member.id ?? 0,
-            nickname: member.nickname ?? '',
-            profileImageUrl: member.profileImageUrl ?? '',
-            role: member.role ?? 'MEMBER',
-            joinedDate: member.joinedDate ?? '',
+        ? page.data.result.content.map((member) => ({
+            id: member.id!,
+            memberId: member.memberId!,
+            nickname: member.nickname!,
+            profileImageUrl: member.profileImageUrl!,
+            role: member.role!,
+            joinedDate: member.joinedDate!,
           }))
         : []
     ) ?? [];
