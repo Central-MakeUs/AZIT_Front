@@ -31,22 +31,19 @@ export function MemberViewPage({ params }: { params?: { id?: string } }) {
     fetchNextPage,
   });
 
-  const totalCount = membersData?.pages[0]?.ok
-    ? membersData.pages[0].data.result.totalCount
-    : 0;
+  const totalCount = membersData?.pages[0]?.result?.totalCount ?? 0;
 
   const members =
-    membersData?.pages.flatMap((page) =>
-      page.ok
-        ? page.data.result.content.map((member) => ({
-            id: member.id ?? 0,
-            memberId: member.memberId ?? member.id ?? 0,
-            nickname: member.nickname ?? '',
-            profileImageUrl: member.profileImageUrl ?? '',
-            role: member.role ?? 'MEMBER',
-            joinedDate: member.joinedDate ?? '',
-          }))
-        : []
+    membersData?.pages.flatMap(
+      (page) =>
+        page.result?.content.map((member) => ({
+          id: member.id ?? 0,
+          memberId: member.memberId ?? member.id ?? 0,
+          nickname: member.nickname ?? '',
+          profileImageUrl: member.profileImageUrl ?? '',
+          role: member.role ?? 'MEMBER',
+          joinedDate: member.joinedDate ?? '',
+        })) ?? []
     ) ?? [];
 
   return (

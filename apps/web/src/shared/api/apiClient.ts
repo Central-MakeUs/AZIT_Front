@@ -33,9 +33,10 @@ export const authApi = baseApi.extend({
         if (response.status === 401 && state.retryCount === 0) {
           const tokenResponse = await postReissueToken();
 
-          if (tokenResponse.ok) {
-            const accessToken = tokenResponse.data.result.accessToken;
-            useAuthStore.getState().setAccessToken(accessToken);
+          if (tokenResponse.result?.accessToken) {
+            useAuthStore
+              .getState()
+              .setAccessToken(tokenResponse.result.accessToken);
 
             return ky.retry({
               request: new Request(request),
@@ -43,11 +44,18 @@ export const authApi = baseApi.extend({
             });
           }
 
+          // 재발급 실패 — 세션 만료 처리
+          useAuthStore.getState().setAccessToken(undefined);
           return response;
         }
 
         if (response.status === 403 && state.retryCount === 0) {
-          window.location.href = '/crew-join/status/banned';
+          try {
+            const body = (await response.clone().json()) as { code?: string };
+            if (body.code === 'INVALID_MEMBER_STATUS') {
+              window.location.href = '/crew-join/status/banned';
+            }
+          } catch {}
 
           return response;
         }

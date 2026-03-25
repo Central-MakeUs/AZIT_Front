@@ -1,10 +1,11 @@
 import { useActivityParams } from '@stackflow/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { PAYMENT_METHOD_MAP } from '@/shared/constants/order';
 import { parseOrderParams } from '@/shared/lib/orderParams';
 import type { OrderPageParams } from '@/shared/lib/orderParams';
+import { memberQueries } from '@/shared/queries';
 import { orderQueries } from '@/shared/queries/order';
 import { toastError } from '@/shared/ui/toast';
 
@@ -23,6 +24,7 @@ export function useOrder(options: UseOrderOptions = {}) {
   const params = useActivityParams<OrderPageParams>();
   const { skuId, quantity, cartItemIds } = parseOrderParams(params);
   const isDirectOrder = skuId > 0;
+  const queryClient = useQueryClient();
 
   const [selectedPaymentCode, setSelectedPaymentCode] = useState<
     string | undefined
@@ -40,20 +42,19 @@ export function useOrder(options: UseOrderOptions = {}) {
   const { data: checkoutInfoDirect, isPending: isDirectPending } = useQuery({
     ...orderQueries.checkoutDirectQuery({ skuId, quantity }),
     enabled: isDirectOrder && skuId > 0 && quantity > 0,
+    throwOnError: true,
   });
 
   const { data: checkoutInfoCart, isPending: isCartPending } = useQuery({
     ...orderQueries.checkoutCartQuery({ cartItemIds }),
     enabled: !isDirectOrder && cartItemIds.length > 0,
+    throwOnError: true,
   });
 
   const checkoutInfo = isDirectOrder ? checkoutInfoDirect : checkoutInfoCart;
   const isPending = isDirectOrder ? isDirectPending : isCartPending;
 
-  const result =
-    !checkoutInfo?.ok || !checkoutInfo.data?.result
-      ? null
-      : checkoutInfo.data.result;
+  const result = checkoutInfo?.result ?? null;
 
   const products = result?.items ?? [];
   const summary = result?.summary;
@@ -90,11 +91,8 @@ export function useOrder(options: UseOrderOptions = {}) {
 
     try {
       const response = await createOrderMutation.mutateAsync(payload);
-      if (response.ok && response.data?.result) {
-        onOrderSuccess?.(response.data.result);
-      }
-      if (!response.ok) {
-        toastError('주문에 실패했어요');
+      if (response.result) {
+        onOrderSuccess?.(response.result);
       }
     } catch {
       toastError('주문에 실패했어요');
