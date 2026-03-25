@@ -5,6 +5,8 @@ import { createHttpMethods } from '@/shared/api/httpMethods';
 import { BASE_API_URL } from '@/shared/constants/url';
 import { useAuthStore } from '@/shared/store/auth';
 
+let refreshPromise: Promise<string | undefined> | null = null;
+
 export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
   credentials: 'include',
@@ -31,20 +33,25 @@ export const authApi = baseApi.extend({
       // 401 에러 발생시, 새 토큰으로 재시도
       async (request, _options, response, state) => {
         if (response.status === 401 && state.retryCount === 0) {
-          const tokenResponse = await postReissueToken();
+          if (!refreshPromise) {
+            refreshPromise = postReissueToken()
+              .then((res) => res.result.accessToken)
+              .catch(() => undefined)
+              .finally(() => {
+                refreshPromise = null;
+              });
+          }
 
-          if (tokenResponse.result?.accessToken) {
-            useAuthStore
-              .getState()
-              .setAccessToken(tokenResponse.result.accessToken);
+          const newToken = await refreshPromise;
 
+          if (newToken) {
+            useAuthStore.getState().setAccessToken(newToken);
             return ky.retry({
               request: new Request(request),
               code: 'TOKEN_REFRESHED',
             });
           }
 
-          // 재발급 실패 — 세션 만료 처리
           useAuthStore.getState().setAccessToken(undefined);
           return response;
         }
@@ -55,7 +62,8 @@ export const authApi = baseApi.extend({
             if (body.code === 'INVALID_MEMBER_STATUS') {
               window.location.href = '/crew-join/status/banned';
             }
-          } catch {}
+            // eslint-disable-next-line no-empty
+          } catch (_error) {}
 
           return response;
         }
