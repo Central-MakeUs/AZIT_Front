@@ -5,6 +5,8 @@ import { createHttpMethods } from '@/shared/api/httpMethods';
 import { BASE_API_URL } from '@/shared/constants/url';
 import { useAuthStore } from '@/shared/store/auth';
 
+let refreshPromise: Promise<string | undefined> | null = null;
+
 export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
   credentials: 'include',
@@ -31,23 +33,37 @@ export const authApi = baseApi.extend({
       // 401 에러 발생시, 새 토큰으로 재시도
       async (request, _options, response, state) => {
         if (response.status === 401 && state.retryCount === 0) {
-          const tokenResponse = await postReissueToken();
+          if (!refreshPromise) {
+            refreshPromise = postReissueToken()
+              .then((res) => res.result.accessToken)
+              .catch(() => undefined)
+              .finally(() => {
+                refreshPromise = null;
+              });
+          }
 
-          if (tokenResponse.ok) {
-            const accessToken = tokenResponse.data.result.accessToken;
-            useAuthStore.getState().setAccessToken(accessToken);
+          const newToken = await refreshPromise;
 
+          if (newToken) {
+            useAuthStore.getState().setAccessToken(newToken);
             return ky.retry({
               request: new Request(request),
               code: 'TOKEN_REFRESHED',
             });
           }
 
+          useAuthStore.getState().setAccessToken(undefined);
           return response;
         }
 
         if (response.status === 403 && state.retryCount === 0) {
-          window.location.href = '/crew-join/status/banned';
+          try {
+            const body = (await response.clone().json()) as { code?: string };
+            if (body.code === 'INVALID_MEMBER_STATUS') {
+              window.location.href = '/crew-join/status/banned';
+            }
+            // eslint-disable-next-line no-empty
+          } catch (_error) {}
 
           return response;
         }

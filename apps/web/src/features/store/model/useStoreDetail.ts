@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { showCartError } from '@/features/cart/lib/showCartError';
@@ -37,11 +37,9 @@ export function useStoreDetail({
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<SelectedDetailItem[]>([]);
 
-  const {
-    data: product,
-    isPending,
-    isError,
-  } = useQuery(storeQueries.productDetailQuery(productId));
+  const { data: product } = useSuspenseQuery(
+    storeQueries.productDetailQuery(productId)
+  );
 
   const { addItemAsync, isPending: isAddToCartPending } = useAddToCart();
 
@@ -181,8 +179,6 @@ export function useStoreDetail({
 
   return {
     product,
-    isPending,
-    isError,
     isBottomSheetOpen,
     selectedItems,
     options,
