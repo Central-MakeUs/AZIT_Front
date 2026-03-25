@@ -3,39 +3,32 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useFlow } from '@/app/routes/stackflow';
 
 import { postConfirmJoinStatus } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
-import type { ConfirmJoinStatusResult } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
 import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
 import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
 
-import { crewQueries, memberQueries } from '@/shared/queries';
+import { crewQueries, memberQueries, scheduleQueries } from '@/shared/queries';
 
 export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
   const { replace } = useFlow();
   const queryClient = useQueryClient();
 
-  const confirmJoinStatusMuation = useMutation<
-    ConfirmJoinStatusResult,
-    Error,
-    void
-  >({
+  const confirmJoinStatusMuation = useMutation({
     ...crewQueries.confirmJoinStatus,
     mutationFn: postConfirmJoinStatus,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.removeQueries({
         queryKey: crewQueries.defaultKey,
       });
       queryClient.invalidateQueries({
         queryKey: memberQueries.myInfoKey(),
       });
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.all,
+      });
 
-      if (data.ok) {
-        const redirectActivity =
-          status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
-        replace(redirectActivity, {}, { animate: false });
-      } else {
-        // TODO: 토스트 처리
-        console.log(data.error);
-      }
+      const redirectActivity =
+        status === CREW_JOIN_STATUS.JOINED ? 'HomePage' : 'OnboardingPage';
+      replace(redirectActivity, {}, { animate: false });
     },
     onError: (error) => {
       console.error(error);

@@ -1,55 +1,42 @@
 import type { KyInstance, Options } from 'ky';
 import { HTTPError } from 'ky';
 
-import type { ApiResponseWithoutResult } from '@/shared/api/baseTypes';
-
-export class ApiError extends Error {
+export class BusinessError extends Error {
   readonly code: string;
   readonly status: number;
 
   constructor(message: string, code: string, status: number) {
     super(message);
-    this.name = 'ApiError';
+    this.name = 'BusinessError';
     this.code = code;
     this.status = status;
   }
 }
 
-interface BaseResult {
-  status: number;
+export class ServerError extends Error {
+  readonly status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'ServerError';
+    this.status = status;
+  }
 }
 
-export interface Ok<T> extends BaseResult {
-  ok: true;
-  data: T;
-}
-
-export interface Err<E = unknown> extends BaseResult {
-  ok: false;
-  error: E;
-}
-
-export type ApiResult<T, E = unknown> = Ok<T> | Err<E>;
-
-export async function apiHandler<T, E = ApiResponseWithoutResult>(
+export async function apiHandler<T>(
   client: KyInstance,
   endpoint: string,
   options?: Options
-): Promise<ApiResult<T, E>> {
+): Promise<T> {
   try {
-    const data = await client(endpoint, options).json<T>();
-    return {
-      ok: true,
-      status: 200,
-      data,
-    };
+    return await client(endpoint, options).json<T>();
   } catch (error) {
     if (error instanceof HTTPError) {
       const res = error.response;
-      let body: E;
+      let body: unknown;
 
       try {
-        body = (await res.clone().json()) as E;
+        body = await res.clone().json();
       } catch {
         throw error;
       }
@@ -70,7 +57,14 @@ export async function apiHandler<T, E = ApiResponseWithoutResult>(
           ? (body as { code: string }).code
           : '';
 
-      throw new ApiError(message, code, res.status);
+      const isBusinessError =
+        res.status >= 400 && res.status < 500 && code !== '';
+
+      if (isBusinessError) {
+        throw new BusinessError(message, code, res.status);
+      } else {
+        throw new ServerError(message, res.status);
+      }
     }
 
     throw error;

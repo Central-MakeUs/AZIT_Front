@@ -25,14 +25,14 @@ export function CrewJoinStatusPage({
   });
 
   const { handleJoinStatus } = useConfirmJoinStatus(
-    data?.ok ? data.data.result.status : null
+    data?.result.status ?? null
   );
 
-  if (!data?.ok) {
+  if (!data?.result) {
     return null;
   }
 
-  const { status, name } = data.data.result;
+  const { status, name } = data.result;
   const content = STATUS_CONTENT[status];
 
   return (

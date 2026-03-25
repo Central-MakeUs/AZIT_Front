@@ -35,7 +35,7 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
   const crewId = Number(params?.id) || 0;
 
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
-  const myInfo = myInfoData?.ok ? myInfoData.data.result : null;
+  const myInfo = myInfoData?.result ?? null;
 
   const {
     data: membersData,
@@ -70,19 +70,14 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
         : []
     ) ?? [];
 
-  const totalCount =
-    membersData?.pages[0]?.ok === true
-      ? membersData.pages[0].data.result.totalCount
-      : undefined;
+  const totalCount = membersData?.pages[0]?.result?.totalCount;
 
   const { data: joinRequestsData, refetch: refetchRequests } = useQuery({
     ...memberQueries.joinRequestsQuery(crewId),
     enabled: crewId > 0,
   });
 
-  const requests = joinRequestsData?.ok
-    ? (joinRequestsData.data.result ?? [])
-    : [];
+  const requests = joinRequestsData?.result ?? [];
 
   const {
     scrollRef: pullToRefreshScrollRef,

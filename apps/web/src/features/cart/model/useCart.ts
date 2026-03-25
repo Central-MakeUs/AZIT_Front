@@ -45,10 +45,10 @@ export function useCart() {
   );
 
   const cartData = useMemo(() => {
-    if (!cartProductsResponse?.ok || !cartProductsResponse.data.result) {
+    if (!cartProductsResponse?.result) {
       return [];
     }
-    return transformCartData(cartProductsResponse.data.result);
+    return transformCartData(cartProductsResponse.result);
   }, [cartProductsResponse]);
 
   const allItems = useMemo(() => {
