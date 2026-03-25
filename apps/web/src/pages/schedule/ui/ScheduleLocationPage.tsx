@@ -22,6 +22,7 @@ import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import type { LatLng } from '@/shared/ui/naver-map/NaverMap';
 import { Show } from '@/shared/ui/show';
+import { toastError } from '@/shared/ui/toast';
 
 import type { LocationSearchResponse } from '@/entities/location/model/location.model';
 
@@ -66,10 +67,14 @@ export function ScheduleLocationPage() {
     };
 
     if (adjustedCoords) {
-      newLocation.address = await reverseGeocode(
-        adjustedCoords.lat,
-        adjustedCoords.lng
-      );
+      try {
+        newLocation.address = await reverseGeocode(
+          adjustedCoords.lat,
+          adjustedCoords.lng
+        );
+      } catch {
+        toastError('주소 변환에 실패했습니다. 기존 주소로 등록됩니다.');
+      }
       newLocation.latitude = adjustedCoords.lat;
       newLocation.longitude = adjustedCoords.lng;
     }
