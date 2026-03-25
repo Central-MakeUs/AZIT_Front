@@ -33,7 +33,7 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
   const crewId = Number(params?.id) || 0;
 
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
-  const myInfo = myInfoData?.ok ? myInfoData.data.result : null;
+  const myInfo = myInfoData?.result ?? null;
 
   const {
     data: membersData,
@@ -52,34 +52,28 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
   });
 
   const members: MemberItem[] =
-    membersData?.pages.flatMap((page) =>
-      page.ok
-        ? page.data.result.content.map((member) => ({
-            id: member.id ?? 0,
-            memberId: member.memberId ?? member.id ?? 0,
-            nickname: member.nickname ?? '',
-            profileImageUrl: member.profileImageUrl ?? '',
-            role: member.role ?? 'MEMBER',
-            joinedDate: member.joinedDate ?? '',
-          }))
-        : []
+    membersData?.pages.flatMap(
+      (page) =>
+        page.result?.content.map((member) => ({
+          id: member.id ?? 0,
+          memberId: member.memberId ?? member.id ?? 0,
+          nickname: member.nickname ?? '',
+          profileImageUrl: member.profileImageUrl ?? '',
+          role: member.role ?? 'MEMBER',
+          joinedDate: member.joinedDate ?? '',
+        })) ?? []
     ) ?? [];
 
-  const totalCount =
-    membersData?.pages[0]?.ok === true
-      ? membersData.pages[0].data.result.totalCount
-      : undefined;
+  const totalCount = membersData?.pages[0]?.result?.totalCount;
 
   const { data: joinRequestsData } = useQuery({
     ...memberQueries.joinRequestsQuery(crewId),
     enabled: crewId > 0,
   });
 
-  const requests = joinRequestsData?.ok
-    ? (joinRequestsData.data.result ?? [])
-    : [];
+  const requests = joinRequestsData?.result ?? [];
 
-  if (isLoading || !myInfoData?.ok) {
+  if (isLoading || !myInfoData?.result) {
     return <></>;
   }
 

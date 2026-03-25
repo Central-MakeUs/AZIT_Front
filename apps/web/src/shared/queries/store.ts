@@ -19,8 +19,8 @@ export const storeQueries = {
       queryFn: ({ pageParam }) => getStoreProducts(pageParam),
       initialPageParam: undefined as number | undefined,
       getNextPageParam: (lastPage) => {
-        if (!lastPage.ok) return undefined;
-        const { hasNext, lastId } = lastPage.data.result;
+        if (!lastPage.result) return undefined;
+        const { hasNext, lastId } = lastPage.result;
         return hasNext && lastId ? lastId : undefined;
       },
     }),
@@ -28,6 +28,6 @@ export const storeQueries = {
     queryOptions({
       queryKey: [...storeQueries.detailKey(), id],
       queryFn: () => getStoreProductDetail(id),
-      select: (data) => (data.ok ? data.data.result : undefined),
+      select: (data) => data.result,
     }),
 };
