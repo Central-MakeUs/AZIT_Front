@@ -22,10 +22,13 @@ import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import type { LatLng } from '@/shared/ui/naver-map/NaverMap';
 import { Show } from '@/shared/ui/show';
+import { toastError } from '@/shared/ui/toast';
 
 import type { LocationSearchResponse } from '@/entities/location/model/location.model';
 
 type ViewState = 'search' | 'map';
+
+const TOAST_MESSAGE = '주소 변환에 실패해 검색한 주소로 등록됩니다.';
 
 export function ScheduleLocationPage() {
   const { pop } = useFlow();
@@ -66,12 +69,20 @@ export function ScheduleLocationPage() {
     };
 
     if (adjustedCoords) {
-      newLocation.address = await reverseGeocode(
-        adjustedCoords.lat,
-        adjustedCoords.lng
-      );
-      newLocation.latitude = adjustedCoords.lat;
-      newLocation.longitude = adjustedCoords.lng;
+      try {
+        const newAddress = await reverseGeocode(
+          adjustedCoords.lat,
+          adjustedCoords.lng
+        );
+
+        if (newAddress.length > 0) {
+          newLocation.address = newAddress;
+        } else {
+          toastError(TOAST_MESSAGE);
+        }
+      } catch {
+        toastError(TOAST_MESSAGE);
+      }
     }
 
     setSelectedScheduleLocation(newLocation);
