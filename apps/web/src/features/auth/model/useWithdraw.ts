@@ -9,13 +9,10 @@ export const useWithdraw = () => {
   const { replace } = useFlow();
 
   const handleWithdraw = async () => {
-    const response = await postWithdraw();
-
-    if (response.ok) {
-      setAccessToken(undefined);
-      setIsInitialized(false);
-      replace('LoginPage', {}, { animate: false });
-    }
+    await postWithdraw();
+    setAccessToken(undefined);
+    setIsInitialized(false);
+    replace('LoginPage', {}, { animate: false });
   };
 
   return { handleWithdraw };
