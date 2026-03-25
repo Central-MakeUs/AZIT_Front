@@ -14,8 +14,7 @@ export const locationQueries = {
       queryKey: locationQueries.searchKey(normalizedQuery),
       queryFn: async () => {
         const res = await getLocationSearch(normalizedQuery);
-        if (!res.ok) return [];
-        return res.data.result ?? [];
+        return res.result ?? [];
       },
       enabled: !!normalizedQuery,
       staleTime: 1000 * 60,

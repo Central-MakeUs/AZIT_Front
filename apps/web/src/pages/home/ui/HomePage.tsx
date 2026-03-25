@@ -20,7 +20,7 @@ import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { logo } from '@/shared/styles/logo.css';
 import { AppLayout } from '@/shared/ui/layout';
-import { BottomNavigation } from '@/shared/ui/navigation';
+import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 import { toastSuccess } from '@/shared/ui/toast';
 
 import { ScheduleList } from '@/entities/schedule/ui/ScheduleList';
@@ -35,7 +35,7 @@ export function HomePage() {
   const queryClient = useQueryClient();
 
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.ok ? myInfoData.data.result.crewId : 0;
+  const crewId = myInfoData?.result.crewId ?? 0;
 
   const { data: scheduleList = [], isLoading } = useQuery({
     ...scheduleQueries.getMemberScheduleListQuery(),

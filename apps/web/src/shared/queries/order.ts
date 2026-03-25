@@ -44,8 +44,8 @@ export const orderQueries = {
       queryFn: ({ pageParam }) => getOrderHistory(pageParam),
       initialPageParam: undefined as number | undefined,
       getNextPageParam: (lastPage) => {
-        if (!lastPage.ok || !lastPage.data?.result) return undefined;
-        const { hasNext, lastId } = lastPage.data.result;
+        if (!lastPage.result) return undefined;
+        const { hasNext, lastId } = lastPage.result;
         return hasNext && lastId ? lastId : undefined;
       },
     }),
