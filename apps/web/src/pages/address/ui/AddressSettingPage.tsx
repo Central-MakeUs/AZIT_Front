@@ -21,7 +21,6 @@ import {
 import { orderQueries } from '@/shared/queries/order';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-import { toastError } from '@/shared/ui/toast';
 
 export function AddressSettingPage() {
   const { push, pop } = useFlow();
@@ -30,7 +29,7 @@ export function AddressSettingPage() {
   const deleteMutation = useDeleteAddress();
   const updateDefaultAddress = useUpdateAddress();
   const { data } = useQuery({ ...addressQueries.addressesQuery() });
-  const addressList = data && data.ok ? data.data.result : [];
+  const addressList = data?.result ?? [];
 
   const [defaultAddressId, setDefaultAddressId] = useState<number | null>(null);
 
@@ -45,11 +44,7 @@ export function AddressSettingPage() {
 
   const handleDelete = async (id: number) => {
     // TODO: cofirm 필요
-    const response = await deleteMutation.mutateAsync(id);
-    if (!response.ok) {
-      console.error(response.error);
-      toastError('배송지 삭제에 실패했습니다.');
-    }
+    await deleteMutation.mutateAsync(id);
   };
 
   const handleEdit = (id: number) => {
@@ -68,15 +63,10 @@ export function AddressSettingPage() {
 
     const { id, ...payload } = defaultAddressPayload;
     payload.isDefault = true;
-    const response = await updateDefaultAddress.mutateAsync({
+    await updateDefaultAddress.mutateAsync({
       id,
       payload,
     });
-
-    if (!response.ok) {
-      toastError('배송지 변경에 실패했습니다.');
-      return;
-    }
 
     await queryClient.invalidateQueries({ queryKey: orderQueries.all });
     pop();

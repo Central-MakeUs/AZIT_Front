@@ -48,8 +48,7 @@ export const scheduleQueries = {
       queryKey: scheduleQueries.listKey(crewId, request),
       queryFn: async () => {
         const res = await getScheduleList(crewId, request);
-        if (!res.ok) return [];
-        return res.data.result ?? [];
+        return res.result ?? [];
       },
     }),
   getMemberScheduleListQuery: () =>
@@ -57,8 +56,7 @@ export const scheduleQueries = {
       queryKey: scheduleQueries.memberListKey(),
       queryFn: async () => {
         const res = await getMemberScheduleList();
-        if (!res.ok) return [];
-        return res.data.result ?? [];
+        return res.result ?? [];
       },
     }),
   getScheduleCheckInStatusQuery: () =>
@@ -66,8 +64,7 @@ export const scheduleQueries = {
       queryKey: scheduleQueries.checkInStatusKey(),
       queryFn: async () => {
         const res = await getScheduleCheckInStatus();
-        if (!res.ok) return null;
-        return res.data.result ?? null;
+        return res.result ?? null;
       },
     }),
   getScheduleCalendarQuery: (
@@ -78,8 +75,7 @@ export const scheduleQueries = {
       queryKey: scheduleQueries.calendarKey(crewId, request),
       queryFn: async () => {
         const res = await getScheduleCalendar(crewId, request);
-        if (!res.ok) return [];
-        return res.data.result ?? [];
+        return res.result ?? [];
       },
     }),
   createScheduleMutation: mutationOptions({
@@ -125,8 +121,8 @@ export const scheduleQueries = {
       queryFn: ({ pageParam }) =>
         getScheduleParticipants(crewId, scheduleId, { cursorId: pageParam }),
       getNextPageParam: (lastPage) => {
-        if (!lastPage.ok) return undefined;
-        const { hasNext, lastId } = lastPage.data.result || {};
+        if (!lastPage.result) return undefined;
+        const { hasNext, lastId } = lastPage.result;
         return hasNext && lastId ? lastId : undefined;
       },
       initialPageParam: undefined as number | undefined,

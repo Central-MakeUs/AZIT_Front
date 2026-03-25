@@ -17,8 +17,8 @@ export function CrewBannedStatusPage() {
   const { data, isLoading } = useQuery({
     ...memberQueries.myInfoQuery(),
     select: (data) => {
-      if (!data.ok) return null;
-      const result = data.data.result;
+      const result = data.result;
+      if (!result) return null;
       if (result.status === 'KICKED_PENDING_CONFIRM') {
         return { ...result, status: CREW_JOIN_STATUS.EXPELLED };
       }
