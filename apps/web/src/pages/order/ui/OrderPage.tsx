@@ -70,23 +70,7 @@ export function OrderPage() {
     );
   }
 
-  if (!result) {
-    return (
-      <AppScreen>
-        <AppLayout>
-          <div className={styles.headerWrapper}>
-            <Header
-              left={<BackButton onClick={handleBack} />}
-              center="주문하기"
-            />
-          </div>
-          <div className={styles.mainContainer}>
-            주문 정보를 불러올 수 없습니다.
-          </div>
-        </AppLayout>
-      </AppScreen>
-    );
-  }
+  if (!result) return null;
 
   return (
     <AppScreen>

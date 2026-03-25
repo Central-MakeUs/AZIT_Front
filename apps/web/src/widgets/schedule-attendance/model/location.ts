@@ -7,7 +7,7 @@ export type UserPosition = {
   lng: number;
 };
 
-export const ACTIVATION_RADIUS_METERS = 100;
+export const ACTIVATION_RADIUS_METERS = 1000;
 export const POLL_INTERVAL_MS = 60_000;
 
 export type FetchUserPositionOptions = {

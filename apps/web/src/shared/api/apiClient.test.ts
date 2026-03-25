@@ -63,13 +63,46 @@ describe('shared/lib/ky', () => {
     expect(useAuthStore.getState().accessToken).toBe('NEW_TOKEN');
   });
 
-  it('에러 응답 body를 error.message에 포함한다 (beforeError)', async () => {
-    global.fetch = vi
-      .fn()
-      .mockResolvedValue(new Response('Invalid token', { status: 400 })) as any;
+  it('동시에 401이 발생해도 토큰 재발급은 한 번만 실행된다', async () => {
+    useAuthStore.setState({ accessToken: 'OLD_TOKEN' });
 
-    await expect(authApi.get('error-test').json()).rejects.toThrow(
-      /Invalid token/
+    const fetchMock = vi
+      .fn()
+      // 요청 A: 401
+      .mockResolvedValueOnce(new Response(null, { status: 401 }))
+      // 요청 B: 401
+      .mockResolvedValueOnce(new Response(null, { status: 401 }))
+      // 재발급 요청 (한 번만)
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ result: { accessToken: 'NEW_TOKEN' } }), {
+          status: 200,
+        })
+      )
+      // 요청 A 재시도: 성공
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ ok: true }), { status: 200 })
+      )
+      // 요청 B 재시도: 성공
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ ok: true }), { status: 200 })
+      );
+
+    global.fetch = fetchMock as any;
+
+    const [resultA, resultB] = await Promise.all([
+      authApi.get('test-a').json(),
+      authApi.get('test-b').json(),
+    ]);
+
+    expect(resultA).toEqual({ ok: true });
+    expect(resultB).toEqual({ ok: true });
+
+    // reissue 호출은 1번만
+    const reissueCalls = fetchMock.mock.calls.filter(([req]: [Request]) =>
+      req.url.includes('/auth/reissue')
     );
+    expect(reissueCalls).toHaveLength(1);
+
+    expect(useAuthStore.getState().accessToken).toBe('NEW_TOKEN');
   });
 });

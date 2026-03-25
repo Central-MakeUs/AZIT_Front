@@ -109,12 +109,10 @@ export function OnboardingPage() {
                     region: crewRegion,
                   });
 
-                  if (response.ok) {
-                    setOnboardingState((prev) => ({
-                      ...prev,
-                      inviteCode: response.data.result.invitationCode,
-                    }));
-                  }
+                  setOnboardingState((prev) => ({
+                    ...prev,
+                    inviteCode: response.result.invitationCode,
+                  }));
                   context.onNext();
                 }}
                 onPrev={() => {
@@ -148,21 +146,12 @@ export function OnboardingPage() {
               <OnboardingCrewJoin
                 defaultValue={defaultInviteCode}
                 onNext={async (inviteCode, crewId) => {
-                  const response = await postJoinCrew({
+                  await postJoinCrew({
                     invitationCode: inviteCode,
                   });
 
-                  if (response.ok) {
-                    context.onNext();
-                    replace(
-                      'CrewJoinStatusPage',
-                      { crewId },
-                      { animate: false }
-                    );
-                  } else {
-                    // TODO: 에러 처리
-                    console.error(response.error);
-                  }
+                  context.onNext();
+                  replace('CrewJoinStatusPage', { crewId }, { animate: false });
                 }}
                 onPrev={() => {
                   context.onPrev();

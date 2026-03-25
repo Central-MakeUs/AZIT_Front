@@ -25,9 +25,7 @@ export function AddressEditPage({ params }: { params: { id: number } }) {
   const { data: address, isLoading } = useQuery({
     ...addressQueries.addressesQuery(),
     select: (data) => {
-      if (!data.ok) return;
-
-      const result = data.data.result.find((addr) => addr.id === addressId);
+      const result = data.result?.find((addr) => addr.id === addressId);
       if (!result) return;
 
       const { id: _id, ...restData } = result;
