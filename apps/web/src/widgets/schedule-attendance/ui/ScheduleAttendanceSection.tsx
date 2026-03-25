@@ -151,7 +151,7 @@ function ScheduleActivatedSection({
           </div>
         </div>
       </div>
-      <p className={styles.distanceText}>100m이내에서 활성화</p>
+      <p className={styles.distanceText}>1km이내에서 활성화</p>
     </div>
   );
 }
