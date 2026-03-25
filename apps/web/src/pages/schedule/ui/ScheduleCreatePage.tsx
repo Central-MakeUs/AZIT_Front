@@ -21,6 +21,7 @@ import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { memberQueries, scheduleQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { toastError } from '@/shared/ui/toast';
 
 export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   const { pop, push } = useFlow();
@@ -55,7 +56,11 @@ export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm() || crewId <= 0) return;
+    if (!validateForm()) return;
+    if (crewId <= 0) {
+      toastError('크루 정보를 불러오지 못했습니다. 다시 시도해주세요.');
+      return;
+    }
     const payload = buildCreateSchedulePayload(formValues);
     if (!payload) return;
     createMutation.mutate({ crewId, payload });
