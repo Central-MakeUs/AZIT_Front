@@ -33,9 +33,9 @@ export const Secondary: Story = {
   },
 };
 
-export const Opacity: Story = {
+export const Skyblue: Story = {
   args: {
-    type: 'opacity',
+    type: 'skyblue',
     children: '리더',
   },
 };
