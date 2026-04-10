@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['primary', 'secondary', 'opacity', 'gray', 'green'],
+      options: ['primary', 'secondary', 'skyblue', 'gray', 'green'],
     },
   },
 } satisfies Meta<typeof Chip>;
