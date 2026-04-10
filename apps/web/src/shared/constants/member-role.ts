@@ -9,6 +9,6 @@ export const MEMBER_ROLE_LABEL = {
 } as const;
 
 export const ROLE_CHIP_TYPE_MAP = {
-  [MEMBER_ROLE.LEADER]: 'skyblue',
-  [MEMBER_ROLE.MEMBER]: 'green',
+  [MEMBER_ROLE.LEADER]: 'primary',
+  [MEMBER_ROLE.MEMBER]: 'skyblue',
 } as const;
