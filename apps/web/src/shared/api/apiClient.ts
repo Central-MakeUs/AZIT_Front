@@ -3,6 +3,7 @@ import ky from 'ky';
 import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
 import { createHttpMethods } from '@/shared/api/httpMethods';
 import { BASE_API_URL } from '@/shared/constants/url';
+import { bridge } from '@/shared/lib/bridge';
 import { useAuthStore } from '@/shared/store/auth';
 
 let refreshPromise: Promise<string | undefined> | null = null;
@@ -30,12 +31,16 @@ export const authApi = baseApi.extend({
       },
     ],
     afterResponse: [
-      // 401 에러 발생시, 새 토큰으로 재시도
+      // 401 에러 발생시, Native Bridge를 통해 토큰 재발급 후 재시도
       async (request, _options, response, state) => {
         if (response.status === 401 && state.retryCount === 0) {
           if (!refreshPromise) {
             refreshPromise = postReissueToken()
-              .then((res) => res.result.accessToken)
+              .then((res) => {
+                const token = res.result.accessToken;
+                bridge.storeAccessToken(token);
+                return token;
+              })
               .catch(() => undefined)
               .finally(() => {
                 refreshPromise = null;
