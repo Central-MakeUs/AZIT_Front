@@ -84,7 +84,11 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }]
+      [
+        "expo-build-properties",
+        { "android": { "usesCleartextTraffic": true } }
+      ],
+      ["expo-apple-authentication"]
     ],
     "experiments": {
       "typedRoutes": true,
