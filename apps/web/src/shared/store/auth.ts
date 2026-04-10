@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import { postLogout } from '@/shared/api/handlers/postLogout';
+import { bridge } from '@/shared/lib/bridge';
 
 interface AuthState {
   accessToken?: string;
@@ -16,7 +17,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   setAccessToken: (accessToken) => set({ accessToken }),
   setIsInitialized: (isInitialized) => set({ isInitialized }),
   logout: () =>
-    postLogout().then(() => {
+    Promise.all([postLogout().catch(() => {}), bridge.logout()]).then(() => {
       set({
         accessToken: undefined,
         isInitialized: false,

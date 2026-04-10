@@ -5,13 +5,10 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useSocialLogin } from '@/pages/auth/hooks/useSocialLogin';
 import * as styles from '@/pages/auth/styles/LoginPage.css';
 
-import { useKakaoSDK } from '@/features/auth/model';
-
 import type { AuthProvider } from '@/shared/api/models/auth';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
 
 export function LoginPage() {
-  useKakaoSDK();
   const { loginWith } = useSocialLogin();
 
   const handleLogin = async (provider: AuthProvider) => {
