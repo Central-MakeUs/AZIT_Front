@@ -30,9 +30,6 @@ export type AppBridge = {
   getLocationPermissionStatus(): Promise<'granted' | 'denied' | 'undetermined'>;
   openLocationSettings(): Promise<void>;
   socialLogin(type: SocialLoginType): Promise<SocialAuthResult>;
-  storeAccessToken(token: string): Promise<void>;
-  getAccessToken(): Promise<{ accessToken: string | null }>;
-  logout(): Promise<void>;
 };
 
 /**
