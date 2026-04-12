@@ -9,6 +9,18 @@ export type GeoPosition = {
   longitude: number;
 };
 
+export type SocialLoginType = 'kakao' | 'apple';
+
+/**
+ * Native에서 소셜 로그인을 실행하고 인증 정보를 반환
+ * - Kakao: native SDK accessToken
+ * - Apple: authorizationCode
+ * 실제 백엔드 API 호출은 Web에서 처리 (쿠키 기반)
+ */
+export type SocialAuthResult =
+  | { success: true; authorizationCode?: string; accessToken?: string }
+  | { success: false; message: string };
+
 export type AppBridge = {
   openExternalBrowser(url: string): Promise<void>;
   shareInviteCode(code: string, crewName: string): Promise<void>;
@@ -17,6 +29,7 @@ export type AppBridge = {
   getCurrentPosition(): Promise<GeoPosition>;
   getLocationPermissionStatus(): Promise<'granted' | 'denied' | 'undetermined'>;
   openLocationSettings(): Promise<void>;
+  socialLogin(type: SocialLoginType): Promise<SocialAuthResult>;
 };
 
 /**

@@ -17,7 +17,9 @@ import {
   NAVER_MAP_ANDROID_APP_STORE_URL,
   NAVER_MAP_APP_STORE_URL,
   WEBVIEW_URL,
-} from '@/shared/constants/url';
+} from '@/constants/url';
+import { performKakaoLogin } from '@/api/performKakaoLogin';
+import { performAppleLogin } from '@/api/performAppleLogin';
 
 /**
  * Web -> Native 브릿지 설정
@@ -77,6 +79,31 @@ export const appBridge = bridge<AppBridge>({
   },
   async openLocationSettings(): Promise<void> {
     await RNLinking.openSettings();
+  },
+
+  // 인증 메서드
+  async socialLogin(type) {
+    try {
+      if (type === 'kakao') {
+        const credentials = await performKakaoLogin();
+        return {
+          success: true,
+          accessToken: credentials.accessToken,
+        };
+      } else {
+        const credentials = await performAppleLogin();
+        return {
+          success: true,
+          authorizationCode: credentials.authorizationCode,
+        };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : '로그인에 실패했습니다.',
+      };
+    }
   },
 });
 

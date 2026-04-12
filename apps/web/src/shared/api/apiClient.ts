@@ -30,7 +30,7 @@ export const authApi = baseApi.extend({
       },
     ],
     afterResponse: [
-      // 401 에러 발생시, 새 토큰으로 재시도
+      // 401 에러 발생시, Native Bridge를 통해 토큰 재발급 후 재시도
       async (request, _options, response, state) => {
         if (response.status === 401 && state.retryCount === 0) {
           if (!refreshPromise) {

@@ -227,6 +227,39 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/images/presigned-url': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 이미지 업로드용 Presigned URL 발급
+     * @description S3에 이미지를 직접 업로드하기 위한 Presigned URL을 발급합니다. <br><br>
+     *
+     *     **[전체 플로우]** <br>
+     *     1. 해당 API를 호출하여 presignedUrl과 imageUrl을 발급받습니다. <br>
+     *     2. 클라이언트에서 presignedUrl로 **PUT 요청**을 보내 이미지를 업로드합니다. <br>
+     *     3. 업로드 완료 후 imageUrl으로 프로필 수정 / 크루 이미지 수정 등 관련 API를 호출합니다. <br><br>
+     *
+     *     **[업로드 타입]** <br>
+     *     * MEMBER_PROFILE : 프로필 이미지 <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 허용 확장자: jpg, jpeg, png, webp (그 외: UNSUPPORTED_FILE_EXTENSION) <br>
+     *     * Presigned URL 유효 시간: 5분 <br>
+     *     * 확장자 파싱이 불가능한 올바르지 않은 파일명일 경우 INVALID_FILE_NAME 에러가 발생합니다.
+     */
+    post: operations['generatePresignedUrl'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews': {
     parameters: {
       query?: never;
@@ -460,7 +493,7 @@ export interface paths {
     put?: never;
     /**
      * 소셜 로그인 (애플 제외)
-     * @description 카카오 등 소셜 플랫폼의 인가 코드를 통해 로그인을 진행하고 JWT 토큰과 회원의 현재 상태, 최근 가입한 크루 ID를 반환합니다. <br><br>
+     * @description 카카오 등 소셜 플랫폼의 인가 코드 및 액세스 토큰을 통해 로그인을 진행하고 JWT 토큰과 회원의 현재 상태, 최근 가입한 크루 ID를 반환합니다. <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 보안을 위해 리프레시 토큰은 HttpOnly 쿠키에 저장되어 발급됩니다.
@@ -619,6 +652,57 @@ export interface paths {
      *     3. 사용했던 포인트를 사용자 계정으로 전액 환불합니다.
      */
     patch: operations['cancelOrder'];
+    trace?: never;
+  };
+  '/api/v1/members/me/profile-image': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 프로필 이미지 수정
+     * @description 로그인한 사용자의 프로필 이미지를 수정합니다. <br><br>
+     *
+     *     **[사전 조건]** <br>
+     *     * POST /api/v1/images/presigned-url API로 Presigned URL을 발급받은 뒤, S3에 이미지를 **실제로 업로드한 후** 호출해야 합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 업로드되지 않은 이미지 URL을 전달하면 IMAGE_NOT_UPLOADED 오류가 반환됩니다. <br>
+     *     * 본인이 업로드한 이미지 URL만 사용할 수 있습니다. (IMAGE_OWNERSHIP_MISMATCH)
+     */
+    patch: operations['updateProfileImage'];
+    trace?: never;
+  };
+  '/api/v1/members/me/nickname': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 닉네임 수정
+     * @description 로그인한 사용자의 닉네임을 수정합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 닉네임은 최대 10자까지 입력 가능합니다. <br>
+     *     * 특수문자는 사용할 수 없으며, 한글/영문/숫자만 허용됩니다.
+     */
+    patch: operations['updateNickname'];
     trace?: never;
   };
   '/api/v1/carts/items/{cartItemId}': {
@@ -1375,6 +1459,27 @@ export interface components {
        */
       longitude: number;
     };
+    PresignedUrlRequest: {
+      /**
+       * @description 이미지 업로드 타입
+       * @enum {string}
+       */
+      type: 'MEMBER_PROFILE' | 'CREW_IMAGE' | 'STORE_REVIEW' | 'MEMBER_PROFILE';
+      /**
+       * @description 업로드할 파일명 (확장자 포함)
+       * @example photo.jpg
+       */
+      fileName: string;
+    };
+    CommonResponsePresignedUrlResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['PresignedUrlResponse'];
+    };
+    PresignedUrlResponse: {
+      presignedUrl?: string;
+      imageUrl?: string;
+    };
     CreateCrewRequest: {
       /** @description 크루 이름 */
       name: string;
@@ -1472,7 +1577,9 @@ export interface components {
     };
     SocialLoginRequest: {
       /** @description 소셜 서비스로부터 발급받은 인가 코드 */
-      authorizationCode: string;
+      authorizationCode?: string;
+      /** @description 카카오 네이티브 SDK로부터 발급받은 액세스 토큰 (네이티브 SDK) */
+      accessToken?: string;
     };
     CommonResponseSocialLoginResponse: {
       code?: string;
@@ -1523,6 +1630,17 @@ export interface components {
       detailAddress: string;
       /** @description 기본 배송지 여부 */
       isDefault: boolean;
+    };
+    UpdateProfileImageRequest: {
+      /**
+       * @description 업로드 완료된 이미지의 CloudFront URL
+       * @example https://azitcrew.com/profile/123/2026-04-07_550e8400.jpg
+       */
+      imageUrl: string;
+    };
+    UpdateNicknameRequest: {
+      /** @description 변경할 닉네임 (최대 10자, 특수문자 불가) */
+      nickname: string;
     };
     UpdateCartItemQuantityRequest: {
       /**
@@ -3343,6 +3461,70 @@ export interface operations {
       };
     };
   };
+  generatePresignedUrl: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PresignedUrlRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponsePresignedUrlResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   createCrew: {
     parameters: {
       query?: never;
@@ -4066,6 +4248,14 @@ export interface operations {
           'application/json': unknown;
         };
       };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
       403: {
         headers: {
           [name: string]: unknown;
@@ -4481,6 +4671,150 @@ export interface operations {
       cookie?: never;
     };
     requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  updateProfileImage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateProfileImageRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  updateNickname: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateNicknameRequest'];
+      };
+    };
     responses: {
       /** @description OK */
       200: {

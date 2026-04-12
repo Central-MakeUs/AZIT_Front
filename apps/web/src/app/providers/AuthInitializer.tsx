@@ -34,8 +34,8 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
     const initAuth = async () => {
       try {
         const response = await postReissueToken();
-
         const { accessToken, status, crewId } = response.result;
+
         setAccessToken(accessToken);
 
         switch (status) {
@@ -55,7 +55,6 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
             if (inactiveActivities.includes(currentActivity)) {
               redirectTargetRef.current = 'HomePage';
               replace('HomePage', {}, { animate: false });
-              // 심사 위해 임시로 스토어 페이지를 홈페이지로 사용
             }
             break;
           case 'WAITING_FOR_APPROVE':
@@ -86,6 +85,8 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
     };
 
     initAuth();
+    // isInitialized 변경 시에만 실행 (의도적)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialized]);
 
   const isRedirecting =

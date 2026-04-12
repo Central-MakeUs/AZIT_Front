@@ -9,10 +9,11 @@ import { useKakaoSDK } from '@/features/auth/model';
 
 import type { AuthProvider } from '@/shared/api/models/auth';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
+import { isWebView } from '@/shared/lib/env';
 
 export function LoginPage() {
-  useKakaoSDK();
   const { loginWith } = useSocialLogin();
+  const { isLoaded: isKakaoReady } = useKakaoSDK();
 
   const handleLogin = async (provider: AuthProvider) => {
     await loginWith(provider);
@@ -36,7 +37,10 @@ export function LoginPage() {
           className={styles.loginImage}
         />
         <div className={styles.buttonWrapper}>
-          <KakaoLogin onClick={() => handleLogin(AUTH_PROVIDER.KAKAO)} />
+          <KakaoLogin
+            onClick={() => handleLogin(AUTH_PROVIDER.KAKAO)}
+            disabled={!isWebView() && !isKakaoReady}
+          />
           <AppleLogin onClick={() => handleLogin(AUTH_PROVIDER.APPLE)} />
         </div>
       </section>
@@ -44,9 +48,15 @@ export function LoginPage() {
   );
 }
 
-function KakaoLogin({ onClick }: { onClick: () => void }) {
+function KakaoLogin({
+  onClick,
+  disabled,
+}: {
+  onClick: () => void;
+  disabled?: boolean;
+}) {
   return (
-    <Button state="kakao" onClick={onClick}>
+    <Button state="kakao" onClick={onClick} disabled={disabled}>
       <div className={styles.textWrapper}>
         <img
           className={styles.kakaoIcon}
@@ -62,7 +72,9 @@ function KakaoLogin({ onClick }: { onClick: () => void }) {
 function AppleLogin({ onClick }: { onClick: () => void }) {
   const ua = navigator.userAgent;
 
-  if (!/iPhone|iPad|iPod/.test(ua)) {
+  // WebView: 네이티브 SDK 사용 → iOS 기기에서만 노출
+  // 웹 브라우저: Apple OAuth 리다이렉트 사용 → 항상 노출
+  if (isWebView() && !/iPhone|iPad|iPod/.test(ua)) {
     return null;
   }
 
