@@ -18,7 +18,6 @@ import {
   NAVER_MAP_APP_STORE_URL,
   WEBVIEW_URL,
 } from '@/constants/url';
-import { authStorage } from '@/lib/authStorage';
 import { performKakaoLogin } from '@/api/performKakaoLogin';
 import { performAppleLogin } from '@/api/performAppleLogin';
 
@@ -105,19 +104,6 @@ export const appBridge = bridge<AppBridge>({
           error instanceof Error ? error.message : '로그인에 실패했습니다.',
       };
     }
-  },
-
-  async storeAccessToken(token) {
-    await authStorage.setAccessToken(token);
-  },
-
-  async getAccessToken() {
-    const accessToken = await authStorage.getAccessToken();
-    return { accessToken };
-  },
-
-  async logout() {
-    await authStorage.clearAccessToken();
   },
 });
 
