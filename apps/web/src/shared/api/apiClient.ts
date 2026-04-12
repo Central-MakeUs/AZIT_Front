@@ -3,7 +3,6 @@ import ky from 'ky';
 import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
 import { createHttpMethods } from '@/shared/api/httpMethods';
 import { BASE_API_URL } from '@/shared/constants/url';
-import { bridge } from '@/shared/lib/bridge';
 import { useAuthStore } from '@/shared/store/auth';
 
 let refreshPromise: Promise<string | undefined> | null = null;
@@ -36,11 +35,7 @@ export const authApi = baseApi.extend({
         if (response.status === 401 && state.retryCount === 0) {
           if (!refreshPromise) {
             refreshPromise = postReissueToken()
-              .then((res) => {
-                const token = res.result.accessToken;
-                bridge.storeAccessToken(token);
-                return token;
-              })
+              .then((res) => res.result.accessToken)
               .catch(() => undefined)
               .finally(() => {
                 refreshPromise = null;

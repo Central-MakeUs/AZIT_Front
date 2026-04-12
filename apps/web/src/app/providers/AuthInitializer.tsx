@@ -5,7 +5,6 @@ import { useFlow } from '@/app/routes/stackflow';
 import type { ActivityName } from '@/app/routes/types';
 
 import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
-import { bridge } from '@/shared/lib/bridge';
 import { useAuthStore } from '@/shared/store/auth';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
@@ -38,7 +37,6 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
         const { accessToken, status, crewId } = response.result;
 
         setAccessToken(accessToken);
-        bridge.storeAccessToken(accessToken);
 
         switch (status) {
           case 'PENDING_TERMS':
