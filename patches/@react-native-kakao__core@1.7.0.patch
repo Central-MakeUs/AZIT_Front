@@ -1,0 +1,13 @@
+diff --git a/android/src/main/java/net/mjstudio/rnkakao/core/util/RNCKakaoUtil.kt b/android/src/main/java/net/mjstudio/rnkakao/core/util/RNCKakaoUtil.kt
+index 5c1ae3c32433ba1b187f96145e53372c5ba3a7f6..9d685995d1f76cf0e4ac21e45d9923e757c1cc77 100644
+--- a/android/src/main/java/net/mjstudio/rnkakao/core/util/RNCKakaoUtil.kt
++++ b/android/src/main/java/net/mjstudio/rnkakao/core/util/RNCKakaoUtil.kt
+@@ -79,7 +79,7 @@ fun ReadableArray.filterIsReadableMap(): List<ReadableMap> {
+   val ret = mutableListOf<ReadableMap>()
+   for (i in 0 until this.size()) {
+     if (getType(i) == ReadableType.Map) {
+-      ret.add(getMap(i))
++      getMap(i)?.let { ret.add(it) }
+     }
+   }
+   return ret

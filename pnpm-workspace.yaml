@@ -1,17 +1,19 @@
 packages:
-  - 'apps/*'
-  - 'packages/*'
-  - 'tooling/*'
+  - apps/*
+  - packages/*
+  - tooling/*
 
 catalog:
-  typescript: 5.9.2
-  eslint: ^9.39.1
   dotenv-cli: ^11.0.0
+  eslint: ^9.39.1
+  typescript: 5.9.2
 
-# 필요시 catalog key 커스텀
 catalogs:
   react19.1:
-    react: 19.1.0
-    react-dom: 19.1.0
     '@types/react': ~19.1.0
     '@types/react-dom': ~19.1.0
+    react: 19.1.0
+    react-dom: 19.1.0
+
+patchedDependencies:
+  '@react-native-kakao/core@1.7.0': patches/@react-native-kakao__core@1.7.0.patch

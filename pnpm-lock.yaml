@@ -29,6 +29,11 @@ catalogs:
       specifier: 19.1.0
       version: 19.1.0
 
+patchedDependencies:
+  '@react-native-kakao/core@1.7.0':
+    hash: c6a63e03e3f4639982d04ad52d7d5af865dba8b256095282754ddf893e0df3f5
+    path: patches/@react-native-kakao__core@1.7.0.patch
+
 importers:
 
   .:
@@ -68,10 +73,10 @@ importers:
         version: 15.0.3(expo-font@14.0.10(expo@54.0.30)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       '@react-native-kakao/core':
         specifier: ^1.1.0
-        version: 1.7.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+        version: 1.7.0(patch_hash=c6a63e03e3f4639982d04ad52d7d5af865dba8b256095282754ddf893e0df3f5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       '@react-native-kakao/user':
         specifier: ^1.1.0
-        version: 1.7.0(@react-native-kakao/core@1.7.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+        version: 1.7.0(@react-native-kakao/core@1.7.0(patch_hash=c6a63e03e3f4639982d04ad52d7d5af865dba8b256095282754ddf893e0df3f5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       '@react-navigation/bottom-tabs':
         specifier: ^7.4.0
         version: 7.9.0(@react-navigation/native@7.1.26(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-safe-area-context@5.6.2(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-screens@4.16.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
@@ -10460,7 +10465,7 @@ snapshots:
       '@types/react': 19.1.17
       '@types/react-dom': 19.1.11(@types/react@19.1.17)
 
-  '@react-native-kakao/core@1.7.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
+  '@react-native-kakao/core@1.7.0(patch_hash=c6a63e03e3f4639982d04ad52d7d5af865dba8b256095282754ddf893e0df3f5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
     dependencies:
       react: 19.1.0
       react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0)
@@ -10469,10 +10474,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@react-native-kakao/user@1.7.0(@react-native-kakao/core@1.7.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
+  '@react-native-kakao/user@1.7.0(@react-native-kakao/core@1.7.0(patch_hash=c6a63e03e3f4639982d04ad52d7d5af865dba8b256095282754ddf893e0df3f5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@mj-studio/js-util': 1.1.24
-      '@react-native-kakao/core': 1.7.0(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+      '@react-native-kakao/core': 1.7.0(patch_hash=c6a63e03e3f4639982d04ad52d7d5af865dba8b256095282754ddf893e0df3f5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-native: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0)
 
