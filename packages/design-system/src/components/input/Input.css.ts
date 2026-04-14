@@ -6,6 +6,12 @@ import { typography } from '../../shared/styles';
 export type InputVariants = NonNullable<Parameters<typeof inputContainer>[0]>;
 export type InputState = InputVariants['state'];
 
+export const inputWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+});
+
 export const inputContainer = recipe({
   base: {
     display: 'flex',
@@ -71,6 +77,26 @@ globalStyle(`${input}[type="number"]::-webkit-outer-spin-button`, {
   margin: 0,
 });
 
+export const removeButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '16px',
+  height: '16px',
+  borderRadius: '100%',
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  backgroundColor: vars.colors.gray20,
+});
+
+export const removeButtonIcon = style({
+  width: '10px',
+  height: '10px',
+  color: vars.colors.white,
+});
+
 export const iconSlot = style({
   display: 'flex',
   alignItems: 'center',
@@ -79,4 +105,24 @@ export const iconSlot = style({
   flexShrink: 0,
   width: 'auto',
   height: 'auto',
+});
+
+export const inputDescriptionWrapper = style({
+  display: 'grid',
+  gridTemplateColumns: '1fr auto',
+  alignItems: 'center',
+  gap: '12px',
+});
+
+export const inputDescriptionWarning = style({
+  color: vars.colors.error,
+  ...vars.typography.body.b4,
+  textWrap: 'wrap',
+});
+
+export const inputDescription = style({
+  color: vars.colors.gray50,
+  ...vars.typography.body.b3,
+  textWrap: 'nowrap',
+  textAlign: 'right',
 });
