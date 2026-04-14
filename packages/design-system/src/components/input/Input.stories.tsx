@@ -54,11 +54,66 @@ export const WithIcon: Story = {
   ],
 };
 
+export const WithCounter: Story = {
+  args: {
+    placeholder: '닉네임을 입력해주세요',
+    children: (
+      <Input.Description
+        left="닉네임은 20자 이내로 입력해주세요."
+        right="0/20"
+      />
+    ),
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '335px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const WithRemoveButton: Story = {
+  args: {
+    placeholder: '닉네임을 입력해주세요',
+    onRemove: () => alert('onRemove'),
+    children: (
+      <Input.Description
+        left="닉네임은 20자 이내로 입력해주세요."
+        right="0/20"
+      />
+    ),
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '335px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
 export const Error: Story = {
   args: {
     placeholder: '크루 이름을 입력해주세요',
     state: 'error',
     defaultValue: 'AZT123',
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '335px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const ErrorDescription: Story = {
+  args: {
+    placeholder: '크루 이름을 입력해주세요',
+    state: 'error',
+    defaultValue: 'AZT123',
+    children: <Input.Description left="이 필드는 필수 입력 항목입니다." />,
   },
   decorators: [
     (Story) => (
