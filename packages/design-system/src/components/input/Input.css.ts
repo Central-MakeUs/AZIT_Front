@@ -17,6 +17,7 @@ export const inputContainer = recipe({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
+    height: '48px',
     gap: '10px',
     borderRadius: '12px',
     border: `0.5px solid ${vars.colors.gray20}`,
@@ -42,7 +43,7 @@ export const inputContainer = recipe({
 });
 
 export const input = style([
-  typography.body.b3,
+  typography.body.b2,
   {
     flexGrow: 1,
     width: '100%',
@@ -53,7 +54,7 @@ export const input = style([
     selectors: {
       '&::placeholder': {
         color: vars.colors.gray30,
-        ...vars.typography.body.b3,
+        ...vars.typography.body.b2,
       },
       '&:disabled': {
         backgroundColor: 'inherit',
