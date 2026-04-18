@@ -166,7 +166,7 @@ export interface paths {
      * @description 서비스 이용을 중단하고 회원의 소셜 연동 해제 및 탈퇴 처리를 진행합니다. <br><br>
      *
      *     **[참고 사항]** <br>
-     *     * 리더로 소속된 크루에 다른 멤버가 존재할 경우 탈퇴가 불가능합니다. (CANNOT_WITHDRAW_AS_LEADER)
+     *     * 리더로 소속된 크루가 있을 경우 서비스 탈퇴가 불가합니다. 리더 권한 위임 또는 크루 해산이 필요합니다. (CANNOT_SERVICE_WITHDRAW_AS_LEADER)
      */
     post: operations['withdraw'];
     delete?: never;
@@ -419,6 +419,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/{crewId}/invitation-code': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 초대 코드 재발급
+     * @description 크루 리더가 기존 초대 코드를 폐기하고 새로운 초대 코드를 발급합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 해당 크루의 리더(LEADER)만 해당 API를 호출할 수 있습니다. (NOT_CREW_LEADER) <br>
+     *     * 재발급 즉시 기존 코드는 무효화됩니다.
+     */
+    post: operations['regenerateInvitationCode'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/join': {
     parameters: {
       query?: never;
@@ -436,6 +460,7 @@ export interface paths {
      *     **[제약 사항]** <br>
      *     * 본인이 리더인 크루이거나 이미 멤버로 등록된 크루에는 재신청이 불가합니다. (ALREADY_JOINED_CREW)
      *     * 유효하지 않은 초대 코드를 입력할 경우 가입이 불가합니다. (CREW_NOT_FOUND)
+     *     * 방출된 크루가 존재할 시 24시간 내에는 재가입 신청이 불가합니다. (EXPELLED_REJOINING_COOLDOWN)
      */
     post: operations['joinCrew'];
     delete?: never;
@@ -679,6 +704,31 @@ export interface paths {
      *     * 본인이 업로드한 이미지 URL만 사용할 수 있습니다. (IMAGE_OWNERSHIP_MISMATCH)
      */
     patch: operations['updateProfileImage'];
+    trace?: never;
+  };
+  '/api/v1/members/me/profile-image/default': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 프로필 이미지 기본 이미지로 변경
+     * @description 로그인한 사용자의 프로필 이미지를 기본 이미지로 초기화합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 기존에 업로드한 커스텀 이미지가 있는 경우 S3에서 삭제합니다. <br>
+     *     * 기본 이미지 중 랜덤으로 1개를 선택하여 적용합니다. <br>
+     *     * 이미 기본 이미지를 사용 중인 경우 S3 삭제 없이 다른 기본 이미지로 변경합니다.
+     */
+    patch: operations['resetProfileImageToDefault'];
     trace?: never;
   };
   '/api/v1/members/me/nickname': {
@@ -1255,6 +1305,31 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/{crewId}/members/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 탈퇴
+     * @description 로그인한 사용자가 특정 크루에서 자진 탈퇴합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 크루 리더(LEADER)는 크루 탈퇴가 불가합니다. 리더 권한 위임 또는 크루 해산이 필요합니다. (CANNOT_WITHDRAW_AS_LEADER) <br>
+     *     * 탈퇴 후 24시간 이내에는 동일 크루 재가입 요청이 차단됩니다. (EXIT_REJOINING_COOLDOWN) <br>
+     *     * 가입 완료(JOINED) 상태인 경우에만 탈퇴가 가능합니다. (NOT_A_CREW_MEMBER)
+     */
+    delete: operations['exitCrew'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1553,6 +1628,15 @@ export interface components {
        *     ]
        */
       supplies?: string[];
+    };
+    CommonResponseInvitationCodeResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['InvitationCodeResponse'];
+    };
+    InvitationCodeResponse: {
+      /** @description 새로 발급된 초대 코드 */
+      invitationCode?: string;
     };
     JoinCrewRequest: {
       /** @description 초대코드 */
@@ -4008,6 +4092,76 @@ export interface operations {
       };
     };
   };
+  regenerateInvitationCode: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseInvitationCodeResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   joinCrew: {
     parameters: {
       query?: never;
@@ -4743,6 +4897,74 @@ export interface operations {
         'application/json': components['schemas']['UpdateProfileImageRequest'];
       };
     };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  resetProfileImageToDefault: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
     responses: {
       /** @description OK */
       200: {
@@ -6161,6 +6383,76 @@ export interface operations {
       path: {
         crewId: number;
         targetMemberId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  exitCrew: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
       };
       cookie?: never;
     };
