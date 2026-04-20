@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
+import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { WebView } from '@/bridge';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import type { WebView as WebViewType } from 'react-native-webview';
@@ -41,6 +42,8 @@ export default function App() {
   }, [canGoBack]);
 
   useEffect(() => {
+    initializeKakaoSDK(process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY ?? '');
+
     const getInitialUrl = async () => {
       const url = await Linking.getInitialURL();
       if (url) {
