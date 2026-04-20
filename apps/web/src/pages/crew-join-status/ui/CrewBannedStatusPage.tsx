@@ -29,11 +29,14 @@ export function CrewBannedStatusPage() {
 
   const { handleJoinStatus } = useConfirmJoinStatus(data ? data.status : null);
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return null;
   }
 
-  const { crewName, crewImageUrl } = data;
+  const { crewName, crewImageUrl } = data ?? {
+    crewName: '',
+    crewImageUrl: null,
+  };
   const content = STATUS_CONTENT['EXPELLED'];
 
   return (
