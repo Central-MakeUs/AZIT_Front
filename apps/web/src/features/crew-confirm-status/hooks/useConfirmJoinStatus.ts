@@ -14,7 +14,6 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
 
   const confirmJoinStatusMuation = useMutation({
     ...crewQueries.confirmJoinStatus,
-    mutationFn: postConfirmJoinStatus,
     onSuccess: () => {
       queryClient.removeQueries({
         queryKey: crewQueries.defaultKey,
