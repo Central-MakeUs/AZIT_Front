@@ -72,9 +72,7 @@ function KakaoLogin({
 function AppleLogin({ onClick }: { onClick: () => void }) {
   const ua = navigator.userAgent;
 
-  // WebView: 네이티브 SDK 사용 → iOS 기기에서만 노출
-  // 웹 브라우저: Apple OAuth 리다이렉트 사용 → 항상 노출
-  if (isWebView() && !/iPhone|iPad|iPod/.test(ua)) {
+  if (!/iPhone|iPad|iPod/.test(ua)) {
     return null;
   }
 
