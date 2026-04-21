@@ -11,6 +11,12 @@ export type GeoPosition = {
 
 export type SocialLoginType = 'kakao' | 'apple';
 
+export type ImagePickerSource = 'camera' | 'library';
+
+export type ImagePickerResult =
+  | { success: true; base64: string; fileName: string; mimeType: string }
+  | { success: false; message: string };
+
 /**
  * Native에서 소셜 로그인을 실행하고 인증 정보를 반환
  * - Kakao: native SDK accessToken
@@ -30,6 +36,7 @@ export type AppBridge = {
   getLocationPermissionStatus(): Promise<'granted' | 'denied' | 'undetermined'>;
   openLocationSettings(): Promise<void>;
   socialLogin(type: SocialLoginType): Promise<SocialAuthResult>;
+  pickProfileImage(source: ImagePickerSource): Promise<ImagePickerResult>;
 };
 
 /**
