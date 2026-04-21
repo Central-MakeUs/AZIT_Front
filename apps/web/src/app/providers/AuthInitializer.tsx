@@ -4,6 +4,8 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { useFlow } from '@/app/routes/stackflow';
 import type { ActivityName } from '@/app/routes/types';
 
+import { navigateByAuthStatus } from '@/features/auth/lib/navigateByAuthStatus';
+
 import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
 import { useAuthStore } from '@/shared/store/auth';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
@@ -11,12 +13,6 @@ import { PageLoader } from '@/shared/ui/loading/PageLoader';
 interface AuthInitializerProps {
   children: ReactNode;
 }
-
-const inactiveActivities: ActivityName[] = [
-  'LoginPage',
-  'TermAgreePage',
-  'OnboardingPage',
-];
 
 export function AuthInitializer({ children }: AuthInitializerProps) {
   const { replace } = useFlow();
@@ -38,40 +34,8 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
 
         setAccessToken(accessToken);
 
-        switch (status) {
-          case 'PENDING_TERMS':
-            if (currentActivity !== 'TermAgreePage') {
-              redirectTargetRef.current = 'TermAgreePage';
-              replace('TermAgreePage', {}, { animate: false });
-            }
-            break;
-          case 'PENDING_ONBOARDING':
-            if (currentActivity !== 'OnboardingPage') {
-              redirectTargetRef.current = 'OnboardingPage';
-              replace('OnboardingPage', {}, { animate: false });
-            }
-            break;
-          case 'ACTIVE':
-            if (inactiveActivities.includes(currentActivity)) {
-              redirectTargetRef.current = 'HomePage';
-              replace('HomePage', {}, { animate: false });
-            }
-            break;
-          case 'WAITING_FOR_APPROVE':
-          case 'APPROVED_PENDING_CONFIRM':
-          case 'REJECTED_PENDING_CONFIRM':
-            if (currentActivity !== 'CrewJoinStatusPage') {
-              redirectTargetRef.current = 'CrewJoinStatusPage';
-              replace('CrewJoinStatusPage', { crewId }, { animate: false });
-            }
-            break;
-          case 'KICKED_PENDING_CONFIRM':
-            if (currentActivity !== 'CrewBannedStatusPage') {
-              redirectTargetRef.current = 'CrewBannedStatusPage';
-              replace('CrewBannedStatusPage', {}, { animate: false });
-            }
-            break;
-        }
+        const target = navigateByAuthStatus({ status, crewId, replace });
+        redirectTargetRef.current = target as ActivityName;
       } catch (error) {
         console.error('토큰 재발급 실패:', error);
         if (currentActivity !== 'LoginPage') {
