@@ -11,6 +11,7 @@ import * as styles from '@/pages/mypage/styles/MyProfileEditPage.css';
 
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
+import { postPresignedUrl, putS3Upload } from '@/shared/api/handlers';
 import { bridge } from '@/shared/lib/bridge';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
@@ -53,8 +54,26 @@ export function MyProfileEditPage() {
     try {
       const result = await bridge.pickProfileImage(source);
       if (result.success) {
-        console.log('이미지 선택 완료:', result);
-        // TODO: S3 업로드 및 프로필 이미지 업데이트 구현 예정
+        console.log('[1] presigned URL 발급 요청:', {
+          fileName: result.fileName,
+          mimeType: result.mimeType,
+        });
+        const {
+          result: { presignedUrl, imageUrl },
+        } = await postPresignedUrl('MEMBER_PROFILE', result.fileName);
+        console.log('[2] presigned URL 발급 완료:', { presignedUrl, imageUrl });
+
+        const binary = atob(result.base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        const blob = new Blob([bytes], { type: result.mimeType });
+        console.log('[3] Blob 생성 완료:', {
+          size: blob.size,
+          type: blob.type,
+        });
+
+        await putS3Upload(presignedUrl, blob, result.mimeType);
+        console.log('[4] S3 업로드 완료. 이미지 URL:', imageUrl);
       }
     } finally {
       setIsPickerLoading(false);

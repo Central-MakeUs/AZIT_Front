@@ -52,6 +52,9 @@ export const END_POINT = {
     CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
   },
+  IMAGES: {
+    PRESIGNED_URL: 'images/presigned-url',
+  },
   LOCATION: {
     SEARCH: 'locations/search',
   },
