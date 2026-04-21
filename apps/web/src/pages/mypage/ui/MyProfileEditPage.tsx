@@ -20,6 +20,7 @@ import { AppLayout } from '@/shared/ui/layout';
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
 
 const MAX_NICKNAME_LENGTH = 10;
+const MAX_FILE_SIZE = 3 * 1024 * 1024;
 
 export function MyProfileEditPage() {
   const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
@@ -54,26 +55,20 @@ export function MyProfileEditPage() {
     try {
       const result = await bridge.pickProfileImage(source);
       if (result.success) {
-        console.log('[1] presigned URL 발급 요청:', {
-          fileName: result.fileName,
-          mimeType: result.mimeType,
-        });
         const {
-          result: { presignedUrl, imageUrl },
+          result: { presignedUrl },
         } = await postPresignedUrl('MEMBER_PROFILE', result.fileName);
-        console.log('[2] presigned URL 발급 완료:', { presignedUrl, imageUrl });
 
         const binary = atob(result.base64);
         const bytes = new Uint8Array(binary.length);
         for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
         const blob = new Blob([bytes], { type: result.mimeType });
-        console.log('[3] Blob 생성 완료:', {
-          size: blob.size,
-          type: blob.type,
-        });
+
+        if (blob.size > MAX_FILE_SIZE) {
+          throw new Error('파일 크기는 3MB 이하여야 합니다.');
+        }
 
         await putS3Upload(presignedUrl, blob, result.mimeType);
-        console.log('[4] S3 업로드 완료. 이미지 URL:', imageUrl);
       }
     } finally {
       setIsPickerLoading(false);
