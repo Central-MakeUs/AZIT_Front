@@ -246,7 +246,8 @@ export interface paths {
      *     3. 업로드 완료 후 imageUrl으로 프로필 수정 / 크루 이미지 수정 등 관련 API를 호출합니다. <br><br>
      *
      *     **[업로드 타입]** <br>
-     *     * MEMBER_PROFILE : 프로필 이미지 <br><br>
+     *     * MEMBER_PROFILE : 멤버 프로필 이미지 (crewId 불필요) <br>
+     *     * CREW_IMAGE : 크루 이미지 (crewId 필수) <br><br>
      *
      *     **[제약 사항]** <br>
      *     * 허용 확장자: jpg, jpeg, png, webp (그 외: UNSUPPORTED_FILE_EXTENSION) <br>
@@ -753,6 +754,66 @@ export interface paths {
      *     * 특수문자는 사용할 수 없으며, 한글/영문/숫자만 허용됩니다.
      */
     patch: operations['updateNickname'];
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/info': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 크루 정보 조회
+     * @description 크루 이미지, 크루명, 크루 한줄 소개를 조회합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 해당 크루에 가입된 멤버(JOINED 상태)만 조회할 수 있습니다. (NOT_A_CREW_MEMBER)
+     */
+    get: operations['getCrewInfo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 크루 정보 수정
+     * @description 크루명과 크루 한줄 소개를 수정합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 리더만 크루 정보를 수정할 수 있습니다. (NOT_CREW_LEADER) <br>
+     *     * 크루 이름은 필수이며 최대 15자까지 입력 가능합니다. <br>
+     *     * 크루 한줄 소개는 선택이며 최대 20자까지 입력 가능합니다. (미입력 시 null로 저장)
+     */
+    patch: operations['updateCrewInfo'];
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/image': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 크루 이미지 수정
+     * @description 크루 이미지를 수정합니다. <br><br>
+     *
+     *     **[사전 조건]** <br>
+     *     * POST /api/v1/images/presigned-url API에 type: CREW_IMAGE, crewId를 전달하여 Presigned URL을 발급받은 뒤, S3에 이미지를 **실제로 업로드한 후** 호출해야 합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 리더만 크루 이미지를 수정할 수 있습니다. (NOT_CREW_LEADER) <br>
+     *     * 업로드되지 않은 이미지 URL을 전달하면 IMAGE_NOT_UPLOADED 오류가 반환됩니다. <br>
+     *     * presigned URL 발급 시 사용한 crewId와 요청 경로의 crewId가 일치해야 합니다. (IMAGE_OWNERSHIP_MISMATCH)
+     */
+    patch: operations['updateCrewImage'];
     trace?: never;
   };
   '/api/v1/carts/items/{cartItemId}': {
@@ -1539,12 +1600,22 @@ export interface components {
        * @description 이미지 업로드 타입
        * @enum {string}
        */
-      type: 'MEMBER_PROFILE' | 'CREW_IMAGE' | 'STORE_REVIEW' | 'MEMBER_PROFILE';
+      type:
+        | 'MEMBER_PROFILE'
+        | 'CREW_IMAGE'
+        | 'STORE_REVIEW'
+        | 'MEMBER_PROFILE'
+        | 'CREW_IMAGE';
       /**
        * @description 업로드할 파일명 (확장자 포함)
        * @example photo.jpg
        */
       fileName: string;
+      /**
+       * Format: int64
+       * @description 크루 ID (type이 CREW_IMAGE일 때 필수)
+       */
+      crewId?: number;
     };
     CommonResponsePresignedUrlResponse: {
       code?: string;
@@ -1725,6 +1796,19 @@ export interface components {
     UpdateNicknameRequest: {
       /** @description 변경할 닉네임 (최대 10자, 특수문자 불가) */
       nickname: string;
+    };
+    UpdateCrewInfoRequest: {
+      /** @description 크루 이름 */
+      name: string;
+      /** @description 크루 한줄 소개 (선택) */
+      description?: string;
+    };
+    UpdateCrewImageRequest: {
+      /**
+       * @description 업로드 완료된 이미지의 CloudFront URL
+       * @example https://azitcrew.com/temp/crew/1/2026-04-21_550e8400.jpg
+       */
+      imageUrl: string;
     };
     UpdateCartItemQuantityRequest: {
       /**
@@ -2652,6 +2736,19 @@ export interface components {
        */
       requestedAt?: string;
     };
+    CommonResponseCrewInfoResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['CrewInfoResponse'];
+    };
+    CrewInfoResponse: {
+      /** @description 크루 이미지 URL */
+      crewImageUrl?: string;
+      /** @description 크루 이름 */
+      name?: string;
+      /** @description 크루 한줄 소개 */
+      description?: string;
+    };
     CommonResponseCrewInvitationResponse: {
       code?: string;
       message?: string;
@@ -2674,6 +2771,8 @@ export interface components {
       memberCount?: number;
       /** @description 크루 이미지 url */
       crewImageUrl?: string;
+      /** @description 크루 소개 */
+      description?: string;
     };
     CartItemListResponse: {
       /**
@@ -5035,6 +5134,224 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': components['schemas']['UpdateNicknameRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getCrewInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseCrewInfoResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  updateCrewInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateCrewInfoRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  updateCrewImage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateCrewImageRequest'];
       };
     };
     responses: {

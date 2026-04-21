@@ -8,6 +8,6 @@ import { linkBridge, type BridgeStore } from '@webview-bridge/web';
  */
 export const bridge = linkBridge<BridgeStore<AppBridge>, AppPostMessageSchema>({
   throwOnError: true,
-  timeout: 2000,
+  timeout: 20000,
   initialBridge: {},
 });

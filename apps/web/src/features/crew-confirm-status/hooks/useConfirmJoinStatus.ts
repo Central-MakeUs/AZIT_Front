@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { postConfirmJoinStatus } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
 import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
 import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
 
@@ -14,7 +13,6 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
 
   const confirmJoinStatusMuation = useMutation({
     ...crewQueries.confirmJoinStatus,
-    mutationFn: postConfirmJoinStatus,
     onSuccess: () => {
       queryClient.removeQueries({
         queryKey: crewQueries.defaultKey,
