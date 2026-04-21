@@ -36,6 +36,6 @@ export const navigateByAuthStatus = ({
       return 'CrewBannedStatusPage';
     default:
       replace('LoginPage', {}, { animate: false });
-      return 'LoginPage' as ActivityName;
+      return 'LoginPage';
   }
 };
