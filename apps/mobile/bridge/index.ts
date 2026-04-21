@@ -6,8 +6,10 @@ import {
 import {
   type AppBridge,
   type AppPostMessageSchema,
+  type ImagePickerSource,
   POST_MESSAGE_EVENT,
 } from '@azit/bridge';
+import * as ImagePicker from 'expo-image-picker';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
 import { Linking as RNLinking, Platform, Share } from 'react-native';
@@ -79,6 +81,81 @@ export const appBridge = bridge<AppBridge>({
   },
   async openLocationSettings(): Promise<void> {
     await RNLinking.openSettings();
+  },
+
+  // 이미지 피커 메서드
+  async pickProfileImage(source: ImagePickerSource) {
+    try {
+      if (source === 'camera') {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        if (status !== 'granted') {
+          return {
+            success: false as const,
+            message: '카메라 권한이 필요합니다.',
+          };
+        }
+      } else {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          return {
+            success: false as const,
+            message: '갤러리 접근 권한이 필요합니다.',
+          };
+        }
+      }
+
+      const result =
+        source === 'camera'
+          ? await ImagePicker.launchCameraAsync({
+              mediaTypes: ['images'],
+              allowsEditing: true,
+              aspect: [1, 1],
+              quality: 0.7,
+              base64: true,
+            })
+          : await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ['images'],
+              allowsEditing: true,
+              aspect: [1, 1],
+              quality: 0.7,
+              base64: true,
+            });
+
+      if (result.canceled || !result.assets[0]) {
+        return {
+          success: false as const,
+          message: '이미지 선택이 취소되었습니다.',
+        };
+      }
+
+      const asset = result.assets[0];
+      if (!asset.base64) {
+        return {
+          success: false as const,
+          message: '이미지 데이터를 읽을 수 없습니다.',
+        };
+      }
+
+      const mimeType = asset.mimeType ?? 'image/jpeg';
+      const ext = mimeType.split('/')[1] ?? 'jpg';
+      const fileName = `profile_${Date.now()}.${ext}`;
+
+      return {
+        success: true as const,
+        base64: asset.base64,
+        fileName,
+        mimeType,
+      };
+    } catch (error) {
+      return {
+        success: false as const,
+        message:
+          error instanceof Error
+            ? error.message
+            : '이미지 선택에 실패했습니다.',
+      };
+    }
   },
 
   // 인증 메서드
