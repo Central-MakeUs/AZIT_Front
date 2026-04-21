@@ -76,7 +76,6 @@ const config: ExpoConfig = {
   },
   plugins: [
     ['expo-build-properties', { android: { usesCleartextTraffic: true } }],
-    ['expo-apple-authentication'],
     [
       '@react-native-kakao/core',
       { nativeAppKey: process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY },
