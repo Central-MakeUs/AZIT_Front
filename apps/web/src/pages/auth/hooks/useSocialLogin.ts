@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -64,7 +64,7 @@ export const useSocialLogin = () => {
     window.location.href = `${APPLE_AUTHORIZE_URL}&state=${window.location.origin}`;
   };
 
-  const loginWith = useCallback(async (provider: AuthProvider) => {
+  const loginWith = async (provider: AuthProvider) => {
     switch (provider) {
       case AUTH_PROVIDER.KAKAO:
         return loginWithKakao();
@@ -73,7 +73,7 @@ export const useSocialLogin = () => {
       default:
         throw new Error('Invalid provider');
     }
-  }, []);
+  };
 
   return { loginWith };
 };
