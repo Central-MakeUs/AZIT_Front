@@ -11,21 +11,25 @@ import * as styles from '@/pages/mypage/styles/MyProfileEditPage.css';
 
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
+import { bridge } from '@/shared/lib/bridge';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
+import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
+
 const MAX_NICKNAME_LENGTH = 10;
 
 export function MyProfileEditPage() {
-  const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
+  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
   const myInfo = myInfoData?.result;
 
   const [nickname, setNickname] = useState(myInfo?.nickname ?? '');
+  const [isPickerLoading, setIsPickerLoading] = useState(false);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
-  if (isLoading || !myInfo) return null;
-
-  const isNicknameChanged = nickname !== myInfo.nickname && nickname.length > 0;
+  const isNicknameChanged =
+    nickname !== myInfo?.nickname && nickname.length > 0;
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -38,6 +42,30 @@ export function MyProfileEditPage() {
     setNickname('');
   };
 
+  const handleProfileImageBadgeClick = () => {
+    if (isPickerLoading) return;
+    setIsBottomSheetOpen(true);
+  };
+
+  const handlePickImage = async (source: 'library' | 'camera') => {
+    setIsBottomSheetOpen(false);
+    setIsPickerLoading(true);
+    try {
+      const result = await bridge.pickProfileImage(source);
+      if (result.success) {
+        console.log('이미지 선택 완료:', result);
+        // TODO: S3 업로드 및 프로필 이미지 업데이트 구현 예정
+      }
+    } finally {
+      setIsPickerLoading(false);
+    }
+  };
+
+  const handleSelectDefault = () => {
+    setIsBottomSheetOpen(false);
+    // TODO: 기본 이미지로 변경 구현 예정
+  };
+
   return (
     <AppScreen backgroundColor={vars.colors.white}>
       <AppLayout>
@@ -47,11 +75,15 @@ export function MyProfileEditPage() {
         <div className={styles.mainContainer}>
           <div className={styles.profileImageWrapper}>
             <RoundProfileImage
-              src={myInfo.profileImageUrl}
+              src={myInfo?.profileImageUrl}
               size={96}
               className={styles.profileImage}
             />
-            <div className={styles.editBadgeWrapper}>
+            <div
+              className={styles.editBadgeWrapper}
+              onClick={handleProfileImageBadgeClick}
+              style={{ cursor: isPickerLoading ? 'not-allowed' : 'pointer' }}
+            >
               <div className={styles.editBadgeOuter} />
               <div className={styles.editBadgeInner}>
                 <AddImageIcon size={16} color="inherit" />
@@ -80,6 +112,13 @@ export function MyProfileEditPage() {
           </Button>
         </div>
       </AppLayout>
+      <ProfileImagePickerBottomSheet
+        isOpen={isBottomSheetOpen}
+        onClose={() => setIsBottomSheetOpen(false)}
+        onSelectLibrary={() => handlePickImage('library')}
+        onSelectCamera={() => handlePickImage('camera')}
+        onSelectDefault={handleSelectDefault}
+      />
     </AppScreen>
   );
 }

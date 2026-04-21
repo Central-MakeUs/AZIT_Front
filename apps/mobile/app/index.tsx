@@ -13,7 +13,7 @@ import { router } from 'expo-router';
 export default function App() {
   const webViewRef = useRef<WebViewType>(null);
   const [currentUrl, setCurrentUrl] = useState('');
-  const [initialUrl, setInitialUrl] = useState<string>(`${WEBVIEW_URL}`);
+  const [initialUrl, setInitialUrl] = useState<string>(WEBVIEW_URL);
   const [showSplash, setShowSplash] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
 
