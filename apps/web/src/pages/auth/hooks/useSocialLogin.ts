@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
 import { postSocialLogin } from '@/features/auth/api/postSocialLogin';
+import { navigateByAuthStatus } from '@/features/auth/lib/navigateByAuthStatus';
 import { useKakaoLogin } from '@/features/auth/model/useKakaoLogin';
 
 import type { AuthProvider } from '@/shared/api/models/auth';
@@ -15,58 +16,64 @@ import { useAuthStore } from '@/shared/store/auth';
 export const useSocialLogin = () => {
   const { replace } = useFlow();
   const { setAccessToken } = useAuthStore();
-  const { handleKakaoLogin } = useKakaoLogin();
 
-  const loginWith = useCallback(
-    async (provider: AuthProvider) => {
-      if (!isWebView()) {
-        if (provider === AUTH_PROVIDER.KAKAO) {
-          handleKakaoLogin();
-        } else if (provider === AUTH_PROVIDER.APPLE) {
-          window.location.href = APPLE_AUTHORIZE_URL;
-        }
-        return;
-      }
-
-      const type = provider === AUTH_PROVIDER.KAKAO ? 'kakao' : 'apple';
-
-      const authResult = await bridge.socialLogin(type);
-      if (!authResult.success) {
-        console.error(`OAuth 실패: ${authResult.message}`);
-        return;
-      }
-
-      const request =
-        provider === AUTH_PROVIDER.KAKAO
-          ? { accessToken: authResult.accessToken }
-          : { authorizationCode: authResult.authorizationCode };
-      const response = await postSocialLogin(provider, request);
-
-      const { accessToken, status, crewId } = response.result;
-      setAccessToken(accessToken);
-
-      switch (status) {
-        case 'PENDING_TERMS':
-          replace('TermAgreePage', {}, { animate: false });
-          break;
-        case 'PENDING_ONBOARDING':
-          replace('OnboardingPage', {}, { animate: false });
-          break;
-        case 'ACTIVE':
-          replace('HomePage', {}, { animate: false });
-          break;
-        case 'WAITING_FOR_APPROVE':
-        case 'APPROVED_PENDING_CONFIRM':
-        case 'REJECTED_PENDING_CONFIRM':
-          replace('CrewJoinStatusPage', { crewId }, { animate: false });
-          break;
-        case 'KICKED_PENDING_CONFIRM':
-          replace('CrewBannedStatusPage', {}, { animate: false });
-          break;
-      }
+  const { handleKakaoLogin } = useKakaoLogin({
+    onError: (loginError) => {
+      console.error(`로그인 실패 ${loginError.message}`);
     },
-    [handleKakaoLogin]
-  );
+  });
+
+  const loginWithKakao = async () => {
+    if (!isWebView()) {
+      handleKakaoLogin();
+      return;
+    }
+
+    const authResult = await bridge.socialLogin('kakao');
+    if (!authResult.success) {
+      console.error(`OAuth 실패: ${authResult.message}`);
+      return;
+    }
+
+    const response = await postSocialLogin(AUTH_PROVIDER.KAKAO, {
+      accessToken: authResult.accessToken,
+    });
+
+    const { accessToken, status, crewId } = response.result;
+    setAccessToken(accessToken);
+    navigateByAuthStatus({ status, crewId, replace });
+  };
+
+  const isDisabledRef = useRef(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  const preventMultipleClicks = (ms: number) => {
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current);
+    }
+    isDisabledRef.current = true;
+    timeoutRef.current = window.setTimeout(() => {
+      isDisabledRef.current = false;
+      timeoutRef.current = null;
+    }, ms);
+  };
+
+  const loginWithApple = () => {
+    if (isDisabledRef.current) return;
+    preventMultipleClicks(2000);
+    window.location.href = `${APPLE_AUTHORIZE_URL}&state=${window.location.origin}`;
+  };
+
+  const loginWith = useCallback(async (provider: AuthProvider) => {
+    switch (provider) {
+      case AUTH_PROVIDER.KAKAO:
+        return loginWithKakao();
+      case AUTH_PROVIDER.APPLE:
+        return loginWithApple();
+      default:
+        throw new Error('Invalid provider');
+    }
+  }, []);
 
   return { loginWith };
 };
