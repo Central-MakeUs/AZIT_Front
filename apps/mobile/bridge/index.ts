@@ -21,7 +21,6 @@ import {
   WEBVIEW_URL,
 } from '@/constants/url';
 import { performKakaoLogin } from '@/api/performKakaoLogin';
-import { performAppleLogin } from '@/api/performAppleLogin';
 
 /**
  * Web -> Native 브릿지 설정
@@ -168,11 +167,7 @@ export const appBridge = bridge<AppBridge>({
           accessToken: credentials.accessToken,
         };
       } else {
-        const credentials = await performAppleLogin();
-        return {
-          success: true,
-          authorizationCode: credentials.authorizationCode,
-        };
+        return { success: false, message: '지원하지 않는 로그인 방식입니다.' };
       }
     } catch (error) {
       return {
