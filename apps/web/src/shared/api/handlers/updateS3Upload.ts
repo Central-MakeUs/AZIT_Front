@@ -1,4 +1,4 @@
-export const putS3Upload = async (
+export const updateS3Upload = async (
   presignedUrl: string,
   blob: Blob,
   mimeType: string

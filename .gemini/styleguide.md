@@ -63,8 +63,9 @@ util arrow function
 HTTP Prefix
 GET get*
 POST post*
-UPDATE update*
-DELETE delete*
+PATCH update*
+PUT update*
+DELETE delete\*
 
 ⸻
 
