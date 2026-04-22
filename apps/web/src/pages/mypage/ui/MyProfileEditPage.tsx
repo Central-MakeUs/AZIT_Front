@@ -11,7 +11,7 @@ import * as styles from '@/pages/mypage/styles/MyProfileEditPage.css';
 
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
-import { postPresignedUrl, putS3Upload } from '@/shared/api/handlers';
+import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
 import { DEFAULT_PROFILE_IMAGE_BASE_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';
 import { useStack } from '@/shared/lib/stackflow/useStack';
@@ -43,7 +43,7 @@ export function MyProfileEditPage() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const { mutate: updateProfile, isPending } = useMutation({
-    ...memberQueries.patchMyProfile,
+    ...memberQueries.updateMyProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: memberQueries.myInfoKey(),
@@ -93,7 +93,7 @@ export function MyProfileEditPage() {
           throw new Error('파일 크기는 3MB 이하여야 합니다.');
         }
 
-        await putS3Upload(presignedUrl, blob, result.mimeType);
+        await updateS3Upload(presignedUrl, blob, result.mimeType);
         setProfileImageUrl(imageUrl);
       }
     } finally {

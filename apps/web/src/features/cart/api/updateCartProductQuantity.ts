@@ -4,7 +4,7 @@ import { END_POINT } from '@/shared/constants/endpoint';
 
 import type { CartProductUpdateQuantityRequest } from '@/entities/cart/model';
 
-export const patchCartProductQuantity = (
+export const updateCartProductQuantity = (
   cartItemId: number,
   data: CartProductUpdateQuantityRequest
 ) => {
