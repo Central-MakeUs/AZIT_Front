@@ -5,8 +5,8 @@ import {
 } from '@tanstack/react-query';
 
 import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
-import { patchCartProductQuantity } from '@/features/cart/api/patchCartProductQuantity';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
+import { updateCartProductQuantity } from '@/features/cart/api/updateCartProductQuantity';
 
 import { getCartCount } from '@/entities/cart/api/getCartCount';
 import { getCartProducts } from '@/entities/cart/api/getCartProducts';
@@ -47,7 +47,7 @@ export const cartQueries = {
       }: {
         cartItemId: number;
         data: CartProductUpdateQuantityRequest;
-      }) => patchCartProductQuantity(cartItemId, data),
+      }) => updateCartProductQuantity(cartItemId, data),
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: [...cartQueries.productsKey()],

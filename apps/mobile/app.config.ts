@@ -20,6 +20,10 @@ const config: ExpoConfig = {
       },
       LSApplicationQueriesSchemes: ['nmap'],
       ITSAppUsesNonExemptEncryption: false,
+      NSPhotoLibraryUsageDescription:
+        '프로필 이미지 변경을 위해 갤러리 접근이 필요합니다.',
+      NSCameraUsageDescription:
+        '프로필 이미지 촬영을 위해 카메라 접근이 필요합니다.',
     },
     appleTeamId: '4U9PQRRKLB',
   },
@@ -72,7 +76,13 @@ const config: ExpoConfig = {
   },
   plugins: [
     ['expo-build-properties', { android: { usesCleartextTraffic: true } }],
-    ['expo-apple-authentication'],
+    [
+      'expo-image-picker',
+      {
+        photosPermission: '프로필 이미지 변경을 위해 갤러리 접근이 필요합니다.',
+        cameraPermission: '프로필 이미지 촬영을 위해 카메라 접근이 필요합니다.',
+      },
+    ],
     [
       '@react-native-kakao/core',
       { nativeAppKey: process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY },
