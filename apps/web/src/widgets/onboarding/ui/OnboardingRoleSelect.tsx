@@ -73,10 +73,8 @@ export function OnboardingRoleSelect({
           <OnboardingRoleCardItem
             icon={<FlagIcon size={36} color="primary" />}
             label="크루 만들기"
-            isSelected={false}
-            // onClick={() => handleRoleSelect('leader')}
-            onClick={() => {}}
-            disabled
+            isSelected={selectedRole === 'leader'}
+            onClick={() => handleRoleSelect('leader')}
           />
           <OnboardingRoleCardItem
             icon={<UsersIcon size={36} color="primary" />}
