@@ -1,5 +1,5 @@
 import { typography, vars } from '@azit/design-system';
-import { style } from '@vanilla-extract/css';
+import { style, styleVariants } from '@vanilla-extract/css';
 
 import { layoutStyles } from '@/shared/styles/layout.css';
 
@@ -27,7 +27,7 @@ export const profileImage = style({
   gridRow: '1',
 });
 
-export const editBadgeWrapper = style({
+const editBadgeWrapperBase = style({
   gridColumn: '1',
   gridRow: '1',
   display: 'inline-grid',
@@ -35,6 +35,11 @@ export const editBadgeWrapper = style({
   gridTemplateRows: 'max-content',
   marginLeft: '64px',
   marginTop: '64px',
+});
+
+export const editBadgeWrapper = styleVariants({
+  idle: [editBadgeWrapperBase, { cursor: 'pointer' }],
+  loading: [editBadgeWrapperBase, { cursor: 'not-allowed' }],
 });
 
 export const editBadgeOuter = style({
