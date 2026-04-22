@@ -18,7 +18,7 @@ export const listItemDivider = style({
   height: 1,
   minHeight: 1,
   margin: '0 20px',
-  backgroundColor: vars.colors.gray10,
+  backgroundColor: vars.colors.gray20,
   border: 'none',
   flexShrink: 0,
 });
