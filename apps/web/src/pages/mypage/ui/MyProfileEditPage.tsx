@@ -128,9 +128,10 @@ export function MyProfileEditPage() {
               className={styles.profileImage}
             />
             <div
-              className={styles.editBadgeWrapper}
+              className={
+                styles.editBadgeWrapper[isPickerLoading ? 'loading' : 'idle']
+              }
               onClick={handleProfileImageBadgeClick}
-              style={{ cursor: isPickerLoading ? 'not-allowed' : 'pointer' }}
             >
               <div className={styles.editBadgeOuter} />
               <div className={styles.editBadgeInner}>
