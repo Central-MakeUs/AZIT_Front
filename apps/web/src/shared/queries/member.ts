@@ -13,7 +13,7 @@ import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
 import { getMyAttendanceCalendar } from '@/entities/user/api/getMyAttendanceCalendar';
 import { getMyInfo } from '@/entities/user/api/getMyInfo';
-import { patchMyProfile } from '@/entities/user/api/patchMyProfile';
+import { updateMyProfile } from '@/entities/user/api/updateMyProfile';
 import type {
   MyAttendanceCalendarRequest,
   MyAttendanceRequest,
@@ -99,7 +99,7 @@ export const memberQueries = {
       targetMemberId: number;
     }) => deleteCrewMember(crewId, targetMemberId),
   }),
-  patchMyProfile: mutationOptions({
-    mutationFn: patchMyProfile,
+  updateMyProfile: mutationOptions({
+    mutationFn: updateMyProfile,
   }),
 };
