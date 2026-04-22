@@ -14,6 +14,7 @@ import { RoundProfileImage } from '@/widgets/profile/ui';
 import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
 import { DEFAULT_PROFILE_IMAGE_BASE_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';
+import { base64ToBlob } from '@/shared/lib/image';
 import { useStack } from '@/shared/lib/stackflow/useStack';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
@@ -84,10 +85,7 @@ export function MyProfileEditPage() {
           result: { presignedUrl, imageUrl },
         } = await postPresignedUrl('MEMBER_PROFILE', result.fileName);
 
-        const binary = atob(result.base64);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        const blob = new Blob([bytes], { type: result.mimeType });
+        const blob = base64ToBlob(result.base64, result.mimeType);
 
         if (blob.size > MAX_FILE_SIZE) {
           throw new Error('파일 크기는 3MB 이하여야 합니다.');
