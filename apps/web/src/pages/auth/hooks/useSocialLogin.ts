@@ -41,7 +41,12 @@ export const useSocialLogin = () => {
 
     const { accessToken, status, crewId } = response.result;
     setAccessToken(accessToken);
-    navigateByAuthStatus({ status, crewId, replace });
+    navigateByAuthStatus({
+      status,
+      currentActivity: 'LoginPage',
+      crewId,
+      replace,
+    });
   };
 
   const isDisabledRef = useRef(false);
