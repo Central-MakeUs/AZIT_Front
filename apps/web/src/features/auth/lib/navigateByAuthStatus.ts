@@ -7,32 +7,50 @@ type Replace = ReturnType<typeof useFlow>['replace'];
 
 type NavigateByAuthStatusParams = {
   status: SocialLoginResult['status'];
+  currentActivity: ActivityName;
   crewId?: number;
   replace: Replace;
 };
 
+const inactiveActivities: ActivityName[] = [
+  'LoginPage',
+  'TermAgreePage',
+  'OnboardingPage',
+];
+
 export const navigateByAuthStatus = ({
   status,
+  currentActivity,
   crewId,
   replace,
 }: NavigateByAuthStatusParams): ActivityName => {
   switch (status) {
     case 'PENDING_TERMS':
-      replace('TermAgreePage', {}, { animate: false });
+      if (currentActivity !== 'TermAgreePage') {
+        replace('TermAgreePage', {}, { animate: false });
+      }
       return 'TermAgreePage';
     case 'PENDING_ONBOARDING':
-      replace('OnboardingPage', {}, { animate: false });
+      if (currentActivity !== 'OnboardingPage') {
+        replace('OnboardingPage', {}, { animate: false });
+      }
       return 'OnboardingPage';
     case 'ACTIVE':
-      replace('HomePage', {}, { animate: false });
+      if (inactiveActivities.includes(currentActivity)) {
+        replace('HomePage', {}, { animate: false });
+      }
       return 'HomePage';
     case 'WAITING_FOR_APPROVE':
     case 'APPROVED_PENDING_CONFIRM':
     case 'REJECTED_PENDING_CONFIRM':
-      replace('CrewJoinStatusPage', { crewId }, { animate: false });
+      if (currentActivity !== 'CrewJoinStatusPage') {
+        replace('CrewJoinStatusPage', { crewId }, { animate: false });
+      }
       return 'CrewJoinStatusPage';
     case 'KICKED_PENDING_CONFIRM':
-      replace('CrewBannedStatusPage', {}, { animate: false });
+      if (currentActivity !== 'CrewBannedStatusPage') {
+        replace('CrewBannedStatusPage', {}, { animate: false });
+      }
       return 'CrewBannedStatusPage';
     default:
       replace('LoginPage', {}, { animate: false });

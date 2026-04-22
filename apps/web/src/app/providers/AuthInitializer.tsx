@@ -34,7 +34,12 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
 
         setAccessToken(accessToken);
 
-        const target = navigateByAuthStatus({ status, crewId, replace });
+        const target = navigateByAuthStatus({
+          status,
+          currentActivity,
+          crewId,
+          replace,
+        });
         redirectTargetRef.current = target as ActivityName;
       } catch (error) {
         console.error('토큰 재발급 실패:', error);
