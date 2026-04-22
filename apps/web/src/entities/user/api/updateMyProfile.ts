@@ -7,7 +7,7 @@ interface PatchMyProfileRequest {
   imageUrl: string;
 }
 
-export const patchMyProfile = (body: PatchMyProfileRequest) => {
+export const updateMyProfile = (body: PatchMyProfileRequest) => {
   return auth.patch<ApiResponseWithoutResult>(
     END_POINT.MEMBER.MY_PROFILE,
     body
