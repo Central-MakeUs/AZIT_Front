@@ -12,7 +12,7 @@ pre-commit:
             done
 
     format:
-      glob: "**/*.{js,jsx,ts,tsx,json,md,yaml,yml}"
+      glob: '**/*.{js,jsx,ts,tsx,json,md,yaml,yml}'
       run: |
         pnpm exec prettier --write {staged_files}
         echo "{staged_files}" | tr ' ' '\n' \
