@@ -9,6 +9,7 @@ export const END_POINT = {
   },
   MEMBER: {
     MY_INFO: 'members/me',
+    MY_PROFILE: 'members/me/profile',
     MY_ATTENDANCE: 'members/me/attendances',
     MY_ATTENDANCE_CALENDAR: 'members/me/attendances/calendar',
   },
