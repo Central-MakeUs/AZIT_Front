@@ -15,12 +15,17 @@ pre-commit:
       glob: '**/*.{js,jsx,ts,tsx,json,md,yaml,yml}'
       run: |
         pnpm exec prettier --write {staged_files}
-        echo "{staged_files}" | tr ' ' '\n' \
+        for pkg in $(echo "{staged_files}" | tr ' ' '\n' \
           | grep -E '^(apps|packages|tooling)/' \
-          | while read -r file; do
-              pkg=$(echo "$file" | cut -d/ -f1,2)
-              (cd "$pkg" && pnpm exec eslint --fix "${file#$pkg/}") &
-            done
+          | cut -d/ -f1,2 | sort -u); do
+          files=$(echo "{staged_files}" | tr ' ' '\n' \
+            | grep "^$pkg/" \
+            | grep -E "\.(js|jsx|ts|tsx)$" \
+            | sed "s|^$pkg/||")
+          if [ -n "$files" ]; then
+            (cd "$pkg" && echo "$files" | xargs pnpm exec eslint --fix) &
+          fi
+        done
         wait
       stage_fixed: true
 
