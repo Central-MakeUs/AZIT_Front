@@ -9,6 +9,7 @@ export const END_POINT = {
   },
   MEMBER: {
     MY_INFO: 'members/me',
+    MY_PROFILE: 'members/me/profile',
     MY_ATTENDANCE: 'members/me/attendances',
     MY_ATTENDANCE_CALENDAR: 'members/me/attendances/calendar',
   },
@@ -51,6 +52,9 @@ export const END_POINT = {
     DETAIL: (orderNumber: string) => `orders/${orderNumber}`,
     CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
+  },
+  IMAGES: {
+    PRESIGNED_URL: 'images/presigned-url',
   },
   LOCATION: {
     SEARCH: 'locations/search',

@@ -680,7 +680,7 @@ export interface paths {
     patch: operations['cancelOrder'];
     trace?: never;
   };
-  '/api/v1/members/me/profile-image': {
+  '/api/v1/members/me/profile': {
     parameters: {
       query?: never;
       header?: never;
@@ -694,66 +694,31 @@ export interface paths {
     options?: never;
     head?: never;
     /**
-     * 프로필 이미지 수정
-     * @description 로그인한 사용자의 프로필 이미지를 수정합니다. <br><br>
+     * 프로필 수정
+     * @description 사용자의 프로필 정보를 수정합니다. <br><br>
      *
-     *     **[사전 조건]** <br>
-     *     * POST /api/v1/images/presigned-url API로 Presigned URL을 발급받은 뒤, S3에 이미지를 **실제로 업로드한 후** 호출해야 합니다. <br><br>
+     *     **[닉네임 제약 사항]** <br>
+     *     * 최대 10자까지 입력 가능합니다. <br>
+     *     * 특수문자는 사용할 수 없으며, 한글/영문/숫자만 허용됩니다. <br><br>
      *
-     *     **[제약 사항]** <br>
-     *     * 업로드되지 않은 이미지 URL을 전달하면 IMAGE_NOT_UPLOADED 오류가 반환됩니다. <br>
-     *     * 본인이 업로드한 이미지 URL만 사용할 수 있습니다. (IMAGE_OWNERSHIP_MISMATCH)
+     *     **[프로필 이미지 URL 제약 사항]** <br>
+     *     프로필 이미지 URL은 아래 세 가지 중 하나여야 합니다.<br>
+     *     1. temp 경로가 포함된 CloudFront URL (새 커스텀 이미지 적용 시)<br>
+     *     2. default 경로가 포함된 URL (기본 이미지 적용 시 — 프론트에서 랜덤 선택 후 전달)<br>
+     *     3. 현재 이미지 URL (이미지 변경 없음) <br><br>
+     *
+     *     **[이미지 처리 방식]** <br>
+     *     imageUrl 값에 따라 아래 세 가지 케이스로 처리됩니다. <br>
+     *     1. **새 커스텀 이미지 적용**: temp/ 경로가 포함된 CloudFront URL 전달 <br>
+     *        - 사전에 POST /api/v1/images/presigned-url로 Presigned URL 발급 후 S3에 실제 업로드 필요 <br>
+     *        - 업로드되지 않은 URL이면 IMAGE_NOT_UPLOADED 오류 <br>
+     *        - 본인이 업로드한 이미지만 사용 가능 (IMAGE_OWNERSHIP_MISMATCH) <br>
+     *     2. **기본 이미지 적용**: default/ 경로가 포함된 URL 전달 (프론트에서 랜덤 선택 후 전달) <br>
+     *        - 기존 커스텀 이미지가 있으면 S3에서 자동 삭제 후 교체 <br>
+     *     3. **이미지 변경 없음**: 현재 저장된 이미지 URL 그대로 전달 <br>
+     *        - S3 작업 없이 닉네임만 수정됨
      */
-    patch: operations['updateProfileImage'];
-    trace?: never;
-  };
-  '/api/v1/members/me/profile-image/default': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * 프로필 이미지 기본 이미지로 변경
-     * @description 로그인한 사용자의 프로필 이미지를 기본 이미지로 초기화합니다. <br><br>
-     *
-     *     **[참고 사항]** <br>
-     *     * 기존에 업로드한 커스텀 이미지가 있는 경우 S3에서 삭제합니다. <br>
-     *     * 기본 이미지 중 랜덤으로 1개를 선택하여 적용합니다. <br>
-     *     * 이미 기본 이미지를 사용 중인 경우 S3 삭제 없이 다른 기본 이미지로 변경합니다.
-     */
-    patch: operations['resetProfileImageToDefault'];
-    trace?: never;
-  };
-  '/api/v1/members/me/nickname': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * 닉네임 수정
-     * @description 로그인한 사용자의 닉네임을 수정합니다. <br><br>
-     *
-     *     **[제약 사항]** <br>
-     *     * 닉네임은 최대 10자까지 입력 가능합니다. <br>
-     *     * 특수문자는 사용할 수 없으며, 한글/영문/숫자만 허용됩니다.
-     */
-    patch: operations['updateNickname'];
+    patch: operations['updateMemberProfile'];
     trace?: never;
   };
   '/api/v1/crews/{crewId}/info': {
@@ -777,43 +742,30 @@ export interface paths {
     options?: never;
     head?: never;
     /**
-     * 크루 정보 수정
-     * @description 크루명과 크루 한줄 소개를 수정합니다. <br><br>
+     * 크루 프로필 수정
+     * @description 크루 프로필을 수정합니다. <br><br>
      *
-     *     **[제약 사항]** <br>
-     *     * 리더만 크루 정보를 수정할 수 있습니다. (NOT_CREW_LEADER) <br>
+     *     **[크루 이미지 URL 제약 사항]** <br>
+     *     크루 이미지 URL은 아래 세 가지 중 하나여야 합니다.<br>
+     *     1. temp 경로가 포함된 CloudFront URL (새 커스텀 이미지 적용 시)<br>
+     *     2. default 경로가 포함된 URL (기본 이미지 적용 시 — 프론트에서 전달)<br>
+     *     3. 현재 이미지 URL (이미지 변경 없음) <br><br>
+     *
+     *     **[이미지 처리 방식]** <br>
+     *     imageUrl 값에 따라 아래 두 가지 케이스로 처리됩니다. <br>
+     *     1. **새 이미지 적용**: temp/ 경로가 포함된 CloudFront URL 전달 <br>
+     *        - 사전에 POST /api/v1/images/presigned-url에 type: CREW_IMAGE, crewId를 전달하여 Presigned URL 발급 후 S3에 실제 업로드 필요 <br>
+     *        - 업로드되지 않은 URL이면 IMAGE_NOT_UPLOADED 오류 <br>
+     *        - Presigned URL 발급 시 사용한 crewId와 요청 경로의 crewId가 일치해야 합니다. (IMAGE_OWNERSHIP_MISMATCH) <br>
+     *     2. **이미지 변경 없음**: 현재 저장된 이미지 URL 그대로 전달 <br>
+     *        - S3 작업 없이 크루명·소개만 수정됨 <br><br>
+     *
+     *     **[이외 제약 사항]** <br>
+     *     * 리더만 수정할 수 있습니다. (NOT_CREW_LEADER) <br>
      *     * 크루 이름은 필수이며 최대 15자까지 입력 가능합니다. <br>
      *     * 크루 한줄 소개는 선택이며 최대 20자까지 입력 가능합니다. (미입력 시 null로 저장)
      */
-    patch: operations['updateCrewInfo'];
-    trace?: never;
-  };
-  '/api/v1/crews/{crewId}/image': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * 크루 이미지 수정
-     * @description 크루 이미지를 수정합니다. <br><br>
-     *
-     *     **[사전 조건]** <br>
-     *     * POST /api/v1/images/presigned-url API에 type: CREW_IMAGE, crewId를 전달하여 Presigned URL을 발급받은 뒤, S3에 이미지를 **실제로 업로드한 후** 호출해야 합니다. <br><br>
-     *
-     *     **[제약 사항]** <br>
-     *     * 리더만 크루 이미지를 수정할 수 있습니다. (NOT_CREW_LEADER) <br>
-     *     * 업로드되지 않은 이미지 URL을 전달하면 IMAGE_NOT_UPLOADED 오류가 반환됩니다. <br>
-     *     * presigned URL 발급 시 사용한 crewId와 요청 경로의 crewId가 일치해야 합니다. (IMAGE_OWNERSHIP_MISMATCH)
-     */
-    patch: operations['updateCrewImage'];
+    patch: operations['updateCrewProfile'];
     trace?: never;
   };
   '/api/v1/carts/items/{cartItemId}': {
@@ -1600,16 +1552,8 @@ export interface components {
        * @description 이미지 업로드 타입
        * @enum {string}
        */
-      type:
-        | 'MEMBER_PROFILE'
-        | 'CREW_IMAGE'
-        | 'STORE_REVIEW'
-        | 'MEMBER_PROFILE'
-        | 'CREW_IMAGE';
-      /**
-       * @description 업로드할 파일명 (확장자 포함)
-       * @example photo.jpg
-       */
+      type: 'MEMBER_PROFILE' | 'CREW_IMAGE' | 'STORE_REVIEW';
+      /** @description 업로드할 파일명 (확장자 포함) */
       fileName: string;
       /**
        * Format: int64
@@ -1786,29 +1730,25 @@ export interface components {
       /** @description 기본 배송지 여부 */
       isDefault: boolean;
     };
-    UpdateProfileImageRequest: {
+    UpdateMemberProfileRequest: {
+      /** @description 변경할 닉네임 (최대 10자, 특수문자 불가) */
+      nickname: string;
       /**
-       * @description 업로드 완료된 이미지의 CloudFront URL
-       * @example https://azitcrew.com/profile/123/2026-04-07_550e8400.jpg
+       * @description 변경할 프로필 이미지 URL
+       * @example https://azitcrew.com/temp/profile/123/2026-04-22_550e8400.jpg
        */
       imageUrl: string;
     };
-    UpdateNicknameRequest: {
-      /** @description 변경할 닉네임 (최대 10자, 특수문자 불가) */
-      nickname: string;
-    };
-    UpdateCrewInfoRequest: {
+    UpdateCrewProfileRequest: {
+      /**
+       * @description 변경할 크루 이미지 URL
+       * @example https://images.azitcrew.com/temp/crew/1/2026-04-22_550e8400.jpg
+       */
+      imageUrl: string;
       /** @description 크루 이름 */
       name: string;
       /** @description 크루 한줄 소개 (선택) */
       description?: string;
-    };
-    UpdateCrewImageRequest: {
-      /**
-       * @description 업로드 완료된 이미지의 CloudFront URL
-       * @example https://azitcrew.com/temp/crew/1/2026-04-21_550e8400.jpg
-       */
-      imageUrl: string;
     };
     UpdateCartItemQuantityRequest: {
       /**
@@ -4984,7 +4924,7 @@ export interface operations {
       };
     };
   };
-  updateProfileImage: {
+  updateMemberProfile: {
     parameters: {
       query?: never;
       header?: never;
@@ -4993,147 +4933,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateProfileImageRequest'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['CommonResponseVoid'];
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  resetProfileImageToDefault: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['CommonResponseVoid'];
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  updateNickname: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['UpdateNicknameRequest'];
+        'application/json': components['schemas']['UpdateMemberProfileRequest'];
       };
     };
     responses: {
@@ -5266,7 +5066,7 @@ export interface operations {
       };
     };
   };
-  updateCrewInfo: {
+  updateCrewProfile: {
     parameters: {
       query?: never;
       header?: never;
@@ -5277,81 +5077,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateCrewInfoRequest'];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['CommonResponseVoid'];
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  updateCrewImage: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        crewId: number;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['UpdateCrewImageRequest'];
+        'application/json': components['schemas']['UpdateCrewProfileRequest'];
       };
     };
     responses: {
