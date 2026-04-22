@@ -20,7 +20,7 @@ language: Korean
 1. 아키텍처 규칙 (FSD)
 
 1.1 레이어 의존성 (강제)
-• 허용: pages → widgets → features → shared
+• 허용: pages → widgets → features → entities → shared
 • 금지: 하위 레이어가 상위 레이어 참조
 • 금지: 동일 레이어 Slice 간 직접 참조
 
@@ -39,9 +39,9 @@ shared 범용 요소 도메인 의존
 ⸻
 
 1.3 Entities 전략
-• MVP 단계: Entities 레이어 사용 ❌
-• features 내부 도메인 로직 허용
-• 안정화 이후 분리 제안은 허용
+• entities 레이어 사용 허용
+• 도메인별 API, 타입, 모델 배치
+• 비즈니스 로직은 features에서 처리
 
 ⸻
 
