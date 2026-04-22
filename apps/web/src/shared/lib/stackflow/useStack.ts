@@ -6,12 +6,13 @@ export const useStack = () => {
 
   const pop = (fallback?: ActivityName) => {
     const stack = actions.getStack();
-    const currentActivityIdx = stack.activities.findIndex(
-      (activity) => activity.isActive
+    const visibleActivities = stack.activities.filter(
+      (activity) => !activity.exitedBy
     );
 
-    if (currentActivityIdx === 0 && fallback) {
-      push(fallback, {}, { animate: false });
+    if (visibleActivities.length <= 1 && fallback) {
+      originalPop();
+      push(fallback, {});
       return;
     }
 
