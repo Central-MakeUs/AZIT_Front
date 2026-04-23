@@ -15,5 +15,3 @@ catalogs:
     react: 19.1.0
     react-dom: 19.1.0
 
-patchedDependencies:
-  '@react-native-kakao/core@1.7.0': patches/@react-native-kakao__core@1.7.0.patch
