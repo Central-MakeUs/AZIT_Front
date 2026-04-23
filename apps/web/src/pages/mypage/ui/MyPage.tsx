@@ -3,6 +3,8 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
+import { useFlow } from '@/app/routes/stackflow';
+
 import { getMypageMenu } from '@/pages/mypage/config/menu';
 import * as styles from '@/pages/mypage/styles/MyPage.css';
 
@@ -21,7 +23,7 @@ import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 export function MyPage() {
   const { logout } = useAuthStore();
-
+  const { push } = useFlow();
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
 
   const myInfo = myInfoData?.result;
@@ -39,6 +41,10 @@ export function MyPage() {
 
   const filteredMenu = getMypageMenu(myInfo.crewMemberRole, myInfo.crewId);
 
+  const navigateToMyProfileEditPage = () => {
+    push('MyProfileEditPage', {});
+  };
+
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
       <AppLayout>
@@ -46,7 +52,10 @@ export function MyPage() {
           <Header center="마이페이지" />
         </div>
         <div className={styles.mainContainer}>
-          <MyProfileSection profile={myInfo} />
+          <MyProfileSection
+            profile={myInfo}
+            navigateToMyProfileEditPage={navigateToMyProfileEditPage}
+          />
           <div className={styles.menuSectionWrapper}>
             <MyCrewInfoSection
               crewName={myInfo.crewName}
