@@ -1,5 +1,7 @@
 import type { ExpoConfig } from 'expo/config';
 
+const KAKAO_NATIVE_APP_KEY = process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY ?? '';
+
 const config: ExpoConfig = {
   name: 'AZIT',
   slug: 'azit',
@@ -18,7 +20,18 @@ const config: ExpoConfig = {
         NSAllowsArbitraryLoads: true,
         NSAllowsArbitraryLoadsInWebContent: true,
       },
-      LSApplicationQueriesSchemes: ['nmap'],
+      CFBundleURLTypes: [
+        {
+          CFBundleURLSchemes: [`kakao${KAKAO_NATIVE_APP_KEY}`],
+          CFBundleURLName: 'Kakao',
+        },
+      ],
+      LSApplicationQueriesSchemes: [
+        'kakaokompassauth',
+        'kakaolink',
+        'kakaoplus',
+        'nmap',
+      ],
       ITSAppUsesNonExemptEncryption: false,
       NSPhotoLibraryUsageDescription:
         '프로필 이미지 변경을 위해 갤러리 접근이 필요합니다.',
@@ -85,7 +98,15 @@ const config: ExpoConfig = {
     ],
     [
       '@react-native-kakao/core',
-      { nativeAppKey: process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY },
+      {
+        nativeAppKey: KAKAO_NATIVE_APP_KEY,
+        android: {
+          authCodeHandlerActivity: true,
+        },
+        ios: {
+          handleKakaoOpenUrl: true,
+        },
+      },
     ],
   ],
   experiments: {
