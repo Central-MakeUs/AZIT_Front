@@ -45,18 +45,17 @@ export const appBridge = bridge<AppBridge>({
     const naverMapAppURL = `nmap://place?lat=${lat}&lng=${lng}&name=${encodeURIComponent(address)}&appname=${AZIT_APP_NAME}`;
 
     try {
-      const supported = await Linking.canOpenURL(naverMapAppURL);
-      if (supported) {
-        await Linking.openURL(naverMapAppURL);
-      } else {
+      await Linking.openURL(naverMapAppURL);
+    } catch {
+      try {
         await Linking.openURL(
           Platform.OS === 'ios'
             ? NAVER_MAP_APP_STORE_URL
             : NAVER_MAP_ANDROID_APP_STORE_URL
         );
+      } catch (error) {
+        console.error('Naver Map app not found or not installed', error);
       }
-    } catch (error) {
-      console.error('Naver Map app not found or not installed', error);
     }
   },
   async getCurrentPosition(): Promise<{ latitude: number; longitude: number }> {
