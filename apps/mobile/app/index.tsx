@@ -145,26 +145,6 @@ export default function App() {
         return false;
       }
 
-      // 카카오톡 관련 앱 스킴 처리
-      if (
-        url.startsWith('kakaotalk://') ||
-        url.startsWith('kakaokompass://') ||
-        url.startsWith('kakaolink://') ||
-        url.startsWith('kakaokompassauth://') ||
-        url.startsWith('kakao:') ||
-        url.startsWith('talk:')
-      ) {
-        Linking.openURL(url).catch((error) => {
-          console.warn('Failed to open Kakao app url from WebView', error, url);
-        });
-        return false;
-      }
-
-      // 카카오 OAuth URL은 WebView 에서 그대로 진행
-      if (url.includes('kauth.kakao.com')) {
-        return true;
-      }
-
       // HTTP/HTTPS는 WebView 에서 처리
       if (isHttp) {
         return true;
