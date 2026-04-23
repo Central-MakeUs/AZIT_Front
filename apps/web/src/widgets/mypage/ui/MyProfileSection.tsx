@@ -1,6 +1,7 @@
 import { Chip } from '@azit/design-system/chip';
 import {
   CheckCircleBrokenIcon,
+  ChevronRightIcon,
   CoinsStackedIcon,
 } from '@azit/design-system/icon';
 
@@ -16,9 +17,13 @@ import type { MyInfoResult } from '@/entities/user/model';
 
 interface MyProfileSectionProps {
   profile: MyInfoResult;
+  navigateToMyProfileEditPage: () => void;
 }
 
-export function MyProfileSection({ profile }: MyProfileSectionProps) {
+export function MyProfileSection({
+  profile,
+  navigateToMyProfileEditPage,
+}: MyProfileSectionProps) {
   return (
     <section className={styles.container}>
       <div className={styles.profileRow}>
@@ -39,7 +44,12 @@ export function MyProfileSection({ profile }: MyProfileSectionProps) {
           <Chip type={ROLE_CHIP_TYPE_MAP[profile.crewMemberRole]}>
             {MEMBER_ROLE_LABEL[profile.crewMemberRole]}
           </Chip>
-          <span className={styles.nickname}>{profile.nickname}</span>
+          <div>
+            <span className={styles.nickname}>{profile.nickname}</span>
+            <button type="button" onClick={navigateToMyProfileEditPage}>
+              <ChevronRightIcon size={20} />
+            </button>
+          </div>
         </div>
       </div>
       <div className={styles.statGrid}>
