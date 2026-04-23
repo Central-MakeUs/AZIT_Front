@@ -1,19 +1,6 @@
 pre-commit:
   parallel: true
   commands:
-    prettier:
-      run: pnpm prettier
-
-    lint:
-      run: |
-        git diff --cached --name-only \
-          | grep -E '^(apps|packages|tooling)/' \
-          | cut -d/ -f1,2 \
-          | sort -u \
-          | while read -r pkg; do
-              pnpm exec turbo run lint --filter="./$pkg"
-            done
-
     typecheck:
       run: |
         git diff --cached --name-only \
@@ -25,8 +12,24 @@ pre-commit:
             done
 
     format:
-      run: pnpm format
+      glob: '**/*.{js,jsx,ts,tsx,json,md,yaml,yml}'
+      run: |
+        pnpm exec prettier --write {staged_files}
+        for pkg in $(echo "{staged_files}" | tr ' ' '\n' \
+          | grep -E '^(apps|packages|tooling)/' \
+          | cut -d/ -f1,2 | sort -u); do
+          files=$(echo "{staged_files}" | tr ' ' '\n' \
+            | grep "^$pkg/" \
+            | grep -E "\.(js|jsx|ts|tsx)$" \
+            | sed "s|^$pkg/||")
+          if [ -n "$files" ]; then
+            (cd "$pkg" && echo "$files" | xargs pnpm exec eslint --fix) &
+          fi
+        done
+        wait
       stage_fixed: true
 
 commit-msg:
-  run: pnpm commitlint --edit {1}
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1}
