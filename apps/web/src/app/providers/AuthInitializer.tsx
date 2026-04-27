@@ -1,4 +1,5 @@
 import { useStack } from '@stackflow/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, type ReactNode } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -18,8 +19,17 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
   const { replace } = useFlow();
   const stack = useStack();
   const redirectTargetRef = useRef<ActivityName | null>(null);
+  const queryClient = useQueryClient();
 
   const { isInitialized, setAccessToken, setIsInitialized } = useAuthStore();
+
+  useEffect(() => {
+    return useAuthStore.subscribe((state, prevState) => {
+      if (prevState.accessToken && !state.accessToken) {
+        queryClient.clear();
+      }
+    });
+  }, [queryClient]);
 
   const currentActivity = stack.activities[stack.activities.length - 1]
     ?.name as ActivityName;
