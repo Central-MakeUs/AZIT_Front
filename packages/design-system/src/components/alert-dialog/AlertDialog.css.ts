@@ -50,6 +50,7 @@ export const description = style([
     color: vars.colors.gray70,
     textAlign: 'center',
     width: '100%',
+    whiteSpace: 'pre-line',
   },
 ]);
 
@@ -101,5 +102,39 @@ export const actionButtonFullWidth = style([
   actionButton,
   {
     width: '100%',
+  },
+]);
+
+export const actionButtonDanger = style([
+  typography.body.b2,
+  {
+    width: '146px',
+    height: '44px',
+    borderRadius: '12px',
+    backgroundColor: vars.colors.error,
+    color: vars.colors.white,
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: vars.typography.fontFamily.primary,
+  },
+]);
+
+export const actionButtonDisabled = style([
+  typography.body.b2,
+  {
+    width: '146px',
+    height: '44px',
+    borderRadius: '12px',
+    backgroundColor: '#FFA9A9',
+    color: vars.colors.white,
+    border: 'none',
+    cursor: 'not-allowed',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: vars.typography.fontFamily.primary,
   },
 ]);
