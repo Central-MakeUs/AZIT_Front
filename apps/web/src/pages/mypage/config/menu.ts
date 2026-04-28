@@ -8,6 +8,81 @@ import type { MemberRole } from '@/entities/user/model';
 
 export type { MenuItem, MypageMenuGroup } from '@/shared/types/mypage-menu';
 
+export const getCrewMenu = (
+  role: MemberRole,
+  crewId: number
+): MypageMenuGroup[] => {
+  const isLeader = role === MEMBER_ROLE.LEADER;
+
+  return [
+    {
+      id: 'crew-activity',
+      title: '크루 활동',
+      items: [
+        {
+          id: 'crew-card',
+          label: '나의 크루증',
+          path: 'CrewCardPage' as ActivityName,
+          type: 'page',
+        },
+        {
+          id: 'my-attendance',
+          label: '출석 로그',
+          path: 'AttendancePage' as ActivityName,
+          type: 'page',
+        },
+        ...(!isLeader
+          ? [
+              {
+                id: 'member-list',
+                label: '멤버 목록',
+                path: 'MemberViewPage' as ActivityName,
+                type: 'page' as const,
+                pushParams: { id: crewId },
+              },
+            ]
+          : []),
+      ],
+    },
+    ...(isLeader
+      ? [
+          {
+            id: 'crew-manage',
+            title: '크루 관리',
+            items: [
+              {
+                id: 'member-management',
+                label: '멤버 관리',
+                path: 'MemberManagePage' as ActivityName,
+                type: 'page' as const,
+                pushParams: { id: crewId },
+              },
+              {
+                id: 'member-list',
+                label: '멤버 목록',
+                path: 'MemberViewPage' as ActivityName,
+                type: 'page' as const,
+                pushParams: { id: crewId },
+              },
+              {
+                id: 'crew-info-edit',
+                label: '크루 정보 수정',
+                path: 'CrewInfoEditPage' as ActivityName,
+                type: 'page' as const,
+              },
+              {
+                id: 'invitation-code-reissue',
+                label: '초대코드 재발급',
+                path: 'InvitationCodeReissuePage' as ActivityName,
+                type: 'page' as const,
+              },
+            ],
+          },
+        ]
+      : []),
+  ];
+};
+
 export const getMypageMenu: (
   role: MemberRole,
   crewId: number
