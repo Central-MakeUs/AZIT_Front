@@ -10,6 +10,9 @@ export interface AlertDialogProps {
   onAction?: () => void;
   cancelText?: string;
   singleButton?: boolean;
+  children?: ReactNode;
+  actionDisabled?: boolean;
+  actionVariant?: 'default' | 'danger';
 }
 
 export function AlertDialog({
@@ -20,6 +23,9 @@ export function AlertDialog({
   cancelText = '취소',
   onAction,
   singleButton = false,
+  children,
+  actionDisabled = false,
+  actionVariant = 'default',
 }: AlertDialogProps) {
   return (
     <RadixAlertDialog.Root>
@@ -38,6 +44,8 @@ export function AlertDialog({
             )}
           </div>
 
+          {children}
+
           <div className={styles.buttonContainer}>
             {!singleButton && (
               <RadixAlertDialog.Cancel asChild>
@@ -50,8 +58,13 @@ export function AlertDialog({
                 className={
                   singleButton
                     ? styles.actionButtonFullWidth
-                    : styles.actionButton
+                    : actionDisabled
+                      ? styles.actionButtonDisabled
+                      : actionVariant === 'danger'
+                        ? styles.actionButtonDanger
+                        : styles.actionButton
                 }
+                disabled={actionDisabled}
                 onClick={onAction}
               >
                 {actionText}
