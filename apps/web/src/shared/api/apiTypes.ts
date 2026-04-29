@@ -986,6 +986,34 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/members/me/providers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 연동된 소셜 로그인 조회
+     * @description 로그인한 사용자가 연동한 소셜 로그인 목록을 반환합니다. <br><br>
+     *
+     *     **[응답값]** <br>
+     *     * KAKAO: 카카오 연동 <br>
+     *     * APPLE: 애플 연동 <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 현재는 계정당 하나의 소셜 로그인만 지원합니다. <br>
+     *     * 추후 계정 연동 기능 도입 시 복수의 소셜 로그인이 반환될 수 있습니다.
+     */
+    get: operations['getLinkedProviders'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/members/me/check-in-status': {
     parameters: {
       query?: never;
@@ -2283,6 +2311,15 @@ export interface components {
        * @enum {string}
        */
       status?: 'ACTIVE' | 'CANCELLED';
+    };
+    CommonResponseLinkedProviderResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['LinkedProviderResponse'];
+    };
+    LinkedProviderResponse: {
+      /** @description 연동된 소셜 로그인 목록 */
+      providers?: ('KAKAO' | 'APPLE')[];
     };
     CheckInStatusResponse: {
       /** @description 오늘 참여할 일정이 있는지 여부 */
@@ -5663,6 +5700,74 @@ export interface operations {
         };
       };
       403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getLinkedProviders: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseLinkedProviderResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
         headers: {
           [name: string]: unknown;
         };
