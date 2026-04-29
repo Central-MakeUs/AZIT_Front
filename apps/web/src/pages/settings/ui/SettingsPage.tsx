@@ -2,6 +2,7 @@ import { vars } from '@azit/design-system';
 import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useQuery } from '@tanstack/react-query';
 import { Fragment } from 'react';
 
 import { getSettingsMenu } from '@/pages/settings/config/menu';
@@ -12,18 +13,28 @@ import { MenuItem, MenuSection } from '@/widgets/settings/ui';
 
 import { useWithdraw } from '@/features/auth/model';
 
+import { memberQueries } from '@/shared/queries/member';
 import { useAuthStore } from '@/shared/store/auth';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+
+const PROVIDER_LABEL: Record<string, string> = {
+  KAKAO: '카카오 연동',
+  APPLE: '애플 연동',
+};
 
 const APP_VERSION = import.meta.env.VITE_APP_VERSION ?? '1.0.0';
 
 export function SettingsPage() {
   const { logout } = useAuthStore();
   const { handleWithdraw } = useWithdraw();
+  const { data: providers } = useQuery(memberQueries.myProvidersQuery());
+
+  const loginProvider =
+    providers?.map((p) => PROVIDER_LABEL[p] ?? p).join(', ') ?? '-';
 
   const menu = getSettingsMenu({
-    loginProvider: '카카오 연동',
+    loginProvider,
     appVersion: `최신 버전(${APP_VERSION})`,
     onLogout: logout,
   });
