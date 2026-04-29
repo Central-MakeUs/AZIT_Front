@@ -1371,6 +1371,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/{crewId}/join-request': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 가입 신청 취소
+     * @description 승인 대기 중인 크루 가입 신청을 취소합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 가입 신청(REQUESTED) 상태인 경우에만 취소가 가능합니다. (JOIN_REQUEST_NOT_FOUND) <br>
+     *     * 취소 후 24시간 이내에는 동일 크루에 재신청이 불가합니다. (CANCEL_REJOINING_COOLDOWN)
+     */
+    delete: operations['cancelJoinRequest'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2690,7 +2714,13 @@ export interface components {
        * @description 멤버 상태
        * @enum {string}
        */
-      status?: 'REQUESTED' | 'JOINED' | 'REJECTED' | 'EXITED' | 'EXPELLED';
+      status?:
+        | 'REQUESTED'
+        | 'JOINED'
+        | 'REJECTED'
+        | 'EXITED'
+        | 'EXPELLED'
+        | 'CANCELLED';
     };
     CommonResponseListJoinRequestMemberResponse: {
       code?: string;
@@ -6596,6 +6626,76 @@ export interface operations {
     };
   };
   exitCrew: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  cancelJoinRequest: {
     parameters: {
       query?: never;
       header?: never;
