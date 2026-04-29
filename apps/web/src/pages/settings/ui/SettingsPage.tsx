@@ -3,7 +3,7 @@ import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { getSettingsMenu } from '@/pages/settings/config/menu';
 import * as styles from '@/pages/settings/styles/SettingsPage.css';
@@ -13,6 +13,7 @@ import { MenuItem, MenuSection } from '@/widgets/settings/ui';
 
 import { useWithdraw } from '@/features/auth/model';
 
+import { bridge } from '@/shared/lib/bridge';
 import { memberQueries } from '@/shared/queries/member';
 import { useAuthStore } from '@/shared/store/auth';
 import { BackButton } from '@/shared/ui/button';
@@ -23,19 +24,25 @@ const PROVIDER_LABEL: Record<string, string> = {
   APPLE: '애플 연동',
 };
 
-const APP_VERSION = import.meta.env.VITE_APP_VERSION ?? '1.0.0';
-
 export function SettingsPage() {
   const { logout } = useAuthStore();
   const { handleWithdraw } = useWithdraw();
   const { data: providers } = useQuery(memberQueries.myProvidersQuery());
+  const [appVersion, setAppVersion] = useState<string>('');
+
+  useEffect(() => {
+    bridge
+      .getAppVersion()
+      .then(setAppVersion)
+      .catch(() => {});
+  }, []);
 
   const loginProvider =
     providers?.map((p) => PROVIDER_LABEL[p] ?? p).join(', ') ?? '-';
 
   const menu = getSettingsMenu({
     loginProvider,
-    appVersion: `최신 버전(${APP_VERSION})`,
+    appVersion: appVersion ? `최신 버전(${appVersion})` : '',
     onLogout: logout,
   });
 
