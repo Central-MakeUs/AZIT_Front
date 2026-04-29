@@ -9,6 +9,7 @@ import {
   type ImagePickerSource,
   POST_MESSAGE_EVENT,
 } from '@azit/bridge';
+import Constants from 'expo-constants';
 import * as ImagePicker from 'expo-image-picker';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
@@ -154,6 +155,10 @@ export const appBridge = bridge<AppBridge>({
             : '이미지 선택에 실패했습니다.',
       };
     }
+  },
+
+  async getAppVersion(): Promise<string> {
+    return Constants.expoConfig?.version ?? '1.0.0';
   },
 
   // 인증 메서드
