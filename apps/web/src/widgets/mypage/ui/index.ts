@@ -1,9 +1,5 @@
 export { MyProfileSection } from './MyProfileSection';
 export { MyCrewInfoSection } from './MyCrewInfoSection';
-export { MyMenuSection } from './MyMenuSection';
-export { MyMenuItem } from './MyMenuItem';
-export { MenuSection } from '@/widgets/settings/ui/MenuSection';
-export { MenuItem } from '@/widgets/settings/ui/MenuItem';
 export { MemberList } from './MemberList';
 export { MemberListItem } from './MemberListItem';
 export { MemberManagementTab } from './MemberManagementTab';

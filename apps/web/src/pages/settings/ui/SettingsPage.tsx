@@ -8,9 +8,6 @@ import { Fragment, useEffect, useState } from 'react';
 import { getSettingsMenu } from '@/pages/settings/config/menu';
 import * as styles from '@/pages/settings/styles/SettingsPage.css';
 
-import * as menuSectionStyles from '@/widgets/settings/styles/MenuSection.css';
-import { MenuItem, MenuSection } from '@/widgets/settings/ui';
-
 import { useWithdraw } from '@/features/auth/model';
 
 import { bridge } from '@/shared/lib/bridge';
@@ -18,6 +15,7 @@ import { memberQueries } from '@/shared/queries/member';
 import { useAuthStore } from '@/shared/store/auth';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { MenuItem, MenuSection, menuSectionStyles } from '@/shared/ui/menu';
 
 const PROVIDER_LABEL: Record<string, string> = {
   KAKAO: '카카오 연동',
