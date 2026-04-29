@@ -13,6 +13,7 @@ import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
 import { getMyAttendanceCalendar } from '@/entities/user/api/getMyAttendanceCalendar';
 import { getMyInfo } from '@/entities/user/api/getMyInfo';
+import { getMyProviders } from '@/entities/user/api/getMyProviders';
 import { updateMyProfile } from '@/entities/user/api/updateMyProfile';
 import type {
   MyAttendanceCalendarRequest,
@@ -25,6 +26,7 @@ export const memberQueries = {
     [...memberQueries.all, 'attendance', request] as const,
   listKey: () => [...memberQueries.all] as const,
   myInfoKey: () => [...memberQueries.all, 'my'] as const,
+  myProvidersKey: () => [...memberQueries.all, 'providers'] as const,
   crewMembersKey: (crewId: number) =>
     [...memberQueries.listKey(), 'crew-members', crewId] as const,
   joinRequestsKey: (crewId: number) =>
@@ -34,6 +36,13 @@ export const memberQueries = {
       queryKey: memberQueries.myInfoKey(),
       queryFn: () => getMyInfo(),
       staleTime: 1000 * 60 * 60 * 3,
+    }),
+  myProvidersQuery: () =>
+    queryOptions({
+      queryKey: memberQueries.myProvidersKey(),
+      queryFn: () => getMyProviders(),
+      staleTime: Infinity,
+      select: (data) => data.result?.providers ?? [],
     }),
   calendarKey: (request?: MyAttendanceCalendarRequest) =>
     [...memberQueries.all, 'getMyAttendanceCalendar', request] as const,
