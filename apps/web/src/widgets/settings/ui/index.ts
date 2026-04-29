@@ -1,2 +1,1 @@
-export { MenuSection } from './MenuSection';
-export { MenuItem } from './MenuItem';
+export { MenuItem, MenuSection } from '@/shared/ui/menu';
