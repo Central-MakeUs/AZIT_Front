@@ -1,20 +1,32 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
-
-import * as styles from '@/widgets/settings/styles/MenuItem.css';
+import { useEffect, useState } from 'react';
 
 import type { MenuItem as MenuItemType } from '@/shared/types/menu';
+
+import * as styles from './MenuItem.css';
 
 interface MenuItemProps {
   item: MenuItemType;
   onClick?: (item: MenuItemType) => void;
-  statusLabel?: string | null;
 }
 
-export function MenuItem({
-  item,
-  onClick,
-  statusLabel: statusLabelProp,
-}: MenuItemProps) {
+export function MenuItem({ item, onClick }: MenuItemProps) {
+  const [statusLabel, setStatusLabel] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (item.type !== 'action' || !item.getStatusLabel) return;
+
+    const fetch = () => {
+      item.getStatusLabel!()
+        .then(setStatusLabel)
+        .catch(() => {});
+    };
+
+    fetch();
+    window.addEventListener('focus', fetch);
+    return () => window.removeEventListener('focus', fetch);
+  }, [item]);
+
   const handleClick = () => {
     onClick?.(item);
   };
@@ -27,8 +39,6 @@ export function MenuItem({
       </div>
     );
   }
-
-  const statusLabel = item.type === 'permission' ? statusLabelProp : null;
 
   return (
     <div
@@ -44,8 +54,8 @@ export function MenuItem({
       }}
     >
       <span className={styles.label}>{item.label}</span>
-      {statusLabel != null && statusLabel !== '' ? (
-        <span className={styles.statusLabel}>{statusLabel}</span>
+      {item.type === 'action' && item.getStatusLabel ? (
+        <span className={styles.statusLabel}>{statusLabel ?? ''}</span>
       ) : (
         <ChevronRightIcon size={20} className={styles.pushIcon} />
       )}
