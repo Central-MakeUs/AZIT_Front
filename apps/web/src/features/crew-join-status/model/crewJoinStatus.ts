@@ -39,6 +39,13 @@ export const STATUS_CONTENT: Record<
     buttonText: '처음으로',
     buttonState: 'active',
   },
+  // TODO: 확인 필요
+  CANCELLED: {
+    primaryMessage: '가입 요청이 거절되었어요',
+    secondaryMessage: '크루 초대코드를 다시 확인해주세요',
+    buttonText: '처음으로',
+    buttonState: 'active',
+  },
   // TODO: 크루 직접 탈퇴 관련 메시지 재정의
   EXITED: {
     primaryMessage: '리더에 의해 해당 크루에서 방출되었습니다',
