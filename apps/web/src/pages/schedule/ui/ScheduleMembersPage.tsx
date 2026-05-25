@@ -22,8 +22,9 @@ interface ScheduleMembersPageProps {
 export function ScheduleMembersPage({
   params: { id: scheduleId },
 }: ScheduleMembersPageProps) {
-  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.result.crewId ?? 0;
+  const { data: myCrewsData } = useQuery(memberQueries.myCrewsQuery());
+  const crewId =
+    myCrewsData?.find((c) => c.memberStatus === 'JOINED')?.crewId ?? 0;
 
   const { data: scheduleDetailData } = useQuery({
     ...scheduleQueries.scheduleDetailQuery(crewId, scheduleId),

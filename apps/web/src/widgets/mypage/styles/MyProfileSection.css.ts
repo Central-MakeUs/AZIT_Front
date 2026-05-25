@@ -3,49 +3,71 @@ import { style } from '@vanilla-extract/css';
 
 export const container = style({
   display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  gap: 20,
-  width: '100%',
-  padding: '20px 20px 24px',
-  backgroundColor: vars.colors.white,
-});
-
-export const profileRow = style({
-  display: 'flex',
   flexDirection: 'row',
-  gap: 16,
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+  padding: '24px 16px',
+  backgroundColor: vars.colors.blue70,
+  borderRadius: 16,
 });
 
 export const avatar = style({
-  width: 64,
-  height: 64,
+  width: 56,
+  height: 56,
   borderRadius: '50%',
-  backgroundColor: vars.colors.gray10,
+  backgroundColor: vars.colors.blue20,
   flexShrink: 0,
   objectFit: 'cover',
 });
 
-export const profileInfo = style({
+export const nicknameRow = style({
   display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-  gap: 8,
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 2,
   flex: 1,
   minWidth: 0,
+  marginLeft: 12,
+  backgroundColor: 'transparent',
+  border: 'none',
+  cursor: 'pointer',
+  padding: 0,
 });
 
 export const nickname = style([
-  typography.body.b2,
+  typography.body.b1,
   {
-    color: vars.colors.black,
+    color: vars.colors.white,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 ]);
 
-export const statGrid = style({
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  gap: 8,
-  width: '100%',
+export const chevron = style({
+  color: vars.colors.white,
+  flexShrink: 0,
 });
+
+export const pointsBadge = style({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 4,
+  padding: '6px 10px 6px 8px',
+  backgroundColor: vars.colors.white,
+  borderRadius: 8,
+  flexShrink: 0,
+});
+
+export const pointsIcon = style({
+  flexShrink: 0,
+});
+
+export const pointsValue = style([
+  typography.body.b3,
+  {
+    color: vars.colors.blue80,
+  },
+]);

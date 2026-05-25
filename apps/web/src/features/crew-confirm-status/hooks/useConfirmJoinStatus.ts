@@ -21,6 +21,9 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
         queryKey: memberQueries.myInfoKey(),
       });
       queryClient.invalidateQueries({
+        queryKey: memberQueries.myCrewsKey(),
+      });
+      queryClient.invalidateQueries({
         queryKey: scheduleQueries.all,
       });
 
