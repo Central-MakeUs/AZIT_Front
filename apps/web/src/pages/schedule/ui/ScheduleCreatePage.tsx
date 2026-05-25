@@ -37,10 +37,10 @@ export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   );
 
   useEffect(() => {
-    if (myInfoData?.result && !isLeader) {
+    if (joinedCrew && !isLeader) {
       setFormValues((prev) => ({ ...prev, runType: 'LIGHTNING' }));
     }
-  }, [myInfoData, isLeader]);
+  }, [joinedCrew, isLeader]);
 
   const queryClient = useQueryClient();
   const createMutation = useMutation({
