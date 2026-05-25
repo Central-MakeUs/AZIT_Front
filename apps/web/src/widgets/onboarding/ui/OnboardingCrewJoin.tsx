@@ -16,7 +16,7 @@ import type { CrewInfoResult } from '@/entities/crew/model';
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;
-  onNext: (inviteCode: string, crewId: number) => void;
+  onNext: (inviteCode: string, crewId: number, crewName: string) => void;
   onPrev: () => void;
 }
 
@@ -93,7 +93,7 @@ export function OnboardingCrewJoin({
           <OnboardingCrewJoinBottomSheetContent
             onClose={() => setIsBottomSheetOpen(false)}
             onRequestJoin={() => {
-              onNext(inviteCode, crewInfo.crewId);
+              onNext(inviteCode, crewInfo.crewId, crewInfo.name);
             }}
             crewInfo={crewInfo}
           />
