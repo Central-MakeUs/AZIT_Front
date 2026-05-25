@@ -2,7 +2,7 @@ import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
 import { SettingsIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -11,16 +11,12 @@ import * as styles from '@/pages/mypage/styles/MyPage.css';
 
 import { MyCrewInfoSection, MyProfileSection } from '@/widgets/mypage/ui';
 
-import { WithdrawButton } from '@/features/auth/ui';
-
 import { memberQueries } from '@/shared/queries';
-import { useAuthStore } from '@/shared/store/auth';
 import { AppLayout } from '@/shared/ui/layout';
 import { MenuSection } from '@/shared/ui/menu';
 import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 export function MyPage() {
-  const { logout } = useAuthStore();
   const { push } = useFlow();
 
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
@@ -30,17 +26,6 @@ export function MyPage() {
 
   const myInfo = myInfoData?.result;
   const crews = myCrewsData ?? [];
-
-  const joinedCrew = crews.find((c) => c.memberStatus === 'JOINED') ?? null;
-  const isLeader = joinedCrew?.memberRole === 'LEADER';
-  const joinedCrewId = joinedCrew?.crewId ?? 0;
-
-  const { data: membersData } = useInfiniteQuery({
-    ...memberQueries.crewMembersQuery(joinedCrewId),
-    enabled: isLeader && joinedCrewId > 0,
-  });
-  const memberCount = membersData?.pages[0]?.result?.totalCount ?? 0;
-  const cannotWithdraw = isLeader && memberCount > 1;
 
   const filteredMenu = useMypageMenu();
 
