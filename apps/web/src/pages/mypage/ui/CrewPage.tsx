@@ -11,7 +11,6 @@ import { useState } from 'react';
 import { useCrewMenu } from '@/pages/mypage/model/useCrewMenu';
 import * as styles from '@/pages/mypage/styles/CrewPage.css';
 
-
 import {
   MEMBER_ROLE,
   MEMBER_ROLE_LABEL,
