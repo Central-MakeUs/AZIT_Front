@@ -54,10 +54,6 @@ const NotificationSettingsPage = lazyImport(
   () => import('@/pages/mypage/ui/MyNotificationPage'),
   'MyNotificationPage'
 );
-const CrewJoinStatusPage = lazyImport(
-  () => import('@/pages/crew-join-status/ui/CrewJoinStatusPage'),
-  'CrewJoinStatusPage'
-);
 const CrewBannedStatusPage = lazyImport(
   () => import('@/pages/crew-join-status/ui/CrewBannedStatusPage'),
   'CrewBannedStatusPage'
@@ -248,12 +244,6 @@ export const routes = [
     name: 'NotificationSettingsPage',
     path: '/mypage-notification',
     element: NotificationSettingsPage,
-    withAuth: true,
-  },
-  {
-    name: 'CrewJoinStatusPage',
-    path: '/crew-join/status',
-    element: CrewJoinStatusPage,
     withAuth: true,
   },
   {
