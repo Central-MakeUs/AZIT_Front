@@ -25,6 +25,13 @@ export const statusLabel = style([
   },
 ]);
 
+export const infoValue = style([
+  typography.body.b3,
+  {
+    color: vars.colors.blue80,
+  },
+]);
+
 export const pushIcon = style({
   color: vars.colors.gray50,
 });

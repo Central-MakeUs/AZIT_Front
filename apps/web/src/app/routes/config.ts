@@ -126,6 +126,10 @@ const CrewPage = lazyImport(
   () => import('@/pages/mypage/ui/CrewPage'),
   'CrewPage'
 );
+const SettingsPage = lazyImport(
+  () => import('@/pages/settings/ui/SettingsPage'),
+  'SettingsPage'
+);
 
 export const routes = [
   {
@@ -330,6 +334,12 @@ export const routes = [
     name: 'CrewPage',
     path: '/crew/:id',
     element: CrewPage,
+    withAuth: true,
+  },
+  {
+    name: 'SettingsPage',
+    path: '/settings',
+    element: SettingsPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];

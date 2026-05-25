@@ -37,6 +37,7 @@ export type AppBridge = {
   openLocationSettings(): Promise<void>;
   socialLogin(type: SocialLoginType): Promise<SocialAuthResult>;
   pickProfileImage(source: ImagePickerSource): Promise<ImagePickerResult>;
+  getAppVersion(): Promise<string>;
 };
 
 /**

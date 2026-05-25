@@ -19,6 +19,7 @@ export { default as MarkerPinIcon } from './MarkerPinIcon';
 export { default as MinusIcon } from './MinusIcon';
 export { default as PlusIcon } from './PlusIcon';
 export { default as SearchIcon } from './SearchIcon';
+export { default as SettingsIcon } from './SettingsIcon';
 export { default as ShareIcon } from './ShareIcon';
 export { default as ShareSheetIcon } from './ShareSheetIcon';
 export { default as ShoppingBagIcon } from './ShoppingBagIcon';
