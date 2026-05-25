@@ -11,7 +11,6 @@ import * as styles from '@/pages/mypage/styles/MyPage.css';
 
 import { MyProfileSection, MyCrewInfoSection } from '@/widgets/mypage/ui';
 
-
 import { WithdrawButton } from '@/features/auth/ui';
 
 import { crewQueries, memberQueries } from '@/shared/queries';
