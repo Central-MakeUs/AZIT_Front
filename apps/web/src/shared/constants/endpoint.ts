@@ -9,6 +9,7 @@ export const END_POINT = {
   },
   MEMBER: {
     MY_INFO: 'members/me',
+    MY_CREWS: 'members/me/crews',
     MY_PROFILE: 'members/me/profile',
     MY_ATTENDANCE: 'members/me/attendances',
     MY_ATTENDANCE_CALENDAR: 'members/me/attendances/calendar',
@@ -31,6 +32,7 @@ export const END_POINT = {
       `crews/${crewId}/join-requests/${targetMemberId}/approve`,
     REJECT_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
       `crews/${crewId}/join-requests/${targetMemberId}/reject`,
+    CANCEL_JOIN_REQUEST: (crewId: number) => `crews/${crewId}/join-request`,
   },
   STORE: {
     PRODUCTS: 'products',
