@@ -7,8 +7,8 @@ import {
 import { postApproveJoinRequest } from '@/features/crew-manage/api/postApproveJoinRequest';
 import { postRejectJoinRequest } from '@/features/crew-manage/api/postRejectJoinRequest';
 
-import { cancelJoinRequest } from '@/entities/crew/api/cancelJoinRequest';
 import { deleteCrewMember } from '@/entities/crew/api/deleteCrewMember';
+import { deleteJoinRequest } from '@/entities/crew/api/deleteJoinRequest';
 import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
 import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
@@ -121,7 +121,7 @@ export const memberQueries = {
   updateMyProfile: mutationOptions({
     mutationFn: updateMyProfile,
   }),
-  cancelJoinRequest: mutationOptions({
-    mutationFn: ({ crewId }: { crewId: number }) => cancelJoinRequest(crewId),
+  deleteJoinRequest: mutationOptions({
+    mutationFn: ({ crewId }: { crewId: number }) => deleteJoinRequest(crewId),
   }),
 };
