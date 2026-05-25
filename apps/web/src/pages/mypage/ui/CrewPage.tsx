@@ -8,10 +8,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { getCrewMenu } from '@/pages/mypage/config/menu';
+import { useCrewMenu } from '@/pages/mypage/model/useCrewMenu';
 import * as styles from '@/pages/mypage/styles/CrewPage.css';
-
-import { MyMenuSection } from '@/widgets/mypage/ui';
 
 import {
   MEMBER_ROLE,
@@ -23,6 +21,7 @@ import { copyToClipboard } from '@/shared/lib/clipboard';
 import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { MenuSection } from '@/shared/ui/menu';
 
 export function CrewPage(_: { params?: { id?: string } }) {
   const [dissolveInput, setDissolveInput] = useState('');
@@ -30,6 +29,11 @@ export function CrewPage(_: { params?: { id?: string } }) {
 
   const myInfo = myInfoData?.result;
   const isLeader = myInfo?.crewMemberRole === MEMBER_ROLE.LEADER;
+
+  const menuSections = useCrewMenu(
+    myInfo?.crewMemberRole ?? 'MEMBER',
+    myInfo?.crewId ?? 0
+  );
 
   if (isLoading || !myInfo) return null;
 
@@ -44,8 +48,6 @@ export function CrewPage(_: { params?: { id?: string } }) {
       await bridge.shareInviteCode(myInfo.invitationCode, myInfo.crewName);
     }
   };
-
-  const menuSections = getCrewMenu(myInfo.crewMemberRole, myInfo.crewId);
 
   return (
     <AppScreen backgroundColor={vars.colors.background_sub}>
@@ -96,7 +98,7 @@ export function CrewPage(_: { params?: { id?: string } }) {
               </div>
               <div className={styles.menuSectionWrapper}>
                 {menuSections.map((section) => (
-                  <MyMenuSection key={section.id} section={section} />
+                  <MenuSection key={section.id} section={section} />
                 ))}
               </div>
             </div>
