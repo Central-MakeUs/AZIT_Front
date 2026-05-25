@@ -2,16 +2,25 @@ import type { ActivityName } from '@/app/routes/types';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
-import type { MypageMenuGroup } from '@/shared/types/mypage-menu';
+import { bridge } from '@/shared/lib/bridge';
+import { openExternalUrl } from '@/shared/lib/openExternalUrl';
+import type { MenuGroup } from '@/shared/types/menu';
 
 import type { MemberRole } from '@/entities/user/model';
 
-export type { MenuItem, MypageMenuGroup } from '@/shared/types/mypage-menu';
+type Push = (
+  activity: ActivityName,
+  params: Record<string, unknown>,
+  options?: { animate?: boolean }
+) => void;
+
+export type { MenuItem, MenuGroup } from '@/shared/types/menu';
 
 export const getCrewMenu = (
   role: MemberRole,
-  crewId: number
-): MypageMenuGroup[] => {
+  crewId: number,
+  push: Push
+): MenuGroup[] => {
   const isLeader = role === MEMBER_ROLE.LEADER;
 
   return [
@@ -22,23 +31,24 @@ export const getCrewMenu = (
         {
           id: 'crew-card',
           label: '나의 크루증',
-          path: 'CrewCardPage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () =>
+            push('CrewCardPage' as ActivityName, {}, { animate: true }),
         },
         {
           id: 'my-attendance',
           label: '출석 로그',
-          path: 'AttendancePage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () => push('AttendancePage', {}, { animate: true }),
         },
         ...(!isLeader
           ? [
               {
                 id: 'member-list',
                 label: '멤버 목록',
-                path: 'MemberViewPage' as ActivityName,
-                type: 'page' as const,
-                pushParams: { id: crewId },
+                type: 'navigation' as const,
+                onNavigate: () =>
+                  push('MemberViewPage', { id: crewId }, { animate: true }),
               },
             ]
           : []),
@@ -53,28 +63,38 @@ export const getCrewMenu = (
               {
                 id: 'member-management',
                 label: '멤버 관리',
-                path: 'MemberManagePage' as ActivityName,
-                type: 'page' as const,
-                pushParams: { id: crewId },
+                type: 'navigation' as const,
+                onNavigate: () =>
+                  push('MemberManagePage', { id: crewId }, { animate: true }),
               },
               {
                 id: 'member-list',
                 label: '멤버 목록',
-                path: 'MemberViewPage' as ActivityName,
-                type: 'page' as const,
-                pushParams: { id: crewId },
+                type: 'navigation' as const,
+                onNavigate: () =>
+                  push('MemberViewPage', { id: crewId }, { animate: true }),
               },
               {
                 id: 'crew-info-edit',
                 label: '크루 정보 수정',
-                path: 'CrewInfoEditPage' as ActivityName,
-                type: 'page' as const,
+                type: 'navigation' as const,
+                onNavigate: () =>
+                  push(
+                    'CrewInfoEditPage' as ActivityName,
+                    {},
+                    { animate: true }
+                  ),
               },
               {
                 id: 'invitation-code-reissue',
                 label: '초대코드 재발급',
-                path: 'InvitationCodeReissuePage' as ActivityName,
-                type: 'page' as const,
+                type: 'navigation' as const,
+                onNavigate: () =>
+                  push(
+                    'InvitationCodeReissuePage' as ActivityName,
+                    {},
+                    { animate: true }
+                  ),
               },
             ],
           },
@@ -83,10 +103,16 @@ export const getCrewMenu = (
   ];
 };
 
-export const getMypageMenu: (
+const LOCATION_PERMISSION_LABEL: Record<string, string> = {
+  granted: '활성',
+  denied: '비활성',
+};
+
+export const getMypageMenu = (
   role: MemberRole,
-  crewId: number
-) => MypageMenuGroup[] = (role, crewId) => {
+  crewId: number,
+  push: Push
+): MenuGroup[] => {
   return [
     {
       id: 'authority',
@@ -95,8 +121,17 @@ export const getMypageMenu: (
         {
           id: 'location-permission',
           label: '위치 권한 설정',
-          type: 'permission',
-          permission: 'location',
+          type: 'action',
+          getStatusLabel: async () => {
+            if (!bridge.isNativeMethodAvailable('getLocationPermissionStatus'))
+              return '미설정';
+            const status = await bridge.getLocationPermissionStatus();
+            return LOCATION_PERMISSION_LABEL[status] ?? '미설정';
+          },
+          onAction: async () => {
+            if (!bridge.isNativeMethodAvailable('openLocationSettings')) return;
+            await bridge.openLocationSettings();
+          },
         },
       ],
     },
@@ -107,20 +142,20 @@ export const getMypageMenu: (
         {
           id: 'order-history',
           label: '주문 내역',
-          path: 'OrderHistory' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () => push('OrderHistory', {}, { animate: true }),
         },
         {
           id: 'address',
           label: '배송지 설정',
-          path: 'AddressSettingPage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () => push('AddressSettingPage', {}, { animate: true }),
         },
         {
           id: 'inquiry',
           label: '1:1 문의하기',
-          type: 'external_link',
-          url: KAKAO_INQUIRY_CHAT_URL,
+          type: 'navigation',
+          onNavigate: () => openExternalUrl(KAKAO_INQUIRY_CHAT_URL),
         },
       ],
     },
@@ -131,17 +166,21 @@ export const getMypageMenu: (
         {
           id: 'member-management',
           label: role === MEMBER_ROLE.LEADER ? '멤버 관리' : '멤버 목록',
-          path: (role === MEMBER_ROLE.LEADER
-            ? 'MemberManagePage'
-            : 'MemberViewPage') as ActivityName,
-          type: 'page',
-          pushParams: { id: crewId },
+          type: 'navigation',
+          onNavigate: () =>
+            push(
+              role === MEMBER_ROLE.LEADER
+                ? 'MemberManagePage'
+                : 'MemberViewPage',
+              { id: crewId },
+              { animate: true }
+            ),
         },
         {
           id: 'my-attendance',
           label: '출석 로그',
-          path: 'AttendancePage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () => push('AttendancePage', {}, { animate: true }),
         },
       ],
     },
@@ -152,26 +191,46 @@ export const getMypageMenu: (
         {
           id: 'terms-of-service',
           label: '서비스 이용약관',
-          path: 'TermDetailPage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () =>
+            push(
+              'TermDetailPage',
+              { termType: 'terms-of-service' },
+              { animate: true }
+            ),
         },
         {
           id: 'privacy-policy',
           label: '개인정보 처리방침',
-          path: 'TermDetailPage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () =>
+            push(
+              'TermDetailPage',
+              { termType: 'privacy-policy' },
+              { animate: true }
+            ),
         },
         {
           id: 'location-service-agreement',
           label: '위치 기반 서비스 이용약관',
-          path: 'TermDetailPage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () =>
+            push(
+              'TermDetailPage',
+              { termType: 'location-service-agreement' },
+              { animate: true }
+            ),
         },
         {
           id: 'third-party-info-agreement',
           label: '제 3자 정보제공 동의 내역',
-          path: 'TermDetailPage' as ActivityName,
-          type: 'page',
+          type: 'navigation',
+          onNavigate: () =>
+            push(
+              'TermDetailPage',
+              { termType: 'third-party-info-agreement' },
+              { animate: true }
+            ),
         },
       ],
     },
