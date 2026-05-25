@@ -89,8 +89,9 @@ function ScheduleDetailContent({
   const { push } = useFlow();
   const queryClient = useQueryClient();
 
-  const { data: myInfoData } = useSuspenseQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData.result.crewId;
+  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
+  const crewId =
+    myCrewsData.find((c) => c.memberStatus === 'JOINED')?.crewId ?? 0;
 
   const { data: scheduleDetailData } = useSuspenseQuery(
     scheduleQueries.scheduleDetailQuery(crewId, scheduleId)

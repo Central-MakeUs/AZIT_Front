@@ -1,87 +1,159 @@
 import { vars, typography } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
-export const card = style({
+export const section = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
   width: '100%',
+});
+
+export const sectionHeader = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '0 4px',
+});
+
+export const sectionTitle = style([
+  typography.body.b2,
+  {
+    color: vars.colors.black,
+  },
+]);
+
+export const newCrewButton = style({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 4,
+  backgroundColor: 'transparent',
+  border: 'none',
+  cursor: 'pointer',
+  padding: 0,
+});
+
+export const newCrewText = style([
+  typography.body.b3,
+  {
+    color: vars.colors.blue60,
+  },
+]);
+
+export const newCrewIcon = style({
+  color: vars.colors.blue60,
+});
+
+export const crewList = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 10,
+});
+
+export const crewCard = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '12px 20px 12px 16px',
   backgroundColor: vars.colors.white,
-  border: `1px solid ${vars.colors.gray10}`,
   borderRadius: 16,
 });
 
-export const cardHeader = style({
+export const crewCardLeft = style({
   display: 'flex',
-  justifyContent: 'center',
+  flexDirection: 'row',
   alignItems: 'center',
   gap: 8,
-  padding: '12px 16px',
+  flex: 1,
+  minWidth: 0,
 });
 
-export const avatar = style({
-  width: 36,
-  height: 36,
+export const crewAvatar = style({
+  width: 44,
+  height: 44,
   borderRadius: '50%',
   backgroundColor: vars.colors.gray10,
   flexShrink: 0,
   objectFit: 'cover',
 });
 
-export const cardFooter = style({
+export const crewInfo = style({
   display: 'flex',
-  borderTop: `1px solid ${vars.colors.gray10}`,
+  flexDirection: 'column',
+  gap: 2,
+  minWidth: 0,
 });
 
 export const crewName = style([
-  typography.body.b2,
+  typography.body.b3,
   {
     color: vars.colors.black,
-    flexShrink: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 ]);
 
-export const crewJoinInfo = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 44,
-  gap: 6,
-});
+export const crewNamePending = style([
+  typography.body.b3,
+  {
+    color: vars.colors.gray60,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+]);
 
-export const tabButton = style({
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+export const roleBadge = style([
+  typography.body.b4,
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2px 8px',
+    backgroundColor: vars.colors.blue60,
+    borderRadius: 8,
+    color: vars.colors.white,
+    width: 'fit-content',
+  },
+]);
+
+export const pendingBadge = style([
+  typography.body.b4,
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2px 8px',
+    backgroundColor: vars.colors.gray20,
+    borderRadius: 8,
+    color: vars.colors.gray60,
+    width: 'fit-content',
+  },
+]);
+
+export const iconButton = style({
+  backgroundColor: 'transparent',
+  border: 'none',
   cursor: 'pointer',
-  gap: 6,
-});
-
-export const copyContent = style([
-  crewJoinInfo,
-  {
-    borderRight: `1px solid ${vars.colors.gray10}`,
-    color: vars.colors.gray70,
-    flex: 1,
+  padding: 0,
+  flexShrink: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  selectors: {
+    '&:disabled': {
+      opacity: 0.5,
+    },
   },
-]);
-
-export const iconWrap = style({
-  width: 16,
-  height: 16,
 });
 
-export const copyIcon = style({
-  color: vars.colors.gray40,
+export const chevronIcon = style({
+  color: vars.colors.gray60,
 });
 
-export const shareContent = style([
-  crewJoinInfo,
-  {
-    color: vars.colors.blue60,
-    flex: 1,
-  },
-]);
-
-export const shareIcon = style({
-  color: vars.colors.blue60,
+export const closeIcon = style({
+  color: vars.colors.gray60,
 });
