@@ -23,29 +23,31 @@ import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { MenuSection } from '@/shared/ui/menu';
 
-export function CrewPage(_: { params?: { id?: string } }) {
+export function CrewPage({ params }: { params?: { id?: string } }) {
   const [dissolveInput, setDissolveInput] = useState('');
-  const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
 
-  const myInfo = myInfoData?.result;
-  const isLeader = myInfo?.crewMemberRole === MEMBER_ROLE.LEADER;
+  const crewId = Number(params?.id) || 0;
 
-  const menuSections = useCrewMenu(
-    myInfo?.crewMemberRole ?? 'MEMBER',
-    myInfo?.crewId ?? 0
+  const { data: myCrewsData, isLoading } = useQuery(
+    memberQueries.myCrewsQuery()
   );
+  const crew = myCrewsData?.find((c) => c.crewId === crewId) ?? null;
 
-  if (isLoading || !myInfo) return null;
+  const isLeader = crew?.memberRole === MEMBER_ROLE.LEADER;
+
+  const menuSections = useCrewMenu(crew?.memberRole ?? 'MEMBER', crewId);
+
+  if (isLoading || !crew) return null;
 
   const onCopyCode = () => {
-    if (myInfo.invitationCode) {
-      copyToClipboard(myInfo.invitationCode, '초대 코드');
+    if (crew.invitationCode) {
+      copyToClipboard(crew.invitationCode, '초대 코드');
     }
   };
 
   const onShare = async () => {
-    if (myInfo.invitationCode) {
-      await bridge.shareInviteCode(myInfo.invitationCode, myInfo.crewName);
+    if (crew.invitationCode) {
+      await bridge.shareInviteCode(crew.invitationCode, crew.crewName);
     }
   };
 
@@ -61,18 +63,20 @@ export function CrewPage(_: { params?: { id?: string } }) {
               <div className={styles.profileTop}>
                 <div className={styles.avatarWrapper}>
                   <img
-                    src={myInfo.crewImageUrl}
+                    src={crew.crewImageUrl}
                     alt="크루 이미지"
                     className={styles.avatar}
                   />
                   <div className={styles.profileInfo}>
-                    <span className={styles.crewName}>{myInfo.crewName}</span>
-                    <Chip type={ROLE_CHIP_TYPE_MAP[myInfo.crewMemberRole]}>
-                      {MEMBER_ROLE_LABEL[myInfo.crewMemberRole]}
-                    </Chip>
+                    <span className={styles.crewName}>{crew.crewName}</span>
+                    {crew.memberRole && (
+                      <Chip type={ROLE_CHIP_TYPE_MAP[crew.memberRole]}>
+                        {MEMBER_ROLE_LABEL[crew.memberRole]}
+                      </Chip>
+                    )}
                   </div>
                 </div>
-                {myInfo.invitationCode && (
+                {crew.invitationCode && (
                   <div className={styles.inviteCard}>
                     <button
                       type="button"
@@ -80,7 +84,7 @@ export function CrewPage(_: { params?: { id?: string } }) {
                       onClick={onCopyCode}
                     >
                       <span className={styles.inviteCode}>
-                        {myInfo.invitationCode}
+                        {crew.invitationCode}
                       </span>
                       <CopyIcon size={16} />
                     </button>
@@ -114,11 +118,11 @@ export function CrewPage(_: { params?: { id?: string } }) {
                 cancelText="취소하기"
                 actionText="해산하기"
                 actionVariant="danger"
-                actionDisabled={dissolveInput !== myInfo.crewName}
+                actionDisabled={dissolveInput !== crew.crewName}
               >
                 <div className={styles.dissolveInputContainer}>
                   <p className={styles.dissolveInputGuide}>
-                    해산하려면 &apos;{myInfo.crewName}&apos;을 입력해 주세요.
+                    해산하려면 &apos;{crew.crewName}&apos;을 입력해 주세요.
                   </p>
                   <Input
                     placeholder="크루 이름을 정확히 입력해 주세요."

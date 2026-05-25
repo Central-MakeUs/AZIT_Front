@@ -17,6 +17,7 @@ export { default as MarkerPin04Icon } from './MarkerPin04Icon';
 export { default as MapIcon } from './MapIcon';
 export { default as MarkerPinIcon } from './MarkerPinIcon';
 export { default as MinusIcon } from './MinusIcon';
+export { default as PointCoinIcon } from './PointCoinIcon';
 export { default as PlusIcon } from './PlusIcon';
 export { default as SearchIcon } from './SearchIcon';
 export { default as SettingsIcon } from './SettingsIcon';
