@@ -40,14 +40,13 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
     const initAuth = async () => {
       try {
         const response = await postReissueToken();
-        const { accessToken, status, crewId } = response.result;
+        const { accessToken, status } = response.result;
 
         setAccessToken(accessToken);
 
         const target = navigateByAuthStatus({
           status,
           currentActivity,
-          crewId,
           replace,
         });
         redirectTargetRef.current = target as ActivityName;
