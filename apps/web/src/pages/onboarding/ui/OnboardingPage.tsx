@@ -1,5 +1,5 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -7,7 +7,6 @@ import {
   OnboardingCrewJoin,
   OnboardingCrewName,
   OnboardingCrewRegion,
-  OnboardingShareInviteCode,
 } from '@/widgets/onboarding/ui';
 import { OnboardingRoleSelect } from '@/widgets/onboarding/ui/OnboardingRoleSelect';
 
@@ -22,7 +21,6 @@ type StepName =
   | 'role-select'
   | 'crew-name'
   | 'crew-region'
-  | 'share-invite-code'
   | 'enter-invite-code';
 
 const ONBOARDING_FLOW: Record<
@@ -32,8 +30,7 @@ const ONBOARDING_FLOW: Record<
   'role-select': (ctx) =>
     ctx === 'leader' ? 'crew-name' : 'enter-invite-code',
   'crew-name': 'crew-region',
-  'crew-region': 'share-invite-code',
-  'share-invite-code': null,
+  'crew-region': null,
   'enter-invite-code': null,
 };
 
@@ -41,7 +38,6 @@ type OnboardingState = {
   role?: 'leader' | 'member';
   crewName?: string;
   crewRegion?: string;
-  inviteCode?: string;
 };
 
 export function OnboardingPage() {
@@ -49,16 +45,7 @@ export function OnboardingPage() {
   const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
   const defaultInviteCode = getQueryParam('inviteCode');
 
-  const [onboardingState, setOnboardingState] = useState<OnboardingState>(
-    () => {
-      const saved = sessionStorage.getItem('onboarding-state');
-      return saved ? JSON.parse(saved) : {};
-    }
-  );
-
-  useEffect(() => {
-    sessionStorage.setItem('onboarding-state', JSON.stringify(onboardingState));
-  }, [onboardingState]);
+  const [onboardingState, setOnboardingState] = useState<OnboardingState>({});
 
   return (
     <AppScreen>
@@ -109,11 +96,15 @@ export function OnboardingPage() {
                     region: crewRegion,
                   });
 
-                  setOnboardingState((prev) => ({
-                    ...prev,
-                    inviteCode: response.result.invitationCode,
-                  }));
-                  context.onNext();
+                  replace(
+                    'OnboardingCompletePage',
+                    {
+                      role: 'leader',
+                      crewName: onboardingState.crewName!,
+                      inviteCode: response.result.invitationCode,
+                    },
+                    { animate: false }
+                  );
                 }}
                 onPrev={() => {
                   setOnboardingState((prev) => ({
@@ -126,32 +117,20 @@ export function OnboardingPage() {
             )}
           />
           <Funnel.Step
-            name="share-invite-code"
-            render={(context) => (
-              <OnboardingShareInviteCode
-                crewName={onboardingState.crewName ?? ''}
-                crewProfileImage="/azit.png"
-                inviteCode={onboardingState.inviteCode ?? ''}
-                onNext={() => {
-                  context.onNext();
-                  replace('StorePage', {}, { animate: false });
-                  // 심사 위해 임시로 스토어 페이지를 홈페이지로 사용
-                }}
-              />
-            )}
-          />
-          <Funnel.Step
             name="enter-invite-code"
             render={(context) => (
               <OnboardingCrewJoin
                 defaultValue={defaultInviteCode}
-                onNext={async (inviteCode, crewId) => {
+                onNext={async (inviteCode, _crewId, crewName) => {
                   await postJoinCrew({
                     invitationCode: inviteCode,
                   });
 
-                  context.onNext();
-                  replace('CrewJoinStatusPage', { crewId }, { animate: false });
+                  replace(
+                    'OnboardingCompletePage',
+                    { role: 'member', crewName },
+                    { animate: false }
+                  );
                 }}
                 onPrev={() => {
                   context.onPrev();

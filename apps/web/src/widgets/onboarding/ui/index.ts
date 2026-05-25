@@ -12,10 +12,6 @@ export {
 } from './OnboardingCrewRegion';
 export { TermAgreeItem, type TermAgreeItemProps } from './TermAgreeItem';
 export {
-  OnboardingShareInviteCode,
-  type OnboardingShareInviteCodeProps,
-} from './OnboardingShareInviteCode';
-export {
   OnboardingCrewJoin,
   type OnboardingCrewJoinProps,
 } from './OnboardingCrewJoin';
