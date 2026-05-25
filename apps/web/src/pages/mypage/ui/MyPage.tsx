@@ -9,41 +9,38 @@ import { useFlow } from '@/app/routes/stackflow';
 import { useMypageMenu } from '@/pages/mypage/model/useMypageMenu';
 import * as styles from '@/pages/mypage/styles/MyPage.css';
 
-import { MyProfileSection, MyCrewInfoSection } from '@/widgets/mypage/ui';
+import { MyCrewInfoSection, MyProfileSection } from '@/widgets/mypage/ui';
 
-import { WithdrawButton } from '@/features/auth/ui';
-
-import { crewQueries, memberQueries } from '@/shared/queries';
-import { useAuthStore } from '@/shared/store/auth';
+import { memberQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
 import { MenuSection } from '@/shared/ui/menu';
 import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 export function MyPage() {
-  const { logout } = useAuthStore();
   const { push } = useFlow();
+
   const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
-
-  const myInfo = myInfoData?.result;
-  const isLeader = myInfo?.crewMemberRole === 'LEADER';
-
-  const { data: crewInfoData } = useQuery({
-    ...crewQueries.crewInfoQuery(myInfo?.invitationCode ?? ''),
-    enabled: !!myInfo?.invitationCode,
-  });
-
-  const filteredMenu = useMypageMenu(
-    myInfo?.crewMemberRole ?? 'MEMBER',
-    myInfo?.crewId ?? 0
+  const { data: myCrewsData, isLoading: isCrewsLoading } = useQuery(
+    memberQueries.myCrewsQuery()
   );
 
-  if (isLoading || !myInfo) return null;
+  const myInfo = myInfoData?.result;
+  const crews = myCrewsData ?? [];
 
-  const memberCount = crewInfoData?.result.memberCount ?? 0;
-  const cannotWithdraw = isLeader && memberCount !== 1;
+  const filteredMenu = useMypageMenu();
+
+  if (isLoading || isCrewsLoading || !myInfo) return null;
 
   const navigateToMyProfileEditPage = () => {
     push('MyProfileEditPage', {});
+  };
+
+  const handleNavigateToCrew = (crewId: number) => {
+    push('CrewPage', { id: crewId }, { animate: true });
+  };
+
+  const handleCreateNewCrew = () => {
+    push('OnboardingPage', {}, { animate: true });
   };
 
   return (
@@ -68,32 +65,14 @@ export function MyPage() {
             profile={myInfo}
             navigateToMyProfileEditPage={navigateToMyProfileEditPage}
           />
-          <div className={styles.menuSectionWrapper}>
-            <MyCrewInfoSection
-              crewName={myInfo.crewName}
-              crewImageUrl={myInfo.crewImageUrl}
-              inviteCode={myInfo.invitationCode}
-            />
-            {filteredMenu.map((section) => (
-              <MenuSection key={section.id} section={section} />
-            ))}
-          </div>
-          <div className={styles.buttonWrapper}>
-            <div className={styles.buttonContainer}>
-              <div className={styles.logoutButtonWrapper}>
-                <button
-                  type="button"
-                  className={styles.logoutButton}
-                  onClick={logout}
-                >
-                  로그아웃
-                </button>
-              </div>
-              <div className={styles.withdrawButtonWrapper}>
-                <WithdrawButton cannotWithdraw={cannotWithdraw} />
-              </div>
-            </div>
-          </div>
+          <MyCrewInfoSection
+            crews={crews}
+            onNavigateToCrew={handleNavigateToCrew}
+            onCreateNewCrew={handleCreateNewCrew}
+          />
+          {filteredMenu.map((section) => (
+            <MenuSection key={section.id} section={section} />
+          ))}
         </div>
       </AppLayout>
       <BottomNavigation activeTab="mypage" />

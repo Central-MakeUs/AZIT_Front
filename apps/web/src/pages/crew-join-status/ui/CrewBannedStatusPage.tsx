@@ -14,29 +14,22 @@ import { memberQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
 
 export function CrewBannedStatusPage() {
-  const { data, isLoading } = useQuery({
-    ...memberQueries.myInfoQuery(),
-    select: (data) => {
-      const result = data.result;
-      if (!result) return null;
-      if (result.status === 'KICKED_PENDING_CONFIRM') {
-        return { ...result, status: CREW_JOIN_STATUS.EXPELLED };
-      }
+  const { data: myCrewsData, isLoading } = useQuery(
+    memberQueries.myCrewsQuery()
+  );
 
-      return result;
-    },
-  });
+  const expelledCrew =
+    myCrewsData?.find((c) => c.memberStatus === 'EXPELLED') ?? null;
+  const status = expelledCrew ? CREW_JOIN_STATUS.EXPELLED : null;
 
-  const { handleJoinStatus } = useConfirmJoinStatus(data ? data.status : null);
+  const { handleJoinStatus } = useConfirmJoinStatus(status);
 
   if (isLoading) {
     return null;
   }
 
-  const { crewName, crewImageUrl } = data ?? {
-    crewName: '',
-    crewImageUrl: null,
-  };
+  const crewName = expelledCrew?.crewName ?? '';
+  const crewImageUrl = expelledCrew?.crewImageUrl ?? null;
   const content = STATUS_CONTENT['EXPELLED'];
 
   return (
