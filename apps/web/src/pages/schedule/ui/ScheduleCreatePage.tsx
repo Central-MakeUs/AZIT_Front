@@ -26,9 +26,11 @@ import { toastError } from '@/shared/ui/toast';
 export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   const { pop, push } = useFlow();
 
-  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.result.crewId ?? 0;
-  const isLeader = myInfoData?.result.crewMemberRole === MEMBER_ROLE.LEADER;
+  const { data: myCrewsData } = useQuery(memberQueries.myCrewsQuery());
+  const joinedCrew =
+    myCrewsData?.find((c) => c.memberStatus === 'JOINED') ?? null;
+  const crewId = joinedCrew?.crewId ?? 0;
+  const isLeader = joinedCrew?.memberRole === MEMBER_ROLE.LEADER;
 
   const { formValues, setFormValues, validateForm } = useScheduleFormState(
     initializeScheduleFormValues({ params })
