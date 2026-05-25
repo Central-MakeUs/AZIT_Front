@@ -8,10 +8,12 @@ import { postApproveJoinRequest } from '@/features/crew-manage/api/postApproveJo
 import { postRejectJoinRequest } from '@/features/crew-manage/api/postRejectJoinRequest';
 
 import { deleteCrewMember } from '@/entities/crew/api/deleteCrewMember';
+import { deleteJoinRequest } from '@/entities/crew/api/deleteJoinRequest';
 import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
 import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
 import { getMyAttendanceCalendar } from '@/entities/user/api/getMyAttendanceCalendar';
+import { getMyCrews } from '@/entities/user/api/getMyCrews';
 import { getMyInfo } from '@/entities/user/api/getMyInfo';
 import { getMyProviders } from '@/entities/user/api/getMyProviders';
 import { updateMyProfile } from '@/entities/user/api/updateMyProfile';
@@ -26,6 +28,7 @@ export const memberQueries = {
     [...memberQueries.all, 'attendance', request] as const,
   listKey: () => [...memberQueries.all] as const,
   myInfoKey: () => [...memberQueries.all, 'my'] as const,
+  myCrewsKey: () => [...memberQueries.all, 'my-crews'] as const,
   myProvidersKey: () => [...memberQueries.all, 'providers'] as const,
   crewMembersKey: (crewId: number) =>
     [...memberQueries.listKey(), 'crew-members', crewId] as const,
@@ -36,6 +39,13 @@ export const memberQueries = {
       queryKey: memberQueries.myInfoKey(),
       queryFn: () => getMyInfo(),
       staleTime: 1000 * 60 * 60 * 3,
+    }),
+  myCrewsQuery: () =>
+    queryOptions({
+      queryKey: memberQueries.myCrewsKey(),
+      queryFn: () => getMyCrews(),
+      staleTime: 1000 * 60 * 60 * 3,
+      select: (data) => data.result ?? [],
     }),
   myProvidersQuery: () =>
     queryOptions({
@@ -110,5 +120,8 @@ export const memberQueries = {
   }),
   updateMyProfile: mutationOptions({
     mutationFn: updateMyProfile,
+  }),
+  deleteJoinRequest: mutationOptions({
+    mutationFn: ({ crewId }: { crewId: number }) => deleteJoinRequest(crewId),
   }),
 };

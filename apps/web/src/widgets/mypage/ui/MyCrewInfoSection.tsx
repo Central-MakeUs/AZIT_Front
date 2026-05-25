@@ -1,63 +1,114 @@
-import { CopyIcon, UploadIcon } from '@azit/design-system/icon';
+import { ChevronRightIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import * as styles from '@/widgets/mypage/styles/MyCrewInfoSection.css';
 
-import { bridge } from '@/shared/lib/bridge';
-import { copyToClipboard } from '@/shared/lib/clipboard';
+import { memberQueries } from '@/shared/queries';
 
-export interface MyCrewInfoSectionProps {
-  crewName: string;
-  crewImageUrl: string;
-  inviteCode: string | null;
+import type { MyCrewResult } from '@/entities/user/model';
+
+interface MyCrewInfoSectionProps {
+  crews: MyCrewResult[];
+  onNavigateToCrew: (crewId: number) => void;
+  onCreateNewCrew: () => void;
 }
 
 export function MyCrewInfoSection({
-  crewName,
-  crewImageUrl,
-  inviteCode,
+  crews,
+  onNavigateToCrew,
+  onCreateNewCrew,
 }: MyCrewInfoSectionProps) {
-  const onCopyCode = () => {
-    if (inviteCode) {
-      copyToClipboard(inviteCode, '초대 코드');
-    }
-  };
+  const queryClient = useQueryClient();
 
-  const onShare = async () => {
-    if (inviteCode) {
-      await bridge.shareInviteCode(inviteCode, crewName);
-    }
-  };
+  const deleteMutation = useMutation({
+    ...memberQueries.deleteJoinRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.myCrewsKey(),
+      });
+    },
+  });
 
   return (
-    <div className={styles.card}>
-      <div className={styles.cardHeader}>
-        <div>
-          <img
-            src={crewImageUrl}
-            alt="프로필 이미지"
-            className={styles.avatar}
-          />
-        </div>
-        <span className={styles.crewName}>{crewName}</span>
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.sectionTitle}>나의 크루</span>
+        <button
+          type="button"
+          className={styles.newCrewButton}
+          onClick={onCreateNewCrew}
+        >
+          <span className={styles.newCrewText}>새로운 크루</span>
+          <PlusIcon size={16} className={styles.newCrewIcon} />
+        </button>
       </div>
-      {inviteCode && (
-        <div className={styles.cardFooter}>
-          <div className={styles.copyContent}>
-            <button onClick={onCopyCode} className={styles.tabButton}>
-              <span>{inviteCode}</span>
-              <span className={styles.iconWrap}>
-                <CopyIcon size={16} className={styles.copyIcon} />
-              </span>
-            </button>
-          </div>
-          <div className={styles.shareContent}>
-            <button onClick={onShare} className={styles.tabButton}>
-              <span>공유하기</span>
-              <span className={styles.iconWrap}>
-                <UploadIcon size={16} className={styles.shareIcon} />
-              </span>
-            </button>
-          </div>
+
+      {crews.length > 0 && (
+        <div className={styles.crewList}>
+          {crews.map((crew) => {
+            const isJoined = crew.memberStatus === 'JOINED';
+            const isRequested = crew.memberStatus === 'REQUESTED';
+
+            if (!isJoined && !isRequested) return null;
+
+            return (
+              <div key={crew.crewId} className={styles.crewCard}>
+                <div className={styles.crewCardLeft}>
+                  {crew.crewImageUrl ? (
+                    <img
+                      src={crew.crewImageUrl}
+                      alt={crew.crewName}
+                      className={styles.crewAvatar}
+                    />
+                  ) : (
+                    <div className={styles.crewAvatar} />
+                  )}
+                  <div className={styles.crewInfo}>
+                    <span
+                      className={
+                        isJoined ? styles.crewName : styles.crewNamePending
+                      }
+                    >
+                      {crew.crewName}
+                    </span>
+                    {isJoined && crew.memberRole ? (
+                      <span className={styles.roleBadge}>
+                        {crew.memberRole === 'LEADER' ? '리더' : '멤버'}
+                      </span>
+                    ) : (
+                      <span className={styles.pendingBadge}>승인 대기중</span>
+                    )}
+                  </div>
+                </div>
+
+                {isJoined ? (
+                  <button
+                    type="button"
+                    className={styles.iconButton}
+                    onClick={() => onNavigateToCrew(crew.crewId)}
+                    aria-label={`${crew.crewName} 크루 페이지로 이동`}
+                  >
+                    <ChevronRightIcon
+                      size={20}
+                      className={styles.chevronIcon}
+                    />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className={styles.iconButton}
+                    onClick={() =>
+                      deleteMutation.mutate({ crewId: crew.crewId })
+                    }
+                    disabled={deleteMutation.isPending}
+                    aria-label={`${crew.crewName} 가입 신청 취소`}
+                  >
+                    <XIcon size={20} className={styles.closeIcon} />
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
