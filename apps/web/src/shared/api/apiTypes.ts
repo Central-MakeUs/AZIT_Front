@@ -202,31 +202,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/members/me/confirm-status': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 가입 승인/거절 및 크루 방출 결과 확인
-     * @description 사용자가 가입 신청 결과(승인/거절) 또는 크루 방출 통보를 확인했음을 서버에 알립니다. <br><br>
-     *
-     *     **[참고 사항]** <br>
-     *     * APPROVED_PENDING_CONFIRM, REJECTED_PENDING_CONFIRM, KICKED_PENDING_CONFIRM 상태인 회원만 호출 가능합니다. (INVALID_MEMBER_STATUS)
-     *     * 가입 승인 확인 (APPROVED_PENDING_CONFIRM): 즉시 ACTIVE로 변경됩니다. <br>
-     *     * 가입 거절/크루 방출 확인 (REJECTED_PENDING_CONFIRM / KICKED_PENDING_CONFIRM): 가입되어 있는 다른 크루가 1개 이상 있는 경우 ACTIVE 상태가 유지되고, 가입되어 있는 다른 크루가 없는 경우 PENDING_ONBOARDING으로 변경됩니다.
-     */
-    post: operations['confirmMemberStatus'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/api/v1/images/presigned-url': {
     parameters: {
       query?: never;
@@ -281,7 +256,7 @@ export interface paths {
      *
      *     **[제약 사항]** <br>
      *     * 크루 이름: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
-     *     * 온보딩 단계(PENDING_ONBOARDING) 또는 정회원(ACTIVE) 상태의 사용자만 요청 가능합니다. (INVALID_MEMBER_STATUS)
+     *     * ACTIVE 상태의 사용자만 요청 가능합니다. (INVALID_MEMBER_STATUS)
      */
     post: operations['createCrew'];
     delete?: never;
@@ -936,19 +911,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 내 정보 조회 (마이페이지 및 크루 정보 확인용)
-     * @description 로그인한 사용자의 기본 프로필 정보와 소속(또는 관련) 크루 정보를 조회합니다. <br>
-     *     회원의 현재 상태에 따라 반환되는 크루 정보의 의미가 달라집니다. <br><br>
-     *
-     *     **[상태별 크루 정보 반환 규칙]** <br>
-     *     1. ACTIVE: 가장 최근에 가입한 크루 정보를 반환합니다. <br>
-     *     2. KICKED_PENDING_CONFIRM: 방출 통보 화면을 띄우기 위해, 방금 방출된 크루 정보를 반환합니다. <br>
-     *     3. REJECTED_PENDING_CONFIRM: 가입 거절 안내 화면을 위해, 가장 최근에 가입이 거절된 크루 정보를 반환합니다. <br>
-     *     4. WAITING_FOR_APPROVE: 승인 대기 화면을 위해, 가장 최근에 가입 신청한 크루 정보를 반환합니다. <br>
-     *     5. PENDING_TERMS, PENDING_ONBOARDING, WITHDRAWN: 크루 관련 정보는 모두 null로 반환됩니다. <br><br>
-     *
-     *     **[참고 사항]** <br>
-     *     * invitationCode: 사용자가 해당 크루의 리더이면서 JOINED 상태일 때만 값이 존재하며, 그 외의 경우에는 null로 내려갑니다.
+     * 내 정보 조회 (마이페이지 상단 카드)
+     * @description 로그인한 사용자의 기본 프로필 정보(닉네임, 프로필 이미지, 포인트, 출석 횟수)를 조회합니다. <br>
      */
     get: operations['getMyInfo'];
     put?: never;
@@ -1014,6 +978,34 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/members/me/crews': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 내 크루 목록 조회 (마이페이지)
+     * @description 로그인한 사용자가 가입(JOINED)하거나 승인 대기(REQUESTED) 중인 크루 목록을 조회합니다. <br>
+     *     최대 3개의 크루가 반환되며, 크루가 없으면 빈 배열([])을 반환합니다. <br><br>
+     *
+     *     **[memberStatus 값]** <br>
+     *     * JOINED: 정식 가입 상태. memberRole 이 함께 반환됩니다. <br>
+     *     * REQUESTED: 승인 대기 상태. memberRole 은 null 입니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * invitationCode: 사용자가 해당 크루의 리더이면서 JOINED 상태일 때만 값이 존재하며, 그 외의 경우에는 null로 내려갑니다.
+     */
+    get: operations['getMyCrews'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/members/me/check-in-status': {
     parameters: {
       query?: never;
@@ -1060,6 +1052,7 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * crewId (선택): 특정 크루의 출석 이력만 필터링합니다. 미입력 시 전체 크루의 이력을 조회합니다.<br>
      *
      *     **[참고 사항]** <br>
      *     * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
@@ -1088,10 +1081,11 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * crewId (선택): 특정 크루의 출석 이력만 필터링합니다. 미입력 시 전체 크루의 이력을 조회합니다.<br>
      *
      *     **[참고 사항]** <br>
-     *         * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
-     *         * 모임 시간이 이미 지난 일정(출석/결석 확정) 또는 모임 시간 전이라도 출석을 완료한 일정만 반환됩니다. <br><br>
+     *     * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
+     *     * 모임 시간이 이미 지난 일정(출석/결석 확정) 또는 모임 시간 전이라도 출석을 완료한 일정만 반환됩니다. <br><br>
      */
     get: operations['getMyAttendancesForCalendar'];
     put?: never;
@@ -1320,6 +1314,36 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/{crewId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 해산
+     * @description 리더가 크루를 영구적으로 해산합니다. <br><br>
+     *
+     *     **[처리 내용]** <br>
+     *     * 미래 ACTIVE 일정이 모두 CANCELLED 처리됩니다. <br>
+     *     * 정회원(JOINED) 전원이 EXITED 처리됩니다. <br>
+     *     * 크루 인원 수가 0으로 초기화되고 상태가 DISSOLVED로 변경됩니다. <br>
+     *     * 과거 일정 및 출석 로그는 보존됩니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 크루 리더만 해산을 요청할 수 있습니다. (NOT_CREW_LEADER)
+     *     * 이미 해산된 크루는 재해산이 불가합니다. (CREW_ALREADY_DISSOLVED)
+     */
+    delete: operations['dissolveCrew'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/{crewId}/members/{targetMemberId}': {
     parameters: {
       query?: never;
@@ -1338,7 +1362,7 @@ export interface paths {
      *     * 해당 크루의 리더(LEADER)만 이 API를 호출할 수 있습니다. (NOT_CREW_LEADER)
      *     * 리더 본인은 스스로를 방출할 수 없습니다. (CANNOT_KICK_SELF)
      *     * 가입 완료(JOINED) 상태인 멤버만 방출 가능합니다. (NOT_A_CREW_MEMBER)
-     *     * 방출 직후 KICKED_PENDING_CONFIRM 상태로 변경됩니다.
+     *     * 방출 후 크루 가입 상태(CrewMemberStatus)가 EXPELLED로 변경됩니다.
      */
     delete: operations['deleteCrewMember'];
     options?: never;
@@ -1387,7 +1411,7 @@ export interface paths {
      *
      *     **[제약 사항]** <br>
      *     * 가입 신청(REQUESTED) 상태인 경우에만 취소가 가능합니다. (JOIN_REQUEST_NOT_FOUND) <br>
-     *     * 취소 후 24시간 이내에는 동일 크루에 재신청이 불가합니다. (CANCEL_REJOINING_COOLDOWN)
+     *     * 취소 후 1시간 이내에는 동일 크루에 재신청이 불가합니다. (CANCEL_REJOINING_COOLDOWN)
      */
     delete: operations['cancelJoinRequest'];
     options?: never;
@@ -1749,15 +1773,7 @@ export interface components {
        * @description 회원 상태
        * @enum {string}
        */
-      status?:
-        | 'ACTIVE'
-        | 'WITHDRAWN'
-        | 'PENDING_TERMS'
-        | 'PENDING_ONBOARDING'
-        | 'WAITING_FOR_APPROVE'
-        | 'APPROVED_PENDING_CONFIRM'
-        | 'REJECTED_PENDING_CONFIRM'
-        | 'KICKED_PENDING_CONFIRM';
+      status?: 'ACTIVE' | 'WITHDRAWN' | 'PENDING_TERMS';
       /**
        * Format: int64
        * @description 가입한 크루 ID (없을 경우 null)
@@ -2234,35 +2250,6 @@ export interface components {
       id?: number;
       /** @description 닉네임 */
       nickname?: string;
-      /**
-       * @description 회원 상태
-       * @enum {string}
-       */
-      status?:
-        | 'ACTIVE'
-        | 'WITHDRAWN'
-        | 'PENDING_TERMS'
-        | 'PENDING_ONBOARDING'
-        | 'WAITING_FOR_APPROVE'
-        | 'APPROVED_PENDING_CONFIRM'
-        | 'REJECTED_PENDING_CONFIRM'
-        | 'KICKED_PENDING_CONFIRM';
-      /**
-       * Format: int64
-       * @description 크루 ID
-       */
-      crewId?: number;
-      /** @description 크루 이름 */
-      crewName?: string;
-      /** @description 크루 초대코드 */
-      invitationCode?: string;
-      /** @description 크루 이미지 url */
-      crewImageUrl?: string;
-      /**
-       * @description 크루 내 역할
-       * @enum {string}
-       */
-      crewMemberRole?: 'LEADER' | 'MEMBER';
       /** @description 프로필 이미지 URL */
       profileImageUrl?: string;
       /**
@@ -2344,6 +2331,40 @@ export interface components {
     LinkedProviderResponse: {
       /** @description 연동된 소셜 로그인 목록 */
       providers?: ('KAKAO' | 'APPLE')[];
+    };
+    CommonResponseListMyCrewResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['MyCrewResponse'][];
+    };
+    MyCrewResponse: {
+      /**
+       * Format: int64
+       * @description 크루 ID
+       */
+      crewId?: number;
+      /** @description 크루 이름 */
+      crewName?: string;
+      /** @description 크루 이미지 URL */
+      crewImageUrl?: string;
+      /**
+       * @description 크루 내 역할
+       * @enum {string}
+       */
+      memberRole?: 'LEADER' | 'MEMBER';
+      /**
+       * @description 크루 가입 상태
+       * @enum {string}
+       */
+      memberStatus?:
+        | 'REQUESTED'
+        | 'JOINED'
+        | 'REJECTED'
+        | 'EXITED'
+        | 'EXPELLED'
+        | 'CANCELLED';
+      /** @description 크루 초대 코드 */
+      invitationCode?: string;
     };
     CheckInStatusResponse: {
       /** @description 오늘 참여할 일정이 있는지 여부 */
@@ -3523,74 +3544,6 @@ export interface operations {
         'application/json': components['schemas']['CheckInRequest'];
       };
     };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          '*/*': components['schemas']['CommonResponseVoid'];
-        };
-      };
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  confirmMemberStatus: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
     responses: {
       /** @description OK */
       200: {
@@ -5823,6 +5776,74 @@ export interface operations {
       };
     };
   };
+  getMyCrews: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListMyCrewResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   getCheckInStatus: {
     parameters: {
       query?: never;
@@ -5888,6 +5909,8 @@ export interface operations {
       query?: {
         /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
+        /** @description 크루 ID (특정 크루 필터링, 미입력 시 전체) */
+        crewId?: number;
       };
       header?: never;
       path?: never;
@@ -5949,7 +5972,10 @@ export interface operations {
   getMyAttendancesForCalendar: {
     parameters: {
       query?: {
+        /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
+        /** @description 크루 ID (특정 크루 필터링, 미입력 시 전체) */
+        crewId?: number;
       };
       header?: never;
       path?: never;
@@ -6529,6 +6555,76 @@ export interface operations {
         };
       };
       403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  dissolveCrew: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
         headers: {
           [name: string]: unknown;
         };
