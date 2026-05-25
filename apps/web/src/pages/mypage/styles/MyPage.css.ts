@@ -9,24 +9,12 @@ export const mainContainer = style([
   layoutStyles.mainContainer,
   {
     backgroundColor: 'transparent',
-    paddingBottom: '100px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 24,
+    padding: '20px 20px 100px',
   },
 ]);
-
-export const menuSectionWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 24,
-  width: '100%',
-  padding: '24px 20px 0',
-  backgroundColor: 'transparent',
-});
-
-export const buttonWrapper = style({
-  width: '100%',
-  marginTop: '30px',
-  padding: '0 20px',
-});
 
 export const buttonContainer = style({
   display: 'flex',
