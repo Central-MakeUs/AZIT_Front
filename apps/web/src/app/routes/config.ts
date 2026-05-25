@@ -29,6 +29,10 @@ const OnboardingPage = lazyImport(
   () => import('@/pages/onboarding/ui/OnboardingPage'),
   'OnboardingPage'
 );
+const OnboardingCompletePage = lazyImport(
+  () => import('@/pages/onboarding/ui/OnboardingCompletePage'),
+  'OnboardingCompletePage'
+);
 const OrderPage = lazyImport(
   () => import('@/pages/order/ui/OrderPage'),
   'OrderPage'
@@ -148,6 +152,12 @@ export const routes = [
     name: 'OnboardingPage',
     path: '/onboarding',
     element: OnboardingPage,
+    withAuth: false,
+  },
+  {
+    name: 'OnboardingCompletePage',
+    path: '/onboarding/complete',
+    element: OnboardingCompletePage,
     withAuth: false,
   },
   {
