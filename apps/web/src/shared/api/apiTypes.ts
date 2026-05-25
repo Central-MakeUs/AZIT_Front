@@ -986,6 +986,34 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/members/me/providers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 연동된 소셜 로그인 조회
+     * @description 로그인한 사용자가 연동한 소셜 로그인 목록을 반환합니다. <br><br>
+     *
+     *     **[응답값]** <br>
+     *     * KAKAO: 카카오 연동 <br>
+     *     * APPLE: 애플 연동 <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 현재는 계정당 하나의 소셜 로그인만 지원합니다. <br>
+     *     * 추후 계정 연동 기능 도입 시 복수의 소셜 로그인이 반환될 수 있습니다.
+     */
+    get: operations['getLinkedProviders'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/members/me/check-in-status': {
     parameters: {
       query?: never;
@@ -1338,6 +1366,30 @@ export interface paths {
      *     * 가입 완료(JOINED) 상태인 경우에만 탈퇴가 가능합니다. (NOT_A_CREW_MEMBER)
      */
     delete: operations['exitCrew'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/join-request': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 가입 신청 취소
+     * @description 승인 대기 중인 크루 가입 신청을 취소합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 가입 신청(REQUESTED) 상태인 경우에만 취소가 가능합니다. (JOIN_REQUEST_NOT_FOUND) <br>
+     *     * 취소 후 24시간 이내에는 동일 크루에 재신청이 불가합니다. (CANCEL_REJOINING_COOLDOWN)
+     */
+    delete: operations['cancelJoinRequest'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2284,6 +2336,15 @@ export interface components {
        */
       status?: 'ACTIVE' | 'CANCELLED';
     };
+    CommonResponseLinkedProviderResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['LinkedProviderResponse'];
+    };
+    LinkedProviderResponse: {
+      /** @description 연동된 소셜 로그인 목록 */
+      providers?: ('KAKAO' | 'APPLE')[];
+    };
     CheckInStatusResponse: {
       /** @description 오늘 참여할 일정이 있는지 여부 */
       hasScheduleToday?: boolean;
@@ -2653,7 +2714,13 @@ export interface components {
        * @description 멤버 상태
        * @enum {string}
        */
-      status?: 'REQUESTED' | 'JOINED' | 'REJECTED' | 'EXITED' | 'EXPELLED';
+      status?:
+        | 'REQUESTED'
+        | 'JOINED'
+        | 'REJECTED'
+        | 'EXITED'
+        | 'EXPELLED'
+        | 'CANCELLED';
     };
     CommonResponseListJoinRequestMemberResponse: {
       code?: string;
@@ -5688,6 +5755,74 @@ export interface operations {
       };
     };
   };
+  getLinkedProviders: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseLinkedProviderResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   getCheckInStatus: {
     parameters: {
       query?: never;
@@ -6491,6 +6626,76 @@ export interface operations {
     };
   };
   exitCrew: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  cancelJoinRequest: {
     parameters: {
       query?: never;
       header?: never;
