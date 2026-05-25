@@ -1,8 +1,10 @@
 import type { ActivityName } from '@/app/routes/types';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
-import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
-import { bridge } from '@/shared/lib/bridge';
+import {
+  GOOGLE_FORM_URL,
+  KAKAO_INQUIRY_CHAT_URL,
+} from '@/shared/constants/url';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import type { MenuGroup } from '@/shared/types/menu';
 
@@ -103,38 +105,8 @@ export const getCrewMenu = (
   ];
 };
 
-const LOCATION_PERMISSION_LABEL: Record<string, string> = {
-  granted: '활성',
-  denied: '비활성',
-};
-
-export const getMypageMenu = (
-  role: MemberRole,
-  crewId: number,
-  push: Push
-): MenuGroup[] => {
+export const getMypageMenu = (push: Push): MenuGroup[] => {
   return [
-    {
-      id: 'authority',
-      title: '권한 관리',
-      items: [
-        {
-          id: 'location-permission',
-          label: '위치 권한 설정',
-          type: 'action',
-          getStatusLabel: async () => {
-            if (!bridge.isNativeMethodAvailable('getLocationPermissionStatus'))
-              return '미설정';
-            const status = await bridge.getLocationPermissionStatus();
-            return LOCATION_PERMISSION_LABEL[status] ?? '미설정';
-          },
-          onAction: async () => {
-            if (!bridge.isNativeMethodAvailable('openLocationSettings')) return;
-            await bridge.openLocationSettings();
-          },
-        },
-      ],
-    },
     {
       id: 'shopping',
       title: '쇼핑 관리',
@@ -160,75 +132,35 @@ export const getMypageMenu = (
       ],
     },
     {
-      id: 'crew',
-      title: '크루 활동',
+      id: 'customer-support',
+      title: '고객 지원',
       items: [
         {
-          id: 'member-management',
-          label: role === MEMBER_ROLE.LEADER ? '멤버 관리' : '멤버 목록',
-          type: 'navigation',
-          onNavigate: () =>
-            push(
-              role === MEMBER_ROLE.LEADER
-                ? 'MemberManagePage'
-                : 'MemberViewPage',
-              { id: crewId },
-              { animate: true }
-            ),
+          id: 'notice',
+          label: '공지사항',
+          type: 'action',
+          onAction: () => {},
         },
         {
-          id: 'my-attendance',
-          label: '출석 로그',
+          id: 'inquiry-support',
+          label: '1:1 문의하기',
           type: 'navigation',
-          onNavigate: () => push('AttendancePage', {}, { animate: true }),
+          onNavigate: () => openExternalUrl(KAKAO_INQUIRY_CHAT_URL),
         },
-      ],
-    },
-    {
-      id: 'policy',
-      title: '약관 및 정책',
-      items: [
         {
-          id: 'terms-of-service',
-          label: '서비스 이용약관',
+          id: 'feedback',
+          label: '의견 남기기',
+          type: 'navigation',
+          onNavigate: () => openExternalUrl(GOOGLE_FORM_URL),
+        },
+        {
+          id: 'policy',
+          label: '약관 및 정책',
           type: 'navigation',
           onNavigate: () =>
             push(
               'TermDetailPage',
               { termType: 'terms-of-service' },
-              { animate: true }
-            ),
-        },
-        {
-          id: 'privacy-policy',
-          label: '개인정보 처리방침',
-          type: 'navigation',
-          onNavigate: () =>
-            push(
-              'TermDetailPage',
-              { termType: 'privacy-policy' },
-              { animate: true }
-            ),
-        },
-        {
-          id: 'location-service-agreement',
-          label: '위치 기반 서비스 이용약관',
-          type: 'navigation',
-          onNavigate: () =>
-            push(
-              'TermDetailPage',
-              { termType: 'location-service-agreement' },
-              { animate: true }
-            ),
-        },
-        {
-          id: 'third-party-info-agreement',
-          label: '제 3자 정보제공 동의 내역',
-          type: 'navigation',
-          onNavigate: () =>
-            push(
-              'TermDetailPage',
-              { termType: 'third-party-info-agreement' },
               { animate: true }
             ),
         },
