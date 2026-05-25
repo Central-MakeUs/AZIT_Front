@@ -20,8 +20,8 @@ export function MyCrewInfoSection({
 }: MyCrewInfoSectionProps) {
   const queryClient = useQueryClient();
 
-  const cancelMutation = useMutation({
-    ...memberQueries.cancelJoinRequest,
+  const deleteMutation = useMutation({
+    ...memberQueries.deleteJoinRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: memberQueries.myCrewsKey(),
@@ -98,9 +98,9 @@ export function MyCrewInfoSection({
                     type="button"
                     className={styles.iconButton}
                     onClick={() =>
-                      cancelMutation.mutate({ crewId: crew.crewId })
+                      deleteMutation.mutate({ crewId: crew.crewId })
                     }
-                    disabled={cancelMutation.isPending}
+                    disabled={deleteMutation.isPending}
                     aria-label={`${crew.crewName} 가입 신청 취소`}
                   >
                     <XIcon size={20} className={styles.closeIcon} />
