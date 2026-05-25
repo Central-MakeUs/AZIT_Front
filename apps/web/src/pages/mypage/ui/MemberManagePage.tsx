@@ -34,8 +34,10 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
 
   const crewId = Number(params?.id) || 0;
 
-  const { data: myInfoData, isLoading } = useQuery(memberQueries.myInfoQuery());
-  const myInfo = myInfoData?.result ?? null;
+  const { data: myCrewsData, isLoading } = useQuery(
+    memberQueries.myCrewsQuery()
+  );
+  const crew = myCrewsData?.find((c) => c.crewId === crewId) ?? null;
 
   const {
     data: membersData,
@@ -114,11 +116,11 @@ export function MemberManagePage({ params }: { params?: { id?: string } }) {
     },
   });
 
-  if (isLoading || !myInfoData?.result) {
+  if (isLoading || !crew) {
     return <></>;
   }
 
-  const isLeader = myInfo?.crewMemberRole === MEMBER_ROLE.LEADER;
+  const isLeader = crew.memberRole === MEMBER_ROLE.LEADER;
 
   const handleDeleteMember = isLeader
     ? (targetMemberId: number) =>

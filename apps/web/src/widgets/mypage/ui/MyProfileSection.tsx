@@ -1,17 +1,6 @@
-import { Chip } from '@azit/design-system/chip';
-import {
-  CheckCircleBrokenIcon,
-  ChevronRightIcon,
-  CoinsStackedIcon,
-} from '@azit/design-system/icon';
+import { ChevronRightIcon, PointCoinIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/widgets/mypage/styles/MyProfileSection.css';
-import { MypageStatCard } from '@/widgets/mypage/ui/MypageStatCard';
-
-import {
-  MEMBER_ROLE_LABEL,
-  ROLE_CHIP_TYPE_MAP,
-} from '@/shared/constants/member-role';
 
 import type { MyInfoResult } from '@/entities/user/model';
 
@@ -26,43 +15,32 @@ export function MyProfileSection({
 }: MyProfileSectionProps) {
   return (
     <section className={styles.container}>
-      <div className={styles.profileRow}>
-        {profile.profileImageUrl ? (
-          <img
-            src={profile.profileImageUrl}
-            alt={'프로필 이미지'}
-            className={styles.avatar}
-          />
-        ) : (
-          <div
-            className={styles.avatar}
-            role="img"
-            aria-label={profile.nickname}
-          />
-        )}
-        <div className={styles.profileInfo}>
-          <Chip type={ROLE_CHIP_TYPE_MAP[profile.crewMemberRole]}>
-            {MEMBER_ROLE_LABEL[profile.crewMemberRole]}
-          </Chip>
-          <div>
-            <span className={styles.nickname}>{profile.nickname}</span>
-            <button type="button" onClick={navigateToMyProfileEditPage}>
-              <ChevronRightIcon size={20} />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.statGrid}>
-        <MypageStatCard
-          label="출석"
-          icon={<CheckCircleBrokenIcon size={20} />}
-          value={profile.totalAttendanceCount}
+      {profile.profileImageUrl ? (
+        <img
+          src={profile.profileImageUrl}
+          alt="프로필 이미지"
+          className={styles.avatar}
         />
-        <MypageStatCard
-          label="포인트"
-          icon={<CoinsStackedIcon size={20} />}
-          value={profile.totalPoints.toLocaleString('ko-KR')}
+      ) : (
+        <div
+          className={styles.avatar}
+          role="img"
+          aria-label={profile.nickname}
         />
+      )}
+      <button
+        type="button"
+        className={styles.nicknameRow}
+        onClick={navigateToMyProfileEditPage}
+      >
+        <span className={styles.nickname}>{profile.nickname}</span>
+        <ChevronRightIcon size={20} className={styles.chevron} />
+      </button>
+      <div className={styles.pointsBadge}>
+        <PointCoinIcon size={20} className={styles.pointsIcon} />
+        <span className={styles.pointsValue}>
+          {profile.totalPoints.toLocaleString('ko-KR')}
+        </span>
       </div>
     </section>
   );
