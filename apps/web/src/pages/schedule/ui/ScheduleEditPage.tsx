@@ -29,9 +29,11 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
 
   const queryClient = useQueryClient();
 
-  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
-  const crewId = myInfoData?.result.crewId ?? 0;
-  const isLeader = myInfoData?.result.crewMemberRole === MEMBER_ROLE.LEADER;
+  const { data: myCrewsData } = useQuery(memberQueries.myCrewsQuery());
+  const joinedCrew =
+    myCrewsData?.find((c) => c.memberStatus === 'JOINED') ?? null;
+  const crewId = joinedCrew?.crewId ?? 0;
+  const isLeader = joinedCrew?.memberRole === MEMBER_ROLE.LEADER;
 
   const { data: detailData, isLoading } = useQuery({
     ...scheduleQueries.scheduleDetailQuery(crewId, scheduleId),

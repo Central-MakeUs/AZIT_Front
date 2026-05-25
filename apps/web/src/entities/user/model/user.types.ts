@@ -6,16 +6,19 @@ import type {
   CrewMemberListResponse,
   LinkedProviderResponse,
   MyAttendanceResponse,
+  MyCrewResponse,
   MyInfoResponse,
 } from './user.model';
 
-type MyInfoResponseSchema = MyInfoResponse;
+export type MyInfoResult = Required<MyInfoResponse>;
 
-export type MyInfoResult = Required<
-  Omit<MyInfoResponseSchema, 'invitationCode'>
+export type MyCrewResult = Required<
+  Omit<MyCrewResponse, 'memberRole' | 'invitationCode'>
 > & {
+  memberRole: 'LEADER' | 'MEMBER' | null;
   invitationCode: string | null;
 };
+export type MyCrewApiResponse = ApiResponse<MyCrewResult[]>;
 
 export type MyInfoApiResponse = ApiResponse<MyInfoResult>;
 
