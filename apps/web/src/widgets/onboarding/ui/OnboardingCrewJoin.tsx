@@ -72,7 +72,9 @@ export function OnboardingCrewJoin({
             placeholder="초대 코드 6자리"
           />
           {hasValidationError && (
-            <p className={styles.errorMessage}>유효하지 않은 코드에요</p>
+            <p className={styles.errorMessage}>
+              유효하지 않거나 이미 만료된 초대 코드입니다
+            </p>
           )}
         </div>
       </div>
