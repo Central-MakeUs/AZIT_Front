@@ -29,6 +29,10 @@ const OnboardingPage = lazyImport(
   () => import('@/pages/onboarding/ui/OnboardingPage'),
   'OnboardingPage'
 );
+const OnboardingCompletePage = lazyImport(
+  () => import('@/pages/onboarding/ui/OnboardingCompletePage'),
+  'OnboardingCompletePage'
+);
 const OrderPage = lazyImport(
   () => import('@/pages/order/ui/OrderPage'),
   'OrderPage'
@@ -49,10 +53,6 @@ const OrderHistory = lazyImport(
 const NotificationSettingsPage = lazyImport(
   () => import('@/pages/mypage/ui/MyNotificationPage'),
   'MyNotificationPage'
-);
-const CrewJoinStatusPage = lazyImport(
-  () => import('@/pages/crew-join-status/ui/CrewJoinStatusPage'),
-  'CrewJoinStatusPage'
 );
 const CrewBannedStatusPage = lazyImport(
   () => import('@/pages/crew-join-status/ui/CrewBannedStatusPage'),
@@ -151,6 +151,12 @@ export const routes = [
     withAuth: false,
   },
   {
+    name: 'OnboardingCompletePage',
+    path: '/onboarding/complete',
+    element: OnboardingCompletePage,
+    withAuth: false,
+  },
+  {
     name: 'RedirectPage',
     path: '/auth/kakao/callback',
     element: RedirectPage,
@@ -238,12 +244,6 @@ export const routes = [
     name: 'NotificationSettingsPage',
     path: '/mypage-notification',
     element: NotificationSettingsPage,
-    withAuth: true,
-  },
-  {
-    name: 'CrewJoinStatusPage',
-    path: '/crew-join/status',
-    element: CrewJoinStatusPage,
     withAuth: true,
   },
   {
