@@ -2,6 +2,7 @@ import { Button } from '@azit/design-system/button';
 import { CopyIcon, ShareSheetIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useActivityParams } from '@stackflow/react';
+import { useEffect } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -24,8 +25,13 @@ export function OnboardingCompletePage() {
     useActivityParams<OnboardingCompleteParams>();
   const { replace } = useFlow();
 
+  useEffect(() => {
+    if (!role || !crewName) {
+      replace('HomePage', {}, { animate: false });
+    }
+  }, [role, crewName, replace]);
+
   if (!role || !crewName) {
-    replace('HomePage', {}, { animate: false });
     return null;
   }
 

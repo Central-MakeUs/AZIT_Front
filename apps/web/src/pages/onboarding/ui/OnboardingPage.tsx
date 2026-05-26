@@ -91,7 +91,7 @@ export function OnboardingPage() {
                   setOnboardingState((prev) => ({ ...prev, crewRegion }));
 
                   const response = await postCreateCrew({
-                    name: onboardingState.crewName!,
+                    name: onboardingState.crewName ?? '',
                     category: 'RUNNING',
                     region: crewRegion,
                   });
@@ -100,7 +100,7 @@ export function OnboardingPage() {
                     'OnboardingCompletePage',
                     {
                       role: 'leader',
-                      crewName: onboardingState.crewName!,
+                      crewName: onboardingState.crewName ?? '',
                       inviteCode: response.result.invitationCode,
                     },
                     { animate: false }
