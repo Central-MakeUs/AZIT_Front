@@ -13,7 +13,7 @@ export const container = style({
   paddingBottom: 44,
 });
 
-export const headerSection = style({
+export const profileSection = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -21,11 +21,18 @@ export const headerSection = style({
   width: 255,
 });
 
-export const profileSection = style({
+export const profileInfo = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: 12,
+});
+
+export const crewNameWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: 2,
 });
 
 export const crewName = style([
@@ -34,6 +41,17 @@ export const crewName = style([
     color: vars.colors.black,
     textAlign: 'center',
     width: '100%',
+  },
+]);
+
+export const waitingBadge = style([
+  typography.body.b4,
+  {
+    color: vars.colors.gray60,
+    backgroundColor: vars.colors.gray10,
+    padding: '2px 8px',
+    borderRadius: 8,
+    textAlign: 'center',
   },
 ]);
 
@@ -95,10 +113,6 @@ export const copyButton = style({
   color: vars.colors.gray40,
 });
 
-export const copyIcon = style({
-  color: vars.colors.gray40,
-});
-
 export const shareButton = style({
   display: 'flex',
   flexDirection: 'row',
@@ -111,27 +125,20 @@ export const shareButton = style({
   borderRadius: 12,
   border: 'none',
   cursor: 'pointer',
-  color: vars.colors.gray60,
 });
 
-export const shareIcon = style({
-  color: vars.colors.gray60,
-});
-
-export const shareButtonText = style({
-  fontFamily: 'Apple SD Gothic Neo, sans-serif',
-  fontWeight: 600,
-  fontSize: 16,
-  lineHeight: 1.5,
-  color: vars.colors.gray80,
-});
+export const shareButtonText = style([
+  typography.body.b2,
+  {
+    color: vars.colors.gray80,
+  },
+]);
 
 export const buttonWrapper = style({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: 4,
   padding: 20,
   backgroundColor: vars.colors.white,
 });

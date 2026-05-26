@@ -39,12 +39,11 @@ export const useSocialLogin = () => {
       accessToken: authResult.accessToken,
     });
 
-    const { accessToken, status, crewId } = response.result;
+    const { accessToken, status } = response.result;
     setAccessToken(accessToken);
     navigateByAuthStatus({
       status,
       currentActivity: 'LoginPage',
-      crewId,
       replace,
     });
   };
