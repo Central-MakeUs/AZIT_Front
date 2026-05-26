@@ -16,7 +16,7 @@ import type { CrewInfoResult } from '@/entities/crew/model';
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;
-  onNext: (inviteCode: string, crewId: number) => void;
+  onNext: (inviteCode: string, crewId: number, crewName: string) => void;
   onPrev: () => void;
 }
 
@@ -72,7 +72,9 @@ export function OnboardingCrewJoin({
             placeholder="초대 코드 6자리"
           />
           {hasValidationError && (
-            <p className={styles.errorMessage}>유효하지 않은 코드에요</p>
+            <p className={styles.errorMessage}>
+              유효하지 않거나 이미 만료된 초대 코드입니다
+            </p>
           )}
         </div>
       </div>
@@ -93,7 +95,7 @@ export function OnboardingCrewJoin({
           <OnboardingCrewJoinBottomSheetContent
             onClose={() => setIsBottomSheetOpen(false)}
             onRequestJoin={() => {
-              onNext(inviteCode, crewInfo.crewId);
+              onNext(inviteCode, crewInfo.crewId, crewInfo.name);
             }}
             crewInfo={crewInfo}
           />

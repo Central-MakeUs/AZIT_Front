@@ -1052,6 +1052,7 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * crewId (선택): 특정 크루의 출석 이력만 필터링합니다. 미입력 시 전체 크루의 이력을 조회합니다.<br>
      *
      *     **[참고 사항]** <br>
      *     * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
@@ -1080,10 +1081,11 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * crewId (선택): 특정 크루의 출석 이력만 필터링합니다. 미입력 시 전체 크루의 이력을 조회합니다.<br>
      *
      *     **[참고 사항]** <br>
-     *         * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
-     *         * 모임 시간이 이미 지난 일정(출석/결석 확정) 또는 모임 시간 전이라도 출석을 완료한 일정만 반환됩니다. <br><br>
+     *     * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
+     *     * 모임 시간이 이미 지난 일정(출석/결석 확정) 또는 모임 시간 전이라도 출석을 완료한 일정만 반환됩니다. <br><br>
      */
     get: operations['getMyAttendancesForCalendar'];
     put?: never;
@@ -1312,6 +1314,36 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/{crewId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 해산
+     * @description 리더가 크루를 영구적으로 해산합니다. <br><br>
+     *
+     *     **[처리 내용]** <br>
+     *     * 미래 ACTIVE 일정이 모두 CANCELLED 처리됩니다. <br>
+     *     * 정회원(JOINED) 전원이 EXITED 처리됩니다. <br>
+     *     * 크루 인원 수가 0으로 초기화되고 상태가 DISSOLVED로 변경됩니다. <br>
+     *     * 과거 일정 및 출석 로그는 보존됩니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 크루 리더만 해산을 요청할 수 있습니다. (NOT_CREW_LEADER)
+     *     * 이미 해산된 크루는 재해산이 불가합니다. (CREW_ALREADY_DISSOLVED)
+     */
+    delete: operations['dissolveCrew'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/{crewId}/members/{targetMemberId}': {
     parameters: {
       query?: never;
@@ -1379,7 +1411,7 @@ export interface paths {
      *
      *     **[제약 사항]** <br>
      *     * 가입 신청(REQUESTED) 상태인 경우에만 취소가 가능합니다. (JOIN_REQUEST_NOT_FOUND) <br>
-     *     * 취소 후 24시간 이내에는 동일 크루에 재신청이 불가합니다. (CANCEL_REJOINING_COOLDOWN)
+     *     * 취소 후 1시간 이내에는 동일 크루에 재신청이 불가합니다. (CANCEL_REJOINING_COOLDOWN)
      */
     delete: operations['cancelJoinRequest'];
     options?: never;
@@ -5877,6 +5909,8 @@ export interface operations {
       query?: {
         /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
+        /** @description 크루 ID (특정 크루 필터링, 미입력 시 전체) */
+        crewId?: number;
       };
       header?: never;
       path?: never;
@@ -5938,7 +5972,10 @@ export interface operations {
   getMyAttendancesForCalendar: {
     parameters: {
       query?: {
+        /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
+        /** @description 크루 ID (특정 크루 필터링, 미입력 시 전체) */
+        crewId?: number;
       };
       header?: never;
       path?: never;
@@ -6518,6 +6555,76 @@ export interface operations {
         };
       };
       403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  dissolveCrew: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
         headers: {
           [name: string]: unknown;
         };
