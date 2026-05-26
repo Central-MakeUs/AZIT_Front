@@ -10,6 +10,7 @@ export const inputWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '4px',
+  width: '100%',
 });
 
 export const inputContainer = recipe({
