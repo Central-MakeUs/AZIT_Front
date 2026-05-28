@@ -93,6 +93,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/test/members/me/withdraw-immediately': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 사용자 즉시 탈퇴
+     * @description 사용자 탈퇴 및 신규 가입 플로우 테스트를 위한 API입니다. <br>
+     *     실제 탈퇴와 달리 사용자 관련 데이터를 DB에서 즉시 삭제합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 주문 관련 데이터는 운영과 동일하게 삭제하지 않습니다. (스냅샷 저장 용도) <br><br>
+     */
+    post: operations['forceWithdraw'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/orders': {
     parameters: {
       query?: never;
@@ -1244,6 +1268,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 가입 완료한 크루 목록 조회
+     * @description 사용자가 가입 완료(JOINED) 상태인 크루 목록을 조회합니다. <br><br>
+     */
+    get: operations['getJoinedCrews'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/invitation/{invitationCode}': {
     parameters: {
       query?: never;
@@ -2253,11 +2297,6 @@ export interface components {
       /** @description 프로필 이미지 URL */
       profileImageUrl?: string;
       /**
-       * Format: int32
-       * @description 누적 출석 횟수
-       */
-      totalAttendanceCount?: number;
-      /**
        * Format: int64
        * @description 포인트
        */
@@ -2777,6 +2816,24 @@ export interface components {
       /** @description 크루 한줄 소개 */
       description?: string;
     };
+    CommonResponseListJoinedCrewResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['JoinedCrewResponse'][];
+    };
+    JoinedCrewResponse: {
+      /**
+       * Format: int64
+       * @description 크루 ID
+       */
+      crewId?: number;
+      /** @description 크루명 */
+      name?: string;
+      /** @description 크루 이미지 URL */
+      imageUrl?: string;
+      /** @description 크루 한줄 소개 */
+      description?: string;
+    };
     CommonResponseCrewInvitationResponse: {
       code?: string;
       message?: string;
@@ -3251,6 +3308,26 @@ export interface operations {
         };
         content: {
           'application/json': unknown;
+        };
+      };
+    };
+  };
+  forceWithdraw: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
         };
       };
     };
@@ -6357,6 +6434,66 @@ export interface operations {
         };
       };
       400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getJoinedCrews: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListJoinedCrewResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
         headers: {
           [name: string]: unknown;
         };
