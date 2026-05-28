@@ -27,6 +27,7 @@ import { MenuSection } from '@/shared/ui/menu';
 
 export function CrewPage({ params }: { params?: { id?: string } }) {
   const [dissolveInput, setDissolveInput] = useState('');
+  const [isReissueOpen, setIsReissueOpen] = useState(false);
 
   const crewId = Number(params?.id) || 0;
   const { pop } = useFlow();
@@ -39,7 +40,9 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
 
   const isLeader = crew?.memberRole === MEMBER_ROLE.LEADER;
 
-  const menuSections = useCrewMenu(crew?.memberRole ?? 'MEMBER', crewId);
+  const menuSections = useCrewMenu(crew?.memberRole ?? 'MEMBER', crewId, () =>
+    setIsReissueOpen(true)
+  );
 
   const { mutate: dissolveCrew } = useMutation({
     ...memberQueries.dissolveCrew,
@@ -54,6 +57,14 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
       pop();
+    },
+  });
+
+  const { mutate: reissueInvitationCode } = useMutation({
+    ...memberQueries.reissueInvitationCode,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      setIsReissueOpen(false);
     },
   });
 
@@ -126,6 +137,29 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
                 ))}
               </div>
             </div>
+            {isLeader && crew.invitationCode && (
+              <AlertDialog
+                trigger={<span />}
+                title="초대코드 재발급"
+                description={`새로운 초대코드가 생성되며\n기존 초대코드는 더 이상 사용할 수 없어요.`}
+                cancelText="취소하기"
+                actionText="재발급하기"
+                onAction={() => reissueInvitationCode({ crewId })}
+                open={isReissueOpen}
+                onOpenChange={setIsReissueOpen}
+              >
+                <div className={styles.dissolveInputContainer}>
+                  <p className={styles.reissueCodeGuide}>
+                    현재의 초대 코드는 다음과 같아요
+                  </p>
+                  <div className={styles.reissueCodeBox}>
+                    <span className={styles.reissueCodeText}>
+                      {crew.invitationCode}
+                    </span>
+                  </div>
+                </div>
+              </AlertDialog>
+            )}
             {isLeader ? (
               <AlertDialog
                 trigger={

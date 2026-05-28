@@ -35,6 +35,8 @@ export const END_POINT = {
     CANCEL_JOIN_REQUEST: (crewId: number) => `crews/${crewId}/join-request`,
     DISSOLVE: (crewId: number) => `crews/${crewId}`,
     EXIT: (crewId: number) => `crews/${crewId}/members/me`,
+    REISSUE_INVITATION_CODE: (crewId: number) =>
+      `crews/${crewId}/invitation-code`,
   },
   STORE: {
     PRODUCTS: 'products',
