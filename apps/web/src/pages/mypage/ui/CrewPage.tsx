@@ -5,8 +5,10 @@ import { Header } from '@azit/design-system/header';
 import { CopyIcon, UploadIcon } from '@azit/design-system/icon';
 import { Input } from '@azit/design-system/input';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+
+import { useFlow } from '@/app/routes/stackflow';
 
 import { useCrewMenu } from '@/pages/mypage/model/useCrewMenu';
 import * as styles from '@/pages/mypage/styles/CrewPage.css';
@@ -27,6 +29,8 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
   const [dissolveInput, setDissolveInput] = useState('');
 
   const crewId = Number(params?.id) || 0;
+  const { pop } = useFlow();
+  const queryClient = useQueryClient();
 
   const { data: myCrewsData, isLoading } = useQuery(
     memberQueries.myCrewsQuery()
@@ -36,6 +40,22 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
   const isLeader = crew?.memberRole === MEMBER_ROLE.LEADER;
 
   const menuSections = useCrewMenu(crew?.memberRole ?? 'MEMBER', crewId);
+
+  const { mutate: dissolveCrew } = useMutation({
+    ...memberQueries.dissolveCrew,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      pop();
+    },
+  });
+
+  const { mutate: exitCrew } = useMutation({
+    ...memberQueries.exitCrew,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      pop();
+    },
+  });
 
   if (isLoading || !crew) return null;
 
@@ -119,6 +139,7 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
                 actionText="해산하기"
                 actionVariant="danger"
                 actionDisabled={dissolveInput !== crew.crewName}
+                onAction={() => dissolveCrew({ crewId })}
               >
                 <div className={styles.dissolveInputContainer}>
                   <p className={styles.dissolveInputGuide}>
@@ -142,6 +163,7 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
                 description={`크루를 나가면 출석 로그와 활동 내역이\n모두 삭제되며 복구할 수 없어요.`}
                 cancelText="취소하기"
                 actionText="나가기"
+                onAction={() => exitCrew({ crewId })}
               />
             )}
           </div>
