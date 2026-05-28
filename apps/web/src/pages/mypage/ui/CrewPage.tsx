@@ -139,7 +139,6 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
             </div>
             {isLeader && crew.invitationCode && (
               <AlertDialog
-                trigger={<span />}
                 title="초대코드 재발급"
                 description={`새로운 초대코드가 생성되며\n기존 초대코드는 더 이상 사용할 수 없어요.`}
                 cancelText="취소하기"
