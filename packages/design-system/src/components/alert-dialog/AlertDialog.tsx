@@ -13,6 +13,8 @@ export interface AlertDialogProps {
   children?: ReactNode;
   actionDisabled?: boolean;
   actionVariant?: 'default' | 'danger';
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function AlertDialog({
@@ -26,9 +28,11 @@ export function AlertDialog({
   children,
   actionDisabled = false,
   actionVariant = 'default',
+  open,
+  onOpenChange,
 }: AlertDialogProps) {
   return (
-    <RadixAlertDialog.Root>
+    <RadixAlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <RadixAlertDialog.Trigger asChild>{trigger}</RadixAlertDialog.Trigger>
       <RadixAlertDialog.Portal>
         <RadixAlertDialog.Overlay className={styles.overlay} />

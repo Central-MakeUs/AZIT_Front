@@ -21,7 +21,8 @@ export type { MenuItem, MenuGroup } from '@/shared/types/menu';
 export const getCrewMenu = (
   role: MemberRole,
   crewId: number,
-  push: Push
+  push: Push,
+  onReissueInvitationCode?: () => void
 ): MenuGroup[] => {
   const isLeader = role === MEMBER_ROLE.LEADER;
 
@@ -90,13 +91,8 @@ export const getCrewMenu = (
               {
                 id: 'invitation-code-reissue',
                 label: '초대코드 재발급',
-                type: 'navigation' as const,
-                onNavigate: () =>
-                  push(
-                    'InvitationCodeReissuePage' as ActivityName,
-                    {},
-                    { animate: true }
-                  ),
+                type: 'action' as const,
+                onAction: () => onReissueInvitationCode?.(),
               },
             ],
           },
