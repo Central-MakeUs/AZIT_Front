@@ -13,6 +13,7 @@ import { deleteJoinRequest } from '@/entities/crew/api/deleteJoinRequest';
 import { deleteMyCrewMembership } from '@/entities/crew/api/deleteMyCrewMembership';
 import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
 import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
+import { postReissueInvitationCode } from '@/entities/crew/api/postReissueInvitationCode';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
 import { getMyAttendanceCalendar } from '@/entities/user/api/getMyAttendanceCalendar';
 import { getMyCrews } from '@/entities/user/api/getMyCrews';
@@ -132,5 +133,9 @@ export const memberQueries = {
   exitCrew: mutationOptions({
     mutationFn: ({ crewId }: { crewId: number }) =>
       deleteMyCrewMembership(crewId),
+  }),
+  reissueInvitationCode: mutationOptions({
+    mutationFn: ({ crewId }: { crewId: number }) =>
+      postReissueInvitationCode(crewId),
   }),
 };
