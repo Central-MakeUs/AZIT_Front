@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import * as styles from './AlertDialog.css';
 
 export interface AlertDialogProps {
-  trigger: ReactNode;
+  trigger?: ReactNode;
   title: string;
   description?: string;
   actionText?: string;
@@ -33,7 +33,9 @@ export function AlertDialog({
 }: AlertDialogProps) {
   return (
     <RadixAlertDialog.Root open={open} onOpenChange={onOpenChange}>
-      <RadixAlertDialog.Trigger asChild>{trigger}</RadixAlertDialog.Trigger>
+      {trigger && (
+        <RadixAlertDialog.Trigger asChild>{trigger}</RadixAlertDialog.Trigger>
+      )}
       <RadixAlertDialog.Portal>
         <RadixAlertDialog.Overlay className={styles.overlay} />
         <RadixAlertDialog.Content className={styles.content}>
