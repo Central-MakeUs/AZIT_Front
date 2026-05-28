@@ -142,6 +142,32 @@ export const dissolveInputGuide = style([
   },
 ]);
 
+export const reissueCodeGuide = style([
+  typography.body.b3,
+  {
+    color: vars.colors.blue80,
+    textAlign: 'center',
+  },
+]);
+
+export const reissueCodeBox = style({
+  width: '100%',
+  backgroundColor: vars.colors.white,
+  border: `0.5px solid ${vars.colors.gray20}`,
+  borderRadius: 12,
+  height: 48,
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 16px',
+});
+
+export const reissueCodeText = style([
+  typography.body.b2,
+  {
+    color: vars.colors.black,
+  },
+]);
+
 export const dissolveButton = style([
   typography.body.b4,
   {
