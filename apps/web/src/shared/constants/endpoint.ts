@@ -33,6 +33,8 @@ export const END_POINT = {
     REJECT_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
       `crews/${crewId}/join-requests/${targetMemberId}/reject`,
     CANCEL_JOIN_REQUEST: (crewId: number) => `crews/${crewId}/join-request`,
+    DISSOLVE: (crewId: number) => `crews/${crewId}`,
+    EXIT: (crewId: number) => `crews/${crewId}/members/me`,
   },
   STORE: {
     PRODUCTS: 'products',
