@@ -69,15 +69,10 @@ export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   };
 
   return (
-    <AppScreen backgroundColor={vars.colors.background_sub}>
+    <AppScreen backgroundColor={vars.colors.white}>
       <AppLayout>
         <div className={styles.headerWrapper}>
-          <Header
-            color="sub"
-            sticky
-            left={<BackButton />}
-            center="일정 등록하기"
-          />
+          <Header sticky left={<BackButton />} center="일정 등록하기" />
         </div>
         <div className={styles.mainContainer}>
           <div className={styles.formWrapper}>
