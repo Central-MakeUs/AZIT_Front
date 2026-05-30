@@ -1,4 +1,3 @@
-import { vars } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
 import { layoutStyles } from '@/shared/styles/layout.css';
@@ -12,9 +11,4 @@ export const formWrapper = style({
   padding: '12px 20px',
 });
 
-export const footerWrapper = style([
-  layoutStyles.footerWrapper,
-  {
-    backgroundColor: vars.colors.background_sub,
-  },
-]);
+export const footerWrapper = style([layoutStyles.footerWrapper]);
