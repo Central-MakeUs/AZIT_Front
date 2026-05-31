@@ -80,15 +80,10 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
 
   if (isLoading || formValues === null) {
     return (
-      <AppScreen backgroundColor={vars.colors.background_sub}>
+      <AppScreen backgroundColor={vars.colors.white}>
         <AppLayout>
           <div className={styles.headerWrapper}>
-            <Header
-              color="sub"
-              sticky
-              left={<BackButton />}
-              center="일정 수정하기"
-            />
+            <Header sticky left={<BackButton />} center="일정 수정하기" />
           </div>
         </AppLayout>
       </AppScreen>
@@ -96,15 +91,10 @@ export function ScheduleEditPage({ params }: { params: { id: number } }) {
   }
 
   return (
-    <AppScreen backgroundColor={vars.colors.background_sub}>
+    <AppScreen backgroundColor={vars.colors.white}>
       <AppLayout>
         <div className={styles.headerWrapper}>
-          <Header
-            color="sub"
-            sticky
-            left={<BackButton />}
-            center="일정 수정하기"
-          />
+          <Header sticky left={<BackButton />} center="일정 수정하기" />
         </div>
         <div className={styles.mainContainer}>
           <div className={styles.formWrapper}>
