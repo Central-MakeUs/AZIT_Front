@@ -1,7 +1,6 @@
 import { CheckIcon } from '@azit/design-system/icon';
 import { memo } from 'react';
 
-
 import * as styles from '@/widgets/schedule-form/styles/ScheduleForm.css';
 
 export interface AccordionItemProps {
