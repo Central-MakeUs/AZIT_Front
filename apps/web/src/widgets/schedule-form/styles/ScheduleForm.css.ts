@@ -1,11 +1,11 @@
 import { vars, typography } from '@azit/design-system';
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 export const form = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  gap: 48,
+  gap: 28,
 });
 
 export const topGroup = style({
@@ -115,16 +115,6 @@ export const runTypeChipButton = style([
   },
 ]);
 
-export const dateSelectButton = style({});
-
-globalStyle(`${dateSelectButton}${dateSelectButton}`, {
-  borderRadius: 8,
-  fontSize: vars.typography.body.b2.fontSize,
-  fontWeight: vars.typography.body.b2.fontWeight,
-  lineHeight: vars.typography.body.b2.lineHeight,
-  letterSpacing: vars.typography.body.b2.letterSpacing,
-});
-
 export const dateInputHidden = style({
   position: 'absolute',
   opacity: 0,
@@ -153,7 +143,7 @@ export const mapSearchButton = style([
 
 export const gridRow = style({
   display: 'flex',
-  width: 'calc(50% - 5.5px)',
+  width: '100%',
   gap: 11,
 });
 
@@ -324,4 +314,91 @@ export const titleInput = style([
 
 export const bottomSheetContent = style({
   marginBottom: '20px',
+});
+
+export const accordionGroup = style({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+});
+
+export const accordionItem = style({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+export const accordionHeader = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '16px 0',
+  background: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  width: '100%',
+  textAlign: 'left',
+  WebkitTapHighlightColor: 'transparent',
+});
+
+export const accordionLeftGroup = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+});
+
+export const accordionLabel = style([
+  typography.body.b2,
+  {
+    color: vars.colors.black,
+  },
+]);
+
+export const accordionContent = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 12,
+  paddingBottom: 16,
+});
+
+export const accordionDivider = style({
+  height: 1,
+  width: '100%',
+  backgroundColor: vars.colors.gray10,
+  flexShrink: 0,
+});
+
+const timeSelectBase = {
+  display: 'inline-flex' as const,
+  alignItems: 'center' as const,
+  minHeight: 48,
+  borderRadius: 12,
+  border: `0.5px solid ${vars.colors.gray20}`,
+  padding: '10px 16px',
+  backgroundColor: vars.colors.white,
+  cursor: 'pointer',
+  whiteSpace: 'nowrap' as const,
+};
+
+export const timeSelectButton = style([
+  typography.body.b2,
+  { ...timeSelectBase, color: vars.colors.black },
+]);
+
+export const timeSelectButtonPlaceholder = style([
+  typography.body.b2,
+  { ...timeSelectBase, color: vars.colors.gray30 },
+]);
+
+export const timePickerRow = style({
+  display: 'flex',
+  width: '100%',
+  padding: '8px 0',
+});
+
+export const timePickerColumn = style({
+  flex: 1,
+});
+
+export const timePickerFooter = style({
+  padding: '12px 0 20px',
 });
