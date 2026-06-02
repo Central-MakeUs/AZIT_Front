@@ -20,7 +20,7 @@ import { useStack } from '@/shared/lib/stackflow/useStack';
 import { crewQueries, memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
-import { toastSuccess } from '@/shared/ui/toast';
+import { toastError, toastSuccess } from '@/shared/ui/toast';
 
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
 
@@ -113,6 +113,10 @@ export function CrewInfoEditPage() {
 
         await updateS3Upload(presignedUrl, blob, result.mimeType);
         setCrewImageUrl(imageUrl);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toastError(error.message);
       }
     } finally {
       setIsPickerLoading(false);
