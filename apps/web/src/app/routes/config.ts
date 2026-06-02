@@ -118,6 +118,10 @@ const MyProfileEditPage = lazyImport(
   () => import('@/pages/mypage/ui/MyProfileEditPage'),
   'MyProfileEditPage'
 );
+const CrewInfoEditPage = lazyImport(
+  () => import('@/pages/mypage/ui/CrewInfoEditPage'),
+  'CrewInfoEditPage'
+);
 const ScheduleLocationPage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleLocationPage'),
   'ScheduleLocationPage'
@@ -328,6 +332,12 @@ export const routes = [
     name: 'MyProfileEditPage',
     path: '/mypage/profile/edit',
     element: MyProfileEditPage,
+    withAuth: true,
+  },
+  {
+    name: 'CrewInfoEditPage',
+    path: '/crew/:id/edit',
+    element: CrewInfoEditPage,
     withAuth: true,
   },
   {
