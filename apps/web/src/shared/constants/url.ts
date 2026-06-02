@@ -2,8 +2,8 @@ export const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export const DEFAULT_PROFILE_IMAGE_BASE_URL = import.meta.env
   .VITE_DEFAULT_PROFILE_IMAGE_BASE_URL;
-export const DEFAULT_CREW_IMAGE_URL =
-  'https://images.azitcrew.com/default/crew/crew_default.svg';
+export const DEFAULT_CREW_IMAGE_URL = import.meta.env
+  .VITE_DEFAULT_CREW_IMAGE_URL;
 export const APPLE_AUTHORIZE_URL = import.meta.env.VITE_APPLE_AUTHORIZE_URL;
 export const KAKAO_AUTHORIZE_URL = import.meta.env.VITE_KAKAO_AUTHORIZE_URL;
 export const KAKAO_JS_SDK_KEY = import.meta.env.VITE_KAKAO_JS_SDK_KEY;
