@@ -84,7 +84,7 @@ export const getCrewMenu = (
                 onNavigate: () =>
                   push(
                     'CrewInfoEditPage' as ActivityName,
-                    {},
+                    { id: crewId },
                     { animate: true }
                   ),
               },
