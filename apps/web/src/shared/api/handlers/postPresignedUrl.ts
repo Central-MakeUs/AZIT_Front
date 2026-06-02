@@ -14,7 +14,11 @@ interface PresignedUrlResponse {
   };
 }
 
-export const postPresignedUrl = (type: PresignedUrlType, fileName: string) => {
+export const postPresignedUrl = (
+  type: PresignedUrlType,
+  fileName: string,
+  crewId?: number
+) => {
   const ext = fileName.split('.').pop()?.toLowerCase();
   if (!ext || !(ALLOWED_EXTENSIONS as readonly string[]).includes(ext)) {
     throw new Error(
@@ -25,5 +29,6 @@ export const postPresignedUrl = (type: PresignedUrlType, fileName: string) => {
   return auth.post<PresignedUrlResponse>(END_POINT.IMAGES.PRESIGNED_URL, {
     type,
     fileName,
+    ...(crewId !== undefined && { crewId }),
   });
 };

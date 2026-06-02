@@ -37,6 +37,7 @@ export const END_POINT = {
     EXIT: (crewId: number) => `crews/${crewId}/members/me`,
     REISSUE_INVITATION_CODE: (crewId: number) =>
       `crews/${crewId}/invitation-code`,
+    UPDATE_INFO: (crewId: number) => `crews/${crewId}/info`,
   },
   STORE: {
     PRODUCTS: 'products',
