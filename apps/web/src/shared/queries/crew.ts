@@ -2,6 +2,7 @@ import { mutationOptions, queryOptions } from '@tanstack/react-query';
 
 import { postConfirmJoinStatus } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
 
+import { getCrewDetailInfo } from '@/entities/crew/api/getCrewDetailInfo';
 import { getCrewInfo } from '@/entities/crew/api/getCrewInfo';
 import { getCrewJoinStatus } from '@/entities/crew/api/getCrewJoinStatus';
 
@@ -10,6 +11,8 @@ export const crewQueries = {
   joinStatusKey: (crewId: number) =>
     [...crewQueries.defaultKey, 'join-status', crewId] as const,
   crewInfoKey: () => [...crewQueries.defaultKey, 'info'] as const,
+  crewDetailInfoKey: (crewId: number) =>
+    [...crewQueries.defaultKey, 'detail-info', crewId] as const,
   joinStatusQuery: (crewId: number) =>
     queryOptions({
       queryKey: [...crewQueries.joinStatusKey(crewId)],
@@ -24,5 +27,12 @@ export const crewQueries = {
       queryKey: crewQueries.crewInfoKey(),
       queryFn: () => getCrewInfo(invitationCode),
       staleTime: 600000,
+    }),
+  crewDetailInfoQuery: (crewId: number) =>
+    queryOptions({
+      queryKey: crewQueries.crewDetailInfoKey(crewId),
+      queryFn: () => getCrewDetailInfo(crewId),
+      staleTime: 1000 * 60 * 5,
+      select: (data) => data.result,
     }),
 };
