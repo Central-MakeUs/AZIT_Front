@@ -7,6 +7,8 @@ import {
 import { postApproveJoinRequest } from '@/features/crew-manage/api/postApproveJoinRequest';
 import { postRejectJoinRequest } from '@/features/crew-manage/api/postRejectJoinRequest';
 
+import type { UpdateCrewInfoRequest } from '@/shared/api/models/crew';
+
 import { deleteCrew } from '@/entities/crew/api/deleteCrew';
 import { deleteCrewMember } from '@/entities/crew/api/deleteCrewMember';
 import { deleteJoinRequest } from '@/entities/crew/api/deleteJoinRequest';
@@ -14,6 +16,7 @@ import { deleteMyCrewMembership } from '@/entities/crew/api/deleteMyCrewMembersh
 import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
 import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { postReissueInvitationCode } from '@/entities/crew/api/postReissueInvitationCode';
+import { updateCrewInfo } from '@/entities/crew/api/updateCrewInfo';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
 import { getMyAttendanceCalendar } from '@/entities/user/api/getMyAttendanceCalendar';
 import { getMyCrews } from '@/entities/user/api/getMyCrews';
@@ -137,5 +140,12 @@ export const memberQueries = {
   reissueInvitationCode: mutationOptions({
     mutationFn: ({ crewId }: { crewId: number }) =>
       postReissueInvitationCode(crewId),
+  }),
+  updateCrewInfo: mutationOptions({
+    mutationFn: ({
+      crewId,
+      ...body
+    }: { crewId: number } & UpdateCrewInfoRequest) =>
+      updateCrewInfo(crewId, body),
   }),
 };
