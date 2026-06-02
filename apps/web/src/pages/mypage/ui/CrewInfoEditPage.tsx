@@ -34,7 +34,7 @@ export function CrewInfoEditPage() {
   const queryClient = useQueryClient();
   const { pop } = useStack();
 
-  const { data: crewDetailInfo } = useQuery(
+  const { data: crewDetailInfo, isLoading } = useQuery(
     crewQueries.crewDetailInfoQuery(crewId)
   );
 
@@ -65,7 +65,8 @@ export function CrewInfoEditPage() {
   const isCrewIntroChanged =
     currentCrewIntro !== (crewDetailInfo?.description ?? '');
   const isChanged =
-    isCrewNameChanged || isCrewIntroChanged || crewImageUrl !== null;
+    !isLoading &&
+    (isCrewNameChanged || isCrewIntroChanged || crewImageUrl !== null);
 
   const handleCrewNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
