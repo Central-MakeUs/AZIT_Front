@@ -1,0 +1,218 @@
+import { vars } from '@azit/design-system';
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
+import { AddImageIcon } from '@azit/design-system/icon';
+import { Input } from '@azit/design-system/input';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useActivityParams } from '@stackflow/react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import * as styles from '@/pages/mypage/styles/CrewInfoEditPage.css';
+
+import { RoundProfileImage } from '@/widgets/profile/ui';
+
+import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
+import { DEFAULT_CREW_IMAGE_URL } from '@/shared/constants/url';
+import { bridge } from '@/shared/lib/bridge';
+import { base64ToBlob } from '@/shared/lib/image';
+import { useStack } from '@/shared/lib/stackflow/useStack';
+import { crewQueries, memberQueries } from '@/shared/queries';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+import { toastSuccess } from '@/shared/ui/toast';
+
+import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
+
+const MAX_CREW_NAME_LENGTH = 15;
+const MAX_CREW_INTRO_LENGTH = 20;
+const MAX_FILE_SIZE = 3 * 1024 * 1024;
+
+export function CrewInfoEditPage() {
+  const { id } = useActivityParams<{ id: string }>();
+  const crewId = Number(id);
+  const queryClient = useQueryClient();
+  const { pop } = useStack();
+
+  const { data: crewDetailInfo } = useQuery(
+    crewQueries.crewDetailInfoQuery(crewId)
+  );
+
+  const [crewName, setCrewName] = useState<string | null>(null);
+  const [crewIntro, setCrewIntro] = useState<string | null>(null);
+  const [crewImageUrl, setCrewImageUrl] = useState<string | null>(null);
+  const [isPickerLoading, setIsPickerLoading] = useState(false);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
+  const { mutate: updateCrew, isPending } = useMutation({
+    ...memberQueries.updateCrewInfo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: memberQueries.myCrewsKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: crewQueries.crewDetailInfoKey(crewId),
+      });
+      toastSuccess('크루 정보가 수정되었습니다.');
+      pop();
+    },
+  });
+
+  const currentCrewName = crewName ?? crewDetailInfo?.name ?? '';
+  const currentCrewIntro = crewIntro ?? crewDetailInfo?.description ?? '';
+
+  const isCrewNameChanged = currentCrewName !== crewDetailInfo?.name;
+  const isCrewIntroChanged =
+    currentCrewIntro !== (crewDetailInfo?.description ?? '');
+  const isChanged =
+    isCrewNameChanged || isCrewIntroChanged || crewImageUrl !== null;
+
+  const handleCrewNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= MAX_CREW_NAME_LENGTH) {
+      setCrewName(value);
+    }
+  };
+
+  const handleCrewNameRemove = () => {
+    setCrewName('');
+  };
+
+  const handleCrewIntroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= MAX_CREW_INTRO_LENGTH) {
+      setCrewIntro(value);
+    }
+  };
+
+  const handleCrewIntroRemove = () => {
+    setCrewIntro('');
+  };
+
+  const handleProfileImageBadgeClick = () => {
+    if (isPickerLoading) return;
+    setIsBottomSheetOpen(true);
+  };
+
+  const handlePickImage = async (source: 'library' | 'camera') => {
+    setIsBottomSheetOpen(false);
+    setIsPickerLoading(true);
+    try {
+      const result = await bridge.pickProfileImage(source);
+      if (result.success) {
+        const {
+          result: { presignedUrl, imageUrl },
+        } = await postPresignedUrl('CREW_IMAGE', result.fileName, crewId);
+
+        const blob = base64ToBlob(result.base64, result.mimeType);
+
+        if (blob.size > MAX_FILE_SIZE) {
+          throw new Error('파일 크기는 3MB 이하여야 합니다.');
+        }
+
+        await updateS3Upload(presignedUrl, blob, result.mimeType);
+        setCrewImageUrl(imageUrl);
+      }
+    } finally {
+      setIsPickerLoading(false);
+    }
+  };
+
+  const handleSelectDefault = () => {
+    setIsBottomSheetOpen(false);
+    setCrewImageUrl(DEFAULT_CREW_IMAGE_URL);
+  };
+
+  const handleSubmit = () => {
+    if (!isChanged || isPending) return;
+    updateCrew({
+      crewId,
+      name: currentCrewName,
+      imageUrl: crewImageUrl ?? crewDetailInfo?.crewImageUrl ?? '',
+      description: currentCrewIntro || undefined,
+    });
+  };
+
+  return (
+    <AppScreen backgroundColor={vars.colors.white}>
+      <AppLayout>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="크루 정보 수정" />
+        </div>
+        <div className={styles.mainContainer}>
+          <div className={styles.profileImageWrapper}>
+            <RoundProfileImage
+              src={crewImageUrl ?? crewDetailInfo?.crewImageUrl ?? undefined}
+              size={96}
+              className={styles.profileImage}
+            />
+            <div
+              className={
+                styles.editBadgeWrapper[isPickerLoading ? 'loading' : 'idle']
+              }
+              onClick={handleProfileImageBadgeClick}
+            >
+              <div className={styles.editBadgeOuter} />
+              <div className={styles.editBadgeInner}>
+                <AddImageIcon size={16} color="inherit" />
+              </div>
+            </div>
+          </div>
+          <div className={styles.fieldsContainer}>
+            <div className={styles.fieldSection}>
+              <span className={styles.fieldLabel}>크루명</span>
+              <Input
+                value={currentCrewName}
+                placeholder="크루 이름을 입력해주세요"
+                onChange={handleCrewNameChange}
+                onRemove={
+                  currentCrewName.length > 0 ? handleCrewNameRemove : undefined
+                }
+                maxLength={MAX_CREW_NAME_LENGTH}
+              />
+              <div className={styles.counterWrapper}>
+                <span className={styles.counter}>
+                  {currentCrewName.length}/{MAX_CREW_NAME_LENGTH}
+                </span>
+              </div>
+            </div>
+            <div className={styles.fieldSection}>
+              <span className={styles.fieldLabel}>크루 한줄 소개</span>
+              <Input
+                value={currentCrewIntro}
+                placeholder="크루 한줄 소개를 입력해주세요"
+                onChange={handleCrewIntroChange}
+                onRemove={
+                  currentCrewIntro.length > 0
+                    ? handleCrewIntroRemove
+                    : undefined
+                }
+                maxLength={MAX_CREW_INTRO_LENGTH}
+              />
+              <div className={styles.counterWrapper}>
+                <span className={styles.counter}>
+                  {currentCrewIntro.length}/{MAX_CREW_INTRO_LENGTH}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.footerWrapper}>
+          <Button
+            state={isChanged && !isPending ? 'active' : 'disabled'}
+            onClick={handleSubmit}
+          >
+            수정하기
+          </Button>
+        </div>
+      </AppLayout>
+      <ProfileImagePickerBottomSheet
+        isOpen={isBottomSheetOpen}
+        onClose={() => setIsBottomSheetOpen(false)}
+        onSelectLibrary={() => handlePickImage('library')}
+        onSelectCamera={() => handlePickImage('camera')}
+        onSelectDefault={handleSelectDefault}
+      />
+    </AppScreen>
+  );
+}
