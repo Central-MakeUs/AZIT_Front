@@ -81,7 +81,7 @@ export const badgeLeader = style({
 
 export const badgeMember = style({
   backgroundColor: vars.colors.green10,
-  color: vars.colors.green80,
+  color: vars.colors.blue10,
 });
 
 export const joinDate = style([
