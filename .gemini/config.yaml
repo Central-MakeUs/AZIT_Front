@@ -64,7 +64,6 @@ conventions:
     util: arrow
   naming:
     constants: BIG_SNAKE_CASE
-    forbid_abbreviation: true
     rest_prefix:
       get: 'get_'
       post: 'post_'
