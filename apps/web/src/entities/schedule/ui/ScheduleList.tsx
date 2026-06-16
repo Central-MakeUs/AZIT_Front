@@ -1,5 +1,4 @@
-import { Button } from '@azit/design-system/button';
-import { CalendarIcon } from '@azit/design-system/icon';
+import type { ReactNode } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -9,13 +8,13 @@ import { ScheduleListItem } from '@/entities/schedule/ui/ScheduleListItem';
 
 interface ScheduleListProps {
   items: ScheduleListItemType[];
-  isHomePage?: boolean;
+  emptyState: ReactNode;
   isLoading?: boolean;
 }
 
 export function ScheduleList({
   items,
-  isHomePage = false,
+  emptyState,
   isLoading,
 }: ScheduleListProps) {
   const { push } = useFlow();
@@ -25,37 +24,7 @@ export function ScheduleList({
   };
 
   const renderItem = () => {
-    if (isLoading) {
-      return (
-        <div className={styles.emptyContainer}>
-          <p className={styles.emptyText}>등록된 일정이 없어요</p>
-        </div>
-      );
-    }
-
-    if (items.length === 0) {
-      if (isHomePage) {
-        return (
-          <div className={styles.emptyContainer}>
-            <CalendarIcon size={64} color="secondary" strokeWidth={1.2} />
-            <p className={styles.emptyText}>일정 탭에서 일정을 추가해보세요!</p>
-            <Button
-              size="medium"
-              state="outline"
-              onClick={() => push('SchedulePage', {}, { animate: false })}
-              className={styles.addScheduleButton}
-            >
-              일정 추가하기
-            </Button>
-          </div>
-        );
-      }
-      return (
-        <div className={styles.emptyContainer}>
-          <p className={styles.emptyText}>등록된 일정이 없어요</p>
-        </div>
-      );
-    }
+    if (items.length === 0 || isLoading) return emptyState;
 
     return items.map((item) => (
       <ScheduleListItem

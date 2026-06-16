@@ -1,10 +1,14 @@
+import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
+import { CalendarIcon } from '@azit/design-system/icon';
 // import { BellIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 
-// import { useFlow } from '@/app/routes/stackflow';
+import { useFlow } from '@/app/routes/stackflow';
+
+import * as scheduleListStyles from '@/pages/home/styles/HomePage.css';
 
 import {
   POLL_INTERVAL_MS,
@@ -26,7 +30,7 @@ import { toastSuccess } from '@/shared/ui/toast';
 import { ScheduleList } from '@/entities/schedule/ui/ScheduleList';
 
 export function HomePage() {
-  // const { push } = useFlow();
+  const { push } = useFlow();
 
   // const handleClick = () => {
   //   push('AlertPage', {});
@@ -142,7 +146,28 @@ export function HomePage() {
             scheduleContent={
               <ScheduleList
                 items={scheduleList}
-                isHomePage
+                emptyState={
+                  <div className={scheduleListStyles.emptyContainer}>
+                    <CalendarIcon
+                      size={64}
+                      color="secondary"
+                      strokeWidth={1.2}
+                    />
+                    <p className={scheduleListStyles.emptyText}>
+                      일정 탭에서 일정을 추가해보세요!
+                    </p>
+                    <Button
+                      size="medium"
+                      state="outline"
+                      onClick={() =>
+                        push('SchedulePage', {}, { animate: false })
+                      }
+                      className={scheduleListStyles.addScheduleButton}
+                    >
+                      일정 추가하기
+                    </Button>
+                  </div>
+                }
                 isLoading={isLoading}
               />
             }

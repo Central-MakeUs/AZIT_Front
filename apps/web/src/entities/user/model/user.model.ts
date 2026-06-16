@@ -7,6 +7,7 @@ import type { ScheduleCalendarItem } from '@/shared/types/schedule';
 
 export type MyInfoResponse = components['schemas']['MyInfoResponse'];
 export type MyCrewResponse = components['schemas']['MyCrewResponse'];
+export type JoinedCrewResponse = components['schemas']['JoinedCrewResponse'];
 export type LinkedProviderResponse =
   components['schemas']['LinkedProviderResponse'];
 export type CrewMemberListResponse =
