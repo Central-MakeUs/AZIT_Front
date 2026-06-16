@@ -24,7 +24,6 @@ import type { RunType } from '@/shared/types/schedule';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
-import * as scheduleListStyles from '@/entities/schedule/styles/ScheduleList.css.ts';
 import { ScheduleList } from '@/entities/schedule/ui';
 
 export function SchedulePage() {
@@ -141,7 +140,7 @@ export function SchedulePage() {
                   items={scheduleList}
                   isLoading={isLoading}
                   emptyState={
-                    <div className={scheduleListStyles.emptyContainer}>
+                    <div className={styles.emptyContainer}>
                       <img
                         src="/icons/running-person.svg"
                         alt=""
@@ -150,7 +149,7 @@ export function SchedulePage() {
                       />
                       {hasCrews ? (
                         <>
-                          <p className={scheduleListStyles.emptyText}>
+                          <p className={styles.emptyText}>
                             등록된 일정이 없어요
                           </p>
                           <Button
@@ -161,19 +160,19 @@ export function SchedulePage() {
                                 : {};
                               push('ScheduleCreatePage', params);
                             }}
-                            className={scheduleListStyles.addScheduleButton}
+                            className={styles.addScheduleButton}
                           >
                             일정 추가하기
                           </Button>
                         </>
                       ) : (
                         <>
-                          <p className={scheduleListStyles.emptyText}>
+                          <p className={styles.emptyText}>
                             가입되어 있는 크루가 없어요
                           </p>
                           <Button
                             size="medium"
-                            className={scheduleListStyles.addScheduleButton}
+                            className={styles.addScheduleButton}
                             onClick={() => {
                               push('OnboardingPage', {}, { animate: true });
                             }}
