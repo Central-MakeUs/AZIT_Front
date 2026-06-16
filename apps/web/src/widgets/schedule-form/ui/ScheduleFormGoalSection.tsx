@@ -1,12 +1,11 @@
 import { FlagIcon } from '@azit/design-system/icon';
 import { memo } from 'react';
 
-import {
-  DISTANCE_MAX,
-  PACE_MAX,
-} from '@/widgets/schedule-form/model/scheduleForm';
+import { DISTANCE_MAX } from '@/widgets/schedule-form/model/scheduleForm';
 import * as styles from '@/widgets/schedule-form/styles/ScheduleForm.css';
 import { AccordionItem } from '@/widgets/schedule-form/ui/AccordionItem';
+
+import { formatPace } from '@/entities/schedule/lib/formatter';
 
 export interface ScheduleFormGoalSectionProps {
   distance: number | null;
@@ -17,7 +16,7 @@ export interface ScheduleFormGoalSectionProps {
   open: boolean;
   onToggle: () => void;
   onDistanceChange: (value: string) => void;
-  onPaceChange: (value: string) => void;
+  onPaceClick: () => void;
 }
 
 export const ScheduleFormGoalSection = memo(function ScheduleFormGoalSection({
@@ -29,7 +28,7 @@ export const ScheduleFormGoalSection = memo(function ScheduleFormGoalSection({
   open,
   onToggle,
   onDistanceChange,
-  onPaceChange,
+  onPaceClick,
 }: ScheduleFormGoalSectionProps) {
   return (
     <AccordionItem
@@ -44,7 +43,7 @@ export const ScheduleFormGoalSection = memo(function ScheduleFormGoalSection({
           <label className={styles.label} htmlFor="schedule-distance">
             목표 거리
           </label>
-          <div className={styles.unitInputFieldWrapper}>
+          <div className={styles.fixedWidthInputWrapper160}>
             <div
               className={
                 distanceError
@@ -71,33 +70,25 @@ export const ScheduleFormGoalSection = memo(function ScheduleFormGoalSection({
           </div>
         </div>
         <div className={styles.horizontalSection}>
-          <label className={styles.label} htmlFor="schedule-pace">
-            목표 페이스
-          </label>
-          <div className={styles.unitInputFieldWrapper}>
-            <div
+          <span className={styles.label}>목표 페이스</span>
+          <div className={styles.fixedWidthInputWrapper72}>
+            <button
+              type="button"
               className={
                 paceError
                   ? styles.unitInputWrapperError
                   : styles.unitInputWrapper
               }
+              onClick={onPaceClick}
             >
-              <input
-                id="schedule-pace"
-                type="text"
-                inputMode="numeric"
-                className={styles.unitInput}
-                value={pace ?? ''}
-                onChange={(e) => onPaceChange(e.target.value)}
-                placeholder="0"
-              />
-              <span className={styles.unitSuffix}>분/km</span>
-            </div>
-            {paceError && (
-              <p className={styles.unitInputErrorMessage}>
-                최대 값 : {PACE_MAX}
-              </p>
-            )}
+              <span
+                className={
+                  pace != null ? styles.unitInput : styles.unitInputPlaceholder
+                }
+              >
+                {pace != null ? formatPace(pace) : '5\'00"'}
+              </span>
+            </button>
           </div>
         </div>
       </div>
