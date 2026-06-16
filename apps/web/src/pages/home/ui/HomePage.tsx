@@ -8,6 +8,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as scheduleListStyles from '@/pages/home/styles/HomePage.css';
+
 import {
   POLL_INTERVAL_MS,
   fetchUserPosition,
@@ -25,7 +27,6 @@ import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 import { toastSuccess } from '@/shared/ui/toast';
 
-import * as scheduleListStyles from '@/entities/schedule/styles/ScheduleList.css.ts';
 import { ScheduleList } from '@/entities/schedule/ui/ScheduleList';
 
 export function HomePage() {
