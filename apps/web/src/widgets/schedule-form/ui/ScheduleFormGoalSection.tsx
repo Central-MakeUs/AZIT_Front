@@ -75,9 +75,7 @@ export const ScheduleFormGoalSection = memo(function ScheduleFormGoalSection({
             <button
               type="button"
               className={
-                paceError
-                  ? styles.unitInputWrapperError
-                  : styles.unitInputWrapper
+                paceError ? styles.paceInputButtonError : styles.paceInputButton
               }
               onClick={onPaceClick}
             >
