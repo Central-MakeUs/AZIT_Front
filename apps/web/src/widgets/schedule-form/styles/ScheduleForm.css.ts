@@ -59,6 +59,7 @@ export const label = style([
     color: vars.colors.black,
     whiteSpace: 'nowrap',
     padding: '0 4px',
+    flexShrink: 0,
   },
 ]);
 
@@ -165,6 +166,7 @@ export const unitInputWrapper = style({
   border: `0.5px solid ${vars.colors.gray20}`,
   padding: '10px 16px',
   backgroundColor: vars.colors.white,
+  cursor: 'pointer',
 });
 
 export const unitInputWrapperError = style({
@@ -177,6 +179,17 @@ export const unitInputWrapperError = style({
   border: `1px solid ${vars.colors.error}`,
   padding: '10px 16px',
   backgroundColor: vars.colors.white,
+  cursor: 'pointer',
+});
+
+export const fixedWidthInputWrapper160 = style({
+  width: 160,
+  flexShrink: 0,
+});
+
+export const fixedWidthInputWrapper72 = style({
+  width: 72,
+  flexShrink: 0,
 });
 
 export const unitInputErrorMessage = style([
@@ -193,7 +206,8 @@ export const unitInputFieldWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 4,
-  width: '100%',
+  flexShrink: 1,
+  minWidth: 0,
 });
 
 export const unitInput = style([
@@ -211,6 +225,16 @@ export const unitInput = style([
         color: vars.colors.gray30,
       },
     },
+  },
+]);
+
+export const unitInputPlaceholder = style([
+  typography.body.b2,
+  {
+    flex: 1,
+    minWidth: 0,
+    color: vars.colors.gray30,
+    textAlign: 'right',
   },
 ]);
 
@@ -396,6 +420,16 @@ export const timePickerRow = style({
 });
 
 export const timePickerColumn = style({
+  flex: 1,
+});
+
+export const pacePickerRow = style({
+  display: 'flex',
+  width: '100%',
+  padding: '8px 0',
+});
+
+export const pacePickerColumn = style({
   flex: 1,
 });
 
