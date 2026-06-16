@@ -16,7 +16,7 @@ export const emptyContainer = style({
   width: '100%',
   height: 'fit-content',
   minHeight: '220px',
-  padding: '10px 0px 100px 0px',
+  padding: '30px 0px 100px 0px',
   gap: '16px',
 });
 
