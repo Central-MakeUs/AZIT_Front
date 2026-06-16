@@ -8,7 +8,7 @@ import { ScheduleListItem } from '@/entities/schedule/ui/ScheduleListItem';
 
 interface ScheduleListProps {
   items: ScheduleListItemType[];
-  emptyState?: ReactNode;
+  emptyState: ReactNode;
   isLoading?: boolean;
 }
 
@@ -24,23 +24,7 @@ export function ScheduleList({
   };
 
   const renderItem = () => {
-    if (isLoading) {
-      return (
-        <div className={styles.emptyContainer}>
-          <p className={styles.emptyText}>등록된 일정이 없어요</p>
-        </div>
-      );
-    }
-
-    if (items.length === 0) {
-      return (
-        emptyState ?? (
-          <div className={styles.emptyContainer}>
-            <p className={styles.emptyText}>등록된 일정이 없어요</p>
-          </div>
-        )
-      );
-    }
+    if (items.length === 0 || isLoading) return emptyState;
 
     return items.map((item) => (
       <ScheduleListItem
