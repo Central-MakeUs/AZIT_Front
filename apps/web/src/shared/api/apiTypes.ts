@@ -301,9 +301,13 @@ export interface paths {
      * @description 특정 크루의 일정 목록을 날짜와 러닝 타입별로 필터링하여 조회합니다. <br>
      *
      *     **[쿼리 파라미터]** <br>
-     *     * date (선택): 특정 날짜(yyyy-MM-dd)의 일정만 조회하고 싶을 때 사용합니다. 미입력 시 전체 기간을 조회합니다.
-     *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다.
-     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 기준으로 조회합니다. <br><br>
+     *     * date (선택): 특정 날짜(yyyy-MM-dd)의 일정만 조회합니다. 다른 파라미터보다 우선 적용됩니다.
+     *     * startDate / endDate (선택): 조회할 날짜 범위(yyyy-MM-dd)입니다. 두 값이 모두 있어야 동작하며, 주 단위 조회에 활용합니다.
+     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 월을 기준으로 조회합니다.
+     *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다. <br><br>
+     *
+     *     **[파라미터 우선순위]** <br>
+     *     date > startDate·endDate > yearMonth > 현재 월 <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 해당 크루의 정회원(JOINED)만 조회가 가능합니다. (NOT_A_CREW_MEMBER)
@@ -518,7 +522,7 @@ export interface paths {
     put?: never;
     /**
      * 소셜 로그인 (애플 제외)
-     * @description 카카오 등 소셜 플랫폼의 인가 코드 및 액세스 토큰을 통해 로그인을 진행하고 JWT 토큰과 회원의 현재 상태, 최근 가입한 크루 ID를 반환합니다. <br><br>
+     * @description 카카오 등 소셜 플랫폼의 인가 코드 및 액세스 토큰을 통해 로그인을 진행합니다. <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 보안을 위해 리프레시 토큰은 HttpOnly 쿠키에 저장되어 발급됩니다.
@@ -1301,7 +1305,7 @@ export interface paths {
      *     사용자가 가입 신청을 하기 전, 크루 정보를 미리 확인할 때 사용합니다. <br><br>
      *
      *     **[제약 사항]** <br>
-     *     * 존재하지 않거나 잘못된 초대 코드일 경우 CREW_NOT_FOUND 오류가 발생합니다.
+     *     * 유효하지 않거나 만료된 초대 코드일 경우 INVALID_INVITATION_CODE 오류가 발생합니다.
      */
     get: operations['getCrewByInvitation'];
     put?: never;
@@ -1823,6 +1827,8 @@ export interface components {
        * @description 가입한 크루 ID (없을 경우 null)
        */
       crewId?: number;
+      /** @description 필수 약관 재동의 필요 여부 */
+      needsTermsUpdate?: boolean;
     };
     AppleNotificationRequest: {
       /** @description Apple에서 전달한 페이로드 */
@@ -3814,6 +3820,10 @@ export interface operations {
       query?: {
         /** @description 조회 날짜 (yyyy-MM-dd) */
         date?: string;
+        /** @description 조회 시작 날짜 (yyyy-MM-dd), endDate와 함께 사용 */
+        startDate?: string;
+        /** @description 조회 종료 날짜 (yyyy-MM-dd), startDate와 함께 사용 */
+        endDate?: string;
         /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
         /** @description 러닝 타입 */
@@ -6564,14 +6574,6 @@ export interface operations {
         };
       };
       403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
         headers: {
           [name: string]: unknown;
         };
