@@ -166,7 +166,6 @@ export const unitInputWrapper = style({
   border: `0.5px solid ${vars.colors.gray20}`,
   padding: '10px 16px',
   backgroundColor: vars.colors.white,
-  cursor: 'pointer',
 });
 
 export const unitInputWrapperError = style({
@@ -179,8 +178,14 @@ export const unitInputWrapperError = style({
   border: `1px solid ${vars.colors.error}`,
   padding: '10px 16px',
   backgroundColor: vars.colors.white,
-  cursor: 'pointer',
 });
+
+export const paceInputButton = style([unitInputWrapper, { cursor: 'pointer' }]);
+
+export const paceInputButtonError = style([
+  unitInputWrapperError,
+  { cursor: 'pointer' },
+]);
 
 export const fixedWidthInputWrapper160 = style({
   width: 160,
