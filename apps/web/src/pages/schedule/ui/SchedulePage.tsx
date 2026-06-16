@@ -1,3 +1,4 @@
+import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { ChevronDownIcon, PlusIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
@@ -23,6 +24,7 @@ import type { RunType } from '@/shared/types/schedule';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
+import * as scheduleListStyles from '@/entities/schedule/styles/ScheduleList.css.ts';
 import { ScheduleList } from '@/entities/schedule/ui';
 
 export function SchedulePage() {
@@ -135,7 +137,54 @@ export function SchedulePage() {
                   activeFilter={activeFilter}
                   onFilterChange={setActiveFilter}
                 />
-                <ScheduleList items={scheduleList} isLoading={isLoading} />
+                <ScheduleList
+                  items={scheduleList}
+                  isLoading={isLoading}
+                  emptyState={
+                    <div className={scheduleListStyles.emptyContainer}>
+                      <img
+                        src="/icons/running-person.svg"
+                        alt=""
+                        width={64}
+                        height={64}
+                      />
+                      {hasCrews ? (
+                        <>
+                          <p className={scheduleListStyles.emptyText}>
+                            등록된 일정이 없어요
+                          </p>
+                          <Button
+                            size="medium"
+                            onClick={() => {
+                              const params = selectedDate
+                                ? { date: selectedDate }
+                                : {};
+                              push('ScheduleCreatePage', params);
+                            }}
+                            className={scheduleListStyles.addScheduleButton}
+                          >
+                            일정 추가하기
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <p className={scheduleListStyles.emptyText}>
+                            가입되어 있는 크루가 없어요
+                          </p>
+                          <Button
+                            size="medium"
+                            className={scheduleListStyles.addScheduleButton}
+                            onClick={() => {
+                              push('OnboardingPage', {}, { animate: true });
+                            }}
+                          >
+                            새로운 크루 가입하기
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  }
+                />
               </>
             }
           />
