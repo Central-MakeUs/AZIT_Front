@@ -1,12 +1,16 @@
 import { Header } from '@azit/design-system/header';
-import { PlusIcon } from '@azit/design-system/icon';
+import { ChevronDownIcon, PlusIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import * as styles from '@/pages/schedule/styles/SchedulePage.css';
+
+import { RoundProfileImage } from '@/widgets/profile/ui/RoundProfileImage';
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
+import { ScheduleCrewSelectBottomSheet } from '@/widgets/schedule-crew-select/ui/ScheduleCrewSelectBottomSheet';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
@@ -24,6 +28,8 @@ import { ScheduleList } from '@/entities/schedule/ui';
 export function SchedulePage() {
   const { push } = useFlow();
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
+  const [isCrewSelectOpen, setIsCrewSelectOpen] = useState(false);
+  const [selectedCrewId, setSelectedCrewId] = useState<number | null>(null);
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
@@ -49,9 +55,14 @@ export function SchedulePage() {
     setActiveFilter(undefined);
   }, [selectedDate]);
 
-  const { data: myCrewsData } = useQuery(memberQueries.myCrewsQuery());
-  const crewId =
-    myCrewsData?.find((c) => c.memberStatus === 'JOINED')?.crewId ?? 0;
+  const { data: joinedCrews = [] } = useQuery(memberQueries.joinedCrewsQuery());
+  const hasCrews = joinedCrews.length > 0;
+
+  const crewId = selectedCrewId ?? joinedCrews[0]?.crewId ?? 0;
+
+  const selectedCrew =
+    joinedCrews.find((c) => c.crewId === selectedCrewId) ?? joinedCrews[0];
+
   const yearMonth = formatDate(viewDate, 'YYYY-MM');
 
   const { data: scheduleList = [], isLoading } = useQuery({
@@ -73,18 +84,38 @@ export function SchedulePage() {
       <AppLayout>
         <Header
           sticky
-          center="일정"
+          left={
+            hasCrews ? (
+              <button
+                type="button"
+                onClick={() => setIsCrewSelectOpen(true)}
+                className={styles.crewSelectButton}
+              >
+                <RoundProfileImage
+                  src={selectedCrew?.imageUrl}
+                  alt={selectedCrew?.name}
+                  size={32}
+                />
+                <span className={styles.crewName}>{selectedCrew?.name}</span>
+                <ChevronDownIcon size={16} />
+              </button>
+            ) : (
+              <span className={styles.headerTitle}>일정</span>
+            )
+          }
           right={
-            <button
-              type="button"
-              onClick={() => {
-                const params = selectedDate ? { date: selectedDate } : {};
-                push('ScheduleCreatePage', params);
-              }}
-              aria-label="일정 등록"
-            >
-              <PlusIcon size={24} color="primary" aria-hidden />
-            </button>
+            hasCrews ? (
+              <button
+                type="button"
+                onClick={() => {
+                  const params = selectedDate ? { date: selectedDate } : {};
+                  push('ScheduleCreatePage', params);
+                }}
+                aria-label="일정 등록"
+              >
+                <PlusIcon size={24} color="primary" aria-hidden />
+              </button>
+            ) : undefined
           }
         />
         <div className={scrollContainer}>
@@ -111,6 +142,15 @@ export function SchedulePage() {
         </div>
       </AppLayout>
       <BottomNavigation activeTab="schedule" />
+      {hasCrews && (
+        <ScheduleCrewSelectBottomSheet
+          isOpen={isCrewSelectOpen}
+          onClose={() => setIsCrewSelectOpen(false)}
+          crews={joinedCrews}
+          selectedCrewId={selectedCrewId ?? joinedCrews[0]?.crewId ?? null}
+          onSelect={setSelectedCrewId}
+        />
+      )}
     </AppScreen>
   );
 }
