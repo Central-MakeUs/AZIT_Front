@@ -387,7 +387,7 @@ export const accordionContent = style({
 export const accordionDivider = style({
   height: 1,
   width: '100%',
-  backgroundColor: vars.colors.gray10,
+  backgroundColor: vars.colors.gray20,
   flexShrink: 0,
 });
 
