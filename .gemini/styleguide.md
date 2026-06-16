@@ -57,7 +57,6 @@ util arrow function
 
 2.2 네이밍
 • 상수: BIG_SNAKE_CASE 필수
-• 약어 금지 (btn, cnt, svc 등)
 • REST 함수 Prefix 필수:
 
 HTTP Prefix
