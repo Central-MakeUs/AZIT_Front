@@ -2,7 +2,7 @@
 name: 📚 Chore / Docs
 about: 문서, 설정, 잡무성 작업
 title: '[Chore] '
-labels: chore
+labels: 📁 Chore
 assignees: ''
 ---
 
