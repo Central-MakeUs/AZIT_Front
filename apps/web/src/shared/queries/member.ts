@@ -17,6 +17,7 @@ import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
 import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
 import { postReissueInvitationCode } from '@/entities/crew/api/postReissueInvitationCode';
 import { updateCrewInfo } from '@/entities/crew/api/updateCrewInfo';
+import { getJoinedCrews } from '@/entities/user/api/getJoinedCrews';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
 import { getMyAttendanceCalendar } from '@/entities/user/api/getMyAttendanceCalendar';
 import { getMyCrews } from '@/entities/user/api/getMyCrews';
@@ -51,6 +52,13 @@ export const memberQueries = {
       queryKey: memberQueries.myCrewsKey(),
       queryFn: () => getMyCrews(),
       staleTime: 1000 * 60 * 60 * 3,
+      select: (data) => data.result ?? [],
+    }),
+  joinedCrewsKey: () => [...memberQueries.all, 'joined-crews'] as const,
+  joinedCrewsQuery: () =>
+    queryOptions({
+      queryKey: memberQueries.joinedCrewsKey(),
+      queryFn: () => getJoinedCrews(),
       select: (data) => data.result ?? [],
     }),
   myProvidersQuery: () =>
