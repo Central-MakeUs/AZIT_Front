@@ -24,6 +24,7 @@ export const END_POINT = {
     CONFIRM_JOIN_STATUS: 'members/me/confirm-status',
   },
   CREW: {
+    MY_JOINED_CREWS: 'crews/me',
     MEMBERS: (crewId: number) => `crews/${crewId}/members`,
     MEMBER: (crewId: number, targetMemberId: number) =>
       `crews/${crewId}/members/${targetMemberId}`,

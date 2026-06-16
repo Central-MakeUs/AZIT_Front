@@ -4,6 +4,7 @@ import type { RunType } from '@/shared/types/schedule';
 import type {
   CrewMemberDetailResponse,
   CrewMemberListResponse,
+  JoinedCrewResponse,
   LinkedProviderResponse,
   MyAttendanceResponse,
   MyCrewResponse,
@@ -19,6 +20,9 @@ export type MyCrewResult = Required<
   invitationCode: string | null;
 };
 export type MyCrewApiResponse = ApiResponse<MyCrewResult[]>;
+
+export type JoinedCrewResult = Required<JoinedCrewResponse>;
+export type JoinedCrewApiResponse = ApiResponse<JoinedCrewResult[]>;
 
 export type MyInfoApiResponse = ApiResponse<MyInfoResult>;
 
