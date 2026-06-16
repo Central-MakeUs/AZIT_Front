@@ -100,9 +100,12 @@ export function SchedulePage() {
                 <span className={styles.crewName}>{selectedCrew?.name}</span>
                 <ChevronDownIcon size={16} />
               </button>
-            ) : (
+            ) : undefined
+          }
+          center={
+            !hasCrews ? (
               <span className={styles.headerTitle}>일정</span>
-            )
+            ) : undefined
           }
           right={
             hasCrews ? (
