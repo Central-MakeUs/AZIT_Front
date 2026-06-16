@@ -29,6 +29,16 @@ const minuteItems = Array.from({ length: 60 }, (_, i) => ({
   value: i,
 }));
 
+const paceMinItems = Array.from({ length: 20 }, (_, i) => ({
+  label: String(i + 1),
+  value: i + 1,
+}));
+
+const paceSecItems = [0, 10, 20, 30, 40, 50].map((s) => ({
+  label: String(s).padStart(2, '0'),
+  value: s,
+}));
+
 export interface ScheduleFormProps {
   formId: string;
   values: ScheduleFormValues;
@@ -49,9 +59,17 @@ export function ScheduleForm({
   const {
     isCalendarOpen,
     isTimePickerOpen,
+    isPacePickerOpen,
     handleCalendarOpen,
     handleCalendarClose,
     handleTimePickerClose,
+    openPacePicker,
+    handlePacePickerClose,
+    handlePaceConfirm,
+    pendingPaceMin,
+    setPendingPaceMin,
+    pendingPaceSec,
+    setPendingPaceSec,
     openSection,
     toggleDatetime,
     toggleLocation,
@@ -77,7 +95,6 @@ export function ScheduleForm({
     handleDateChange,
     handleDescriptionChange,
     handleDistanceChange,
-    handlePaceChange,
     handleParticipantsChange,
     dateDisplay,
     timeDisplay,
@@ -136,7 +153,7 @@ export function ScheduleForm({
           open={openSection === 'goal'}
           onToggle={toggleGoal}
           onDistanceChange={handleDistanceChange}
-          onPaceChange={handlePaceChange}
+          onPaceClick={openPacePicker}
         />
 
         <div className={styles.accordionDivider} />
@@ -176,6 +193,39 @@ export function ScheduleForm({
           value={values.date ? new Date(values.date + 'T00:00:00') : new Date()}
           onChange={handleDateChange}
         />
+      </BottomSheet>
+
+      <BottomSheet
+        isOpen={isPacePickerOpen}
+        onClose={handlePacePickerClose}
+        onOutsideClick={handlePacePickerClose}
+      >
+        <div className={styles.pacePickerRow}>
+          <div className={styles.pacePickerColumn}>
+            <WheelPicker
+              items={paceMinItems}
+              value={pendingPaceMin}
+              onChange={(v) => setPendingPaceMin(v as number)}
+            />
+          </div>
+          <div className={styles.pacePickerColumn}>
+            <WheelPicker
+              items={paceSecItems}
+              value={pendingPaceSec}
+              onChange={(v) => setPendingPaceSec(v as number)}
+            />
+          </div>
+        </div>
+        <div className={styles.timePickerFooter}>
+          <Button
+            type="button"
+            size="large"
+            state="active"
+            onClick={() => handlePaceConfirm(pendingPaceMin, pendingPaceSec)}
+          >
+            다음
+          </Button>
+        </div>
       </BottomSheet>
 
       <BottomSheet

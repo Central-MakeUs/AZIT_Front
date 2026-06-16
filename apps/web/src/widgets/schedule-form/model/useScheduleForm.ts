@@ -24,9 +24,12 @@ export function useScheduleForm(
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+  const [isPacePickerOpen, setIsPacePickerOpen] = useState(false);
   const [pendingAmPm, setPendingAmPm] = useState<'AM' | 'PM'>('AM');
   const [pendingHour, setPendingHour] = useState<number>(1);
   const [pendingMinute, setPendingMinute] = useState<number>(0);
+  const [pendingPaceMin, setPendingPaceMin] = useState<number>(5);
+  const [pendingPaceSec, setPendingPaceSec] = useState<number>(0);
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [distanceError, setDistanceError] = useState(false);
   const [paceError, setPaceError] = useState(false);
@@ -154,6 +157,33 @@ export function useScheduleForm(
     [setValues]
   );
 
+  const openPacePicker = useCallback(() => {
+    const pace = valuesRef.current.pace;
+    if (pace != null) {
+      setPendingPaceMin(Math.floor(pace));
+      setPendingPaceSec(Math.round((pace - Math.floor(pace)) * 60));
+    } else {
+      setPendingPaceMin(5);
+      setPendingPaceSec(0);
+    }
+    setIsPacePickerOpen(true);
+  }, []);
+
+  const handlePacePickerClose = useCallback(
+    () => setIsPacePickerOpen(false),
+    []
+  );
+
+  const handlePaceConfirm = useCallback(
+    (min: number, sec: number) => {
+      const value = min + sec / 60;
+      setPaceError(value > PACE_MAX);
+      setValues({ pace: value });
+      setIsPacePickerOpen(false);
+    },
+    [setValues]
+  );
+
   const handleParticipantsChange = useCallback(
     (raw: string) => {
       const cleaned = raw.replace(/[^0-9]/g, '');
@@ -191,9 +221,17 @@ export function useScheduleForm(
     // 바텀시트 상태
     isCalendarOpen,
     isTimePickerOpen,
+    isPacePickerOpen,
     handleCalendarOpen,
     handleCalendarClose,
     handleTimePickerClose,
+    openPacePicker,
+    handlePacePickerClose,
+    handlePaceConfirm,
+    pendingPaceMin,
+    setPendingPaceMin,
+    pendingPaceSec,
+    setPendingPaceSec,
     // 아코디언
     openSection,
     toggleDatetime,
