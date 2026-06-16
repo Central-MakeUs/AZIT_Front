@@ -2,7 +2,7 @@
 name: 🐞 Bug Report
 about: 버그를 발견했을 때 사용하세요
 title: '[Bug] '
-labels: bug
+labels: 🐞 Bug
 assignees: ''
 ---
 
