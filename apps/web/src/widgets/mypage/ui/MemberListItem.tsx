@@ -1,9 +1,14 @@
 import { AlertDialog } from '@azit/design-system/alert-dialog';
+import { Chip } from '@azit/design-system/chip';
 import { XIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/widgets/mypage/styles/MemberListItem.css';
 
-import { MEMBER_ROLE, MEMBER_ROLE_LABEL } from '@/shared/constants/member-role';
+import {
+  MEMBER_ROLE,
+  MEMBER_ROLE_LABEL,
+  ROLE_CHIP_TYPE_MAP,
+} from '@/shared/constants/member-role';
 import { formatJoinDate } from '@/shared/lib/formatters';
 
 import type { MemberRole } from '@/entities/user/model';
@@ -50,15 +55,9 @@ export function MemberListItem({
           <div className={styles.info}>
             <div className={styles.nameRow}>
               <span className={styles.nickname}>{nickname}</span>
-              <span
-                className={`${styles.badge} ${
-                  crewMemberRole === MEMBER_ROLE.LEADER
-                    ? styles.badgeLeader
-                    : styles.badgeMember
-                }`}
-              >
+              <Chip type={ROLE_CHIP_TYPE_MAP[crewMemberRole]}>
                 {MEMBER_ROLE_LABEL[crewMemberRole]}
-              </span>
+              </Chip>
             </div>
             <span
               className={styles.joinDate}

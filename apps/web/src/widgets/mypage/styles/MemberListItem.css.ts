@@ -62,28 +62,6 @@ export const nickname = style([
   },
 ]);
 
-export const badge = style([
-  typography.body.b4,
-  {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '4px 8px',
-    borderRadius: 8,
-    flexShrink: 0,
-  },
-]);
-
-export const badgeLeader = style({
-  backgroundColor: vars.colors.blue10,
-  color: vars.colors.blue60,
-});
-
-export const badgeMember = style({
-  backgroundColor: vars.colors.green10,
-  color: vars.colors.blue10,
-});
-
 export const joinDate = style([
   typography.body.b3,
   {
