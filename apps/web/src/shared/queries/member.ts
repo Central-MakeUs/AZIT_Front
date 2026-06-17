@@ -4,6 +4,7 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
+import { postCreateCrew } from '@/features/crew-create/api/postCreateCrew';
 import { postApproveJoinRequest } from '@/features/crew-manage/api/postApproveJoinRequest';
 import { postRejectJoinRequest } from '@/features/crew-manage/api/postRejectJoinRequest';
 
@@ -137,6 +138,9 @@ export const memberQueries = {
   }),
   deleteJoinRequest: mutationOptions({
     mutationFn: ({ crewId }: { crewId: number }) => deleteJoinRequest(crewId),
+  }),
+  createCrew: mutationOptions({
+    mutationFn: postCreateCrew,
   }),
   dissolveCrew: mutationOptions({
     mutationFn: ({ crewId }: { crewId: number }) => deleteCrew(crewId),
