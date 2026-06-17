@@ -32,17 +32,32 @@ export const newCrewButton = style({
   border: 'none',
   cursor: 'pointer',
   padding: 0,
+  selectors: {
+    '&:disabled': {
+      cursor: 'default',
+    },
+  },
 });
 
 export const newCrewText = style([
   typography.body.b3,
   {
     color: vars.colors.blue60,
+    selectors: {
+      [`${newCrewButton}:disabled &`]: {
+        color: vars.colors.gray40,
+      },
+    },
   },
 ]);
 
 export const newCrewIcon = style({
   color: vars.colors.blue60,
+  selectors: {
+    [`${newCrewButton}:disabled &`]: {
+      color: vars.colors.gray40,
+    },
+  },
 });
 
 export const crewList = style({
