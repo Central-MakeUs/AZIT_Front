@@ -1,4 +1,5 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -10,11 +11,11 @@ import {
 } from '@/widgets/onboarding/ui';
 import { OnboardingRoleSelect } from '@/widgets/onboarding/ui/OnboardingRoleSelect';
 
-import { postCreateCrew } from '@/features/crew-create/api/postCreateCrew';
 import { postJoinCrew } from '@/features/crew-join/api/postJoinCrew';
 
 import { getQueryParam } from '@/shared/lib/url';
 import { useFunnel } from '@/shared/lib/useFunnel';
+import { memberQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
 
 type StepName =
@@ -44,8 +45,25 @@ export function OnboardingPage() {
   const { replace } = useFlow();
   const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
   const defaultInviteCode = getQueryParam('inviteCode');
+  const queryClient = useQueryClient();
 
   const [onboardingState, setOnboardingState] = useState<OnboardingState>({});
+
+  const { mutate: createCrew, isPending: isCreating } = useMutation({
+    ...memberQueries.createCrew,
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      replace(
+        'OnboardingCompletePage',
+        {
+          role: 'leader',
+          crewName: onboardingState.crewName ?? '',
+          inviteCode: response.result.invitationCode,
+        },
+        { animate: false }
+      );
+    },
+  });
 
   return (
     <AppScreen>
@@ -87,24 +105,14 @@ export function OnboardingPage() {
             render={(context) => (
               <OnboardingCrewRegion
                 defaultValue={onboardingState.crewRegion}
-                onNext={async (crewRegion) => {
+                isLoading={isCreating}
+                onNext={(crewRegion) => {
                   setOnboardingState((prev) => ({ ...prev, crewRegion }));
-
-                  const response = await postCreateCrew({
+                  createCrew({
                     name: onboardingState.crewName ?? '',
                     category: 'RUNNING',
                     region: crewRegion,
                   });
-
-                  replace(
-                    'OnboardingCompletePage',
-                    {
-                      role: 'leader',
-                      crewName: onboardingState.crewName ?? '',
-                      inviteCode: response.result.invitationCode,
-                    },
-                    { animate: false }
-                  );
                 }}
                 onPrev={() => {
                   setOnboardingState((prev) => ({

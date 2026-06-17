@@ -29,7 +29,7 @@ export function MyPage() {
 
   const filteredMenu = useMypageMenu();
 
-  if (isLoading || isCrewsLoading || !myInfo) return null;
+  if (isLoading || !myInfo) return null;
 
   const navigateToMyProfileEditPage = () => {
     push('MyProfileEditPage', {});
@@ -67,6 +67,7 @@ export function MyPage() {
           />
           <MyCrewInfoSection
             crews={crews}
+            isCrewsLoading={isCrewsLoading}
             onNavigateToCrew={handleNavigateToCrew}
             onCreateNewCrew={handleCreateNewCrew}
           />

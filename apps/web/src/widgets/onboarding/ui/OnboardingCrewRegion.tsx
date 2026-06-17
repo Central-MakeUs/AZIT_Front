@@ -10,12 +10,14 @@ import { BackButton } from '@/shared/ui/button';
 
 export interface OnboardingCrewRegionProps {
   defaultValue?: string;
+  isLoading?: boolean;
   onNext: (selectedRegion: string) => void;
   onPrev: () => void;
 }
 
 export function OnboardingCrewRegion({
   defaultValue,
+  isLoading = false,
   onNext,
   onPrev,
 }: OnboardingCrewRegionProps) {
@@ -55,11 +57,11 @@ export function OnboardingCrewRegion({
 
       <div className={styles.buttonWrapper}>
         <Button
-          state={selectedRegion ? 'active' : 'disabled'}
-          disabled={!selectedRegion}
+          state={selectedRegion && !isLoading ? 'active' : 'disabled'}
           onClick={() => {
-            if (!selectedRegion) return;
-            onNext(selectedRegion);
+            if (selectedRegion) {
+              onNext(selectedRegion);
+            }
           }}
         >
           다음
