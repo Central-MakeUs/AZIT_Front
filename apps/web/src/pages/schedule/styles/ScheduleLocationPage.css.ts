@@ -36,6 +36,41 @@ export const searchResultList = style({
   boxSizing: 'border-box',
 });
 
+export const emptyState = style({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 12,
+});
+
+export const emptyStateIcon = style({
+  width: 64,
+  height: 64,
+});
+
+export const emptyStateTextGroup = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: 4,
+});
+
+export const emptyStateTitle = style([
+  typography.body.b1,
+  {
+    color: vars.colors.gray60,
+  },
+]);
+
+export const emptyStateDescription = style([
+  typography.body.b2,
+  {
+    color: vars.colors.gray50,
+  },
+]);
+
 export const locationNameSheetContent = style({
   display: 'flex',
   flexDirection: 'column',
