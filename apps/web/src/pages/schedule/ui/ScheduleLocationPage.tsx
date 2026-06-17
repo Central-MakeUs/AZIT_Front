@@ -116,17 +116,33 @@ export function ScheduleLocationPage() {
             />
           </div>
           <Show when={view === 'search'}>
-            <div className={styles.searchResultList}>
-              {(data ?? []).map((result, index) => (
-                <LocationSearchResultItem
-                  key={`${result.placeName}-${index}`}
-                  name={result.placeName ?? ''}
-                  keyword={searchQuery}
-                  address={result.address ?? ''}
-                  onClick={() => handleSelectLocation(result)}
+            {debouncedQuery && (data ?? []).length === 0 ? (
+              <div className={styles.emptyState}>
+                <img
+                  src="/icons/magnifying-glass.svg"
+                  alt="검색 결과 없음"
+                  className={styles.emptyStateIcon}
                 />
-              ))}
-            </div>
+                <div className={styles.emptyStateTextGroup}>
+                  <p className={styles.emptyStateTitle}>검색 결과가 없어요</p>
+                  <p className={styles.emptyStateDescription}>
+                    철자를 확인해주세요
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.searchResultList}>
+                {(data ?? []).map((result, index) => (
+                  <LocationSearchResultItem
+                    key={`${result.placeName}-${index}`}
+                    name={result.placeName ?? ''}
+                    keyword={searchQuery}
+                    address={result.address ?? ''}
+                    onClick={() => handleSelectLocation(result)}
+                  />
+                ))}
+              </div>
+            )}
           </Show>
           <Show when={view === 'map'}>
             <MeetingSpotPicker
