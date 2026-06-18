@@ -74,9 +74,9 @@ const ScheduleCreatePage = lazyImport(
   () => import('@/pages/schedule/ui/ScheduleCreatePage'),
   'ScheduleCreatePage'
 );
-const HomeAlertPage = lazyImport(
-  () => import('@/pages/home-alert/ui/HomeAlertPage'),
-  'HomeAlertPage'
+const NotificationPage = lazyImport(
+  () => import('@/pages/notification/ui/NotificationPage'),
+  'NotificationPage'
 );
 const SchedulePage = lazyImport(
   () => import('@/pages/schedule/ui/SchedulePage'),
@@ -173,9 +173,9 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'AlertPage',
-    path: '/alert',
-    element: HomeAlertPage,
+    name: 'NotificationPage',
+    path: '/notification',
+    element: NotificationPage,
     withAuth: false,
   },
   {
