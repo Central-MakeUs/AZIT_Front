@@ -1,7 +1,6 @@
 import { vars } from '@azit/design-system';
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
-import { TruckIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -43,7 +42,7 @@ export function OrderHistoryPage() {
           ) : isEmpty ? (
             <div className={styles.emptyState}>
               <div className={styles.emptyStateIconText}>
-                <TruckIcon size={64} color="secondary" />
+                <img src="/icons/truck.svg" width={64} height={64} alt="" />
                 <p className={styles.emptyStateText}>주문 내역이 아직 없어요</p>
               </div>
             </div>
