@@ -1,7 +1,7 @@
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
-import { CalendarIcon } from '@azit/design-system/icon';
 // import { BellIcon } from '@azit/design-system/icon';
+import { BellIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
@@ -33,7 +33,7 @@ export function HomePage() {
   const { push } = useFlow();
 
   // const handleClick = () => {
-  //   push('AlertPage', {});
+  //   push('NotificationPage', {});
   // };
 
   const queryClient = useQueryClient();
@@ -126,11 +126,15 @@ export function HomePage() {
         <Header
           sticky
           left={<h1 className={logo}>AZIT</h1>}
-          // right={
-          //   <button onClick={handleClick}>
-          //     <BellIcon size={24} color="default" />
-          //   </button>
-          // }
+          right={
+            <button
+              onClick={() => {
+                push('NotificationPage', {});
+              }}
+            >
+              <BellIcon size={24} color="default" />
+            </button>
+          }
         />
         <div className={scrollContainer}>
           <ScheduleSectionLayout
@@ -148,10 +152,11 @@ export function HomePage() {
                 items={scheduleList}
                 emptyState={
                   <div className={scheduleListStyles.emptyContainer}>
-                    <CalendarIcon
-                      size={64}
-                      color="secondary"
-                      strokeWidth={1.2}
+                    <img
+                      src="/icons/calendar.svg"
+                      width={64}
+                      height={64}
+                      alt="calendar"
                     />
                     <p className={scheduleListStyles.emptyText}>
                       일정 탭에서 일정을 추가해보세요!

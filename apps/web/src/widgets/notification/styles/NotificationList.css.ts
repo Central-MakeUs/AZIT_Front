@@ -1,4 +1,4 @@
-import { vars, typography } from '@azit/design-system';
+import { vars } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
 export const listContainer = style({
@@ -22,25 +22,3 @@ export const itemsContainer = style({
   width: '100%',
   padding: '0 20px',
 });
-
-export const emptyState = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '12px',
-  width: '100%',
-  flex: 1,
-});
-
-export const emptyStateIcon = style({
-  color: vars.colors.gray50,
-});
-
-export const emptyStateText = style([
-  typography.body.b2,
-  {
-    color: vars.colors.gray50,
-    textAlign: 'center',
-  },
-]);
