@@ -53,6 +53,7 @@ export function OnboardingPage() {
   const { mutate: joinCrew, isPending: isJoining } = useMutation({
     ...memberQueries.joinCrew,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
       replace(
         'OnboardingCompletePage',
         { role: 'member', crewName: joinCrewNameRef.current },
