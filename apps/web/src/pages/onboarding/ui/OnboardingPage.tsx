@@ -1,6 +1,6 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -11,12 +11,12 @@ import {
 } from '@/widgets/onboarding/ui';
 import { OnboardingRoleSelect } from '@/widgets/onboarding/ui/OnboardingRoleSelect';
 
-import { postJoinCrew } from '@/features/crew-join/api/postJoinCrew';
-
+import { BusinessError } from '@/shared/api/apiHandler';
 import { getQueryParam } from '@/shared/lib/url';
 import { useFunnel } from '@/shared/lib/useFunnel';
 import { memberQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
+import { toastError } from '@/shared/ui/toast';
 
 type StepName =
   | 'role-select'
@@ -48,6 +48,26 @@ export function OnboardingPage() {
   const queryClient = useQueryClient();
 
   const [onboardingState, setOnboardingState] = useState<OnboardingState>({});
+  const joinCrewNameRef = useRef('');
+
+  const { mutate: joinCrew, isPending: isJoining } = useMutation({
+    ...memberQueries.joinCrew,
+    onSuccess: () => {
+      replace(
+        'OnboardingCompletePage',
+        { role: 'member', crewName: joinCrewNameRef.current },
+        { animate: false }
+      );
+    },
+    onError: (error) => {
+      if (
+        error instanceof BusinessError &&
+        error.code === 'CREW_JOIN_LIMIT_EXCEEDED'
+      ) {
+        toastError(error.message);
+      }
+    },
+  });
 
   const { mutate: createCrew, isPending: isCreating } = useMutation({
     ...memberQueries.createCrew,
@@ -62,6 +82,14 @@ export function OnboardingPage() {
         },
         { animate: false }
       );
+    },
+    onError: (error) => {
+      if (
+        error instanceof BusinessError &&
+        error.code === 'CREW_JOIN_LIMIT_EXCEEDED'
+      ) {
+        toastError(error.message);
+      }
     },
   });
 
@@ -129,16 +157,10 @@ export function OnboardingPage() {
             render={(context) => (
               <OnboardingCrewJoin
                 defaultValue={defaultInviteCode}
-                onNext={async (inviteCode, _crewId, crewName) => {
-                  await postJoinCrew({
-                    invitationCode: inviteCode,
-                  });
-
-                  replace(
-                    'OnboardingCompletePage',
-                    { role: 'member', crewName },
-                    { animate: false }
-                  );
+                isSubmitting={isJoining}
+                onNext={(inviteCode, _crewId, crewName) => {
+                  joinCrewNameRef.current = crewName;
+                  joinCrew({ invitationCode: inviteCode });
                 }}
                 onPrev={() => {
                   context.onPrev();
