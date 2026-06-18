@@ -16,6 +16,7 @@ import type { CrewInfoResult } from '@/entities/crew/model';
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;
+  isSubmitting?: boolean;
   onNext: (inviteCode: string, crewId: number, crewName: string) => void;
   onPrev: () => void;
 }
@@ -24,6 +25,7 @@ const INVITE_CODE_LENGTH = 6;
 
 export function OnboardingCrewJoin({
   defaultValue = '',
+  isSubmitting = false,
   onNext,
   onPrev,
 }: OnboardingCrewJoinProps) {
@@ -98,6 +100,7 @@ export function OnboardingCrewJoin({
               onNext(inviteCode, crewInfo.crewId, crewInfo.name);
             }}
             crewInfo={crewInfo}
+            isSubmitting={isSubmitting}
           />
         )}
       </BottomSheet>
