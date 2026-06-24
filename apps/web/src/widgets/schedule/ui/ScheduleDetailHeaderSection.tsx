@@ -7,6 +7,10 @@ import {
   MEMBER_ROLE_LABEL,
   ROLE_CHIP_TYPE_MAP,
 } from '@/shared/constants/member-role';
+import {
+  RUN_TYPE_CHIP_TYPE_MAP,
+  RUN_TYPE_LABEL,
+} from '@/shared/constants/run-type';
 
 import type { MemberRole } from '@/entities/user/model';
 
@@ -29,13 +33,18 @@ export function ScheduleDetailHeaderSection({
   creatorProfileImageUrl,
   creatorRole,
 }: ScheduleDetailHeaderSectionProps) {
-  const runTypeChipType = runType === '정기런' ? 'primary' : 'secondary';
+  const runTypeLabel =
+    RUN_TYPE_LABEL[runType as keyof typeof RUN_TYPE_LABEL] ??
+    RUN_TYPE_LABEL.LIGHTNING;
+  const runTypeChipType =
+    RUN_TYPE_CHIP_TYPE_MAP[runType as keyof typeof RUN_TYPE_CHIP_TYPE_MAP] ??
+    'secondary';
   const name = creatorName ?? '알수 없는 사용자';
 
   return (
     <div className={styles.section}>
       <div className={styles.tagRow}>
-        <Chip type={runTypeChipType}>{runType}</Chip>
+        <Chip type={runTypeChipType}>{runTypeLabel}</Chip>
         <Chip type="gray">{distance}</Chip>
         <Chip type="gray">{pace}</Chip>
       </div>

@@ -2,10 +2,14 @@ import { Chip } from '@azit/design-system/chip';
 import { ClockIcon, MarkerPinIcon, UsersIcon } from '@azit/design-system/icon';
 
 import {
+  RUN_TYPE_CHIP_TYPE_MAP,
+  RUN_TYPE_LABEL,
+} from '@/shared/constants/run-type';
+
+import {
   formatDistance,
   formatMeetingListDate,
   formatPace,
-  formatRunType,
 } from '@/entities/schedule/lib/formatter';
 import type { ScheduleListItem as ScheduleListItemType } from '@/entities/schedule/model/schedule.types';
 import * as styles from '@/entities/schedule/styles/ScheduleListItem.css.ts';
@@ -16,8 +20,13 @@ const buildTags = (
   const tags: { label: string; type: 'primary' | 'secondary' | 'gray' }[] = [];
   if (item.runType) {
     tags.push({
-      label: formatRunType(item.runType),
-      type: item.runType === 'REGULAR' ? 'primary' : 'secondary',
+      label:
+        RUN_TYPE_LABEL[item.runType as keyof typeof RUN_TYPE_LABEL] ??
+        item.runType,
+      type:
+        RUN_TYPE_CHIP_TYPE_MAP[
+          item.runType as keyof typeof RUN_TYPE_CHIP_TYPE_MAP
+        ] ?? 'secondary',
     });
   }
   if (item.distance != null)
