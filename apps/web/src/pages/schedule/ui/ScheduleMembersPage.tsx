@@ -56,7 +56,11 @@ export function ScheduleMembersPage({
   return (
     <AppScreen>
       <AppLayout>
-        <Header className={styles.headerSection} left={<BackButton />} />
+        <Header
+          className={styles.headerSection}
+          left={<BackButton />}
+          center={<span>참여 멤버</span>}
+        />
         <div className={styles.contentWrapper} ref={scrollRef}>
           <ScheduleParticipantTitle
             participantCount={participantCount}
