@@ -21,7 +21,7 @@ export const profileWrapper = style({
 export const creatorBadge = style({
   position: 'absolute',
   right: 0,
-  bottom: 4,
+  bottom: 0,
   width: 20,
   height: 20,
   borderRadius: '50%',
