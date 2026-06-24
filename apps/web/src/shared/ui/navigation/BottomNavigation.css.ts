@@ -70,30 +70,3 @@ export const menuLabelActive = style({
 export const menuLabelInactive = style({
   color: vars.colors.gray30,
 });
-
-export const homeIndicator = style({
-  width: '100%',
-  backgroundColor: vars.colors.white,
-  aspectRatio: '400/34',
-  position: 'relative',
-  flexShrink: 0,
-});
-
-export const homeIndicatorBar = style({
-  position: 'absolute',
-  bottom: '8px',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  width: '144px',
-  height: '5px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
-
-export const homeIndicatorInner = style({
-  width: '144px',
-  height: '5px',
-  backgroundColor: vars.colors.black,
-  borderRadius: '100px',
-});
