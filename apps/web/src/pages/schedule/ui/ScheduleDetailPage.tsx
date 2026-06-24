@@ -38,7 +38,6 @@ import {
   formatDistance,
   formatMeetTime,
   formatPace,
-  formatRunType,
 } from '@/entities/schedule/lib/formatter';
 import type { CrewScheduleDetailResponse } from '@/entities/schedule/model/schedule.model';
 
@@ -46,7 +45,7 @@ const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
   const { date, time } = formatMeetTime(detail.meetingAt);
 
   return {
-    runType: formatRunType(detail.runType),
+    runType: detail.runType,
     distance: formatDistance(detail.distance),
     pace: formatPace(detail.pace),
     title: detail.title,
