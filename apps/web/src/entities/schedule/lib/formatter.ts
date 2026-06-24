@@ -1,10 +1,6 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
-export const formatRunType = (runType?: string) => {
-  return runType === 'REGULAR' ? '정기런' : '번개런';
-};
-
 export const formatDistance = (distance: number) => {
   return `${distance}km`;
 };
