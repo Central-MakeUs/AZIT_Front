@@ -1,8 +1,9 @@
-import ky from 'ky';
+import ky, { type NormalizedOptions } from 'ky';
 
 import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
 import { createHttpMethods } from '@/shared/api/httpMethods';
 import { BASE_API_URL } from '@/shared/constants/url';
+import { networkLog } from '@/shared/lib/networkLog';
 import { useAuthStore } from '@/shared/store/auth';
 
 let refreshPromise: Promise<string | undefined> | null = null;
@@ -15,6 +16,15 @@ export const baseApi = ky.create({
   },
   timeout: 10000,
   retry: 2,
+  hooks: {
+    // patchFetch는 body stream 소비 문제로 body를 읽을 수 없으므로
+    // options.json(파싱된 객체)을 여기서 미리 저장해둔다.
+    beforeRequest: [
+      (request: Request, options: NormalizedOptions) => {
+        networkLog.storeKyBody(request, (options as { json?: unknown }).json);
+      },
+    ],
+  },
 });
 
 export const authApi = baseApi.extend({
