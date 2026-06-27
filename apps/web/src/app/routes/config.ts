@@ -2,8 +2,8 @@ import type { RouteConfig } from '@/app/routes/types';
 import { lazyImport } from '@/app/routes/utils';
 
 import { HomePage } from '@/pages/HomePage';
+import { LoginRedirectPage } from '@/pages/LoginRedirectPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
-import { RedirectPage } from '@/pages/RedirectPage';
 
 const LoginPage = lazyImport(() => import('@/pages/LoginPage'), 'LoginPage');
 const CommerceStorePage = lazyImport(
@@ -71,9 +71,9 @@ const ScheduleCreatePage = lazyImport(
   () => import('@/pages/Schedule/ScheduleCreatePage'),
   'ScheduleCreatePage'
 );
-const NotificationPage = lazyImport(
-  () => import('@/pages/NotificationPage'),
-  'NotificationPage'
+const HomeNotificationPage = lazyImport(
+  () => import('@/pages/HomeNotificationPage'),
+  'HomeNotificationPage'
 );
 const SchedulePage = lazyImport(
   () => import('@/pages/Schedule/SchedulePage'),
@@ -155,9 +155,9 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'RedirectPage',
+    name: 'LoginRedirectPage',
     path: '/auth/kakao/callback',
-    element: RedirectPage,
+    element: LoginRedirectPage,
     withAuth: false,
   },
   {
@@ -167,9 +167,9 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'NotificationPage',
+    name: 'HomeNotificationPage',
     path: '/notification',
-    element: NotificationPage,
+    element: HomeNotificationPage,
     withAuth: false,
   },
   {
