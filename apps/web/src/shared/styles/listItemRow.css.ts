@@ -8,8 +8,8 @@ export const listItemRow = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   selectors: {
-    '&:first-child': { paddingTop: 20 },
-    '&:last-child': { paddingBottom: 20 },
+    '&:first-child': { paddingTop: 16 },
+    '&:last-child': { paddingBottom: 16 },
   },
 });
 
