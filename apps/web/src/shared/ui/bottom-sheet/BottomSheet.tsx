@@ -1,8 +1,15 @@
 import clsx from 'clsx';
-import { useEffect, useState, type ReactNode, useCallback } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  type ReactNode,
+  useCallback,
+} from 'react';
 import { createPortal } from 'react-dom';
 
 import * as styles from '@/shared/ui/bottom-sheet/BottomSheet.css';
+import { useBottomSheetDrag } from '@/shared/ui/bottom-sheet/useBottomSheetDrag';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -26,6 +33,16 @@ export function BottomSheet({
   );
   const [shouldRender, setShouldRender] = useState(isOpen);
 
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const isDismissingByDragRef = useRef(false);
+  const inProgressAnimationRef = useRef<{ stop: () => void } | null>(null);
+  const canDragRef = useRef(animationState === 'entered');
+
+  useEffect(() => {
+    canDragRef.current = animationState === 'entered';
+  }, [animationState]);
+
   const handleClose = useCallback(() => {
     onClose?.();
     onOutsideClick?.();
@@ -33,12 +50,21 @@ export function BottomSheet({
 
   useEffect(() => {
     if (isOpen) {
+      inProgressAnimationRef.current?.stop();
+      isDismissingByDragRef.current = false;
+
       setShouldRender(true);
       setAnimationState('entering');
       const timer = setTimeout(() => setAnimationState('entered'), 300);
       document.body.style.overflow = 'hidden';
       return () => clearTimeout(timer);
     } else {
+      if (isDismissingByDragRef.current) {
+        setAnimationState('exited');
+        setShouldRender(false);
+        document.body.style.overflow = '';
+        return;
+      }
       setAnimationState('exiting');
       const timer = setTimeout(() => {
         setAnimationState('exited');
@@ -49,11 +75,21 @@ export function BottomSheet({
     }
   }, [isOpen]);
 
+  const { isDraggingRef, dragHandleProps } = useBottomSheetDrag({
+    drawerRef,
+    overlayRef,
+    canDragRef,
+    onDismiss: handleClose,
+    isDismissingByDragRef,
+    inProgressAnimationRef,
+  });
+
   const handleOverlayClick = useCallback(
-    (e: React.MouseEvent) => {
+    (_e: React.MouseEvent) => {
+      if (isDraggingRef.current) return;
       handleClose();
     },
-    [handleClose]
+    [handleClose, isDraggingRef]
   );
 
   const handleContainerClick = useCallback((e: React.MouseEvent) => {
@@ -64,14 +100,18 @@ export function BottomSheet({
 
   return createPortal(
     <div
+      ref={overlayRef}
       className={styles.overlay({ state: animationState })}
       onClick={handleOverlayClick}
     >
       <div
+        ref={drawerRef}
         className={styles.container({ state: animationState })}
         onClick={handleContainerClick}
       >
-        <div className={styles.dragHandle} />
+        <div {...dragHandleProps} className={styles.dragHandleArea}>
+          <div className={styles.dragHandle} />
+        </div>
         <div className={clsx(styles.content, contentClassName)}>{children}</div>
       </div>
     </div>,
