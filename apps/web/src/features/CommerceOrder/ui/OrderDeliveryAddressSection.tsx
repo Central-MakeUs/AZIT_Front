@@ -1,4 +1,4 @@
-import * as styles from '@/features/CommerceOrder/order-detail/styles/OrderDeliveryAddressSection.css';
+import * as styles from '@/features/CommerceOrder/styles/OrderDeliveryAddressSection.css';
 
 import type { OrderDetailDeliveryInfo } from '@/entities/CommerceOrder/model';
 

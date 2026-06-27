@@ -1,12 +1,11 @@
 import { Description } from '@azit/design-system/description';
 import { CopyIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/CommerceOrder/order-complete/styles/DepositInfoSection.css';
+import * as styles from '@/features/CommerceOrder/styles/DepositInfoSection.css';
 
 import type { DepositAccountInfo } from '@/entities/CommerceOrder/model';
 
 import { copyToClipboard } from '@/shared/lib/clipboard';
-
 
 interface DepositInfoSectionProps extends DepositAccountInfo {
   depositorName: string;

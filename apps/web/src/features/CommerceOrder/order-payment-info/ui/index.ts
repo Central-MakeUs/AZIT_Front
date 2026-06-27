@@ -1,1 +1,0 @@
-export { PaymentInfoSection } from './PaymentInfoSection';
