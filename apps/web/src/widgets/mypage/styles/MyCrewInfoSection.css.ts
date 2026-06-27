@@ -96,9 +96,9 @@ export const crewAvatar = style({
 
 export const crewInfo = style({
   display: 'flex',
-  flexDirection: 'column',
-  gap: 2,
+  gap: 6,
   minWidth: 0,
+  alignItems: 'center',
 });
 
 export const crewName = style([
@@ -121,16 +121,10 @@ export const crewNamePending = style([
   },
 ]);
 
-export const roleBadge = style([
+export const roleChip = style([
   typography.body.b4,
   {
     display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '2px 8px',
-    backgroundColor: vars.colors.blue60,
-    borderRadius: 8,
-    color: vars.colors.white,
     width: 'fit-content',
   },
 ]);
