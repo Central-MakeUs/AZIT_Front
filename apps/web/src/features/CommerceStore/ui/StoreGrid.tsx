@@ -1,7 +1,9 @@
-import * as styles from '@/features/CommerceStore/store/styles/StoreGrid.css';
-import { StoreGridItem } from '@/features/CommerceStore/store/ui/StoreGridItem';
+import * as styles from '@/features/CommerceStore/styles/StoreGrid.css';
 
 import type { StoreProductItem } from '@/entities/CommerceStore/model';
+
+import { StoreGridItem } from './StoreGridItem';
+
 
 interface StoreGridProps {
   products: StoreProductItem[];

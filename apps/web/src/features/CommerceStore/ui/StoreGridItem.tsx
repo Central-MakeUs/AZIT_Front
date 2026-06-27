@@ -1,11 +1,10 @@
 import { useFlow } from '@/app/routes/stackflow';
 
-import * as styles from '@/features/CommerceStore/store/styles/StoreGridItem.css';
+import * as styles from '@/features/CommerceStore/styles/StoreGridItem.css';
 
 import type { StoreProductItem } from '@/entities/CommerceStore/model';
 
 import { formatPrice } from '@/shared/lib/formatters';
-
 
 interface StoreGridItemProps {
   product: StoreProductItem;
