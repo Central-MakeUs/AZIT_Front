@@ -4,11 +4,11 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { CrewJoinStatusSection } from '@/widgets/crew-join-status/ui';
 
-import { useConfirmJoinStatus } from '@/features/crew-confirm-status/hooks/useConfirmJoinStatus';
+import { useConfirmJoinStatus } from '@/features/Crew/crew-confirm-status/hooks/useConfirmJoinStatus';
 import {
   CREW_JOIN_STATUS,
   STATUS_CONTENT,
-} from '@/features/crew-join-status/model/crewJoinStatus';
+} from '@/features/Crew/crew-join-status/model/crewJoinStatus';
 
 import { memberQueries } from '@/shared/queries';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
