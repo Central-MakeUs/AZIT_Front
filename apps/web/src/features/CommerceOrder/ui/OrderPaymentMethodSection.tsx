@@ -1,4 +1,4 @@
-import * as styles from '@/features/order/styles/OrderPaymentMethodSection.css';
+import * as styles from '@/features/CommerceOrder/styles/OrderPaymentMethodSection.css';
 
 import type { PaymentMethod } from '@/entities/CommerceOrder/model';
 

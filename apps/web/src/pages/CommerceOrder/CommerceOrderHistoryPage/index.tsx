@@ -7,7 +7,7 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
-import { useOrderHistory } from '@/features/order/model/useOrderHistory';
+import { useOrderHistory } from '@/features/CommerceOrder/model/useOrderHistory';
 
 import { formatOrderDateLabel } from '@/shared/lib/formatters';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
