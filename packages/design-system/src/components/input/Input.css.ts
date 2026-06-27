@@ -1,6 +1,6 @@
 import { vars } from '../../shared/styles/theme.css';
 import { recipe } from '@vanilla-extract/recipes';
-import { style, styleVariants, globalStyle } from '@vanilla-extract/css';
+import { style, globalStyle } from '@vanilla-extract/css';
 import { typography } from '../../shared/styles';
 
 export type InputVariants = NonNullable<Parameters<typeof inputContainer>[0]>;
@@ -110,19 +110,10 @@ export const iconSlot = style({
   height: 'auto',
 });
 
-export const inputDescriptionWrapper = styleVariants({
-  default: {
-    display: 'grid',
-    gridTemplateColumns: '1fr auto',
-    alignItems: 'center',
-    gap: '12px',
-  },
-  rightOnly: {
-    display: 'grid',
-    gridTemplateColumns: '1fr auto',
-    alignItems: 'center',
-    gap: '8px',
-  },
+export const inputDescriptionWrapper = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
 });
 
 export const inputDescriptionWarning = style({
@@ -135,5 +126,5 @@ export const inputDescription = style({
   color: vars.colors.gray50,
   ...vars.typography.body.b3,
   textWrap: 'nowrap',
-  textAlign: 'right',
+  marginLeft: 'auto',
 });
