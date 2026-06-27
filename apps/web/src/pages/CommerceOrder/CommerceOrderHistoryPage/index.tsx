@@ -6,8 +6,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useFlow } from '@/app/routes/stackflow';
 
 import { useOrderHistory } from '@/features/CommerceOrder/model/useOrderHistory';
-import { OrderProductListSection } from '@/features/CommerceOrder/order-product-list/ui';
-
+import { OrderProductListSection } from '@/features/CommerceOrder/ui';
 
 import { formatOrderDateLabel } from '@/shared/lib/formatters';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
