@@ -51,7 +51,10 @@ export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
       },
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: scheduleQueries.all });
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.all,
+        refetchType: 'all',
+      });
       pop();
     },
   });
