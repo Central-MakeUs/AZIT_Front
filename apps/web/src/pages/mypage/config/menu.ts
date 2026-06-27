@@ -31,13 +31,13 @@ export const getCrewMenu = (
       id: 'crew-activity',
       title: '크루 활동',
       items: [
-        {
-          id: 'crew-card',
-          label: '나의 크루증',
-          type: 'navigation',
-          onNavigate: () =>
-            push('CrewCardPage' as ActivityName, {}, { animate: true }),
-        },
+        // {
+        //   id: 'crew-card',
+        //   label: '나의 크루증',
+        //   type: 'navigation',
+        //   onNavigate: () =>
+        //     push('CrewCardPage' as ActivityName, {}, { animate: true }),
+        // },
         {
           id: 'my-attendance',
           label: '출석 로그',
