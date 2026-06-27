@@ -7,14 +7,14 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { CartSkeleton } from '@/widgets/skeleton/ui';
 
-import { CartProvider } from '@/features/cart/context/CartContext';
-import { useCart } from '@/features/cart/model/useCart';
+import { CartProvider } from '@/features/CommerceCart/context/CartContext';
+import { useCart } from '@/features/CommerceCart/model/useCart';
 import {
   CartSelectionBar,
   CartBrandSection,
   CartSummary,
   CartEmpty,
-} from '@/features/cart/ui';
+} from '@/features/CommerceCart/ui';
 
 import { formatPrice } from '@/shared/lib/formatters';
 import { footerWrapper } from '@/shared/styles/footer.css';

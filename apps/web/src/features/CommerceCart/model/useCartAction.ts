@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
-import { showCartError } from '@/features/cart/lib/showCartError';
+import { showCartError } from '@/features/CommerceCart/lib/showCartError';
 
 import { cartQueries } from '@/shared/queries/cart';
 import { toastError } from '@/shared/ui/toast';
