@@ -29,11 +29,11 @@ export const typography = {
       lineHeight: vars.typography.body.b1.lineHeight,
       letterSpacing: vars.typography.body.b1.letterSpacing,
     }),
-    b2_m: style({
-      fontSize: vars.typography.body.b2_m.fontSize,
-      fontWeight: vars.typography.body.b2_m.fontWeight,
-      lineHeight: vars.typography.body.b2_m.lineHeight,
-      letterSpacing: vars.typography.body.b2_m.letterSpacing,
+    b2_medium: style({
+      fontSize: vars.typography.body.b2_medium.fontSize,
+      fontWeight: vars.typography.body.b2_medium.fontWeight,
+      lineHeight: vars.typography.body.b2_medium.lineHeight,
+      letterSpacing: vars.typography.body.b2_medium.letterSpacing,
     }),
     b2: style({
       fontSize: vars.typography.body.b2.fontSize,
