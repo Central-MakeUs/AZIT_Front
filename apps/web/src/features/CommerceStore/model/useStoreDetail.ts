@@ -1,8 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { showCartError } from '@/features/cart/lib/showCartError';
-import { useAddToCart } from '@/features/cart/model/useCartAction';
+import { showCartError } from '@/features/CommerceCart/lib/showCartError';
+import { useAddToCart } from '@/features/CommerceCart/model/useCartAction';
 
 import type { KakaoShareOptions } from '@/shared/lib/useKakaoShare';
 import { storeQueries } from '@/shared/queries';
