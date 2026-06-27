@@ -6,10 +6,10 @@ import { useState, useMemo } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { TermAgreeItem } from '@/widgets/onboarding/ui';
-import { fetchUserPosition } from '@/widgets/schedule-attendance/model/location';
+import { fetchUserPosition } from '@/widgets/ScheduleAttendance/model/location';
 
 import { postTermAgree } from '@/features/Onboarding/api/postTermAgree';
+import { TermAgreeItem } from '@/features/Onboarding/onboarding/ui';
 
 import { AppLayout } from '@/shared/ui/layout';
 

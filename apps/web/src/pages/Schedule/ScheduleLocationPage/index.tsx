@@ -7,9 +7,11 @@ import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { MeetingSpotPicker } from '@/widgets/schedule/ui/MeetingSpotPicker';
-
+import { MeetingSpotPicker } from '@/features/Schedule/schedule/ui/MeetingSpotPicker';
 import { LocationSearchResultItem } from '@/features/Schedule/ui/LocationSearchResultItem';
+
+import { locationQueries } from '@/entities/Location/api/queries';
+import type { LocationSearchResponse } from '@/entities/Location/model/location.model';
 
 import { reverseGeocode } from '@/shared/lib/naverGeocoding';
 import { useDebounce } from '@/shared/lib/useDebounce';
@@ -23,8 +25,6 @@ import { toastError } from '@/shared/ui/toast';
 
 import * as styles from './index.css';
 
-import { locationQueries } from '@/entities/Location/api/queries';
-import type { LocationSearchResponse } from '@/entities/Location/model/location.model';
 
 type ViewState = 'search' | 'map';
 

@@ -5,7 +5,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { CartSkeleton } from '@/widgets/skeleton/ui';
+import { CartSkeleton } from '@/widgets/Skeleton/ui';
 
 import { CartProvider } from '@/features/CommerceCart/context/CartContext';
 import { useCart } from '@/features/CommerceCart/model/useCart';

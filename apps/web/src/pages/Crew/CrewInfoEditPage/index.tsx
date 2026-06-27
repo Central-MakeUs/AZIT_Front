@@ -12,9 +12,11 @@ import {
 } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { RoundProfileImage } from '@/widgets/profile/ui';
-
 import { crewQueries } from '@/features/Crew/api/queries';
+
+import { userQueries } from '@/entities/User/api/queries';
+import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
+
 
 import { BusinessError } from '@/shared/api/apiHandler';
 import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
@@ -32,7 +34,6 @@ import { toastError, toastSuccess } from '@/shared/ui/toast';
 import * as styles from './index.css';
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
 
-import { userQueries } from '@/entities/User/api/queries';
 
 const MAX_CREW_INTRO_LENGTH = 20;
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
