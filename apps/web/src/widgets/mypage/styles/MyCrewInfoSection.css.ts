@@ -71,7 +71,7 @@ export const crewCard = style({
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
-  padding: '12px 20px 12px 16px',
+  padding: '16px 20px 16px 16px',
   backgroundColor: vars.colors.white,
   borderRadius: 16,
 });
