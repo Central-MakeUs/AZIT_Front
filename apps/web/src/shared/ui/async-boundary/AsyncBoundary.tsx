@@ -1,15 +1,11 @@
 import { Suspense, type ReactNode } from 'react';
 
-import type { BusinessError } from '@/shared/api/apiHandler';
 import { DomainErrorBoundary } from '@/shared/ui/error';
 
 interface Props {
   children: ReactNode;
   suspenseFallback: ReactNode;
-  errorFallback?: (props: {
-    error: BusinessError;
-    reset: () => void;
-  }) => ReactNode;
+  errorFallback?: ReactNode;
 }
 
 export function AsyncBoundary({
@@ -22,7 +18,7 @@ export function AsyncBoundary({
   if (!errorFallback) return content;
 
   return (
-    <DomainErrorBoundary fallback={errorFallback}>
+    <DomainErrorBoundary fallback={() => errorFallback}>
       {content}
     </DomainErrorBoundary>
   );
