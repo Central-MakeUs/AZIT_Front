@@ -21,7 +21,7 @@ import {
 } from '@/widgets/schedule/ui';
 import { ScheduleDetailSkeleton } from '@/widgets/skeleton/ui';
 
-import { useScheduleParticipateActions } from '@/features/schedule-participate/model/useScheduleParticipateActions';
+import { useScheduleParticipateActions } from '@/features/Schedule/schedule-participate/model/useScheduleParticipateActions';
 
 import { bridge } from '@/shared/lib/bridge';
 import { useStack } from '@/shared/lib/stackflow/useStack';
