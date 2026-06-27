@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 
-import { postConfirmJoinStatus } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
+import { postConfirmJoinStatus } from '@/features/Crew/crew-confirm-status/api/postConfirmJoinStatus';
 
 import { getCrewDetailInfo } from '@/entities/Crew/api/getCrewDetailInfo';
 import { getCrewInfo } from '@/entities/Crew/api/getCrewInfo';

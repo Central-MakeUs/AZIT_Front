@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { CREW_JOIN_STATUS } from '@/features/crew-join-status/model/crewJoinStatus';
-import type { CrewJoinStatus } from '@/features/crew-join-status/model/types';
+import { CREW_JOIN_STATUS } from '@/features/Crew/crew-join-status/model/crewJoinStatus';
+import type { CrewJoinStatus } from '@/features/Crew/crew-join-status/model/types';
 
 import { crewQueries, memberQueries, scheduleQueries } from '@/shared/queries';
 
