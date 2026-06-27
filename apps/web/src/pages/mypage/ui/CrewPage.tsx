@@ -107,29 +107,27 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
                     )}
                   </div>
                 </div>
-                {crew.invitationCode && (
-                  <div className={styles.inviteCard}>
-                    <button
-                      type="button"
-                      className={styles.inviteCardLeft}
-                      onClick={onCopyCode}
-                    >
-                      <span className={styles.inviteCode}>
-                        {crew.invitationCode}
-                      </span>
-                      <CopyIcon size={16} />
-                    </button>
-                    <div className={styles.divider} />
-                    <button
-                      type="button"
-                      className={styles.inviteCardRight}
-                      onClick={onShare}
-                    >
-                      <span className={styles.shareText}>공유하기</span>
-                      <UploadIcon size={16} />
-                    </button>
-                  </div>
-                )}
+                <div className={styles.inviteCard}>
+                  <button
+                    type="button"
+                    className={styles.inviteCardLeft}
+                    onClick={onCopyCode}
+                  >
+                    <span className={styles.inviteCode}>
+                      {crew.invitationCode}
+                    </span>
+                    <CopyIcon size={16} />
+                  </button>
+                  <div className={styles.divider} />
+                  <button
+                    type="button"
+                    className={styles.inviteCardRight}
+                    onClick={onShare}
+                  >
+                    <span className={styles.shareText}>공유하기</span>
+                    <UploadIcon size={16} />
+                  </button>
+                </div>
               </div>
               <div className={styles.menuSectionWrapper}>
                 {menuSections.map((section) => (
@@ -137,7 +135,7 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
                 ))}
               </div>
             </div>
-            {isLeader && crew.invitationCode && (
+            {isLeader && (
               <AlertDialog
                 title="초대코드 재발급"
                 description={`새로운 초대코드가 생성되며\n기존 초대코드는 더 이상 사용할 수 없어요.`}
