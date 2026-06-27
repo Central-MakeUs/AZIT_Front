@@ -8,7 +8,7 @@ import {
   postDeliveryAddress,
   updateDeliveryAddress,
   deleteDeliveryAddress,
-} from '@/features/address/api';
+} from '@/features/Address/api';
 
 import { getDeliveryAddresses } from '@/entities/Address/api/getDeliveryAddresses';
 import type {
