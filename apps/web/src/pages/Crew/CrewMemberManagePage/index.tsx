@@ -10,14 +10,14 @@ import {
 } from '@tanstack/react-query';
 import { useLayoutEffect, useRef, useState } from 'react';
 
+import { crewQueries } from '@/features/Crew/api/queries';
 import {
   MemberList,
   MemberManagementTab,
+  RequestList,
   RequestListEmpty,
-} from '@/widgets/Mypage/ui';
+} from '@/features/Crew/ui';
 
-import { crewQueries } from '@/features/Crew/api/queries';
-import { RequestList } from '@/features/Crew/crew-manage/ui';
 
 import { userQueries } from '@/entities/User/api/queries';
 import type { MemberItem } from '@/entities/User/model';
@@ -32,7 +32,6 @@ import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { spinner as pageLoaderSpinner } from '@/shared/ui/loading/PageLoader.css.ts';
 
 import * as styles from './index.css';
-
 
 function MemberListContent({
   crewId,

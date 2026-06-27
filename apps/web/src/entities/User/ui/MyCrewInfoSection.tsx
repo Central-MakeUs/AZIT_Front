@@ -3,12 +3,13 @@ import { Chip } from '@azit/design-system/chip';
 import { ChevronRightIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import * as styles from '@/widgets/Mypage/styles/MyCrewInfoSection.css';
 
 import { crewQueries } from '@/features/Crew/api/queries';
 
 import { userQueries } from '@/entities/User/api/queries';
 import type { MyCrewResult } from '@/entities/User/model';
+
+import * as styles from '../styles/MyCrewInfoSection.css';
 
 interface MyCrewInfoSectionProps {
   crews: MyCrewResult[];

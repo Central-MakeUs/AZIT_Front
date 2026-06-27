@@ -4,12 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { MypageStatCard } from '@/widgets/Mypage/ui';
 import { ScheduleSectionLayout } from '@/widgets/ScheduleSectionLayout/ui';
 
-import { AttendanceRecordList } from '@/features/Crew/mypage-attendance/ui';
+import { AttendanceRecordList } from '@/features/Crew/ui';
 
 import { userQueries } from '@/entities/User/api/queries';
+import { MypageStatCard } from '@/entities/User/ui';
 
 import { formatDate } from '@/shared/lib/formatters';
 import { useCalendar } from '@/shared/lib/useCalendar';
@@ -19,7 +19,6 @@ import { ScheduleCalendar } from '@/shared/ui/calendar/ui/ScheduleCalendar';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
-
 
 export function CrewAttendancePage() {
   const { pop } = useFlow();
