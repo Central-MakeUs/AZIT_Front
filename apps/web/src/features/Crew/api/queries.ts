@@ -4,11 +4,7 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import type { UpdateCrewInfoRequest } from '@/shared/api/models/crew';
 
-import { postConfirmJoinStatus } from '../crew-confirm-status/api/postConfirmJoinStatus';
-import { postApproveJoinRequest } from '../crew-manage/api/postApproveJoinRequest';
-import { postRejectJoinRequest } from '../crew-manage/api/postRejectJoinRequest';
 
 import { deleteCrew } from '@/entities/Crew/api/deleteCrew';
 import { deleteCrewMember } from '@/entities/Crew/api/deleteCrewMember';
@@ -24,8 +20,11 @@ import { postJoinCrew } from '@/entities/Crew/api/postJoinCrew';
 import { postReissueInvitationCode } from '@/entities/Crew/api/postReissueInvitationCode';
 import { updateCrewInfo } from '@/entities/Crew/api/updateCrewInfo';
 
+import type { UpdateCrewInfoRequest } from '@/shared/api/models/crew';
 
-
+import { postApproveJoinRequest } from './postApproveJoinRequest';
+import { postConfirmJoinStatus } from './postConfirmJoinStatus';
+import { postRejectJoinRequest } from './postRejectJoinRequest';
 
 export const crewQueries = {
   defaultKey: ['crew'] as const,
