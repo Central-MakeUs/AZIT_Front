@@ -87,11 +87,13 @@ export function OnboardingPage() {
       );
     },
     onError: (error) => {
-      if (
-        error instanceof BusinessError &&
-        error.code === 'CREW_JOIN_LIMIT_EXCEEDED'
-      ) {
-        toastError(error.message);
+      if (error instanceof BusinessError) {
+        if (
+          error.code === 'CREW_JOIN_LIMIT_EXCEEDED' ||
+          error.code === 'INVALID_CREW_NAME_CHARACTERS'
+        ) {
+          toastError(error.message);
+        }
       }
     },
   });

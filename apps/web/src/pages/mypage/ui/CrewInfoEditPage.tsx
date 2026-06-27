@@ -58,13 +58,12 @@ export function CrewInfoEditPage() {
       toastSuccess('크루 정보가 수정되었습니다.');
       pop();
     },
-    onError: (error, variables) => {
+    onError: (error) => {
       if (
         error instanceof BusinessError &&
-        error.code === 'INVALID_INPUT_VALUE' &&
-        /[^가-힣a-zA-Z0-9\s]/.test(variables.name)
+        error.code === 'INVALID_CREW_NAME_CHARACTERS'
       ) {
-        setCrewNameError('특수문자는 사용할 수 없어요.');
+        setCrewNameError(error.message);
         return;
       }
       toastError(
@@ -84,7 +83,7 @@ export function CrewInfoEditPage() {
     (isCrewNameChanged || isCrewIntroChanged || crewImageUrl !== null);
 
   const handleCrewNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value.replace(/\s/g, '');
     if (value.length <= MAX_CREW_NAME_LENGTH) {
       setCrewName(value);
       setCrewNameError(null);
