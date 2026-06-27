@@ -1,11 +1,15 @@
-import type { StackflowPlugin } from '@stackflow/react';
+import type { StackflowReactPlugin } from '@stackflow/react';
 
-export const activityLoggerPlugin = (): StackflowPlugin => () => ({
+export const activityLoggerPlugin = (): StackflowReactPlugin => () => ({
   key: 'activity-logger',
-  onBeforePush({ actionParams }) {
+  onBeforePush({ actionParams }: { actionParams: { activityName: string } }) {
     console.log(`[Stackflow] Activity: ${actionParams.activityName}`);
   },
-  onBeforeReplace({ actionParams }) {
+  onBeforeReplace({
+    actionParams,
+  }: {
+    actionParams: { activityName: string };
+  }) {
     console.log(`[Stackflow] Activity: ${actionParams.activityName}`);
   },
 });
