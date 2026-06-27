@@ -17,8 +17,6 @@ import {
 import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
-import { memberQueries } from '@/shared/queries';
-import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { logo } from '@/shared/styles/logo.css';
 import { AppLayout } from '@/shared/ui/layout';
@@ -27,7 +25,9 @@ import { toastSuccess } from '@/shared/ui/toast';
 
 import * as scheduleListStyles from './index.css';
 
+import { scheduleEntityQueries as scheduleQueries } from '@/entities/Schedule/api/queries';
 import { ScheduleList } from '@/entities/Schedule/ui/ScheduleList';
+import { userQueries } from '@/entities/User/api/queries';
 
 export function HomePage() {
   const { push } = useFlow();
@@ -38,7 +38,7 @@ export function HomePage() {
 
   const queryClient = useQueryClient();
 
-  const { data: myCrewsData } = useQuery(memberQueries.myCrewsQuery());
+  const { data: myCrewsData } = useQuery(userQueries.myCrewsQuery());
   const crewId =
     myCrewsData?.find((c) => c.memberStatus === 'JOINED')?.crewId ?? 0;
 
@@ -71,7 +71,7 @@ export function HomePage() {
         queryKey: scheduleQueries.checkInStatusKey(),
       });
       queryClient.invalidateQueries({
-        queryKey: memberQueries.myInfoKey(),
+        queryKey: userQueries.myInfoKey(),
       });
     },
   });

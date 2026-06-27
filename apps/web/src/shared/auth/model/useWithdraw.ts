@@ -1,7 +1,6 @@
 import { useFlow } from '@/app/routes/stackflow';
 
-import { postWithdraw } from '@/features/auth/api/postWithdraw';
-
+import { postWithdraw } from '@/shared/auth/api/postWithdraw';
 import { useAuthStore } from '@/shared/store/auth';
 
 export const useWithdraw = () => {

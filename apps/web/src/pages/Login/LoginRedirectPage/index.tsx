@@ -4,7 +4,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { useKakaoCode } from '@/features/auth/model/useKakaoCode';
+import { useKakaoCode } from '@/shared/auth/model/useKakaoCode';
 
 import * as styles from './index.css';
 

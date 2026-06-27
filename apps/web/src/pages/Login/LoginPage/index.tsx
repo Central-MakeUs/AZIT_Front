@@ -2,9 +2,8 @@ import { vars } from '@azit/design-system';
 import { Button } from '@azit/design-system/button';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 
-import { useKakaoSDK } from '@/features/auth/model';
-
 import type { AuthProvider } from '@/shared/api/models/auth';
+import { useKakaoSDK } from '@/shared/auth/model';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
 import { isWebView } from '@/shared/lib/env';
 
