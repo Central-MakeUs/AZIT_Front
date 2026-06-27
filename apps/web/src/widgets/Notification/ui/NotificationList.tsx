@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 
 import * as styles from '@/widgets/Notification/styles/NotificationList.css.ts';
 
-import { ScheduleFilterTab } from '@/features/Schedule/schedule-filter-tab/ui';
+import { ScheduleFilterTab } from '@/features/Schedule/ui';
 
 import type { NotificationItem } from '@/shared/mock/notification';
 import type { RunType } from '@/shared/types/schedule';
