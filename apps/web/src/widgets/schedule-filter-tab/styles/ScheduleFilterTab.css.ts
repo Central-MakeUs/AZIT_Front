@@ -7,3 +7,11 @@ export const tabsContainer = style({
   width: '100%',
   backgroundColor: vars.colors.background_sub,
 });
+
+export const activeButton = style({
+  backgroundColor: vars.colors.blue100,
+});
+
+export const inactiveButton = style({
+  border: 'none',
+});
