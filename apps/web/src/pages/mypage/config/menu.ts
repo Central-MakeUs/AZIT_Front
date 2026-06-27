@@ -71,13 +71,6 @@ export const getCrewMenu = (
                   push('MemberManagePage', { id: crewId }, { animate: true }),
               },
               {
-                id: 'member-list',
-                label: '멤버 목록',
-                type: 'navigation' as const,
-                onNavigate: () =>
-                  push('MemberViewPage', { id: crewId }, { animate: true }),
-              },
-              {
                 id: 'crew-info-edit',
                 label: '크루 정보 수정',
                 type: 'navigation' as const,
