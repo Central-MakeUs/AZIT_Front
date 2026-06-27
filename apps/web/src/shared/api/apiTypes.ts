@@ -280,6 +280,7 @@ export interface paths {
      *
      *     **[제약 사항]** <br>
      *     * 크루 이름: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
+     *     * 크루 이름: 한글, 영문, 숫자만 사용 가능합니다. (INVALID_CREW_NAME_CHARACTERS)
      *     * ACTIVE 상태의 사용자만 요청 가능합니다. (INVALID_MEMBER_STATUS)
      */
     post: operations['createCrew'];
@@ -302,7 +303,7 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * date (선택): 특정 날짜(yyyy-MM-dd)의 일정만 조회합니다. 다른 파라미터보다 우선 적용됩니다.
-     *     * startDate / endDate (선택): 조회할 날짜 범위(yyyy-MM-dd)입니다. 두 값이 모두 있어야 동작하며, 주 단위 조회에 활용합니다.
+     *     * startDate / endDate (선택): 조회할 날짜 범위(yyyy-MM-dd)입니다. 두 값이 모두 있어야 동작합니다.
      *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 월을 기준으로 조회합니다.
      *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다. <br><br>
      *
@@ -766,6 +767,7 @@ export interface paths {
      *     **[이외 제약 사항]** <br>
      *     * 리더만 수정할 수 있습니다. (NOT_CREW_LEADER) <br>
      *     * 크루 이름은 필수이며 최대 15자까지 입력 가능합니다. <br>
+     *     * 크루 이름: 한글, 영문, 숫자만 사용 가능합니다. (INVALID_CREW_NAME_CHARACTERS) <br>
      *     * 크루 한줄 소개는 선택이며 최대 20자까지 입력 가능합니다. (미입력 시 null로 저장)
      */
     patch: operations['updateCrewProfile'];
@@ -1182,12 +1184,16 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 월간 크루 일정 목록 조회 (캘린더 표시용)
-     * @description 특정 월의 날짜별 일정 존재 여부(정기런/번개런)를 조회합니다. 일정이 하나라도 존재하는 날짜만 조회됩니다. <br>
+     * 월간/주간 크루 일정 목록 조회 (캘린더 표시용)
+     * @description 날짜별 일정 존재 여부(정기런/번개런)를 조회합니다. 일정이 하나라도 존재하는 날짜만 조회됩니다. <br>
      *     캘린더에서 각 날짜 하단에 상태 점을 표시하는 데 사용됩니다. <br><br>
      *
      *     **[쿼리 파라미터]** <br>
-     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * startDate / endDate (선택): 조회할 날짜 범위(yyyy-MM-dd)입니다. 두 값이 모두 있어야 동작합니다.<br>
+     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 월을 기준으로 조회합니다. <br><br>
+     *
+     *     **[파라미터 우선순위]** <br>
+     *     startDate·endDate > yearMonth > 현재 월 <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 해당 크루의 정회원(JOINED)만 조회가 가능합니다. (NOT_A_CREW_MEMBER)
@@ -6219,6 +6225,10 @@ export interface operations {
   getMonthlySchedulesForCalendar: {
     parameters: {
       query?: {
+        /** @description 조회 시작 날짜 (yyyy-MM-dd), endDate와 함께 사용 */
+        startDate?: string;
+        /** @description 조회 종료 날짜 (yyyy-MM-dd), startDate와 함께 사용 */
+        endDate?: string;
         /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
       };
