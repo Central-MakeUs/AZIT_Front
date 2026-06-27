@@ -33,7 +33,7 @@ export const appBridge = bridge<AppBridge>({
   },
   async shareInviteCode(code: string, crewName: string) {
     await Share.share({
-      message: `[AZIT] '${crewName}' 크루에서 당신을 초대했어요! 초대 코드를 입력하고 크루에 가입하세요.\n초대 코드: ${code}\n${WEBVIEW_URL}/onboarding?inviteCode=${code}`,
+      message: `[AZIT] '${crewName}' 크루에서 당신을 초대했어요! 초대 코드를 입력하고 크루에 가입하세요.\n\n초대 코드: ${code}\n\n${WEBVIEW_URL}/onboarding?inviteCode=${code}`,
     });
   },
   async shareSchedule(scheduleId: string) {
