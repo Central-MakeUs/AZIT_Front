@@ -2,7 +2,7 @@ import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
 import { END_POINT } from '@/shared/constants/endpoint';
 
-import type { CrewMemberListResult } from '@/entities/user/model';
+import type { CrewMemberListResult } from '@/entities/Crew/model';
 
 export const getCrewMembers = (
   crewId: number,
