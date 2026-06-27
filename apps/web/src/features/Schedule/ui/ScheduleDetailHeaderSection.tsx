@@ -1,6 +1,6 @@
 import { Chip } from '@azit/design-system/chip';
 
-import * as styles from '@/features/Schedule/schedule/styles/ScheduleDetailHeaderSection.css';
+import * as styles from '@/features/Schedule/styles/ScheduleDetailHeaderSection.css';
 
 import type { MemberRole } from '@/entities/User/model';
 import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
@@ -13,7 +13,6 @@ import {
   RUN_TYPE_CHIP_TYPE_MAP,
   RUN_TYPE_LABEL,
 } from '@/shared/constants/run-type';
-
 
 interface ScheduleDetailHeaderSectionProps {
   runType: string;

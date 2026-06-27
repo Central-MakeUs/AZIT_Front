@@ -4,13 +4,6 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { postSchedule } from '../schedule-create/api/postSchedule';
-import { updateSchedule } from '../schedule-edit/api/updateSchedule';
-import { deleteSchedule } from '../schedule-manage/api';
-import {
-  deleteCancelParticipation,
-  postParticipateSchedule,
-} from '../schedule-participate/api';
 
 import {
   getScheduleDetail,
@@ -29,6 +22,11 @@ import type {
   UpdateScheduleRequest,
 } from '@/entities/Schedule/model/schedule.model';
 
+import { deleteCancelParticipation } from './deleteCancelParticipation';
+import { deleteSchedule } from './deleteSchedule';
+import { postParticipateSchedule } from './postParticipateSchedule';
+import { postSchedule } from './postSchedule';
+import { updateSchedule } from './updateSchedule';
 
 export const scheduleQueries = {
   all: ['schedule'] as const,

@@ -1,4 +1,4 @@
-import * as styles from '@/features/Schedule/schedule/styles/SchedulePreparationListItem.css';
+import * as styles from '@/features/Schedule/styles/SchedulePreparationListItem.css';
 
 interface SchedulePreparationListItemProps {
   item: string;
