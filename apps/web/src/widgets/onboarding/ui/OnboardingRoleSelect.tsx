@@ -1,15 +1,19 @@
 import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
 import { FlagIcon, UsersIcon } from '@azit/design-system/icon';
 import clsx from 'clsx';
 import { useState, type ReactNode } from 'react';
 
 import * as styles from '@/widgets/onboarding/styles/OnboardingRoleSelect.css';
 
+import { BackButton } from '@/shared/ui/button';
+
 export type OnboardingRoleType = 'leader' | 'member';
 
 export interface OnboardingRoleSelectProps {
   defaultValue?: OnboardingRoleType;
   onNext: (role: OnboardingRoleType) => void;
+  onPrev?: () => void;
 }
 
 export interface OnboardingRoleCardItemProps {
@@ -47,6 +51,7 @@ export function OnboardingRoleCardItem({
 export function OnboardingRoleSelect({
   defaultValue,
   onNext,
+  onPrev,
 }: OnboardingRoleSelectProps) {
   const [selectedRole, setSelectedRole] = useState<OnboardingRoleType | null>(
     defaultValue ?? null
@@ -63,7 +68,17 @@ export function OnboardingRoleSelect({
 
   return (
     <>
-      <div className={styles.stepContainer}>
+      {onPrev && (
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton onClick={onPrev} />} />
+        </div>
+      )}
+      <div
+        className={clsx(
+          styles.stepContainer,
+          onPrev && styles.stepContainerWithHeader
+        )}
+      >
         <div className={styles.headerSection}>
           <h1 className={styles.title}>어떻게 시작하시겠어요?</h1>
           <p className={styles.subtitle}>당신의 역할을 선택하세요</p>
