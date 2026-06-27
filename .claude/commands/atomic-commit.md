@@ -4,7 +4,9 @@
 
 ## 작업 절차
 
-1. `git status`와 `git diff HEAD`로 전체 변경사항을 파악한다.
+1. `git fetch origin`을 먼저 실행한 뒤, `git status`와 `git diff HEAD`로 전체 변경사항을 파악한다.
+   - `git status`에서 브랜치가 remote보다 뒤처져 있으면(`behind`), 커밋 전에 자동으로 최신화한다.
+   - 최신화 절차: `git stash` → `git pull origin <현재 브랜치>` → `git stash pop`
 2. 변경사항을 **관심사(concern)** 기준으로 논리적 그룹으로 분류한다.
    - 예: 모델/타입 변경, 비즈니스 로직, UI 컴포넌트, 스타일, 테스트, 설정 등
    - 서로 의존하는 변경이라도 관심사가 다르면 별도 커밋으로 분리한다.
