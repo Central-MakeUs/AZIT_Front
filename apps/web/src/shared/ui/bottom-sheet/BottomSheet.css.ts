@@ -71,13 +71,23 @@ export const container = recipe({
   },
 });
 
+export const dragHandleArea = style({
+  padding: '12px 0 8px',
+  cursor: 'grab',
+  touchAction: 'none',
+  selectors: {
+    '&:active': { cursor: 'grabbing' },
+  },
+});
+
 export const dragHandle = style({
   width: '40px',
   height: '4px',
-  backgroundColor: vars.colors.gray20,
+  backgroundColor: vars.colors.gray30,
   borderRadius: '2px',
-  margin: '12px auto 24px',
+  margin: '0 auto 16px',
   flexShrink: 0,
+  pointerEvents: 'none',
 });
 
 export const content = style({
