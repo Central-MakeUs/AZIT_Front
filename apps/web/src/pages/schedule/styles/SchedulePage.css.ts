@@ -49,3 +49,9 @@ export const addScheduleButton = style({
   width: 'fit-content',
   padding: '0 30px',
 });
+
+export const calendarWrapper = style({
+  width: '100%',
+  overflow: 'hidden',
+  transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+});

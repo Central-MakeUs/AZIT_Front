@@ -3,7 +3,7 @@ import { Header } from '@azit/design-system/header';
 import { ChevronDownIcon, PlusIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -11,6 +11,7 @@ import * as styles from '@/pages/schedule/styles/SchedulePage.css';
 
 import { RoundProfileImage } from '@/widgets/profile/ui/RoundProfileImage';
 import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
+import { ScheduleWeekCalendar } from '@/widgets/schedule-calendar/ui/ScheduleWeekCalendar';
 import { ScheduleCrewSelectBottomSheet } from '@/widgets/schedule-crew-select/ui/ScheduleCrewSelectBottomSheet';
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
@@ -31,6 +32,64 @@ export function SchedulePage() {
   const [activeFilter, setActiveFilter] = useState<RunType>(undefined);
   const [isCrewSelectOpen, setIsCrewSelectOpen] = useState(false);
   const [selectedCrewId, setSelectedCrewId] = useState<number | null>(null);
+  const [calendarMode, setCalendarMode] = useState<'monthly' | 'weekly'>(
+    'monthly'
+  );
+  const calendarWrapperRef = useRef<HTMLDivElement>(null);
+  const monthlyHeightRef = useRef<number | null>(null);
+
+  // 월간 높이를 최초 1회 측정
+  useEffect(() => {
+    if (calendarWrapperRef.current && monthlyHeightRef.current === null) {
+      monthlyHeightRef.current = calendarWrapperRef.current.scrollHeight;
+    }
+  }, []);
+
+  // 주간 높이: 헤더(타이틀 + marginBottom 16px) ~53px + 요일헤더 ~37px + 타일 1행 50px
+  const WEEKLY_HEIGHT = 140;
+
+  useEffect(() => {
+    const el = calendarWrapperRef.current;
+    if (!el) return;
+    const targetHeight =
+      calendarMode === 'weekly'
+        ? WEEKLY_HEIGHT
+        : (monthlyHeightRef.current ?? el.scrollHeight);
+    el.style.height = `${targetHeight}px`;
+  }, [calendarMode]);
+
+  const touchStartY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  // passive: false로 touchmove 등록해야 preventDefault 가능
+  useEffect(() => {
+    const el = calendarWrapperRef.current;
+    if (!el) return;
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchStartY.current === null || touchStartX.current === null) return;
+      const diffY = Math.abs(e.touches[0].clientY - touchStartY.current);
+      const diffX = Math.abs(e.touches[0].clientX - touchStartX.current);
+      if (diffY > diffX) e.preventDefault();
+    };
+
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    return () => el.removeEventListener('touchmove', onTouchMove);
+  }, []);
+
+  const handleCalendarTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleCalendarTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartY.current === null) return;
+    const diff = touchStartY.current - e.changedTouches[0].clientY;
+    if (diff > 40) setCalendarMode('weekly');
+    else if (diff < -40) setCalendarMode('monthly');
+    touchStartY.current = null;
+    touchStartX.current = null;
+  };
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
@@ -125,13 +184,29 @@ export function SchedulePage() {
         <div className={scrollContainer}>
           <ScheduleSectionLayout
             topSection={
-              <ScheduleCalendar
-                explicitViewDate={viewDate}
-                onChangeExplicitViewDate={setViewDate}
-                value={selectedDate}
-                onChange={handleDateChange}
-                scheduleData={scheduleCalendarList}
-              />
+              <div
+                ref={calendarWrapperRef}
+                className={styles.calendarWrapper}
+                onTouchStart={handleCalendarTouchStart}
+                onTouchEnd={handleCalendarTouchEnd}
+              >
+                {calendarMode === 'monthly' ? (
+                  <ScheduleCalendar
+                    explicitViewDate={viewDate}
+                    onChangeExplicitViewDate={setViewDate}
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    scheduleData={scheduleCalendarList}
+                  />
+                ) : (
+                  <ScheduleWeekCalendar
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    onViewWeekChange={setViewDate}
+                    scheduleData={scheduleCalendarList}
+                  />
+                )}
+              </div>
             }
             scheduleContent={
               <>
