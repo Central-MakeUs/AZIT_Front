@@ -5,7 +5,7 @@ import { END_POINT } from '@/shared/constants/endpoint';
 import type {
   CartOrderCheckoutRequest,
   CartOrderCheckoutResponse,
-} from '@/entities/order/model';
+} from '@/entities/CommerceOrder/model';
 
 export const getOrderFromCart = (data: CartOrderCheckoutRequest) => {
   return auth.get<ApiResponse<CartOrderCheckoutResponse>>(

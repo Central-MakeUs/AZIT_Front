@@ -5,7 +5,7 @@ import { END_POINT } from '@/shared/constants/endpoint';
 import type {
   DirectOrderCheckoutRequest,
   DirectOrderCheckoutResponse,
-} from '@/entities/order/model';
+} from '@/entities/CommerceOrder/model';
 
 export const getOrderFromDirect = (data: DirectOrderCheckoutRequest) => {
   return auth.get<ApiResponse<DirectOrderCheckoutResponse>>(

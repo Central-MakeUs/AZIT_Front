@@ -2,7 +2,7 @@ import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
 import { END_POINT } from '@/shared/constants/endpoint';
 
-import type { OrderHistoryResponse } from '@/entities/order/model';
+import type { OrderHistoryResponse } from '@/entities/CommerceOrder/model';
 
 export const getOrderHistory = (cursorId?: number, size = 10) => {
   const params = cursorId ? { cursorId, size } : { size };
