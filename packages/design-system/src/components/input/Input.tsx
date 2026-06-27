@@ -79,7 +79,7 @@ export function Input({
 
 function InputDescription({ left, right }: InputDescriptionProps) {
   return (
-    <p className={inputDescriptionWrapper[left ? 'default' : 'rightOnly']}>
+    <p className={inputDescriptionWrapper}>
       {left && <span className={inputDescriptionWarning}>{left}</span>}
       {right && <span className={inputDescription}>{right}</span>}
     </p>
