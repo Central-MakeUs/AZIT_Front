@@ -1,5 +1,4 @@
 import { Button } from '@azit/design-system/button';
-import { XIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/widgets/onboarding/styles/OnboardingCrewJoinBottomSheetContent.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
