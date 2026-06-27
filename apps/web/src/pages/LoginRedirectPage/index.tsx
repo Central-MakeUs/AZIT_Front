@@ -8,7 +8,7 @@ import { useKakaoCode } from '@/features/auth/model/useKakaoCode';
 
 import * as styles from './index.css';
 
-export function RedirectPage() {
+export function LoginRedirectPage() {
   const { isLoading, error, invalidAccess } = useKakaoCode();
   const { replace } = useFlow();
 
