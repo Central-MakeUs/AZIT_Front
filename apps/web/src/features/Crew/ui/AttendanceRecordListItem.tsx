@@ -1,12 +1,11 @@
 import { Button } from '@azit/design-system/button';
 import { ClockIcon, MarkerPinIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/Crew/mypage-attendance/styles/AttendanceRecordListItem.css';
+import * as styles from '@/features/Crew/styles/AttendanceRecordListItem.css';
 
 import type { AttendanceRecord } from '@/entities/User/model';
 
 import { formatDate } from '@/shared/lib/formatters';
-
 
 interface AttendanceRecordListItemProps {
   record: AttendanceRecord;
