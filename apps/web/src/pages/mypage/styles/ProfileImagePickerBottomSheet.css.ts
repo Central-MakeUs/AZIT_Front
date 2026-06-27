@@ -8,7 +8,7 @@ export const list = style({
 });
 
 export const item = style([
-  typography.body.b1,
+  typography.body.b2_m,
   {
     width: '100%',
     padding: '16px 0',
