@@ -5,9 +5,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import * as styles from '@/widgets/mypage/styles/MyCrewInfoSection.css';
 
-import { memberQueries } from '@/shared/queries';
+import { crewQueries } from '@/features/Crew/api/queries';
 
-import type { MyCrewResult } from '@/entities/user/model';
+import { userQueries } from '@/entities/User/api/queries';
+import type { MyCrewResult } from '@/entities/User/model';
 
 interface MyCrewInfoSectionProps {
   crews: MyCrewResult[];
@@ -23,10 +24,10 @@ export function MyCrewInfoSection({
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    ...memberQueries.deleteJoinRequest,
+    ...crewQueries.deleteJoinRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: memberQueries.myCrewsKey(),
+        queryKey: userQueries.myCrewsKey(),
       });
     },
   });

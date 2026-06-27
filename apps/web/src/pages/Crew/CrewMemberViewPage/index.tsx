@@ -4,8 +4,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { MemberList } from '@/widgets/mypage/ui';
 
+import { crewQueries } from '@/features/Crew/api/queries';
+
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
-import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
@@ -21,7 +22,7 @@ export function CrewMemberViewPage({ params }: { params?: { id?: string } }) {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    ...memberQueries.crewMembersQuery(crewId),
+    ...crewQueries.crewMembersQuery(crewId),
     enabled: crewId > 0,
   });
 

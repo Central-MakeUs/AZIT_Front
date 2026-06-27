@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { memberQueries } from '@/shared/queries';
-import { scheduleQueries } from '@/shared/queries/schedule';
+import { scheduleQueries } from '@/features/Schedule/api/queries';
+
 import { toastSuccess } from '@/shared/ui/toast';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 interface UseScheduleActionsProps {
   crewId: number;
@@ -27,7 +29,7 @@ export function useScheduleParticipateActions({
     onSuccess: () => {
       toastSuccess('신청이 완료되었습니다');
       queryClient.invalidateQueries({ queryKey: scheduleAllQueryKey });
-      queryClient.invalidateQueries({ queryKey: memberQueries.myInfoKey() });
+      queryClient.invalidateQueries({ queryKey: userQueries.myInfoKey() });
       queryClient.invalidateQueries({
         queryKey: scheduleQueries.checkInStatusKey(),
       });
@@ -39,7 +41,7 @@ export function useScheduleParticipateActions({
     onSuccess: () => {
       toastSuccess('신청이 취소되었습니다');
       queryClient.invalidateQueries({ queryKey: scheduleAllQueryKey });
-      queryClient.invalidateQueries({ queryKey: memberQueries.myInfoKey() });
+      queryClient.invalidateQueries({ queryKey: userQueries.myInfoKey() });
       queryClient.invalidateQueries({
         queryKey: scheduleQueries.checkInStatusKey(),
       });

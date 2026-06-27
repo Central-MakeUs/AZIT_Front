@@ -6,11 +6,12 @@ import {
 } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+import { orderQueries } from '@/features/CommerceOrder/api/queries';
+
 import { KAKAO_INQUIRY_CHAT_URL } from '@/shared/constants/url';
 import { copyToClipboard } from '@/shared/lib/clipboard';
 import { formatOrderDate } from '@/shared/lib/formatters';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
-import { orderQueries } from '@/shared/queries/order';
 import { toastSuccess } from '@/shared/ui/toast';
 
 export interface UseOrderDetailOptions {

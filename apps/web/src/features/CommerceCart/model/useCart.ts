@@ -1,11 +1,11 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+import { cartQueries } from '@/features/CommerceCart/api/queries';
 import { useCartAction } from '@/features/CommerceCart/model/useCartAction';
 import { useCartPrice } from '@/features/CommerceCart/model/useCartPrice';
 import { useCartSelect } from '@/features/CommerceCart/model/useCartSelect';
 
-import { cartQueries } from '@/shared/queries/cart';
 
 import type { CartProductItem, CartBrand } from '@/entities/CommerceCart/model';
 

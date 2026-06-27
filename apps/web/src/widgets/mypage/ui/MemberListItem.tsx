@@ -11,7 +11,7 @@ import {
 } from '@/shared/constants/member-role';
 import { formatJoinDate } from '@/shared/lib/formatters';
 
-import type { MemberRole } from '@/entities/user/model';
+import type { MemberRole } from '@/entities/User/model';
 
 interface MemberListItemProps {
   memberId: number;

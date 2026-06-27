@@ -9,9 +9,10 @@ import * as styles from '@/features/CommerceStore/styles/StoreGridView.css';
 
 import { GOOGLE_FORM_URL } from '@/shared/constants/url';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
-import { storeQueries } from '@/shared/queries';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
+
+import { storeQueries } from '@/entities/CommerceStore/api/queries';
 
 function StoreGridContent() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

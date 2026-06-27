@@ -5,7 +5,7 @@ import { END_POINT } from '@/shared/constants/endpoint';
 import type {
   MyAttendanceCalendarRequest,
   MyAttendanceCalendarResponse,
-} from '@/entities/user/model';
+} from '@/entities/User/model';
 
 export const getMyAttendanceCalendar = (
   request?: MyAttendanceCalendarRequest
