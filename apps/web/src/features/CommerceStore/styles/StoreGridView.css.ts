@@ -18,15 +18,17 @@ export const bannerSection = style({
   width: '100%',
 });
 
-export const bannerDescriptionText = style({
+export const bannerImage = style({
   width: '100%',
-  textAlign: 'end',
+  borderRadius: '12px',
+  cursor: 'pointer',
+  display: 'block',
 });
 
 export const productsSection = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '10px',
+  gap: '16px',
   alignItems: 'flex-start',
   width: '100%',
   marginBottom: '100px',
