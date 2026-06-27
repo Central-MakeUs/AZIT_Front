@@ -8,10 +8,14 @@ export const headerWrapper = style([layoutStyles.headerWrapper]);
 export const mainContainer = style([
   layoutStyles.mainContainer,
   {
-    backgroundColor: vars.colors.background_sub,
+    backgroundColor: vars.colors.white,
     padding: 20,
   },
 ]);
+
+export const noPaddingTop = style({
+  paddingTop: 0,
+});
 
 export const totalCount = style([
   typography.body.b2,
