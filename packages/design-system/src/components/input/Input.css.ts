@@ -24,6 +24,7 @@ export const inputContainer = recipe({
     border: `0.5px solid ${vars.colors.gray20}`,
     transition: 'border-color 0.2s ease',
     padding: '10px 16px',
+    backgroundColor: vars.colors.white,
   },
   variants: {
     state: {
