@@ -40,7 +40,12 @@ export function OnboardingCrewJoin({
     if (hasValidationError) {
       setHasValidationError(false);
     }
-    setInviteCode(e.target.value.slice(0, INVITE_CODE_LENGTH));
+    setInviteCode(
+      e.target.value
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, '')
+        .slice(0, INVITE_CODE_LENGTH)
+    );
   };
 
   const handleSubmit = async () => {
@@ -71,13 +76,13 @@ export function OnboardingCrewJoin({
             state={hasValidationError ? 'error' : 'default'}
             value={inviteCode}
             onChange={handleInviteCodeChange}
+            onRemove={() => setInviteCode('')}
             placeholder="초대 코드 6자리"
-          />
-          {hasValidationError && (
-            <p className={styles.errorMessage}>
-              유효하지 않거나 이미 만료된 초대 코드입니다
-            </p>
-          )}
+          >
+            {hasValidationError && (
+              <Input.Description left="유효하지 않거나 이미 만료된 초대 코드입니다" />
+            )}
+          </Input>
         </div>
       </div>
       <div className={styles.buttonWrapper}>
