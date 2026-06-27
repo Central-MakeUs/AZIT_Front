@@ -9,8 +9,8 @@ import {
   OnboardingCrewJoin,
   OnboardingCrewName,
   OnboardingCrewRegion,
-} from '@/features/Onboarding/onboarding/ui';
-import { OnboardingRoleSelect } from '@/features/Onboarding/onboarding/ui/OnboardingRoleSelect';
+  OnboardingRoleSelect,
+} from '@/features/Onboarding/ui';
 
 import { crewEntityQueries as crewQueries } from '@/entities/Crew/api/queries';
 import { userQueries } from '@/entities/User/api/queries';
@@ -20,7 +20,6 @@ import { getQueryParam } from '@/shared/lib/url';
 import { useFunnel } from '@/shared/lib/useFunnel';
 import { AppLayout } from '@/shared/ui/layout';
 import { toastError } from '@/shared/ui/toast';
-
 
 type StepName =
   | 'role-select'

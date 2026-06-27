@@ -1,12 +1,11 @@
 import { Button } from '@azit/design-system/button';
 
-import * as styles from '@/features/Onboarding/onboarding/styles/OnboardingCrewJoinBottomSheetContent.css';
+import * as styles from '@/features/Onboarding/styles/OnboardingCrewJoinBottomSheetContent.css';
 
 import type { CrewInfoResult } from '@/entities/Crew/model';
 import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
 
 import { CATEGORY_LABELS } from '@/shared/constants/crew';
-
 
 export interface CrewInfo extends CrewInfoResult {
   crewProfileImage?: string;
