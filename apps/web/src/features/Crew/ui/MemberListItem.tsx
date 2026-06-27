@@ -2,7 +2,7 @@ import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { Chip } from '@azit/design-system/chip';
 import { XIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/widgets/Mypage/styles/MemberListItem.css';
+import * as styles from '@/features/Crew/styles/MemberListItem.css';
 
 import type { MemberRole } from '@/entities/User/model';
 
@@ -12,7 +12,6 @@ import {
   ROLE_CHIP_TYPE_MAP,
 } from '@/shared/constants/member-role';
 import { formatJoinDate } from '@/shared/lib/formatters';
-
 
 interface MemberListItemProps {
   memberId: number;

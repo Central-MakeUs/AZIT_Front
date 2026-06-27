@@ -1,4 +1,4 @@
-import * as styles from '@/widgets/Mypage/styles/MemberManagementTab.css';
+import * as styles from '../styles/MemberManagementTab.css';
 
 export type MemberManagementTabType = 'member' | 'request';
 

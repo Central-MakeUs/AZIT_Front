@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
-import * as styles from '@/entities/User/ui/styles/RoundProfileImage.css';
+import * as styles from '@/entities/User/styles/RoundProfileImage.css';
 
 export interface RoundProfileImageProps {
   src?: string;

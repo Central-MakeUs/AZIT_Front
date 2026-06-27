@@ -1,9 +1,10 @@
 import { Divider } from '@azit/design-system/divider';
 
-import * as styles from '@/widgets/Mypage/styles/MemberList.css';
-import { MemberListItem } from '@/widgets/Mypage/ui/MemberListItem';
+import { MemberListItem } from '@/features/Crew/ui/MemberListItem';
 
 import type { MemberItem } from '@/entities/User/model';
+
+import * as styles from '../styles/MemberList.css';
 
 interface MemberListProps {
   members: MemberItem[];
