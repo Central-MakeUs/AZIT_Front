@@ -14,6 +14,8 @@ const queryClient = new QueryClient({
     onError: (error, _variables, _context, mutation) => {
       Sentry.captureException(error);
 
+      if (mutation.options.onError) return;
+
       const errorMessages = mutation.meta?.errorMessages;
       const customMessage =
         error instanceof BusinessError
