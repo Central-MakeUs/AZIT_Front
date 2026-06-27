@@ -5,7 +5,7 @@ import { RoundProfileImage } from '@/widgets/profile/ui';
 
 import { CATEGORY_LABELS } from '@/shared/constants/crew';
 
-import type { CrewInfoResult } from '@/entities/crew/model';
+import type { CrewInfoResult } from '@/entities/Crew/model';
 
 export interface CrewInfo extends CrewInfoResult {
   crewProfileImage?: string;

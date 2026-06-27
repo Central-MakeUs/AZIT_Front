@@ -9,7 +9,7 @@ export function CartEmpty() {
   const { replace } = useFlow();
 
   const handleClick = () => {
-    replace('StorePage', {});
+    replace('CommerceStorePage', {});
   };
 
   return (

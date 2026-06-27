@@ -2,7 +2,7 @@ import { auth } from '@/shared/api/apiClient';
 import type { ApiResponseWithoutResult } from '@/shared/api/baseTypes.ts';
 import { END_POINT } from '@/shared/constants/endpoint';
 
-import type { CartProductUpdateQuantityRequest } from '@/entities/cart/model';
+import type { CartProductUpdateQuantityRequest } from '@/entities/CommerceCart/model';
 
 export const updateCartProductQuantity = (
   cartItemId: number,

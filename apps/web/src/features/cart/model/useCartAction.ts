@@ -6,7 +6,7 @@ import { showCartError } from '@/features/cart/lib/showCartError';
 import { cartQueries } from '@/shared/queries/cart';
 import { toastError } from '@/shared/ui/toast';
 
-import type { CartProductAddRequest } from '@/entities/cart/model';
+import type { CartProductAddRequest } from '@/entities/CommerceCart/model';
 
 interface HandleAddItemOptions {
   onSuccess?: () => void;

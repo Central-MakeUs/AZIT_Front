@@ -4,11 +4,11 @@ import { useState } from 'react';
 
 import { PAYMENT_METHOD_MAP } from '@/shared/constants/order';
 import { parseOrderParams } from '@/shared/lib/orderParams';
-import type { OrderPageParams } from '@/shared/lib/orderParams';
+import type { CommerceOrderPageParams } from '@/shared/lib/orderParams';
 import { orderQueries } from '@/shared/queries/order';
 import { toastError } from '@/shared/ui/toast';
 
-import type { CreateOrderResponse } from '@/entities/order/model';
+import type { CreateOrderResponse } from '@/entities/CommerceOrder/model';
 
 const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
 
@@ -20,7 +20,7 @@ export interface UseOrderOptions {
 
 export function useOrder(options: UseOrderOptions = {}) {
   const { onBack, onChangeAddress, onOrderSuccess } = options;
-  const params = useActivityParams<OrderPageParams>();
+  const params = useActivityParams<CommerceOrderPageParams>();
   const { skuId, quantity, cartItemIds } = parseOrderParams(params);
   const isDirectOrder = skuId > 0;
 

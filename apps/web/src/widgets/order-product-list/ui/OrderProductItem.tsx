@@ -4,7 +4,10 @@ import * as styles from '@/widgets/order-product-list/styles/OrderProductItem.cs
 
 import { formatPrice } from '@/shared/lib/formatters';
 
-import type { OrderItem, OrderItemResponse } from '@/entities/order/model';
+import type {
+  OrderItem,
+  OrderItemResponse,
+} from '@/entities/CommerceOrder/model';
 
 type OrderProductListItem = OrderItem | OrderItemResponse;
 

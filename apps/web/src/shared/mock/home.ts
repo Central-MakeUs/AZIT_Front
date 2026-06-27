@@ -1,4 +1,4 @@
-import type { ScheduleList } from '@/entities/schedule/model/schedule.types';
+import type { ScheduleList } from '@/entities/Schedule/model/schedule.types';
 
 export const mockScheduleList: ScheduleList = [
   {

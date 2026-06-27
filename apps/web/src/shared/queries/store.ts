@@ -1,7 +1,7 @@
 import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 
-import { getStoreProductDetail } from '@/entities/store/api/getStoreProductDetail';
-import { getStoreProducts } from '@/entities/store/api/getStoreProducts';
+import { getStoreProductDetail } from '@/entities/CommerceStore/api/getStoreProductDetail';
+import { getStoreProducts } from '@/entities/CommerceStore/api/getStoreProducts';
 
 // query factory
 export const storeQueries = {

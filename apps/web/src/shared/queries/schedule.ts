@@ -17,17 +17,17 @@ import {
 import {
   getScheduleDetail,
   getScheduleParticipants,
-} from '@/entities/schedule/api';
-import { getMemberScheduleList } from '@/entities/schedule/api/getMemberScheduleList';
-import { getScheduleCalendar } from '@/entities/schedule/api/getScheduleCalendar';
-import { getScheduleList } from '@/entities/schedule/api/getScheduleList';
+} from '@/entities/Schedule/api';
+import { getMemberScheduleList } from '@/entities/Schedule/api/getMemberScheduleList';
+import { getScheduleCalendar } from '@/entities/Schedule/api/getScheduleCalendar';
+import { getScheduleList } from '@/entities/Schedule/api/getScheduleList';
 import type {
   CreateScheduleRequest,
   CrewScheduleCalendarRequest,
   CrewScheduleListRequest,
   ScheduleCheckInRequest,
   UpdateScheduleRequest,
-} from '@/entities/schedule/model/schedule.model';
+} from '@/entities/Schedule/model/schedule.model';
 
 export const scheduleQueries = {
   all: ['schedule'] as const,

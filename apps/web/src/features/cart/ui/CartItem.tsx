@@ -9,7 +9,7 @@ import { QuantitySelector } from '@/features/cart/ui/QuantitySelector';
 
 import { formatPrice } from '@/shared/lib/formatters';
 
-import type { CartProductItem } from '@/entities/cart/model';
+import type { CartProductItem } from '@/entities/CommerceCart/model';
 
 interface CartItemProps {
   item: CartProductItem;

@@ -11,8 +11,8 @@ import { BackButton } from '@/shared/ui/button';
 
 import { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottomSheetContent';
 
-import { getCrewInfo } from '@/entities/crew/api/getCrewInfo';
-import type { CrewInfoResult } from '@/entities/crew/model';
+import { getCrewInfo } from '@/entities/Crew/api/getCrewInfo';
+import type { CrewInfoResult } from '@/entities/Crew/model';
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;

@@ -10,11 +10,11 @@ import {
   deleteDeliveryAddress,
 } from '@/features/address/api';
 
-import { getDeliveryAddresses } from '@/entities/address/api/getDeliveryAddresses';
+import { getDeliveryAddresses } from '@/entities/Address/api/getDeliveryAddresses';
 import type {
   RegisterDeliveryAddressRequest,
   UpdateDeliveryAddressRequest,
-} from '@/entities/address/model';
+} from '@/entities/Address/model';
 
 export const addressQueries = {
   all: ['shippingAddresses'] as const,

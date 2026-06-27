@@ -6,60 +6,69 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 import { RedirectPage } from '@/pages/RedirectPage';
 
 const LoginPage = lazyImport(() => import('@/pages/LoginPage'), 'LoginPage');
-const StorePage = lazyImport(() => import('@/pages/StorePage'), 'StorePage');
-const StoreDetailPage = lazyImport(
-  () => import('@/pages/StoreDetailPage'),
-  'StoreDetailPage'
+const CommerceStorePage = lazyImport(
+  () => import('@/pages/CommerceStore/CommerceStorePage'),
+  'CommerceStorePage'
 );
-const CartPage = lazyImport(() => import('@/pages/CartPage'), 'CartPage');
-const TermAgreePage = lazyImport(
-  () => import('@/pages/TermAgreePage'),
-  'TermAgreePage'
+const CommerceStoreDetailPage = lazyImport(
+  () => import('@/pages/CommerceStore/CommerceStoreDetailPage'),
+  'CommerceStoreDetailPage'
+);
+const CommerceCartPage = lazyImport(
+  () => import('@/pages/CommerceCart/CommerceCartPage'),
+  'CommerceCartPage'
+);
+const OnboardingTermAgreePage = lazyImport(
+  () => import('@/pages/Onboarding/OnboardingTermAgreePage'),
+  'OnboardingTermAgreePage'
 );
 const OnboardingPage = lazyImport(
-  () => import('@/pages/OnboardingPage'),
+  () => import('@/pages/Onboarding/OnboardingPage'),
   'OnboardingPage'
 );
 const OnboardingCompletePage = lazyImport(
-  () => import('@/pages/OnboardingCompletePage'),
+  () => import('@/pages/Onboarding/OnboardingCompletePage'),
   'OnboardingCompletePage'
 );
-const OrderPage = lazyImport(() => import('@/pages/OrderPage'), 'OrderPage');
-const OrderCompletePage = lazyImport(
-  () => import('@/pages/OrderCompletePage'),
-  'OrderCompletePage'
+const CommerceOrderPage = lazyImport(
+  () => import('@/pages/CommerceOrder/CommerceOrderPage'),
+  'CommerceOrderPage'
 );
-const OrderDetailPage = lazyImport(
-  () => import('@/pages/OrderDetailPage'),
-  'OrderDetailPage'
+const CommerceOrderCompletePage = lazyImport(
+  () => import('@/pages/CommerceOrder/CommerceOrderCompletePage'),
+  'CommerceOrderCompletePage'
+);
+const CommerceOrderDetailPage = lazyImport(
+  () => import('@/pages/CommerceOrder/CommerceOrderDetailPage'),
+  'CommerceOrderDetailPage'
 );
 const MyPage = lazyImport(() => import('@/pages/MyPage'), 'MyPage');
 const OrderHistory = lazyImport(
-  () => import('@/pages/OrderHistoryPage'),
-  'OrderHistoryPage'
+  () => import('@/pages/CommerceOrder/CommerceOrderHistoryPage'),
+  'CommerceOrderHistoryPage'
 );
 const NotificationSettingsPage = lazyImport(
-  () => import('@/pages/MyNotificationPage'),
-  'MyNotificationPage'
+  () => import('@/pages/Settings/SettingsNotificationPage'),
+  'SettingsNotificationPage'
 );
 const CrewBannedStatusPage = lazyImport(
-  () => import('@/pages/CrewBannedStatusPage'),
+  () => import('@/pages/Crew/CrewBannedStatusPage'),
   'CrewBannedStatusPage'
 );
 const ScheduleDetailPage = lazyImport(
-  () => import('@/pages/ScheduleDetailPage'),
+  () => import('@/pages/Schedule/ScheduleDetailPage'),
   'ScheduleDetailPage'
 );
 const ScheduleEditPage = lazyImport(
-  () => import('@/pages/ScheduleEditPage'),
+  () => import('@/pages/Schedule/ScheduleEditPage'),
   'ScheduleEditPage'
 );
 const ScheduleMembersPage = lazyImport(
-  () => import('@/pages/ScheduleMembersPage'),
+  () => import('@/pages/Schedule/ScheduleMembersPage'),
   'ScheduleMembersPage'
 );
 const ScheduleCreatePage = lazyImport(
-  () => import('@/pages/ScheduleCreatePage'),
+  () => import('@/pages/Schedule/ScheduleCreatePage'),
   'ScheduleCreatePage'
 );
 const NotificationPage = lazyImport(
@@ -67,56 +76,56 @@ const NotificationPage = lazyImport(
   'NotificationPage'
 );
 const SchedulePage = lazyImport(
-  () => import('@/pages/SchedulePage'),
+  () => import('@/pages/Schedule/SchedulePage'),
   'SchedulePage'
 );
 const AttendancePage = lazyImport(
-  () => import('@/pages/MyAttendancePage'),
-  'MyAttendancePage'
+  () => import('@/pages/Crew/CrewAttendancePage'),
+  'CrewAttendancePage'
 );
 const AddressSettingPage = lazyImport(
-  () => import('@/pages/AddressSettingPage'),
+  () => import('@/pages/Address/AddressSettingPage'),
   'AddressSettingPage'
 );
 const AddressRegisterPage = lazyImport(
-  () => import('@/pages/AddressRegisterPage'),
+  () => import('@/pages/Address/AddressRegisterPage'),
   'AddressRegisterPage'
 );
 const AddressSearchPage = lazyImport(
-  () => import('@/pages/AddressSearchPage'),
+  () => import('@/pages/Address/AddressSearchPage'),
   'AddressSearchPage'
 );
 const AddressEditPage = lazyImport(
-  () => import('@/pages/AddressEditPage'),
+  () => import('@/pages/Address/AddressEditPage'),
   'AddressEditPage'
 );
-const TermDetailPage = lazyImport(
-  () => import('@/pages/TermDetailPage'),
-  'TermDetailPage'
+const SettingsTermDetailPage = lazyImport(
+  () => import('@/pages/Settings/SettingsTermDetailPage'),
+  'SettingsTermDetailPage'
 );
-const MemberManagePage = lazyImport(
-  () => import('@/pages/MemberManagePage'),
-  'MemberManagePage'
+const CrewMemberManagePage = lazyImport(
+  () => import('@/pages/Crew/CrewMemberManagePage'),
+  'CrewMemberManagePage'
 );
-const MemberViewPage = lazyImport(
-  () => import('@/pages/MemberViewPage'),
-  'MemberViewPage'
+const CrewMemberViewPage = lazyImport(
+  () => import('@/pages/Crew/CrewMemberViewPage'),
+  'CrewMemberViewPage'
 );
 const MyProfileEditPage = lazyImport(
   () => import('@/pages/MyProfileEditPage'),
   'MyProfileEditPage'
 );
 const CrewInfoEditPage = lazyImport(
-  () => import('@/pages/CrewInfoEditPage'),
+  () => import('@/pages/Crew/CrewInfoEditPage'),
   'CrewInfoEditPage'
 );
 const ScheduleLocationPage = lazyImport(
-  () => import('@/pages/ScheduleLocationPage'),
+  () => import('@/pages/Schedule/ScheduleLocationPage'),
   'ScheduleLocationPage'
 );
-const CrewPage = lazyImport(() => import('@/pages/CrewPage'), 'CrewPage');
+const CrewPage = lazyImport(() => import('@/pages/Crew/CrewPage'), 'CrewPage');
 const SettingsPage = lazyImport(
-  () => import('@/pages/SettingsPage'),
+  () => import('@/pages/Settings/SettingsPage'),
   'SettingsPage'
 );
 
@@ -128,9 +137,9 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'TermAgreePage',
+    name: 'OnboardingTermAgreePage',
     path: '/term-agree',
-    element: TermAgreePage,
+    element: OnboardingTermAgreePage,
     withAuth: false,
   },
   {
@@ -176,21 +185,21 @@ export const routes = [
     withAuth: true,
   },
   {
-    name: 'StorePage',
+    name: 'CommerceStorePage',
     path: '/store',
-    element: StorePage,
+    element: CommerceStorePage,
     withAuth: false,
   },
   {
-    name: 'StoreDetailPage',
+    name: 'CommerceStoreDetailPage',
     path: '/store/:id',
-    element: StoreDetailPage,
+    element: CommerceStoreDetailPage,
     withAuth: true,
   },
   {
-    name: 'CartPage',
+    name: 'CommerceCartPage',
     path: '/cart',
-    element: CartPage,
+    element: CommerceCartPage,
     withAuth: false,
   },
   {
@@ -200,21 +209,21 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'OrderPage',
+    name: 'CommerceOrderPage',
     path: '/order',
-    element: OrderPage,
+    element: CommerceOrderPage,
     withAuth: true,
   },
   {
-    name: 'OrderCompletePage',
+    name: 'CommerceOrderCompletePage',
     path: '/order-complete',
-    element: OrderCompletePage,
+    element: CommerceOrderCompletePage,
     withAuth: true,
   },
   {
-    name: 'OrderDetailPage',
+    name: 'CommerceOrderDetailPage',
     path: '/order/:id',
-    element: OrderDetailPage,
+    element: CommerceOrderDetailPage,
     withAuth: true,
   },
   {
@@ -290,21 +299,21 @@ export const routes = [
     withAuth: true,
   },
   {
-    name: 'TermDetailPage',
+    name: 'SettingsTermDetailPage',
     path: '/term-detail/:termType',
-    element: TermDetailPage,
+    element: SettingsTermDetailPage,
     withAuth: false,
   },
   {
-    name: 'MemberManagePage',
+    name: 'CrewMemberManagePage',
     path: '/crew/:id/manage',
-    element: MemberManagePage,
+    element: CrewMemberManagePage,
     withAuth: true,
   },
   {
-    name: 'MemberViewPage',
+    name: 'CrewMemberViewPage',
     path: '/crew/:id/members',
-    element: MemberViewPage,
+    element: CrewMemberViewPage,
     withAuth: true,
   },
   {

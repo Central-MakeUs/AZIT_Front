@@ -4,7 +4,7 @@ import { useCartContext } from '@/features/cart/context/CartContext';
 import * as styles from '@/features/cart/styles/CartBrandSection.css';
 import { CartItem } from '@/features/cart/ui/CartItem';
 
-import type { CartBrand } from '@/entities/cart/model';
+import type { CartBrand } from '@/entities/CommerceCart/model';
 
 interface CartBrandSectionProps {
   brand: CartBrand;
