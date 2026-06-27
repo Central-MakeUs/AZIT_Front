@@ -65,7 +65,7 @@ export const vars = createGlobalTheme(':root', {
         lineHeight: '1.4',
         letterSpacing: '0',
       },
-      b2_m: {
+      b2_medium: {
         fontSize: '16px',
         fontWeight: '00',
         lineHeight: '1.4',
