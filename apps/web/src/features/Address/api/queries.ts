@@ -4,11 +4,10 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 
-import {
-  postDeliveryAddress,
-  updateDeliveryAddress,
-  deleteDeliveryAddress,
-} from '@/features/Address/api';
+
+import { deleteDeliveryAddress } from './deleteDeliveryAddress';
+import { postDeliveryAddress } from './postDeliveryAddress';
+import { updateDeliveryAddress } from './updateDeliveryAddress';
 
 import { getDeliveryAddresses } from '@/entities/Address/api/getDeliveryAddresses';
 import type {
@@ -23,7 +22,7 @@ export const addressQueries = {
     queryOptions({
       queryKey: [...addressQueries.listKey()],
       queryFn: () => getDeliveryAddresses(),
-      staleTime: 1000 * 60 * 60 * 3, // 3시간,
+      staleTime: 1000 * 60 * 60 * 3,
     }),
 };
 

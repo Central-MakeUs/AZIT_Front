@@ -2,13 +2,14 @@ import { useActivityParams } from '@stackflow/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { PAYMENT_METHOD_MAP } from '@/shared/constants/order';
+import { orderQueries } from '@/features/CommerceOrder/api/queries';
+
 import { parseOrderParams } from '@/shared/lib/orderParams';
 import type { CommerceOrderPageParams } from '@/shared/lib/orderParams';
-import { orderQueries } from '@/shared/queries/order';
 import { toastError } from '@/shared/ui/toast';
 
 import type { CreateOrderResponse } from '@/entities/CommerceOrder/model';
+import { PAYMENT_METHOD_MAP } from '@/entities/CommerceOrder/model/orderConstants';
 
 const BANK_TRANSFER_CODE = PAYMENT_METHOD_MAP.BANK_TRANSFER.code;
 

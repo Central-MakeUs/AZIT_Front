@@ -21,12 +21,12 @@ import {
 } from '@/widgets/schedule/ui';
 import { ScheduleDetailSkeleton } from '@/widgets/skeleton/ui';
 
+
+import { scheduleQueries } from '@/features/Schedule/api/queries';
 import { useScheduleParticipateActions } from '@/features/Schedule/schedule-participate/model/useScheduleParticipateActions';
 
 import { bridge } from '@/shared/lib/bridge';
 import { useStack } from '@/shared/lib/stackflow/useStack';
-import { memberQueries } from '@/shared/queries/member';
-import { scheduleQueries } from '@/shared/queries/schedule';
 import { BackButton } from '@/shared/ui/button';
 import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
@@ -40,6 +40,7 @@ import {
   formatPace,
 } from '@/entities/Schedule/lib/formatter';
 import type { CrewScheduleDetailResponse } from '@/entities/Schedule/model/schedule.model';
+import { userQueries } from '@/entities/User/api/queries';
 
 const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
   const { date, time } = formatMeetTime(detail.meetingAt);
@@ -88,7 +89,7 @@ function ScheduleDetailContent({
   const { push } = useFlow();
   const queryClient = useQueryClient();
 
-  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
+  const { data: myCrewsData } = useSuspenseQuery(userQueries.myCrewsQuery());
   const crewId =
     myCrewsData.find((c) => c.memberStatus === 'JOINED')?.crewId ?? 0;
 

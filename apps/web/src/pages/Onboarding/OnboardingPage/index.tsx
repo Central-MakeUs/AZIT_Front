@@ -15,9 +15,11 @@ import { OnboardingRoleSelect } from '@/widgets/onboarding/ui/OnboardingRoleSele
 import { BusinessError } from '@/shared/api/apiHandler';
 import { getQueryParam } from '@/shared/lib/url';
 import { useFunnel } from '@/shared/lib/useFunnel';
-import { memberQueries } from '@/shared/queries';
 import { AppLayout } from '@/shared/ui/layout';
 import { toastError } from '@/shared/ui/toast';
+
+import { crewEntityQueries as crewQueries } from '@/entities/Crew/api/queries';
+import { userQueries } from '@/entities/User/api/queries';
 
 type StepName =
   | 'role-select'
@@ -53,9 +55,9 @@ export function OnboardingPage() {
   const joinCrewNameRef = useRef('');
 
   const { mutate: joinCrew, isPending: isJoining } = useMutation({
-    ...memberQueries.joinCrew,
+    ...crewQueries.joinCrew,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      queryClient.invalidateQueries({ queryKey: userQueries.myCrewsKey() });
       replace(
         'OnboardingCompletePage',
         { role: 'member', crewName: joinCrewNameRef.current },
@@ -73,9 +75,9 @@ export function OnboardingPage() {
   });
 
   const { mutate: createCrew, isPending: isCreating } = useMutation({
-    ...memberQueries.createCrew,
+    ...crewQueries.createCrew,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      queryClient.invalidateQueries({ queryKey: userQueries.myCrewsKey() });
       replace(
         'OnboardingCompletePage',
         {

@@ -10,13 +10,14 @@ import {
   STATUS_CONTENT,
 } from '@/features/Crew/crew-join-status/model/crewJoinStatus';
 
-import { memberQueries } from '@/shared/queries';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
+import { userQueries } from '@/entities/User/api/queries';
+
 function CrewBannedStatusContent() {
-  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
+  const { data: myCrewsData } = useSuspenseQuery(userQueries.myCrewsQuery());
 
   const expelledCrew =
     myCrewsData?.find((c) => c.memberStatus === 'EXPELLED') ?? null;

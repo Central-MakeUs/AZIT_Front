@@ -5,7 +5,7 @@ import * as styles from '@/widgets/mypage-attendance/styles/AttendanceRecordList
 
 import { formatDate } from '@/shared/lib/formatters';
 
-import type { AttendanceRecord } from '@/entities/user/model';
+import type { AttendanceRecord } from '@/entities/User/model';
 
 interface AttendanceRecordListItemProps {
   record: AttendanceRecord;

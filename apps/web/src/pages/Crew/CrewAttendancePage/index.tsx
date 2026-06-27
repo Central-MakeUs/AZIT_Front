@@ -11,12 +11,13 @@ import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
 import { formatDate } from '@/shared/lib/formatters';
 import { useCalendar } from '@/shared/lib/useCalendar';
-import { memberQueries } from '@/shared/queries';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 export function CrewAttendancePage() {
   const { pop } = useFlow();
@@ -30,12 +31,12 @@ export function CrewAttendancePage() {
   const yearMonth = formatDate(viewDate, 'YYYY-MM');
 
   const { data: myAttendanceCalendarData = [] } = useQuery({
-    ...memberQueries.getMyAttendanceCalendarQuery({ yearMonth }),
+    ...userQueries.getMyAttendanceCalendarQuery({ yearMonth }),
     enabled: !!yearMonth,
   });
 
   const { data: myAttendanceData } = useQuery({
-    ...memberQueries.getMyAttendanceQuery({ yearMonth }),
+    ...userQueries.getMyAttendanceQuery({ yearMonth }),
     enabled: !!yearMonth,
   });
 

@@ -16,12 +16,13 @@ import {
   RequestListEmpty,
 } from '@/widgets/mypage/ui';
 
+
+import { crewQueries } from '@/features/Crew/api/queries';
 import { RequestList } from '@/features/Crew/crew-manage/ui';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { usePullToRefresh } from '@/shared/lib/usePullToRefresh';
-import { memberQueries } from '@/shared/queries';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
@@ -30,7 +31,8 @@ import { spinner as pageLoaderSpinner } from '@/shared/ui/loading/PageLoader.css
 
 import * as styles from './index.css';
 
-import type { MemberItem } from '@/entities/user/model';
+import { userQueries } from '@/entities/User/api/queries';
+import type { MemberItem } from '@/entities/User/model';
 
 function MemberListContent({
   crewId,
@@ -41,7 +43,7 @@ function MemberListContent({
 }) {
   const queryClient = useQueryClient();
 
-  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
+  const { data: myCrewsData } = useSuspenseQuery(userQueries.myCrewsQuery());
   const crew = myCrewsData?.find((c) => c.crewId === crewId) ?? null;
 
   const {
@@ -50,7 +52,7 @@ function MemberListContent({
     hasNextPage,
     isFetchingNextPage,
     refetch: refetchMembers,
-  } = useSuspenseInfiniteQuery(memberQueries.crewMembersQuery(crewId));
+  } = useSuspenseInfiniteQuery(crewQueries.crewMembersQuery(crewId));
 
   const { scrollRef: infiniteScrollRef, bottomSentinelRef } = useInfiniteScroll(
     {
@@ -77,10 +79,10 @@ function MemberListContent({
   });
 
   const deleteMutation = useMutation({
-    ...memberQueries.deleteCrewMember,
+    ...crewQueries.deleteCrewMember,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: memberQueries.crewMembersKey(crewId),
+        queryKey: crewQueries.crewMembersKey(crewId),
       });
     },
   });
@@ -147,7 +149,7 @@ function RequestListContent({
   containerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { data: joinRequestsData, refetch: refetchRequests } = useSuspenseQuery(
-    memberQueries.joinRequestsQuery(crewId)
+    crewQueries.joinRequestsQuery(crewId)
   );
 
   const requests = joinRequestsData?.result ?? [];
@@ -198,7 +200,7 @@ export function CrewMemberManagePage({ params }: { params?: { id?: string } }) {
   const mainContainerRef = useRef<HTMLDivElement | null>(null);
 
   const { data: joinRequestsData } = useQuery({
-    ...memberQueries.joinRequestsQuery(crewId),
+    ...crewQueries.joinRequestsQuery(crewId),
     enabled: crewId > 0,
   });
   const requestCount = joinRequestsData?.result?.length ?? 0;

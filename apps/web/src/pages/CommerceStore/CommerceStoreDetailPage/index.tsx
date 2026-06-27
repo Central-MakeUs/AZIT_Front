@@ -9,6 +9,7 @@ import { Suspense } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import { CartIconButton } from '@/widgets/cart-icon-button';
 import {
   OrderPolicyDropdown,
   OrderPolicyFooter,
@@ -30,7 +31,6 @@ import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
-import { CartIconButton } from '@/shared/ui/cart-icon-button';
 import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 

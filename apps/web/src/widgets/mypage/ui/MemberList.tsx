@@ -3,7 +3,7 @@ import { Divider } from '@azit/design-system/divider';
 import * as styles from '@/widgets/mypage/styles/MemberList.css';
 import { MemberListItem } from '@/widgets/mypage/ui/MemberListItem';
 
-import type { MemberItem } from '@/entities/user/model';
+import type { MemberItem } from '@/entities/User/model';
 
 interface MemberListProps {
   members: MemberItem[];
