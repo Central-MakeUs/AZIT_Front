@@ -2,10 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import { crewQueries } from '@/features/Crew/api/queries';
 import { CREW_JOIN_STATUS } from '@/features/Crew/crew-join-status/model/crewJoinStatus';
 import type { CrewJoinStatus } from '@/features/Crew/crew-join-status/model/types';
 
-import { crewQueries, memberQueries, scheduleQueries } from '@/shared/queries';
+import { userQueries } from '@/entities/User/api/queries';
 
 export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
   const { replace } = useFlow();
@@ -18,13 +19,13 @@ export const useConfirmJoinStatus = (status: CrewJoinStatus | null) => {
         queryKey: crewQueries.defaultKey,
       });
       queryClient.invalidateQueries({
-        queryKey: memberQueries.myInfoKey(),
+        queryKey: userQueries.myInfoKey(),
       });
       queryClient.invalidateQueries({
-        queryKey: memberQueries.myCrewsKey(),
+        queryKey: userQueries.myCrewsKey(),
       });
       queryClient.invalidateQueries({
-        queryKey: scheduleQueries.all,
+        queryKey: ['schedule'],
       });
 
       const redirectActivity =

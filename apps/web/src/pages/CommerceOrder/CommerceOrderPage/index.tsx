@@ -16,12 +16,13 @@ import {
   OrderSummarySection,
 } from '@/features/CommerceOrder/ui';
 
-import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
+
+import { DEFAULT_PAYMENT_METHOD } from '@/entities/CommerceOrder/model/orderConstants';
 
 export function CommerceOrderPage() {
   const { pop, push, replace } = useFlow();

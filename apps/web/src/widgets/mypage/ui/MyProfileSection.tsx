@@ -2,7 +2,7 @@ import { ChevronRightIcon, PointCoinIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/widgets/mypage/styles/MyProfileSection.css';
 
-import type { MyInfoResult } from '@/entities/user/model';
+import type { MyInfoResult } from '@/entities/User/model';
 
 interface MyProfileSectionProps {
   profile: MyInfoResult;

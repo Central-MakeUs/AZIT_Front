@@ -15,6 +15,8 @@ import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import { crewQueries } from '@/features/Crew/api/queries';
+
 import {
   MEMBER_ROLE,
   MEMBER_ROLE_LABEL,
@@ -22,7 +24,6 @@ import {
 } from '@/shared/constants/member-role';
 import { bridge } from '@/shared/lib/bridge';
 import { copyToClipboard } from '@/shared/lib/clipboard';
-import { memberQueries } from '@/shared/queries';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
@@ -32,6 +33,8 @@ import { MenuSection } from '@/shared/ui/menu';
 import * as styles from './index.css';
 import { useCrewMenu } from './useCrewMenu';
 
+import { userQueries } from '@/entities/User/api/queries';
+
 function CrewPageContent({ params }: { params?: { id?: string } }) {
   const [dissolveInput, setDissolveInput] = useState('');
   const [isReissueOpen, setIsReissueOpen] = useState(false);
@@ -40,7 +43,7 @@ function CrewPageContent({ params }: { params?: { id?: string } }) {
   const { pop } = useFlow();
   const queryClient = useQueryClient();
 
-  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
+  const { data: myCrewsData } = useSuspenseQuery(userQueries.myCrewsQuery());
   const crew = myCrewsData?.find((c) => c.crewId === crewId) ?? null;
 
   const isLeader = crew?.memberRole === MEMBER_ROLE.LEADER;
@@ -50,25 +53,25 @@ function CrewPageContent({ params }: { params?: { id?: string } }) {
   );
 
   const { mutate: dissolveCrew } = useMutation({
-    ...memberQueries.dissolveCrew,
+    ...crewQueries.dissolveCrew,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      queryClient.invalidateQueries({ queryKey: userQueries.myCrewsKey() });
       pop();
     },
   });
 
   const { mutate: exitCrew } = useMutation({
-    ...memberQueries.exitCrew,
+    ...crewQueries.exitCrew,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      queryClient.invalidateQueries({ queryKey: userQueries.myCrewsKey() });
       pop();
     },
   });
 
   const { mutate: reissueInvitationCode } = useMutation({
-    ...memberQueries.reissueInvitationCode,
+    ...crewQueries.reissueInvitationCode,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: memberQueries.myCrewsKey() });
+      queryClient.invalidateQueries({ queryKey: userQueries.myCrewsKey() });
       setIsReissueOpen(false);
     },
   });

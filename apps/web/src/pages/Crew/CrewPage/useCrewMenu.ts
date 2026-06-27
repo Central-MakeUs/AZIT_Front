@@ -2,7 +2,7 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { getCrewMenu } from './menu';
 
-import type { MemberRole } from '@/entities/user/model';
+import type { MemberRole } from '@/entities/User/model';
 
 export const useCrewMenu = (
   role: MemberRole,

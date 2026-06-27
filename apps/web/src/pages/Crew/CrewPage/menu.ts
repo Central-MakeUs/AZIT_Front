@@ -3,7 +3,7 @@ import type { ActivityName } from '@/app/routes/types';
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import type { MenuGroup } from '@/shared/types/menu';
 
-import type { MemberRole } from '@/entities/user/model';
+import type { MemberRole } from '@/entities/User/model';
 
 type Push = (
   activity: ActivityName,

@@ -4,15 +4,13 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { getScheduleCheckInStatus } from '@/features/Schedule/api/getScheduleCheckInStatus';
-import { postScheduleCheckIn } from '@/features/Schedule/api/postScheduleCheckIn';
-import { postSchedule } from '@/features/Schedule/schedule-create/api/postSchedule';
-import { updateSchedule } from '@/features/Schedule/schedule-edit/api/updateSchedule';
-import { deleteSchedule } from '@/features/Schedule/schedule-manage/api';
+import { postSchedule } from '../schedule-create/api/postSchedule';
+import { updateSchedule } from '../schedule-edit/api/updateSchedule';
+import { deleteSchedule } from '../schedule-manage/api';
 import {
   deleteCancelParticipation,
   postParticipateSchedule,
-} from '@/features/Schedule/schedule-participate/api';
+} from '../schedule-participate/api';
 
 import {
   getScheduleDetail,
@@ -20,7 +18,9 @@ import {
 } from '@/entities/Schedule/api';
 import { getMemberScheduleList } from '@/entities/Schedule/api/getMemberScheduleList';
 import { getScheduleCalendar } from '@/entities/Schedule/api/getScheduleCalendar';
+import { getScheduleCheckInStatus } from '@/entities/Schedule/api/getScheduleCheckInStatus';
 import { getScheduleList } from '@/entities/Schedule/api/getScheduleList';
+import { postScheduleCheckIn } from '@/entities/Schedule/api/postScheduleCheckIn';
 import type {
   CreateScheduleRequest,
   CrewScheduleCalendarRequest,
@@ -28,6 +28,7 @@ import type {
   ScheduleCheckInRequest,
   UpdateScheduleRequest,
 } from '@/entities/Schedule/model/schedule.model';
+
 
 export const scheduleQueries = {
   all: ['schedule'] as const,

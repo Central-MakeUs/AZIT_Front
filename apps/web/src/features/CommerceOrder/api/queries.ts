@@ -4,8 +4,8 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { postOrderCancel } from '@/features/CommerceOrder/api/postOrderCancel';
-import { postOrderCreate } from '@/features/CommerceOrder/api/postOrderCreate';
+import { postOrderCancel } from './postOrderCancel';
+import { postOrderCreate } from './postOrderCreate';
 
 import { getOrderDetail } from '@/entities/CommerceOrder/api/getOrderDetail';
 import { getOrderFromCart } from '@/entities/CommerceOrder/api/getOrderFromCart';
@@ -16,6 +16,7 @@ import type {
   DirectOrderCheckoutRequest,
   OrderRequest,
 } from '@/entities/CommerceOrder/model';
+
 
 export const orderQueries = {
   all: ['order'] as const,

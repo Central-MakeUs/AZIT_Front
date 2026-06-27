@@ -3,7 +3,7 @@ import { CalendarIcon } from '@azit/design-system/icon';
 import * as styles from '@/widgets/mypage-attendance/styles/AttendanceRecordList.css.ts';
 import { AttendanceRecordListItem } from '@/widgets/mypage-attendance/ui/AttendanceRecordListItem';
 
-import type { AttendanceRecord } from '@/entities/user/model';
+import type { AttendanceRecord } from '@/entities/User/model';
 
 interface AttendanceRecordListProps {
   records: AttendanceRecord[];

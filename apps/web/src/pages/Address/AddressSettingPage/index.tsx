@@ -9,14 +9,13 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { AddressCard, AddressEmpty } from '@/features/Address/ui';
-
 import {
   addressQueries,
   useDeleteAddress,
   useUpdateAddress,
-} from '@/shared/queries';
-import { orderQueries } from '@/shared/queries/order';
+} from '@/features/Address/api/queries';
+import { AddressCard, AddressEmpty } from '@/features/Address/ui';
+
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
@@ -68,7 +67,7 @@ export function AddressSettingPage() {
       payload,
     });
 
-    await queryClient.invalidateQueries({ queryKey: orderQueries.all });
+    await queryClient.invalidateQueries({ queryKey: ['order'] });
     pop();
   };
 

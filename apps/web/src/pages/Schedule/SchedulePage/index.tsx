@@ -13,10 +13,10 @@ import { ScheduleCrewSelectBottomSheet } from '@/widgets/schedule-crew-select/ui
 import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
 import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
 
+import { scheduleQueries } from '@/features/Schedule/api/queries';
+
 import { formatDate } from '@/shared/lib/formatters';
 import { useCalendar } from '@/shared/lib/useCalendar';
-import { memberQueries } from '@/shared/queries/member';
-import { scheduleQueries } from '@/shared/queries/schedule';
 import { scrollContainer } from '@/shared/styles/container.css';
 import type { RunType } from '@/shared/types/schedule';
 import { AppLayout } from '@/shared/ui/layout';
@@ -25,6 +25,7 @@ import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 import * as styles from './index.css';
 
 import { ScheduleList } from '@/entities/Schedule/ui';
+import { userQueries } from '@/entities/User/api/queries';
 
 export function SchedulePage() {
   const { push } = useFlow();
@@ -56,7 +57,7 @@ export function SchedulePage() {
     setActiveFilter(undefined);
   }, [selectedDate]);
 
-  const { data: joinedCrews = [] } = useQuery(memberQueries.joinedCrewsQuery());
+  const { data: joinedCrews = [] } = useQuery(userQueries.joinedCrewsQuery());
   const hasCrews = joinedCrews.length > 0;
 
   const crewId = selectedCrewId ?? joinedCrews[0]?.crewId ?? 0;

@@ -7,13 +7,15 @@ import {
   ScheduleParticipantTitle,
 } from '@/widgets/schedule/ui';
 
+import { scheduleQueries } from '@/features/Schedule/api/queries';
+
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
-import { memberQueries } from '@/shared/queries/member';
-import { scheduleQueries } from '@/shared/queries/schedule';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 interface ScheduleMembersPageProps {
   params: { id: number };
@@ -22,7 +24,7 @@ interface ScheduleMembersPageProps {
 export function ScheduleMembersPage({
   params: { id: scheduleId },
 }: ScheduleMembersPageProps) {
-  const { data: myCrewsData } = useQuery(memberQueries.myCrewsQuery());
+  const { data: myCrewsData } = useQuery(userQueries.myCrewsQuery());
   const crewId =
     myCrewsData?.find((c) => c.memberStatus === 'JOINED')?.crewId ?? 0;
 

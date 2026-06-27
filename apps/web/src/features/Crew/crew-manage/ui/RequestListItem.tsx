@@ -1,10 +1,10 @@
 import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { crewQueries } from '@/features/Crew/api/queries';
 import * as styles from '@/features/Crew/crew-manage/styles/RequestListItem.css';
 
 import { formatJoinDate } from '@/shared/lib/formatters';
-import { memberQueries } from '@/shared/queries';
 
 interface RequestListItemProps {
   crewId: number;
@@ -24,22 +24,22 @@ export function RequestListItem({
   const queryClient = useQueryClient();
 
   const approveMutation = useMutation({
-    ...memberQueries.approveJoinRequest,
+    ...crewQueries.approveJoinRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: memberQueries.joinRequestsKey(crewId),
+        queryKey: crewQueries.joinRequestsKey(crewId),
       });
       queryClient.invalidateQueries({
-        queryKey: memberQueries.crewMembersKey(crewId),
+        queryKey: crewQueries.crewMembersKey(crewId),
       });
     },
   });
 
   const rejectMutation = useMutation({
-    ...memberQueries.rejectJoinRequest,
+    ...crewQueries.rejectJoinRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: memberQueries.joinRequestsKey(crewId),
+        queryKey: crewQueries.joinRequestsKey(crewId),
       });
     },
   });

@@ -5,11 +5,10 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 import { Fragment, useEffect, useState } from 'react';
 
-import { useWithdraw } from '@/features/auth/model';
 
 import { BusinessError } from '@/shared/api/apiHandler';
+import { useWithdraw } from '@/shared/auth/model';
 import { bridge } from '@/shared/lib/bridge';
-import { memberQueries } from '@/shared/queries/member';
 import { useAuthStore } from '@/shared/store/auth';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
@@ -17,6 +16,8 @@ import { MenuItem, MenuSection, menuSectionStyles } from '@/shared/ui/menu';
 
 import * as styles from './index.css';
 import { getSettingsMenu } from './menu';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 const PROVIDER_LABEL: Record<string, string> = {
   KAKAO: '카카오 연동',
@@ -26,7 +27,7 @@ const PROVIDER_LABEL: Record<string, string> = {
 export function SettingsPage() {
   const { logout } = useAuthStore();
   const { handleWithdraw } = useWithdraw();
-  const { data: providers } = useQuery(memberQueries.myProvidersQuery());
+  const { data: providers } = useQuery(userQueries.myProvidersQuery());
   const [appVersion, setAppVersion] = useState<string>('');
   const [showLeaderError, setShowLeaderError] = useState(false);
 

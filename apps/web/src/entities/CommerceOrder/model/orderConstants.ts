@@ -1,7 +1,4 @@
-import type {
-  OrderStatus,
-  PaymentMethod,
-} from '@/entities/CommerceOrder/model';
+import type { OrderStatus, PaymentMethod } from './index';
 
 export const PAYMENT_METHOD_MAP: Record<string, PaymentMethod> = {
   BANK_TRANSFER: {
