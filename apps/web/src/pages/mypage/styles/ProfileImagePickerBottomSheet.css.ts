@@ -8,15 +8,18 @@ export const list = style({
 });
 
 export const item = style([
-  typography.body.b2_m,
+  typography.body.b2_medium,
   {
     width: '100%',
-    padding: '16px 0',
+    padding: '18px 0',
     background: 'none',
     border: 'none',
     cursor: 'pointer',
     color: vars.colors.black,
     textAlign: 'left',
+    gap: '12px',
+    display: 'flex',
+    alignItems: 'center',
     selectors: {
       '&:active': {
         backgroundColor: vars.colors.gray10,
