@@ -1,6 +1,6 @@
 import { vars } from '../../shared/styles/theme.css';
 import { recipe } from '@vanilla-extract/recipes';
-import { style, globalStyle } from '@vanilla-extract/css';
+import { style, styleVariants, globalStyle } from '@vanilla-extract/css';
 import { typography } from '../../shared/styles';
 
 export type InputVariants = NonNullable<Parameters<typeof inputContainer>[0]>;
@@ -9,7 +9,7 @@ export type InputState = InputVariants['state'];
 export const inputWrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '4px',
+  gap: '6px',
   width: '100%',
 });
 
@@ -21,7 +21,7 @@ export const inputContainer = recipe({
     height: '48px',
     gap: '10px',
     borderRadius: '12px',
-    border: `0.5px solid ${vars.colors.gray20}`,
+    border: `1px solid ${vars.colors.gray30}`,
     transition: 'border-color 0.2s ease',
     padding: '10px 16px',
     backgroundColor: vars.colors.white,
@@ -55,7 +55,7 @@ export const input = style([
     outline: 'none',
     selectors: {
       '&::placeholder': {
-        color: vars.colors.gray30,
+        color: vars.colors.gray40,
         ...vars.typography.body.b2,
       },
       '&:disabled': {
@@ -91,7 +91,7 @@ export const removeButton = style({
   border: 'none',
   background: 'none',
   cursor: 'pointer',
-  backgroundColor: vars.colors.gray20,
+  backgroundColor: vars.colors.gray30,
 });
 
 export const removeButtonIcon = style({
@@ -110,11 +110,19 @@ export const iconSlot = style({
   height: 'auto',
 });
 
-export const inputDescriptionWrapper = style({
-  display: 'grid',
-  gridTemplateColumns: '1fr auto',
-  alignItems: 'center',
-  gap: '12px',
+export const inputDescriptionWrapper = styleVariants({
+  default: {
+    display: 'grid',
+    gridTemplateColumns: '1fr auto',
+    alignItems: 'center',
+    gap: '12px',
+  },
+  rightOnly: {
+    display: 'grid',
+    gridTemplateColumns: '1fr auto',
+    alignItems: 'center',
+    gap: '8px',
+  },
 });
 
 export const inputDescriptionWarning = style({
