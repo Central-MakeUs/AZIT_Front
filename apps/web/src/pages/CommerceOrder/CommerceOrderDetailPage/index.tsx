@@ -7,15 +7,14 @@ import { Suspense } from 'react';
 import { useFlow } from '@/app/routes/stackflow';
 
 import { useOrderDetail } from '@/features/CommerceOrder/model/useOrderDetail';
-import { DepositInfoSection } from '@/features/CommerceOrder/order-complete/ui';
 import {
+  DepositInfoSection,
   OrderDateSection,
   OrderDeliveryAddressSection,
   OrderDeliveryInfoSection,
-} from '@/features/CommerceOrder/order-detail/ui';
-import { PaymentInfoSection } from '@/features/CommerceOrder/order-payment-info/ui';
-import { OrderProductListSection } from '@/features/CommerceOrder/order-product-list/ui';
-
+  PaymentInfoSection,
+  OrderProductListSection,
+} from '@/features/CommerceOrder/ui';
 
 import type { OrderStatus } from '@/entities/CommerceOrder/model';
 
@@ -25,7 +24,6 @@ import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
 import * as styles from './index.css';
-
 
 function OrderDetailContent() {
   const { replace } = useFlow();

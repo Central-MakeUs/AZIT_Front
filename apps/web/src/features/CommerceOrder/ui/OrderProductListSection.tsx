@@ -1,10 +1,12 @@
-import * as styles from '@/features/CommerceOrder/order-product-list/styles/OrderProductListSection.css';
-import { OrderProductItem } from '@/features/CommerceOrder/order-product-list/ui/OrderProductItem';
+import * as styles from '@/features/CommerceOrder/styles/OrderProductListSection.css';
 
 import type {
   OrderItem,
   OrderItemResponse,
 } from '@/entities/CommerceOrder/model';
+
+import { OrderProductItem } from './OrderProductItem';
+
 
 type OrderProductListItem = OrderItem | OrderItemResponse;
 

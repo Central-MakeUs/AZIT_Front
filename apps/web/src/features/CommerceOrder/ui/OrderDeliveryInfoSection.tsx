@@ -1,6 +1,6 @@
 import { CopyIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/CommerceOrder/order-detail/styles/OrderDeliveryInfoSection.css';
+import * as styles from '@/features/CommerceOrder/styles/OrderDeliveryInfoSection.css';
 
 import type { OrderStatus } from '@/entities/CommerceOrder/model';
 

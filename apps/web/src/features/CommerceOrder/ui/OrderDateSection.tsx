@@ -1,4 +1,4 @@
-import * as styles from '@/features/CommerceOrder/order-detail/styles/OrderDateSection.css';
+import * as styles from '@/features/CommerceOrder/styles/OrderDateSection.css';
 
 import type { OrderStatus } from '@/entities/CommerceOrder/model';
 import { ORDER_STATUS_MAP } from '@/entities/CommerceOrder/model/orderConstants';

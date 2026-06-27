@@ -6,8 +6,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useFlow } from '@/app/routes/stackflow';
 
 import { useOrder } from '@/features/CommerceOrder/model/useOrder';
-import { OrderProductListSection } from '@/features/CommerceOrder/order-product-list/ui';
 import {
+  OrderProductListSection,
   OrderAddressSection,
   OrderDiscountSection,
   OrderPaymentDescription,
@@ -22,7 +22,6 @@ import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
-
 
 export function CommerceOrderPage() {
   const { pop, push, replace } = useFlow();
