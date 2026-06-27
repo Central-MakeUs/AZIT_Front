@@ -1,4 +1,4 @@
-import type { operations } from '@/shared/api/apiTypes';
+import type { components, operations } from '@/shared/api/apiTypes';
 
 import type {
   CheckoutItemDetailResponse,
@@ -9,8 +9,6 @@ import type {
   OrderSummaryResponse,
   PaymentMethodResponse,
 } from './order.model';
-
-import type { DeliveryAddressResponse } from '@/entities/Address/model';
 
 /** order.model 타입 가공 */
 
@@ -30,7 +28,7 @@ export type CartOrderCheckoutResponse = NonNullable<
 >;
 
 export type OrderItem = CheckoutItemDetailResponse;
-export type DeliveryAddress = DeliveryAddressResponse;
+export type DeliveryAddress = components['schemas']['DeliveryAddressResponse'];
 export type PaymentMethod = PaymentMethodResponse;
 export type DepositAccountInfo = DepositAccountInfoResponse;
 export type OrderRequest = CreateOrderRequest;
