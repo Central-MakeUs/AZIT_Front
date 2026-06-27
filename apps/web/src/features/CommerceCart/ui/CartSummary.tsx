@@ -1,8 +1,8 @@
 import { Description } from '@azit/design-system/description';
 import { Divider } from '@azit/design-system/divider';
 
-import { useCartContext } from '@/features/cart/context/CartContext';
-import * as styles from '@/features/cart/styles/CartSummary.css';
+import { useCartContext } from '@/features/CommerceCart/context/CartContext';
+import * as styles from '@/features/CommerceCart/styles/CartSummary.css';
 
 import { formatPrice } from '@/shared/lib/formatters';
 

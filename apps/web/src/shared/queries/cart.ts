@@ -4,9 +4,9 @@ import {
   type QueryClient,
 } from '@tanstack/react-query';
 
-import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
-import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
-import { updateCartProductQuantity } from '@/features/cart/api/updateCartProductQuantity';
+import { deleteCartProduct } from '@/features/CommerceCart/api/deleteCartProduct';
+import { postCartProductAdd } from '@/features/CommerceCart/api/postCartProductAdd';
+import { updateCartProductQuantity } from '@/features/CommerceCart/api/updateCartProductQuantity';
 
 import { getCartCount } from '@/entities/CommerceCart/api/getCartCount';
 import { getCartProducts } from '@/entities/CommerceCart/api/getCartProducts';
