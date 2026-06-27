@@ -3,7 +3,7 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useState, useCallback } from 'react';
 
-import { NotificationSettingsList } from '@/features/Settings/mypage-notification/ui';
+import { NotificationSettingsList } from '@/features/Settings/ui';
 
 import {
   mockNotificationSettings,
