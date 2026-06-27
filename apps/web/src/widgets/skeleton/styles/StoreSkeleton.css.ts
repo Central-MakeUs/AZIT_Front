@@ -15,6 +15,7 @@ const skeletonBase = style({
 export const gridContainer = style({
   display: 'grid',
   gap: '12px 11px',
+  padding: '0 20px',
   alignItems: 'flex-start',
   width: '100%',
   gridTemplateColumns: 'repeat(2, 1fr)',
