@@ -7,7 +7,7 @@ import { useCartSelect } from '@/features/cart/model/useCartSelect';
 
 import { cartQueries } from '@/shared/queries/cart';
 
-import type { CartProductItem, CartBrand } from '@/entities/cart/model';
+import type { CartProductItem, CartBrand } from '@/entities/CommerceCart/model';
 
 const transformCartData = (items: CartProductItem[]): CartBrand[] => {
   const brandMap = new Map<

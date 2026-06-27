@@ -20,7 +20,9 @@ export default function OrderPolicyFooter() {
         <button
           type="button"
           className={styles.orderPolicyFooterLink}
-          onClick={() => push('TermDetailPage', { termType: 'privacy-policy' })}
+          onClick={() =>
+            push('SettingsTermDetailPage', { termType: 'privacy-policy' })
+          }
         >
           개인정보처리방침
         </button>
@@ -29,7 +31,7 @@ export default function OrderPolicyFooter() {
           type="button"
           className={styles.orderPolicyFooterLink}
           onClick={() =>
-            push('TermDetailPage', { termType: 'terms-of-service' })
+            push('SettingsTermDetailPage', { termType: 'terms-of-service' })
           }
         >
           서비스 이용약관
@@ -39,7 +41,7 @@ export default function OrderPolicyFooter() {
           type="button"
           className={styles.orderPolicyFooterLink}
           onClick={() =>
-            push('TermDetailPage', {
+            push('SettingsTermDetailPage', {
               termType: 'third-party-info-agreement',
             })
           }

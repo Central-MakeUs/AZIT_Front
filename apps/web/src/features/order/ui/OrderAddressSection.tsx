@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import * as styles from '@/features/order/styles/OrderAddressSection.css';
 
-import type { DeliveryAddress } from '@/entities/order/model';
+import type { DeliveryAddress } from '@/entities/CommerceOrder/model';
 
 interface OrderAddressSectionProps {
   address: DeliveryAddress | null;

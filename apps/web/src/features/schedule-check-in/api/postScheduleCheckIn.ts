@@ -2,7 +2,7 @@ import { auth } from '@/shared/api/apiClient';
 import type { ApiResponseWithoutResult } from '@/shared/api/baseTypes';
 import { END_POINT } from '@/shared/constants/endpoint';
 
-import type { ScheduleCheckInRequest } from '@/entities/schedule/model/schedule.model';
+import type { ScheduleCheckInRequest } from '@/entities/Schedule/model/schedule.model';
 
 export const postScheduleCheckIn = (
   scheduleId: number,
