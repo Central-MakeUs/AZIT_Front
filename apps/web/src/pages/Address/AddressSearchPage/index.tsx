@@ -3,8 +3,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import type { KakaoPostcodeResult } from '@/features/address/model/useKakaoPostcode';
-import { KakaoPostcode } from '@/features/address/ui';
+import type { KakaoPostcodeResult } from '@/features/Address/model/useKakaoPostcode';
+import { KakaoPostcode } from '@/features/Address/ui';
 
 import { useAddressSelectionStore } from '@/shared/store/addressSelection';
 import { BackButton } from '@/shared/ui/button';

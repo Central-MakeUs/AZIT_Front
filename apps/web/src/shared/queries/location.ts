@@ -2,7 +2,7 @@ import { queryOptions } from '@tanstack/react-query';
 
 import { normalizeStr } from '../lib/formatters';
 
-import { getLocationSearch } from '@/entities/location/api';
+import { getLocationSearch } from '@/entities/Location/api';
 
 export const locationQueries = {
   all: ['location'] as const,
