@@ -2,10 +2,8 @@ import { Button } from '@azit/design-system/button';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { useStoreGrid } from '@/features/CommerceStore/model/useStoreGrid';
-import { StoreGrid } from '@/features/CommerceStore/store/ui/StoreGrid';
 import * as styles from '@/features/CommerceStore/styles/StoreGridView.css';
 import { StoreSkeleton } from '@/features/CommerceStore/ui/StoreSkeleton';
-
 
 import { storeQueries } from '@/entities/CommerceStore/api/queries';
 
@@ -14,6 +12,7 @@ import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 
+import { StoreGrid } from './StoreGrid';
 
 function StoreGridContent() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

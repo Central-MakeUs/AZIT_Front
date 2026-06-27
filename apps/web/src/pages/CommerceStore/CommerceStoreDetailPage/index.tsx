@@ -11,13 +11,11 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { StoreDetailSkeleton } from '@/widgets/Skeleton/ui';
 
-import { CartIconButton } from '@/features/CommerceStore/cart-icon-button';
 import { useStoreDetail } from '@/features/CommerceStore/model/useStoreDetail';
 import {
+  CartIconButton,
   OrderPolicyDropdown,
   OrderPolicyFooter,
-} from '@/features/CommerceStore/order-policy/ui';
-import {
   StoreDetailImageSlider,
   StoreDetailInfo,
   StoreDetailBanner,
@@ -25,7 +23,7 @@ import {
   StoreDetailRefund,
   StoreDetailDescription,
   StoreDetailItem,
-} from '@/features/CommerceStore/store/ui';
+} from '@/features/CommerceStore/ui';
 
 import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
