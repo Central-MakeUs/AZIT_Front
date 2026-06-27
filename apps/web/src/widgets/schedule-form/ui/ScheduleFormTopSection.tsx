@@ -1,3 +1,4 @@
+import { Input } from '@azit/design-system/input';
 import { memo } from 'react';
 
 import type { ScheduleFormValues } from '@/widgets/schedule-form/model/scheduleForm';
@@ -52,19 +53,16 @@ export const ScheduleFormTopSection = memo(function ScheduleFormTopSection({
         <label className={styles.label} htmlFor="schedule-title">
           런 타이틀
         </label>
-        <div className={styles.titleInputWrapper}>
-          <input
-            id="schedule-title"
-            className={styles.titleInput}
-            value={title}
-            onChange={(e) => onTitleChange(e.target.value)}
-            placeholder="타이틀을 입력해주세요"
-            maxLength={TITLE_MAX_LENGTH}
-          />
-          <span className={styles.titleCounter}>
-            {title.length}/{TITLE_MAX_LENGTH}
-          </span>
-        </div>
+        <Input
+          id="schedule-title"
+          value={title}
+          onChange={(e) => onTitleChange(e.target.value)}
+          placeholder="타이틀을 입력해주세요"
+          maxLength={TITLE_MAX_LENGTH}
+          onRemove={() => onTitleChange('')}
+        >
+          <Input.Description right={`${title.length}/${TITLE_MAX_LENGTH}`} />
+        </Input>
       </div>
     </div>
   );
