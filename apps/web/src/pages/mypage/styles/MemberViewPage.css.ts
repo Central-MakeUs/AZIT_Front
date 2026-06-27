@@ -8,7 +8,6 @@ export const headerWrapper = style([layoutStyles.headerWrapper]);
 export const mainContainer = style([
   layoutStyles.mainContainer,
   {
-    backgroundColor: vars.colors.background_sub,
     padding: 20,
   },
 ]);
