@@ -1,3 +1,5 @@
+import { Divider } from '@azit/design-system/divider';
+
 import * as styles from '@/widgets/mypage/styles/MemberList.css';
 import { MemberListItem } from '@/widgets/mypage/ui/MemberListItem';
 
@@ -16,17 +18,19 @@ export function MemberList({
 }: MemberListProps) {
   return (
     <div className={styles.list}>
-      {members.map((member) => (
-        <MemberListItem
-          key={member.id}
-          memberId={member.memberId}
-          nickname={member.nickname}
-          profileImageUrl={member.profileImageUrl}
-          crewMemberRole={member.role}
-          joinedDate={member.joinedDate}
-          onDeleteMember={onDeleteMember}
-          isDeleting={isDeletingMemberId === member.memberId}
-        />
+      {members.map((member, index) => (
+        <div key={member.id}>
+          <MemberListItem
+            memberId={member.memberId}
+            nickname={member.nickname}
+            profileImageUrl={member.profileImageUrl}
+            crewMemberRole={member.role}
+            joinedDate={member.joinedDate}
+            onDeleteMember={onDeleteMember}
+            isDeleting={isDeletingMemberId === member.memberId}
+          />
+          {index < members.length - 1 && <Divider />}
+        </div>
       ))}
     </div>
   );

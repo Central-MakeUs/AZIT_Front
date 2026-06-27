@@ -7,10 +7,7 @@ export const card = style({
   alignItems: 'center',
   width: '100%',
   height: 88,
-  padding: '0 16px',
-  backgroundColor: vars.colors.white,
-  border: `0.5px solid ${vars.colors.gray10}`,
-  borderRadius: 12,
+  padding: '16px 0',
   boxSizing: 'border-box',
 });
 
@@ -42,7 +39,7 @@ export const avatar = style({
 export const info = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: 8,
+  gap: 2,
   flex: 1,
   minWidth: 0,
   marginLeft: 16,
@@ -65,7 +62,7 @@ export const nickname = style([
 export const joinDate = style([
   typography.body.b3,
   {
-    color: vars.colors.black,
+    color: vars.colors.gray60,
   },
 ]);
 

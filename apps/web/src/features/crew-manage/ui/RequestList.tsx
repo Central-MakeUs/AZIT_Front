@@ -1,3 +1,5 @@
+import { Divider } from '@azit/design-system/divider';
+
 import * as styles from '@/features/crew-manage/styles/RequestList.css';
 import { RequestListItem } from '@/features/crew-manage/ui/RequestListItem';
 
@@ -11,15 +13,17 @@ interface RequestListProps {
 export function RequestList({ crewId, requests }: RequestListProps) {
   return (
     <div className={styles.list}>
-      {requests.map((request) => (
-        <RequestListItem
-          key={request.memberId}
-          crewId={crewId}
-          targetMemberId={request.memberId}
-          nickname={request.nickname}
-          profileImageUrl={request.profileImageUrl}
-          requestedAt={request.requestedAt}
-        />
+      {requests.map((request, index) => (
+        <div key={request.memberId}>
+          <RequestListItem
+            crewId={crewId}
+            targetMemberId={request.memberId}
+            nickname={request.nickname}
+            profileImageUrl={request.profileImageUrl}
+            requestedAt={request.requestedAt}
+          />
+          {index < requests.length - 1 && <Divider />}
+        </div>
       ))}
     </div>
   );

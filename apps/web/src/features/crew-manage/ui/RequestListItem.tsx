@@ -54,7 +54,7 @@ export function RequestListItem({
 
   return (
     <article className={styles.card}>
-      <div className={styles.topRow}>
+      <div className={styles.contentRow}>
         {profileImageUrl ? (
           <img
             src={profileImageUrl}
@@ -67,7 +67,7 @@ export function RequestListItem({
           <div
             className={styles.avatar}
             role="img"
-            aria-label={'프로필 이미지'}
+            aria-label="프로필 이미지"
           />
         )}
         <div className={styles.info}>
@@ -77,7 +77,7 @@ export function RequestListItem({
           >{`${formatJoinDate(requestedAt)} 요청`}</span>
         </div>
       </div>
-      <div className={styles.buttonRow}>
+      <div className={styles.buttonGroup}>
         <AlertDialog
           trigger={
             <button
