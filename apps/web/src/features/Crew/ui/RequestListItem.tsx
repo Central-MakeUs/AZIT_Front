@@ -2,7 +2,7 @@ import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { crewQueries } from '@/features/Crew/api/queries';
-import * as styles from '@/features/Crew/crew-manage/styles/RequestListItem.css';
+import * as styles from '@/features/Crew/styles/RequestListItem.css';
 
 import { formatJoinDate } from '@/shared/lib/formatters';
 
