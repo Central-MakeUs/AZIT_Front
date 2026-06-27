@@ -24,7 +24,7 @@ import {
   StoreDetailItem,
 } from '@/widgets/store/ui';
 
-import { useStoreDetail } from '@/features/store/model/useStoreDetail';
+import { useStoreDetail } from '@/features/CommerceStore/model/useStoreDetail';
 
 import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';
