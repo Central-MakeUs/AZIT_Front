@@ -304,43 +304,6 @@ export const addSupplyButton = style([
   },
 ]);
 
-export const titleCounter = style([
-  typography.body.b3,
-  {
-    color: vars.colors.gray30,
-    flexShrink: 0,
-  },
-]);
-
-export const titleInputWrapper = style({
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  minHeight: 48,
-  gap: 10,
-  borderRadius: 12,
-  border: `0.5px solid ${vars.colors.gray20}`,
-  padding: '10px 16px',
-  backgroundColor: vars.colors.white,
-});
-
-export const titleInput = style([
-  typography.body.b3,
-  {
-    flexGrow: 1,
-    minWidth: 0,
-    border: 'none',
-    outline: 'none',
-    backgroundColor: 'inherit',
-    color: vars.colors.black,
-    selectors: {
-      '&::placeholder': {
-        color: vars.colors.gray30,
-      },
-    },
-  },
-]);
-
 export const bottomSheetContent = style({
   marginBottom: '20px',
 });
