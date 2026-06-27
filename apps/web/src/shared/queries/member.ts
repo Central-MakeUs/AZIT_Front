@@ -4,10 +4,10 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { postCreateCrew } from '@/features/crew-create/api/postCreateCrew';
-import { postJoinCrew } from '@/features/crew-join/api/postJoinCrew';
-import { postApproveJoinRequest } from '@/features/crew-manage/api/postApproveJoinRequest';
-import { postRejectJoinRequest } from '@/features/crew-manage/api/postRejectJoinRequest';
+import { postCreateCrew } from '@/features/Crew/crew-create/api/postCreateCrew';
+import { postJoinCrew } from '@/features/Crew/crew-join/api/postJoinCrew';
+import { postApproveJoinRequest } from '@/features/Crew/crew-manage/api/postApproveJoinRequest';
+import { postRejectJoinRequest } from '@/features/Crew/crew-manage/api/postRejectJoinRequest';
 
 import type { UpdateCrewInfoRequest } from '@/shared/api/models/crew';
 
