@@ -2,7 +2,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { Input } from '@azit/design-system/input';
 
-import * as styles from '@/features/Onboarding/onboarding/styles/OnboardingCrewName.css';
+import * as styles from '@/features/Onboarding/styles/OnboardingCrewName.css';
 
 import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
 import { useCrewNameInput } from '@/shared/lib/useCrewNameInput';
