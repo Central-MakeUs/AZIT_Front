@@ -1,4 +1,4 @@
-import * as styles from '@/features/CommerceStore/ui/styles/StoreSkeleton.css';
+import * as styles from '@/features/CommerceStore/styles/StoreSkeleton.css';
 
 const SKELETON_ITEM_COUNT = 6;
 

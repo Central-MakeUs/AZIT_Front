@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { PropsWithChildren, ReactNode } from 'react';
 
-import * as styles from '@/features/CommerceStore/store/styles/StoreBanner.css';
+import * as styles from '@/features/CommerceStore/styles/StoreBanner.css';
 
 interface StoreBannerRootProps {
   children: ReactNode;
