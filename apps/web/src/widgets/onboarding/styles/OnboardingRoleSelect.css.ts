@@ -1,6 +1,10 @@
 import { typography, vars } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
+export const headerWrapper = style({
+  width: '100%',
+});
+
 export const stepContainer = style({
   flex: 1,
   minHeight: 0,
@@ -11,6 +15,10 @@ export const stepContainer = style({
   paddingLeft: 20,
   paddingRight: 20,
   paddingTop: 64,
+});
+
+export const stepContainerWithHeader = style({
+  paddingTop: 8,
 });
 
 export const headerSection = style({

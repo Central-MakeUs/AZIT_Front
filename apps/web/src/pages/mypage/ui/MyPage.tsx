@@ -40,7 +40,7 @@ export function MyPage() {
   };
 
   const handleCreateNewCrew = () => {
-    push('OnboardingPage', {}, { animate: true });
+    push('OnboardingPage', { isExtra: 'true' }, { animate: true });
   };
 
   return (
