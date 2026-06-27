@@ -2,7 +2,6 @@ import { Button } from '@azit/design-system/button';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { StoreSkeleton } from '@/widgets/skeleton/ui';
-import { StoreBanner } from '@/widgets/store/ui/StoreBanner';
 import { StoreGrid } from '@/widgets/store/ui/StoreGrid';
 
 import { useStoreGrid } from '@/features/CommerceStore/model/useStoreGrid';
@@ -28,40 +27,40 @@ function StoreGridContent() {
   });
 
   return (
-    <div ref={scrollRef} className={scrollContainer}>
-      <div className={styles.mainContainer}>
-        <div className={styles.bannerSection}>
-          <StoreBanner handleClick={() => openExternalUrl(GOOGLE_FORM_URL)}>
-            <StoreBanner.Title>[구글폼] AZIT에게 한마디 하기</StoreBanner.Title>
-            <StoreBanner.Description>
-              <p>정성 가득 피드백 주시면</p>
-              <p className={styles.bannerDescriptionText}>
-                기프티콘 당첨 기회가 찾아와요
-              </p>
-            </StoreBanner.Description>
-          </StoreBanner>
-        </div>
-        <div className={styles.productsSection}>
-          <Button size="small">전체</Button>
-          <StoreGrid products={products} />
-          <div
-            ref={bottomSentinelRef}
-            style={{
-              height: '1px',
-              width: '100%',
-            }}
-          />
-          {isFetchingNextPage && <StoreSkeleton />}
-        </div>
-      </div>
+    <div ref={scrollRef} className={styles.productsSection}>
+      <Button size="small">전체</Button>
+      <StoreGrid products={products} />
+      <div
+        ref={bottomSentinelRef}
+        style={{
+          height: '1px',
+          width: '100%',
+        }}
+      />
+      {isFetchingNextPage && <StoreSkeleton />}
     </div>
   );
 }
 
 export function StoreGridView() {
   return (
-    <AsyncBoundary suspenseFallback={<StoreSkeleton />}>
-      <StoreGridContent />
-    </AsyncBoundary>
+    <div className={scrollContainer}>
+      <div className={styles.mainContainer}>
+        <div className={styles.bannerSection}>
+          <img
+            src="/images/commerce-banner.webp"
+            alt="AZIT에 대한 의견을 남겨주세요"
+            className={styles.bannerImage}
+            onClick={() => openExternalUrl(GOOGLE_FORM_URL)}
+          />
+        </div>
+        <AsyncBoundary
+          suspenseFallback={<StoreSkeleton />}
+          errorFallback={<div>상품을 불러오지 못했습니다.</div>}
+        >
+          <StoreGridContent />
+        </AsyncBoundary>
+      </div>
+    </div>
   );
 }
