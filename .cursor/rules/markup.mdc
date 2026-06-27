@@ -199,8 +199,8 @@ Figma MCP는 레이아웃 구현 시 다음 우선순위를 따른다:
 
 예시 디렉토리 구조
 
-ui/StorePage.tsx
-styles/StorePage.css.ts
+ui/CommerceStorePage.tsx
+styles/CommerceStorePage.css.ts
 
 ※ 파일명 불일치, 위치 변경, 공용 스타일 파일로의 병합은 허용되지 않는다.
 
