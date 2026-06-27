@@ -12,18 +12,25 @@ import { useMemo, Suspense, type ReactNode } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import { ScheduleDetailSkeleton } from '@/widgets/Skeleton/ui';
+
+import { scheduleQueries } from '@/features/Schedule/api/queries';
 import {
   ScheduleDetailHeaderSection,
   ScheduleDetailInfoSection,
   ScheduleDetailDescriptionSection,
   SchedulePreparationList,
   ScheduleParticipantList,
-} from '@/widgets/schedule/ui';
-import { ScheduleDetailSkeleton } from '@/widgets/skeleton/ui';
-
-
-import { scheduleQueries } from '@/features/Schedule/api/queries';
+} from '@/features/Schedule/schedule/ui';
 import { useScheduleParticipateActions } from '@/features/Schedule/schedule-participate/model/useScheduleParticipateActions';
+
+import {
+  formatDistance,
+  formatMeetTime,
+  formatPace,
+} from '@/entities/Schedule/lib/formatter';
+import type { CrewScheduleDetailResponse } from '@/entities/Schedule/model/schedule.model';
+import { userQueries } from '@/entities/User/api/queries';
 
 import { bridge } from '@/shared/lib/bridge';
 import { useStack } from '@/shared/lib/stackflow/useStack';
@@ -34,13 +41,6 @@ import { Show } from '@/shared/ui/show';
 
 import * as styles from './index.css';
 
-import {
-  formatDistance,
-  formatMeetTime,
-  formatPace,
-} from '@/entities/Schedule/lib/formatter';
-import type { CrewScheduleDetailResponse } from '@/entities/Schedule/model/schedule.model';
-import { userQueries } from '@/entities/User/api/queries';
 
 const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
   const { date, time } = formatMeetTime(detail.meetingAt);

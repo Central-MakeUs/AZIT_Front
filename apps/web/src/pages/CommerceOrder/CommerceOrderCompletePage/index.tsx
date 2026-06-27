@@ -10,14 +10,15 @@ import {
   DepositInfoSection,
   DeliveryInfoSection,
   OrderCompleteHeader,
-} from '@/widgets/order-complete/ui';
-import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
+} from '@/features/CommerceOrder/order-complete/ui';
+import { PaymentInfoSection } from '@/features/CommerceOrder/order-payment-info/ui';
+
+import type { CreateOrderResponse } from '@/entities/CommerceOrder/model';
 
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
 
-import type { CreateOrderResponse } from '@/entities/CommerceOrder/model';
 
 interface CommerceOrderCompletePageParams {
   orderResult?: CreateOrderResponse;

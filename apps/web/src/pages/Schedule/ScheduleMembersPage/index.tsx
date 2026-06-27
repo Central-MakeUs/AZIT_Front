@@ -2,12 +2,14 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
+import { scheduleQueries } from '@/features/Schedule/api/queries';
 import {
   ScheduleParticipantListItem,
   ScheduleParticipantTitle,
-} from '@/widgets/schedule/ui';
+} from '@/features/Schedule/schedule/ui';
 
-import { scheduleQueries } from '@/features/Schedule/api/queries';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { BackButton } from '@/shared/ui/button';
@@ -15,7 +17,6 @@ import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
 
-import { userQueries } from '@/entities/User/api/queries';
 
 interface ScheduleMembersPageProps {
   params: { id: number };

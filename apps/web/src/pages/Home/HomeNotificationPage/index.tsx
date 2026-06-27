@@ -3,7 +3,7 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
-import { NotificationList } from '@/widgets/notification/ui';
+import { NotificationList } from '@/widgets/Notification/ui';
 
 import { mockNotificationList } from '@/shared/mock/notification';
 import { BackButton } from '@/shared/ui/button';

@@ -14,11 +14,13 @@ import {
   MemberList,
   MemberManagementTab,
   RequestListEmpty,
-} from '@/widgets/mypage/ui';
-
+} from '@/widgets/Mypage/ui';
 
 import { crewQueries } from '@/features/Crew/api/queries';
 import { RequestList } from '@/features/Crew/crew-manage/ui';
+
+import { userQueries } from '@/entities/User/api/queries';
+import type { MemberItem } from '@/entities/User/model';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
@@ -31,8 +33,6 @@ import { spinner as pageLoaderSpinner } from '@/shared/ui/loading/PageLoader.css
 
 import * as styles from './index.css';
 
-import { userQueries } from '@/entities/User/api/queries';
-import type { MemberItem } from '@/entities/User/model';
 
 function MemberListContent({
   crewId,

@@ -13,9 +13,13 @@ import {
   fetchUserPosition,
   isWithinActivationRadius,
   type UserPosition,
-} from '@/widgets/schedule-attendance/model/location';
-import { ScheduleAttendanceSection } from '@/widgets/schedule-attendance/ui';
-import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+} from '@/widgets/ScheduleAttendance/model/location';
+import { ScheduleAttendanceSection } from '@/widgets/ScheduleAttendance/ui';
+import { ScheduleSectionLayout } from '@/widgets/ScheduleSectionLayout/ui';
+
+import { scheduleEntityQueries as scheduleQueries } from '@/entities/Schedule/api/queries';
+import { ScheduleList } from '@/entities/Schedule/ui/ScheduleList';
+import { userQueries } from '@/entities/User/api/queries';
 
 import { scrollContainer } from '@/shared/styles/container.css';
 import { logo } from '@/shared/styles/logo.css';
@@ -25,9 +29,6 @@ import { toastSuccess } from '@/shared/ui/toast';
 
 import * as scheduleListStyles from './index.css';
 
-import { scheduleEntityQueries as scheduleQueries } from '@/entities/Schedule/api/queries';
-import { ScheduleList } from '@/entities/Schedule/ui/ScheduleList';
-import { userQueries } from '@/entities/User/api/queries';
 
 export function HomePage() {
   const { push } = useFlow();

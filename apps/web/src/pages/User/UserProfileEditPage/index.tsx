@@ -7,7 +7,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { RoundProfileImage } from '@/widgets/profile/ui';
+import { userQueries } from '@/entities/User/api/queries';
+import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
 
 import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
 import { DEFAULT_PROFILE_IMAGE_BASE_URL } from '@/shared/constants/url';
@@ -22,7 +23,6 @@ import * as styles from './index.css';
 import { MAX_NICKNAME_LENGTH, nicknameSchema } from './profileEditForm';
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
 
-import { userQueries } from '@/entities/User/api/queries';
 
 const DEFAULT_PROFILE_IMAGE_COUNT = 6;
 

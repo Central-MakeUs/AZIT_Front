@@ -5,9 +5,8 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { OrderProductListSection } from '@/widgets/order-product-list/ui';
-
 import { useOrder } from '@/features/CommerceOrder/model/useOrder';
+import { OrderProductListSection } from '@/features/CommerceOrder/order-product-list/ui';
 import {
   OrderAddressSection,
   OrderDiscountSection,
@@ -16,13 +15,14 @@ import {
   OrderSummarySection,
 } from '@/features/CommerceOrder/ui';
 
+import { DEFAULT_PAYMENT_METHOD } from '@/entities/CommerceOrder/model/orderConstants';
+
 import { footerWrapper } from '@/shared/styles/footer.css';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
 
-import { DEFAULT_PAYMENT_METHOD } from '@/entities/CommerceOrder/model/orderConstants';
 
 export function CommerceOrderPage() {
   const { pop, push, replace } = useFlow();
