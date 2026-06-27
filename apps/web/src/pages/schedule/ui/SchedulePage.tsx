@@ -177,7 +177,11 @@ export function SchedulePage() {
                             size="medium"
                             className={styles.addScheduleButton}
                             onClick={() => {
-                              push('OnboardingPage', {}, { animate: true });
+                              push(
+                                'OnboardingPage',
+                                { isExtra: 'true' },
+                                { animate: true }
+                              );
                             }}
                           >
                             새로운 크루 가입하기

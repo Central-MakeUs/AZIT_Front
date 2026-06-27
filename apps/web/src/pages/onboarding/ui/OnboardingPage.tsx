@@ -1,4 +1,5 @@
 import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useActivityParams } from '@stackflow/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 
@@ -42,7 +43,8 @@ type OnboardingState = {
 };
 
 export function OnboardingPage() {
-  const { replace } = useFlow();
+  const { replace, pop } = useFlow();
+  const { isExtra } = useActivityParams<{ isExtra?: string }>();
   const { Funnel } = useFunnel<StepName>('role-select', ONBOARDING_FLOW);
   const defaultInviteCode = getQueryParam('inviteCode');
   const queryClient = useQueryClient();
@@ -107,6 +109,7 @@ export function OnboardingPage() {
                   setOnboardingState((prev) => ({ ...prev, role }));
                   context.onNext(role);
                 }}
+                onPrev={isExtra === 'true' ? () => pop() : undefined}
               />
             )}
           />
