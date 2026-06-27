@@ -49,6 +49,7 @@ function OrderDetailContent() {
   const depositAccountInfo = result.depositAccountInfo;
   const items = result.items ?? [];
   const summary = result.summary;
+  const isCancellable = result.status === 'PENDING' || result.status === 'PAID';
 
   return (
     <div className={styles.mainContainer}>
@@ -93,14 +94,20 @@ function OrderDetailContent() {
         />
       )}
       <div className={styles.buttonContainer}>
+        {isCancellable && (
+          <Button
+            state="outline"
+            onClick={handleCancelOrder}
+            disabled={cancelOrderMutation.isPending}
+          >
+            {cancelOrderMutation.isPending ? '취소 처리 중...' : '주문 취소'}
+          </Button>
+        )}
         <Button
           state="outline"
-          onClick={handleCancelOrder}
-          disabled={cancelOrderMutation.isPending}
+          onClick={handleInquiry}
+          width={isCancellable ? undefined : '100%'}
         >
-          {cancelOrderMutation.isPending ? '취소 처리 중...' : '주문 취소'}
-        </Button>
-        <Button state="outline" onClick={handleInquiry}>
           1:1 문의하기
         </Button>
       </div>
