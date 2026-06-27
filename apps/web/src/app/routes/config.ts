@@ -1,15 +1,16 @@
 import type { RouteConfig } from '@/app/routes/types';
 import { lazyImport } from '@/app/routes/utils';
 
+/**
+ * 네비게이션 1탭 페이지는 Eager 로딩을 적용해요.
+ */
+import { CommerceStorePage } from '@/pages/CommerceStore/CommerceStorePage';
 import { HomePage } from '@/pages/HomePage';
+import { LoginPage } from '@/pages/LoginPage';
 import { LoginRedirectPage } from '@/pages/LoginRedirectPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { SchedulePage } from '@/pages/Schedule/SchedulePage';
 
-const LoginPage = lazyImport(() => import('@/pages/LoginPage'), 'LoginPage');
-const CommerceStorePage = lazyImport(
-  () => import('@/pages/CommerceStore/CommerceStorePage'),
-  'CommerceStorePage'
-);
 const CommerceStoreDetailPage = lazyImport(
   () => import('@/pages/CommerceStore/CommerceStoreDetailPage'),
   'CommerceStoreDetailPage'
@@ -75,10 +76,7 @@ const HomeNotificationPage = lazyImport(
   () => import('@/pages/HomeNotificationPage'),
   'HomeNotificationPage'
 );
-const SchedulePage = lazyImport(
-  () => import('@/pages/Schedule/SchedulePage'),
-  'SchedulePage'
-);
+
 const AttendancePage = lazyImport(
   () => import('@/pages/Crew/CrewAttendancePage'),
   'CrewAttendancePage'
