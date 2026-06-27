@@ -9,7 +9,7 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { MeetingSpotPicker } from '@/widgets/schedule/ui/MeetingSpotPicker';
 
-import { LocationSearchResultItem } from '@/features/schedule/ui/LocationSearchResultItem';
+import { LocationSearchResultItem } from '@/features/Schedule/ui/LocationSearchResultItem';
 
 import { reverseGeocode } from '@/shared/lib/naverGeocoding';
 import { useDebounce } from '@/shared/lib/useDebounce';
@@ -24,7 +24,7 @@ import { toastError } from '@/shared/ui/toast';
 
 import * as styles from './index.css';
 
-import type { LocationSearchResponse } from '@/entities/location/model/location.model';
+import type { LocationSearchResponse } from '@/entities/Location/model/location.model';
 
 type ViewState = 'search' | 'map';
 

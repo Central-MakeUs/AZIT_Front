@@ -1,6 +1,6 @@
 import { Divider } from '@azit/design-system/divider';
 
-import * as styles from '@/features/schedule/styles/LocationSearchResultItem.css';
+import * as styles from '@/features/Schedule/styles/LocationSearchResultItem.css';
 
 import { normalizeStr } from '@/shared/lib/formatters';
 
