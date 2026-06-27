@@ -3,21 +3,20 @@ import { style } from '@vanilla-extract/css';
 
 export const card = style({
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
+  alignItems: 'center',
   width: '100%',
-  height: 140,
-  padding: 16,
-  backgroundColor: vars.colors.white,
-  border: `0.5px solid ${vars.colors.gray10}`,
-  borderRadius: 12,
+  height: 88,
+  padding: '16px 0',
   boxSizing: 'border-box',
 });
 
-export const topRow = style({
+export const contentRow = style({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: 16,
+  flex: 1,
+  minWidth: 0,
 });
 
 export const avatar = style({
@@ -32,9 +31,10 @@ export const avatar = style({
 export const info = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: 8,
+  gap: 2,
   flex: 1,
   minWidth: 0,
+  marginLeft: 16,
 });
 
 export const nickname = style([
@@ -47,32 +47,30 @@ export const nickname = style([
 export const requestDate = style([
   typography.body.b3,
   {
-    color: vars.colors.black,
+    color: vars.colors.gray60,
   },
 ]);
 
-export const buttonRow = style({
+export const buttonGroup = style({
+  flexShrink: 0,
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center',
-  gap: 10,
-  marginTop: 'auto',
-  paddingTop: 16,
+  gap: 4,
+  marginLeft: 16,
 });
 
 export const rejectButton = style([
   typography.body.b3,
   {
-    flex: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    width: 64,
     height: 36,
     padding: '8px 0',
-    backgroundColor: vars.colors.white,
-    border: `0.5px solid ${vars.colors.gray20}`,
+    backgroundColor: vars.colors.gray20,
     borderRadius: 8,
-    color: vars.colors.gray60,
+    color: vars.colors.gray70,
     cursor: 'pointer',
   },
 ]);
@@ -80,10 +78,10 @@ export const rejectButton = style([
 export const approveButton = style([
   typography.body.b3,
   {
-    flex: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    width: 64,
     height: 36,
     padding: '8px 0',
     backgroundColor: vars.colors.blue80,
