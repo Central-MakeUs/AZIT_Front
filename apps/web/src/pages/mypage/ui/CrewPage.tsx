@@ -10,6 +10,7 @@ import {
   useSuspenseQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { josa } from 'es-hangul';
 import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -178,7 +179,8 @@ function CrewPageContent({ params }: { params?: { id?: string } }) {
               >
                 <div className={styles.dissolveInputContainer}>
                   <p className={styles.dissolveInputGuide}>
-                    해산하려면 &apos;{crew.crewName}&apos;을 입력해 주세요.
+                    해산하려면 &apos;{crew.crewName}&apos;
+                    {josa(crew.crewName, '을/를').slice(-1)} 입력해 주세요.
                   </p>
                   <Input
                     placeholder="크루 이름을 정확히 입력해 주세요."
