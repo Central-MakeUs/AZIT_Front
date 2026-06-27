@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { AddressCard, AddressEmpty } from '@/features/address/ui';
+import { AddressCard, AddressEmpty } from '@/features/Address/ui';
 
 import {
   addressQueries,

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import type { AddressFormValues } from '@/features/address/model/types';
+import type { AddressFormValues } from '@/features/Address/model/types';
 
 import { useAddressSelectionStore } from '@/shared/store/addressSelection';
 
