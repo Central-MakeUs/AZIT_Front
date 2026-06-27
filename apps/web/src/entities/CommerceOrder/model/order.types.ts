@@ -10,7 +10,7 @@ import type {
   PaymentMethodResponse,
 } from './order.model';
 
-import type { DeliveryAddressResponse } from '@/entities/address/model';
+import type { DeliveryAddressResponse } from '@/entities/Address/model';
 
 /** order.model 타입 가공 */
 
