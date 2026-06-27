@@ -2,7 +2,7 @@ import { Header } from '@azit/design-system/header';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { MemberList } from '@/widgets/mypage/ui';
+import { MemberList } from '@/widgets/Mypage/ui';
 
 import { crewQueries } from '@/features/Crew/api/queries';
 

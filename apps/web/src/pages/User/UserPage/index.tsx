@@ -6,7 +6,9 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { MyCrewInfoSection, MyProfileSection } from '@/widgets/mypage/ui';
+import { MyCrewInfoSection, MyProfileSection } from '@/widgets/Mypage/ui';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 import {
   GOOGLE_FORM_URL,
@@ -22,7 +24,6 @@ import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 import * as styles from './index.css';
 
-import { userQueries } from '@/entities/User/api/queries';
 
 function useMypageMenu(): MenuGroup[] {
   const { push } = useFlow();

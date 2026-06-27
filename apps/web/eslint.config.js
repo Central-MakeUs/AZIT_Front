@@ -6,17 +6,20 @@ import importPlugin from 'eslint-plugin-import';
  * FSD (Feature Sliced Design) import rules
  *
  * Layer hierarchy (can only import from same or lower layer):
- *   pages → features → entities → shared
+ *   app → pages → widgets → features → entities → shared
  *
- * Cross-slice rule:
- *   @/features/{Slice} can only be imported from pages/{Slice} or features/{Slice} itself
+ * Cross-slice rules:
+ *   @/features/{Slice} can only be imported from pages/{Slice}, features/{Slice}, or widgets/
+ *   @/widgets/{Slice} can only be imported from pages/ or widgets/{Slice} itself
+ *   @/entities/{Slice} cannot be imported from another entities/{Slice}
  */
 
 // Layers that each layer is forbidden from importing
 const LAYER_FORBIDDEN_IMPORTS = {
-  shared: ['pages', 'features', 'entities'],
-  entities: ['pages', 'features'],
-  features: ['pages'],
+  shared: ['pages', 'widgets', 'features', 'entities'],
+  entities: ['pages', 'widgets', 'features'],
+  features: ['pages', 'widgets'],
+  widgets: ['pages'],
 };
 
 const LAYERS = Object.keys(LAYER_FORBIDDEN_IMPORTS);
@@ -28,11 +31,11 @@ const featureSlicePlugin = {
         type: 'problem',
         docs: {
           description:
-            'features/{Slice} 파일은 pages/{Slice} 내부에서만 import 가능합니다.',
+            'features/{Slice} 파일은 pages/{Slice} 또는 widgets/ 내부에서만 import 가능합니다.',
         },
         messages: {
           restricted:
-            "'@/features/{{slice}}' 는 'pages/{{slice}}' 내부에서만 import 할 수 있습니다.",
+            "'@/features/{{slice}}' 는 'pages/{{slice}}' 또는 'widgets/{{slice}}' 내부에서만 import 할 수 있습니다.",
         },
         schema: [],
       },
@@ -57,6 +60,47 @@ const featureSlicePlugin = {
                 node,
                 messageId: 'restricted',
                 data: { slice },
+              });
+            }
+          },
+        };
+      },
+    },
+
+    'no-cross-widget-import': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'widgets/{Slice}는 다른 widgets/{Slice}에서 import할 수 없습니다.',
+        },
+        messages: {
+          restricted:
+            "'@/widgets/{{slice}}' 는 'widgets/{{slice}}' 내부에서만 import 할 수 있습니다. (다른 widgets 슬라이스에서 참조 불가)",
+        },
+        schema: [],
+      },
+      create(context) {
+        return {
+          ImportDeclaration(node) {
+            const importPath = node.source.value;
+            const match = importPath.match(/^@\/widgets\/([^/]+)/);
+            if (!match) return;
+
+            const importedSlice = match[1];
+            const filename = context.filename.replace(/\\/g, '/');
+
+            const currentWidgetMatch = filename.match(
+              /\/src\/widgets\/([^/]+)\//
+            );
+            if (!currentWidgetMatch) return;
+
+            const currentSlice = currentWidgetMatch[1];
+            if (currentSlice !== importedSlice) {
+              context.report({
+                node,
+                messageId: 'restricted',
+                data: { slice: importedSlice },
               });
             }
           },
@@ -162,6 +206,7 @@ const eslintConfig = [
       'feature-slice/no-cross-slice-import': 'error',
       'feature-slice/no-cross-entity-import': 'error',
       'feature-slice/no-upper-layer-import': 'error',
+      'feature-slice/no-cross-widget-import': 'error',
       'import/order': [
         'error',
         {
@@ -171,6 +216,7 @@ const eslintConfig = [
             { pattern: '@/pages/**', group: 'external', position: 'after' },
             { pattern: '@/widgets/**', group: 'external', position: 'after' },
             { pattern: '@/features/**', group: 'external', position: 'after' },
+            { pattern: '@/entities/**', group: 'external', position: 'after' },
             { pattern: '@/shared/**', group: 'external', position: 'after' },
           ],
           alphabetize: {

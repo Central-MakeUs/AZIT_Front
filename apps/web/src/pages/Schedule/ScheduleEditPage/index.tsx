@@ -11,11 +11,13 @@ import {
   initializeScheduleFormValues,
   buildUpdateSchedulePayload,
   isScheduleFormValid,
-} from '@/widgets/schedule-form/model/scheduleForm';
-import { useScheduleFormState } from '@/widgets/schedule-form/model/useScheduleFormState';
-import { ScheduleForm } from '@/widgets/schedule-form/ui';
+} from '@/widgets/ScheduleForm/model/scheduleForm';
+import { useScheduleFormState } from '@/widgets/ScheduleForm/model/useScheduleFormState';
+import { ScheduleForm } from '@/widgets/ScheduleForm/ui';
 
 import { scheduleQueries } from '@/features/Schedule/api/queries';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import { BackButton } from '@/shared/ui/button';
@@ -23,7 +25,6 @@ import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
 
-import { userQueries } from '@/entities/User/api/queries';
 
 export function ScheduleEditPage({ params }: { params: { id: number } }) {
   const { pop, push } = useFlow();
