@@ -7,6 +7,10 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
+import {
+  MAX_NICKNAME_LENGTH,
+  nicknameSchema,
+} from '@/pages/mypage/model/profileEditForm';
 import * as styles from '@/pages/mypage/styles/MyProfileEditPage.css';
 
 import { RoundProfileImage } from '@/widgets/profile/ui';
@@ -21,9 +25,9 @@ import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { toastError, toastSuccess } from '@/shared/ui/toast';
 
+
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
 
-const MAX_NICKNAME_LENGTH = 10;
 const DEFAULT_PROFILE_IMAGE_COUNT = 6;
 
 const getRandomDefaultProfileImageUrl = () => {
@@ -55,15 +59,19 @@ export function MyProfileEditPage() {
   });
 
   const currentNickname = nickname ?? myInfo?.nickname ?? '';
+  const nicknameValidation =
+    nickname !== null ? nicknameSchema.safeParse(nickname) : null;
+  const nicknameError =
+    nicknameValidation && !nicknameValidation.success
+      ? nicknameValidation.error.issues[0].message
+      : null;
   const isNicknameChanged =
     currentNickname !== myInfo?.nickname && currentNickname.length > 0;
-  const isChanged = isNicknameChanged || profileImageUrl !== null;
+  const isChanged =
+    (isNicknameChanged || profileImageUrl !== null) && !nicknameError;
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value.length <= MAX_NICKNAME_LENGTH) {
-      setNickname(value);
-    }
+    setNickname(e.target.value);
   };
 
   const handleNicknameRemove = () => {
@@ -150,13 +158,13 @@ export function MyProfileEditPage() {
               onRemove={
                 currentNickname.length > 0 ? handleNicknameRemove : undefined
               }
-              maxLength={MAX_NICKNAME_LENGTH}
-            />
-            <div className={styles.counterWrapper}>
-              <span className={styles.counter}>
-                {currentNickname.length}/{MAX_NICKNAME_LENGTH}
-              </span>
-            </div>
+              state={nicknameError ? 'error' : undefined}
+            >
+              <Input.Description
+                left={nicknameError ?? nicknameError}
+                right={`${currentNickname.length}/${MAX_NICKNAME_LENGTH}`}
+              />
+            </Input>
           </div>
         </div>
         <div className={styles.footerWrapper}>
