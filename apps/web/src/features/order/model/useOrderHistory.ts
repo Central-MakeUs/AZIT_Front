@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { orderQueries } from '@/shared/queries/order';
@@ -17,8 +17,7 @@ export function useOrderHistory(options: UseOrderHistoryOptions = {}) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isPending,
-  } = useInfiniteQuery(orderQueries.orderHistoryInfiniteQuery());
+  } = useSuspenseInfiniteQuery(orderQueries.orderHistoryInfiniteQuery());
 
   const { scrollRef, bottomSentinelRef } = useInfiniteScroll({
     hasNextPage: hasNextPage ?? false,
@@ -29,7 +28,7 @@ export function useOrderHistory(options: UseOrderHistoryOptions = {}) {
   const orders: OrderListItem[] =
     orderHistoryData?.pages.flatMap((page) => page.result?.content ?? []) ?? [];
 
-  const isEmpty = !isPending && orders.length === 0;
+  const isEmpty = orders.length === 0;
 
   const handleOrderDetail = (order: OrderListItem) => {
     const id = order.orderNumber?.replace(/^#/, '');
@@ -38,7 +37,6 @@ export function useOrderHistory(options: UseOrderHistoryOptions = {}) {
 
   return {
     orders,
-    isPending,
     isEmpty,
     scrollRef,
     bottomSentinelRef,
