@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { useCartAction } from '@/features/cart/model/useCartAction';
@@ -40,7 +40,7 @@ const transformCartData = (items: CartProductItem[]): CartBrand[] => {
  * 4) useCartPrice: product 기반 가격, 주문 요약 정보 계산
  */
 export function useCart() {
-  const { data: cartProductsResponse, isPending } = useQuery(
+  const { data: cartProductsResponse } = useSuspenseQuery(
     cartQueries.productsQuery()
   );
 
@@ -85,7 +85,6 @@ export function useCart() {
 
   return {
     cartData,
-    isPending,
     isEmpty,
     selectedItemIds,
     selectedItems,

@@ -1,5 +1,5 @@
 import { Button } from '@azit/design-system/button';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { StoreSkeleton } from '@/widgets/skeleton/ui';
 import { StoreBanner } from '@/widgets/store/ui/StoreBanner';
@@ -12,10 +12,11 @@ import { GOOGLE_FORM_URL } from '@/shared/constants/url';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { storeQueries } from '@/shared/queries';
 import { scrollContainer } from '@/shared/styles/container.css';
+import { AsyncBoundary } from '@/shared/ui/async-boundary';
 
-export function StoreGridView() {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useInfiniteQuery(storeQueries.productsInfiniteQuery());
+function StoreGridContent() {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useSuspenseInfiniteQuery(storeQueries.productsInfiniteQuery());
 
   const products =
     data?.pages.flatMap((page) => page.result?.content ?? []) ?? [];
@@ -42,7 +43,7 @@ export function StoreGridView() {
         </div>
         <div className={styles.productsSection}>
           <Button size="small">전체</Button>
-          {isPending ? <StoreSkeleton /> : <StoreGrid products={products} />}
+          <StoreGrid products={products} />
           <div
             ref={bottomSentinelRef}
             style={{
@@ -54,5 +55,13 @@ export function StoreGridView() {
         </div>
       </div>
     </div>
+  );
+}
+
+export function StoreGridView() {
+  return (
+    <AsyncBoundary suspenseFallback={<StoreSkeleton />}>
+      <StoreGridContent />
+    </AsyncBoundary>
   );
 }
