@@ -14,7 +14,6 @@ import { DEFAULT_PROFILE_IMAGE_BASE_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';
 import { base64ToBlob } from '@/shared/lib/image';
 import { useStack } from '@/shared/lib/stackflow/useStack';
-import { memberQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { toastError, toastSuccess } from '@/shared/ui/toast';
@@ -22,6 +21,8 @@ import { toastError, toastSuccess } from '@/shared/ui/toast';
 import * as styles from './index.css';
 import { MAX_NICKNAME_LENGTH, nicknameSchema } from './profileEditForm';
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 const DEFAULT_PROFILE_IMAGE_COUNT = 6;
 
@@ -31,8 +32,8 @@ const getRandomDefaultProfileImageUrl = () => {
 };
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
 
-export function MyProfileEditPage() {
-  const { data: myInfoData } = useQuery(memberQueries.myInfoQuery());
+export function UserProfileEditPage() {
+  const { data: myInfoData } = useQuery(userQueries.myInfoQuery());
   const myInfo = myInfoData?.result;
   const queryClient = useQueryClient();
   const { pop } = useStack();
@@ -43,10 +44,10 @@ export function MyProfileEditPage() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const { mutate: updateProfile, isPending } = useMutation({
-    ...memberQueries.updateMyProfile,
+    ...userQueries.updateMyProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: memberQueries.myInfoKey(),
+        queryKey: userQueries.myInfoKey(),
       });
       toastSuccess('프로필이 수정되었습니다.');
       pop('Mypage');

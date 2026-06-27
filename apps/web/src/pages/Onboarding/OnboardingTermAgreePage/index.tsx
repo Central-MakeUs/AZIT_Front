@@ -9,7 +9,7 @@ import { useFlow } from '@/app/routes/stackflow';
 import { TermAgreeItem } from '@/widgets/onboarding/ui';
 import { fetchUserPosition } from '@/widgets/schedule-attendance/model/location';
 
-import { postTermAgree } from '@/features/term-agree/api/postTermAgree';
+import { postTermAgree } from '@/features/Onboarding/api/postTermAgree';
 
 import { AppLayout } from '@/shared/ui/layout';
 
