@@ -33,7 +33,7 @@ export function HomePage() {
   const { push } = useFlow();
 
   // const handleClick = () => {
-  //   push('NotificationPage', {});
+  //   push('HomeNotificationPage', {});
   // };
 
   const queryClient = useQueryClient();
@@ -129,7 +129,7 @@ export function HomePage() {
           right={
             <button
               onClick={() => {
-                push('NotificationPage', {});
+                push('HomeNotificationPage', {});
               }}
             >
               <BellIcon size={24} color="default" />
