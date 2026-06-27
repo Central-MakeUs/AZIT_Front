@@ -78,8 +78,8 @@ pages/
 ├── MyPage/
 ├── MyProfileEditPage/
 ├── NotFoundPage/
-├── NotificationPage/
-└── RedirectPage/     # Kakao OAuth 콜백
+├── HomeNotificationPage/
+└── LoginRedirectPage/     # Kakao OAuth 콜백
 ```
 
 ### features/ (kebab-case)
