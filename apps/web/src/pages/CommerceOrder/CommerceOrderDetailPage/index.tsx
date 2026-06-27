@@ -15,7 +15,7 @@ import {
 import { PaymentInfoSection } from '@/widgets/order-payment-info/ui';
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
-import { useOrderDetail } from '@/features/order/model/useOrderDetail';
+import { useOrderDetail } from '@/features/CommerceOrder/model/useOrderDetail';
 
 import { BackButton } from '@/shared/ui/button';
 import { BusinessErrorFallback, DomainErrorBoundary } from '@/shared/ui/error';
