@@ -5,8 +5,8 @@ import { StoreSkeleton } from '@/widgets/skeleton/ui';
 import { StoreBanner } from '@/widgets/store/ui/StoreBanner';
 import { StoreGrid } from '@/widgets/store/ui/StoreGrid';
 
-import { useStoreGrid } from '@/features/store/model/useStoreGrid';
-import * as styles from '@/features/store/styles/StoreGridView.css.ts';
+import { useStoreGrid } from '@/features/CommerceStore/model/useStoreGrid';
+import * as styles from '@/features/CommerceStore/styles/StoreGridView.css';
 
 import { GOOGLE_FORM_URL } from '@/shared/constants/url';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
