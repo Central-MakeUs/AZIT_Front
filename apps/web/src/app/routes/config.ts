@@ -5,9 +5,9 @@ import { lazyImport } from '@/app/routes/utils';
  * 네비게이션 1탭 페이지는 Eager 로딩을 적용해요.
  */
 import { CommerceStorePage } from '@/pages/CommerceStore/CommerceStorePage';
-import { HomePage } from '@/pages/HomePage';
-import { LoginPage } from '@/pages/LoginPage';
-import { LoginRedirectPage } from '@/pages/LoginRedirectPage';
+import { HomePage } from '@/pages/Home/HomePage';
+import { LoginPage } from '@/pages/Login/LoginPage';
+import { LoginRedirectPage } from '@/pages/Login/LoginRedirectPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { SchedulePage } from '@/pages/Schedule/SchedulePage';
 
@@ -43,7 +43,7 @@ const CommerceOrderDetailPage = lazyImport(
   () => import('@/pages/CommerceOrder/CommerceOrderDetailPage'),
   'CommerceOrderDetailPage'
 );
-const MyPage = lazyImport(() => import('@/pages/MyPage'), 'MyPage');
+const UserPage = lazyImport(() => import('@/pages/User/UserPage'), 'UserPage');
 const OrderHistory = lazyImport(
   () => import('@/pages/CommerceOrder/CommerceOrderHistoryPage'),
   'CommerceOrderHistoryPage'
@@ -73,7 +73,7 @@ const ScheduleCreatePage = lazyImport(
   'ScheduleCreatePage'
 );
 const HomeNotificationPage = lazyImport(
-  () => import('@/pages/HomeNotificationPage'),
+  () => import('@/pages/Home/HomeNotificationPage'),
   'HomeNotificationPage'
 );
 
@@ -109,9 +109,9 @@ const CrewMemberViewPage = lazyImport(
   () => import('@/pages/Crew/CrewMemberViewPage'),
   'CrewMemberViewPage'
 );
-const MyProfileEditPage = lazyImport(
-  () => import('@/pages/MyProfileEditPage'),
-  'MyProfileEditPage'
+const UserProfileEditPage = lazyImport(
+  () => import('@/pages/User/UserProfileEditPage'),
+  'UserProfileEditPage'
 );
 const CrewInfoEditPage = lazyImport(
   () => import('@/pages/Crew/CrewInfoEditPage'),
@@ -227,7 +227,7 @@ export const routes = [
   {
     name: 'Mypage',
     path: '/mypage',
-    element: MyPage,
+    element: UserPage,
     withAuth: true,
   },
   {
@@ -321,9 +321,9 @@ export const routes = [
     withAuth: true,
   },
   {
-    name: 'MyProfileEditPage',
+    name: 'UserProfileEditPage',
     path: '/mypage/profile/edit',
-    element: MyProfileEditPage,
+    element: UserProfileEditPage,
     withAuth: true,
   },
   {

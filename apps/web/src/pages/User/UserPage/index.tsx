@@ -13,7 +13,6 @@ import {
   KAKAO_INQUIRY_CHAT_URL,
 } from '@/shared/constants/url';
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
-import { memberQueries } from '@/shared/queries';
 import type { MenuGroup } from '@/shared/types/menu';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { AppLayout } from '@/shared/ui/layout';
@@ -22,6 +21,8 @@ import { MenuSection } from '@/shared/ui/menu';
 import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 import * as styles from './index.css';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 function useMypageMenu(): MenuGroup[] {
   const { push } = useFlow();
@@ -92,8 +93,8 @@ function useMypageMenu(): MenuGroup[] {
 function MyPageContent() {
   const { push } = useFlow();
 
-  const { data: myInfoData } = useSuspenseQuery(memberQueries.myInfoQuery());
-  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
+  const { data: myInfoData } = useSuspenseQuery(userQueries.myInfoQuery());
+  const { data: myCrewsData } = useSuspenseQuery(userQueries.myCrewsQuery());
 
   const myInfo = myInfoData?.result;
   const crews = myCrewsData ?? [];
@@ -101,7 +102,7 @@ function MyPageContent() {
   const filteredMenu = useMypageMenu();
 
   const navigateToMyProfileEditPage = () => {
-    push('MyProfileEditPage', {});
+    push('UserProfileEditPage', {});
   };
 
   const handleNavigateToCrew = (crewId: number) => {
@@ -132,7 +133,7 @@ function MyPageContent() {
   );
 }
 
-export function MyPage() {
+export function UserPage() {
   const { push } = useFlow();
 
   return (
