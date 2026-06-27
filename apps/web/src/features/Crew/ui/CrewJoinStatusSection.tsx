@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from '@azit/design-system/button';
 
-import * as styles from '@/features/Crew/crew-join-status/styles/CrewJoinStatusSection.css';
+import * as styles from '@/features/Crew/styles/CrewJoinStatusSection.css';
 
 import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
 
