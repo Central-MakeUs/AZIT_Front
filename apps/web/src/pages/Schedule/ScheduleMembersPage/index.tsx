@@ -6,8 +6,7 @@ import { scheduleQueries } from '@/features/Schedule/api/queries';
 import {
   ScheduleParticipantListItem,
   ScheduleParticipantTitle,
-} from '@/features/Schedule/schedule/ui';
-
+} from '@/features/Schedule/ui';
 
 import { userQueries } from '@/entities/User/api/queries';
 
@@ -16,7 +15,6 @@ import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
-
 
 interface ScheduleMembersPageProps {
   params: { id: number };
