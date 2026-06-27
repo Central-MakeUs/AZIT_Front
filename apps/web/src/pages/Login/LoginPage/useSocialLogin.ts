@@ -2,11 +2,10 @@ import { useRef } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { postSocialLogin } from '@/features/auth/api/postSocialLogin';
-import { navigateByAuthStatus } from '@/features/auth/lib/navigateByAuthStatus';
-import { useKakaoLogin } from '@/features/auth/model/useKakaoLogin';
-
 import type { AuthProvider } from '@/shared/api/models/auth';
+import { postSocialLogin } from '@/shared/auth/api/postSocialLogin';
+import { navigateByAuthStatus } from '@/shared/auth/lib/navigateByAuthStatus';
+import { useKakaoLogin } from '@/shared/auth/model/useKakaoLogin';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
 import { APPLE_AUTHORIZE_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';

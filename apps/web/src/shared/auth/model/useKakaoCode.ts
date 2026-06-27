@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { postSocialLogin } from '@/features/auth/api/postSocialLogin';
-
+import { postSocialLogin } from '@/shared/auth/api/postSocialLogin';
 import { getQueryParam } from '@/shared/lib/url';
 import { useAuthStore } from '@/shared/store/auth';
 
