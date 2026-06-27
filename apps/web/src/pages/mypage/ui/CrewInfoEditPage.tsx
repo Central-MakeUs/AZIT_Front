@@ -5,7 +5,11 @@ import { AddImageIcon } from '@azit/design-system/icon';
 import { Input } from '@azit/design-system/input';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useActivityParams } from '@stackflow/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useSuspenseQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useState } from 'react';
 
 import * as styles from '@/pages/mypage/styles/CrewInfoEditPage.css';
@@ -20,8 +24,10 @@ import { bridge } from '@/shared/lib/bridge';
 import { base64ToBlob } from '@/shared/lib/image';
 import { useStack } from '@/shared/lib/stackflow/useStack';
 import { crewQueries, memberQueries } from '@/shared/queries';
+import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { toastError, toastSuccess } from '@/shared/ui/toast';
 
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
@@ -29,13 +35,13 @@ import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
 const MAX_CREW_INTRO_LENGTH = 20;
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
 
-export function CrewInfoEditPage() {
+function CrewInfoEditPageContent() {
   const { id } = useActivityParams<{ id: string }>();
   const crewId = Number(id);
   const queryClient = useQueryClient();
   const { pop } = useStack();
 
-  const { data: crewDetailInfo, isLoading } = useQuery(
+  const { data: crewDetailInfo } = useSuspenseQuery(
     crewQueries.crewDetailInfoQuery(crewId)
   );
 
@@ -79,8 +85,7 @@ export function CrewInfoEditPage() {
   const isCrewIntroChanged =
     currentCrewIntro !== (crewDetailInfo?.description ?? '');
   const isChanged =
-    !isLoading &&
-    (isCrewNameChanged || isCrewIntroChanged || crewImageUrl !== null);
+    isCrewNameChanged || isCrewIntroChanged || crewImageUrl !== null;
 
   const handleCrewNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s/g, '');
@@ -235,5 +240,13 @@ export function CrewInfoEditPage() {
         onSelectDefault={handleSelectDefault}
       />
     </AppScreen>
+  );
+}
+
+export function CrewInfoEditPage() {
+  return (
+    <AsyncBoundary suspenseFallback={<PageLoader />}>
+      <CrewInfoEditPageContent />
+    </AsyncBoundary>
   );
 }

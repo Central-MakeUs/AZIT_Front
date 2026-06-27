@@ -5,7 +5,11 @@ import { Header } from '@azit/design-system/header';
 import { CopyIcon, UploadIcon } from '@azit/design-system/icon';
 import { Input } from '@azit/design-system/input';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useSuspenseQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
@@ -21,11 +25,13 @@ import {
 import { bridge } from '@/shared/lib/bridge';
 import { copyToClipboard } from '@/shared/lib/clipboard';
 import { memberQueries } from '@/shared/queries';
+import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
+import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { MenuSection } from '@/shared/ui/menu';
 
-export function CrewPage({ params }: { params?: { id?: string } }) {
+function CrewPageContent({ params }: { params?: { id?: string } }) {
   const [dissolveInput, setDissolveInput] = useState('');
   const [isReissueOpen, setIsReissueOpen] = useState(false);
 
@@ -33,9 +39,7 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
   const { pop } = useFlow();
   const queryClient = useQueryClient();
 
-  const { data: myCrewsData, isLoading } = useQuery(
-    memberQueries.myCrewsQuery()
-  );
+  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
   const crew = myCrewsData?.find((c) => c.crewId === crewId) ?? null;
 
   const isLeader = crew?.memberRole === MEMBER_ROLE.LEADER;
@@ -68,7 +72,7 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
     },
   });
 
-  if (isLoading || !crew) return null;
+  if (!crew) return null;
 
   const onCopyCode = () => {
     if (crew.invitationCode) {
@@ -201,5 +205,13 @@ export function CrewPage({ params }: { params?: { id?: string } }) {
         </div>
       </AppLayout>
     </AppScreen>
+  );
+}
+
+export function CrewPage({ params }: { params?: { id?: string } }) {
+  return (
+    <AsyncBoundary suspenseFallback={<PageLoader />}>
+      <CrewPageContent params={params} />
+    </AsyncBoundary>
   );
 }
