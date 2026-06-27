@@ -2,9 +2,9 @@ import { mutationOptions, queryOptions } from '@tanstack/react-query';
 
 import { postConfirmJoinStatus } from '@/features/crew-confirm-status/api/postConfirmJoinStatus';
 
-import { getCrewDetailInfo } from '@/entities/crew/api/getCrewDetailInfo';
-import { getCrewInfo } from '@/entities/crew/api/getCrewInfo';
-import { getCrewJoinStatus } from '@/entities/crew/api/getCrewJoinStatus';
+import { getCrewDetailInfo } from '@/entities/Crew/api/getCrewDetailInfo';
+import { getCrewInfo } from '@/entities/Crew/api/getCrewInfo';
+import { getCrewJoinStatus } from '@/entities/Crew/api/getCrewJoinStatus';
 
 export const crewQueries = {
   defaultKey: ['crew'] as const,

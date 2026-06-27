@@ -8,13 +8,13 @@ import { deleteCartProduct } from '@/features/cart/api/deleteCartProduct';
 import { postCartProductAdd } from '@/features/cart/api/postCartProductAdd';
 import { updateCartProductQuantity } from '@/features/cart/api/updateCartProductQuantity';
 
-import { getCartCount } from '@/entities/cart/api/getCartCount';
-import { getCartProducts } from '@/entities/cart/api/getCartProducts';
+import { getCartCount } from '@/entities/CommerceCart/api/getCartCount';
+import { getCartProducts } from '@/entities/CommerceCart/api/getCartProducts';
 import type {
   CartProductAddRequest,
   CartProductDeleteRequest,
   CartProductUpdateQuantityRequest,
-} from '@/entities/cart/model';
+} from '@/entities/CommerceCart/model';
 
 export const cartQueries = {
   all: ['cart'] as const,

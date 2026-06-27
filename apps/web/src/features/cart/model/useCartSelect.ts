@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { CartProductItem, CartBrand } from '@/entities/cart/model';
+import type { CartProductItem, CartBrand } from '@/entities/CommerceCart/model';
 
 interface UseCartSelectParams {
   allItems: CartProductItem[];

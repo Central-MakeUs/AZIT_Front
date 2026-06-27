@@ -1,4 +1,4 @@
-import type { CartProductItem } from '@/entities/cart/model';
+import type { CartProductItem } from '@/entities/CommerceCart/model';
 
 interface UseCartPriceParams {
   selectedItems: CartProductItem[];

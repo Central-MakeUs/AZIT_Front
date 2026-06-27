@@ -3,7 +3,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { orderQueries } from '@/shared/queries/order';
 
-import type { OrderListItem } from '@/entities/order/model';
+import type { OrderListItem } from '@/entities/CommerceOrder/model';
 
 export interface UseOrderHistoryOptions {
   onOrderDetail?: (orderNumber: string) => void;

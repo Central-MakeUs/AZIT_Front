@@ -5,7 +5,7 @@ import { DISTANCE_MAX } from '@/widgets/schedule-form/model/scheduleForm';
 import * as styles from '@/widgets/schedule-form/styles/ScheduleForm.css';
 import { AccordionItem } from '@/widgets/schedule-form/ui/AccordionItem';
 
-import { formatPace } from '@/entities/schedule/lib/formatter';
+import { formatPace } from '@/entities/Schedule/lib/formatter';
 
 export interface ScheduleFormGoalSectionProps {
   distance: number | null;

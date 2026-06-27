@@ -13,7 +13,7 @@ type NavigateByAuthStatusParams = {
 
 const inactiveActivities: ActivityName[] = [
   'LoginPage',
-  'TermAgreePage',
+  'OnboardingTermAgreePage',
   'OnboardingPage',
 ];
 
@@ -24,10 +24,10 @@ export const navigateByAuthStatus = ({
 }: NavigateByAuthStatusParams): ActivityName => {
   switch (status) {
     case 'PENDING_TERMS':
-      if (currentActivity !== 'TermAgreePage') {
-        replace('TermAgreePage', {}, { animate: false });
+      if (currentActivity !== 'OnboardingTermAgreePage') {
+        replace('OnboardingTermAgreePage', {}, { animate: false });
       }
-      return 'TermAgreePage';
+      return 'OnboardingTermAgreePage';
     case 'ACTIVE':
       if (inactiveActivities.includes(currentActivity)) {
         replace('HomePage', {}, { animate: false });

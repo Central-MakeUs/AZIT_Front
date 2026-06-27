@@ -2,7 +2,7 @@ import * as styles from '@/widgets/store/styles/StoreDetailInfo.css';
 
 import { formatPrice } from '@/shared/lib/formatters';
 
-import type { StoreProductDetailResult } from '@/entities/store/model';
+import type { StoreProductDetailResult } from '@/entities/CommerceStore/model';
 
 interface StoreDetailInfoProps {
   product: StoreProductDetailResult;

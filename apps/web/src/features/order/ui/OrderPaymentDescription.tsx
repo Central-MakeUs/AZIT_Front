@@ -6,7 +6,7 @@ import * as styles from '@/features/order/styles/OrderPaymentDescription.css';
 
 import { copyToClipboard } from '@/shared/lib/clipboard';
 
-import type { DepositAccountInfo } from '@/entities/order/model';
+import type { DepositAccountInfo } from '@/entities/CommerceOrder/model';
 
 interface OrderPaymentDescriptionProps extends DepositAccountInfo {
   depositorName?: string;

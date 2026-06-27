@@ -7,7 +7,7 @@ import type {
   CreateScheduleRequest,
   CrewScheduleDetailResponse,
   UpdateScheduleRequest,
-} from '@/entities/schedule/model/schedule.model';
+} from '@/entities/Schedule/model/schedule.model';
 
 export interface ScheduleFormValues {
   runType: CreateScheduleRequest['runType'];

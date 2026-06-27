@@ -79,7 +79,7 @@ function useMypageMenu(): MenuGroup[] {
           type: 'navigation',
           onNavigate: () =>
             push(
-              'TermDetailPage',
+              'SettingsTermDetailPage',
               { termType: 'terms-of-service' },
               { animate: true }
             ),

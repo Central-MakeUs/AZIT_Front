@@ -1,10 +1,10 @@
-export interface OrderPageParams {
+export interface CommerceOrderPageParams {
   skuId?: string;
   quantity?: string;
   cartItemIds?: string;
 }
 
-export function parseOrderParams(params: OrderPageParams | undefined) {
+export function parseOrderParams(params: CommerceOrderPageParams | undefined) {
   if (!params) return { skuId: 0, quantity: 0, cartItemIds: [] as number[] };
   const skuId = Number(params.skuId) || 0;
   const quantity = Number(params.quantity) || 0;

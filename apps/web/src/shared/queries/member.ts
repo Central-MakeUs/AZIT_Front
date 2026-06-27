@@ -11,14 +11,14 @@ import { postRejectJoinRequest } from '@/features/crew-manage/api/postRejectJoin
 
 import type { UpdateCrewInfoRequest } from '@/shared/api/models/crew';
 
-import { deleteCrew } from '@/entities/crew/api/deleteCrew';
-import { deleteCrewMember } from '@/entities/crew/api/deleteCrewMember';
-import { deleteJoinRequest } from '@/entities/crew/api/deleteJoinRequest';
-import { deleteMyCrewMembership } from '@/entities/crew/api/deleteMyCrewMembership';
-import { getCrewJoinRequests } from '@/entities/crew/api/getCrewJoinRequests';
-import { getCrewMembers } from '@/entities/crew/api/getCrewMembers';
-import { postReissueInvitationCode } from '@/entities/crew/api/postReissueInvitationCode';
-import { updateCrewInfo } from '@/entities/crew/api/updateCrewInfo';
+import { deleteCrew } from '@/entities/Crew/api/deleteCrew';
+import { deleteCrewMember } from '@/entities/Crew/api/deleteCrewMember';
+import { deleteJoinRequest } from '@/entities/Crew/api/deleteJoinRequest';
+import { deleteMyCrewMembership } from '@/entities/Crew/api/deleteMyCrewMembership';
+import { getCrewJoinRequests } from '@/entities/Crew/api/getCrewJoinRequests';
+import { getCrewMembers } from '@/entities/Crew/api/getCrewMembers';
+import { postReissueInvitationCode } from '@/entities/Crew/api/postReissueInvitationCode';
+import { updateCrewInfo } from '@/entities/Crew/api/updateCrewInfo';
 import { getJoinedCrews } from '@/entities/user/api/getJoinedCrews';
 import { getMyAttendance } from '@/entities/user/api/getMyAttendance';
 import { getMyAttendanceCalendar } from '@/entities/user/api/getMyAttendanceCalendar';

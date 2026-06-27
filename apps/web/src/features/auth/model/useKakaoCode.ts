@@ -39,7 +39,7 @@ export const useKakaoCode = () => {
 
       switch (status) {
         case 'PENDING_TERMS':
-          replace('TermAgreePage', {}, { animate: false });
+          replace('OnboardingTermAgreePage', {}, { animate: false });
           break;
         case 'PENDING_ONBOARDING':
           replace('OnboardingPage', {}, { animate: false });
