@@ -1,9 +1,11 @@
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
-import { useState } from 'react';
+import { Input } from '@azit/design-system/input';
 
 import * as styles from '@/widgets/onboarding/styles/OnboardingCrewName.css';
 
+import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
+import { useCrewNameInput } from '@/shared/lib/useCrewNameInput';
 import { BackButton } from '@/shared/ui/button';
 
 export interface OnboardingCrewNameProps {
@@ -17,16 +19,11 @@ export function OnboardingCrewName({
   onNext,
   onPrev,
 }: OnboardingCrewNameProps) {
-  const [crewName, setCrewName] = useState(defaultValue ?? '');
-
-  const handleCrewNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    // 한글 입력시 maxLength 초과 방지
-    if (value.length > 15) {
-      value = value.substring(0, 15);
-    }
-    setCrewName(value);
-  };
+  const {
+    crewName: currentCrewName,
+    handleChange: handleCrewNameChange,
+    handleRemove: handleCrewNameRemove,
+  } = useCrewNameInput(defaultValue);
 
   return (
     <>
@@ -40,23 +37,28 @@ export function OnboardingCrewName({
         </div>
 
         <div className={styles.inputContainer}>
-          <input
-            type="text"
-            className={styles.inputField}
+          <Input
+            value={currentCrewName}
             placeholder="크루 이름을 입력해주세요"
-            maxLength={15}
-            value={crewName}
             onChange={handleCrewNameChange}
+            onRemove={
+              currentCrewName.length > 0 ? handleCrewNameRemove : undefined
+            }
+            maxLength={MAX_CREW_NAME_LENGTH}
           />
-          <span className={styles.charCount}>{crewName.length}/15</span>
+          <div className={styles.counterWrapper}>
+            <span className={styles.counter}>
+              {currentCrewName.length}/{MAX_CREW_NAME_LENGTH}
+            </span>
+          </div>
         </div>
       </div>
 
       <div className={styles.buttonWrapper}>
         <Button
-          state={crewName ? 'active' : 'disabled'}
-          disabled={!crewName}
-          onClick={() => onNext(crewName)}
+          state={currentCrewName ? 'active' : 'disabled'}
+          disabled={!currentCrewName}
+          onClick={() => onNext(currentCrewName)}
         >
           다음
         </Button>
