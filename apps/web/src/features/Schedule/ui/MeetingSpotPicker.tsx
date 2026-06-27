@@ -1,6 +1,6 @@
 import { Button } from '@azit/design-system/button';
 
-import * as styles from '@/features/Schedule/schedule/styles/MeetingSpotPicker.css';
+import * as styles from '@/features/Schedule/styles/MeetingSpotPicker.css';
 
 import { NaverMap, type LatLng } from '@/shared/ui/naver-map/NaverMap';
 

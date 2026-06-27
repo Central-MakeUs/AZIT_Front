@@ -1,1 +1,0 @@
-export { deleteSchedule } from './deleteSchedule';

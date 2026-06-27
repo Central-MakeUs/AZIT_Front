@@ -1,4 +1,4 @@
-import * as styles from '@/features/Schedule/schedule/styles/ScheduleParticipantTitle.css';
+import * as styles from '@/features/Schedule/styles/ScheduleParticipantTitle.css';
 
 interface ScheduleParticipantTitleProps {
   participantCount: number;

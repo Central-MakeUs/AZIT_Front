@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { MeetingSpotPicker } from '@/features/Schedule/schedule/ui/MeetingSpotPicker';
+import { MeetingSpotPicker } from '@/features/Schedule/ui';
 import { LocationSearchResultItem } from '@/features/Schedule/ui/LocationSearchResultItem';
 
 import { locationQueries } from '@/entities/Location/api/queries';
@@ -24,7 +24,6 @@ import { Show } from '@/shared/ui/show';
 import { toastError } from '@/shared/ui/toast';
 
 import * as styles from './index.css';
-
 
 type ViewState = 'search' | 'map';
 

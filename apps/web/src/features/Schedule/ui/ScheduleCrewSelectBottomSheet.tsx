@@ -1,13 +1,12 @@
 import { Divider } from '@azit/design-system/divider';
 import { CheckIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/Schedule/schedule-crew-select/styles/ScheduleCrewSelectBottomSheet.css';
+import * as styles from '@/features/Schedule/styles/ScheduleCrewSelectBottomSheet.css';
 
 import type { JoinedCrewResult } from '@/entities/User/model/user.types';
 import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
 
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
-
 
 interface ScheduleCrewSelectBottomSheetProps {
   isOpen: boolean;
