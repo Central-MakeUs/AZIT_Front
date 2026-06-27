@@ -3,7 +3,7 @@ import { Header } from '@azit/design-system/header';
 import { Input } from '@azit/design-system/input';
 import { useState } from 'react';
 
-import * as styles from '@/features/Onboarding/onboarding/styles/OnboardingCrewJoin.css';
+import * as styles from '@/features/Onboarding/styles/OnboardingCrewJoin.css';
 
 import { getCrewInfo } from '@/entities/Crew/api/getCrewInfo';
 import type { CrewInfoResult } from '@/entities/Crew/model';
@@ -13,7 +13,6 @@ import { BottomSheet } from '@/shared/ui/bottom-sheet/BottomSheet';
 import { BackButton } from '@/shared/ui/button';
 
 import { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottomSheetContent';
-
 
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;
