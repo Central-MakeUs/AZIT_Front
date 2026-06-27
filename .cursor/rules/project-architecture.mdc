@@ -5,6 +5,7 @@ alwaysApply: true
 # Feature-Sliced Design (FSD) Project Rules
 
 ## 1. Layer Hierarchy & Reference Rules
+
 - **Hierarchy Order (Top to Bottom)**: `app` > `pages` > `widgets` > `features` > `entities` > `shared`
 - **Directional Constraint**: Layers can only import from **lower layers**.
 - **Strict Prohibition**: Never import from a higher layer (e.g., `features` cannot import from `pages` or `widgets`; `entities` cannot import from `features`).
@@ -14,10 +15,12 @@ alwaysApply: true
 ## 2. Placement Decision Guide
 
 ### **Shared** (Low-level Foundation)
+
 - **Purpose**: Pure common modules without business logic.
 - **Segments**: `ui/`, `lib/`, `api/` (client, base types), `config/`, `mock/`, `routes/`.
 
 ### **Entities** (Business Entities & Domain Data)
+
 - **Purpose**: 도메인 엔티티의 데이터 구조, 해당 엔티티와 관련된 API, 재사용 가능한 엔티티 UI.
 - **각 Entity Slice 구성**:
   - **model** — 타입/인터페이스, 도메인 검증 스키마, 엔티티 단위 상태/로직
@@ -26,35 +29,39 @@ alwaysApply: true
 - **Naming**: 단수형, 도메인명 일치 (예: `schedule`, `order`, `store`, `cart`, `user`, `crew`, `address`).
 
 ### **Features** (User Actions & Business Logic)
+
 - **Purpose**: 사용자 시나리오·액션 단위 기능. CRUD 플로우와 그에 딸린 UI.
 - **Criteria**: **도메인·시나리오 단위로 슬라이스 통합.** HTTP 메서드나 기술 단위(schedule-fetch, schedule-post)로 나누지 않음.
 - **Segments**: feature-specific UI, model (hooks), API(mutation/복합 플로우).
 - **Naming**: kebab-case, 도메인·시나리오 친화적. 일관된 규칙 유지 (예: `auth`, `mypage`, `schedule`, `store`, `cart`, `order`, `address`, `onboarding`, `alert`).
 
 ### **Widgets** (Composition Blocks)
+
 - **Purpose**: 여러 features/entities를 조합한 재사용 UI 블록.
 - **Rule**: Data rendering only. API 요청 로직 없음; props 또는 page에서 데이터 전달.
 
 ### **Pages** (Screens/Activities)
+
 - **Purpose**: 라우트별 화면. 단순 Read는 page에서 오케스트레이션 가능.
 - **Rule**: 데이터 조회 오케스트레이션, features/widgets 조합. 비재사용 UI는 page에 둠.
 
 ### **App** (Global Setup)
+
 - **Contents**: Routing (`stackflow`), global styles, providers, entry point (`main.tsx`).
 
 ---
 
 ## 3. Layer Roles
 
-| Situation | Target Layer | Logic Type |
-| :--- | :--- | :--- |
-| 엔티티 타입·스키마·엔티티 단위 API | `entities/` | Domain data & API |
-| Data Mutation (Create/Update/Delete) 플로우 | `features/` | Business Logic |
-| 사용자 시나리오별 UI·훅 | `features/` | Functional UI |
-| Simple Data Fetching (Read) 오케스트레이션 | `pages/` | Data Orchestration |
-| Reusable Multi-feature Blocks | `widgets/` | Composition UI |
-| Logic-less Reusable UI (Atoms) | `shared/ui/` | Design System |
-| Domain-agnostic Utilities | `shared/lib/` | Utilities |
+| Situation                                   | Target Layer  | Logic Type         |
+| :------------------------------------------ | :------------ | :----------------- |
+| 엔티티 타입·스키마·엔티티 단위 API          | `entities/`   | Domain data & API  |
+| Data Mutation (Create/Update/Delete) 플로우 | `features/`   | Business Logic     |
+| 사용자 시나리오별 UI·훅                     | `features/`   | Functional UI      |
+| Simple Data Fetching (Read) 오케스트레이션  | `pages/`      | Data Orchestration |
+| Reusable Multi-feature Blocks               | `widgets/`    | Composition UI     |
+| Logic-less Reusable UI (Atoms)              | `shared/ui/`  | Design System      |
+| Domain-agnostic Utilities                   | `shared/lib/` | Utilities          |
 
 ---
 
@@ -71,6 +78,7 @@ src/
 ```
 
 ### 4-1. Entities 권장 Slice (도메인 단위)
+
 - `schedule` — 일정 타입·조회 API·일정 관련 UI 블록
 - `order` — 주문 타입·조회/생성 API·주문 관련 UI 블록
 - `store` — 상점/상품 타입·조회 API
@@ -80,6 +88,7 @@ src/
 - `address` — 배송지 타입·API
 
 ### 4-2. Features 권장 Slice (통합·도메인 친화적)
+
 - **auth** — 로그인, 로그아웃, 탈퇴
 - **mypage** — 마이페이지 전반 (프로필, 크루 정보, 멤버/가입요청, 출석, 알림 설정) — 기존 `my`, `mypage-attendance`, `mypage-notification`, `crew-join-status` 통합
 - **onboarding** — 온보딩
@@ -93,15 +102,17 @@ src/
 ## 5. UI Segment Folder Structure
 
 - **pages**
+
   ```
   pages/
   ├─ styles/
-  │   └─ CartPage.css.ts
+  │   └─ CommerceCartPage.css.ts
   └─ ui/
-      └─ CartPage.tsx
+      └─ CommerceCartPage.tsx
   ```
 
 - **features**
+
   ```
   features/
   ├─ styles/
@@ -134,16 +145,16 @@ src/
 
 ## 6. Features Slice 통합·네이밍 정리 (현재 → 목표)
 
-| 현재 Slice | 목표 | 비고 |
-| :--- | :--- | :--- |
-| auth | features/auth | 유지 |
-| my, mypage-attendance, mypage-notification, crew-join-status | features/mypage | 도메인 통합 |
-| onboarding | features/onboarding | 유지 |
-| schedule | features/schedule | 유지 (엔티티 entities/schedule과 협업) |
-| store | features/store | 유지 |
-| cart | features/cart | 유지 |
-| order, order-detail, order-complete, order-history | features/order | 주문 도메인 하나로 통합 |
-| address | features/address | 유지 |
-| home-alert | features/alert | 네이밍 일관성 (alert) |
+| 현재 Slice                                                   | 목표                | 비고                                   |
+| :----------------------------------------------------------- | :------------------ | :------------------------------------- |
+| auth                                                         | features/auth       | 유지                                   |
+| my, mypage-attendance, mypage-notification, crew-join-status | features/mypage     | 도메인 통합                            |
+| onboarding                                                   | features/onboarding | 유지                                   |
+| schedule                                                     | features/schedule   | 유지 (엔티티 entities/schedule과 협업) |
+| store                                                        | features/store      | 유지                                   |
+| cart                                                         | features/cart       | 유지                                   |
+| order, order-detail, order-complete, order-history           | features/order      | 주문 도메인 하나로 통합                |
+| address                                                      | features/address    | 유지                                   |
+| home-alert                                                   | features/alert      | 네이밍 일관성 (alert)                  |
 
 - **네이밍 규칙**: kebab-case, 도메인/화면 친화적. `mypage-*` 접두사 대신 단일 `mypage` 슬라이스로 통합.
