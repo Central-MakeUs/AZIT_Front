@@ -132,6 +132,7 @@ export const dissolveInputContainer = style({
   flexDirection: 'column',
   gap: 6,
   width: '100%',
+  marginTop: 24,
 });
 
 export const dissolveInputGuide = style([
@@ -139,6 +140,9 @@ export const dissolveInputGuide = style([
   {
     color: vars.colors.error,
     textAlign: 'center',
+    flexWrap: 'wrap',
+    wordBreak: 'keep-all',
+    overflowWrap: 'break-word',
   },
 ]);
 
