@@ -1,3 +1,4 @@
+import { AlertDialog } from '@azit/design-system/alert-dialog';
 import { ChevronRightIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -97,17 +98,25 @@ export function MyCrewInfoSection({
                     />
                   </button>
                 ) : (
-                  <button
-                    type="button"
-                    className={styles.iconButton}
-                    onClick={() =>
+                  <AlertDialog
+                    trigger={
+                      <button
+                        type="button"
+                        className={styles.iconButton}
+                        disabled={deleteMutation.isPending}
+                        aria-label={`${crew.crewName} 가입 신청 취소`}
+                      >
+                        <XIcon size={20} className={styles.closeIcon} />
+                      </button>
+                    }
+                    title="크루 가입 신청을 취소하시겠습니까?"
+                    description={`취소 시 대기 상태가 해제되며,\n가입을 원하실 경우 다시 신청해야 해요.`}
+                    cancelText="닫기"
+                    actionText="취소하기"
+                    onAction={() =>
                       deleteMutation.mutate({ crewId: crew.crewId })
                     }
-                    disabled={deleteMutation.isPending}
-                    aria-label={`${crew.crewName} 가입 신청 취소`}
-                  >
-                    <XIcon size={20} className={styles.closeIcon} />
-                  </button>
+                  />
                 )}
               </div>
             );
