@@ -1,4 +1,4 @@
-import * as styles from '@/features/order/styles/OrderSummarySection.css';
+import * as styles from '@/features/CommerceOrder/styles/OrderSummarySection.css';
 
 interface OrderSummarySectionProps {
   totalProductPrice: number;
