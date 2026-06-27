@@ -1,4 +1,4 @@
-import * as styles from '@/features/CommerceOrder/order-complete/styles/DeliveryInfoSection.css';
+import * as styles from '@/features/CommerceOrder/styles/DeliveryInfoSection.css';
 
 interface DeliveryInfoSectionProps {
   name: string;

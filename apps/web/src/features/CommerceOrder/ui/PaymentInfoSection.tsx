@@ -1,4 +1,4 @@
-import * as styles from '@/features/CommerceOrder/order-payment-info/styles/PaymentInfoSection.css';
+import * as styles from '@/features/CommerceOrder/styles/PaymentInfoSection.css';
 
 import { formatPrice } from '@/shared/lib/formatters';
 

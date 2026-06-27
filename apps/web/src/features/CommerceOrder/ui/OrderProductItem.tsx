@@ -1,6 +1,6 @@
 import { Description } from '@azit/design-system/description';
 
-import * as styles from '@/features/CommerceOrder/order-product-list/styles/OrderProductItem.css.ts';
+import * as styles from '@/features/CommerceOrder/styles/OrderProductItem.css.ts';
 
 import type {
   OrderItem,
@@ -8,7 +8,6 @@ import type {
 } from '@/entities/CommerceOrder/model';
 
 import { formatPrice } from '@/shared/lib/formatters';
-
 
 type OrderProductListItem = OrderItem | OrderItemResponse;
 
