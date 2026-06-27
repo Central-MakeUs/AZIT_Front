@@ -1,4 +1,4 @@
-import * as styles from '@/features/Schedule/schedule/styles/ScheduleParticipantListItem.css';
+import * as styles from '@/features/Schedule/styles/ScheduleParticipantListItem.css';
 
 import type { ScheduleParticipant } from '@/entities/Schedule/model/schedule.types';
 import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';

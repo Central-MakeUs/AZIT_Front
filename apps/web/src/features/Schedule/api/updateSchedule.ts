@@ -1,8 +1,9 @@
+import type { UpdateScheduleRequest } from '@/entities/Schedule/model/schedule.model';
+
 import { auth } from '@/shared/api/apiClient';
 import type { ApiResponse } from '@/shared/api/baseTypes';
 import { END_POINT } from '@/shared/constants/endpoint';
 
-import type { UpdateScheduleRequest } from '@/entities/Schedule/model/schedule.model';
 
 export const updateSchedule = (
   crewId: number,

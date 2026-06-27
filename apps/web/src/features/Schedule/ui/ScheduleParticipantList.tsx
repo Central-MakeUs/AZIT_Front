@@ -1,10 +1,12 @@
 import { ChevronRightIcon } from '@azit/design-system/icon';
 
-import * as styles from '@/features/Schedule/schedule/styles/ScheduleParticipantList.css';
-import { ScheduleParticipantListItem } from '@/features/Schedule/schedule/ui/ScheduleParticipantListItem';
-import { ScheduleParticipantTitle } from '@/features/Schedule/schedule/ui/ScheduleParticipantTitle';
+import * as styles from '@/features/Schedule/styles/ScheduleParticipantList.css';
 
 import type { ScheduleParticipant } from '@/entities/Schedule/model/schedule.types';
+
+import { ScheduleParticipantListItem } from './ScheduleParticipantListItem';
+import { ScheduleParticipantTitle } from './ScheduleParticipantTitle';
+
 
 interface ScheduleParticipantListProps {
   participants: ScheduleParticipant[];

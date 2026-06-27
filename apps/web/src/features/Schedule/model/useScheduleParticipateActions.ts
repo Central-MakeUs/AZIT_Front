@@ -2,9 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { scheduleQueries } from '@/features/Schedule/api/queries';
 
+import { userQueries } from '@/entities/User/api/queries';
+
 import { toastSuccess } from '@/shared/ui/toast';
 
-import { userQueries } from '@/entities/User/api/queries';
 
 interface UseScheduleActionsProps {
   crewId: number;

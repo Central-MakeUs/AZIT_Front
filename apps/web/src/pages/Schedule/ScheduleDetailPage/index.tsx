@@ -15,14 +15,14 @@ import { useFlow } from '@/app/routes/stackflow';
 import { ScheduleDetailSkeleton } from '@/widgets/Skeleton/ui';
 
 import { scheduleQueries } from '@/features/Schedule/api/queries';
+import { useScheduleParticipateActions } from '@/features/Schedule/model/useScheduleParticipateActions';
 import {
   ScheduleDetailHeaderSection,
   ScheduleDetailInfoSection,
   ScheduleDetailDescriptionSection,
   SchedulePreparationList,
   ScheduleParticipantList,
-} from '@/features/Schedule/schedule/ui';
-import { useScheduleParticipateActions } from '@/features/Schedule/schedule-participate/model/useScheduleParticipateActions';
+} from '@/features/Schedule/ui';
 
 import {
   formatDistance,
@@ -40,7 +40,6 @@ import { AppLayout } from '@/shared/ui/layout';
 import { Show } from '@/shared/ui/show';
 
 import * as styles from './index.css';
-
 
 const transformScheduleDetail = (detail: CrewScheduleDetailResponse) => {
   const { date, time } = formatMeetTime(detail.meetingAt);
