@@ -1,137 +1,122 @@
 import type { RouteConfig } from '@/app/routes/types';
 import { lazyImport } from '@/app/routes/utils';
 
-import { RedirectPage } from '@/pages/auth/ui/RedirectPage';
-import { HomePage } from '@/pages/home/ui/HomePage';
-import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
+import { HomePage } from '@/pages/HomePage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+import { RedirectPage } from '@/pages/RedirectPage';
 
-const LoginPage = lazyImport(
-  () => import('@/pages/auth/ui/LoginPage'),
-  'LoginPage'
-);
-const StorePage = lazyImport(
-  () => import('@/pages/store/ui/StorePage'),
-  'StorePage'
-);
+const LoginPage = lazyImport(() => import('@/pages/LoginPage'), 'LoginPage');
+const StorePage = lazyImport(() => import('@/pages/StorePage'), 'StorePage');
 const StoreDetailPage = lazyImport(
-  () => import('@/pages/store/ui/StoreDetailPage'),
+  () => import('@/pages/StoreDetailPage'),
   'StoreDetailPage'
 );
-const CartPage = lazyImport(
-  () => import('@/pages/cart/ui/CartPage'),
-  'CartPage'
-);
+const CartPage = lazyImport(() => import('@/pages/CartPage'), 'CartPage');
 const TermAgreePage = lazyImport(
-  () => import('@/pages/onboarding/ui/TermAgreePage'),
+  () => import('@/pages/TermAgreePage'),
   'TermAgreePage'
 );
 const OnboardingPage = lazyImport(
-  () => import('@/pages/onboarding/ui/OnboardingPage'),
+  () => import('@/pages/OnboardingPage'),
   'OnboardingPage'
 );
 const OnboardingCompletePage = lazyImport(
-  () => import('@/pages/onboarding/ui/OnboardingCompletePage'),
+  () => import('@/pages/OnboardingCompletePage'),
   'OnboardingCompletePage'
 );
-const OrderPage = lazyImport(
-  () => import('@/pages/order/ui/OrderPage'),
-  'OrderPage'
-);
+const OrderPage = lazyImport(() => import('@/pages/OrderPage'), 'OrderPage');
 const OrderCompletePage = lazyImport(
-  () => import('@/pages/order/ui/OrderCompletePage'),
+  () => import('@/pages/OrderCompletePage'),
   'OrderCompletePage'
 );
 const OrderDetailPage = lazyImport(
-  () => import('@/pages/order/ui/OrderDetailPage'),
+  () => import('@/pages/OrderDetailPage'),
   'OrderDetailPage'
 );
-const MyPage = lazyImport(() => import('@/pages/mypage/ui/MyPage'), 'MyPage');
+const MyPage = lazyImport(() => import('@/pages/MyPage'), 'MyPage');
 const OrderHistory = lazyImport(
-  () => import('@/pages/order/ui/OrderHistoryPage'),
+  () => import('@/pages/OrderHistoryPage'),
   'OrderHistoryPage'
 );
 const NotificationSettingsPage = lazyImport(
-  () => import('@/pages/mypage/ui/MyNotificationPage'),
+  () => import('@/pages/MyNotificationPage'),
   'MyNotificationPage'
 );
 const CrewBannedStatusPage = lazyImport(
-  () => import('@/pages/crew-join-status/ui/CrewBannedStatusPage'),
+  () => import('@/pages/CrewBannedStatusPage'),
   'CrewBannedStatusPage'
 );
 const ScheduleDetailPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleDetailPage'),
+  () => import('@/pages/ScheduleDetailPage'),
   'ScheduleDetailPage'
 );
 const ScheduleEditPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleEditPage'),
+  () => import('@/pages/ScheduleEditPage'),
   'ScheduleEditPage'
 );
 const ScheduleMembersPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleMembersPage'),
+  () => import('@/pages/ScheduleMembersPage'),
   'ScheduleMembersPage'
 );
 const ScheduleCreatePage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleCreatePage'),
+  () => import('@/pages/ScheduleCreatePage'),
   'ScheduleCreatePage'
 );
 const NotificationPage = lazyImport(
-  () => import('@/pages/notification/ui/NotificationPage'),
+  () => import('@/pages/NotificationPage'),
   'NotificationPage'
 );
 const SchedulePage = lazyImport(
-  () => import('@/pages/schedule/ui/SchedulePage'),
+  () => import('@/pages/SchedulePage'),
   'SchedulePage'
 );
 const AttendancePage = lazyImport(
-  () => import('@/pages/mypage/ui/MyAttendancePage'),
+  () => import('@/pages/MyAttendancePage'),
   'MyAttendancePage'
 );
 const AddressSettingPage = lazyImport(
-  () => import('@/pages/address/ui/AddressSettingPage'),
+  () => import('@/pages/AddressSettingPage'),
   'AddressSettingPage'
 );
 const AddressRegisterPage = lazyImport(
-  () => import('@/pages/address/ui/AddressRegisterPage'),
+  () => import('@/pages/AddressRegisterPage'),
   'AddressRegisterPage'
 );
 const AddressSearchPage = lazyImport(
-  () => import('@/pages/address/ui/AddressSearchPage'),
+  () => import('@/pages/AddressSearchPage'),
   'AddressSearchPage'
 );
 const AddressEditPage = lazyImport(
-  () => import('@/pages/address/ui/AddressEditPage'),
+  () => import('@/pages/AddressEditPage'),
   'AddressEditPage'
 );
 const TermDetailPage = lazyImport(
-  () => import('@/pages/term-detail/ui/TermDetailPage'),
+  () => import('@/pages/TermDetailPage'),
   'TermDetailPage'
 );
 const MemberManagePage = lazyImport(
-  () => import('@/pages/mypage/ui/MemberManagePage'),
+  () => import('@/pages/MemberManagePage'),
   'MemberManagePage'
 );
 const MemberViewPage = lazyImport(
-  () => import('@/pages/mypage/ui/MemberViewPage'),
+  () => import('@/pages/MemberViewPage'),
   'MemberViewPage'
 );
 const MyProfileEditPage = lazyImport(
-  () => import('@/pages/mypage/ui/MyProfileEditPage'),
+  () => import('@/pages/MyProfileEditPage'),
   'MyProfileEditPage'
 );
 const CrewInfoEditPage = lazyImport(
-  () => import('@/pages/mypage/ui/CrewInfoEditPage'),
+  () => import('@/pages/CrewInfoEditPage'),
   'CrewInfoEditPage'
 );
 const ScheduleLocationPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleLocationPage'),
+  () => import('@/pages/ScheduleLocationPage'),
   'ScheduleLocationPage'
 );
-const CrewPage = lazyImport(
-  () => import('@/pages/mypage/ui/CrewPage'),
-  'CrewPage'
-);
+const CrewPage = lazyImport(() => import('@/pages/CrewPage'), 'CrewPage');
 const SettingsPage = lazyImport(
-  () => import('@/pages/settings/ui/SettingsPage'),
+  () => import('@/pages/SettingsPage'),
   'SettingsPage'
 );
 
