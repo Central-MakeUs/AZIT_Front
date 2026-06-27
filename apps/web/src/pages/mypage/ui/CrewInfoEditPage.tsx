@@ -13,6 +13,7 @@ import * as styles from '@/pages/mypage/styles/CrewInfoEditPage.css';
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
 import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
+import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
 import { DEFAULT_CREW_IMAGE_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';
 import { base64ToBlob } from '@/shared/lib/image';
@@ -24,7 +25,6 @@ import { toastError, toastSuccess } from '@/shared/ui/toast';
 
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
 
-const MAX_CREW_NAME_LENGTH = 15;
 const MAX_CREW_INTRO_LENGTH = 20;
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
 
@@ -38,8 +38,6 @@ export function CrewInfoEditPage() {
     crewQueries.crewDetailInfoQuery(crewId)
   );
 
-  const [crewName, setCrewName] = useState<string | null>(null);
-  const [crewIntro, setCrewIntro] = useState<string | null>(null);
   const [crewImageUrl, setCrewImageUrl] = useState<string | null>(null);
   const [isPickerLoading, setIsPickerLoading] = useState(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -57,6 +55,9 @@ export function CrewInfoEditPage() {
       pop();
     },
   });
+
+  const [crewName, setCrewName] = useState<string | null>(null);
+  const [crewIntro, setCrewIntro] = useState<string | null>(null);
 
   const currentCrewName = crewName ?? crewDetailInfo?.name ?? '';
   const currentCrewIntro = crewIntro ?? crewDetailInfo?.description ?? '';

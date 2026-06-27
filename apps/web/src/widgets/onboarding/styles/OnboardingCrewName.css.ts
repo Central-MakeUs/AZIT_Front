@@ -56,39 +56,21 @@ export const subtitle = style([
 
 export const inputContainer = style({
   display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  flexDirection: 'column',
   width: '100%',
-  height: 48,
-  padding: '10px 16px',
-  backgroundColor: vars.colors.white,
-  border: `0.5px solid ${vars.colors.gray20}`,
-  borderRadius: 12,
-  gap: 10,
+  gap: 8,
 });
 
-export const inputField = style([
-  typography.body.b2,
-  {
-    flexGrow: 1,
-    border: 'none',
-    backgroundColor: 'transparent',
-    color: vars.colors.black,
-    outline: 'none',
-    selectors: {
-      '&::placeholder': {
-        color: vars.colors.gray30,
-      },
-    },
-  },
-]);
+export const counterWrapper = style({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  width: '100%',
+});
 
-export const charCount = style([
+export const counter = style([
   typography.body.b3,
   {
     color: vars.colors.gray30,
-    flexShrink: 0,
   },
 ]);
 
