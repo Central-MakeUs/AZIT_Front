@@ -4,15 +4,15 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { getScheduleCheckInStatus } from '@/features/schedule-check-in/api/getScheduleCheckInStatus';
-import { postScheduleCheckIn } from '@/features/schedule-check-in/api/postScheduleCheckIn';
-import { postSchedule } from '@/features/schedule-create/api/postSchedule';
-import { updateSchedule } from '@/features/schedule-edit/api/updateSchedule';
-import { deleteSchedule } from '@/features/schedule-manage/api';
+import { getScheduleCheckInStatus } from '@/features/Schedule/api/getScheduleCheckInStatus';
+import { postScheduleCheckIn } from '@/features/Schedule/api/postScheduleCheckIn';
+import { postSchedule } from '@/features/Schedule/schedule-create/api/postSchedule';
+import { updateSchedule } from '@/features/Schedule/schedule-edit/api/updateSchedule';
+import { deleteSchedule } from '@/features/Schedule/schedule-manage/api';
 import {
   deleteCancelParticipation,
   postParticipateSchedule,
-} from '@/features/schedule-participate/api';
+} from '@/features/Schedule/schedule-participate/api';
 
 import {
   getScheduleDetail,
