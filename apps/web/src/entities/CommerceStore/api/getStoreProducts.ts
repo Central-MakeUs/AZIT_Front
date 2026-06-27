@@ -1,7 +1,7 @@
 import { auth } from '@/shared/api/apiClient';
 import { END_POINT } from '@/shared/constants/endpoint';
 
-import type { StoreProductsResponse } from '@/entities/store/model';
+import type { StoreProductsResponse } from '@/entities/CommerceStore/model';
 
 export const getStoreProducts = (cursorId?: number, size = 10) => {
   const params = cursorId ? { cursorId, size } : { size };
