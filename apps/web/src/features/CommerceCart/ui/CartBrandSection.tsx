@@ -1,8 +1,8 @@
 import { Checkbox } from '@azit/design-system/checkbox';
 
-import { useCartContext } from '@/features/cart/context/CartContext';
-import * as styles from '@/features/cart/styles/CartBrandSection.css';
-import { CartItem } from '@/features/cart/ui/CartItem';
+import { useCartContext } from '@/features/CommerceCart/context/CartContext';
+import * as styles from '@/features/CommerceCart/styles/CartBrandSection.css';
+import { CartItem } from '@/features/CommerceCart/ui/CartItem';
 
 import type { CartBrand } from '@/entities/CommerceCart/model';
 

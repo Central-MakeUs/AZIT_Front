@@ -3,9 +3,9 @@ import { XIcon } from '@azit/design-system/icon';
 import { clsx } from 'clsx';
 import { useState } from 'react';
 
-import { useCartContext } from '@/features/cart/context/CartContext';
-import * as styles from '@/features/cart/styles/CartItem.css';
-import { QuantitySelector } from '@/features/cart/ui/QuantitySelector';
+import { useCartContext } from '@/features/CommerceCart/context/CartContext';
+import * as styles from '@/features/CommerceCart/styles/CartItem.css';
+import { QuantitySelector } from '@/features/CommerceCart/ui/QuantitySelector';
 
 import { formatPrice } from '@/shared/lib/formatters';
 
