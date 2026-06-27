@@ -75,8 +75,8 @@ pages/
 ├── Settings/         # SettingsPage, SettingsNotificationPage, SettingsTermDetailPage
 ├── HomePage/
 ├── LoginPage/
-├── MyPage/
-├── MyProfileEditPage/
+├── UserPage/
+├── UserProfileEditPage/
 ├── NotFoundPage/
 ├── HomeNotificationPage/
 └── LoginRedirectPage/     # Kakao OAuth 콜백
