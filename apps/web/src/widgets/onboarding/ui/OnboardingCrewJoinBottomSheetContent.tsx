@@ -29,21 +29,12 @@ export function OnboardingCrewJoinBottomSheetContent({
     name = '',
     category = 'RUNNING',
     memberCount = 0,
+    description,
     crewProfileImage = '/azit.png',
   } = crewInfo;
 
   return (
     <div className={styles.content}>
-      <header className={styles.header}>
-        <button
-          type="button"
-          className={styles.closeButton}
-          onClick={onClose}
-          aria-label="닫기"
-        >
-          <XIcon size={24} />
-        </button>
-      </header>
       <div className={styles.crewInfoSection}>
         <RoundProfileImage
           className={styles.crewLogoPlaceholder}
@@ -54,10 +45,11 @@ export function OnboardingCrewJoinBottomSheetContent({
         <h2 className={styles.crewName}>{name}</h2>
       </div>
       <div className={styles.crewMetaSection}>
-        <span className={styles.crewCategory}>
-          {CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS]}
+        <span className={styles.crewMetaData}>
+          {CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS]} / 멤버{' '}
+          {memberCount}명
         </span>
-        <span className={styles.crewMemberCount}>멤버 {memberCount}명</span>
+        <span className={styles.crewMetaData}>{description}</span>
       </div>
       <div className={styles.buttonSection}>
         <Button
