@@ -2,7 +2,7 @@ import { Description } from '@azit/design-system/description';
 import { CopyIcon } from '@azit/design-system/icon';
 import { Input } from '@azit/design-system/input';
 
-import * as styles from '@/features/order/styles/OrderPaymentDescription.css';
+import * as styles from '@/features/CommerceOrder/styles/OrderPaymentDescription.css';
 
 import { copyToClipboard } from '@/shared/lib/clipboard';
 

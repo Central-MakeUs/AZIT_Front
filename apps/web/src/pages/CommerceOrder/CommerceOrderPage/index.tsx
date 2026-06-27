@@ -7,14 +7,14 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { OrderProductListSection } from '@/widgets/order-product-list/ui';
 
-import { useOrder } from '@/features/order/model/useOrder';
+import { useOrder } from '@/features/CommerceOrder/model/useOrder';
 import {
   OrderAddressSection,
   OrderDiscountSection,
   OrderPaymentDescription,
   OrderPaymentMethodSection,
   OrderSummarySection,
-} from '@/features/order/ui';
+} from '@/features/CommerceOrder/ui';
 
 import { DEFAULT_PAYMENT_METHOD } from '@/shared/constants/order';
 import { footerWrapper } from '@/shared/styles/footer.css';

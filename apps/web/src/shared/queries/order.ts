@@ -4,8 +4,8 @@ import {
   queryOptions,
 } from '@tanstack/react-query';
 
-import { postOrderCancel } from '@/features/order/api/postOrderCancel';
-import { postOrderCreate } from '@/features/order/api/postOrderCreate';
+import { postOrderCancel } from '@/features/CommerceOrder/api/postOrderCancel';
+import { postOrderCreate } from '@/features/CommerceOrder/api/postOrderCreate';
 
 import { getOrderDetail } from '@/entities/CommerceOrder/api/getOrderDetail';
 import { getOrderFromCart } from '@/entities/CommerceOrder/api/getOrderFromCart';
