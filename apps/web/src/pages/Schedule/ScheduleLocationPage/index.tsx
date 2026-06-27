@@ -13,7 +13,6 @@ import { LocationSearchResultItem } from '@/features/Schedule/ui/LocationSearchR
 
 import { reverseGeocode } from '@/shared/lib/naverGeocoding';
 import { useDebounce } from '@/shared/lib/useDebounce';
-import { locationQueries } from '@/shared/queries/location';
 import { useScheduleLocationSelectionStore } from '@/shared/store/scheduleLocationSelection';
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 import { BackButton } from '@/shared/ui/button';
@@ -24,6 +23,7 @@ import { toastError } from '@/shared/ui/toast';
 
 import * as styles from './index.css';
 
+import { locationQueries } from '@/entities/Location/api/queries';
 import type { LocationSearchResponse } from '@/entities/Location/model/location.model';
 
 type ViewState = 'search' | 'map';

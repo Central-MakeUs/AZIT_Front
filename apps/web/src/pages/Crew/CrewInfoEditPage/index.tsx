@@ -14,6 +14,8 @@ import { useState } from 'react';
 
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
+import { crewQueries } from '@/features/Crew/api/queries';
+
 import { BusinessError } from '@/shared/api/apiHandler';
 import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
 import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
@@ -21,7 +23,6 @@ import { DEFAULT_CREW_IMAGE_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';
 import { base64ToBlob } from '@/shared/lib/image';
 import { useStack } from '@/shared/lib/stackflow/useStack';
-import { crewQueries, memberQueries } from '@/shared/queries';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
@@ -30,6 +31,8 @@ import { toastError, toastSuccess } from '@/shared/ui/toast';
 
 import * as styles from './index.css';
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
+
+import { userQueries } from '@/entities/User/api/queries';
 
 const MAX_CREW_INTRO_LENGTH = 20;
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
@@ -52,10 +55,10 @@ function CrewInfoEditPageContent() {
   const [crewIntro, setCrewIntro] = useState<string | null>(null);
 
   const { mutate: updateCrew, isPending } = useMutation({
-    ...memberQueries.updateCrewInfo,
+    ...crewQueries.updateCrewInfo,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: memberQueries.myCrewsKey(),
+        queryKey: userQueries.myCrewsKey(),
       });
       queryClient.invalidateQueries({
         queryKey: crewQueries.crewDetailInfoKey(crewId),

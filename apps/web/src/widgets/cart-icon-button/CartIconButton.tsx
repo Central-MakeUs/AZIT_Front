@@ -1,8 +1,9 @@
 import { ShoppingCartIcon } from '@azit/design-system/icon';
 import { useQuery } from '@tanstack/react-query';
 
-import { cartQueries } from '@/shared/queries/cart';
-import * as styles from '@/shared/ui/cart-icon-button/CartIconButton.css';
+import { cartQueries } from '@/features/CommerceCart/api/queries';
+
+import * as styles from './CartIconButton.css';
 
 interface CartIconButtonProps {
   onClick?: () => void;

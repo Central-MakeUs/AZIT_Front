@@ -12,7 +12,7 @@ import {
   RUN_TYPE_LABEL,
 } from '@/shared/constants/run-type';
 
-import type { MemberRole } from '@/entities/user/model';
+import type { MemberRole } from '@/entities/User/model';
 
 interface ScheduleDetailHeaderSectionProps {
   runType: string;

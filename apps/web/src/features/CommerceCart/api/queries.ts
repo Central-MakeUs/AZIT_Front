@@ -4,17 +4,18 @@ import {
   type QueryClient,
 } from '@tanstack/react-query';
 
-import { deleteCartProduct } from '@/features/CommerceCart/api/deleteCartProduct';
-import { postCartProductAdd } from '@/features/CommerceCart/api/postCartProductAdd';
-import { updateCartProductQuantity } from '@/features/CommerceCart/api/updateCartProductQuantity';
+import { deleteCartProduct } from './deleteCartProduct';
+import { updateCartProductQuantity } from './updateCartProductQuantity';
 
 import { getCartCount } from '@/entities/CommerceCart/api/getCartCount';
 import { getCartProducts } from '@/entities/CommerceCart/api/getCartProducts';
+import { postCartProductAdd } from '@/entities/CommerceCart/api/postCartProductAdd';
 import type {
   CartProductAddRequest,
   CartProductDeleteRequest,
   CartProductUpdateQuantityRequest,
 } from '@/entities/CommerceCart/model';
+
 
 export const cartQueries = {
   all: ['cart'] as const,

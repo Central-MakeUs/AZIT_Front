@@ -6,7 +6,7 @@ import * as styles from '@/widgets/schedule-crew-select/styles/ScheduleCrewSelec
 
 import { BottomSheet } from '@/shared/ui/bottom-sheet';
 
-import type { JoinedCrewResult } from '@/entities/user/model/user.types';
+import type { JoinedCrewResult } from '@/entities/User/model/user.types';
 
 interface ScheduleCrewSelectBottomSheetProps {
   isOpen: boolean;

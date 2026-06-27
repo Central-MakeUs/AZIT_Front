@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
-import { showCartError } from '@/features/CommerceCart/lib/showCartError';
+import { cartQueries } from '@/features/CommerceCart/api/queries';
 
-import { cartQueries } from '@/shared/queries/cart';
+import { showCartError } from '@/shared/lib/showCartError';
 import { toastError } from '@/shared/ui/toast';
 
 import type { CartProductAddRequest } from '@/entities/CommerceCart/model';
@@ -101,34 +101,5 @@ export function useCartAction({
     handleQuantityChange,
     handleDeleteItem,
     handleDeleteSelected,
-  };
-}
-
-// 장바구니 추가만 필요한 페이지(상품 상세 등)에서 CartProvider 없이 사용할 수 있도록 분리
-export function useAddToCart() {
-  const queryClient = useQueryClient();
-  const addItemMutation = useMutation(cartQueries.addItemMutation(queryClient));
-
-  const handleAddItem = useCallback(
-    (data: CartProductAddRequest, options?: HandleAddItemOptions) => {
-      addItemMutation.mutate(data, {
-        onSuccess: () => options?.onSuccess?.(),
-        onError: (error) =>
-          options?.onError?.(error as Error) ??
-          showCartError(error instanceof Error ? error.message : undefined),
-      });
-    },
-    [addItemMutation]
-  );
-
-  const addItemAsync = useCallback(
-    (data: CartProductAddRequest) => addItemMutation.mutateAsync(data),
-    [addItemMutation]
-  );
-
-  return {
-    handleAddItem,
-    addItemAsync,
-    isPending: addItemMutation.isPending,
   };
 }

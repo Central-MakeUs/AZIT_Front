@@ -7,10 +7,13 @@ import { useEffect } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
+import {
+  addressQueries,
+  useUpdateAddress,
+} from '@/features/Address/api/queries';
 import { useAddressForm } from '@/features/Address/model/useAddressForm';
 import { AddressForm } from '@/features/Address/ui';
 
-import { addressQueries, useUpdateAddress } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 

@@ -15,18 +15,21 @@ import {
 import { useScheduleFormState } from '@/widgets/schedule-form/model/useScheduleFormState';
 import { ScheduleForm } from '@/widgets/schedule-form/ui';
 
+import { scheduleQueries } from '@/features/Schedule/api/queries';
+
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
-import { memberQueries, scheduleQueries } from '@/shared/queries';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 import { toastError } from '@/shared/ui/toast';
 
 import * as styles from './index.css';
 
+import { userQueries } from '@/entities/User/api/queries';
+
 export function ScheduleCreatePage({ params }: { params?: { date?: Date } }) {
   const { pop, push } = useFlow();
 
-  const { data: myCrewsData } = useQuery(memberQueries.myCrewsQuery());
+  const { data: myCrewsData } = useQuery(userQueries.myCrewsQuery());
   const joinedCrew =
     myCrewsData?.find((c) => c.memberStatus === 'JOINED') ?? null;
   const crewId = joinedCrew?.crewId ?? 0;
