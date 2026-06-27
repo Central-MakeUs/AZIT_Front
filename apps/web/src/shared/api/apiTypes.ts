@@ -1025,7 +1025,7 @@ export interface paths {
      *     * REQUESTED: 승인 대기 상태. memberRole 은 null 입니다. <br><br>
      *
      *     **[참고 사항]** <br>
-     *     * invitationCode: 사용자가 해당 크루의 리더이면서 JOINED 상태일 때만 값이 존재하며, 그 외의 경우에는 null로 내려갑니다.
+     *     * invitationCode: JOINED 상태일 때 값이 존재하며, 그 외의 경우(REQUESTED 등)에는 null로 내려갑니다.
      */
     get: operations['getMyCrews'];
     put?: never;
