@@ -1,28 +1,6 @@
 import { typography, vars } from '@azit/design-system';
 import { style } from '@vanilla-extract/css';
 
-export const header = style({
-  position: 'relative',
-  width: '100%',
-  minHeight: 48,
-  flexShrink: 0,
-});
-
-export const closeButton = style({
-  position: 'absolute',
-  top: 20,
-  right: 0,
-  width: 24,
-  height: 24,
-  padding: 0,
-  border: 'none',
-  backgroundColor: 'transparent',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
-
 export const content = style({
   display: 'flex',
   flexDirection: 'column',
@@ -66,18 +44,10 @@ export const crewMetaSection = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: 4,
+  gap: 10,
 });
 
-export const crewCategory = style([
-  typography.body.b3,
-  {
-    color: vars.colors.gray60,
-    textAlign: 'center',
-  },
-]);
-
-export const crewMemberCount = style([
+export const crewMetaData = style([
   typography.body.b3,
   {
     color: vars.colors.gray60,
