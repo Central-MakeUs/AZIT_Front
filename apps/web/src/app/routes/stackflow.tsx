@@ -9,12 +9,15 @@ import { AuthInitializer } from '@/app/providers/AuthInitializer';
 import { routes } from '@/app/routes/config';
 import { transformRoutes } from '@/app/routes/utils';
 
+import { activityLoggerPlugin } from '@/shared/lib/stackflow/activityLoggerPlugin';
+
 const { activities, routeMap } = transformRoutes(routes);
 
 export const { Stack, useFlow, actions } = stackflow({
   transitionDuration: 350,
   plugins: [
     basicRendererPlugin(),
+    activityLoggerPlugin(),
     basicUIPlugin({
       theme: 'cupertino',
       rootClassName: 'basic-ui-layout',
