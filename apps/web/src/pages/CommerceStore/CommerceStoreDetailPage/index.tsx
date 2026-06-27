@@ -9,12 +9,14 @@ import { Suspense } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { CartIconButton } from '@/widgets/cart-icon-button';
+import { StoreDetailSkeleton } from '@/widgets/Skeleton/ui';
+
+import { CartIconButton } from '@/features/CommerceStore/cart-icon-button';
+import { useStoreDetail } from '@/features/CommerceStore/model/useStoreDetail';
 import {
   OrderPolicyDropdown,
   OrderPolicyFooter,
-} from '@/widgets/order-policy/ui';
-import { StoreDetailSkeleton } from '@/widgets/skeleton/ui';
+} from '@/features/CommerceStore/order-policy/ui';
 import {
   StoreDetailImageSlider,
   StoreDetailInfo,
@@ -23,9 +25,7 @@ import {
   StoreDetailRefund,
   StoreDetailDescription,
   StoreDetailItem,
-} from '@/widgets/store/ui';
-
-import { useStoreDetail } from '@/features/CommerceStore/model/useStoreDetail';
+} from '@/features/CommerceStore/store/ui';
 
 import { formatPrice } from '@/shared/lib/formatters';
 import { useKakaoShare } from '@/shared/lib/useKakaoShare';

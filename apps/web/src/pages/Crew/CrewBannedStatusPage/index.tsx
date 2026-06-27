@@ -2,19 +2,20 @@ import { vars } from '@azit/design-system';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { CrewJoinStatusSection } from '@/widgets/crew-join-status/ui';
-
 import { useConfirmJoinStatus } from '@/features/Crew/crew-confirm-status/hooks/useConfirmJoinStatus';
 import {
   CREW_JOIN_STATUS,
   STATUS_CONTENT,
 } from '@/features/Crew/crew-join-status/model/crewJoinStatus';
+import { CrewJoinStatusSection } from '@/features/Crew/crew-join-status/ui';
+
+
+import { userQueries } from '@/entities/User/api/queries';
 
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
-import { userQueries } from '@/entities/User/api/queries';
 
 function CrewBannedStatusContent() {
   const { data: myCrewsData } = useSuspenseQuery(userQueries.myCrewsQuery());

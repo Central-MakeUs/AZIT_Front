@@ -7,25 +7,29 @@ import { useEffect, useState } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { RoundProfileImage } from '@/widgets/profile/ui/RoundProfileImage';
-import { ScheduleCalendar } from '@/widgets/schedule-calendar/ui/ScheduleCalendar';
-import { ScheduleCrewSelectBottomSheet } from '@/widgets/schedule-crew-select/ui/ScheduleCrewSelectBottomSheet';
-import { ScheduleFilterTab } from '@/widgets/schedule-filter-tab/ui';
-import { ScheduleSectionLayout } from '@/widgets/schedule-section-layout/ui';
+import { ScheduleSectionLayout } from '@/widgets/ScheduleSectionLayout/ui';
 
 import { scheduleQueries } from '@/features/Schedule/api/queries';
+import { ScheduleCrewSelectBottomSheet } from '@/features/Schedule/schedule-crew-select/ui/ScheduleCrewSelectBottomSheet';
+import { ScheduleFilterTab } from '@/features/Schedule/schedule-filter-tab/ui';
+
+import { ScheduleList } from '@/entities/Schedule/ui';
+import { userQueries } from '@/entities/User/api/queries';
+import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
+
+
+
 
 import { formatDate } from '@/shared/lib/formatters';
 import { useCalendar } from '@/shared/lib/useCalendar';
 import { scrollContainer } from '@/shared/styles/container.css';
 import type { RunType } from '@/shared/types/schedule';
+import { ScheduleCalendar } from '@/shared/ui/calendar/ui/ScheduleCalendar';
 import { AppLayout } from '@/shared/ui/layout';
 import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
 
 import * as styles from './index.css';
 
-import { ScheduleList } from '@/entities/Schedule/ui';
-import { userQueries } from '@/entities/User/api/queries';
 
 export function SchedulePage() {
   const { push } = useFlow();

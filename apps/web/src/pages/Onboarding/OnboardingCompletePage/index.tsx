@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { RoundProfileImage } from '@/widgets/profile/ui';
+import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
 
 import { bridge } from '@/shared/lib/bridge';
 import { copyToClipboard } from '@/shared/lib/clipboard';
