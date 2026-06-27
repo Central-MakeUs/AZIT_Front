@@ -4,7 +4,7 @@ import { FlagIcon, UsersIcon } from '@azit/design-system/icon';
 import clsx from 'clsx';
 import { useState, type ReactNode } from 'react';
 
-import * as styles from '@/features/Onboarding/onboarding/styles/OnboardingRoleSelect.css';
+import * as styles from '@/features/Onboarding/styles/OnboardingRoleSelect.css';
 
 import { BackButton } from '@/shared/ui/button';
 

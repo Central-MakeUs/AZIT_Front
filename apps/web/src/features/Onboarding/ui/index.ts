@@ -15,3 +15,4 @@ export {
   OnboardingCrewJoin,
   type OnboardingCrewJoinProps,
 } from './OnboardingCrewJoin';
+export { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottomSheetContent';
