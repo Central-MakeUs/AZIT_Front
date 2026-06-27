@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cartCountQueries } from '@/entities/CommerceCart/api/queries';
 
-import * as styles from './CartIconButton.css';
+import * as styles from '../styles/CartIconButton.css';
 
 interface CartIconButtonProps {
   onClick?: () => void;

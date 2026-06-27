@@ -1,9 +1,8 @@
-import * as styles from '@/features/CommerceStore/store/styles/StoreDetailInfo.css';
+import * as styles from '@/features/CommerceStore/styles/StoreDetailInfo.css';
 
 import type { StoreProductDetailResult } from '@/entities/CommerceStore/model';
 
 import { formatPrice } from '@/shared/lib/formatters';
-
 
 interface StoreDetailInfoProps {
   product: StoreProductDetailResult;

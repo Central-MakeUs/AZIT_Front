@@ -3,8 +3,7 @@ import { AppScreen } from '@stackflow/plugin-basic-ui';
 
 import { useFlow } from '@/app/routes/stackflow';
 
-import { CartIconButton } from '@/features/CommerceStore/cart-icon-button';
-import { StoreGridView } from '@/features/CommerceStore/ui';
+import { CartIconButton, StoreGridView } from '@/features/CommerceStore/ui';
 
 import { logo } from '@/shared/styles/logo.css';
 import { AppLayout } from '@/shared/ui/layout';

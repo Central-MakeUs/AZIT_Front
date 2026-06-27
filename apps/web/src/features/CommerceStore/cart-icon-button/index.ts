@@ -1,1 +1,0 @@
-export { CartIconButton } from './CartIconButton';
