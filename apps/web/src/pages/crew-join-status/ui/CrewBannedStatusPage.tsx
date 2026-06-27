@@ -1,6 +1,6 @@
 import { vars } from '@azit/design-system';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { CrewJoinStatusSection } from '@/widgets/crew-join-status/ui';
 
@@ -11,22 +11,18 @@ import {
 } from '@/features/crew-join-status/model/crewJoinStatus';
 
 import { memberQueries } from '@/shared/queries';
+import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { AppLayout } from '@/shared/ui/layout';
+import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
-export function CrewBannedStatusPage() {
-  const { data: myCrewsData, isLoading } = useQuery(
-    memberQueries.myCrewsQuery()
-  );
+function CrewBannedStatusContent() {
+  const { data: myCrewsData } = useSuspenseQuery(memberQueries.myCrewsQuery());
 
   const expelledCrew =
     myCrewsData?.find((c) => c.memberStatus === 'EXPELLED') ?? null;
   const status = expelledCrew ? CREW_JOIN_STATUS.EXPELLED : null;
 
   const { handleJoinStatus } = useConfirmJoinStatus(status);
-
-  if (isLoading) {
-    return null;
-  }
 
   const crewName = expelledCrew?.crewName ?? '';
   const crewImageUrl = expelledCrew?.crewImageUrl ?? null;
@@ -46,5 +42,13 @@ export function CrewBannedStatusPage() {
         />
       </AppLayout>
     </AppScreen>
+  );
+}
+
+export function CrewBannedStatusPage() {
+  return (
+    <AsyncBoundary suspenseFallback={<PageLoader />}>
+      <CrewBannedStatusContent />
+    </AsyncBoundary>
   );
 }

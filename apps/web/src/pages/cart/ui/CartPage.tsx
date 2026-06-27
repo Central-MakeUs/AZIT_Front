@@ -20,20 +20,15 @@ import {
 
 import { formatPrice } from '@/shared/lib/formatters';
 import { footerWrapper } from '@/shared/styles/footer.css';
+import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
 import { AppLayout } from '@/shared/ui/layout';
 
-export function CartPage() {
+function CartPageContent() {
   const { push } = useFlow();
   const cart = useCart();
-  const {
-    cartData,
-    isPending,
-    isEmpty,
-    hasSelectedItems,
-    totalPayment,
-    selectedItems,
-  } = cart;
+  const { cartData, isEmpty, hasSelectedItems, totalPayment, selectedItems } =
+    cart;
 
   const handlePurchaseClick = () => {
     if (!hasSelectedItems) return;
@@ -45,51 +40,57 @@ export function CartPage() {
   };
 
   return (
+    <CartProvider value={cart}>
+      <div className={styles.mainContainer}>
+        {isEmpty ? (
+          <CartEmpty />
+        ) : (
+          <>
+            <CartSelectionBar />
+            <Divider />
+            <div className={styles.brandListWrapper}>
+              {cartData.map((brand, index) => (
+                <div key={brand.id}>
+                  <CartBrandSection brand={brand} />
+                  {index < cartData.length - 1 && <Divider />}
+                </div>
+              ))}
+            </div>
+            <Divider />
+            <div className={styles.summaryWrapper}>
+              <CartSummary />
+            </div>
+          </>
+        )}
+      </div>
+      {!isEmpty && (
+        <div className={footerWrapper}>
+          <Button
+            className={styles.ctaButton}
+            state={hasSelectedItems ? 'active' : 'disabled'}
+            disabled={!hasSelectedItems}
+            onClick={handlePurchaseClick}
+          >
+            {hasSelectedItems
+              ? `${formatPrice(totalPayment)} 구매하기`
+              : '상품을 선택해주세요'}
+          </Button>
+        </div>
+      )}
+    </CartProvider>
+  );
+}
+
+export function CartPage() {
+  return (
     <AppScreen>
       <AppLayout>
-        <CartProvider value={cart}>
-          <div className={styles.headerWrapper}>
-            <Header left={<BackButton />} center="장바구니" />
-          </div>
-          <div className={styles.mainContainer}>
-            {isPending ? (
-              <CartSkeleton />
-            ) : isEmpty ? (
-              <CartEmpty />
-            ) : (
-              <>
-                <CartSelectionBar />
-                <Divider />
-                <div className={styles.brandListWrapper}>
-                  {cartData.map((brand, index) => (
-                    <div key={brand.id}>
-                      <CartBrandSection brand={brand} />
-                      {index < cartData.length - 1 && <Divider />}
-                    </div>
-                  ))}
-                </div>
-                <Divider />
-                <div className={styles.summaryWrapper}>
-                  <CartSummary />
-                </div>
-              </>
-            )}
-          </div>
-          {!isEmpty && (
-            <div className={footerWrapper}>
-              <Button
-                className={styles.ctaButton}
-                state={hasSelectedItems ? 'active' : 'disabled'}
-                disabled={!hasSelectedItems}
-                onClick={handlePurchaseClick}
-              >
-                {hasSelectedItems
-                  ? `${formatPrice(totalPayment)} 구매하기`
-                  : '상품을 선택해주세요'}
-              </Button>
-            </div>
-          )}
-        </CartProvider>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="장바구니" />
+        </div>
+        <AsyncBoundary suspenseFallback={<CartSkeleton />}>
+          <CartPageContent />
+        </AsyncBoundary>
       </AppLayout>
     </AppScreen>
   );

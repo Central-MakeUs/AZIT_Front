@@ -10,14 +10,12 @@ import type { MyCrewResult } from '@/entities/user/model';
 
 interface MyCrewInfoSectionProps {
   crews: MyCrewResult[];
-  isCrewsLoading: boolean;
   onNavigateToCrew: (crewId: number) => void;
   onCreateNewCrew: () => void;
 }
 
 export function MyCrewInfoSection({
   crews,
-  isCrewsLoading,
   onNavigateToCrew,
   onCreateNewCrew,
 }: MyCrewInfoSectionProps) {
@@ -40,7 +38,7 @@ export function MyCrewInfoSection({
           type="button"
           className={styles.newCrewButton}
           onClick={onCreateNewCrew}
-          disabled={isCrewsLoading || crews.length >= 3}
+          disabled={crews.length >= 3}
         >
           <span className={styles.newCrewText}>새로운 크루</span>
           <PlusIcon size={16} className={styles.newCrewIcon} />
