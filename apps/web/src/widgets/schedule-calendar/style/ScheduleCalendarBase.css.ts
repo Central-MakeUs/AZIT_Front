@@ -77,14 +77,13 @@ globalStyle('.react-calendar__month-view__days', {
 });
 
 globalStyle('.react-calendar__tile', {
-  maxHeight: '50px',
+  height: '50px',
   padding: '10px',
   display: 'grid',
   placeItems: 'center',
   font: 'inherit',
   borderRadius: '8px',
   width: '100%',
-  height: '6vh',
   border: `1px solid ${vars.colors.white} !important`,
 });
 
@@ -106,8 +105,4 @@ globalStyle('.react-calendar__tile--hasActive', {
 globalStyle('.react-calendar__tile--active', {
   border: `1px solid ${vars.colors.blue80} !important`,
   color: vars.colors.blue80,
-});
-
-globalStyle('.react-calendar__tile--now', {
-  // border: `1px solid ${vars.colors.blue80} !important`,
 });
