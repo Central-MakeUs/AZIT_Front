@@ -2,7 +2,7 @@ import { CopyIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/widgets/order-detail/styles/OrderDeliveryInfoSection.css';
 
-import type { OrderStatus } from '@/entities/order/model';
+import type { OrderStatus } from '@/entities/CommerceOrder/model';
 
 interface OrderDeliveryInfoSectionProps {
   deliveryStatus: OrderStatus;

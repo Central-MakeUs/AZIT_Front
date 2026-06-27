@@ -7,15 +7,15 @@ import {
 import { postOrderCancel } from '@/features/order/api/postOrderCancel';
 import { postOrderCreate } from '@/features/order/api/postOrderCreate';
 
-import { getOrderDetail } from '@/entities/order/api/getOrderDetail';
-import { getOrderFromCart } from '@/entities/order/api/getOrderFromCart';
-import { getOrderFromDirect } from '@/entities/order/api/getOrderFromDirect';
-import { getOrderHistory } from '@/entities/order/api/getOrderHistory';
+import { getOrderDetail } from '@/entities/CommerceOrder/api/getOrderDetail';
+import { getOrderFromCart } from '@/entities/CommerceOrder/api/getOrderFromCart';
+import { getOrderFromDirect } from '@/entities/CommerceOrder/api/getOrderFromDirect';
+import { getOrderHistory } from '@/entities/CommerceOrder/api/getOrderHistory';
 import type {
   CartOrderCheckoutRequest,
   DirectOrderCheckoutRequest,
   OrderRequest,
-} from '@/entities/order/model';
+} from '@/entities/CommerceOrder/model';
 
 export const orderQueries = {
   all: ['order'] as const,

@@ -27,7 +27,7 @@ import { toastSuccess } from '@/shared/ui/toast';
 
 import * as scheduleListStyles from './index.css';
 
-import { ScheduleList } from '@/entities/schedule/ui/ScheduleList';
+import { ScheduleList } from '@/entities/Schedule/ui/ScheduleList';
 
 export function HomePage() {
   const { push } = useFlow();

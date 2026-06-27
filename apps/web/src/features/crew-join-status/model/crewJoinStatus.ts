@@ -1,6 +1,6 @@
 import type { ButtonProps } from '@azit/design-system/button';
 
-import type { CrewJoinStatusResult } from '@/entities/crew/model';
+import type { CrewJoinStatusResult } from '@/entities/Crew/model';
 
 export type CrewJoinStatus = CrewJoinStatusResult['status'];
 

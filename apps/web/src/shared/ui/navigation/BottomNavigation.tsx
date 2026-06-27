@@ -71,7 +71,7 @@ export function BottomNavigation({ activeTab }: BottomNavigationProps) {
           icon={ShoppingBagIcon}
           label="스토어"
           isActive={activeTab === 'store'}
-          onClick={() => handleClick('StorePage')}
+          onClick={() => handleClick('CommerceStorePage')}
         />
         <MenuItem
           icon={UserIcon}

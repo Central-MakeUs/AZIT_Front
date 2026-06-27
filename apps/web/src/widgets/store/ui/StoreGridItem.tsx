@@ -4,7 +4,7 @@ import * as styles from '@/widgets/store/styles/StoreGridItem.css';
 
 import { formatPrice } from '@/shared/lib/formatters';
 
-import type { StoreProductItem } from '@/entities/store/model';
+import type { StoreProductItem } from '@/entities/CommerceStore/model';
 
 interface StoreGridItemProps {
   product: StoreProductItem;
@@ -15,7 +15,7 @@ export function StoreGridItem({ product }: StoreGridItemProps) {
 
   const handleClick = () => {
     push(
-      'StoreDetailPage',
+      'CommerceStoreDetailPage',
       { id: String(product.id ?? '') },
       { animate: true }
     );

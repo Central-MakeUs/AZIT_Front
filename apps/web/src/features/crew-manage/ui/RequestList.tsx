@@ -3,7 +3,7 @@ import { Divider } from '@azit/design-system/divider';
 import * as styles from '@/features/crew-manage/styles/RequestList.css';
 import { RequestListItem } from '@/features/crew-manage/ui/RequestListItem';
 
-import type { MemberRequestItem } from '@/entities/crew/model/crew.types';
+import type { MemberRequestItem } from '@/entities/Crew/model/crew.types';
 
 interface RequestListProps {
   crewId: number;

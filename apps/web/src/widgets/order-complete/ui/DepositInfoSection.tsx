@@ -5,7 +5,7 @@ import * as styles from '@/widgets/order-complete/styles/DepositInfoSection.css'
 
 import { copyToClipboard } from '@/shared/lib/clipboard';
 
-import type { DepositAccountInfo } from '@/entities/order/model';
+import type { DepositAccountInfo } from '@/entities/CommerceOrder/model';
 
 interface DepositInfoSectionProps extends DepositAccountInfo {
   depositorName: string;

@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import * as styles from '@/widgets/schedule-attendance/styles/ScheduleAttendanceSection.css';
 import { ScheduleAttendanceSkeleton } from '@/widgets/skeleton/ui';
 
-import type { ScheduleCheckInStatusResponse } from '@/entities/schedule/model/schedule.model';
+import type { ScheduleCheckInStatusResponse } from '@/entities/Schedule/model/schedule.model';
 
 export function ScheduleAttendanceSection({
   checkInStatus,

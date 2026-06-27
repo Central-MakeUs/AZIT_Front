@@ -10,9 +10,9 @@ import {
   formatDistance,
   formatMeetingListDate,
   formatPace,
-} from '@/entities/schedule/lib/formatter';
-import type { ScheduleListItem as ScheduleListItemType } from '@/entities/schedule/model/schedule.types';
-import * as styles from '@/entities/schedule/styles/ScheduleListItem.css.ts';
+} from '@/entities/Schedule/lib/formatter';
+import type { ScheduleListItem as ScheduleListItemType } from '@/entities/Schedule/model/schedule.types';
+import * as styles from '@/entities/Schedule/styles/ScheduleListItem.css.ts';
 
 const buildTags = (
   item: ScheduleListItemType
