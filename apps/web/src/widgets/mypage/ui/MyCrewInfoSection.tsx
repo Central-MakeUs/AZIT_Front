@@ -1,4 +1,5 @@
 import { AlertDialog } from '@azit/design-system/alert-dialog';
+import { Chip } from '@azit/design-system/chip';
 import { ChevronRightIcon, PlusIcon, XIcon } from '@azit/design-system/icon';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -66,6 +67,20 @@ export function MyCrewInfoSection({
                     <div className={styles.crewAvatar} />
                   )}
                   <div className={styles.crewInfo}>
+                    {isJoined && crew.memberRole ? (
+                      <Chip
+                        className={styles.roleChip}
+                        type={
+                          crew.memberRole === 'LEADER' ? 'primary' : 'skyblue'
+                        }
+                      >
+                        {crew.memberRole === 'LEADER' ? '리더' : '멤버'}
+                      </Chip>
+                    ) : (
+                      <Chip className={styles.roleChip} type="gray">
+                        승인 대기중
+                      </Chip>
+                    )}
                     <span
                       className={
                         isJoined ? styles.crewName : styles.crewNamePending
@@ -73,13 +88,6 @@ export function MyCrewInfoSection({
                     >
                       {crew.crewName}
                     </span>
-                    {isJoined && crew.memberRole ? (
-                      <span className={styles.roleBadge}>
-                        {crew.memberRole === 'LEADER' ? '리더' : '멤버'}
-                      </span>
-                    ) : (
-                      <span className={styles.pendingBadge}>승인 대기중</span>
-                    )}
                   </div>
                 </div>
 
