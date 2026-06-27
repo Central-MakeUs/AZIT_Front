@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import * as styles from '@/features/Settings/mypage-notification/styles/NotificationSettingItem.css';
+import * as styles from '@/features/Settings/styles/NotificationSettingItem.css';
 
 import type { NotificationSettingItem as NotificationSettingItemType } from '@/shared/mock/mypage-notification';
 
