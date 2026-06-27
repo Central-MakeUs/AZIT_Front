@@ -11,7 +11,7 @@ import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
 
-export function NotificationPage() {
+export function HomeNotificationPage() {
   const { data: notificationList = [] } = useQuery({
     queryKey: ['notificationList'],
     queryFn: () => mockNotificationList,
