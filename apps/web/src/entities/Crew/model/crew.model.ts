@@ -10,3 +10,6 @@ export type CrewJoinStatusResponseSchema =
 
 export type JoinRequestMemberResponse =
   components['schemas']['JoinRequestMemberResponse'];
+
+export type CrewMemberListResponse =
+  components['schemas']['CrewMemberListResponse'];
