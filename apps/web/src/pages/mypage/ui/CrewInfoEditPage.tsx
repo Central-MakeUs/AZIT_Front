@@ -12,6 +12,7 @@ import * as styles from '@/pages/mypage/styles/CrewInfoEditPage.css';
 
 import { RoundProfileImage } from '@/widgets/profile/ui';
 
+import { BusinessError } from '@/shared/api/apiHandler';
 import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
 import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
 import { DEFAULT_CREW_IMAGE_URL } from '@/shared/constants/url';
@@ -41,6 +42,9 @@ export function CrewInfoEditPage() {
   const [crewImageUrl, setCrewImageUrl] = useState<string | null>(null);
   const [isPickerLoading, setIsPickerLoading] = useState(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [crewNameError, setCrewNameError] = useState<string | null>(null);
+  const [crewName, setCrewName] = useState<string | null>(null);
+  const [crewIntro, setCrewIntro] = useState<string | null>(null);
 
   const { mutate: updateCrew, isPending } = useMutation({
     ...memberQueries.updateCrewInfo,
@@ -54,10 +58,20 @@ export function CrewInfoEditPage() {
       toastSuccess('크루 정보가 수정되었습니다.');
       pop();
     },
+    onError: (error, variables) => {
+      if (
+        error instanceof BusinessError &&
+        error.code === 'INVALID_INPUT_VALUE' &&
+        /[^가-힣a-zA-Z0-9\s]/.test(variables.name)
+      ) {
+        setCrewNameError('특수문자는 사용할 수 없어요.');
+        return;
+      }
+      toastError(
+        error instanceof Error ? error.message : '요청에 실패했습니다.'
+      );
+    },
   });
-
-  const [crewName, setCrewName] = useState<string | null>(null);
-  const [crewIntro, setCrewIntro] = useState<string | null>(null);
 
   const currentCrewName = crewName ?? crewDetailInfo?.name ?? '';
   const currentCrewIntro = crewIntro ?? crewDetailInfo?.description ?? '';
@@ -73,6 +87,7 @@ export function CrewInfoEditPage() {
     const value = e.target.value;
     if (value.length <= MAX_CREW_NAME_LENGTH) {
       setCrewName(value);
+      setCrewNameError(null);
     }
   };
 
@@ -175,12 +190,13 @@ export function CrewInfoEditPage() {
                   currentCrewName.length > 0 ? handleCrewNameRemove : undefined
                 }
                 maxLength={MAX_CREW_NAME_LENGTH}
-              />
-              <div className={styles.counterWrapper}>
-                <span className={styles.counter}>
-                  {currentCrewName.length}/{MAX_CREW_NAME_LENGTH}
-                </span>
-              </div>
+                state={crewNameError ? 'error' : 'default'}
+              >
+                <Input.Description
+                  left={crewNameError ?? undefined}
+                  right={`${currentCrewName.length}/${MAX_CREW_NAME_LENGTH}`}
+                />
+              </Input>
             </div>
             <div className={styles.fieldSection}>
               <span className={styles.fieldLabel}>크루 한줄 소개</span>
