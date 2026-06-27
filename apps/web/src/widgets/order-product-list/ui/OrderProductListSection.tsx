@@ -24,7 +24,7 @@ export function OrderProductListSection({
       <div className={styles.productList}>
         {products.map((product, index) => (
           <OrderProductItem
-            key={product.productId ?? product.skuId ?? index}
+            key={`${product.productId ?? ''}_${product.skuId ?? ''}_${index}`}
             product={product}
             showOriginalPrice={showOriginalPrice}
           />
