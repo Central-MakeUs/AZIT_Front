@@ -14,14 +14,12 @@ export interface CrewInfo extends CrewInfoResult {
 export interface OnboardingCrewJoinBottomSheetContentProps {
   crewInfo: CrewInfo;
   isSubmitting?: boolean;
-  onClose: () => void;
   onRequestJoin: () => void;
 }
 
 export function OnboardingCrewJoinBottomSheetContent({
   crewInfo,
   isSubmitting = false,
-  onClose,
   onRequestJoin,
 }: OnboardingCrewJoinBottomSheetContentProps) {
   const {
@@ -29,7 +27,7 @@ export function OnboardingCrewJoinBottomSheetContent({
     category = 'RUNNING',
     memberCount = 0,
     description,
-    crewProfileImage = '/azit.png',
+    crewImageUrl = '/azit.png',
   } = crewInfo;
 
   return (
@@ -37,7 +35,7 @@ export function OnboardingCrewJoinBottomSheetContent({
       <div className={styles.crewInfoSection}>
         <RoundProfileImage
           className={styles.crewLogoPlaceholder}
-          src={crewProfileImage}
+          src={crewImageUrl}
           alt={name}
           size={96}
         />
