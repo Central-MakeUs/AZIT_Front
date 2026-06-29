@@ -6,16 +6,25 @@ import { typography } from '../../shared/styles';
 export type InputVariants = NonNullable<Parameters<typeof inputContainer>[0]>;
 export type InputState = InputVariants['state'];
 
+export const inputWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+  width: '100%',
+});
+
 export const inputContainer = recipe({
   base: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
+    height: '48px',
     gap: '10px',
     borderRadius: '12px',
-    border: `0.5px solid ${vars.colors.gray20}`,
+    border: `1px solid ${vars.colors.gray30}`,
     transition: 'border-color 0.2s ease',
     padding: '10px 16px',
+    backgroundColor: vars.colors.white,
   },
   variants: {
     state: {
@@ -36,7 +45,7 @@ export const inputContainer = recipe({
 });
 
 export const input = style([
-  typography.body.b3,
+  typography.body.b2,
   {
     flexGrow: 1,
     width: '100%',
@@ -46,8 +55,8 @@ export const input = style([
     outline: 'none',
     selectors: {
       '&::placeholder': {
-        color: vars.colors.gray30,
-        ...vars.typography.body.b3,
+        color: vars.colors.gray40,
+        ...vars.typography.body.b2,
       },
       '&:disabled': {
         backgroundColor: 'inherit',
@@ -71,6 +80,26 @@ globalStyle(`${input}[type="number"]::-webkit-outer-spin-button`, {
   margin: 0,
 });
 
+export const removeButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '16px',
+  height: '16px',
+  borderRadius: '100%',
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  backgroundColor: vars.colors.gray30,
+});
+
+export const removeButtonIcon = style({
+  width: '10px',
+  height: '10px',
+  color: vars.colors.white,
+});
+
 export const iconSlot = style({
   display: 'flex',
   alignItems: 'center',
@@ -79,4 +108,23 @@ export const iconSlot = style({
   flexShrink: 0,
   width: 'auto',
   height: 'auto',
+});
+
+export const inputDescriptionWrapper = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+});
+
+export const inputDescriptionWarning = style({
+  color: vars.colors.error,
+  ...vars.typography.body.b4,
+  textWrap: 'wrap',
+});
+
+export const inputDescription = style({
+  color: vars.colors.gray50,
+  ...vars.typography.body.b3,
+  textWrap: 'nowrap',
+  marginLeft: 'auto',
 });

@@ -1,0 +1,157 @@
+import {
+  infiniteQueryOptions,
+  mutationOptions,
+  queryOptions,
+} from '@tanstack/react-query';
+
+
+import {
+  getScheduleDetail,
+  getScheduleParticipants,
+} from '@/entities/Schedule/api';
+import { getMemberScheduleList } from '@/entities/Schedule/api/getMemberScheduleList';
+import { getScheduleCalendar } from '@/entities/Schedule/api/getScheduleCalendar';
+import { getScheduleCheckInStatus } from '@/entities/Schedule/api/getScheduleCheckInStatus';
+import { getScheduleList } from '@/entities/Schedule/api/getScheduleList';
+import { postScheduleCheckIn } from '@/entities/Schedule/api/postScheduleCheckIn';
+import type {
+  CreateScheduleRequest,
+  CrewScheduleCalendarRequest,
+  CrewScheduleListRequest,
+  ScheduleCheckInRequest,
+  UpdateScheduleRequest,
+} from '@/entities/Schedule/model/schedule.model';
+
+import { deleteCancelParticipation } from './deleteCancelParticipation';
+import { deleteSchedule } from './deleteSchedule';
+import { postParticipateSchedule } from './postParticipateSchedule';
+import { postSchedule } from './postSchedule';
+import { updateSchedule } from './updateSchedule';
+
+export const scheduleQueries = {
+  all: ['schedule'] as const,
+  detail: (scheduleId: number) =>
+    [...scheduleQueries.all, 'detail', scheduleId] as const,
+  participants: (scheduleId: number) =>
+    [...scheduleQueries.all, 'participants', scheduleId] as const,
+  listKey: (crewId: number, request?: CrewScheduleListRequest) =>
+    [...scheduleQueries.all, 'getScheduleList', crewId, request] as const,
+  memberListKey: () =>
+    [...scheduleQueries.all, 'getMemberScheduleList'] as const,
+  checkInStatusKey: () =>
+    [...scheduleQueries.all, 'getScheduleCheckInStatus'] as const,
+  calendarKey: (crewId: number, request?: CrewScheduleCalendarRequest) =>
+    [...scheduleQueries.all, 'getScheduleCalendar', crewId, request] as const,
+  getScheduleListQuery: (crewId: number, request?: CrewScheduleListRequest) =>
+    queryOptions({
+      queryKey: scheduleQueries.listKey(crewId, request),
+      queryFn: async () => {
+        const res = await getScheduleList(crewId, request);
+        return res.result ?? [];
+      },
+    }),
+  getMemberScheduleListQuery: () =>
+    queryOptions({
+      queryKey: scheduleQueries.memberListKey(),
+      queryFn: async () => {
+        const res = await getMemberScheduleList();
+        return res.result ?? [];
+      },
+    }),
+  getScheduleCheckInStatusQuery: () =>
+    queryOptions({
+      queryKey: scheduleQueries.checkInStatusKey(),
+      queryFn: async () => {
+        const res = await getScheduleCheckInStatus();
+        return res.result ?? null;
+      },
+    }),
+  getScheduleCalendarQuery: (
+    crewId: number,
+    request?: CrewScheduleCalendarRequest
+  ) =>
+    queryOptions({
+      queryKey: scheduleQueries.calendarKey(crewId, request),
+      queryFn: async () => {
+        const res = await getScheduleCalendar(crewId, request);
+        return res.result ?? [];
+      },
+    }),
+  createScheduleMutation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      payload,
+    }: {
+      crewId: number;
+      payload: CreateScheduleRequest;
+    }) => postSchedule(crewId, payload),
+  }),
+  updateScheduleMutation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+      payload,
+    }: {
+      crewId: number;
+      scheduleId: number;
+      payload: UpdateScheduleRequest;
+    }) => updateSchedule(crewId, scheduleId, payload),
+  }),
+  scheduleCheckInMutation: mutationOptions({
+    mutationFn: ({
+      scheduleId,
+      payload,
+    }: {
+      scheduleId: number;
+      payload: ScheduleCheckInRequest;
+    }) => postScheduleCheckIn(scheduleId, payload),
+  }),
+  scheduleDetailQuery: (crewId: number, scheduleId: number) =>
+    queryOptions({
+      queryKey: scheduleQueries.detail(scheduleId),
+      queryFn: async () => getScheduleDetail(crewId, scheduleId),
+      enabled: crewId > 0 && scheduleId > 0,
+      staleTime: 0,
+      retry: 0,
+    }),
+  scheduleParticipantsQuery: (crewId: number, scheduleId: number) =>
+    infiniteQueryOptions({
+      queryKey: scheduleQueries.participants(scheduleId),
+      queryFn: ({ pageParam }) =>
+        getScheduleParticipants(crewId, scheduleId, { cursorId: pageParam }),
+      getNextPageParam: (lastPage) => {
+        if (!lastPage.result) return undefined;
+        const { hasNext, lastId } = lastPage.result;
+        return hasNext && lastId ? lastId : undefined;
+      },
+      initialPageParam: undefined as number | undefined,
+      staleTime: 1000 * 60 * 5,
+    }),
+  participateSchedule: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+    }: {
+      crewId: number;
+      scheduleId: number;
+    }) => postParticipateSchedule(crewId, scheduleId),
+  }),
+  cancelParticipation: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+    }: {
+      crewId: number;
+      scheduleId: number;
+    }) => deleteCancelParticipation(crewId, scheduleId),
+  }),
+  deleteSchedule: mutationOptions({
+    mutationFn: ({
+      crewId,
+      scheduleId,
+    }: {
+      crewId: number;
+      scheduleId: number;
+    }) => deleteSchedule(crewId, scheduleId),
+  }),
+};

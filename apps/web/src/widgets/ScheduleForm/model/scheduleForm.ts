@@ -1,0 +1,241 @@
+import { z } from 'zod';
+
+import type {
+  CreateScheduleRequest,
+  CrewScheduleDetailResponse,
+  UpdateScheduleRequest,
+} from '@/entities/Schedule/model/schedule.model';
+
+import { formatDate } from '@/shared/lib/formatters';
+import { toastError } from '@/shared/ui/toast';
+
+
+export interface ScheduleFormValues {
+  runType: CreateScheduleRequest['runType'];
+  title: string;
+  date: string;
+  amPm: 'AM' | 'PM';
+  hour: number | null;
+  minute: number | null;
+  locationName: string;
+  address: string;
+  detailedLocation: string;
+  latitude: number;
+  longitude: number;
+  distance: number | null;
+  pace: number | null;
+  maxParticipants: number | null;
+  description: string;
+  supplies: string[];
+}
+
+export const TITLE_MAX_LENGTH = 15;
+export const SUPPLY_MAX_LENGTH = 15;
+export const MAX_SUPPLIES = 5;
+export const DISTANCE_MAX = 999;
+export const PARTICIPANTS_MAX = 999;
+export const PACE_MAX = 99;
+
+export const scheduleFormSchema = z.object({
+  runType: z.enum(['REGULAR', 'LIGHTNING']),
+  title: z
+    .string()
+    .trim()
+    .min(1, '제목을 입력해주세요')
+    .max(TITLE_MAX_LENGTH, `제목은 ${TITLE_MAX_LENGTH}자 이내로 입력해주세요`),
+  date: z.string().min(1, '날짜를 선택해주세요'),
+  amPm: z.enum(['AM', 'PM']),
+  hour: z.number().min(1, '시간을 선택해주세요').max(12),
+  minute: z.number().min(0).max(59),
+  locationName: z.string().trim().min(1, '장소명을 입력해주세요'),
+  address: z.string().trim().min(1, '주소를 입력해주세요'),
+  detailedLocation: z.string().trim().min(1, '세부 장소를 입력해주세요'),
+  latitude: z.number(),
+  longitude: z.number(),
+  distance: z.number().min(1, '거리는 1 이상이어야 합니다').max(DISTANCE_MAX),
+  pace: z.number().min(1, '페이스는 1 이상이어야 합니다').max(PACE_MAX),
+  maxParticipants: z
+    .number()
+    .int('최대 인원은 정수여야 합니다')
+    .min(1, '최대 인원은 1명 이상이어야 합니다')
+    .max(PARTICIPANTS_MAX),
+  description: z.string().trim().min(1, '상세 설명을 입력해주세요'),
+  supplies: z
+    .array(z.string())
+    .max(MAX_SUPPLIES, `준비물은 최대 ${MAX_SUPPLIES}개까지 입력 가능합니다`)
+    .refine(
+      (arr: string[]) =>
+        arr.every((s: string) => s.length <= SUPPLY_MAX_LENGTH),
+      `각 준비물은 ${SUPPLY_MAX_LENGTH}자 이내로 입력해주세요`
+    ),
+});
+
+export type ScheduleFormSchema = z.infer<typeof scheduleFormSchema>;
+
+const defaultScheduleFormValues: ScheduleFormValues = {
+  runType: 'REGULAR',
+  title: '',
+  date: '',
+  amPm: 'AM',
+  hour: null,
+  minute: null,
+  locationName: '',
+  address: '',
+  detailedLocation: '',
+  latitude: 0,
+  longitude: 0,
+  distance: null,
+  pace: null,
+  maxParticipants: null,
+  description: '',
+  supplies: [''],
+};
+
+const formatMeetingAt = (
+  date: string,
+  amPm: ScheduleFormValues['amPm'],
+  hour: number | null,
+  minute: number | null
+): string => {
+  const hour24 =
+    amPm === 'AM'
+      ? hour === 12
+        ? 0
+        : (hour ?? 0)
+      : hour === 12
+        ? 12
+        : (hour ?? 0) + 12;
+  const h = String(hour24).padStart(2, '0');
+  const m = String(minute ?? 0).padStart(2, '0');
+  const s = '00';
+  return `${date} ${h}:${m}:${s}`;
+};
+
+const formatSupplies = (supplies: string[]) => {
+  return supplies.map((s) => s.trim()).filter(Boolean);
+};
+
+const buildSchedulePayload = (values: ScheduleFormValues) => {
+  return {
+    title: values.title.trim(),
+    runType: values.runType,
+    meetingAt: formatMeetingAt(
+      values.date,
+      values.amPm,
+      values.hour,
+      values.minute
+    ),
+    locationName: values.locationName.trim(),
+    address: values.address || values.locationName.trim(),
+    detailedLocation: values.detailedLocation.trim(),
+    latitude: values.latitude,
+    longitude: values.longitude,
+    distance: values.distance ?? undefined,
+    pace: values.pace ?? undefined,
+    maxParticipants: values.maxParticipants ?? undefined,
+    description: values.description.trim() || undefined,
+    supplies: formatSupplies(values.supplies),
+  };
+};
+
+export const buildCreateSchedulePayload = (
+  values: ScheduleFormValues
+): CreateScheduleRequest | null => {
+  const payload = buildSchedulePayload(values);
+  const { distance, pace, maxParticipants, description } = payload;
+  const missing: string[] = [];
+  if (distance == null) missing.push('거리');
+  if (pace == null) missing.push('페이스');
+  if (maxParticipants == null) missing.push('최대 인원');
+  if (!description?.trim()) missing.push('상세 설명');
+  if (
+    distance == null ||
+    pace == null ||
+    maxParticipants == null ||
+    !description?.trim()
+  ) {
+    toastError(`필수 항목을 입력해주세요: ${missing.join(', ')}`);
+    return null;
+  }
+  return {
+    ...payload,
+    distance,
+    pace,
+    maxParticipants,
+    description,
+  };
+};
+
+export const buildUpdateSchedulePayload = (
+  values: ScheduleFormValues
+): UpdateScheduleRequest => buildSchedulePayload(values);
+
+export const isScheduleFormValid = (values: ScheduleFormValues): boolean => {
+  return scheduleFormSchema.safeParse(values).success;
+};
+
+export const isScheduleDateTimeInPast = (
+  date: string,
+  amPm: ScheduleFormValues['amPm'],
+  hour: number | null,
+  minute: number | null
+): boolean => {
+  if (!date || hour === null || minute === null) return false;
+
+  const meetingAtStr = formatMeetingAt(date, amPm, hour, minute);
+  const scheduled = new Date(meetingAtStr.replace(' ', 'T'));
+  return scheduled.getTime() < Date.now();
+};
+
+const parseMeetingAt = (meetingAt: string) => {
+  const d = new Date(meetingAt);
+  const hour24 = d.getHours();
+  const minute = d.getMinutes();
+
+  const amPm: 'AM' | 'PM' = hour24 < 12 ? 'AM' : 'PM';
+  const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
+
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+
+  return {
+    date: `${yyyy}-${mm}-${dd}`,
+    amPm,
+    hour: hour12,
+    minute,
+  };
+};
+
+export const initializeScheduleFormValues = (options?: {
+  initialValues?: CrewScheduleDetailResponse;
+  params?: { date?: Date };
+}) => {
+  const { initialValues, params } = options ?? {};
+
+  if (params && params.date) {
+    const dateStr = formatDate(params.date, 'YYYY-MM-DD');
+    return { ...defaultScheduleFormValues, date: dateStr };
+  }
+
+  if (!initialValues) return { ...defaultScheduleFormValues };
+
+  return {
+    runType: initialValues.runType,
+    title: initialValues.title,
+    locationName: initialValues.locationInfo.placeName,
+    address: initialValues.locationInfo.address,
+    detailedLocation: initialValues.locationInfo.meetingSpot,
+    latitude: initialValues.locationInfo.latitude,
+    longitude: initialValues.locationInfo.longitude,
+    distance: initialValues.distance ?? null,
+    pace: initialValues.pace ?? null,
+    maxParticipants: initialValues.maxParticipants ?? null,
+    description: initialValues.description ?? '',
+    supplies:
+      initialValues.supplies && initialValues.supplies.length > 0
+        ? initialValues.supplies
+        : [''],
+    ...parseMeetingAt(initialValues.meetingAt),
+  };
+};

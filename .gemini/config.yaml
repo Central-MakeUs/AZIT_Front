@@ -35,8 +35,9 @@ architecture:
       - pages
       - widgets
       - features
+      - entities
       - shared
-    dependency_direction: 'up_to_down' # pages -> widgets -> features -> shared
+    dependency_direction: 'up_to_down' # pages -> widgets -> features -> entities -> shared
     forbid:
       - lower_to_upper_import
       - same_layer_slice_import
@@ -55,8 +56,7 @@ architecture:
         forbid: [domain_specific]
 
 entities:
-  strategy: 'disabled_initially'
-  migrate_later: true
+  strategy: 'enabled'
 
 conventions:
   functions:
@@ -64,11 +64,11 @@ conventions:
     util: arrow
   naming:
     constants: BIG_SNAKE_CASE
-    forbid_abbreviation: true
     rest_prefix:
       get: 'get_'
       post: 'post_'
-      update: 'update_'
+      patch: 'update_'
+      put: 'update_'
       delete: 'delete_'
   files:
     folder_case: kebab-case

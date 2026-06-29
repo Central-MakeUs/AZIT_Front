@@ -1,0 +1,70 @@
+import { Header } from '@azit/design-system/header';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+import { crewQueries } from '@/features/Crew/api/queries';
+import { MemberList } from '@/features/Crew/ui';
+
+
+import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
+import { BackButton } from '@/shared/ui/button';
+import { AppLayout } from '@/shared/ui/layout';
+
+import * as styles from './index.css';
+
+export function CrewMemberViewPage({ params }: { params?: { id?: string } }) {
+  const crewId = Number(params?.id) || 0;
+
+  const {
+    data: membersData,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    ...crewQueries.crewMembersQuery(crewId),
+    enabled: crewId > 0,
+  });
+
+  const { scrollRef, bottomSentinelRef } = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
+
+  const totalCount = membersData?.pages[0]?.result?.totalCount ?? 0;
+
+  const members =
+    membersData?.pages.flatMap(
+      (page) =>
+        page.result?.content.map((member) => ({
+          id: member.id ?? 0,
+          memberId: member.memberId ?? member.id ?? 0,
+          nickname: member.nickname ?? '',
+          profileImageUrl: member.profileImageUrl ?? '',
+          role: member.role ?? 'MEMBER',
+          joinedDate: member.joinedDate ?? '',
+        })) ?? []
+    ) ?? [];
+
+  return (
+    <AppScreen>
+      <AppLayout>
+        <div className={styles.headerWrapper}>
+          <Header left={<BackButton />} center="멤버 목록" />
+        </div>
+        <div className={styles.mainContainer} ref={scrollRef}>
+          {members.length === 0 || isLoading ? (
+            <></>
+          ) : (
+            <>
+              <p className={styles.totalCount}>총 {totalCount}명</p>
+              <MemberList members={members} />
+            </>
+          )}
+          <div ref={bottomSentinelRef} aria-hidden />
+        </div>
+      </AppLayout>
+    </AppScreen>
+  );
+}

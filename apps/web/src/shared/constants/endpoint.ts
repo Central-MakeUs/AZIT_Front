@@ -9,8 +9,11 @@ export const END_POINT = {
   },
   MEMBER: {
     MY_INFO: 'members/me',
+    MY_CREWS: 'members/me/crews',
+    MY_PROFILE: 'members/me/profile',
     MY_ATTENDANCE: 'members/me/attendances',
     MY_ATTENDANCE_CALENDAR: 'members/me/attendances/calendar',
+    MY_PROVIDERS: 'members/me/providers',
   },
   ONBOARDING: {
     CREATE_CREW: 'crews',
@@ -21,6 +24,7 @@ export const END_POINT = {
     CONFIRM_JOIN_STATUS: 'members/me/confirm-status',
   },
   CREW: {
+    MY_JOINED_CREWS: 'crews/me',
     MEMBERS: (crewId: number) => `crews/${crewId}/members`,
     MEMBER: (crewId: number, targetMemberId: number) =>
       `crews/${crewId}/members/${targetMemberId}`,
@@ -29,6 +33,12 @@ export const END_POINT = {
       `crews/${crewId}/join-requests/${targetMemberId}/approve`,
     REJECT_JOIN_REQUEST: (crewId: number, targetMemberId: number) =>
       `crews/${crewId}/join-requests/${targetMemberId}/reject`,
+    CANCEL_JOIN_REQUEST: (crewId: number) => `crews/${crewId}/join-request`,
+    DISSOLVE: (crewId: number) => `crews/${crewId}`,
+    EXIT: (crewId: number) => `crews/${crewId}/members/me`,
+    REISSUE_INVITATION_CODE: (crewId: number) =>
+      `crews/${crewId}/invitation-code`,
+    UPDATE_INFO: (crewId: number) => `crews/${crewId}/info`,
   },
   STORE: {
     PRODUCTS: 'products',
@@ -51,6 +61,9 @@ export const END_POINT = {
     DETAIL: (orderNumber: string) => `orders/${orderNumber}`,
     CANCEL: (orderNumber: string) => `orders/${orderNumber}/cancel`,
     HISTORY: 'orders',
+  },
+  IMAGES: {
+    PRESIGNED_URL: 'images/presigned-url',
   },
   LOCATION: {
     SEARCH: 'locations/search',

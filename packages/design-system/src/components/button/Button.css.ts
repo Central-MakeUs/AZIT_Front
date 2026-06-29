@@ -66,6 +66,12 @@ export const buttonVariant = recipe({
       },
     },
   },
+  compoundVariants: [
+    {
+      variants: { size: 'small', state: 'active' },
+      style: { backgroundColor: vars.colors.blue100 },
+    },
+  ],
   defaultVariants: {
     size: 'large',
     state: 'active',

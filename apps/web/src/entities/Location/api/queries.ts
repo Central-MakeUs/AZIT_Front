@@ -1,0 +1,24 @@
+import { queryOptions } from '@tanstack/react-query';
+
+import { normalizeStr } from '@/shared/lib/formatters';
+
+import { getLocationSearch } from './index';
+
+export const locationQueries = {
+  all: ['location'] as const,
+  searchKey: (query: string) =>
+    [...locationQueries.all, 'search', query] as const,
+  searchQuery: (query: string) => {
+    const normalizedQuery = normalizeStr(query);
+    return queryOptions({
+      queryKey: locationQueries.searchKey(normalizedQuery),
+      queryFn: async () => {
+        const res = await getLocationSearch(normalizedQuery);
+        return res.result ?? [];
+      },
+      enabled: !!normalizedQuery,
+      staleTime: 1000 * 60,
+      gcTime: 1000 * 60 * 5,
+    });
+  },
+};

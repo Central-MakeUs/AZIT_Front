@@ -2,7 +2,7 @@
 name: 🧹 Refactor / Improvement
 about: 코드 개선, 구조 변경, 성능 개선
 title: '[Refactor] '
-labels: refactor
+labels: 🔄 Refactor
 assignees: ''
 ---
 

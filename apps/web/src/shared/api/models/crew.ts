@@ -11,3 +11,8 @@ export type CrewInfoResult = Required<
 export type CrewJoinStatusResult = Required<
   components['schemas']['CrewJoinStatusResponse']
 >;
+export type UpdateCrewInfoRequest =
+  components['schemas']['UpdateCrewProfileRequest'];
+export type CrewDetailInfoResult = Required<
+  components['schemas']['CrewInfoResponse']
+>;
