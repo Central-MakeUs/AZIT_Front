@@ -1,122 +1,130 @@
 import type { RouteConfig } from '@/app/routes/types';
 import { lazyImport } from '@/app/routes/utils';
 
-import { RedirectPage } from '@/pages/auth/ui/RedirectPage';
-import { HomePage } from '@/pages/home/ui/HomePage';
-import { NotFoundPage } from '@/pages/not-found/ui/NotFoundPage';
+/**
+ * 네비게이션 1탭 페이지는 Eager 로딩을 적용해요.
+ */
+import { CommerceStorePage } from '@/pages/CommerceStore/CommerceStorePage';
+import { HomePage } from '@/pages/Home/HomePage';
+import { LoginPage } from '@/pages/Login/LoginPage';
+import { LoginRedirectPage } from '@/pages/Login/LoginRedirectPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+import { SchedulePage } from '@/pages/Schedule/SchedulePage';
 
-const LoginPage = lazyImport(
-  () => import('@/pages/auth/ui/LoginPage'),
-  'LoginPage'
+const CommerceStoreDetailPage = lazyImport(
+  () => import('@/pages/CommerceStore/CommerceStoreDetailPage'),
+  'CommerceStoreDetailPage'
 );
-const StorePage = lazyImport(
-  () => import('@/pages/store/ui/StorePage'),
-  'StorePage'
+const CommerceCartPage = lazyImport(
+  () => import('@/pages/CommerceCart/CommerceCartPage'),
+  'CommerceCartPage'
 );
-const StoreDetailPage = lazyImport(
-  () => import('@/pages/store/ui/StoreDetailPage'),
-  'StoreDetailPage'
-);
-const CartPage = lazyImport(
-  () => import('@/pages/cart/ui/CartPage'),
-  'CartPage'
-);
-const TermAgreePage = lazyImport(
-  () => import('@/pages/onboarding/ui/TermAgreePage'),
-  'TermAgreePage'
+const OnboardingTermAgreePage = lazyImport(
+  () => import('@/pages/Onboarding/OnboardingTermAgreePage'),
+  'OnboardingTermAgreePage'
 );
 const OnboardingPage = lazyImport(
-  () => import('@/pages/onboarding/ui/OnboardingPage'),
+  () => import('@/pages/Onboarding/OnboardingPage'),
   'OnboardingPage'
 );
-const OrderPage = lazyImport(
-  () => import('@/pages/order/ui/OrderPage'),
-  'OrderPage'
+const OnboardingCompletePage = lazyImport(
+  () => import('@/pages/Onboarding/OnboardingCompletePage'),
+  'OnboardingCompletePage'
 );
-const OrderCompletePage = lazyImport(
-  () => import('@/pages/order/ui/OrderCompletePage'),
-  'OrderCompletePage'
+const CommerceOrderPage = lazyImport(
+  () => import('@/pages/CommerceOrder/CommerceOrderPage'),
+  'CommerceOrderPage'
 );
-const OrderDetailPage = lazyImport(
-  () => import('@/pages/order/ui/OrderDetailPage'),
-  'OrderDetailPage'
+const CommerceOrderCompletePage = lazyImport(
+  () => import('@/pages/CommerceOrder/CommerceOrderCompletePage'),
+  'CommerceOrderCompletePage'
 );
-const MyPage = lazyImport(() => import('@/pages/mypage/ui/MyPage'), 'MyPage');
+const CommerceOrderDetailPage = lazyImport(
+  () => import('@/pages/CommerceOrder/CommerceOrderDetailPage'),
+  'CommerceOrderDetailPage'
+);
+const UserPage = lazyImport(() => import('@/pages/User/UserPage'), 'UserPage');
 const OrderHistory = lazyImport(
-  () => import('@/pages/order/ui/OrderHistoryPage'),
-  'OrderHistoryPage'
+  () => import('@/pages/CommerceOrder/CommerceOrderHistoryPage'),
+  'CommerceOrderHistoryPage'
 );
 const NotificationSettingsPage = lazyImport(
-  () => import('@/pages/mypage/ui/MyNotificationPage'),
-  'MyNotificationPage'
-);
-const CrewJoinStatusPage = lazyImport(
-  () => import('@/pages/crew-join-status/ui/CrewJoinStatusPage'),
-  'CrewJoinStatusPage'
+  () => import('@/pages/Settings/SettingsNotificationPage'),
+  'SettingsNotificationPage'
 );
 const CrewBannedStatusPage = lazyImport(
-  () => import('@/pages/crew-join-status/ui/CrewBannedStatusPage'),
+  () => import('@/pages/Crew/CrewBannedStatusPage'),
   'CrewBannedStatusPage'
 );
 const ScheduleDetailPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleDetailPage'),
+  () => import('@/pages/Schedule/ScheduleDetailPage'),
   'ScheduleDetailPage'
 );
 const ScheduleEditPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleEditPage'),
+  () => import('@/pages/Schedule/ScheduleEditPage'),
   'ScheduleEditPage'
 );
 const ScheduleMembersPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleMembersPage'),
+  () => import('@/pages/Schedule/ScheduleMembersPage'),
   'ScheduleMembersPage'
 );
 const ScheduleCreatePage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleCreatePage'),
+  () => import('@/pages/Schedule/ScheduleCreatePage'),
   'ScheduleCreatePage'
 );
-const HomeAlertPage = lazyImport(
-  () => import('@/pages/home-alert/ui/HomeAlertPage'),
-  'HomeAlertPage'
+const HomeNotificationPage = lazyImport(
+  () => import('@/pages/Home/HomeNotificationPage'),
+  'HomeNotificationPage'
 );
-const SchedulePage = lazyImport(
-  () => import('@/pages/schedule/ui/SchedulePage'),
-  'SchedulePage'
-);
+
 const AttendancePage = lazyImport(
-  () => import('@/pages/mypage/ui/MyAttendancePage'),
-  'MyAttendancePage'
+  () => import('@/pages/Crew/CrewAttendancePage'),
+  'CrewAttendancePage'
 );
 const AddressSettingPage = lazyImport(
-  () => import('@/pages/address/ui/AddressSettingPage'),
+  () => import('@/pages/Address/AddressSettingPage'),
   'AddressSettingPage'
 );
 const AddressRegisterPage = lazyImport(
-  () => import('@/pages/address/ui/AddressRegisterPage'),
+  () => import('@/pages/Address/AddressRegisterPage'),
   'AddressRegisterPage'
 );
 const AddressSearchPage = lazyImport(
-  () => import('@/pages/address/ui/AddressSearchPage'),
+  () => import('@/pages/Address/AddressSearchPage'),
   'AddressSearchPage'
 );
 const AddressEditPage = lazyImport(
-  () => import('@/pages/address/ui/AddressEditPage'),
+  () => import('@/pages/Address/AddressEditPage'),
   'AddressEditPage'
 );
-const TermDetailPage = lazyImport(
-  () => import('@/pages/term-detail/ui/TermDetailPage'),
-  'TermDetailPage'
+const SettingsTermDetailPage = lazyImport(
+  () => import('@/pages/Settings/SettingsTermDetailPage'),
+  'SettingsTermDetailPage'
 );
-const MemberManagePage = lazyImport(
-  () => import('@/pages/mypage/ui/MemberManagePage'),
-  'MemberManagePage'
+const CrewMemberManagePage = lazyImport(
+  () => import('@/pages/Crew/CrewMemberManagePage'),
+  'CrewMemberManagePage'
 );
-const MemberViewPage = lazyImport(
-  () => import('@/pages/mypage/ui/MemberViewPage'),
-  'MemberViewPage'
+const CrewMemberViewPage = lazyImport(
+  () => import('@/pages/Crew/CrewMemberViewPage'),
+  'CrewMemberViewPage'
+);
+const UserProfileEditPage = lazyImport(
+  () => import('@/pages/User/UserProfileEditPage'),
+  'UserProfileEditPage'
+);
+const CrewInfoEditPage = lazyImport(
+  () => import('@/pages/Crew/CrewInfoEditPage'),
+  'CrewInfoEditPage'
 );
 const ScheduleLocationPage = lazyImport(
-  () => import('@/pages/schedule/ui/ScheduleLocationPage'),
+  () => import('@/pages/Schedule/ScheduleLocationPage'),
   'ScheduleLocationPage'
+);
+const CrewPage = lazyImport(() => import('@/pages/Crew/CrewPage'), 'CrewPage');
+const SettingsPage = lazyImport(
+  () => import('@/pages/Settings/SettingsPage'),
+  'SettingsPage'
 );
 
 export const routes = [
@@ -127,9 +135,9 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'TermAgreePage',
+    name: 'OnboardingTermAgreePage',
     path: '/term-agree',
-    element: TermAgreePage,
+    element: OnboardingTermAgreePage,
     withAuth: false,
   },
   {
@@ -139,9 +147,15 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'RedirectPage',
+    name: 'OnboardingCompletePage',
+    path: '/onboarding/complete',
+    element: OnboardingCompletePage,
+    withAuth: false,
+  },
+  {
+    name: 'LoginRedirectPage',
     path: '/auth/kakao/callback',
-    element: RedirectPage,
+    element: LoginRedirectPage,
     withAuth: false,
   },
   {
@@ -151,9 +165,9 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'AlertPage',
-    path: '/alert',
-    element: HomeAlertPage,
+    name: 'HomeNotificationPage',
+    path: '/notification',
+    element: HomeNotificationPage,
     withAuth: false,
   },
   {
@@ -169,21 +183,21 @@ export const routes = [
     withAuth: true,
   },
   {
-    name: 'StorePage',
+    name: 'CommerceStorePage',
     path: '/store',
-    element: StorePage,
+    element: CommerceStorePage,
     withAuth: false,
   },
   {
-    name: 'StoreDetailPage',
+    name: 'CommerceStoreDetailPage',
     path: '/store/:id',
-    element: StoreDetailPage,
+    element: CommerceStoreDetailPage,
     withAuth: true,
   },
   {
-    name: 'CartPage',
+    name: 'CommerceCartPage',
     path: '/cart',
-    element: CartPage,
+    element: CommerceCartPage,
     withAuth: false,
   },
   {
@@ -193,27 +207,27 @@ export const routes = [
     withAuth: false,
   },
   {
-    name: 'OrderPage',
+    name: 'CommerceOrderPage',
     path: '/order',
-    element: OrderPage,
+    element: CommerceOrderPage,
     withAuth: true,
   },
   {
-    name: 'OrderCompletePage',
+    name: 'CommerceOrderCompletePage',
     path: '/order-complete',
-    element: OrderCompletePage,
+    element: CommerceOrderCompletePage,
     withAuth: true,
   },
   {
-    name: 'OrderDetailPage',
+    name: 'CommerceOrderDetailPage',
     path: '/order/:id',
-    element: OrderDetailPage,
+    element: CommerceOrderDetailPage,
     withAuth: true,
   },
   {
     name: 'Mypage',
     path: '/mypage',
-    element: MyPage,
+    element: UserPage,
     withAuth: true,
   },
   {
@@ -226,12 +240,6 @@ export const routes = [
     name: 'NotificationSettingsPage',
     path: '/mypage-notification',
     element: NotificationSettingsPage,
-    withAuth: true,
-  },
-  {
-    name: 'CrewJoinStatusPage',
-    path: '/crew-join/status',
-    element: CrewJoinStatusPage,
     withAuth: true,
   },
   {
@@ -289,27 +297,51 @@ export const routes = [
     withAuth: true,
   },
   {
-    name: 'TermDetailPage',
+    name: 'SettingsTermDetailPage',
     path: '/term-detail/:termType',
-    element: TermDetailPage,
+    element: SettingsTermDetailPage,
     withAuth: false,
   },
   {
-    name: 'MemberManagePage',
+    name: 'CrewMemberManagePage',
     path: '/crew/:id/manage',
-    element: MemberManagePage,
+    element: CrewMemberManagePage,
     withAuth: true,
   },
   {
-    name: 'MemberViewPage',
+    name: 'CrewMemberViewPage',
     path: '/crew/:id/members',
-    element: MemberViewPage,
+    element: CrewMemberViewPage,
     withAuth: true,
   },
   {
     name: 'ScheduleLocationPage',
     path: '/schedule/location/search',
     element: ScheduleLocationPage,
+    withAuth: true,
+  },
+  {
+    name: 'UserProfileEditPage',
+    path: '/mypage/profile/edit',
+    element: UserProfileEditPage,
+    withAuth: true,
+  },
+  {
+    name: 'CrewInfoEditPage',
+    path: '/crew/:id/edit',
+    element: CrewInfoEditPage,
+    withAuth: true,
+  },
+  {
+    name: 'CrewPage',
+    path: '/crew/:id',
+    element: CrewPage,
+    withAuth: true,
+  },
+  {
+    name: 'SettingsPage',
+    path: '/settings',
+    element: SettingsPage,
     withAuth: true,
   },
 ] as const satisfies readonly RouteConfig[];

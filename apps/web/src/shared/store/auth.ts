@@ -16,12 +16,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   setAccessToken: (accessToken) => set({ accessToken }),
   setIsInitialized: (isInitialized) => set({ isInitialized }),
   logout: () =>
-    postLogout().then((response) => {
-      if (response.ok) {
+    postLogout()
+      .catch(() => {})
+      .then(() => {
         set({
           accessToken: undefined,
           isInitialized: false,
         });
-      }
-    }),
+      }),
 }));

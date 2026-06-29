@@ -3,13 +3,18 @@ import type { ReactNode } from 'react';
 import * as styles from './AlertDialog.css';
 
 export interface AlertDialogProps {
-  trigger: ReactNode;
+  trigger?: ReactNode;
   title: string;
   description?: string;
   actionText?: string;
   onAction?: () => void;
   cancelText?: string;
   singleButton?: boolean;
+  children?: ReactNode;
+  actionDisabled?: boolean;
+  actionVariant?: 'default' | 'danger';
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function AlertDialog({
@@ -20,10 +25,17 @@ export function AlertDialog({
   cancelText = '취소',
   onAction,
   singleButton = false,
+  children,
+  actionDisabled = false,
+  actionVariant = 'default',
+  open,
+  onOpenChange,
 }: AlertDialogProps) {
   return (
-    <RadixAlertDialog.Root>
-      <RadixAlertDialog.Trigger asChild>{trigger}</RadixAlertDialog.Trigger>
+    <RadixAlertDialog.Root open={open} onOpenChange={onOpenChange}>
+      {trigger && (
+        <RadixAlertDialog.Trigger asChild>{trigger}</RadixAlertDialog.Trigger>
+      )}
       <RadixAlertDialog.Portal>
         <RadixAlertDialog.Overlay className={styles.overlay} />
         <RadixAlertDialog.Content className={styles.content}>
@@ -38,6 +50,8 @@ export function AlertDialog({
             )}
           </div>
 
+          {children}
+
           <div className={styles.buttonContainer}>
             {!singleButton && (
               <RadixAlertDialog.Cancel asChild>
@@ -50,8 +64,13 @@ export function AlertDialog({
                 className={
                   singleButton
                     ? styles.actionButtonFullWidth
-                    : styles.actionButton
+                    : actionDisabled
+                      ? styles.actionButtonDisabled
+                      : actionVariant === 'danger'
+                        ? styles.actionButtonDanger
+                        : styles.actionButton
                 }
+                disabled={actionDisabled}
                 onClick={onAction}
               >
                 {actionText}

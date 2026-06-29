@@ -11,12 +11,10 @@ const onboardingApi = authApi.extend({
         if (response.status === 200) {
           const tokenResponse = await postReissueToken();
 
-          if (tokenResponse.ok) {
-            const accessToken = tokenResponse.data.result.accessToken;
-
-            if (accessToken) {
-              useAuthStore.getState().setAccessToken(accessToken);
-            }
+          if (tokenResponse.result?.accessToken) {
+            useAuthStore
+              .getState()
+              .setAccessToken(tokenResponse.result.accessToken);
           }
         }
       },

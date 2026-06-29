@@ -93,6 +93,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/test/members/me/withdraw-immediately': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 사용자 즉시 탈퇴
+     * @description 사용자 탈퇴 및 신규 가입 플로우 테스트를 위한 API입니다. <br>
+     *     실제 탈퇴와 달리 사용자 관련 데이터를 DB에서 즉시 삭제합니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 주문 관련 데이터는 운영과 동일하게 삭제하지 않습니다. (스냅샷 저장 용도) <br><br>
+     */
+    post: operations['forceWithdraw'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/orders': {
     parameters: {
       query?: never;
@@ -166,7 +190,7 @@ export interface paths {
      * @description 서비스 이용을 중단하고 회원의 소셜 연동 해제 및 탈퇴 처리를 진행합니다. <br><br>
      *
      *     **[참고 사항]** <br>
-     *     * 리더로 소속된 크루에 다른 멤버가 존재할 경우 탈퇴가 불가능합니다. (CANNOT_WITHDRAW_AS_LEADER)
+     *     * 리더로 소속된 크루가 있을 경우 서비스 탈퇴가 불가합니다. 리더 권한 위임 또는 크루 해산이 필요합니다. (CANNOT_SERVICE_WITHDRAW_AS_LEADER)
      */
     post: operations['withdraw'];
     delete?: never;
@@ -202,7 +226,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/v1/members/me/confirm-status': {
+  '/api/v1/images/presigned-url': {
     parameters: {
       query?: never;
       header?: never;
@@ -212,15 +236,24 @@ export interface paths {
     get?: never;
     put?: never;
     /**
-     * 가입 승인/거절 및 크루 방출 결과 확인
-     * @description 사용자가 가입 신청 결과(승인/거절) 또는 크루 방출 통보를 확인했음을 서버에 알립니다. <br><br>
+     * 이미지 업로드용 Presigned URL 발급
+     * @description S3에 이미지를 직접 업로드하기 위한 Presigned URL을 발급합니다. <br><br>
      *
-     *     **[참고 사항]** <br>
-     *     * APPROVED_PENDING_CONFIRM, REJECTED_PENDING_CONFIRM, KICKED_PENDING_CONFIRM 상태인 회원만 호출 가능합니다. (INVALID_MEMBER_STATUS)
-     *     * 가입 승인 확인 (APPROVED_PENDING_CONFIRM): 즉시 ACTIVE로 변경됩니다. <br>
-     *     * 가입 거절/크루 방출 확인 (REJECTED_PENDING_CONFIRM / KICKED_PENDING_CONFIRM): 가입되어 있는 다른 크루가 1개 이상 있는 경우 ACTIVE 상태가 유지되고, 가입되어 있는 다른 크루가 없는 경우 PENDING_ONBOARDING으로 변경됩니다.
+     *     **[전체 플로우]** <br>
+     *     1. 해당 API를 호출하여 presignedUrl과 imageUrl을 발급받습니다. <br>
+     *     2. 클라이언트에서 presignedUrl로 **PUT 요청**을 보내 이미지를 업로드합니다. <br>
+     *     3. 업로드 완료 후 imageUrl으로 프로필 수정 / 크루 이미지 수정 등 관련 API를 호출합니다. <br><br>
+     *
+     *     **[업로드 타입]** <br>
+     *     * MEMBER_PROFILE : 멤버 프로필 이미지 (crewId 불필요) <br>
+     *     * CREW_IMAGE : 크루 이미지 (crewId 필수) <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 허용 확장자: jpg, jpeg, png, webp (그 외: UNSUPPORTED_FILE_EXTENSION) <br>
+     *     * Presigned URL 유효 시간: 5분 <br>
+     *     * 확장자 파싱이 불가능한 올바르지 않은 파일명일 경우 INVALID_FILE_NAME 에러가 발생합니다.
      */
-    post: operations['confirmMemberStatus'];
+    post: operations['generatePresignedUrl'];
     delete?: never;
     options?: never;
     head?: never;
@@ -247,7 +280,8 @@ export interface paths {
      *
      *     **[제약 사항]** <br>
      *     * 크루 이름: 최대 15자 이내로 작성해야 합니다. (INVALID_INPUT_VALUE)
-     *     * 온보딩 단계(PENDING_ONBOARDING) 또는 정회원(ACTIVE) 상태의 사용자만 요청 가능합니다. (INVALID_MEMBER_STATUS)
+     *     * 크루 이름: 한글, 영문, 숫자만 사용 가능합니다. (INVALID_CREW_NAME_CHARACTERS)
+     *     * ACTIVE 상태의 사용자만 요청 가능합니다. (INVALID_MEMBER_STATUS)
      */
     post: operations['createCrew'];
     delete?: never;
@@ -268,9 +302,13 @@ export interface paths {
      * @description 특정 크루의 일정 목록을 날짜와 러닝 타입별로 필터링하여 조회합니다. <br>
      *
      *     **[쿼리 파라미터]** <br>
-     *     * date (선택): 특정 날짜(yyyy-MM-dd)의 일정만 조회하고 싶을 때 사용합니다. 미입력 시 전체 기간을 조회합니다.
-     *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다.
-     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 기준으로 조회합니다. <br><br>
+     *     * date (선택): 특정 날짜(yyyy-MM-dd)의 일정만 조회합니다. 다른 파라미터보다 우선 적용됩니다.
+     *     * startDate / endDate (선택): 조회할 날짜 범위(yyyy-MM-dd)입니다. 두 값이 모두 있어야 동작합니다.
+     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 월을 기준으로 조회합니다.
+     *     * runType (선택): REGULAR 또는 LIGHTNING으로 필터링합니다. 미입력 시 모든 타입을 조회합니다. <br><br>
+     *
+     *     **[파라미터 우선순위]** <br>
+     *     date > startDate·endDate > yearMonth > 현재 월 <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 해당 크루의 정회원(JOINED)만 조회가 가능합니다. (NOT_A_CREW_MEMBER)
@@ -386,6 +424,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/{crewId}/invitation-code': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * 초대 코드 재발급
+     * @description 크루 리더가 기존 초대 코드를 폐기하고 새로운 초대 코드를 발급합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 해당 크루의 리더(LEADER)만 해당 API를 호출할 수 있습니다. (NOT_CREW_LEADER) <br>
+     *     * 재발급 즉시 기존 코드는 무효화됩니다.
+     */
+    post: operations['regenerateInvitationCode'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/join': {
     parameters: {
       query?: never;
@@ -403,6 +465,7 @@ export interface paths {
      *     **[제약 사항]** <br>
      *     * 본인이 리더인 크루이거나 이미 멤버로 등록된 크루에는 재신청이 불가합니다. (ALREADY_JOINED_CREW)
      *     * 유효하지 않은 초대 코드를 입력할 경우 가입이 불가합니다. (CREW_NOT_FOUND)
+     *     * 방출된 크루가 존재할 시 24시간 내에는 재가입 신청이 불가합니다. (EXPELLED_REJOINING_COOLDOWN)
      */
     post: operations['joinCrew'];
     delete?: never;
@@ -460,7 +523,7 @@ export interface paths {
     put?: never;
     /**
      * 소셜 로그인 (애플 제외)
-     * @description 카카오 등 소셜 플랫폼의 인가 코드를 통해 로그인을 진행하고 JWT 토큰과 회원의 현재 상태, 최근 가입한 크루 ID를 반환합니다. <br><br>
+     * @description 카카오 등 소셜 플랫폼의 인가 코드 및 액세스 토큰을 통해 로그인을 진행합니다. <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 보안을 위해 리프레시 토큰은 HttpOnly 쿠키에 저장되어 발급됩니다.
@@ -619,6 +682,95 @@ export interface paths {
      *     3. 사용했던 포인트를 사용자 계정으로 전액 환불합니다.
      */
     patch: operations['cancelOrder'];
+    trace?: never;
+  };
+  '/api/v1/members/me/profile': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 프로필 수정
+     * @description 사용자의 프로필 정보를 수정합니다. <br><br>
+     *
+     *     **[닉네임 제약 사항]** <br>
+     *     * 최대 10자까지 입력 가능합니다. <br>
+     *     * 특수문자는 사용할 수 없으며, 한글/영문/숫자만 허용됩니다. <br><br>
+     *
+     *     **[프로필 이미지 URL 제약 사항]** <br>
+     *     프로필 이미지 URL은 아래 세 가지 중 하나여야 합니다.<br>
+     *     1. temp 경로가 포함된 CloudFront URL (새 커스텀 이미지 적용 시)<br>
+     *     2. default 경로가 포함된 URL (기본 이미지 적용 시 — 프론트에서 랜덤 선택 후 전달)<br>
+     *     3. 현재 이미지 URL (이미지 변경 없음) <br><br>
+     *
+     *     **[이미지 처리 방식]** <br>
+     *     imageUrl 값에 따라 아래 세 가지 케이스로 처리됩니다. <br>
+     *     1. **새 커스텀 이미지 적용**: temp/ 경로가 포함된 CloudFront URL 전달 <br>
+     *        - 사전에 POST /api/v1/images/presigned-url로 Presigned URL 발급 후 S3에 실제 업로드 필요 <br>
+     *        - 업로드되지 않은 URL이면 IMAGE_NOT_UPLOADED 오류 <br>
+     *        - 본인이 업로드한 이미지만 사용 가능 (IMAGE_OWNERSHIP_MISMATCH) <br>
+     *     2. **기본 이미지 적용**: default/ 경로가 포함된 URL 전달 (프론트에서 랜덤 선택 후 전달) <br>
+     *        - 기존 커스텀 이미지가 있으면 S3에서 자동 삭제 후 교체 <br>
+     *     3. **이미지 변경 없음**: 현재 저장된 이미지 URL 그대로 전달 <br>
+     *        - S3 작업 없이 닉네임만 수정됨
+     */
+    patch: operations['updateMemberProfile'];
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/info': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 크루 정보 조회
+     * @description 크루 이미지, 크루명, 크루 한줄 소개를 조회합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 해당 크루에 가입된 멤버(JOINED 상태)만 조회할 수 있습니다. (NOT_A_CREW_MEMBER)
+     */
+    get: operations['getCrewInfo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * 크루 프로필 수정
+     * @description 크루 프로필을 수정합니다. <br><br>
+     *
+     *     **[크루 이미지 URL 제약 사항]** <br>
+     *     크루 이미지 URL은 아래 세 가지 중 하나여야 합니다.<br>
+     *     1. temp 경로가 포함된 CloudFront URL (새 커스텀 이미지 적용 시)<br>
+     *     2. default 경로가 포함된 URL (기본 이미지 적용 시 — 프론트에서 전달)<br>
+     *     3. 현재 이미지 URL (이미지 변경 없음) <br><br>
+     *
+     *     **[이미지 처리 방식]** <br>
+     *     imageUrl 값에 따라 아래 두 가지 케이스로 처리됩니다. <br>
+     *     1. **새 이미지 적용**: temp/ 경로가 포함된 CloudFront URL 전달 <br>
+     *        - 사전에 POST /api/v1/images/presigned-url에 type: CREW_IMAGE, crewId를 전달하여 Presigned URL 발급 후 S3에 실제 업로드 필요 <br>
+     *        - 업로드되지 않은 URL이면 IMAGE_NOT_UPLOADED 오류 <br>
+     *        - Presigned URL 발급 시 사용한 crewId와 요청 경로의 crewId가 일치해야 합니다. (IMAGE_OWNERSHIP_MISMATCH) <br>
+     *     2. **이미지 변경 없음**: 현재 저장된 이미지 URL 그대로 전달 <br>
+     *        - S3 작업 없이 크루명·소개만 수정됨 <br><br>
+     *
+     *     **[이외 제약 사항]** <br>
+     *     * 리더만 수정할 수 있습니다. (NOT_CREW_LEADER) <br>
+     *     * 크루 이름은 필수이며 최대 15자까지 입력 가능합니다. <br>
+     *     * 크루 이름: 한글, 영문, 숫자만 사용 가능합니다. (INVALID_CREW_NAME_CHARACTERS) <br>
+     *     * 크루 한줄 소개는 선택이며 최대 20자까지 입력 가능합니다. (미입력 시 null로 저장)
+     */
+    patch: operations['updateCrewProfile'];
     trace?: never;
   };
   '/api/v1/carts/items/{cartItemId}': {
@@ -789,19 +941,8 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 내 정보 조회 (마이페이지 및 크루 정보 확인용)
-     * @description 로그인한 사용자의 기본 프로필 정보와 소속(또는 관련) 크루 정보를 조회합니다. <br>
-     *     회원의 현재 상태에 따라 반환되는 크루 정보의 의미가 달라집니다. <br><br>
-     *
-     *     **[상태별 크루 정보 반환 규칙]** <br>
-     *     1. ACTIVE: 가장 최근에 가입한 크루 정보를 반환합니다. <br>
-     *     2. KICKED_PENDING_CONFIRM: 방출 통보 화면을 띄우기 위해, 방금 방출된 크루 정보를 반환합니다. <br>
-     *     3. REJECTED_PENDING_CONFIRM: 가입 거절 안내 화면을 위해, 가장 최근에 가입이 거절된 크루 정보를 반환합니다. <br>
-     *     4. WAITING_FOR_APPROVE: 승인 대기 화면을 위해, 가장 최근에 가입 신청한 크루 정보를 반환합니다. <br>
-     *     5. PENDING_TERMS, PENDING_ONBOARDING, WITHDRAWN: 크루 관련 정보는 모두 null로 반환됩니다. <br><br>
-     *
-     *     **[참고 사항]** <br>
-     *     * invitationCode: 사용자가 해당 크루의 리더이면서 JOINED 상태일 때만 값이 존재하며, 그 외의 경우에는 null로 내려갑니다.
+     * 내 정보 조회 (마이페이지 상단 카드)
+     * @description 로그인한 사용자의 기본 프로필 정보(닉네임, 프로필 이미지, 포인트, 출석 횟수)를 조회합니다. <br>
      */
     get: operations['getMyInfo'];
     put?: never;
@@ -831,6 +972,62 @@ export interface paths {
      *     * 모임 시간이 가장 가까운 순서대로 정렬됩니다.
      */
     get: operations['getMySchedules'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/providers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 연동된 소셜 로그인 조회
+     * @description 로그인한 사용자가 연동한 소셜 로그인 목록을 반환합니다. <br><br>
+     *
+     *     **[응답값]** <br>
+     *     * KAKAO: 카카오 연동 <br>
+     *     * APPLE: 애플 연동 <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * 현재는 계정당 하나의 소셜 로그인만 지원합니다. <br>
+     *     * 추후 계정 연동 기능 도입 시 복수의 소셜 로그인이 반환될 수 있습니다.
+     */
+    get: operations['getLinkedProviders'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/members/me/crews': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 내 크루 목록 조회 (마이페이지)
+     * @description 로그인한 사용자가 가입(JOINED)하거나 승인 대기(REQUESTED) 중인 크루 목록을 조회합니다. <br>
+     *     최대 3개의 크루가 반환되며, 크루가 없으면 빈 배열([])을 반환합니다. <br><br>
+     *
+     *     **[memberStatus 값]** <br>
+     *     * JOINED: 정식 가입 상태. memberRole 이 함께 반환됩니다. <br>
+     *     * REQUESTED: 승인 대기 상태. memberRole 은 null 입니다. <br><br>
+     *
+     *     **[참고 사항]** <br>
+     *     * invitationCode: JOINED 상태일 때 값이 존재하며, 그 외의 경우(REQUESTED 등)에는 null로 내려갑니다.
+     */
+    get: operations['getMyCrews'];
     put?: never;
     post?: never;
     delete?: never;
@@ -885,6 +1082,7 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * crewId (선택): 특정 크루의 출석 이력만 필터링합니다. 미입력 시 전체 크루의 이력을 조회합니다.<br>
      *
      *     **[참고 사항]** <br>
      *     * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
@@ -913,10 +1111,11 @@ export interface paths {
      *
      *     **[쿼리 파라미터]** <br>
      *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * crewId (선택): 특정 크루의 출석 이력만 필터링합니다. 미입력 시 전체 크루의 이력을 조회합니다.<br>
      *
      *     **[참고 사항]** <br>
-     *         * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
-     *         * 모임 시간이 이미 지난 일정(출석/결석 확정) 또는 모임 시간 전이라도 출석을 완료한 일정만 반환됩니다. <br><br>
+     *     * 아직 모임 시간이 지나지 않았고 출석도 하지 않은 예정 일정은 리스트에 나타나지 않습니다. <br>
+     *     * 모임 시간이 이미 지난 일정(출석/결석 확정) 또는 모임 시간 전이라도 출석을 완료한 일정만 반환됩니다. <br><br>
      */
     get: operations['getMyAttendancesForCalendar'];
     put?: never;
@@ -985,12 +1184,16 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 월간 크루 일정 목록 조회 (캘린더 표시용)
-     * @description 특정 월의 날짜별 일정 존재 여부(정기런/번개런)를 조회합니다. 일정이 하나라도 존재하는 날짜만 조회됩니다. <br>
+     * 월간/주간 크루 일정 목록 조회 (캘린더 표시용)
+     * @description 날짜별 일정 존재 여부(정기런/번개런)를 조회합니다. 일정이 하나라도 존재하는 날짜만 조회됩니다. <br>
      *     캘린더에서 각 날짜 하단에 상태 점을 표시하는 데 사용됩니다. <br><br>
      *
      *     **[쿼리 파라미터]** <br>
-     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 시간 기준의 월을 조회합니다.<br>
+     *     * startDate / endDate (선택): 조회할 날짜 범위(yyyy-MM-dd)입니다. 두 값이 모두 있어야 동작합니다.<br>
+     *     * yearMonth (선택): 조회할 연월(yyyy-MM)입니다. 미입력 시 현재 월을 기준으로 조회합니다. <br><br>
+     *
+     *     **[파라미터 우선순위]** <br>
+     *     startDate·endDate > yearMonth > 현재 월 <br><br>
      *
      *     **[참고 사항]** <br>
      *     * 해당 크루의 정회원(JOINED)만 조회가 가능합니다. (NOT_A_CREW_MEMBER)
@@ -1075,6 +1278,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 가입 완료한 크루 목록 조회
+     * @description 사용자가 가입 완료(JOINED) 상태인 크루 목록을 조회합니다. <br><br>
+     */
+    get: operations['getJoinedCrews'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/invitation/{invitationCode}': {
     parameters: {
       query?: never;
@@ -1088,7 +1311,7 @@ export interface paths {
      *     사용자가 가입 신청을 하기 전, 크루 정보를 미리 확인할 때 사용합니다. <br><br>
      *
      *     **[제약 사항]** <br>
-     *     * 존재하지 않거나 잘못된 초대 코드일 경우 CREW_NOT_FOUND 오류가 발생합니다.
+     *     * 유효하지 않거나 만료된 초대 코드일 경우 INVALID_INVITATION_CODE 오류가 발생합니다.
      */
     get: operations['getCrewByInvitation'];
     put?: never;
@@ -1145,6 +1368,36 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/crews/{crewId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 해산
+     * @description 리더가 크루를 영구적으로 해산합니다. <br><br>
+     *
+     *     **[처리 내용]** <br>
+     *     * 미래 ACTIVE 일정이 모두 CANCELLED 처리됩니다. <br>
+     *     * 정회원(JOINED) 전원이 EXITED 처리됩니다. <br>
+     *     * 크루 인원 수가 0으로 초기화되고 상태가 DISSOLVED로 변경됩니다. <br>
+     *     * 과거 일정 및 출석 로그는 보존됩니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 크루 리더만 해산을 요청할 수 있습니다. (NOT_CREW_LEADER)
+     *     * 이미 해산된 크루는 재해산이 불가합니다. (CREW_ALREADY_DISSOLVED)
+     */
+    delete: operations['dissolveCrew'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/crews/{crewId}/members/{targetMemberId}': {
     parameters: {
       query?: never;
@@ -1163,9 +1416,58 @@ export interface paths {
      *     * 해당 크루의 리더(LEADER)만 이 API를 호출할 수 있습니다. (NOT_CREW_LEADER)
      *     * 리더 본인은 스스로를 방출할 수 없습니다. (CANNOT_KICK_SELF)
      *     * 가입 완료(JOINED) 상태인 멤버만 방출 가능합니다. (NOT_A_CREW_MEMBER)
-     *     * 방출 직후 KICKED_PENDING_CONFIRM 상태로 변경됩니다.
+     *     * 방출 후 크루 가입 상태(CrewMemberStatus)가 EXPELLED로 변경됩니다.
      */
     delete: operations['deleteCrewMember'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/members/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 탈퇴
+     * @description 로그인한 사용자가 특정 크루에서 자진 탈퇴합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 크루 리더(LEADER)는 크루 탈퇴가 불가합니다. 리더 권한 위임 또는 크루 해산이 필요합니다. (CANNOT_WITHDRAW_AS_LEADER) <br>
+     *     * 탈퇴 후 24시간 이내에는 동일 크루 재가입 요청이 차단됩니다. (EXIT_REJOINING_COOLDOWN) <br>
+     *     * 가입 완료(JOINED) 상태인 경우에만 탈퇴가 가능합니다. (NOT_A_CREW_MEMBER)
+     */
+    delete: operations['exitCrew'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/crews/{crewId}/join-request': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * 크루 가입 신청 취소
+     * @description 승인 대기 중인 크루 가입 신청을 취소합니다. <br><br>
+     *
+     *     **[제약 사항]** <br>
+     *     * 가입 신청(REQUESTED) 상태인 경우에만 취소가 가능합니다. (JOIN_REQUEST_NOT_FOUND) <br>
+     *     * 취소 후 1시간 이내에는 동일 크루에 재신청이 불가합니다. (CANCEL_REJOINING_COOLDOWN)
+     */
+    delete: operations['cancelJoinRequest'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1375,6 +1677,29 @@ export interface components {
        */
       longitude: number;
     };
+    PresignedUrlRequest: {
+      /**
+       * @description 이미지 업로드 타입
+       * @enum {string}
+       */
+      type: 'MEMBER_PROFILE' | 'CREW_IMAGE' | 'STORE_REVIEW';
+      /** @description 업로드할 파일명 (확장자 포함) */
+      fileName: string;
+      /**
+       * Format: int64
+       * @description 크루 ID (type이 CREW_IMAGE일 때 필수)
+       */
+      crewId?: number;
+    };
+    CommonResponsePresignedUrlResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['PresignedUrlResponse'];
+    };
+    PresignedUrlResponse: {
+      presignedUrl?: string;
+      imageUrl?: string;
+    };
     CreateCrewRequest: {
       /** @description 크루 이름 */
       name: string;
@@ -1449,6 +1774,15 @@ export interface components {
        */
       supplies?: string[];
     };
+    CommonResponseInvitationCodeResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['InvitationCodeResponse'];
+    };
+    InvitationCodeResponse: {
+      /** @description 새로 발급된 초대 코드 */
+      invitationCode?: string;
+    };
     JoinCrewRequest: {
       /** @description 초대코드 */
       invitationCode?: string;
@@ -1472,7 +1806,9 @@ export interface components {
     };
     SocialLoginRequest: {
       /** @description 소셜 서비스로부터 발급받은 인가 코드 */
-      authorizationCode: string;
+      authorizationCode?: string;
+      /** @description 카카오 네이티브 SDK로부터 발급받은 액세스 토큰 (네이티브 SDK) */
+      accessToken?: string;
     };
     CommonResponseSocialLoginResponse: {
       code?: string;
@@ -1491,20 +1827,14 @@ export interface components {
        * @description 회원 상태
        * @enum {string}
        */
-      status?:
-        | 'ACTIVE'
-        | 'WITHDRAWN'
-        | 'PENDING_TERMS'
-        | 'PENDING_ONBOARDING'
-        | 'WAITING_FOR_APPROVE'
-        | 'APPROVED_PENDING_CONFIRM'
-        | 'REJECTED_PENDING_CONFIRM'
-        | 'KICKED_PENDING_CONFIRM';
+      status?: 'ACTIVE' | 'WITHDRAWN' | 'PENDING_TERMS';
       /**
        * Format: int64
        * @description 가입한 크루 ID (없을 경우 null)
        */
       crewId?: number;
+      /** @description 필수 약관 재동의 필요 여부 */
+      needsTermsUpdate?: boolean;
     };
     AppleNotificationRequest: {
       /** @description Apple에서 전달한 페이로드 */
@@ -1523,6 +1853,26 @@ export interface components {
       detailAddress: string;
       /** @description 기본 배송지 여부 */
       isDefault: boolean;
+    };
+    UpdateMemberProfileRequest: {
+      /** @description 변경할 닉네임 (최대 10자, 특수문자 불가) */
+      nickname: string;
+      /**
+       * @description 변경할 프로필 이미지 URL
+       * @example https://azitcrew.com/temp/profile/123/2026-04-22_550e8400.jpg
+       */
+      imageUrl: string;
+    };
+    UpdateCrewProfileRequest: {
+      /**
+       * @description 변경할 크루 이미지 URL
+       * @example https://images.azitcrew.com/temp/crew/1/2026-04-22_550e8400.jpg
+       */
+      imageUrl: string;
+      /** @description 크루 이름 */
+      name: string;
+      /** @description 크루 한줄 소개 (선택) */
+      description?: string;
     };
     UpdateCartItemQuantityRequest: {
       /**
@@ -1956,42 +2306,8 @@ export interface components {
       id?: number;
       /** @description 닉네임 */
       nickname?: string;
-      /**
-       * @description 회원 상태
-       * @enum {string}
-       */
-      status?:
-        | 'ACTIVE'
-        | 'WITHDRAWN'
-        | 'PENDING_TERMS'
-        | 'PENDING_ONBOARDING'
-        | 'WAITING_FOR_APPROVE'
-        | 'APPROVED_PENDING_CONFIRM'
-        | 'REJECTED_PENDING_CONFIRM'
-        | 'KICKED_PENDING_CONFIRM';
-      /**
-       * Format: int64
-       * @description 크루 ID
-       */
-      crewId?: number;
-      /** @description 크루 이름 */
-      crewName?: string;
-      /** @description 크루 초대코드 */
-      invitationCode?: string;
-      /** @description 크루 이미지 url */
-      crewImageUrl?: string;
-      /**
-       * @description 크루 내 역할
-       * @enum {string}
-       */
-      crewMemberRole?: 'LEADER' | 'MEMBER';
       /** @description 프로필 이미지 URL */
       profileImageUrl?: string;
-      /**
-       * Format: int32
-       * @description 누적 출석 횟수
-       */
-      totalAttendanceCount?: number;
       /**
        * Format: int64
        * @description 포인트
@@ -2057,6 +2373,49 @@ export interface components {
        * @enum {string}
        */
       status?: 'ACTIVE' | 'CANCELLED';
+    };
+    CommonResponseLinkedProviderResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['LinkedProviderResponse'];
+    };
+    LinkedProviderResponse: {
+      /** @description 연동된 소셜 로그인 목록 */
+      providers?: ('KAKAO' | 'APPLE')[];
+    };
+    CommonResponseListMyCrewResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['MyCrewResponse'][];
+    };
+    MyCrewResponse: {
+      /**
+       * Format: int64
+       * @description 크루 ID
+       */
+      crewId?: number;
+      /** @description 크루 이름 */
+      crewName?: string;
+      /** @description 크루 이미지 URL */
+      crewImageUrl?: string;
+      /**
+       * @description 크루 내 역할
+       * @enum {string}
+       */
+      memberRole?: 'LEADER' | 'MEMBER';
+      /**
+       * @description 크루 가입 상태
+       * @enum {string}
+       */
+      memberStatus?:
+        | 'REQUESTED'
+        | 'JOINED'
+        | 'REJECTED'
+        | 'EXITED'
+        | 'EXPELLED'
+        | 'CANCELLED';
+      /** @description 크루 초대 코드 */
+      invitationCode?: string;
     };
     CheckInStatusResponse: {
       /** @description 오늘 참여할 일정이 있는지 여부 */
@@ -2427,7 +2786,13 @@ export interface components {
        * @description 멤버 상태
        * @enum {string}
        */
-      status?: 'REQUESTED' | 'JOINED' | 'REJECTED' | 'EXITED' | 'EXPELLED';
+      status?:
+        | 'REQUESTED'
+        | 'JOINED'
+        | 'REJECTED'
+        | 'EXITED'
+        | 'EXPELLED'
+        | 'CANCELLED';
     };
     CommonResponseListJoinRequestMemberResponse: {
       code?: string;
@@ -2449,6 +2814,37 @@ export interface components {
        * @description 가입 신청 일시
        */
       requestedAt?: string;
+    };
+    CommonResponseCrewInfoResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['CrewInfoResponse'];
+    };
+    CrewInfoResponse: {
+      /** @description 크루 이미지 URL */
+      crewImageUrl?: string;
+      /** @description 크루 이름 */
+      name?: string;
+      /** @description 크루 한줄 소개 */
+      description?: string;
+    };
+    CommonResponseListJoinedCrewResponse: {
+      code?: string;
+      message?: string;
+      result?: components['schemas']['JoinedCrewResponse'][];
+    };
+    JoinedCrewResponse: {
+      /**
+       * Format: int64
+       * @description 크루 ID
+       */
+      crewId?: number;
+      /** @description 크루명 */
+      name?: string;
+      /** @description 크루 이미지 URL */
+      imageUrl?: string;
+      /** @description 크루 한줄 소개 */
+      description?: string;
     };
     CommonResponseCrewInvitationResponse: {
       code?: string;
@@ -2472,6 +2868,8 @@ export interface components {
       memberCount?: number;
       /** @description 크루 이미지 url */
       crewImageUrl?: string;
+      /** @description 크루 소개 */
+      description?: string;
     };
     CartItemListResponse: {
       /**
@@ -2926,6 +3324,26 @@ export interface operations {
       };
     };
   };
+  forceWithdraw: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+    };
+  };
   getOrders: {
     parameters: {
       query: {
@@ -3275,14 +3693,18 @@ export interface operations {
       };
     };
   };
-  confirmMemberStatus: {
+  generatePresignedUrl: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody?: never;
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PresignedUrlRequest'];
+      };
+    };
     responses: {
       /** @description OK */
       200: {
@@ -3290,7 +3712,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          '*/*': components['schemas']['CommonResponseVoid'];
+          '*/*': components['schemas']['CommonResponsePresignedUrlResponse'];
         };
       };
       400: {
@@ -3310,14 +3732,6 @@ export interface operations {
         };
       };
       403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -3412,6 +3826,10 @@ export interface operations {
       query?: {
         /** @description 조회 날짜 (yyyy-MM-dd) */
         date?: string;
+        /** @description 조회 시작 날짜 (yyyy-MM-dd), endDate와 함께 사용 */
+        startDate?: string;
+        /** @description 조회 종료 날짜 (yyyy-MM-dd), startDate와 함께 사용 */
+        endDate?: string;
         /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
         /** @description 러닝 타입 */
@@ -3826,6 +4244,76 @@ export interface operations {
       };
     };
   };
+  regenerateInvitationCode: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseInvitationCodeResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   joinCrew: {
     parameters: {
       query?: never;
@@ -4059,6 +4547,14 @@ export interface operations {
         };
       };
       400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
         headers: {
           [name: string]: unknown;
         };
@@ -4481,6 +4977,222 @@ export interface operations {
       cookie?: never;
     };
     requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  updateMemberProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateMemberProfileRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getCrewInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseCrewInfoResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  updateCrewProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateCrewProfileRequest'];
+      };
+    };
     responses: {
       /** @description OK */
       200: {
@@ -5089,6 +5801,142 @@ export interface operations {
       };
     };
   };
+  getLinkedProviders: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseLinkedProviderResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  getMyCrews: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListMyCrewResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   getCheckInStatus: {
     parameters: {
       query?: never;
@@ -5154,6 +6002,8 @@ export interface operations {
       query?: {
         /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
+        /** @description 크루 ID (특정 크루 필터링, 미입력 시 전체) */
+        crewId?: number;
       };
       header?: never;
       path?: never;
@@ -5215,7 +6065,10 @@ export interface operations {
   getMyAttendancesForCalendar: {
     parameters: {
       query?: {
+        /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
+        /** @description 크루 ID (특정 크루 필터링, 미입력 시 전체) */
+        crewId?: number;
       };
       header?: never;
       path?: never;
@@ -5372,6 +6225,10 @@ export interface operations {
   getMonthlySchedulesForCalendar: {
     parameters: {
       query?: {
+        /** @description 조회 시작 날짜 (yyyy-MM-dd), endDate와 함께 사용 */
+        startDate?: string;
+        /** @description 조회 종료 날짜 (yyyy-MM-dd), startDate와 함께 사용 */
+        endDate?: string;
         /** @description 조회 연월 (yyyy-MM) */
         yearMonth?: string;
       };
@@ -5630,6 +6487,66 @@ export interface operations {
       };
     };
   };
+  getJoinedCrews: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseListJoinedCrewResponse'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   getCrewByInvitation: {
     parameters: {
       query?: never;
@@ -5667,14 +6584,6 @@ export interface operations {
         };
       };
       403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      404: {
         headers: {
           [name: string]: unknown;
         };
@@ -5820,6 +6729,76 @@ export interface operations {
       };
     };
   };
+  dissolveCrew: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   deleteCrewMember: {
     parameters: {
       query?: never;
@@ -5827,6 +6806,146 @@ export interface operations {
       path: {
         crewId: number;
         targetMemberId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  exitCrew: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CommonResponseVoid'];
+        };
+      };
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      405: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  cancelJoinRequest: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        crewId: number;
       };
       cookie?: never;
     };

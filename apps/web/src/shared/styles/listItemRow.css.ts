@@ -8,8 +8,8 @@ export const listItemRow = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   selectors: {
-    '&:first-child': { paddingTop: 20 },
-    '&:last-child': { paddingBottom: 20 },
+    '&:first-child': { paddingTop: 16 },
+    '&:last-child': { paddingBottom: 16 },
   },
 });
 
@@ -18,7 +18,7 @@ export const listItemDivider = style({
   height: 1,
   minHeight: 1,
   margin: '0 20px',
-  backgroundColor: vars.colors.gray10,
+  backgroundColor: vars.colors.gray20,
   border: 'none',
   flexShrink: 0,
 });

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactElement, type ReactNode } from 'react';
+import { useState, type ReactElement, type ReactNode } from 'react';
 
 type StepProps<T extends string> = {
   name: T;
@@ -16,35 +16,13 @@ export const useFunnel = <T extends string>(
   initialStep: T,
   flow: Record<T, ((ctx: unknown) => T) | T | null>
 ) => {
-  const [step, setStep] = useState<T>(() => {
-    const saved = sessionStorage.getItem('funnel-step');
-    return saved ? (JSON.parse(saved) as T) : initialStep;
-  });
-
-  const [history, setHistory] = useState<T[]>(() => {
-    const saved = sessionStorage.getItem('funnel-history');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  // 상태 변경 시 sessionStorage에 저장
-  useEffect(() => {
-    sessionStorage.setItem('funnel-step', JSON.stringify(step));
-  }, [step]);
-
-  useEffect(() => {
-    sessionStorage.setItem('funnel-history', JSON.stringify(history));
-  }, [history]);
+  const [step, setStep] = useState<T>(initialStep);
+  const [history, setHistory] = useState<T[]>([]);
 
   const onNext = (name: T, ctx?: unknown) => {
     const next = flow[name];
 
-    if (next == null) {
-      // 마지막 스텝에서 sessionStorage 제거
-      sessionStorage.removeItem('funnel-step');
-      sessionStorage.removeItem('funnel-history');
-      sessionStorage.removeItem('onboarding-state');
-      return;
-    }
+    if (next == null) return;
 
     const nextStep = typeof next === 'function' ? next(ctx) : next;
 

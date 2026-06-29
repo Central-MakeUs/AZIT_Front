@@ -1,0 +1,48 @@
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+
+import { orderQueries } from '@/features/CommerceOrder/api/queries';
+
+import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
+
+import type { OrderListItem } from '@/entities/CommerceOrder/model';
+
+export interface UseOrderHistoryOptions {
+  onOrderDetail?: (orderNumber: string) => void;
+}
+
+export function useOrderHistory(options: UseOrderHistoryOptions = {}) {
+  const { onOrderDetail } = options;
+
+  const {
+    data: orderHistoryData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSuspenseInfiniteQuery(orderQueries.orderHistoryInfiniteQuery());
+
+  const { scrollRef, bottomSentinelRef } = useInfiniteScroll({
+    hasNextPage: hasNextPage ?? false,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
+
+  const orders: OrderListItem[] =
+    orderHistoryData?.pages.flatMap((page) => page.result?.content ?? []) ?? [];
+
+  const isEmpty = orders.length === 0;
+
+  const handleOrderDetail = (order: OrderListItem) => {
+    const id = order.orderNumber?.replace(/^#/, '');
+    if (id) onOrderDetail?.(id);
+  };
+
+  return {
+    orders,
+    isEmpty,
+    scrollRef,
+    bottomSentinelRef,
+    handlers: {
+      handleOrderDetail,
+    },
+  };
+}

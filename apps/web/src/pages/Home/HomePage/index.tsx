@@ -1,0 +1,186 @@
+import { Button } from '@azit/design-system/button';
+import { Header } from '@azit/design-system/header';
+// import { BellIcon } from '@azit/design-system/icon';
+import { BellIcon } from '@azit/design-system/icon';
+import { AppScreen } from '@stackflow/plugin-basic-ui';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
+
+import { useFlow } from '@/app/routes/stackflow';
+
+import {
+  POLL_INTERVAL_MS,
+  fetchUserPosition,
+  isWithinActivationRadius,
+  type UserPosition,
+} from '@/widgets/ScheduleAttendance/model/location';
+import { ScheduleAttendanceSection } from '@/widgets/ScheduleAttendance/ui';
+import { ScheduleSectionLayout } from '@/widgets/ScheduleSectionLayout/ui';
+
+import { scheduleEntityQueries as scheduleQueries } from '@/entities/Schedule/api/queries';
+import { ScheduleList } from '@/entities/Schedule/ui/ScheduleList';
+import { userQueries } from '@/entities/User/api/queries';
+
+import { scrollContainer } from '@/shared/styles/container.css';
+import { logo } from '@/shared/styles/logo.css';
+import { AppLayout } from '@/shared/ui/layout';
+import { BottomNavigation } from '@/shared/ui/navigation/BottomNavigation';
+import { toastSuccess } from '@/shared/ui/toast';
+
+import * as scheduleListStyles from './index.css';
+
+
+export function HomePage() {
+  const { push } = useFlow();
+
+  // const handleClick = () => {
+  //   push('HomeNotificationPage', {});
+  // };
+
+  const queryClient = useQueryClient();
+
+  const { data: myCrewsData } = useQuery(userQueries.myCrewsQuery());
+  const crewId =
+    myCrewsData?.find((c) => c.memberStatus === 'JOINED')?.crewId ?? 0;
+
+  const { data: scheduleList = [], isLoading } = useQuery({
+    ...scheduleQueries.getMemberScheduleListQuery(),
+    enabled: crewId > 0,
+  });
+
+  const { data: checkInStatus, isPending: isCheckInStatusPending } = useQuery(
+    scheduleQueries.getScheduleCheckInStatusQuery()
+  );
+
+  const todayInfo = checkInStatus?.todayScheduleInfo;
+  const isAvailableTime = todayInfo?.isAvailableTime === true;
+  const isCheckedIn = todayInfo?.isCheckedIn === true;
+  const latitude = todayInfo?.latitude;
+  const longitude = todayInfo?.longitude;
+
+  const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
+  const [isWithinRadius, setIsWithinRadius] = useState(false);
+
+  const canCheckIn =
+    isWithinRadius && !isCheckedIn && !!isAvailableTime && !!todayInfo;
+
+  const scheduleCheckInMutation = useMutation({
+    ...scheduleQueries.scheduleCheckInMutation,
+    onSuccess: () => {
+      toastSuccess('출석이 완료되었습니다');
+      queryClient.invalidateQueries({
+        queryKey: scheduleQueries.checkInStatusKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: userQueries.myInfoKey(),
+      });
+    },
+  });
+
+  const handleCheckIn = useCallback(() => {
+    if (!todayInfo?.scheduleId || !userPosition?.lat || !userPosition?.lng)
+      return;
+    scheduleCheckInMutation.mutate({
+      scheduleId: todayInfo.scheduleId,
+      payload: {
+        latitude: userPosition.lat,
+        longitude: userPosition.lng,
+      },
+    });
+  }, [todayInfo?.scheduleId, userPosition, scheduleCheckInMutation]);
+
+  useEffect(() => {
+    const hasScheduleLocation =
+      typeof latitude === 'number' && typeof longitude === 'number';
+    const shouldPollByMinute =
+      !!todayInfo && isAvailableTime && hasScheduleLocation;
+
+    if (!shouldPollByMinute) return;
+
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    let isCancelled = false;
+
+    const updatePositionAndRadius = async () => {
+      const position = await fetchUserPosition();
+      if (isCancelled) return;
+
+      setUserPosition(position);
+      setIsWithinRadius(
+        isWithinActivationRadius(position, latitude, longitude)
+      );
+    };
+
+    updatePositionAndRadius();
+    intervalId = setInterval(updatePositionAndRadius, POLL_INTERVAL_MS);
+
+    return () => {
+      isCancelled = true;
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [latitude, longitude, isAvailableTime, todayInfo]);
+
+  return (
+    <AppScreen>
+      <AppLayout>
+        <Header
+          sticky
+          left={<h1 className={logo}>AZIT</h1>}
+          right={
+            <button
+              onClick={() => {
+                push('HomeNotificationPage', {});
+              }}
+            >
+              <BellIcon size={24} color="default" />
+            </button>
+          }
+        />
+        <div className={scrollContainer}>
+          <ScheduleSectionLayout
+            topSection={
+              <ScheduleAttendanceSection
+                checkInStatus={checkInStatus}
+                isCheckInStatusPending={isCheckInStatusPending}
+                canCheckIn={canCheckIn}
+                onCheckIn={handleCheckIn}
+              />
+            }
+            scheduleTitle="내 일정"
+            scheduleContent={
+              <ScheduleList
+                items={scheduleList}
+                emptyState={
+                  <div className={scheduleListStyles.emptyContainer}>
+                    <img
+                      src="/icons/calendar.svg"
+                      width={64}
+                      height={64}
+                      alt="calendar"
+                    />
+                    <p className={scheduleListStyles.emptyText}>
+                      일정 탭에서 일정을 추가해보세요!
+                    </p>
+                    <Button
+                      size="medium"
+                      state="outline"
+                      onClick={() =>
+                        push('SchedulePage', {}, { animate: false })
+                      }
+                      className={scheduleListStyles.addScheduleButton}
+                    >
+                      일정 추가하기
+                    </Button>
+                  </div>
+                }
+                isLoading={isLoading}
+              />
+            }
+          />
+        </div>
+      </AppLayout>
+      <BottomNavigation activeTab="home" />
+    </AppScreen>
+  );
+}

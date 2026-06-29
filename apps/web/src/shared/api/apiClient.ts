@@ -1,9 +1,12 @@
-import ky from 'ky';
+import ky, { type NormalizedOptions } from 'ky';
 
 import { postReissueToken } from '@/shared/api/handlers/postReissueToken';
 import { createHttpMethods } from '@/shared/api/httpMethods';
 import { BASE_API_URL } from '@/shared/constants/url';
+import { networkLog } from '@/shared/lib/networkLog';
 import { useAuthStore } from '@/shared/store/auth';
+
+let refreshPromise: Promise<string | undefined> | null = null;
 
 export const baseApi = ky.create({
   prefixUrl: BASE_API_URL,
@@ -13,6 +16,15 @@ export const baseApi = ky.create({
   },
   timeout: 10000,
   retry: 2,
+  hooks: {
+    // patchFetch는 body stream 소비 문제로 body를 읽을 수 없으므로
+    // options.json(파싱된 객체)을 여기서 미리 저장해둔다.
+    beforeRequest: [
+      (request: Request, options: NormalizedOptions) => {
+        networkLog.storeKyBody(request, (options as { json?: unknown }).json);
+      },
+    ],
+  },
 });
 
 export const authApi = baseApi.extend({
@@ -28,26 +40,40 @@ export const authApi = baseApi.extend({
       },
     ],
     afterResponse: [
-      // 401 에러 발생시, 새 토큰으로 재시도
+      // 401 에러 발생시, Native Bridge를 통해 토큰 재발급 후 재시도
       async (request, _options, response, state) => {
         if (response.status === 401 && state.retryCount === 0) {
-          const tokenResponse = await postReissueToken();
+          if (!refreshPromise) {
+            refreshPromise = postReissueToken()
+              .then((res) => res.result.accessToken)
+              .catch(() => undefined)
+              .finally(() => {
+                refreshPromise = null;
+              });
+          }
 
-          if (tokenResponse.ok) {
-            const accessToken = tokenResponse.data.result.accessToken;
-            useAuthStore.getState().setAccessToken(accessToken);
+          const newToken = await refreshPromise;
 
+          if (newToken) {
+            useAuthStore.getState().setAccessToken(newToken);
             return ky.retry({
               request: new Request(request),
               code: 'TOKEN_REFRESHED',
             });
           }
 
+          useAuthStore.getState().setAccessToken(undefined);
           return response;
         }
 
         if (response.status === 403 && state.retryCount === 0) {
-          window.location.href = '/crew-join/status/banned';
+          try {
+            const body = (await response.clone().json()) as { code?: string };
+            if (body.code === 'INVALID_MEMBER_STATUS') {
+              window.location.href = '/crew-join/status/banned';
+            }
+            // eslint-disable-next-line no-empty
+          } catch (_error) {}
 
           return response;
         }
