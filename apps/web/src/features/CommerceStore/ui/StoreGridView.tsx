@@ -12,6 +12,7 @@ import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import { scrollContainer } from '@/shared/styles/container.css';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 
+import StoreFallback from './StoreFallback';
 import { StoreGrid } from './StoreGrid';
 
 function StoreGridContent() {
@@ -57,7 +58,7 @@ export function StoreGridView() {
         </div>
         <AsyncBoundary
           suspenseFallback={<StoreSkeleton />}
-          errorFallback={<div>상품을 불러오지 못했습니다.</div>}
+          errorFallback={<StoreFallback />}
         >
           <StoreGridContent />
         </AsyncBoundary>
