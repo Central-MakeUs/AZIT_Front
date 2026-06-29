@@ -25,6 +25,20 @@
     "turbo": "^2.7.2",
     "typescript": "catalog:"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "core-js",
+      "es5-ext",
+      "gatsby-cli",
+      "gatsby-telemetry",
+      "gatsby",
+      "lmdb",
+      "msgpackr-extract",
+      "return-fetch",
+      "sharp"
+    ]
+  },
   "packageManager": "pnpm@10.26.0",
   "engines": {
     "node": ">=18"
