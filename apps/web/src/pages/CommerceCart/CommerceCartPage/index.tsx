@@ -14,6 +14,7 @@ import {
   CartBrandSection,
   CartSummary,
   CartEmpty,
+  CartFallback,
 } from '@/features/CommerceCart/ui';
 
 import { formatPrice } from '@/shared/lib/formatters';
@@ -88,7 +89,10 @@ export function CommerceCartPage() {
         <div className={styles.headerWrapper}>
           <Header left={<BackButton />} center="장바구니" />
         </div>
-        <AsyncBoundary suspenseFallback={<CartSkeleton />}>
+        <AsyncBoundary
+          errorFallback={<CartFallback />}
+          suspenseFallback={<CartSkeleton />}
+        >
           <CommerceCartPageContent />
         </AsyncBoundary>
       </AppLayout>
