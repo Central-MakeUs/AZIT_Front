@@ -1,5 +1,7 @@
 {
   "extends": "@azit/typescript/base.json",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "types": []
+  },
   "include": ["src"]
 }
