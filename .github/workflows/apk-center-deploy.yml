@@ -1,0 +1,52 @@
+name: Deploy APK Center With Vercel
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_APK_CENTER_PROJECT_ID }}
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'apps/apk-center/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy & Notify Discord
+        run: |
+          set +e
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
+            > deployment-url.txt 2> error.txt
+          code=$?
+          set -e
+
+          if [ $code -eq 0 ]; then
+            deploymentUrl=$(cat deployment-url.txt)
+
+            curl -H "Content-Type: application/json" \
+              -d "{
+                \"content\": \"🚀 Android 배포 완료! 아래 URL에서 다운로드 해주세요.\n🔗 ${deploymentUrl}\"
+              }" \
+              ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+          else
+            echo "APK Center deployment failed"
+            cat error.txt
+            exit 1
+          fi
