@@ -53,6 +53,7 @@ export function OnboardingPage() {
 
   const [onboardingState, setOnboardingState] = useState<OnboardingState>({});
   const joinCrewNameRef = useRef('');
+  const joinCrewImageUrlRef = useRef('');
 
   const { mutate: joinCrew, isPending: isJoining } = useMutation({
     ...crewQueries.joinCrew,
@@ -60,7 +61,11 @@ export function OnboardingPage() {
       queryClient.invalidateQueries({ queryKey: userQueries.myCrewsKey() });
       replace(
         'OnboardingCompletePage',
-        { role: 'member', crewName: joinCrewNameRef.current },
+        {
+          role: 'member',
+          crewName: joinCrewNameRef.current,
+          crewImageUrl: joinCrewImageUrlRef.current,
+        },
         { animate: false }
       );
     },
@@ -84,6 +89,7 @@ export function OnboardingPage() {
           role: 'leader',
           crewName: onboardingState.crewName ?? '',
           inviteCode: response.result.invitationCode,
+          crewImageUrl: response.result.crewImageUrl,
         },
         { animate: false }
       );
@@ -166,8 +172,9 @@ export function OnboardingPage() {
               <OnboardingCrewJoin
                 defaultValue={defaultInviteCode}
                 isSubmitting={isJoining}
-                onNext={(inviteCode, _crewId, crewName) => {
+                onNext={(inviteCode, _crewId, crewName, crewImageUrl) => {
                   joinCrewNameRef.current = crewName;
+                  joinCrewImageUrlRef.current = crewImageUrl;
                   joinCrew({ invitationCode: inviteCode });
                 }}
                 onPrev={() => {
