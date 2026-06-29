@@ -42,11 +42,18 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
+      - name: Prepare Vercel output
+        working-directory: apps/apk-center
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r public/. .vercel/output/static/
+          echo '{"version":3}' > .vercel/output/config.json
+
       - name: Deploy & Notify Discord
         working-directory: apps/apk-center
         run: |
           set +e
-          vercel deploy public --prod --token=${{ secrets.VERCEL_TOKEN }} \
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
             > deployment-url.txt 2> error.txt
           code=$?
           set -e
