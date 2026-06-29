@@ -32,5 +32,6 @@ export { default as TruckIcon } from './TruckIcon';
 export { default as UploadIcon } from './UploadIcon';
 export { default as UserIcon } from './UserIcon';
 export { default as UsersIcon } from './UsersIcon';
+export { default as WarningIcon } from './WarningIcon';
 export { default as XIcon } from './XIcon';
 export type { IconProps } from './types';
