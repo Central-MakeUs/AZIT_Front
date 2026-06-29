@@ -17,7 +17,12 @@ import { OnboardingCrewJoinBottomSheetContent } from './OnboardingCrewJoinBottom
 export interface OnboardingCrewJoinProps {
   defaultValue?: string;
   isSubmitting?: boolean;
-  onNext: (inviteCode: string, crewId: number, crewName: string) => void;
+  onNext: (
+    inviteCode: string,
+    crewId: number,
+    crewName: string,
+    crewImageUrl: string
+  ) => void;
   onPrev: () => void;
 }
 
@@ -100,9 +105,13 @@ export function OnboardingCrewJoin({
       >
         {crewInfo && (
           <OnboardingCrewJoinBottomSheetContent
-            onClose={() => setIsBottomSheetOpen(false)}
             onRequestJoin={() => {
-              onNext(inviteCode, crewInfo.crewId, crewInfo.name);
+              onNext(
+                inviteCode,
+                crewInfo.crewId,
+                crewInfo.name,
+                crewInfo.crewImageUrl ?? '/azit.png'
+              );
             }}
             crewInfo={crewInfo}
             isSubmitting={isSubmitting}

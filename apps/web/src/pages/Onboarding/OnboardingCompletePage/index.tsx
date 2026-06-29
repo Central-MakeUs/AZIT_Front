@@ -18,10 +18,11 @@ type OnboardingCompleteParams = {
   role: 'leader' | 'member';
   crewName: string;
   inviteCode?: string;
+  crewImageUrl?: string;
 };
 
 export function OnboardingCompletePage() {
-  const { role, crewName, inviteCode } =
+  const { role, crewName, inviteCode, crewImageUrl } =
     useActivityParams<OnboardingCompleteParams>();
   const { replace } = useFlow();
 
@@ -57,7 +58,7 @@ export function OnboardingCompletePage() {
         <div className={styles.container}>
           <div className={styles.profileSection}>
             <div className={styles.profileInfo}>
-              <RoundProfileImage src="/azit.png" size={96} />
+              <RoundProfileImage src={crewImageUrl ?? '/azit.png'} size={96} />
               <div className={styles.crewNameWrapper}>
                 <span className={styles.crewName}>{crewName}</span>
                 {role === 'member' && (
