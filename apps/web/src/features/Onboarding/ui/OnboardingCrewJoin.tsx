@@ -59,7 +59,10 @@ export function OnboardingCrewJoin({
       setCrewInfo(response.result);
       setIsBottomSheetOpen(true);
     } catch (error) {
-      if (error instanceof BusinessError && error.status === 404) {
+      if (
+        error instanceof BusinessError &&
+        error.code === 'INVALID_INVITATION_CODE'
+      ) {
         setHasValidationError(true);
       }
     }
@@ -81,7 +84,10 @@ export function OnboardingCrewJoin({
             state={hasValidationError ? 'error' : 'default'}
             value={inviteCode}
             onChange={handleInviteCodeChange}
-            onRemove={() => setInviteCode('')}
+            onRemove={() => {
+              setInviteCode('');
+              setHasValidationError(false);
+            }}
             placeholder="초대 코드 6자리"
           >
             {hasValidationError && (

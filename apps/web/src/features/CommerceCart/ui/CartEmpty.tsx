@@ -1,5 +1,4 @@
 import { Button } from '@azit/design-system/button';
-import { ShoppingBagIcon } from '@azit/design-system/icon';
 
 import { useFlow } from '@/app/routes/stackflow';
 
@@ -15,7 +14,7 @@ export function CartEmpty() {
   return (
     <div className={styles.container}>
       <div className={styles.iconTextContainer}>
-        <ShoppingBagIcon size={64} color="secondary" strokeWidth={1.2} />
+        <img src="/icons/shopping-bag.svg" width={64} height={64} alt="" />
         <p className={styles.emptyText}>장바구니가 비어있어요</p>
       </div>
       <Button state="outline" onClick={handleClick}>
