@@ -1,0 +1,71 @@
+name: Deploy APK Center With Vercel
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_APK_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_APK_CENTER_PROJECT_ID }}
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'apps/apk-center/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: apps/apk-center/package-lock.json
+
+      - name: Install dependencies
+        working-directory: apps/apk-center
+        run: npm install --legacy-peer-deps
+
+      - name: Build APK Center
+        working-directory: apps/apk-center
+        run: npm run clean && npm run build
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Prepare Vercel output
+        working-directory: apps/apk-center
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r public/. .vercel/output/static/
+          echo '{"version":3}' > .vercel/output/config.json
+
+      - name: Deploy & Notify Discord
+        working-directory: apps/apk-center
+        run: |
+          set +e
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
+            > deployment-url.txt 2> error.txt
+          code=$?
+          set -e
+
+          if [ $code -eq 0 ]; then
+            deploymentUrl=$(cat deployment-url.txt)
+
+            curl -H "Content-Type: application/json" \
+              -d "{
+                \"content\": \"🚀 Android 배포 완료! 아래 URL에서 다운로드 해주세요.\n🔗 ${deploymentUrl}\"
+              }" \
+              ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+          else
+            echo "APK Center deployment failed"
+            cat error.txt
+            exit 1
+          fi
