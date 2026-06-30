@@ -44,6 +44,7 @@ jobs:
         run: |
           mkdir -p .vercel
           echo '{"projectId":"${{ secrets.VERCEL_APK_CENTER_PROJECT_ID }}","orgId":"${{ secrets.VERCEL_APK_ORG_ID }}"}' > .vercel/project.json
+          cat .vercel/project.json
 
       - name: Prepare Vercel output
         working-directory: apps/apk-center
