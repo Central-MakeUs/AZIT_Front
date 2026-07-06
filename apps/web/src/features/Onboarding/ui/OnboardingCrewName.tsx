@@ -2,10 +2,13 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { Input } from '@azit/design-system/input';
 
+import {
+  useCrewNameInput,
+  VALID_CREW_NAME_REGEX,
+} from '@/features/Onboarding/lib/useCrewNameInput';
 import * as styles from '@/features/Onboarding/styles/OnboardingCrewName.css';
 
 import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
-import { useCrewNameInput } from '@/shared/lib/useCrewNameInput';
 import { BackButton } from '@/shared/ui/button';
 
 export interface OnboardingCrewNameProps {
@@ -21,6 +24,8 @@ export function OnboardingCrewName({
 }: OnboardingCrewNameProps) {
   const {
     crewName: currentCrewName,
+    crewNameError,
+    setCrewNameError,
     handleChange: handleCrewNameChange,
     handleRemove: handleCrewNameRemove,
   } = useCrewNameInput(defaultValue);
@@ -45,12 +50,13 @@ export function OnboardingCrewName({
               currentCrewName.length > 0 ? handleCrewNameRemove : undefined
             }
             maxLength={MAX_CREW_NAME_LENGTH}
-          />
-          <div className={styles.counterWrapper}>
-            <span className={styles.counter}>
-              {currentCrewName.length}/{MAX_CREW_NAME_LENGTH}
-            </span>
-          </div>
+            state={crewNameError ? 'error' : 'default'}
+          >
+            <Input.Description
+              left={crewNameError || undefined}
+              right={`${currentCrewName.length}/${MAX_CREW_NAME_LENGTH}`}
+            />
+          </Input>
         </div>
       </div>
 
@@ -58,7 +64,13 @@ export function OnboardingCrewName({
         <Button
           state={currentCrewName ? 'active' : 'disabled'}
           disabled={!currentCrewName}
-          onClick={() => onNext(currentCrewName)}
+          onClick={() => {
+            if (!VALID_CREW_NAME_REGEX.test(currentCrewName)) {
+              setCrewNameError('특수문자는 사용할 수 없어요.');
+              return;
+            }
+            onNext(currentCrewName);
+          }}
         >
           다음
         </Button>
