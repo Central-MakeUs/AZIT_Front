@@ -6,6 +6,7 @@ export const listContainer = style({
   flexDirection: 'column',
   gap: '10px',
   width: '100%',
+  height: '100%',
 });
 
 export const emptyContainer = style({
@@ -25,3 +26,8 @@ export const emptyText = style([
     textAlign: 'center',
   },
 ]);
+
+export const joinButton = style({
+  width: '100%',
+  maxWidth: 180,
+});

@@ -5,16 +5,11 @@ export const itemContainer = style({
   display: 'flex',
   gap: '16px',
   width: '100%',
-  padding: '16px',
+  flexShrink: 0,
   backgroundColor: vars.colors.white,
   borderRadius: '16px',
-  border: `1px solid ${vars.colors.gray10}`,
-  alignItems: 'center',
-  selectors: {
-    '&:last-child': {
-      marginBottom: '100px',
-    },
-  },
+  overflow: 'hidden',
+  alignItems: 'stretch',
 });
 
 export const dateContainer = style({
@@ -23,13 +18,16 @@ export const dateContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
+  width: '63px',
+  padding: '16px',
+  gap: '0',
 });
 
 export const date = style([
   typography.body.b2,
   {
     color: vars.colors.black,
-    textWrap: 'wrap',
+    textAlign: 'center',
   },
 ]);
 
@@ -39,22 +37,68 @@ export const contentContainer = style({
   gap: '8px',
   flex: 1,
   minWidth: 0,
+  padding: '16px 16px 16px 0',
 });
 
+export const badgeRow = style({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: '6px',
+});
+
+const badgeBase = style([
+  typography.body.b4,
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '4px 8px',
+    borderRadius: '8px',
+    fontWeight: '400',
+  },
+]);
+
+export const badge = {
+  regular: style([
+    badgeBase,
+    {
+      backgroundColor: vars.colors.blue60,
+      color: vars.colors.white,
+    },
+  ]),
+  lightning: style([
+    badgeBase,
+    {
+      backgroundColor: vars.colors.secondary,
+      color: vars.colors.black,
+    },
+  ]),
+  absent: style([
+    badgeBase,
+    {
+      backgroundColor: vars.colors.gray20,
+      color: vars.colors.gray70,
+    },
+  ]),
+};
+
 export const title = style([
-  typography.body.b2,
+  typography.body.b3,
   {
     color: vars.colors.black,
     width: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    fontWeight: '500',
   },
 ]);
 
 export const detailsContainer = style({
   display: 'flex',
-  gap: '12px',
+  gap: '14px',
+  alignItems: 'center',
   flexWrap: 'wrap',
 });
 
@@ -70,40 +114,3 @@ export const detailText = style([
     color: vars.colors.gray50,
   },
 ]);
-
-const statusButtonBase = style([
-  typography.body.b3,
-  {
-    width: '48px',
-    height: '48px',
-    borderRadius: '12px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textWrap: 'nowrap',
-  },
-]);
-
-export const statusButton = {
-  attended: style([
-    statusButtonBase,
-    {
-      backgroundColor: vars.colors.blue60,
-      color: vars.colors.white,
-    },
-  ]),
-  attendedLightning: style([
-    statusButtonBase,
-    {
-      backgroundColor: vars.colors.secondary,
-      color: vars.colors.black,
-    },
-  ]),
-  absent: style([
-    statusButtonBase,
-    {
-      backgroundColor: vars.colors.gray10,
-      color: vars.colors.gray60,
-    },
-  ]),
-};

@@ -24,7 +24,6 @@ export const scheduleSection = style({
   width: '100%',
   backgroundColor: vars.colors.background_sub,
   padding: '20px',
-  height: '100%',
 });
 
 export const sectionTitle = style([
