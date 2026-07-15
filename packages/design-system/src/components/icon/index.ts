@@ -19,6 +19,8 @@ export { default as MarkerPin04Icon } from './MarkerPin04Icon';
 export { default as MapIcon } from './MapIcon';
 export { default as MarkerPinIcon } from './MarkerPinIcon';
 export { default as MinusIcon } from './MinusIcon';
+export { default as NewFlagIcon } from './NewFlagIcon';
+export { default as NewUsersIcon } from './NewUsersIcon';
 export { default as PointCoinIcon } from './PointCoinIcon';
 export { default as PlusIcon } from './PlusIcon';
 export { default as RemoveImageIcon } from './RemoveImageIcon';
