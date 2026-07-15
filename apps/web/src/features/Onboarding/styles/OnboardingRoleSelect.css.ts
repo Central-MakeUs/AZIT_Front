@@ -41,13 +41,14 @@ export const subtitle = style([
   typography.body.b2,
   {
     color: vars.colors.blue80,
+    fontWeight: '500',
     textAlign: 'left',
   },
 ]);
 
 export const cardsSection = style({
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
+  display: 'flex',
+  flexDirection: 'column',
   gap: 12,
   width: '100%',
   marginBottom: 'auto',
@@ -66,39 +67,84 @@ export const buttonWrapper = style({
 export const roleCard = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: 12,
-  padding: 24,
+  alignItems: 'flex-start',
+  gap: 8,
+  padding: 20,
   backgroundColor: vars.colors.white,
   border: `1px solid ${vars.colors.gray20}`,
   borderRadius: 16,
+  width: '100%',
   cursor: 'pointer',
-  transition: 'all 0.2s ease',
-  minHeight: 140,
-  ':hover': {
-    borderColor: vars.colors.blue80,
-  },
-  ':active': {
-    transform: 'scale(0.98)',
-  },
+  textAlign: 'left',
+  transition: 'border-color 0.15s ease',
 });
 
 export const roleCardSelected = style({
-  borderColor: vars.colors.blue80,
-  backgroundColor: vars.colors.blue10,
+  borderColor: vars.colors.blue60,
+  borderWidth: '1.5px',
 });
 
-export const roleCardIcon = style({
+const chipBase = style([
+  typography.body.b4,
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2px 8px',
+    borderRadius: 8,
+  },
+]);
+
+export const chipLeader = style([
+  chipBase,
+  {
+    backgroundColor: vars.colors.blue60,
+    color: vars.colors.white,
+  },
+]);
+
+export const chipMember = style([
+  chipBase,
+  {
+    backgroundColor: vars.colors.blue10,
+    color: vars.colors.blue60,
+  },
+]);
+
+export const roleSubtitle = style([
+  typography.body.b2,
+  {
+    color: vars.colors.black,
+    fontWeight: '500',
+  },
+]);
+
+export const roleDescRow = style({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+  marginTop: 4,
+});
+
+export const roleBullets = style([
+  typography.body.b3,
+  {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+    color: vars.colors.gray50,
+    flex: 1,
+  },
+]);
+
+export const roleIcon = style({
+  flexShrink: 0,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
 });
-
-export const roleCardLabel = style([
-  typography.body.b2,
-  {
-    color: vars.colors.black,
-    textAlign: 'center',
-  },
-]);
