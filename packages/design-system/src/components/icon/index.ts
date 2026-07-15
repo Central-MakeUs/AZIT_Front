@@ -14,6 +14,7 @@ export { default as CoinsStackedIcon } from './CoinsStackedIcon';
 export { default as CopyIcon } from './CopyIcon';
 export { default as FlagIcon } from './FlagIcon';
 export { default as HomeIcon } from './HomeIcon';
+export { default as LightningIcon } from './LightningIcon';
 export { default as MarkerPin04Icon } from './MarkerPin04Icon';
 export { default as MapIcon } from './MapIcon';
 export { default as MarkerPinIcon } from './MarkerPinIcon';
