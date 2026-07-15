@@ -1,10 +1,5 @@
 import { Header } from '@azit/design-system/header';
-import {
-  LightningIcon,
-  PointCoinIcon,
-  WarningIcon,
-  XIcon,
-} from '@azit/design-system/icon';
+import { LightningIcon, PointCoinIcon, XIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useQuery } from '@tanstack/react-query';
 
