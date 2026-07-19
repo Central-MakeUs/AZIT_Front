@@ -1,6 +1,6 @@
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
-import { SettingsIcon } from '@azit/design-system/icon';
+import { SettingsIcon, WarningIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
@@ -8,7 +8,6 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { userQueries } from '@/entities/User/api/queries';
 import { MyCrewInfoSection, MyProfileSection } from '@/entities/User/ui';
-
 
 import {
   GOOGLE_FORM_URL,
@@ -153,7 +152,17 @@ export function UserPage() {
             }
           />
         </div>
-        <AsyncBoundary suspenseFallback={<PageLoader />}>
+        <AsyncBoundary
+          suspenseFallback={<PageLoader />}
+          errorFallback={
+            <div className={styles.errorFallbackContainer}>
+              <WarningIcon size={64} />
+              <span className={styles.errorFallbackMessage}>
+                정보를 불러오지 못했어요
+              </span>
+            </div>
+          }
+        >
           <MyPageContent />
         </AsyncBoundary>
       </AppLayout>

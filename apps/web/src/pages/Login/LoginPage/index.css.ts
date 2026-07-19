@@ -1,4 +1,4 @@
-import { composeStyles, style } from '@vanilla-extract/css';
+import { composeStyles, globalStyle, style } from '@vanilla-extract/css';
 
 import { container } from '@/shared/styles/container.css';
 
@@ -45,11 +45,10 @@ export const buttonWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: 12,
-  selectors: {
-    '& button:active': {
-      opacity: 0.7,
-    },
-  },
+});
+
+globalStyle(`${buttonWrapper} button:active`, {
+  opacity: 0.7,
 });
 
 export const textWrapper = style({
