@@ -11,14 +11,12 @@ Android production 빌드를 준비하고 EAS 빌드를 실행합니다.
 
 3. `apps/mobile/eas.json`의 `production` 프로필을 확인한다.
    - `android.buildType`이 `"app-bundle"`인지 확인한다.
-   - `env.KAKAO_NATIVE_APP_KEY`가 있는지 확인한다.
-   - `env.EXPO_PUBLIC_WEB_PROD_URL`이 `"https://azitcrew.com/"`인지 확인한다.
-   - 누락된 항목이 있으면 추가한다.
+   - env는 EAS Secret으로 관리되므로 eas.json에 없어도 정상이다.
 
 4. 변경 사항을 사용자에게 요약해서 보여준다.
 
-5. 빌드 명령어를 안내한다:
+5. 빌드 명령어를 안내한다. 로컬에서 expo config 파싱 시 `KAKAO_NATIVE_APP_KEY`가 필요하므로 인라인으로 주입한다:
 
 ```bash
-cd apps/mobile && eas build --profile production --platform android
+cd apps/mobile && KAKAO_NATIVE_APP_KEY=***REMOVED*** eas build --profile production --platform android
 ```

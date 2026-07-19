@@ -40,7 +40,7 @@ const config = {
     appleTeamId: '4U9PQRRKLB',
   },
   android: {
-    versionCode: 20,
+    versionCode: 21,
     intentFilters: [
       {
         action: 'VIEW',
