@@ -38,17 +38,19 @@ export const subtitle = style([
   typography.body.b2,
   {
     color: vars.colors.blue80,
+    fontWeight: '500',
     textAlign: 'left',
   },
 ]);
 
-export const regionGrid = style({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 104px)',
+export const cardsGrid = style({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   gap: 12,
 });
 
-export const regionCard = style({
+export const categoryCard = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -63,15 +65,27 @@ export const regionCard = style({
   transition: 'border-color 0.15s ease',
 });
 
-export const regionCardSelected = style({
+export const categoryCardSelected = style({
   borderColor: vars.colors.blue60,
   borderWidth: '1.5px',
 });
 
-export const regionLabel = style([
+export const categoryCardDisabled = style({
+  backgroundColor: vars.colors.gray10,
+  cursor: 'default',
+});
+
+export const categoryLabel = style([
   typography.body.b3,
   {
     color: vars.colors.black,
+  },
+]);
+
+export const categoryLabelDisabled = style([
+  typography.body.b3,
+  {
+    color: vars.colors.gray50,
   },
 ]);
 

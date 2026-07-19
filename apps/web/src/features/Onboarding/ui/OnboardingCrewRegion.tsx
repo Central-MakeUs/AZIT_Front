@@ -1,6 +1,17 @@
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
+import {
+  AppleIcon,
+  BoatIcon,
+  BreadIcon,
+  ForkIcon,
+  MandarinIcon,
+  PlaneIcon,
+  PotatoIcon,
+  SeoulIcon,
+} from '@azit/design-system/icon';
 import clsx from 'clsx';
+import type { ComponentType } from 'react';
 import { useState } from 'react';
 
 import * as styles from '@/features/Onboarding/styles/OnboardingCrewRegion.css';
@@ -15,17 +26,29 @@ export interface OnboardingCrewRegionProps {
   onPrev: () => void;
 }
 
+const REGION_ICON_MAP: Record<
+  RegionIdType,
+  ComponentType<{ size?: number }>
+> = {
+  SEOUL: SeoulIcon,
+  GYEONGGI_INCHEON: PlaneIcon,
+  CHUNGCHEONG_DAEJEON: BreadIcon,
+  JEOLLA_GWANGJU: ForkIcon,
+  GYEONGBUK_DAEGU: AppleIcon,
+  GYEONGNAM_BUSAN: BoatIcon,
+  GANGWON: PotatoIcon,
+  JEJU: MandarinIcon,
+};
+
 export function OnboardingCrewRegion({
   defaultValue,
   isLoading = false,
   onNext,
   onPrev,
 }: OnboardingCrewRegionProps) {
-  const [selectedRegion, setSelectedRegion] = useState(defaultValue ?? null);
-
-  const handleRegionSelect = (region: RegionIdType) => {
-    setSelectedRegion(region);
-  };
+  const [selectedRegion, setSelectedRegion] = useState<RegionIdType | null>(
+    (defaultValue as RegionIdType) ?? null
+  );
 
   return (
     <>
@@ -39,19 +62,23 @@ export function OnboardingCrewRegion({
         </div>
 
         <div className={styles.regionGrid}>
-          {REGION_OPTIONS.map(({ id, label }) => (
-            <button
-              key={id}
-              type="button"
-              className={clsx(
-                styles.regionCard,
-                selectedRegion === id && styles.regionCardSelected
-              )}
-              onClick={() => handleRegionSelect(id)}
-            >
-              {label}
-            </button>
-          ))}
+          {REGION_OPTIONS.map(({ id, label }) => {
+            const Icon = REGION_ICON_MAP[id];
+            return (
+              <button
+                key={id}
+                type="button"
+                className={clsx(
+                  styles.regionCard,
+                  selectedRegion === id && styles.regionCardSelected
+                )}
+                onClick={() => setSelectedRegion(id)}
+              >
+                <Icon size={32} />
+                <span className={styles.regionLabel}>{label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 

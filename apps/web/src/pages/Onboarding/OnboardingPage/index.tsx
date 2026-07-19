@@ -6,11 +6,13 @@ import { useRef, useState } from 'react';
 import { useFlow } from '@/app/routes/stackflow';
 
 import {
+  OnboardingCrewCategory,
   OnboardingCrewJoin,
   OnboardingCrewName,
   OnboardingCrewRegion,
   OnboardingRoleSelect,
 } from '@/features/Onboarding/ui';
+import type { CrewCategory } from '@/features/Onboarding/ui';
 
 import { crewEntityQueries as crewQueries } from '@/entities/Crew/api/queries';
 import { userQueries } from '@/entities/User/api/queries';
@@ -24,6 +26,7 @@ import { toastError } from '@/shared/ui/toast';
 type StepName =
   | 'role-select'
   | 'crew-name'
+  | 'crew-category'
   | 'crew-region'
   | 'enter-invite-code';
 
@@ -33,7 +36,8 @@ const ONBOARDING_FLOW: Record<
 > = {
   'role-select': (ctx) =>
     ctx === 'leader' ? 'crew-name' : 'enter-invite-code',
-  'crew-name': 'crew-region',
+  'crew-name': 'crew-category',
+  'crew-category': 'crew-region',
   'crew-region': null,
   'enter-invite-code': null,
 };
@@ -41,6 +45,7 @@ const ONBOARDING_FLOW: Record<
 type OnboardingState = {
   role?: 'leader' | 'member';
   crewName?: string;
+  crewCategory?: CrewCategory;
   crewRegion?: string;
 };
 
@@ -143,6 +148,25 @@ export function OnboardingPage() {
             )}
           />
           <Funnel.Step
+            name="crew-category"
+            render={(context) => (
+              <OnboardingCrewCategory
+                defaultValue={onboardingState.crewCategory}
+                onNext={(crewCategory) => {
+                  setOnboardingState((prev) => ({ ...prev, crewCategory }));
+                  context.onNext();
+                }}
+                onPrev={() => {
+                  setOnboardingState((prev) => ({
+                    ...prev,
+                    crewCategory: undefined,
+                  }));
+                  context.onPrev();
+                }}
+              />
+            )}
+          />
+          <Funnel.Step
             name="crew-region"
             render={(context) => (
               <OnboardingCrewRegion
@@ -152,7 +176,7 @@ export function OnboardingPage() {
                   setOnboardingState((prev) => ({ ...prev, crewRegion }));
                   createCrew({
                     name: onboardingState.crewName ?? '',
-                    category: 'RUNNING',
+                    category: onboardingState.crewCategory ?? 'RUNNING',
                     region: crewRegion,
                   });
                 }}

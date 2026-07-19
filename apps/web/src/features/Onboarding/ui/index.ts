@@ -7,6 +7,11 @@ export {
   type OnboardingCrewNameProps,
 } from './OnboardingCrewName';
 export {
+  OnboardingCrewCategory,
+  type OnboardingCrewCategoryProps,
+  type CrewCategory,
+} from './OnboardingCrewCategory';
+export {
   OnboardingCrewRegion,
   type OnboardingCrewRegionProps,
 } from './OnboardingCrewRegion';
