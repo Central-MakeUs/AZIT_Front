@@ -1,24 +1,6 @@
-import { typography, vars } from '@azit/design-system';
 import { WarningIcon } from '@azit/design-system/icon';
-import { style } from '@vanilla-extract/css';
 
-const container = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100%',
-  width: '100%',
-  paddingBottom: 66,
-});
-
-const message = style([
-  typography.body.b2,
-  {
-    color: vars.colors.gray60,
-    marginTop: 12,
-  },
-]);
+import { container, message } from './PageErrorFallback.css';
 
 interface Props {
   message?: string;
