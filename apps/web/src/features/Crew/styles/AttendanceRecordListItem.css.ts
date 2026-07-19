@@ -28,6 +28,7 @@ export const date = style([
   {
     color: vars.colors.black,
     textAlign: 'center',
+    whiteSpace: 'nowrap',
   },
 ]);
 

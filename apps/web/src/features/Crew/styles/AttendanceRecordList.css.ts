@@ -12,10 +12,10 @@ export const listContainer = style({
 export const emptyContainer = style({
   display: 'flex',
   flexDirection: 'column',
+  flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  minHeight: 220,
   gap: '16px',
 });
 
