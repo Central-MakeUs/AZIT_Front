@@ -11,6 +11,7 @@ import { APPLE_AUTHORIZE_URL } from '@/shared/constants/url';
 import { bridge } from '@/shared/lib/bridge';
 import { isWebView } from '@/shared/lib/env';
 import { useAuthStore } from '@/shared/store/auth';
+import { toastError } from '@/shared/ui/toast';
 
 export const useSocialLogin = () => {
   const { replace } = useFlow();
@@ -28,23 +29,27 @@ export const useSocialLogin = () => {
       return;
     }
 
-    const authResult = await bridge.socialLogin('kakao');
-    if (!authResult.success) {
-      console.error(`OAuth 실패: ${authResult.message}`);
-      return;
+    try {
+      const authResult = await bridge.socialLogin('kakao');
+      if (!authResult.success) {
+        toastError('카카오 로그인에 실패했습니다.');
+        return;
+      }
+
+      const response = await postSocialLogin(AUTH_PROVIDER.KAKAO, {
+        accessToken: authResult.accessToken,
+      });
+
+      const { accessToken, status } = response.result;
+      setAccessToken(accessToken);
+      navigateByAuthStatus({
+        status,
+        currentActivity: 'LoginPage',
+        replace,
+      });
+    } catch {
+      toastError('로그인 중 오류가 발생했습니다. 다시 시도해 주세요.');
     }
-
-    const response = await postSocialLogin(AUTH_PROVIDER.KAKAO, {
-      accessToken: authResult.accessToken,
-    });
-
-    const { accessToken, status } = response.result;
-    setAccessToken(accessToken);
-    navigateByAuthStatus({
-      status,
-      currentActivity: 'LoginPage',
-      replace,
-    });
   };
 
   const isDisabledRef = useRef(false);
