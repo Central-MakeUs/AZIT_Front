@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 
 import { ServerError } from '@/shared/api/apiHandler';
 
+import { container, message, retryButton } from './GlobalErrorBoundary.css';
+
 interface FallbackProps {
   error: unknown;
   resetError: () => void;
@@ -13,16 +15,13 @@ function ErrorFallback({ error, resetError }: FallbackProps) {
   const status = isServerError ? error.status : null;
 
   return (
-    <div
-      role="alert"
-      style={{ padding: 24, textAlign: 'center', paddingTop: 80 }}
-    >
-      <p>
+    <div role="alert" className={container}>
+      <p className={message}>
         {status === 503
           ? '서비스가 일시적으로 점검 중입니다.'
           : '오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'}
       </p>
-      <button type="button" onClick={resetError}>
+      <button type="button" className={retryButton} onClick={resetError}>
         다시 시도
       </button>
     </div>
