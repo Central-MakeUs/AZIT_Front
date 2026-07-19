@@ -20,10 +20,12 @@ import { AppLayout } from '@/shared/ui/layout';
 
 import * as styles from './index.css';
 
-export function CrewAttendancePage() {
+export function CrewAttendancePage({ params }: { params?: { id?: string } }) {
   const { pop } = useFlow();
 
   const { viewDate, setViewDate } = useCalendar();
+
+  const crewId = Number(params?.id) || 0;
 
   const handleBack = () => {
     pop();
@@ -32,12 +34,12 @@ export function CrewAttendancePage() {
   const yearMonth = formatDate(viewDate, 'YYYY-MM');
 
   const { data: myAttendanceCalendarData = [] } = useQuery({
-    ...userQueries.getMyAttendanceCalendarQuery({ yearMonth }),
+    ...userQueries.getMyAttendanceCalendarQuery({ yearMonth, crewId }),
     enabled: !!yearMonth,
   });
 
   const { data: myAttendanceData } = useQuery({
-    ...userQueries.getMyAttendanceQuery({ yearMonth }),
+    ...userQueries.getMyAttendanceQuery({ yearMonth, crewId }),
     enabled: !!yearMonth,
   });
 

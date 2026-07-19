@@ -1,9 +1,10 @@
 import type { ActivityName } from '@/app/routes/types';
 
+import type { MemberRole } from '@/entities/User/model';
+
 import { MEMBER_ROLE } from '@/shared/constants/member-role';
 import type { MenuGroup } from '@/shared/types/menu';
 
-import type { MemberRole } from '@/entities/User/model';
 
 type Push = (
   activity: ActivityName,
@@ -37,7 +38,8 @@ export const getCrewMenu = (
           id: 'my-attendance',
           label: '출석 로그',
           type: 'navigation',
-          onNavigate: () => push('AttendancePage', {}, { animate: true }),
+          onNavigate: () =>
+            push('AttendancePage', { id: crewId }, { animate: true }),
         },
         ...(!isLeader
           ? [

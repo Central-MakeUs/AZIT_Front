@@ -18,11 +18,11 @@ export type CrewMemberDetailResponse = RequiredDeep<
 
 export type MyAttendanceCalendarResponse = ScheduleCalendarItem[];
 export type MyAttendanceCalendarRequest = NonNullable<
-  operations['getMonthlySchedulesForCalendar']['parameters']['query']
+  operations['getMyAttendancesForCalendar']['parameters']['query']
 >;
 
 export type MyAttendanceResponse =
   components['schemas']['MyAttendanceLogResponse'];
 export type MyAttendanceRequest = NonNullable<
-  operations['getMonthlySchedulesForCalendar']['parameters']['query']
+  operations['getMyAttendanceLogs']['parameters']['query']
 >;

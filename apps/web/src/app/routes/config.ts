@@ -268,7 +268,7 @@ export const routes = [
   },
   {
     name: 'AttendancePage',
-    path: '/mypage-attendance',
+    path: '/crew/:id/attendance',
     element: AttendancePage,
     withAuth: true,
   },
