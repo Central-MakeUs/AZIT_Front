@@ -21,7 +21,6 @@ export const scheduleSection = style({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  flex: 1,
   gap: '10px',
   width: '100%',
   backgroundColor: vars.colors.background_sub,
