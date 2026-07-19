@@ -5,7 +5,6 @@ import { type Dispatch, type SetStateAction } from 'react';
 import Calendar from 'react-calendar';
 import '@/shared/ui/calendar/style/ScheduleCalendarBase.css.ts';
 
-
 import { formatDate } from '@/shared/lib/formatters';
 import { useCalendar } from '@/shared/lib/useCalendar';
 import type { ScheduleCalendarItem } from '@/shared/types/schedule';
@@ -18,6 +17,7 @@ interface ScheduleCalendarProps {
   onChangeExplicitViewDate?: Dispatch<SetStateAction<Date>>;
   scheduleData?: ScheduleCalendarItem[];
   isPastDateDisabled?: boolean;
+  hideHeader?: boolean;
 }
 
 export function ScheduleCalendar({
@@ -27,6 +27,7 @@ export function ScheduleCalendar({
   isPastDateDisabled = false,
   explicitViewDate,
   onChangeExplicitViewDate,
+  hideHeader = false,
 }: ScheduleCalendarProps) {
   const { viewDate, setViewDate } = useCalendar();
 
@@ -48,27 +49,35 @@ export function ScheduleCalendar({
 
   return (
     <div className={styles.calendarContainer}>
-      <div className={styles.calendarHeaderSection}>
-        <span className={styles.calendarTitle}>
-          {formatDate(activeStartDate, 'YYYY년 M월')}
-        </span>
-        <div className={styles.calendarButtonWrapper}>
-          <button
-            className={styles.calendarHeaderButton}
-            onClick={handlePreviousMonth}
-            type="button"
-          >
-            <ChevronLeftIcon size={24} style={{ color: vars.colors.blue80 }} />
-          </button>
-          <button
-            className={styles.calendarHeaderButton}
-            onClick={handleNextMonth}
-            type="button"
-          >
-            <ChevronRightIcon size={24} style={{ color: vars.colors.blue80 }} />
-          </button>
+      {!hideHeader && (
+        <div className={styles.calendarHeaderSection}>
+          <span className={styles.calendarTitle}>
+            {formatDate(activeStartDate, 'YYYY년 M월')}
+          </span>
+          <div className={styles.calendarButtonWrapper}>
+            <button
+              className={styles.calendarHeaderButton}
+              onClick={handlePreviousMonth}
+              type="button"
+            >
+              <ChevronLeftIcon
+                size={24}
+                style={{ color: vars.colors.blue80 }}
+              />
+            </button>
+            <button
+              className={styles.calendarHeaderButton}
+              onClick={handleNextMonth}
+              type="button"
+            >
+              <ChevronRightIcon
+                size={24}
+                style={{ color: vars.colors.blue80 }}
+              />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       <Calendar
         value={value}
