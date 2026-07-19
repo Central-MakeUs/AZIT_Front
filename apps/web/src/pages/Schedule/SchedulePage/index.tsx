@@ -8,7 +8,11 @@ import {
   PlusIcon,
 } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import {
   type Dispatch,
   type SetStateAction,
@@ -92,13 +96,14 @@ function ScheduleCrewContent({
   const rafId = useRef(0);
   const pendingH = useRef(0);
 
-  const { data: scheduleList = [] } = useSuspenseQuery(
-    scheduleQueries.getScheduleListQuery(crewId, {
+  const { data: scheduleList = [] } = useQuery({
+    ...scheduleQueries.getScheduleListQuery(crewId, {
       runType: activeFilter,
       yearMonth: searchDate.split('-').length === 2 ? searchDate : undefined,
       date: searchDate.split('-').length === 3 ? searchDate : undefined,
-    })
-  );
+    }),
+    placeholderData: keepPreviousData,
+  });
 
   const { data: scheduleCalendarList = [] } = useSuspenseQuery(
     scheduleQueries.getScheduleCalendarQuery(crewId, { yearMonth })
@@ -538,13 +543,10 @@ function SchedulePageContent({
                   </div>
                 }
                 scheduleContent={
-                  <>
-                    <ScheduleFilterTab
-                      activeFilter={activeFilter}
-                      onFilterChange={setActiveFilter}
-                    />
-                    <ScheduleListSkeleton />
-                  </>
+                  <ScheduleFilterTab
+                    activeFilter={activeFilter}
+                    onFilterChange={setActiveFilter}
+                  />
                 }
               />
             </div>
