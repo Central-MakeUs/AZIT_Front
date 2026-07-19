@@ -105,9 +105,10 @@ function ScheduleCrewContent({
     placeholderData: keepPreviousData,
   });
 
-  const { data: scheduleCalendarList = [] } = useSuspenseQuery(
-    scheduleQueries.getScheduleCalendarQuery(crewId, { yearMonth })
-  );
+  const { data: scheduleCalendarList = [] } = useQuery({
+    ...scheduleQueries.getScheduleCalendarQuery(crewId, { yearMonth }),
+    placeholderData: keepPreviousData,
+  });
 
   // 렌더 직후 두 레이어의 실제 높이를 측정해 저장
   useLayoutEffect(() => {
