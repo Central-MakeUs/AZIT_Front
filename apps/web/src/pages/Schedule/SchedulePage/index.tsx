@@ -205,6 +205,17 @@ function ScheduleCrewContent({
       touchStartScrollTop.current = el.scrollTop;
       isDragging.current = false;
       cancelAnimationFrame(rafId.current);
+
+      // 애니메이션 도중 터치 시작 시 목표 상태로 즉시 완료
+      if (wrapperRef.current) {
+        const currentH =
+          parseFloat(wrapperRef.current.style.height) || collapsedH.current;
+        if (!isExpandedRef.current && currentH > collapsedH.current + 1) {
+          applyProgress(0);
+        } else if (isExpandedRef.current && currentH < expandedH.current - 1) {
+          applyProgress(1);
+        }
+      }
     };
 
     const onTouchMove = (e: TouchEvent) => {
