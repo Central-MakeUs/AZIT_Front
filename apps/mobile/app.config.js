@@ -1,8 +1,7 @@
-import type { ExpoConfig } from 'expo/config';
+const KAKAO_NATIVE_APP_KEY = process.env.KAKAO_NATIVE_APP_KEY ?? '';
 
-const KAKAO_NATIVE_APP_KEY = process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY ?? '';
-
-const config: ExpoConfig = {
+/** @type {import('expo/config').ExpoConfig} */
+const config = {
   name: 'AZIT',
   slug: 'azit',
   version: '1.1.0',
@@ -41,7 +40,7 @@ const config: ExpoConfig = {
     appleTeamId: '4U9PQRRKLB',
   },
   android: {
-    versionCode: 13,
+    versionCode: 20,
     intentFilters: [
       {
         action: 'VIEW',
@@ -82,13 +81,23 @@ const config: ExpoConfig = {
     package: 'com.azitcrew.app',
     predictiveBackGestureEnabled: false,
     usesCleartextTraffic: true,
-  } as ExpoConfig['android'],
+  },
   web: {
     output: 'static',
     favicon: './assets/images/favicon.png',
   },
   plugins: [
-    ['expo-build-properties', { android: { usesCleartextTraffic: true } }],
+    [
+      'expo-build-properties',
+      {
+        android: {
+          usesCleartextTraffic: true,
+          extraMavenRepos: [
+            'https://devrepo.kakao.com/nexus/content/groups/public/',
+          ],
+        },
+      },
+    ],
     [
       'expo-image-picker',
       {
@@ -120,4 +129,4 @@ const config: ExpoConfig = {
   },
 };
 
-export default config;
+module.exports = config;
