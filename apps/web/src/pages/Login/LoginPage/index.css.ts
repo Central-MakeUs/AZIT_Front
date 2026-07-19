@@ -45,6 +45,11 @@ export const buttonWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: 12,
+  selectors: {
+    '& button:active': {
+      opacity: 0.7,
+    },
+  },
 });
 
 export const textWrapper = style({
