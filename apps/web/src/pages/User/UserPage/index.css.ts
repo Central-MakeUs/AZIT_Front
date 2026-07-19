@@ -46,21 +46,3 @@ export const logoutButton = style([
     cursor: 'pointer',
   },
 ]);
-
-export const errorFallbackContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100%',
-  width: '100%',
-  paddingBottom: 66,
-});
-
-export const errorFallbackMessage = style([
-  typography.body.b2,
-  {
-    color: vars.colors.gray60,
-    marginTop: 12,
-  },
-]);

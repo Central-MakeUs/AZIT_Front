@@ -1,6 +1,5 @@
+import { ErrorBoundary } from '@sentry/react';
 import { Suspense, type ReactNode } from 'react';
-
-import { DomainErrorBoundary } from '@/shared/ui/error';
 
 interface Props {
   children: ReactNode;
@@ -18,8 +17,8 @@ export function AsyncBoundary({
   if (!errorFallback) return content;
 
   return (
-    <DomainErrorBoundary fallback={() => errorFallback}>
+    <ErrorBoundary fallback={() => <>{errorFallback}</>}>
       {content}
-    </DomainErrorBoundary>
+    </ErrorBoundary>
   );
 }

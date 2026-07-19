@@ -1,6 +1,6 @@
 import { vars } from '@azit/design-system';
 import { Header } from '@azit/design-system/header';
-import { SettingsIcon, WarningIcon } from '@azit/design-system/icon';
+import { SettingsIcon } from '@azit/design-system/icon';
 import { AppScreen } from '@stackflow/plugin-basic-ui';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
@@ -16,6 +16,7 @@ import {
 import { openExternalUrl } from '@/shared/lib/openExternalUrl';
 import type { MenuGroup } from '@/shared/types/menu';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
+import { PageErrorFallback } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { MenuSection } from '@/shared/ui/menu';
@@ -154,14 +155,7 @@ export function UserPage() {
         </div>
         <AsyncBoundary
           suspenseFallback={<PageLoader />}
-          errorFallback={
-            <div className={styles.errorFallbackContainer}>
-              <WarningIcon size={64} />
-              <span className={styles.errorFallbackMessage}>
-                정보를 불러오지 못했어요
-              </span>
-            </div>
-          }
+          errorFallback={<PageErrorFallback />}
         >
           <MyPageContent />
         </AsyncBoundary>

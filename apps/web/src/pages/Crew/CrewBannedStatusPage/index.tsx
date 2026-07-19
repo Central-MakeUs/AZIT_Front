@@ -12,6 +12,7 @@ import { CrewJoinStatusSection } from '@/features/Crew/ui';
 import { userQueries } from '@/entities/User/api/queries';
 
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
+import { PageErrorFallback } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
@@ -47,7 +48,10 @@ function CrewBannedStatusContent() {
 
 export function CrewBannedStatusPage() {
   return (
-    <AsyncBoundary suspenseFallback={<PageLoader />}>
+    <AsyncBoundary
+      suspenseFallback={<PageLoader />}
+      errorFallback={<PageErrorFallback />}
+    >
       <CrewBannedStatusContent />
     </AsyncBoundary>
   );

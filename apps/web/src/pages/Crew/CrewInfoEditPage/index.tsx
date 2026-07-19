@@ -17,7 +17,6 @@ import { crewQueries } from '@/features/Crew/api/queries';
 import { userQueries } from '@/entities/User/api/queries';
 import { RoundProfileImage } from '@/entities/User/ui/RoundProfileImage';
 
-
 import { BusinessError } from '@/shared/api/apiHandler';
 import { postPresignedUrl, updateS3Upload } from '@/shared/api/handlers';
 import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
@@ -27,13 +26,13 @@ import { base64ToBlob } from '@/shared/lib/image';
 import { useStack } from '@/shared/lib/stackflow/useStack';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
+import { PageErrorFallback } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { toastError, toastSuccess } from '@/shared/ui/toast';
 
 import * as styles from './index.css';
 import { ProfileImagePickerBottomSheet } from './ProfileImagePickerBottomSheet';
-
 
 const MAX_CREW_INTRO_LENGTH = 20;
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
@@ -248,7 +247,10 @@ function CrewInfoEditPageContent() {
 
 export function CrewInfoEditPage() {
   return (
-    <AsyncBoundary suspenseFallback={<PageLoader />}>
+    <AsyncBoundary
+      suspenseFallback={<PageLoader />}
+      errorFallback={<PageErrorFallback />}
+    >
       <CrewInfoEditPageContent />
     </AsyncBoundary>
   );

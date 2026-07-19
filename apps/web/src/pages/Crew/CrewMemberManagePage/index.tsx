@@ -18,7 +18,6 @@ import {
   RequestListEmpty,
 } from '@/features/Crew/ui';
 
-
 import { userQueries } from '@/entities/User/api/queries';
 import type { MemberItem } from '@/entities/User/model';
 
@@ -27,6 +26,7 @@ import { useInfiniteScroll } from '@/shared/lib/useInfiniteScroll';
 import { usePullToRefresh } from '@/shared/lib/usePullToRefresh';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
+import { PageErrorFallback } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { spinner as pageLoaderSpinner } from '@/shared/ui/loading/PageLoader.css.ts';
@@ -220,14 +220,24 @@ export function CrewMemberManagePage({ params }: { params?: { id?: string } }) {
           ref={mainContainerRef}
         >
           {activeTab === 'request' ? (
-            <AsyncBoundary suspenseFallback={<PageLoader />}>
+            <AsyncBoundary
+              suspenseFallback={<PageLoader />}
+              errorFallback={
+                <PageErrorFallback message="가입 요청 목록을 불러오지 못했어요" />
+              }
+            >
               <RequestListContent
                 crewId={crewId}
                 containerRef={mainContainerRef}
               />
             </AsyncBoundary>
           ) : (
-            <AsyncBoundary suspenseFallback={<PageLoader />}>
+            <AsyncBoundary
+              suspenseFallback={<PageLoader />}
+              errorFallback={
+                <PageErrorFallback message="멤버 목록을 불러오지 못했어요" />
+              }
+            >
               <MemberListContent
                 crewId={crewId}
                 containerRef={mainContainerRef}

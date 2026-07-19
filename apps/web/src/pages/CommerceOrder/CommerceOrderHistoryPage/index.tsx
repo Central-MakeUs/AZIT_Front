@@ -11,6 +11,7 @@ import { OrderProductListSection } from '@/features/CommerceOrder/ui';
 import { formatOrderDateLabel } from '@/shared/lib/formatters';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
+import { PageErrorFallback } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 
@@ -79,7 +80,12 @@ export function CommerceOrderHistoryPage() {
         <div className={styles.headerWrapper}>
           <Header left={<BackButton />} center="주문내역" />
         </div>
-        <AsyncBoundary suspenseFallback={<PageLoader />}>
+        <AsyncBoundary
+          suspenseFallback={<PageLoader />}
+          errorFallback={
+            <PageErrorFallback message="주문 내역을 불러오지 못했어요" />
+          }
+        >
           <OrderHistoryContent />
         </AsyncBoundary>
       </AppLayout>

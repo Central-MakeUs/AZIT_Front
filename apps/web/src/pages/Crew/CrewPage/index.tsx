@@ -17,6 +17,8 @@ import { useFlow } from '@/app/routes/stackflow';
 
 import { crewQueries } from '@/features/Crew/api/queries';
 
+import { userQueries } from '@/entities/User/api/queries';
+
 import {
   MEMBER_ROLE,
   MEMBER_ROLE_LABEL,
@@ -26,14 +28,13 @@ import { bridge } from '@/shared/lib/bridge';
 import { copyToClipboard } from '@/shared/lib/clipboard';
 import { AsyncBoundary } from '@/shared/ui/async-boundary';
 import { BackButton } from '@/shared/ui/button';
+import { PageErrorFallback } from '@/shared/ui/error';
 import { AppLayout } from '@/shared/ui/layout';
 import { PageLoader } from '@/shared/ui/loading/PageLoader';
 import { MenuSection } from '@/shared/ui/menu';
 
 import * as styles from './index.css';
 import { useCrewMenu } from './useCrewMenu';
-
-import { userQueries } from '@/entities/User/api/queries';
 
 function CrewPageContent({ params }: { params?: { id?: string } }) {
   const [dissolveInput, setDissolveInput] = useState('');
@@ -215,7 +216,12 @@ function CrewPageContent({ params }: { params?: { id?: string } }) {
 
 export function CrewPage({ params }: { params?: { id?: string } }) {
   return (
-    <AsyncBoundary suspenseFallback={<PageLoader />}>
+    <AsyncBoundary
+      suspenseFallback={<PageLoader />}
+      errorFallback={
+        <PageErrorFallback message="크루 정보를 불러오지 못했어요" />
+      }
+    >
       <CrewPageContent params={params} />
     </AsyncBoundary>
   );
