@@ -1,55 +1,19 @@
 import { useRef } from 'react';
 
-import { useFlow } from '@/app/routes/stackflow';
-
 import type { AuthProvider } from '@/shared/api/models/auth';
-import { postSocialLogin } from '@/shared/auth/api/postSocialLogin';
-import { navigateByAuthStatus } from '@/shared/auth/lib/navigateByAuthStatus';
 import { useKakaoLogin } from '@/shared/auth/model/useKakaoLogin';
 import { AUTH_PROVIDER } from '@/shared/constants/auth';
 import { APPLE_AUTHORIZE_URL } from '@/shared/constants/url';
-import { bridge } from '@/shared/lib/bridge';
-import { isWebView } from '@/shared/lib/env';
-import { useAuthStore } from '@/shared/store/auth';
-import { toastError } from '@/shared/ui/toast';
 
 export const useSocialLogin = () => {
-  const { replace } = useFlow();
-  const { setAccessToken } = useAuthStore();
-
   const { handleKakaoLogin } = useKakaoLogin({
     onError: (loginError) => {
       console.error(`로그인 실패 ${loginError.message}`);
     },
   });
 
-  const loginWithKakao = async () => {
-    if (!isWebView()) {
-      handleKakaoLogin();
-      return;
-    }
-
-    try {
-      const authResult = await bridge.socialLogin('kakao');
-      if (!authResult.success) {
-        toastError('카카오 로그인에 실패했습니다.');
-        return;
-      }
-
-      const response = await postSocialLogin(AUTH_PROVIDER.KAKAO, {
-        accessToken: authResult.accessToken,
-      });
-
-      const { accessToken, status } = response.result;
-      setAccessToken(accessToken);
-      navigateByAuthStatus({
-        status,
-        currentActivity: 'LoginPage',
-        replace,
-      });
-    } catch {
-      toastError('로그인 중 오류가 발생했습니다. 다시 시도해 주세요.');
-    }
+  const loginWithKakao = () => {
+    handleKakaoLogin();
   };
 
   const isDisabledRef = useRef(false);
