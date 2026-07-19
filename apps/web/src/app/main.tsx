@@ -6,6 +6,7 @@ import { KakaoDeeplinkProvider } from '@/app/providers/KakaoDeeplinkProvider';
 import { ReactQueryProvider } from '@/app/providers/ReactQueryProvider';
 import { Stack } from '@/app/routes/stackflow';
 
+import { setupChunkReloadOnPreloadError } from '@/shared/lib/chunkReload';
 import { patchFetch } from '@/shared/lib/networkLog';
 import { initSentry } from '@/shared/lib/sentry';
 import { NetworkDebugger } from '@/shared/ui/dev/NetworkDebugger';
@@ -16,6 +17,7 @@ import '@/app/styles/globals.css';
 import '@/app/styles/index.css';
 
 initSentry();
+setupChunkReloadOnPreloadError();
 
 const { hostname } = window.location;
 if (hostname === 'localhost' || hostname.includes('dev')) {

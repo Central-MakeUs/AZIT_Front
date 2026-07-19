@@ -66,6 +66,12 @@ jobs:
             s3://${{ secrets.AWS_S3_PROD_BUCKET }}/.well-known/apple-app-site-association \
             --content-type "application/json"
 
+      - name: Set no-cache for index.html
+        run: |
+          aws s3 cp apps/web/dist/index.html \
+            s3://${{ secrets.AWS_S3_PROD_BUCKET }}/index.html \
+            --cache-control "no-cache"
+
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
