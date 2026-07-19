@@ -14,4 +14,5 @@ export const scrollContainer = style({
   height: '100%',
   width: '100%',
   overflowY: 'auto',
+  overflowAnchor: 'none',
 });
