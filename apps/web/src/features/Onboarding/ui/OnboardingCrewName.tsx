@@ -2,10 +2,7 @@ import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
 import { Input } from '@azit/design-system/input';
 
-import {
-  useCrewNameInput,
-  VALID_CREW_NAME_REGEX,
-} from '@/features/Onboarding/lib/useCrewNameInput';
+import { useCrewNameInput } from '@/features/Onboarding/lib/useCrewNameInput';
 import * as styles from '@/features/Onboarding/styles/OnboardingCrewName.css';
 
 import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
@@ -25,9 +22,9 @@ export function OnboardingCrewName({
   const {
     crewName: currentCrewName,
     crewNameError,
-    setCrewNameError,
     handleChange: handleCrewNameChange,
     handleRemove: handleCrewNameRemove,
+    validate,
   } = useCrewNameInput(defaultValue);
 
   return (
@@ -65,10 +62,7 @@ export function OnboardingCrewName({
           state={currentCrewName ? 'active' : 'disabled'}
           disabled={!currentCrewName}
           onClick={() => {
-            if (!VALID_CREW_NAME_REGEX.test(currentCrewName)) {
-              setCrewNameError('특수문자는 사용할 수 없어요.');
-              return;
-            }
+            if (!validate()) return;
             onNext(currentCrewName);
           }}
         >

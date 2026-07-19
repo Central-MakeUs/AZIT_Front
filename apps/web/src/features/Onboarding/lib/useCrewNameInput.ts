@@ -1,8 +1,18 @@
 import { useState } from 'react';
 
-import { MAX_CREW_NAME_LENGTH } from '@/shared/constants/crew';
+import {
+  MAX_CREW_NAME_LENGTH,
+  RESERVED_CREW_NAME_KEYWORDS,
+} from '@/shared/constants/crew';
 
-export const VALID_CREW_NAME_REGEX = /^[가-힣a-zA-Z0-9]*$/;
+const VALID_CREW_NAME_REGEX = /^[가-힣a-zA-Z0-9]*$/;
+
+function containsReservedKeyword(name: string): boolean {
+  const lowered = name.toLowerCase();
+  return RESERVED_CREW_NAME_KEYWORDS.some((keyword) =>
+    lowered.includes(keyword.toLowerCase())
+  );
+}
 
 export function useCrewNameInput(defaultValue = '') {
   const [crewName, setCrewName] = useState(defaultValue);
@@ -22,11 +32,23 @@ export function useCrewNameInput(defaultValue = '') {
     setCrewNameError('');
   };
 
+  const validate = () => {
+    if (!VALID_CREW_NAME_REGEX.test(crewName)) {
+      setCrewNameError('특수문자는 사용할 수 없어요.');
+      return false;
+    }
+    if (containsReservedKeyword(crewName)) {
+      setCrewNameError('사용할 수 없는 단어가 포함되어 있어요.');
+      return false;
+    }
+    return true;
+  };
+
   return {
     crewName,
     crewNameError,
-    setCrewNameError,
     handleChange,
     handleRemove,
+    validate,
   };
 }
