@@ -51,6 +51,9 @@ export function AttendanceRecordListItem({
           </div>
           <div className={styles.detailItem}>
             <UsersIcon size={16} color="secondary" />
+            <span className={styles.detailText}>
+              {record.currentParticipants ?? 0}/{record.maxParticipants ?? 0}
+            </span>
           </div>
         </div>
       </div>

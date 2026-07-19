@@ -2483,6 +2483,8 @@ export interface components {
        * @description 일정 ID
        */
       scheduleId?: number;
+      /** @description 크루명 */
+      crewName?: string;
       /** @description 일정 제목 */
       title?: string;
       /**
@@ -2502,6 +2504,16 @@ export interface components {
        * @enum {string}
        */
       status?: 'ATTENDED' | 'ABSENT';
+      /**
+       * Format: int32
+       * @description 최대 인원
+       */
+      maxParticipants?: number;
+      /**
+       * Format: int32
+       * @description 현재 참여 인원
+       */
+      currentParticipants?: number;
     };
     MyAttendanceLogResponse: {
       /**
