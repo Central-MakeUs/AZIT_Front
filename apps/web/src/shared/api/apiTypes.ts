@@ -526,8 +526,7 @@ export interface paths {
      * @description 카카오 등 소셜 플랫폼의 인가 코드 및 액세스 토큰을 통해 로그인을 진행합니다. <br><br>
      *
      *     **[참고 사항]** <br>
-     *     * 보안을 위해 리프레시 토큰은 HttpOnly 쿠키에 저장되어 발급됩니다.
-     *     * 응답으로 받은 **status** 값에 따라 앱의 초기 진입 화면(약관 동의, 온보딩, 메인 등)을 결정해야 합니다. <br>
+     *     * 보안을 위해 리프레시 토큰은 HttpOnly 쿠키에 저장되어 발급됩니다. <br>
      */
     post: operations['socialLogin'];
     delete?: never;
@@ -1827,7 +1826,7 @@ export interface components {
        * @description 회원 상태
        * @enum {string}
        */
-      status?: 'ACTIVE' | 'WITHDRAWN' | 'PENDING_TERMS';
+      status?: 'ACTIVE' | 'WITHDRAWN' | 'DELETED' | 'PENDING_TERMS';
       /**
        * Format: int64
        * @description 가입한 크루 ID (없을 경우 null)

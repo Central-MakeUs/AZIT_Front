@@ -1,5 +1,4 @@
-import { Button } from '@azit/design-system/button';
-import { ClockIcon, MarkerPinIcon } from '@azit/design-system/icon';
+import { ClockIcon, MarkerPinIcon, UsersIcon } from '@azit/design-system/icon';
 
 import * as styles from '@/features/Crew/styles/AttendanceRecordListItem.css';
 
@@ -14,16 +13,16 @@ interface AttendanceRecordListItemProps {
 export function AttendanceRecordListItem({
   record,
 }: AttendanceRecordListItemProps) {
-  const getStatusButtonStyle = () => {
-    if (record.status === 'ABSENT') {
-      return 'absent';
-    }
-
-    return record.runType === 'LIGHTNING' ? 'attendedLightning' : 'attended';
+  const getBadgeStyle = () => {
+    if (record.status === 'ABSENT') return styles.badge.absent;
+    return record.runType === 'LIGHTNING'
+      ? styles.badge.lightning
+      : styles.badge.regular;
   };
 
-  const getStatusText = () => {
-    return record.status === 'ABSENT' ? '결석' : '출석';
+  const getBadgeText = () => {
+    if (record.status === 'ABSENT') return '결석';
+    return record.runType === 'LIGHTNING' ? '번개런' : '정기런';
   };
 
   const meetingAt = new Date(record.meetingAt!);
@@ -35,6 +34,9 @@ export function AttendanceRecordListItem({
         <p className={styles.date}>{formatDate(meetingAt, 'D일')}</p>
       </div>
       <div className={styles.contentContainer}>
+        <div className={styles.badgeRow}>
+          <span className={getBadgeStyle()}>{getBadgeText()}</span>
+        </div>
         <p className={styles.title}>{record.title}</p>
         <div className={styles.detailsContainer}>
           <div className={styles.detailItem}>
@@ -47,14 +49,11 @@ export function AttendanceRecordListItem({
             <MarkerPinIcon size={16} color="secondary" />
             <span className={styles.detailText}>{record.placeName}</span>
           </div>
+          <div className={styles.detailItem}>
+            <UsersIcon size={16} color="secondary" />
+          </div>
         </div>
       </div>
-      <Button
-        size="small"
-        className={styles.statusButton[getStatusButtonStyle()]}
-      >
-        {getStatusText()}
-      </Button>
     </div>
   );
 }

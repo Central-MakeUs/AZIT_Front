@@ -1,8 +1,8 @@
 import { Button } from '@azit/design-system/button';
 import { Header } from '@azit/design-system/header';
-import { FlagIcon, UsersIcon } from '@azit/design-system/icon';
+import { NewFlagIcon, NewUsersIcon } from '@azit/design-system/icon';
 import clsx from 'clsx';
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 
 import * as styles from '@/features/Onboarding/styles/OnboardingRoleSelect.css';
 
@@ -16,34 +16,62 @@ export interface OnboardingRoleSelectProps {
   onPrev?: () => void;
 }
 
-export interface OnboardingRoleCardItemProps {
-  icon: ReactNode;
-  label: string;
+interface OnboardingRoleCardItemProps {
+  type: OnboardingRoleType;
   isSelected: boolean;
-  disabled?: boolean;
   onClick: () => void;
 }
 
-export function OnboardingRoleCardItem({
-  icon,
-  label,
+const ROLE_CONFIG = {
+  leader: {
+    chip: '크루장',
+    subtitle: '우리 크루를 직접 만들고 이끌어요',
+    bullets: [
+      '초대 코드로 멤버 초대하기',
+      '가입 승인하고 크루 관리하기',
+      '정기런·번개런 일정 만들기',
+    ],
+    icon: <NewFlagIcon size={56} color="primary" />,
+  },
+  member: {
+    chip: '크루원',
+    subtitle: '초대받은 크루에서 함께 달려요',
+    bullets: [
+      '초대 코드로 크루 가입하기',
+      '크루장 승인 후 크루 활동 참여하기',
+      '번개런 일정 만들기',
+    ],
+    icon: <NewUsersIcon size={56} color="primary" />,
+  },
+} as const;
+
+function OnboardingRoleCardItem({
+  type,
   isSelected,
-  disabled = false,
   onClick,
 }: OnboardingRoleCardItemProps) {
+  const config = ROLE_CONFIG[type];
+
   return (
     <button
       type="button"
       className={clsx(styles.roleCard, isSelected && styles.roleCardSelected)}
       onClick={onClick}
-      disabled={disabled}
-      style={{
-        opacity: disabled ? 0.5 : 1,
-        cursor: disabled ? 'not-allowed' : 'pointer',
-      }}
     >
-      <div className={styles.roleCardIcon}>{icon}</div>
-      <span className={styles.roleCardLabel}>{label}</span>
+      <span
+        className={type === 'leader' ? styles.chipLeader : styles.chipMember}
+      >
+        {config.chip}
+      </span>
+      <p className={styles.roleSubtitle}>{config.subtitle}</p>
+      <div className={styles.roleDescRow}>
+        <ul className={styles.roleBullets}>
+          {config.bullets.map((bullet) => (
+            <li key={bullet}>• {bullet}</li>
+          ))}
+        </ul>
+        <div className={styles.roleIcon}>{config.icon}</div>
+      </div>
     </button>
   );
 }
@@ -56,10 +84,6 @@ export function OnboardingRoleSelect({
   const [selectedRole, setSelectedRole] = useState<OnboardingRoleType | null>(
     defaultValue ?? null
   );
-
-  const handleRoleSelect = (role: OnboardingRoleType) => {
-    setSelectedRole(role);
-  };
 
   const handleNext = () => {
     if (!selectedRole) return;
@@ -86,16 +110,14 @@ export function OnboardingRoleSelect({
 
         <div className={styles.cardsSection}>
           <OnboardingRoleCardItem
-            icon={<FlagIcon size={36} color="primary" />}
-            label="크루 만들기"
+            type="leader"
             isSelected={selectedRole === 'leader'}
-            onClick={() => handleRoleSelect('leader')}
+            onClick={() => setSelectedRole('leader')}
           />
           <OnboardingRoleCardItem
-            icon={<UsersIcon size={36} color="primary" />}
-            label="크루 참여하기"
+            type="member"
             isSelected={selectedRole === 'member'}
-            onClick={() => handleRoleSelect('member')}
+            onClick={() => setSelectedRole('member')}
           />
         </div>
       </div>

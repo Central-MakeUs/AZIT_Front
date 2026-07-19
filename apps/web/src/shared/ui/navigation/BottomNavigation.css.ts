@@ -64,9 +64,9 @@ export const menuLabel = style([
 ]);
 
 export const menuLabelActive = style({
-  color: vars.colors.blue80,
+  color: vars.colors.blue70,
 });
 
 export const menuLabelInactive = style({
-  color: vars.colors.gray30,
+  color: vars.colors.gray40,
 });
