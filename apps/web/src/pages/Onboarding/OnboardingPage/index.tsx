@@ -77,7 +77,9 @@ export function OnboardingPage() {
     onError: (error) => {
       if (
         error instanceof BusinessError &&
-        error.code === 'CREW_JOIN_LIMIT_EXCEEDED'
+        (error.code === 'CREW_JOIN_LIMIT_EXCEEDED' ||
+          error.code === 'EXIT_REJOINING_COOLDOWN' ||
+          error.code === 'EXPELLED_REJOINING_COOLDOWN')
       ) {
         toastError(error.message);
       }
