@@ -1,4 +1,23 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+
+import type {
+  MyAttendanceCalendarRequest,
+  MyAttendanceRequest,
+} from '@/entities/User/model';
+
+const ATTENDANCE_HISTORY_STALE_TIME = 1000 * 60 * 60 * 3;
+
+const isCurrentMonth = (yearMonth?: string) =>
+  !!yearMonth && yearMonth === dayjs().format('YYYY-MM');
+
+const getAttendanceFreshnessOptions = (yearMonth?: string) =>
+  isCurrentMonth(yearMonth)
+    ? ({ staleTime: 0, refetchOnMount: 'always' } as const)
+    : ({
+        staleTime: ATTENDANCE_HISTORY_STALE_TIME,
+        refetchOnMount: true,
+      } as const);
 
 import { getJoinedCrews } from './getJoinedCrews';
 import { getMyAttendance } from './getMyAttendance';
@@ -7,11 +26,6 @@ import { getMyCrews } from './getMyCrews';
 import { getMyInfo } from './getMyInfo';
 import { getMyProviders } from './getMyProviders';
 import { updateMyProfile } from './updateMyProfile';
-
-import type {
-  MyAttendanceCalendarRequest,
-  MyAttendanceRequest,
-} from '@/entities/User/model';
 
 export const userQueries = {
   all: ['member'] as const,
@@ -53,15 +67,15 @@ export const userQueries = {
     queryOptions({
       queryKey: userQueries.calendarKey(request),
       queryFn: () => getMyAttendanceCalendar(request),
-      staleTime: 1000 * 60 * 60 * 3,
       select: (data) => data.result ?? [],
+      ...getAttendanceFreshnessOptions(request?.yearMonth),
     }),
   getMyAttendanceQuery: (request?: MyAttendanceRequest) =>
     queryOptions({
       queryKey: userQueries.attendanceKey(request),
       queryFn: () => getMyAttendance(request),
-      staleTime: 1000 * 60 * 60 * 3,
       select: (data) => data.result,
+      ...getAttendanceFreshnessOptions(request?.yearMonth),
     }),
   updateMyProfile: mutationOptions({
     mutationFn: updateMyProfile,

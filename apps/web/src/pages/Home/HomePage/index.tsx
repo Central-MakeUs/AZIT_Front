@@ -29,7 +29,6 @@ import { toastSuccess } from '@/shared/ui/toast';
 
 import * as scheduleListStyles from './index.css';
 
-
 export function HomePage() {
   const { push } = useFlow();
 
@@ -73,6 +72,12 @@ export function HomePage() {
       });
       queryClient.invalidateQueries({
         queryKey: userQueries.myInfoKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: [...userQueries.all, 'attendance'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [...userQueries.all, 'getMyAttendanceCalendar'],
       });
     },
   });
